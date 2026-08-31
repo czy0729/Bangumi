@@ -48,23 +48,17 @@ jest.mock(
     const cheerioRN = require('cheerio-without-node-native')
     const cheerio = target =>
       typeof target === 'string' ? cheerioRN.load(target) : cheerioRN(target)
-    const { lastDate, relativeEnToEpoch, relativeToEpoch } = require(
-      __dirname + '/src/utils/utils/relative-time'
-    )
+    const { lastDate, relativeEnToEpoch, relativeToEpoch } = require(__dirname +
+      '/src/utils/utils/relative-time')
     const { t2s } = require(__dirname + '/src/utils/thirdParty/cn-char')
     const { htmlMatch } = require(__dirname + '/src/utils/html/match')
-    const { cEach, cPagination, cText } = require(__dirname + '/src/utils/html/parse')
+    const { cEach, cPagination, cText, HTMLDecode } = require(__dirname + '/src/utils/html/parse')
+    const { removeHTMLTag, HTMLTrim } = require(__dirname + '/src/utils/html/tag')
+    const { asc, desc } = require(__dirname + '/src/utils/utils/sort')
+    const { safeObject, titleCase, trim } = require(__dirname + '/src/utils/utils/base')
+    const { matchAvatar, matchUserId } = require(__dirname + '/src/utils/match')
 
-    function desc(a, b, fn) {
-      const _a = typeof fn === 'function' ? fn(a) : a
-      const _b = typeof fn === 'function' ? fn(b) : b
-      if (typeof _a === 'string' && typeof _b === 'string') {
-        return _a < _b ? 1 : _a > _b ? -1 : 0
-      }
-      if (_a === _b) return 0
-      if (_a > _b) return -1
-      return 1
-    }
+    // freeze / cnjp / getOnAir 真实实现依赖 store 设置或 toLocal, 保持语义等价的简化实现
     function freeze(val) {
       return Object.freeze(val)
     }
@@ -92,6 +86,8 @@ jest.mock(
     }
 
     return {
+      asc,
+      desc,
       cData: ($el, key) => $el.attr(key) || '',
       cFind: ($el, selector, index = 0) =>
         index === 'last' ? $el.find(selector).last() : $el.find(selector).eq(index),
@@ -114,63 +110,54 @@ jest.mock(
       getCover400: src => src,
       getTimestamp: () => 1000000,
       navigationReference: jest.fn(),
-      HTMLDecode: (str = '') => str || '',
-      removeHTMLTag: (str, removeAllSpace = true) => {
-        const _str = String(str)
-          .replace(/<\/?[^>]*>/g, '')
-          .replace(/[ | ]*\n/g, '\n')
-          .replace(/\n[\s| | ]*\r/g, '\n')
-
-        if (!removeAllSpace) return _str
-
-        return _str.replace(/ /gi, '')
-      },
-      cnjp: (cn, jp) => (cn || jp || ''),
+      HTMLDecode,
+      removeHTMLTag,
+      cnjp: (cn, jp) => cn || jp || '',
       t2s,
       HTMLToTree: () => ({ children: [] }),
-      HTMLTrim: (str = '') =>
-        (str || '')
-          .replace(/\n+|\s\s\s*|\t/g, '')
-          .replace(/> </g, '><')
-          .trim(),
-      matchAvatar: (str = '') => str.match(/url\(['"]?(.*?)['"]?\)/)?.[1] || '',
-      matchUserId: (str = '') => (str || '').substring(str.lastIndexOf('/') + 1),
+      HTMLTrim,
+      matchAvatar,
+      matchUserId,
       lastDate,
       relativeToEpoch,
       relativeEnToEpoch,
-      safeObject: (object = {}) => object,
-      desc,
+      safeObject,
       freeze,
       getOnAir,
       findLastIndex: () => -1,
       getPinYinFilterValue: () => '',
       x18: () => false,
-      trim: (str = '') => (str || '').trim(),
+      trim,
       getStorage: jest.fn(),
       setStorage: jest.fn(),
-      titleCase: str => {
-        const [first = '', ...rest] = String(str || '')
-        return `${first.toUpperCase()}${rest.join('')}`
-      }
+      titleCase
     }
   },
   { virtual: true }
 )
 
-jest.mock('@utils/fetch', () => ({
-  fetchHTML: jest.fn(),
-  baiduTranslate: jest.fn(),
-  t: jest.fn()
-}), { virtual: true })
+jest.mock(
+  '@utils/fetch',
+  () => ({
+    fetchHTML: jest.fn(),
+    baiduTranslate: jest.fn(),
+    t: jest.fn()
+  }),
+  { virtual: true }
+)
 
-jest.mock('@utils/proxy', () => ({
-  applyProxy: jest.fn(url => url),
-  logProxy: jest.fn(),
-  applyProxyToAxiosConfig: jest.fn(config => config),
-  axiosWithProxy: jest.fn(),
-  axiosWithProxyRedirect: jest.fn(),
-  applyLainProxy: jest.fn(url => url)
-}), { virtual: true })
+jest.mock(
+  '@utils/proxy',
+  () => ({
+    applyProxy: jest.fn(url => url),
+    logProxy: jest.fn(),
+    applyProxyToAxiosConfig: jest.fn(config => config),
+    axiosWithProxy: jest.fn(),
+    axiosWithProxyRedirect: jest.fn(),
+    applyLainProxy: jest.fn(url => url)
+  }),
+  { virtual: true }
+)
 
 jest.mock('@utils/async', () => ({ syncUserStore: jest.fn() }), { virtual: true })
 

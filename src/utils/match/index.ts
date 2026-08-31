@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-30 07:59:00
  */
-import { pad } from '../utils'
+import { pad } from '../utils/base'
 
 import type { UserId } from '@types'
 

@@ -2,33 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 05:11:17
+ * @Last Modified time: 2026-08-31 20:15:42
  */
 import { DEV } from '@src/config'
 import { logger } from '../dev'
 import HTMLParser from '../thirdParty/html-parser'
 import { safeObject } from '../utils'
 import { htmlMatch } from './match'
-import { cheerio, cText, DECODE_SPECIAL_CHARS, removeCF } from './parse'
+import { cheerio, cText, DECODE_SPECIAL_CHARS } from './parse'
+import { HTMLTrim } from './tag'
 
 export { cEach, cPagination, cText, cheerio, HTMLDecode, removeCF } from './parse'
+export { removeHTMLTag, HTMLTrim } from './tag'
 export * from './match'
 
 import type { Cheerio } from 'cheerio-without-node-native'
 
 const TAG = '@utils/html'
-
-/** 去除 HTML */
-export function removeHTMLTag(str: any, removeAllSpace: boolean = true): string {
-  const _str = String(str)
-    .replace(/<\/?[^>]*>/g, '') // 去除 HTML tag
-    .replace(/[ | ]*\n/g, '\n') // 去除行尾空白
-    .replace(/\n[\s| | ]*\r/g, '\n') // 去除多余空行
-
-  if (!removeAllSpace) return _str
-
-  return _str.replace(/ /gi, '') // 去掉
-}
 
 /** 解码十进制或十六进制数字 HTML 实体（如 emoji） */
 export function decodeNumericHTMLEntity(match: string, value: string, radix: number): string {
@@ -73,27 +63,6 @@ export function HTMLEncode(str: string = ''): string {
   if (str.length === 0) return ''
 
   return str.replace(/[&<>"' ]/g, match => ENCODE_SPECIAL_CHARS[match])
-}
-
-/** HTML 压缩 */
-export function HTMLTrim<T>(str: T, deep?: boolean) {
-  if (typeof str !== 'string') return str
-
-  const s = str as string
-  if (deep) {
-    return removeCF(s)
-      .replace(/<!--.*?-->/gi, '')
-      .replace(/\/\*.*?\*\//gi, '')
-      .replace(/[ ]+</gi, '<')
-      .replace(/\n+|\s\s\s*|\t/g, '')
-      .replace(/"class="/g, '" class="')
-      .replace(/> </g, '><') as T
-  }
-
-  return removeCF(s)
-    .replace(/\n+|\s\s\s*|\t/g, '')
-    .replace(/"class="/g, '" class="')
-    .replace(/> </g, '><') as T
 }
 
 /**

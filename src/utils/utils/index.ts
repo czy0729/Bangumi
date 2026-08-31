@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 08:01:43
+ * @Last Modified time: 2026-08-31 20:17:06
  */
 import { Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -12,7 +12,12 @@ import { date, getTimestamp } from '../date'
 import { applyProxy } from '../proxy'
 import Base64 from '../thirdParty/base64'
 import { info } from '../ui'
+import { pad } from './base'
+import { asc } from './sort'
 import { log } from './utils'
+
+export { asc, compare, desc } from './sort'
+export { pad, safeObject, titleCase, trim } from './base'
 
 export * from '../date'
 export * from './relative-time'
@@ -141,65 +146,6 @@ export function debounce<T extends (...args: any[]) => any>(fn: T, ms: number = 
 }
 
 /**
- * Compare two strings. This comparison is not linguistically accurate, unlike
- * String.prototype.localeCompare(), albeit stable.
- * @doc https://github.com/grantila/fast-string-compare
- * @returns -1, 0 or 1
- */
-export function compare(a: string, b: string) {
-  const lenA = a.length
-  const lenB = b.length
-  const minLen = lenA < lenB ? lenA : lenB
-  var i = 0
-  for (; i < minLen; ++i) {
-    const ca = a.charCodeAt(i)
-    const cb = b.charCodeAt(i)
-
-    if (ca > cb) return 1
-    else if (ca < cb) return -1
-  }
-  if (lenA === lenB) return 0
-  return lenA > lenB ? 1 : -1
-}
-
-/**
- * 正序比较函数, 可接受一个映射函数进行比较
- * - 用于在安卓端开启低版本的 Hermes 后, Array.sort 需要严格区分返回 0 -1 1, 相同返回会出现不稳定的结果
- * @param a 第一个比较项
- * @param b 第二个比较项
- * @param fn 映射函数, 将比较项转换后再进行比较
- * @returns 如果a < b, 则返回 -1; 如果a = b, 则返回 0; 如果a > b, 则返回 1
- */
-export function asc(a: number | string, b: number | string): 0 | 1 | -1
-export function asc<T, K extends number | string>(a: T, b: T, fn: (item: T) => K): 0 | 1 | -1
-export function asc(a: unknown, b: unknown, fn?: (item: unknown) => number | string): 0 | 1 | -1 {
-  const _a = typeof fn === 'function' ? fn(a) : a
-  const _b = typeof fn === 'function' ? fn(b) : b
-  if (typeof _a === 'string' && typeof _b === 'string') return compare(_b, _a)
-  if (_a === _b) return 0
-  if (_a < _b) return -1
-  return 1
-}
-
-/**
- * 倒序比较函数, 可接受一个映射函数进行比较
- * @param a 第一个比较项
- * @param b 第二个比较项
- * @param fn 映射函数, 将比较项转换后再进行比较
- * @returns 如果a < b, 则返回 1; 如果a = b, 则返回 0; 如果a > b, 则返回 -1
- */
-export function desc(a: number | string, b: number | string): 0 | 1 | -1
-export function desc<T, K extends number | string>(a: T, b: T, fn: (item: T) => K): 0 | 1 | -1
-export function desc(a: unknown, b: unknown, fn?: (item: unknown) => number | string): 0 | 1 | -1 {
-  const _a = typeof fn === 'function' ? fn(a) : a
-  const _b = typeof fn === 'function' ? fn(b) : b
-  if (typeof _a === 'string' && typeof _b === 'string') return compare(_a, _b)
-  if (_a === _b) return 0
-  if (_a > _b) return -1
-  return 1
-}
-
-/**
  * 并发请求
  * @param {*} fetchs 请求数组
  * @param {*} num 并发数, 默认为 2
@@ -257,13 +203,6 @@ export function toFixed(value: number | string, num: number = 2) {
   return Number(value || 0).toFixed(num)
 }
 
-/** 安全对象 (用于把请求中的 null 换成 undefined, 减少 ?. 语法出错) */
-export function safeObject<T extends Record<string, unknown>>(object: T = {} as T): T {
-  return Object.fromEntries(
-    Object.entries(object).map(([key, value]) => [key, value === null ? undefined : value])
-  ) as T
-}
-
 /** 浏览器打开网页 */
 export function open(url: string, encode: boolean = false): boolean {
   if (!url || typeof url !== 'string') {
@@ -309,11 +248,6 @@ export function urlStringify(
   return Object.entries(data)
     .map(([key, value]) => `${key}=${encode ? encodeURIComponent(value) : value}`)
     .join('&')
-}
-
-/** 补零 */
-export function pad(n: string | number): string {
-  return +n < 10 ? `0${n}` : `${n}`
 }
 
 /** 睡眠 */
@@ -395,12 +329,6 @@ export function arrGroup<T>(arr: T[] | readonly T[], num: number = 40): T[][] {
   )
 }
 
-/** 首字母大写 */
-export function titleCase<S extends string>(str: S): Capitalize<S> {
-  const [first = '', ...rest] = String(str || '')
-  return `${first.toUpperCase()}${rest.join('')}` as Capitalize<S>
-}
-
 /** @deprecated 颜色过渡 */
 export function gradientColor(startRGB: number[], endRGB: number[], step: number) {
   const startR = startRGB[0]
@@ -422,11 +350,6 @@ export function gradientColor(startRGB: number[], endRGB: number[], step: number
     colorArr.push(rgb)
   }
   return colorArr
-}
-
-/** 去掉头尾空格 */
-export function trim(str: string = '') {
-  return str.replace(/^\s+|\s+$/gm, '')
 }
 
 /** 生成 n 位随机整数 */
