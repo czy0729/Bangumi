@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-05-23 06:55:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 04:24:01
+ * @Last Modified time: 2026-09-01 04:06:36
  */
 import { xhrCustom } from '@utils/fetch'
 import { getStorage, setStorage } from '@utils/storage'
@@ -16,8 +16,8 @@ const HOST_OSS = `${HOST_CDN}/gh/czy0729/Bangumi-OSS`
 
 const OTA_AVATAR_HASH_VERSION = '@cdn|oss-avatar-hash|version|210719'
 const OTA_AVATAR_HASH_DATA = '@cdn|oss-avatar-hash|data|210719'
-let cacheAvatar = {}
-let hashAvatarOTA = {}
+let cacheAvatar: Record<string, string> = {}
+let hashAvatarOTA: Record<string, string> = {}
 let hashAvatarLoaded = false
 
 /** @deprecated 初始化所有云端头像 hash */
@@ -46,7 +46,7 @@ export const initHashAvatarOTA = async () => {
       // 更新了数据需要重置 cache
       hashAvatarOTA = {
         ...hashAvatarOTA,
-        ...JSON.parse(_response)
+        ...(JSON.parse(_response) as Record<string, string>)
       }
       cacheAvatar = {}
 
@@ -63,7 +63,7 @@ export const initHashAvatarOTA = async () => {
   hashAvatarLoaded = true
   hashAvatarOTA = {
     ...hashAvatarOTA,
-    ...(data as Record<string, unknown>)
+    ...(data as Record<string, string>)
   }
   cacheAvatar = {}
 }
@@ -72,7 +72,7 @@ export const initHashAvatarOTA = async () => {
 export const getHashAvatarOTA = () => hashAvatarOTA
 
 /** @deprecated 头像CDN */
-export const CDN_OSS_AVATAR = (src: any) => {
+export const CDN_OSS_AVATAR = (src: string) => {
   if (typeof src !== 'string') return src
   if (cacheAvatar[src]) return cacheAvatar[src]
 

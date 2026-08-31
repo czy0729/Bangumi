@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-17 12:08:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-25 22:18:42
+ * @Last Modified time: 2026-09-01 04:13:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -20,7 +20,7 @@ import User from './user'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { Props } from './type'
+import type { Props } from './types'
 
 function ItemTemple({
   style,

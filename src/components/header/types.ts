@@ -6,7 +6,7 @@
  */
 import type Placeholder from './placeholder'
 import type Popover from './popover'
-import type { Expand, Fn, ReactNode, TextStyle, WithNavigation } from '@types'
+import type { Expand, ReactNode, TextStyle, WithNavigation } from '@types'
 import type { TrackProps } from '../track'
 
 export type Props = {
@@ -53,7 +53,7 @@ export type Props = {
   statusBarEventsType?: 'Subject' | 'Topic' | 'Tinygrail'
 
   /** 覆写后退点击回调 */
-  onBackPress?: Fn
+  onBackPress?: () => void
 }
 
 export type HeaderComponentType = {
@@ -75,7 +75,7 @@ export type UpdateHeaderProps = Expand<
       | 'fixed'
       | 'statusBarEventsType'
     > & {
-      onBackPress?: Fn
+      onBackPress?: () => void
     }
   >
 >

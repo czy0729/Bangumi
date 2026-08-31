@@ -16,7 +16,7 @@ import { getItem } from '../storage/utils'
 import { omit } from '../utils'
 import { applyStateDiff, buildStorageKey } from './utils'
 
-import type { DeepPartial, Fn, LocalState } from '@types'
+import type { DeepPartial, LocalState } from '@types'
 import type { StoreState, WritableState } from './types'
 
 /** 状态公共基类 —— 承载各版本 Store 的共享成员 */
@@ -178,10 +178,10 @@ export default class BaseStore<T extends StoreState> {
   }
 
   /** 唯一队列请求 */
-  private _memoFetched = new Map<Fn, true>()
+  private _memoFetched = new Map<() => unknown, true>()
 
   /** 唯一队列请求 */
-  fetchQueueUnique = (fetchs: Fn[]) => {
+  fetchQueueUnique = (fetchs: (() => unknown)[]) => {
     setTimeout(() => {
       queue(
         fetchs.map(callback => {
@@ -205,7 +205,7 @@ export default class BaseStore<T extends StoreState> {
    */
   withLoading<K extends keyof T>(
     stateKey: K & (T[K] extends boolean ? K : never),
-    fn: Fn
+    fn: (...args: unknown[]) => unknown
   ): (...args: unknown[]) => Promise<unknown> {
     return async (...args: unknown[]) => {
       try {

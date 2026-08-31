@@ -19,7 +19,6 @@ import { t } from '@utils/fetch'
 import { ITEMS_TYPE } from '@tinygrail/_/characters-modal'
 import Fetch from './fetch'
 
-import type { AnyObject } from '@types'
 import type { AuctionsSort, TemplesSort, UsersSort } from '../types'
 
 export default class Action extends Fetch {
@@ -244,7 +243,7 @@ export default class Action extends Fetch {
       const type = ITEMS_TYPE[title]
       if (!type) return false
 
-      const data: AnyObject = {
+      const data: Record<string, any> = {
         monoId: monoId || this.monoId,
         type
       }

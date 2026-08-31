@@ -26,7 +26,7 @@ import i18n from '@constants/i18n'
 import { getTopicMainFloorRawText } from '../utils'
 import Fetch from './fetch'
 
-import type { AnyObject, CompletionItem, Fn, Id, ScrollEvent, TopicType } from '@types'
+import type { CompletionItem, Id, ScrollEvent, TopicType } from '@types'
 import type { GenerateType } from '@utils/kv/type'
 import type { RakuenReplyType } from '@constants/html/types'
 
@@ -167,7 +167,7 @@ export default class Action extends Fetch {
   }
 
   /** 显示编辑评论框 */
-  showFixedTextareaEdit = async (postId: Id, showFixedTextareCallback: Fn) => {
+  showFixedTextareaEdit = async (postId: Id, showFixedTextareCallback: () => void) => {
     const value = await rakuenStore.fetchTopicEdit(
       postId,
       String(this.topicId).split('/')?.[0] as TopicType
@@ -465,7 +465,7 @@ export default class Action extends Fetch {
         formhash
       },
       responseText => {
-        let res: AnyObject = {}
+        let res: Record<string, any> = {}
         try {
           res = JSON.parse(responseText)
         } catch {}
@@ -519,7 +519,7 @@ export default class Action extends Fetch {
         post_uid: String(postUid || '').trim()
       },
       responseText => {
-        let res: AnyObject = {}
+        let res: Record<string, any> = {}
         try {
           res = JSON.parse(responseText)
         } catch (error) {

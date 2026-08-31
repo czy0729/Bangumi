@@ -16,7 +16,7 @@ function Modal() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const handleSubmit = useCallback(
-    (params1: any, params2: any) => {
+    (params1: any, params2?: any) => {
       if (tinygrailStore.checkAuth()) $.doUse(params1, params2)
     },
     [$]

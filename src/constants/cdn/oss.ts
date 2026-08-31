@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2022-05-23 07:22:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-28 01:38:20
+ * @Last Modified time: 2026-09-01 04:06:53
  */
 import { syncSystemStore } from '@utils/async'
 import Crypto from '@utils/crypto'
@@ -28,7 +28,7 @@ const OTA_SUBJECT_HASH_DATA = '@cdn|oss-subject-hash|data|210720'
 let cacheSubject: Record<string, string> = {}
 
 /** @deprecated */
-let hashSubjectOTA = {}
+let hashSubjectOTA: Record<string, string> = {}
 
 /** @deprecated */
 let hashSubjectLoaded = false
@@ -60,7 +60,7 @@ export const initHashSubjectOTA = async () => {
       // 更新了数据需要重置cache
       hashSubjectOTA = {
         ...hashSubjectOTA,
-        ...JSON.parse(_response)
+        ...(JSON.parse(_response) as Record<string, string>)
       }
       cacheSubject = {}
 
@@ -82,7 +82,7 @@ export const initHashSubjectOTA = async () => {
   hashSubjectLoaded = true
   hashSubjectOTA = {
     ...hashSubjectOTA,
-    ...(data as Record<string, unknown>)
+    ...(data as Record<string, string>)
   }
   cacheSubject = {}
 }
@@ -93,10 +93,12 @@ export const getHashSubjectOTA = () => hashSubjectOTA
 /** @deprecated 条目封面 CDN */
 export const CDN_OSS_SUBJECT = <T>(src: T, cdnOrigin?: 'OneDrive' | 'fastly'): T | string => {
   if (typeof src !== 'string') return src
-  if (cacheSubject[src]) return cacheSubject[src]
+
+  const _key: string = src
+  if (cacheSubject[_key]) return cacheSubject[_key]
 
   // 修正图片地址
-  let _src = src.split('?')[0]
+  let _src = _key.split('?')[0]
   if (_src.indexOf('https:') === -1 && _src.indexOf('http:') === -1) {
     _src = `https:${_src}`
   }
@@ -118,12 +120,12 @@ export const CDN_OSS_SUBJECT = <T>(src: T, cdnOrigin?: 'OneDrive' | 'fastly'): T
     } else {
       cdnSrc = `${HOST_OSS}@${version}/data/subject/c/${path}/${_hash}.jpg`
     }
-    if (hashSubjectLoaded) cacheSubject[src] = cdnSrc
+    if (hashSubjectLoaded) cacheSubject[_key] = cdnSrc
     return cdnSrc
   }
 
-  if (hashSubjectLoaded) cacheSubject[src] = src
-  return src
+  if (hashSubjectLoaded) cacheSubject[_key] = _key
+  return _key
 }
 
 /** CDN V2 */

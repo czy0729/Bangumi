@@ -4,8 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-01-19 08:38:58
  */
-import type { Fn } from '@types'
-
 export type Props = {
   /** 解析后的文本内容 */
   text?: string
@@ -37,5 +35,5 @@ export type Props = {
   air_date?: string
 
   /** 链接点击回调 */
-  onLinkPress?: Fn
+  onLinkPress?: () => void
 }

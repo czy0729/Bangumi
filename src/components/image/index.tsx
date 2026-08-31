@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-15 06:17:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 19:23:26
+ * @Last Modified time: 2026-09-01 03:13:22
  */
 import React, { useMemo } from 'react'
 import { Image as RNImage } from 'react-native'
@@ -30,7 +30,7 @@ import { memoStyles } from './styles'
 // 项目中若需要使用原本的 RN Image Component，也需在这里引入以便统一管理
 export { RNImage }
 
-import type { Fn } from '@types'
+import type { TouchableHandlePress } from '../touchable/types'
 import type { Props as ImageProps, State } from './types'
 export type { ImageProps }
 
@@ -165,7 +165,7 @@ export const Image = observer(function Image(baseProps: ImageProps) {
       }),
     [imageViewerSrc, state.uri, src, headers, event]
   )
-  let onPressHandle = onPress as Fn | undefined
+  let onPressHandle = onPress
 
   // ImageViewer 模式：点击打开大图
   if (imageViewer) {
@@ -250,7 +250,7 @@ export const Image = observer(function Image(baseProps: ImageProps) {
     )
   }
 
-  function renderTouchableImage(onPressFn?: Fn) {
+  function renderTouchableImage(onPressFn?: TouchableHandlePress) {
     return (
       <Component id='component-image' style={containerStyle}>
         <Touchable

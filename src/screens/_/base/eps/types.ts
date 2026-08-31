@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-07-25 20:26:37
  */
 import type { Ep } from '@stores/subject/types'
-import type { Fn, SubjectId, WithViewStyles } from '@types'
+import type { SubjectId, WithViewStyles } from '@types'
 
 export type Props = WithViewStyles<{
   /** 详情页模式, 显示 SP 和更多的操作按钮 */
@@ -51,7 +51,7 @@ export type Props = WithViewStyles<{
   flip?: boolean
 
   /** 切换动画完成后回调 */
-  onFliped?: Fn
+  onFliped?: () => void
 
   /** 选择回调 */
   onSelect?: (value?: string, item?: Ep, subjectId?: SubjectId) => void

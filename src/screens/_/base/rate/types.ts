@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-01-15 12:39:55
  */
 import type { TextProps } from '@components'
-import type { Fn, WithViewStyles } from '@types'
+import type { WithViewStyles } from '@types'
 
 export type Props = WithViewStyles<{
   /** 强制覆盖样式 */
@@ -21,5 +21,5 @@ export type Props = WithViewStyles<{
   align?: TextProps['align']
 
   /** 文字点击 */
-  onPress?: Fn
+  onPress?: () => void
 }>

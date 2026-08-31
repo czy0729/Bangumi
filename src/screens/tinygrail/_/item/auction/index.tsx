@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-03-04 00:53:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-07 16:59:39
+ * @Last Modified time: 2026-09-01 04:12:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -12,9 +12,21 @@ import { _ } from '@stores'
 import { formatNumber } from '@utils'
 
 import type { TextType } from '@components'
-import type { AnyObject } from '@types'
 
-function Auction({ price, state, amount }: AnyObject) {
+function Auction({
+  price,
+  state,
+  amount
+}: {
+  /** 竞拍价格 */
+  price?: number
+
+  /** 竞拍状态: 1 成功, 2 失败 */
+  state?: number
+
+  /** 竞拍数量 */
+  amount?: number
+}) {
   let text = '竞拍中'
   let color: TextType = 'warning'
   if (state === 1) {

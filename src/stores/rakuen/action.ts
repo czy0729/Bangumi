@@ -24,7 +24,6 @@ import Fetch from './fetch'
 import type { RakuenReplyType } from '@constants/html/types'
 import type {
   BlogId,
-  Fn,
   Id,
   RakuenAutoLoadImage,
   RakuenNewFloorStyle,
@@ -70,7 +69,7 @@ export default class Action extends Fetch {
       sub_reply_uid?: any
       post_uid?: any
     },
-    success?: Fn
+    success?: (responseText?: string, request?: XMLHttpRequest) => unknown
   ) => {
     const { topicId, type = 'group/topic', ...other } = args || {}
     xhr(
@@ -106,8 +105,8 @@ export default class Action extends Fetch {
       content: string
       formhash: string
     },
-    success?: Fn,
-    fail?: Fn
+    success?: (responseText?: string, request?: XMLHttpRequest) => unknown,
+    fail?: () => void
   ) => {
     const { postId, topicType, content, formhash } = args || {}
     xhr(
@@ -136,7 +135,7 @@ export default class Action extends Fetch {
     floorId: Id,
     formhash: string,
     topicId: TopicId | BlogId | SubjectId,
-    callback?: Fn,
+    callback?: () => void,
     userInfo?: {
       username: string
       nickname: string
@@ -288,7 +287,11 @@ export default class Action extends Fetch {
   }
 
   /** 删除日志回复 */
-  doDeleteReplyBlog = async (args: { url: string }, success?: Fn, fail?: Fn) => {
+  doDeleteReplyBlog = async (
+    args: { url: string },
+    success?: (responseText?: string, request?: XMLHttpRequest) => unknown,
+    fail?: () => void
+  ) => {
     const { url } = args || {}
     xhr(
       {
@@ -304,8 +307,8 @@ export default class Action extends Fetch {
     args: {
       keyword: string
     },
-    success?: Fn,
-    fail?: Fn
+    success?: (responseText?: string, request?: XMLHttpRequest) => unknown,
+    fail?: () => void
   ) => {
     if (!this.formhash) {
       if (typeof fail === 'function') fail()
@@ -329,7 +332,11 @@ export default class Action extends Fetch {
   }
 
   /** 取消与某用户绝交 */
-  doCancelBlockUser = async (args: { url: string }, success?: Fn, fail?: Fn) => {
+  doCancelBlockUser = async (
+    args: { url: string },
+    success?: (responseText?: string, request?: XMLHttpRequest) => unknown,
+    fail?: () => void
+  ) => {
     const { url } = args || {}
     xhr(
       {

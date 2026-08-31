@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-11-16 09:18:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 05:39:13
+ * @Last Modified time: 2026-09-01 04:09:50
  */
-import type { AnyObject, Fn, Override, RakuenNewFloorStyleCn, TopicId, UserId } from '@types'
+import type { Override, RakuenNewFloorStyleCn, TopicId, UserId } from '@types'
 import type { Props as ComponentProps } from '../types'
 
 export type Props = Override<
@@ -31,7 +31,7 @@ export type Props = Override<
     uid: UserId
     url: string
     newFloorStyle: RakuenNewFloorStyleCn
-    onShowFixedTextare: Fn
+    onShowFixedTextare: () => void
   }
 >
 
@@ -39,7 +39,7 @@ export type Ctx = {
   $: {
     state: {
       directFloor: string
-      translateResultFloor: AnyObject
+      translateResultFloor: Record<string, string>
     }
     topicId: TopicId
     blogId: TopicId
@@ -48,8 +48,8 @@ export type Ctx = {
       likeType: string
     }
     myFriendsMap: Record<UserId, true>
-    postUsersMap: AnyObject
-    isBlockUser: Fn
-    showLikesUsers: Fn
+    postUsersMap: Record<string, any>
+    isBlockUser: (userId: UserId, userName: string, replySub?: string) => boolean
+    showLikesUsers: (list: any[], emoji: number) => void
   }
 }

@@ -4,10 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-01-18 20:27:09
  */
-import type { Fn, WithViewStyles } from '@types'
+import type { WithViewStyles } from '@types'
 
 export type Props = WithViewStyles<{
   icon?: 'wordcloud' | 'bilibili' | 'dou' | 'wiki' | 'samba' | 'book'
   size?: number
-  onPress: Fn
+  onPress: () => void
 }>

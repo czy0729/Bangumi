@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-09 09:28:11
  */
-import type { Fn, WithViewStyles } from '@types'
+import type { WithViewStyles } from '@types'
 
 type Item = {
   label: string
@@ -18,7 +18,7 @@ export type Props = WithViewStyles<{
   levelMap?: Record<string, number>
   direction?: '' | 'up' | 'down'
   renderLeft?: any
-  onSortPress?: Fn
-  onSortLongPress?: Fn
-  onLevelSelect?: Fn
+  onSortPress?: (value: string) => void
+  onSortLongPress?: () => void
+  onLevelSelect?: (value: string) => void
 }>

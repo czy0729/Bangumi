@@ -7,11 +7,10 @@
 import type { PropsWithChildren } from 'react'
 import type { RefreshControlProps } from 'react-native'
 import type { ScrollViewProps } from '@components'
-import type { Fn } from '@types'
 
 export type Props = PropsWithChildren<
   Pick<ScrollViewProps, 'forwardRef' | 'style' | 'contentContainerStyle' | 'onScroll'> &
     Pick<RefreshControlProps, 'colors' | 'titleColor' | 'tintColor' | 'progressBackgroundColor'> & {
-      onRefresh?: Fn
+      onRefresh?: () => void
     }
 >

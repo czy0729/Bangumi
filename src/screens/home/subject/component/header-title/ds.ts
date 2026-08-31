@@ -8,7 +8,6 @@ import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
-import type { Fn } from '@types'
 import type { Ctx } from '../../types'
 
 type $ = Ctx['$']
@@ -30,5 +29,5 @@ export const DEFAULT_PROPS = {
   cn: '' as $['cn'],
   jp: '' as $['jp'],
   titleLabel: '' as $['titleLabel'],
-  onScrollToTop: FROZEN_FN as Fn
+  onScrollToTop: FROZEN_FN as () => void
 }

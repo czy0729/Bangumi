@@ -16,7 +16,7 @@ import advanceJSON from '@assets/json/advance.json'
 import { HEADER_HEIGHT } from '@styles'
 import { FILTER_RATE, LIST } from './ds'
 
-import type { AnyObject, UserId } from '@types'
+import type { UserId } from '@types'
 
 export function timeDiff() {
   const start = dayjs('2019-03-30')
@@ -133,7 +133,7 @@ export function useTreemapSquarify() {
         },
         nodes
       },
-      (x: number, y: number, w: number, h: number, node: AnyObject) =>
+      (x: number, y: number, w: number, h: number, node: Record<string, any>) =>
         data.push({
           data: node.data,
           price: node.price,

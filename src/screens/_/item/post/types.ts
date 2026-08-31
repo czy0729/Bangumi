@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-14 05:16:49
  */
-import type { AnyObject, Fn, Id, TopicId, UserId, ViewStyle, WithEvent } from '@types'
+import type { Id, TopicId, UserId, ViewStyle, WithEvent } from '@types'
 
 export type Props = WithEvent<{
   /** 懒渲染 y 轴 */
@@ -71,10 +71,10 @@ export type Props = WithEvent<{
   expandNums?: number
 
   /** 传递显示回复弹窗的函数 */
-  showFixedTextarea?: Fn
+  showFixedTextarea?: () => void
 
   /** 跳转到当前楼层项回调 */
-  onJumpTo?: Fn
+  onJumpTo?: () => void
 }>
 
 export type Ctx = {
@@ -85,7 +85,7 @@ export type Ctx = {
     state: {
       directFloor: string
       expands: any[]
-      translateResultFloor: AnyObject
+      translateResultFloor: Record<string, string>
     }
     topicId: TopicId
     blogId: TopicId
@@ -97,6 +97,6 @@ export type Ctx = {
       _time: string
     }
     myFriendsMap: Record<UserId, true>
-    toggleExpand: Fn
+    toggleExpand: (id: Id) => void
   }
 }

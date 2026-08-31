@@ -38,7 +38,6 @@ import {
 } from './ds'
 
 import type {
-  AnyObject,
   Avatar,
   Cover,
   Id,
@@ -247,7 +246,7 @@ export function matchBgmLink(url: string = ''):
   | false
   | {
       route: Paths
-      params?: AnyObject
+      params?: Record<string, any>
       app?: boolean
     } {
   try {

@@ -5,13 +5,13 @@
  * @Last Modified time: 2026-03-20 01:25:12
  */
 import type { PropsWithChildren } from 'react'
-import type { ColorValue, Fn, TextStyle, WithViewStyles } from '@types'
+import type { ColorValue, TextStyle, WithViewStyles } from '@types'
 
 export type Props = PropsWithChildren<
   WithViewStyles<{
     iconStyle?: TextStyle
     color?: ColorValue
     size?: number
-    onPress?: Fn
+    onPress?: () => void
   }>
 >

@@ -32,7 +32,7 @@ import Fetch from './fetch'
 import { INIT_ACCESS_TOKEN, INIT_USER_COOKIE, INIT_USER_INFO } from './init'
 
 import type { ProxyAxiosResponse } from '@utils/proxy/types'
-import type { EpId, EpStatus, Fn, SubjectId } from '@types'
+import type { EpId, EpStatus, SubjectId } from '@types'
 import type { STATE } from './init'
 import type { AccessToken } from './types'
 
@@ -218,7 +218,7 @@ export default class Action extends Fetch {
       formhash: string
     },
     success?: (responseText?: string, request?: XMLHttpRequest) => unknown,
-    fail?: Fn
+    fail?: () => void
   ) => {
     const { subjectId, formhash } = config || {}
 
@@ -242,7 +242,7 @@ export default class Action extends Fetch {
       submit?: '发送' | '回复'
     },
     success?: (responseText?: string, request?: XMLHttpRequest) => unknown,
-    fail?: Fn
+    fail?: () => void
   ) => {
     return xhr(
       {
@@ -265,7 +265,7 @@ export default class Action extends Fetch {
       show_nsfw_subject: boolean | number
     },
     success?: (responseText?: string, request?: XMLHttpRequest) => unknown,
-    fail?: Fn
+    fail?: () => void
   ) => {
     return xhr(
       {

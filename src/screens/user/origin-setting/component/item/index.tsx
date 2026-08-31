@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 09:54:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-23 19:45:39
+ * @Last Modified time: 2026-09-01 04:14:52
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -15,7 +15,7 @@ import Form from '../form'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { AnyObject } from '@types'
+import type { ImageSourcePropType } from 'react-native'
 import type { Ctx } from '../../types'
 
 function Item({
@@ -29,9 +29,18 @@ function Item({
   url,
   sort,
   onScrollIntoViewIfNeeded
-}: AnyObject<{
+}: {
+  type?: string
+  id?: number | string
   uuid?: string
-}>) {
+  active?: number | boolean
+  icon?: string | ImageSourcePropType
+  iconSquare?: boolean
+  name?: string
+  url?: string
+  sort?: number
+  onScrollIntoViewIfNeeded?: (deltaY: number) => void
+}) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const styles = memoStyles()

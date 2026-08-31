@@ -51,7 +51,7 @@ export const initXsbRelationOTA = async () => {
         url: `${HOST_STATIC}@${version}/data/tinygrail/relation.min.json`
       })
 
-      xsbRelationOTA = JSON.parse(_response)
+      xsbRelationOTA = JSON.parse(_response) as typeof xsbRelationOTA
       setStorage(OTA_XSB_RELATION_VERSION, version)
       setStorage(OTA_XSB_RELATION_DATA, xsbRelationOTA)
     } catch (error) {

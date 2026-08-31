@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-07-13 22:25:29
  */
 import type { TextType, TouchableProps } from '@components'
-import type { Fn, IconfontNames, Override, ReactNode, TextStyle, ViewStyle } from '@types'
+import type { IconfontNames, Override, ReactNode, TextStyle, ViewStyle } from '@types'
 
 export type Props = Override<
   TouchableProps,
@@ -34,7 +34,6 @@ export type Props = Override<
           headers?: object
         }[]
     extra?: ReactNode
-    onInfoPress?: Fn
-    onPress?: Fn
+    onInfoPress?: () => void
   }
 >

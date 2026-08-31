@@ -6,12 +6,12 @@
  */
 import { t } from '@utils/fetch'
 
-import type { AnyObject, MonoId, Navigation, Paths } from '@types'
+import type { MonoId, Navigation, Paths } from '@types'
 
 export function getOnPress(charaId: MonoId, go: string, navigation: Navigation) {
   return () => {
     let to: Paths
-    let params: AnyObject
+    let params: Record<string, any>
 
     switch (go) {
       case 'K线':

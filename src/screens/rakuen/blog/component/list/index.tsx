@@ -17,14 +17,14 @@ import Top from '../top'
 import TouchScroll from '../touch-scroll'
 import { COMPONENT } from './ds'
 
-import type { Fn, Override } from '@types'
+import type { Override, ScrollEvent } from '@types'
 import type { Ctx } from '../../types'
 
 class Blog extends React.Component<
   Override<
     Ctx,
     {
-      onScroll: Fn
+      onScroll: (e: ScrollEvent) => void
     }
   >
 > {

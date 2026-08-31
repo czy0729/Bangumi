@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-31 05:13:31
  */
-import type { Fn, ReactNode, TextStyle } from '@types'
+import type { ReactNode, TextStyle } from '@types'
 
 /** a 点击回调 */
 export type OnPress = (navigation?: null, href?: string, payload?: { _cn?: string }) => void
@@ -73,5 +73,5 @@ export type MediaArgs = {
   href?: string
 
   /** 链接点击回调 */
-  onLinkPress?: Fn
+  onLinkPress?: () => void
 }

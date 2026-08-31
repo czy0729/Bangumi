@@ -6,11 +6,11 @@
  */
 import type { TextStyle } from 'react-native'
 import type { ButtonProps } from '@components'
-import type { Fn, WithViewStyles } from '@types'
+import type { WithViewStyles } from '@types'
 
 export type Props = WithViewStyles<{
   styleText: TextStyle | false
   type?: ButtonProps['type']
   text: number
-  onAnimated: Fn
+  onAnimated: () => void
 }>

@@ -7,7 +7,6 @@
 import { syncSystemStore } from '../async'
 import { asc } from '../utils'
 
-import type { AnyObject } from '@types'
 
 /** 是否 null */
 export function isNull(value: any) {
@@ -32,7 +31,7 @@ export function getKeyString(...args: any[]) {
 }
 
 /** 对象键值排序 */
-export function sortObject(object: AnyObject) {
+export function sortObject(object: Record<string, any>) {
   const newObject = {}
   Object.keys(object)
     .sort((a, b) => asc(a, b))

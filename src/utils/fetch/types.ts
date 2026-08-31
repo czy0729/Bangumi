@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-21 00:03:49
  */
-import type { AnyObject } from '@types'
 
 /** 底层请求配置，直接传递给网络库 */
 export type Config = {
@@ -41,7 +40,7 @@ export type FetchAPIArgs = {
   url: string
 
   /** 请求参数 */
-  data?: AnyObject
+  data?: Record<string, string | number | boolean>
 
   /** 失败重试回调 */
   retryCb?: any
@@ -62,10 +61,10 @@ export type FetchHTMLArgs = {
   url: string
 
   /** 请求参数 */
-  data?: AnyObject
+  data?: Record<string, string | number | boolean>
 
   /** 自定义请求头 */
-  headers?: AnyObject
+  headers?: Record<string, string>
 
   /** Cookie 字符串 */
   cookie?: string
@@ -86,7 +85,7 @@ export type XHRArgs = {
   url: string
 
   /** 请求数据 */
-  data?: AnyObject
+  data?: Record<string, string | number | boolean>
 
   /** 是否不显示加载指示器 */
   noConsole?: boolean

@@ -8,12 +8,11 @@ import isEqual from 'lodash.isequal'
 import { logger } from '@utils/dev'
 import { WEB } from '@constants'
 
-import type { AnyObject } from '@types'
 
 const TAG = '@utils/decorators/memo'
 
 /** 封装通用 React.memo 的第二参数, 注意返回 true 代表不更新, false 代表强制更新 */
-export function memoCompare<P extends AnyObject>(
+export function memoCompare<P extends object>(
   prevProps: P | boolean,
   nextProps: P | boolean,
   propsOrKeys: P | keyof P,
@@ -44,7 +43,7 @@ export function memoCompare<P extends AnyObject>(
 }
 
 /** 对比先后 props, 并打印是为什么更新了 */
-function log<P extends AnyObject>(prev: P, next: P, devRerenderKey?: string) {
+function log<P extends object>(prev: P, next: P, devRerenderKey?: string) {
   const unsameKeys = []
   Object.keys(prev).forEach(key => {
     if (typeof prev[key] === 'object') {
@@ -92,7 +91,7 @@ function log<P extends AnyObject>(prev: P, next: P, devRerenderKey?: string) {
  *  - React.useRef
  *  - 第一层 object._loaded
  * */
-function mapKey<P extends AnyObject>(target: P, key: keyof P, value: P[keyof P]): void {
+function mapKey<P extends object>(target: P, key: keyof P, value: P[keyof P]): void {
   if (
     key === 'navigation' ||
     key === '_loaded' ||
@@ -116,7 +115,7 @@ function mapKey<P extends AnyObject>(target: P, key: keyof P, value: P[keyof P])
 }
 
 /** 对象值是否完全相同 */
-function isEqualEnv<P extends AnyObject>(prevProps: P, nextProps: P): boolean {
+function isEqualEnv<P extends object>(prevProps: P, nextProps: P): boolean {
   try {
     return WEB
       ? isEqual(prevProps, nextProps)

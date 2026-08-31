@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-13 05:32:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-31 05:08:00
+ * @Last Modified time: 2026-09-01 03:39:03
  */
 import React from 'react'
 import { rakuenStore, subjectStore } from '@stores'
@@ -16,7 +16,7 @@ import Mono from './mono'
 import Subject from './subject'
 import Topic from './topic'
 
-import type { Fn, MonoId, ReactNode, SubjectId, TopicId } from '@types'
+import type { MonoId, ReactNode, SubjectId, TopicId } from '@types'
 import type { ACSearchArgs, MediaArgs, PassProps } from './types'
 
 /** @todo 待优化, 安卓 Text 中一定要过滤非文字节点 */
@@ -78,7 +78,10 @@ export function getACSearch({ style, passProps, params, onPress }: ACSearchArgs)
 }
 
 /** 条目媒体块 */
-export async function getSubject({ passProps, params, href, onLinkPress }: MediaArgs, render?: Fn) {
+export async function getSubject(
+  { passProps, params, href, onLinkPress }: MediaArgs,
+  render?: (el: JSX.Element) => void
+) {
   try {
     const text = getRawChildrenText(passProps)
     if (!text) return
@@ -122,7 +125,10 @@ export async function getSubject({ passProps, params, href, onLinkPress }: Media
 }
 
 /** 帖子媒体块 */
-export async function getTopic({ passProps, params, onLinkPress }: MediaArgs, render?: Fn) {
+export async function getTopic(
+  { passProps, params, onLinkPress }: MediaArgs,
+  render?: (el: JSX.Element) => void
+) {
   try {
     const text = getRawChildrenText(passProps)
     if (!text) return

@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-07-20 12:14:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 16:10:57
+ * @Last Modified time: 2026-09-01 04:09:38
  */
-import type { AnyObject, DeepPartial, Fn, ReactNode } from '@types'
+import type { DeepPartial, ReactNode } from '@types'
 import type { FilterSwitchName } from '../filter-switch/types'
 
 type FilterItem = {
   title: string
   type: string
-  data: any[] | readonly any[]
+  data: unknown[] | readonly unknown[]
   login?: boolean
   multiple?: boolean
   multiSelect?: boolean
@@ -31,14 +31,14 @@ export type Props = {
 export type Ctx = DeepPartial<{
   $: {
     state: {
-      query: AnyObject
+      query: Record<string, unknown>
       layout: string
       expand: boolean
     }
-    list: any[]
+    list: unknown[]
     total: number
     isLogin: boolean
-    onSelect: Fn
-    onExpand: Fn
+    onSelect: (type: string, value?: string | number, multiple?: boolean) => void
+    onExpand: () => void
   }
 }>

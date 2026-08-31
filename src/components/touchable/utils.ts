@@ -10,7 +10,7 @@ import { postTask } from '@utils'
 import { IOS } from '@constants'
 
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native'
-import type { Fn, TimerRef } from '@types'
+import type { TimerRef } from '@types'
 
 export const defaultHitSlop = {
   top: _.device(3, 4),
@@ -32,7 +32,7 @@ let timer: TimerRef
 /** 防止瞬间多次点击 */
 export function callOnceInInterval(
   /** 执行方法 */
-  functionTobeCalled: Fn,
+  functionTobeCalled: () => void,
 
   /** 两次执行最小间隔 */
   interval: number = 80

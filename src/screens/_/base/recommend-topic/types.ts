@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-02 10:00:00
  */
-import type { Fn, ListEmpty, WithNavigation } from '@types'
+import type { ListEmpty, WithNavigation } from '@types'
 import type { RecommendTopicItem } from '@utils/kv/type'
 
 export type Props = WithNavigation<{
@@ -30,11 +30,11 @@ export type Props = WithNavigation<{
   openWebBrowser?: boolean
 
   /** 显示推荐 */
-  onShow: Fn
+  onShow: () => void
 
   /** 隐藏推荐 */
-  onHide: Fn
+  onHide: () => void
 
   /** 加载更多 */
-  onLoadMore: Fn
+  onLoadMore: () => void
 }>

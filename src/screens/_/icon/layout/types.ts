@@ -5,12 +5,12 @@
  * @Last Modified time: 2026-03-19 21:51:53
  */
 import type { PropsWithChildren } from 'react'
-import type { Fn, WithViewStyles } from '@types'
+import type { WithViewStyles } from '@types'
 
 export type Props = PropsWithChildren<
   WithViewStyles<{
     list?: boolean
     size?: number
-    onPress?: Fn
+    onPress?: () => void
   }>
 >

@@ -4,12 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-01 14:43:45
  */
-import { AnyObject } from '@types'
 import { urlStringify } from '../../index'
 
 export function getScreenKey(
   route: {
-    params?: AnyObject
+    params?: Record<string, any>
     routeName?: string
     name?: string
   } = {}

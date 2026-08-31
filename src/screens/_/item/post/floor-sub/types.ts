@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 05:35:25
  */
-import type { Fn, Override, RakuenNewFloorStyleCn } from '@types'
+import type { Id, Override, RakuenNewFloorStyleCn } from '@types'
 import type { Props as ComponentProps } from '../types'
 
 export type Props = Override<
@@ -26,7 +26,7 @@ export type Props = Override<
     newFloorStyle: RakuenNewFloorStyleCn
     readedTime: string
     url: string
-    onShowFixedTextare: Fn
-    onToggleExpand: Fn
+    onShowFixedTextare: () => void
+    onToggleExpand: (id: Id) => void
   }
 >

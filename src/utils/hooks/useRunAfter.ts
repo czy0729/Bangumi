@@ -8,8 +8,6 @@ import { IOS } from '@constants/constants'
 import { FROZEN_FN } from '@constants/init'
 import useMount from './useMount'
 
-import type { Fn } from '@types'
-
 /**
  * 页面聚焦后延迟执行一次, 用于把低优先级操作让给切页动画
  *  - 安卓延迟 400ms, 其余 520ms; 相同组件只执行一次
@@ -18,7 +16,7 @@ import type { Fn } from '@types'
  * @param _name 唯一标识 (web only, 客户端不使用)
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function useRunAfter(fn: Fn = FROZEN_FN, _name?: string): void {
+export default function useRunAfter(fn: () => void = FROZEN_FN, _name?: string): void {
   return useMount(() => {
     setTimeout(
       () => {

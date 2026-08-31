@@ -4,14 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-28 16:58:13
  */
-import type { Fn, ReactNode, ViewStyle } from '@types'
+import type { ReactNode, ScrollEvent, ViewStyle } from '@types'
 
 export type Props = {
   style?: ViewStyle
   contentContainerStyle?: ViewStyle
   scrollEnabled?: boolean
   inverted?: boolean
-  onFooterRefresh?: Fn
-  onScroll?: Fn
+  onFooterRefresh?: () => void
+  onScroll?: (e: ScrollEvent) => void
   children: ReactNode
 }

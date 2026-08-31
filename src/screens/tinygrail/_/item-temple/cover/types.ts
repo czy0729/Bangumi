@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-21 15:20:36
  */
-import type { Props } from '../type'
+import type { Props } from '../types'
 
 export type CoverProps = Pick<
   Props,

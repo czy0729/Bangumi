@@ -4,10 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-09 09:27:14
  */
-import type { Fn, WithNavigation } from '@types'
+import type { WithNavigation } from '@types'
 
 export type Props = WithNavigation<{
-  onToggle: Fn
-  onHeaderRefresh: Fn
-  onFooterRefresh: Fn
+  onToggle: () => void
+  onHeaderRefresh: () => void
+  onFooterRefresh: () => void
 }>

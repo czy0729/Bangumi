@@ -4,10 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-20 13:24:52
  */
-import type { Fn } from '@types'
+import type { MenuItem } from '@types'
 
 export type Props = {
-  setMenu: Fn
-  onCancel: Fn
-  onSave: Fn
+  setMenu: (menu: MenuItem['key'][]) => void
+  onCancel: () => void
+  onSave: () => void
 }

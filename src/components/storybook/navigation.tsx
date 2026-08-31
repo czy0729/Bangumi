@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-04-09 08:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 18:31:16
+ * @Last Modified time: 2026-09-01 03:57:36
  */
 import { getSPAId } from '@utils'
 import { SHARE_MODE, WEB } from '@constants'
 import { getCurrentStoryId, navigate, parseUrlParams } from './utils'
 import { BOTTOM_TAB_DS } from './ds'
 
-import type { AnyObject, Fn } from '@types'
+import type { StorybookNavigationType } from './types'
 
 const BOTTOM_TAB_IDS = BOTTOM_TAB_DS.map(item => ({
   id: item.id,
@@ -17,49 +17,57 @@ const BOTTOM_TAB_IDS = BOTTOM_TAB_DS.map(item => ({
 }))
 
 /** 保存 navigation.addListener */
-const navigationEventList = new Map<string, Fn>()
+const navigationEventList = new Map<string, () => void>()
 
 /** [WEB] 单页面仿 react-natigation 的路由对象 context */
-export const StorybookNavigation = {
+const _history: {
+  length: number
+  lastBottomTab: string
+} = {
+  length: 1,
+  lastBottomTab: WEB
+    ? BOTTOM_TAB_IDS.find(item => item.storyId === getCurrentStoryId())?.id || BOTTOM_TAB_DS[0].id
+    : 'Discovery'
+}
+
+function _updateHistory(value: 1 | -1) {
+  if (_history.length === 1 && value === -1) return
+  _history.length += value
+}
+
+function _updateBottomTabCurrent(routeName: string) {
+  if (BOTTOM_TAB_IDS.find(item => item.id === routeName)) {
+    _history.lastBottomTab = routeName
+  }
+}
+
+export const StorybookNavigation: StorybookNavigationType = {
   /** ==================== private ==================== */
-  _history: {
-    length: 1,
-    lastBottomTab: WEB
-      ? BOTTOM_TAB_IDS.find(item => item.storyId === getCurrentStoryId())?.id || BOTTOM_TAB_DS[0].id
-      : 'Discovery'
-  },
-  _updateHistory(value: 1 | -1) {
-    const { length } = this._history
-    if (length === 1 && value === -1) return
-    this._history.length += value
-  },
-  _updateBottomTabCurrent(routeName: string) {
-    if (BOTTOM_TAB_IDS.find(item => item.id === routeName)) {
-      this._history.lastBottomTab = routeName
-    }
-  },
+  _history,
+  _updateHistory,
+  _updateBottomTabCurrent,
 
   /** ==================== method ==================== */
   getState() {
     return {
-      index: this._history.length
+      index: _history.length
     }
   },
-  navigate(routeName: string, params?: AnyObject) {
-    this._updateBottomTabCurrent(routeName)
+  navigate(routeName?: string, params?: Record<string, unknown>) {
+    if (routeName) _updateBottomTabCurrent(routeName)
     navigate(routeName, params)
   },
-  push(routeName: string, params?: AnyObject) {
-    this._updateBottomTabCurrent(routeName)
+  push(routeName: string, params?: Record<string, unknown>) {
+    _updateBottomTabCurrent(routeName)
     navigate(routeName, params)
   },
-  replace(routeName: string, params?: AnyObject) {
-    this._updateBottomTabCurrent(routeName)
+  replace(routeName: string, params?: Record<string, unknown>) {
+    _updateBottomTabCurrent(routeName)
     navigate(routeName, params, true)
   },
   popToTop() {
-    this._history.length = 1
-    navigate(this._history.lastBottomTab, {}, true)
+    _history.length = 1
+    navigate(_history.lastBottomTab, {}, true)
   },
 
   /**
@@ -70,7 +78,7 @@ export const StorybookNavigation = {
     navigate()
   },
   /** 订阅事件 */
-  addListener(key: string, callback: Fn): Fn {
+  addListener(key: string, callback: () => void): () => void {
     navigationEventList.set(key, callback)
     return () => {
       navigationEventList.delete(key)
@@ -85,7 +93,9 @@ export const StorybookNavigation = {
     }
   },
   setOptions() {},
-  getRootState() {}
+  getRootState() {
+    return undefined
+  }
 }
 
 /** Demo 展示用默认参数 */

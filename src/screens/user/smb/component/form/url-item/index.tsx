@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-17 04:55:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 07:23:35
+ * @Last Modified time: 2026-09-01 04:15:18
  */
 import React from 'react'
 import { Alert } from 'react-native'
@@ -16,15 +16,15 @@ import { FROZEN_FN, WEB } from '@constants'
 import { CONTENT_DIRECTORY, CONTENT_SMB, TITLE } from './ds'
 import { memoStyles } from './styles'
 
-import type { AnyObject } from '@types'
 import type { Ctx } from '../../../types'
 
 function UrlItem({
   store,
   connectRef
-}: AnyObject<{
+}: {
   store: Ctx['$']
-}>) {
+  connectRef?: (ref: { inputRef: any }) => void
+}) {
   let { $ } = useStore<Ctx>()
   $ = $?.state ? $ : store
 

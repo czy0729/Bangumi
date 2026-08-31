@@ -16,7 +16,7 @@ import {
 } from '@constants'
 import Fetch from './fetch'
 
-import type { Fn, Id, SubjectId } from '@types'
+import type { Id, SubjectId } from '@types'
 
 export default class Action extends Fetch {
   /** 更新日志查看历史 */
@@ -175,8 +175,8 @@ export default class Action extends Fetch {
     args: {
       message: string
     },
-    success?: Fn,
-    fail?: Fn
+    success?: (responseText?: string, request?: XMLHttpRequest) => unknown,
+    fail?: () => void
   ) => {
     const { message } = args || {}
     xhr(

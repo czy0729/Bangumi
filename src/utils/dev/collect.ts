@@ -6,14 +6,13 @@
  */
 import { logger } from './logger'
 
-import type { AnyObject } from '@types'
 
 const _collectLogKeys: Record<string | number, boolean> = {}
-const _collectLogItems: AnyObject[] = []
+const _collectLogItems: Record<string, any>[] = []
 let _collectIndex = 0
 
 /** 收集项数据, 到达一定数目后打印 */
-export function ll(item: AnyObject, key: string | number, limit: number = 12) {
+export function ll(item: Record<string, any>, key: string | number, limit: number = 12) {
   if (_collectLogItems.length >= limit) return
 
   if (!key) {

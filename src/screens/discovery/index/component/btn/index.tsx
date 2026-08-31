@@ -16,7 +16,6 @@ import i18n from '@constants/i18n'
 import Btn from './btn'
 import { COMPONENT } from './ds'
 
-import type { Fn } from '@types'
 import type { Ctx } from '../../types'
 import type { Props } from './types'
 
@@ -29,7 +28,7 @@ function BtnWrap({ style, item }: Props) {
   const { dragging } = $.state
   const { key, login } = item
 
-  let handlePress: Fn
+  let handlePress: () => void
   if (!dragging) {
     handlePress = async () => {
       if (!DEV && login && !userId) {

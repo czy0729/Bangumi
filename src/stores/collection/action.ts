@@ -248,7 +248,7 @@ export default class Action extends Fetch {
     success?: () => any
   ) => {
     const { subjectId, watchedEps, watchedVols, noConsole = false } = args || {}
-    const query: Record<string, unknown> = {
+    const query: Record<string, string | number | boolean> = {
       referer: 'subject',
       submit: '更新',
       watchedeps: watchedEps

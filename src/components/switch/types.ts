@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-26 02:53:46
  */
-import type { ColorValue, Fn, WithViewStyles } from '@types'
+import type { ColorValue, WithViewStyles } from '@types'
 
 export type Props = WithViewStyles<{
   /** 开关是否选中 */
@@ -17,5 +17,5 @@ export type Props = WithViewStyles<{
   color?: ColorValue
 
   /** 切换回调 */
-  onChange?: Fn
+  onChange?: (value: boolean) => void
 }>

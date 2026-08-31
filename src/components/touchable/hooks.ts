@@ -9,9 +9,9 @@ import { uiStore } from '@stores'
 import { CLICK_LOCK_MS } from './ds'
 
 import type { GestureResponderEvent } from 'react-native'
-import type { Fn } from '@types'
+import type { TouchableHandlePress } from './types'
 
-export function useCallOnceInInterval(onPress: Fn) {
+export function useCallOnceInInterval(onPress: TouchableHandlePress) {
   const [disabled, setDisabled] = useState(false)
 
   const handlePress = useCallback(

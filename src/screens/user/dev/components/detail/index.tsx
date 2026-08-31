@@ -15,10 +15,10 @@ import Block from './block'
 import { formatString } from './utils'
 import { KEYS } from './ds'
 
-import type { AnyObject, UserId } from '@types'
+import type { UserId } from '@types'
 
 function Detail({ userId }: { userId?: UserId }) {
-  const [value, setValue] = useState<AnyObject>({})
+  const [value, setValue] = useState<Record<string, any>>({})
 
   useMount(() => {
     if (!userId) return

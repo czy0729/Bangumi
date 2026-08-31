@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-09 03:15:27
  */
-import type { ColorValue, Fn, WithNavigation, WithViewStyles } from '@types'
+import type { ColorValue, WithNavigation, WithViewStyles } from '@types'
 
 export type Props = WithNavigation<
   WithViewStyles<{
@@ -12,6 +12,6 @@ export type Props = WithNavigation<
     color?: ColorValue
 
     /** 点击回调 */
-    onPress?: Fn
+    onPress?: () => void
   }>
 >

@@ -10,10 +10,9 @@ import { t } from '@utils/fetch'
 import { HOST } from '@constants'
 
 import type { BlockedUsersItem } from '@stores/rakuen/types'
-import type { Fn } from '@types'
 
 /** 绝交用户 */
-export function handleBlockUser(keyword: string, success: Fn) {
+export function handleBlockUser(keyword: string, success: () => void) {
   if (!keyword.length) {
     info('不能为空')
     return

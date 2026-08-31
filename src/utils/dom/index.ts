@@ -12,7 +12,6 @@ import { isDevtoolsOpen } from './devtools'
 
 export { isDevtoolsOpen }
 
-import type { Fn } from '@types'
 
 const TAG = '@utils/dom'
 
@@ -94,7 +93,7 @@ export function scrollToTop(y: number = 0, animated: boolean = true) {
 }
 
 /** 双击钩子 */
-export function useDoubleTap(callback: Fn = FROZEN_FN, delay: number = 300) {
+export function useDoubleTap(callback: () => void = FROZEN_FN, delay: number = 300) {
   const tapRef = useRef(false)
   const timerRef = useRef(null)
 
@@ -122,7 +121,7 @@ export function useDoubleTap(callback: Fn = FROZEN_FN, delay: number = 300) {
 }
 
 /** 测试性能 */
-export function measurePerformance(func: Fn, count: number = 10) {
+export function measurePerformance(func: () => void, count: number = 10) {
   // 其实 react-native 环境也是有 window 和 performance 的
   if (typeof window === 'undefined') return
 

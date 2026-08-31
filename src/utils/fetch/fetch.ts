@@ -137,7 +137,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
     timeout: FETCH_TIMEOUT,
     headers: buildCookieHeaders(url, cookie, headers)
   }
-  const body: Body = { ...data }
+  const body = { ...data } as Body
   let requestUrl = url.replace('!', '')
 
   if (requestConfig.headers.Cookie) {

@@ -4,8 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-24 08:34:08
  */
-import type { Fn } from '@types'
-
 /** 不允许修改的空对象, 作为空占位, 配合 mobx 能减少重渲染 */
 export const FROZEN_OBJECT = Object.freeze({} as const)
 
@@ -13,4 +11,4 @@ export const FROZEN_OBJECT = Object.freeze({} as const)
 export const FROZEN_ARRAY: readonly [] = Object.freeze([])
 
 /** 不允许修改的空函数 */
-export const FROZEN_FN: Fn = () => {}
+export const FROZEN_FN: (...args: unknown[]) => unknown = () => {}

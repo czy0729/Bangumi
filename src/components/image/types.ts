@@ -2,10 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-05-03 21:15:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-24 02:53:28
+ * @Last Modified time: 2026-09-01 03:13:40
  */
-import type { ColorValue, ImageErrorEvent, ImageProps } from 'react-native'
-import type { EventType, Fn, ImageSource, ImageStyle, Override, ViewStyle } from '@types'
+import type {
+  ColorValue,
+  ImageErrorEvent,
+  ImageProps,
+  TouchableWithoutFeedbackProps
+} from 'react-native'
+import type { EventType, ImageSource, ImageStyle, Override, ViewStyle } from '@types'
+import type { TouchableHandlePress } from '../touchable/types'
 import type { SkeletonProps } from '../skeleton'
 
 export type Props = Override<
@@ -96,10 +102,10 @@ export type Props = Override<
     skeletonType?: SkeletonProps['type']
 
     /** 图片点击回调 */
-    onPress?: Fn
+    onPress?: TouchableHandlePress
 
     /** 图片长按回调 */
-    onLongPress?: Fn
+    onLongPress?: TouchableWithoutFeedbackProps['onLongPress']
 
     /** 图片加载失败回调 */
     onError?: (evt?: ImageErrorEvent) => void

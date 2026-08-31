@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-17 04:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-15 22:38:31
+ * @Last Modified time: 2026-09-01 04:15:11
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -13,7 +13,6 @@ import { alert } from '@utils'
 import { syncS2T } from '@utils/async'
 import { memoStyles } from './styles'
 
-import type { AnyObject } from '@types'
 import type { Ctx } from '../../../types'
 
 function InputItem({
@@ -24,9 +23,15 @@ function InputItem({
   name,
   connectRef,
   onSubmitEditing
-}: AnyObject<{
+}: {
   store: Ctx['$']
-}>) {
+  label: string
+  information?: string
+  placeholder?: string
+  name: string
+  connectRef?: (ref: { inputRef: any }) => void
+  onSubmitEditing?: () => void
+}) {
   let { $ } = useStore<Ctx>()
   $ = $?.state ? $ : store
 

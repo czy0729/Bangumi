@@ -9,8 +9,6 @@ import { BackHandler, Platform } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { confirm } from '@utils'
 
-import type { Fn } from '@types'
-
 /**
  * 防止误触退出页面的自定义 Hook
  *
@@ -24,7 +22,7 @@ const usePreventBack = ({
   message = '确定要返回吗，当前操作可能不会保存？'
 }: {
   enabled?: boolean
-  onBack?: Fn
+  onBack?: () => void
   message?: string
 } = {}) => {
   const navigation = useNavigation()

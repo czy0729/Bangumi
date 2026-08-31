@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-19 17:34:53
  */
-import type { Fn, SubjectId, SubjectTypeCn, WithViewStyles } from '@types'
+import type { SubjectId, SubjectTypeCn, WithViewStyles } from '@types'
 
 export type Props = WithViewStyles<{
   subjectId?: SubjectId
@@ -22,5 +22,5 @@ export type Props = WithViewStyles<{
   showRedirect?: boolean
 
   /** 点击 */
-  onPress: Fn
+  onPress: () => void
 }>

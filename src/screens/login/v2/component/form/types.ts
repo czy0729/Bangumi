@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-03 03:41:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-22 19:10:18
+ * @Last Modified time: 2026-09-01 04:10:44
  */
-import type { Fn, Navigation } from '@types'
+import type { Navigation } from '@types'
 
 export type Props = {
   navigation: Navigation
@@ -19,13 +19,13 @@ export type Props = {
   loading: boolean
   failed: boolean
   networkFailed: boolean
-  forwardRef: Fn
-  onGetCaptcha: Fn
-  onFocus: Fn
-  onBlur: Fn
-  onChange: Fn
-  onLogin: Fn
-  onSelect: Fn
-  onUAChange: Fn
-  onSyncSettingChange: Fn
+  forwardRef: (ref: unknown) => void
+  onGetCaptcha: () => void
+  onFocus: () => void
+  onBlur: () => void
+  onChange: (evt: { nativeEvent: { text: string } }, type: string) => void
+  onLogin: () => void
+  onSelect: (title?: string) => void
+  onUAChange: () => void
+  onSyncSettingChange: () => void
 }

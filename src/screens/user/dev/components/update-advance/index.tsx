@@ -17,9 +17,7 @@ import { get, update } from '@utils/kv'
 import { PAYTYPE_DS } from './ds'
 import { memoStyles } from './styles'
 
-import type { Fn } from '@types'
-
-function UpdateAdvance({ onScrollTo }: { onScrollTo?: Fn }) {
+function UpdateAdvance({ onScrollTo }: { onScrollTo?: (deltaY: number) => void }) {
   const navigation = useNavigation()
 
   const [show, setShow] = useState(true)

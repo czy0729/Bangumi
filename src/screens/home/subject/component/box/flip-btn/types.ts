@@ -4,10 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-20 04:42:14
  */
-import type { Fn } from '@types'
-
 export type Props = {
-  onPress: Fn
+  onPress: () => void
 }
 
 export type FlipBtnProps = {
@@ -16,8 +14,8 @@ export type FlipBtnProps = {
   rating: number
   privacy: 0 | 1
   last: string
-  onAnimated: Fn
-  onPress: Fn
+  onAnimated: () => void
+  onPress: () => void
 }
 
 export type BtnsProps = Pick<FlipBtnProps, 'btnText' | 'rating' | 'privacy' | 'last' | 'onPress'>

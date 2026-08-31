@@ -6,7 +6,7 @@
  */
 import { t } from '@utils/fetch'
 
-import type { AnyObject, EventKeys, MonoId, Navigation, Paths } from '@types'
+import type { EventKeys, MonoId, Navigation, Paths } from '@types'
 
 /** 路由跳转复写 */
 export function getOnPress(
@@ -14,12 +14,12 @@ export function getOnPress(
   go: string,
   navigation: Navigation,
   eventId?: EventKeys,
-  eventData?: AnyObject,
-  props?: AnyObject
+  eventData?: Record<string, any>,
+  props?: Record<string, any>
 ) {
   return () => {
     let to: Paths
-    let params: AnyObject
+    let params: Record<string, any>
     switch (go) {
       case 'K线':
         to = 'TinygrailTrade'

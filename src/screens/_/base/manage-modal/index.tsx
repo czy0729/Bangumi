@@ -37,7 +37,6 @@ import { memoStyles } from './styles'
 import type { InputInstance } from '@components'
 import type {
   CollectionStatus,
-  Fn,
   Private,
   PrivateCn,
   RatingStatus,
@@ -318,7 +317,7 @@ export const ManageModal = observer(
     }
 
     /** 看、读过时自动完成所有进度、话数、卷数 */
-    doAutoCompleteEps = async (subjectId: SubjectId, onAutoCompleteEps: Fn) => {
+    doAutoCompleteEps = async (subjectId: SubjectId, onAutoCompleteEps: () => void) => {
       const result = await collectionStore.fetchCollection(subjectId)
       if (result?.status?.type !== 'collect') return
 

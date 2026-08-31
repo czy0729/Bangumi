@@ -10,26 +10,24 @@ import { useFocusEffect } from '@react-navigation/native'
 import { logger } from '@utils/dev'
 import useMount from './useMount'
 
-import type { Fn } from '@types'
-
 type Callbacks = {
   /** 进入页面 */
-  onEnter?: Fn
+  onEnter?: () => void
 
   /** 聚焦页面 (再进入下一个页面回退到本页面, 亦会触发) */
-  onFocus?: Fn
+  onFocus?: () => void
 
   /** 进入页面 (切页动画完成) */
-  onEnterComplete?: Fn
+  onEnterComplete?: () => void
 
   /** 页面失去焦点 (进入下一个页面, 前一个页面亦会触发) */
-  onBlur?: Fn
+  onBlur?: () => void
 
   /** 退出页面 */
-  onLeave?: Fn
+  onLeave?: () => void
 
   /** 退出页面 (切页动画完成) */
-  onLeaveComplete?: Fn
+  onLeaveComplete?: () => void
 }
 
 /** 客户端页面统一生命周期钩子 */

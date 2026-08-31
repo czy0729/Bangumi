@@ -19,7 +19,7 @@ import { open } from '../utils'
 import { fixedBgmUrl, matchBgmLink } from './data-source'
 import { PRIVACY_STATE, RANDOM_FACTOR } from './ds'
 
-import type { AnyObject, EventType, Navigation, SubjectId } from '@types'
+import type { EventType, Navigation, SubjectId } from '@types'
 
 /** 初始化全局方法和控制台重写 */
 export function bootApp() {
@@ -139,7 +139,7 @@ export function navigationReference(navigation?: Navigation | undefined) {
 }
 
 /** keyExtractor */
-export function keyExtractor(item: AnyObject = { id: '' }) {
+export function keyExtractor(item: any = { id: '' }) {
   return String(item.id)
 }
 
@@ -174,7 +174,7 @@ export function getOnAirItem(subjectId: SubjectId): {
 export function appNavigate(
   url: string = '',
   navigation?: Navigation,
-  passParams: AnyObject = {},
+  passParams: Record<string, any> = {},
   event: EventType = EVENT,
   openWebBrowser: boolean = true
 ): boolean {

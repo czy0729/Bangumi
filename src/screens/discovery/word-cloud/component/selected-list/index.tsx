@@ -20,7 +20,7 @@ import {
   NUM_COLUMNS
 } from './ds'
 
-import type { Fn, ReactNode } from '@types'
+import type { ReactNode } from '@types'
 import type { Ctx } from '../../types'
 
 function SelectedList() {
@@ -28,7 +28,7 @@ function SelectedList() {
 
   const isCollection = !!$.userId
   let titleLeft: ReactNode
-  let handleTitle: Fn
+  let handleTitle: () => void
   if (isCollection) {
     if ($.state.cutType === '标签') {
       handleTitle = () => {

@@ -45,7 +45,7 @@
   - `ViewStyle` / `TextStyle` = `@types` 中的宽口径别名（`StyleProp<RNViewStyle>` 等），RN 原生窄型仅在 reanimated 的 `AnimatedStyle<T>` 等需要具体对象型的场景使用（可别名引入，如 `ViewStyle as RNViewStyle`）
   - 组件 `style?: ViewStyle` 用 `WithViewStyles<>` 组合；带导航参数的组件用 `WithNavigation<>`
   - children 一律用 React 的 `PropsWithChildren<>`
-- **重构时禁止使用遗留类型 `Fn` 和 `AnyObject`**（`@types` 中的历史遗留）：新代码与重构一律改用明确的具名类型（如回调签名 `(res?: unknown) => void`、具体字段结构），仅在无法确定结构的旧代码原样保留
+- **遗留类型 `Fn` 与 `AnyObject` 已从 `@types` 移除**（2026-09 清理）：禁止再使用，回调一律写具体签名（如 `() => void`、`(res?: unknown) => void`、复用 `TouchableHandlePress`），动态数据袋用 `Record<string, any>` 等内联结构
 
 # 代码风格（全局）
 

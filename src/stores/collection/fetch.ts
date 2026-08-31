@@ -29,7 +29,6 @@ import type {
   CollectionStatus,
   CollectionStatusCn,
   CollectionsOrder,
-  Fn,
   ResponseApi,
   SubjectId,
   SubjectType,
@@ -410,7 +409,7 @@ export default class Fetch extends Computed {
       const lastFetchMS: CollectionStatusLastFetchMS = {}
       const results: UserCollectionItem[] = []
 
-      const fetchs: Fn[] = []
+      const fetchs: (() => unknown)[] = []
       const logSubjectIds: SubjectId[] = []
       let logged = false
 

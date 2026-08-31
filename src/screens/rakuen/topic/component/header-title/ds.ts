@@ -8,7 +8,6 @@ import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
-import type { Fn } from '@types'
 import type { Ctx } from '../../types'
 
 export const COMPONENT = rc(PARENT, 'HeaderTitle')
@@ -25,5 +24,5 @@ export const DEFAULT_PROPS = {
   userName: '' as $['userName'],
   title: '' as $['title'],
   group: '' as $['group'],
-  onScrollToTop: FROZEN_FN as Fn
+  onScrollToTop: FROZEN_FN as () => void
 }

@@ -13,10 +13,9 @@ import { FROZEN_FN, MODEL_RAKUEN_SCROLL_DIRECTION, WEB } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { Fn } from '@types'
 import type { Ctx } from '../../types'
 
-function TouchScroll({ onPress = FROZEN_FN }: { onPress?: Fn }) {
+function TouchScroll({ onPress = FROZEN_FN }: { onPress?: (floor: number) => void }) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   if (WEB) return null

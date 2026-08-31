@@ -4,8 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 23:15:43
  */
-import type { Fn } from '@types'
-
 /** 小圣杯道具/角色项 */
 export type PickItem = Partial<{
   /** 卖单数量 */
@@ -105,8 +103,8 @@ export type Props = {
   rightItem?: PickItem
 
   /** 关闭回调 */
-  onClose?: Fn
+  onClose?: () => void
 
   /** 提交回调 */
-  onSubmit?: Fn
+  onSubmit?: (params: any) => unknown
 }

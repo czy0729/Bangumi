@@ -10,7 +10,7 @@ import { IOS, WEB } from '@constants'
 import { radiusMd } from '@styles'
 import State from './state'
 
-import type { AnyObject, StoreConstructor, UserId } from '@types'
+import type { StoreConstructor, UserId } from '@types'
 import type { STATE } from './init'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
@@ -72,7 +72,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   /** 云端配置数据 */
-  @computed get ota(): AnyObject {
+  @computed get ota(): Record<string, string> {
     return this.state.ota
   }
 

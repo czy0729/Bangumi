@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-03-20 04:36:52
  */
 import type { PropsWithChildren } from 'react'
-import type { ColorValue, Fn, IconfontNames, WithViewStyles } from '@types'
+import type { ColorValue, IconfontNames, WithViewStyles } from '@types'
 
 export type Props = PropsWithChildren<
   WithViewStyles<{
@@ -14,6 +14,6 @@ export type Props = PropsWithChildren<
     size?: number
     color?: ColorValue
     position?: 'left' | 'right'
-    onPress?: Fn
+    onPress?: () => void
   }>
 >

@@ -4,9 +4,7 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2026-03-15 06:30:45
  */
-import type { AnyObject } from '@types'
-
-export function formatString(data: AnyObject = {}) {
+export function formatString(data: Record<string, any> = {}) {
   const { e } = data
   if (!e) return data
 
@@ -15,8 +13,8 @@ export function formatString(data: AnyObject = {}) {
   //     "A.B": 1
   //   }
   // }
-  const event: AnyObject = {}
-  const tinygrail: AnyObject = {}
+  const event: Record<string, any> = {}
+  const tinygrail: Record<string, any> = {}
   Object.entries(e).forEach(([key, value]) => {
     const [path, action] = key.split('.')
     if (/^T[A-Z]/.test(path)) {

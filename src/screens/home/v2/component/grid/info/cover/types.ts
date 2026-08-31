@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-07 21:19:35
  */
-import type { Fn, Subject, SubjectId } from '@types'
+import type { Subject, SubjectId } from '@types'
 
 export type Props = {
   /** 条目 Id */
@@ -14,5 +14,5 @@ export type Props = {
   subject: Partial<Subject>
 
   /** 点击回调 */
-  onPress?: Fn
+  onPress?: () => void
 }

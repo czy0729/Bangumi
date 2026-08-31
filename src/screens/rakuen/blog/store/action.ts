@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-21 05:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-07 05:16:10
+ * @Last Modified time: 2026-09-01 04:11:21
  */
 import { toJS } from 'mobx'
 import { rakuenStore, systemStore } from '@stores'
@@ -15,7 +15,7 @@ import { HOST, IOS } from '@constants'
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
 
-import type { CompletionItem, Fn, Id, TopicId } from '@types'
+import type { CompletionItem, Id, TopicId } from '@types'
 
 export default class Action extends Fetch {
   /** 本地化 */
@@ -77,7 +77,7 @@ export default class Action extends Fetch {
   }
 
   /** 显示编辑评论框 */
-  showFixedTextareaEdit = async (postId: Id, showFixedTextareCallback: Fn) => {
+  showFixedTextareaEdit = async (postId: Id, showFixedTextareCallback: () => void) => {
     const value = await rakuenStore.fetchTopicEdit(postId, 'blog')
     if (value === true) {
       info('此楼层不再允许修改，可能已被回复过')

@@ -6,7 +6,7 @@
  */
 import type { PropsWithChildren } from 'react'
 import type { Insets } from 'react-native'
-import type { ColorValue, Fn, IconfontNames, WithViewStyles } from '@types'
+import type { ColorValue, IconfontNames, WithViewStyles } from '@types'
 
 export type Props = PropsWithChildren<
   WithViewStyles<{
@@ -17,7 +17,7 @@ export type Props = PropsWithChildren<
     count?: number | string
     withoutFeedback?: boolean
     hitSlop?: Insets
-    onPress?: Fn
-    onLongPress?: Fn
+    onPress?: () => void
+    onLongPress?: () => void
   }>
 >

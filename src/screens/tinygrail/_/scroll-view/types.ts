@@ -6,12 +6,12 @@
  */
 import type { PropsWithChildren } from 'react'
 import type { ScrollViewProps } from '@components'
-import type { Fn, ViewStyle, WithViewStyles } from '@types'
+import type { ViewStyle, WithViewStyles } from '@types'
 
 export type Props = PropsWithChildren<
   WithViewStyles<{
     forwardRef?: ScrollViewProps['forwardRef']
     contentContainerStyle?: ViewStyle
-    onRefresh?: Fn
+    onRefresh?: () => void
   }>
 >

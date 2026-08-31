@@ -17,7 +17,6 @@ import type {
 } from '@constants/model/types'
 import type * as Screens from '@screens'
 import type { Id, MonoId, PersonId, SubjectId, TopicId, UserId } from './bangumi'
-import type { Fn } from './utils'
 
 /** 所有页面路径名 */
 export type Paths = keyof typeof Screens
@@ -252,7 +251,7 @@ export type RouteSay = Route<
     userId?: UserId
 
     /** 新吐槽发布后回调 (client only) */
-    onNavigationCallback?: Fn
+    onNavigationCallback?: (isSuccess: boolean) => void
   }
 >
 

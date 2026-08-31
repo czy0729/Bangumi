@@ -9,8 +9,6 @@ import { getTimestamp } from '../date'
 import hash from '../thirdParty/hash'
 import useMount from './useMount'
 
-import type { Fn } from '@types'
-
 /** 缓存搜索过的结果 */
 const memo = new Map<string, number>()
 
@@ -22,7 +20,7 @@ const memo = new Map<string, number>()
  * @param fn 聚焦后执行的函数
  * @param name 唯一标识, 参与 30min 节流的缓存键
  */
-export default function useRunAfter(fn: Fn = FROZEN_FN, name: string = ''): void {
+export default function useRunAfter(fn: () => void = FROZEN_FN, name: string = ''): void {
   return useMount(() => {
     const key = hash(`${window.location.pathname}${window?.location?.search}|${name}`)
     if (!memo.has(key) || getTimestamp() - memo.get(key) >= 60 * 30) {

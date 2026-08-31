@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-03-18 04:51:08
  */
 import type React from 'react'
-import type { ColorValue, Fn, ViewStyle, WithViewStyles } from '@types'
+import type { ColorValue, ViewStyle, WithViewStyles } from '@types'
 import type { PropsWithChildren } from 'react'
 
 export type Props = PropsWithChildren<
@@ -29,10 +29,10 @@ export type Props = PropsWithChildren<
     checkLayout?: boolean
 
     /** 展开回调 */
-    onExpand?: Fn
+    onExpand?: () => void
 
     /** 点击回调替代展开 */
-    onPress?: Fn
+    onPress?: () => void
 
     /** 收起状态时渲染的内容, 未传则始终渲染 children */
     collapsedChildren?: React.ReactNode

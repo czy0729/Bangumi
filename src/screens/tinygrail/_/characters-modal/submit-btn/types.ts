@@ -7,5 +7,5 @@
 export type Props = {
   canSubmit?: boolean
   loading?: boolean
-  onSubmit?: () => void
+  onSubmit?: (...args: unknown[]) => unknown
 }

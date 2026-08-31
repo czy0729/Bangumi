@@ -15,7 +15,7 @@ import Computed from './computed'
 import { STYLES_DARK, STYLES_LIGHT } from './init'
 import { getMemoStyles } from './utils'
 
-import type { AnyObject, SelectFn, SettingFontsizeAdjust, SettingLetterSpacing } from '@types'
+import type { SelectFn, SettingFontsizeAdjust, SettingLetterSpacing } from '@types'
 import type { Mode, Orientation, Styles, TinygrailMode } from './types'
 
 export default class Action extends Computed {
@@ -150,7 +150,7 @@ export default class Action extends Computed {
 
   /** 主动更新 window layout */
   updateLayout() {
-    const state: AnyObject = {
+    const state: Record<string, any> = {
       ..._.getAppLayout()
     }
     if (WSA) state.wsaLayoutChanged = this.wsaLayoutChanged + 1

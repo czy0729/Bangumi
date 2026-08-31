@@ -6,8 +6,6 @@
  */
 import { urlStringify } from '../utils'
 
-import type { AnyObject } from '@types'
-
 /**
  * 获取 APP 网页版页面对应 StoryId
  *  - CatalogDetail -> catalogdetail--catalog-detail
@@ -21,7 +19,7 @@ export function getSPAId(routeName: string) {
 }
 
 /** 获取 APP 网页版参数 */
-export function getSPAParams(routeName: string, params?: AnyObject) {
+export function getSPAParams(routeName: string, params?: Record<string, any>) {
   return `iframe.html?${urlStringify({
     id: getSPAId(routeName),
     viewMode: 'story',

@@ -8,10 +8,8 @@ import { useEffect } from 'react'
 import { Keyboard } from 'react-native'
 import { IOS } from '@constants/constants'
 
-import type { Fn } from '@types'
-
 /** 安卓展开键盘需要自行监听 */
-function useKeyboardShow(onFocus: Fn) {
+function useKeyboardShow(onFocus: () => void) {
   useEffect(() => {
     if (IOS) return
 

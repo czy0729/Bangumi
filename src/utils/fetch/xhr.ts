@@ -14,14 +14,13 @@ import { loading } from '../ui'
 import { urlStringify } from '../utils'
 import { checkDenied, err, log } from './utils'
 
-import type { Fn } from '@types'
 import type { XHRArgs, XHRCustomArgs } from './types'
 
 /** 带登录信息的 XMLHttpRequest */
 export function xhr(
   args: XHRArgs,
   success: (responseText?: string, request?: XMLHttpRequest) => any = FROZEN_FN,
-  fail: Fn = FROZEN_FN
+  fail: (request: XMLHttpRequest) => void = FROZEN_FN
 ) {
   const { method = 'POST', url, data = {}, noConsole } = args || {}
   checkDenied(url, false)

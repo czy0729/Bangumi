@@ -55,7 +55,7 @@ import { INIT_ASSETS, INIT_AUCTION_STATUS, INIT_USER_LOGS } from './init'
 import { calculateRate, mapItems, throttleInfo, toCharacter } from './utils'
 import { defaultKey, defaultSort, paginationOnePage } from './ds'
 
-import type { AnyObject, Id, MonoId, UserId } from '@types'
+import type { Id, MonoId, UserId } from '@types'
 import type { CHARA_ITEM, REFINE_TEMPLE_ITEM } from './mock'
 import type { ListKey } from './types'
 
@@ -118,7 +118,7 @@ export default class Fetch extends Computed {
     isPost?: boolean,
     data?: any,
     showError?: boolean,
-    headers: AnyObject = {}
+    headers: Record<string, string> = {}
   ): any => {
     const config: any = {
       method: isPost ? 'POST' : 'GET',

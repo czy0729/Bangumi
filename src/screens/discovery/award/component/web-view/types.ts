@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-30 00:31:29
  */
-import type { Fn } from '@types'
+import type { WebViewMessageEvent } from 'react-native-webview'
 
 export type Props = {
   year: string
@@ -12,7 +12,7 @@ export type Props = {
     html: string
     baseUrl: string
   }
-  onLoad: Fn
-  onError: Fn
-  onMessage: Fn
+  onLoad: () => void
+  onError: () => void
+  onMessage: (event: WebViewMessageEvent) => void
 }

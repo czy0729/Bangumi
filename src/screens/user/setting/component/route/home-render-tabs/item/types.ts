@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-07-24 18:26:46
  */
 import type { HomeRenderTabs } from '@stores/system/types'
-import type { Fn, IconfontNames } from '@types'
+import type { IconfontNames } from '@types'
 
 export type Props = {
   filter: string
@@ -13,5 +13,5 @@ export type Props = {
   name: IconfontNames
   size: number
   show: boolean
-  handleSet: Fn
+  handleSet: (value: HomeRenderTabs) => void
 }

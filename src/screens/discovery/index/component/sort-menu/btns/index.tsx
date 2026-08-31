@@ -17,6 +17,7 @@ import { WEB } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { MenuItem } from '@types'
 import type { Props } from './types'
 
 const Btns = ({ setMenu, onCancel, onSave }: Props) => {
@@ -50,7 +51,7 @@ const Btns = ({ setMenu, onCancel, onSave }: Props) => {
           name='md-refresh'
           color={_.colorDesc}
           onPress={() => {
-            setMenu(INIT_DISCOVERY_MENU)
+            setMenu(INIT_DISCOVERY_MENU as MenuItem['key'][])
           }}
         />
         {!WEB && (

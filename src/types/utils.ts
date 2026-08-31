@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 04:49:36
+ * @Last Modified time: 2026-09-01 04:17:50
  */
 import type React from 'react'
 import type {
@@ -130,7 +130,7 @@ export type AnyObject<T extends object = any> = Record<string, any> & T
 export type InferArray<T> = T extends (infer S)[] ? S : never
 
 /** 取函数第一个参数 */
-export type FnParams<T extends Fn> = Parameters<T>[0]
+export type FnParams<T extends (...args: unknown[]) => unknown> = Parameters<T>[0]
 
 /** ScrollView 滑动事件对象类型 */
 export type ScrollEvent = NativeSyntheticEvent<NativeScrollEvent>

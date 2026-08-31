@@ -19,7 +19,7 @@ import { calculatePricePerShare, getOnPress, insertNewlineBeforeSecondBracket } 
 import { COMPONENT, ITEMS } from './ds'
 import { memoStyles } from './styles'
 
-import type { Fn, MonoId } from '@types'
+import type { MonoId } from '@types'
 import type { Ctx } from '../../types'
 import type { Props } from './types'
 
@@ -36,7 +36,7 @@ function Item({ balance, desc = '', change, time, charaId }: Props) {
 
   let id = charaId
   let icons: string
-  let handlePress: Fn
+  let handlePress: () => void
 
   if (ITEMS.some(item => desc.includes(item))) {
     // 这些类型有 charaId

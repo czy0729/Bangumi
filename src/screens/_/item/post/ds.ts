@@ -9,7 +9,7 @@ import { rc } from '@utils/dev'
 import { EVENT, FROZEN_FN } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
-import type { BlogId, RakuenNewFloorStyleCn, TopicId } from '@types'
+import type { BlogId, Id, RakuenNewFloorStyleCn, TopicId } from '@types'
 import type { LikesUsers } from '../../base/likes/types'
 import type { Props } from './types'
 
@@ -66,5 +66,5 @@ export const DEFAULT_PROPS = {
   onJumpTo: FROZEN_FN,
   onLikesLongPress: FROZEN_FN as (list: LikesUsers, emoji: number) => void,
   onShowFixedTextare: FROZEN_FN,
-  onToggleExpand: FROZEN_FN
+  onToggleExpand: FROZEN_FN as (id: Id) => void
 } as const
