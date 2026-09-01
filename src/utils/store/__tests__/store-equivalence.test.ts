@@ -1,8 +1,11 @@
 /*
- * Store Legacy / 主实现 差分等价测试
- * 同一输入序列分别驱动两版实现, 断言状态内容、返回值、副作用序列一致
  * @Author: czy0729
  * @Date: 2026-08-23 13:40:00
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-02 02:42:11
+ *
+ * Store Legacy / 主实现 差分等价测试
+ * 同一输入序列分别驱动两版实现, 断言状态内容、返回值、副作用序列一致
  */
 import { autorun, isObservable, observable, toJS } from 'mobx'
 import StoreModern from '../index'
@@ -160,6 +163,201 @@ describe('plainClone', () => {
     expect(storeUtils.plainClone(date)).toBe(date)
     expect(storeUtils.plainClone(1)).toBe(1)
     expect(storeUtils.plainClone(null)).toBe(null)
+  })
+})
+
+describe('deepEqual', () => {
+  it('同一引用返回 true', () => {
+    const obj = { a: 1 }
+    expect(storeUtils.deepEqual(obj, obj)).toBe(true)
+  })
+
+  it('相同原始值返回 true', () => {
+    expect(storeUtils.deepEqual(1, 1)).toBe(true)
+    expect(storeUtils.deepEqual('foo', 'foo')).toBe(true)
+    expect(storeUtils.deepEqual(true, true)).toBe(true)
+  })
+
+  it('不同原始值返回 false', () => {
+    expect(storeUtils.deepEqual(1, 2)).toBe(false)
+    expect(storeUtils.deepEqual('foo', 'bar')).toBe(false)
+    expect(storeUtils.deepEqual(true, false)).toBe(false)
+  })
+
+  it('NaN 与 NaN 相等 (SameValueZero)', () => {
+    expect(storeUtils.deepEqual(NaN, NaN)).toBe(true)
+  })
+
+  it('-0 与 +0 相等 (SameValueZero)', () => {
+    expect(storeUtils.deepEqual(-0, +0)).toBe(true)
+  })
+
+  it('null 与 null 相等', () => {
+    expect(storeUtils.deepEqual(null, null)).toBe(true)
+  })
+
+  it('undefined 与 undefined 相等', () => {
+    expect(storeUtils.deepEqual(undefined, undefined)).toBe(true)
+  })
+
+  it('null 与 undefined 不等', () => {
+    expect(storeUtils.deepEqual(null, undefined)).toBe(false)
+  })
+
+  it('原始值与对象不等', () => {
+    expect(storeUtils.deepEqual(1, { 0: 1 })).toBe(false)
+    expect(storeUtils.deepEqual('a', ['a'])).toBe(false)
+  })
+
+  it('类型不同返回 false (array vs object)', () => {
+    expect(storeUtils.deepEqual([1], { 0: 1 })).toBe(false)
+  })
+
+  it('空对象相等', () => {
+    expect(storeUtils.deepEqual({}, {})).toBe(true)
+  })
+
+  it('空数组相等', () => {
+    expect(storeUtils.deepEqual([], [])).toBe(true)
+  })
+
+  it('相同 key-value 的对象相等', () => {
+    expect(storeUtils.deepEqual({ a: 1, b: 'x' }, { a: 1, b: 'x' })).toBe(true)
+  })
+
+  it('值不同的对象不等', () => {
+    expect(storeUtils.deepEqual({ a: 1 }, { a: 2 })).toBe(false)
+  })
+
+  it('key 数量不同的对象不等', () => {
+    expect(storeUtils.deepEqual({ a: 1 }, { a: 1, b: 2 })).toBe(false)
+  })
+
+  it('key 名不同的对象不等', () => {
+    expect(storeUtils.deepEqual({ a: 1 }, { b: 1 })).toBe(false)
+  })
+
+  it('嵌套对象相等', () => {
+    const a = { x: { y: { z: [1, 2, 3] } } }
+    const b = { x: { y: { z: [1, 2, 3] } } }
+    expect(storeUtils.deepEqual(a, b)).toBe(true)
+  })
+
+  it('嵌套对象不等', () => {
+    const a = { x: { y: 1 } }
+    const b = { x: { y: 2 } }
+    expect(storeUtils.deepEqual(a, b)).toBe(false)
+  })
+
+  it('相同元素的数组相等', () => {
+    expect(storeUtils.deepEqual([1, 2, 3], [1, 2, 3])).toBe(true)
+  })
+
+  it('长度不同的数组不等', () => {
+    expect(storeUtils.deepEqual([1, 2], [1, 2, 3])).toBe(false)
+  })
+
+  it('元素不同的数组不等', () => {
+    expect(storeUtils.deepEqual([1, 2, 3], [1, 2, 4])).toBe(false)
+  })
+
+  it('数组嵌套对象相等', () => {
+    expect(storeUtils.deepEqual([{ a: 1 }, { b: 2 }], [{ a: 1 }, { b: 2 }])).toBe(true)
+  })
+
+  it('数组嵌套对象不等', () => {
+    expect(storeUtils.deepEqual([{ a: 1 }], [{ a: 2 }])).toBe(false)
+  })
+
+  it('混合结构相等', () => {
+    const a = {
+      list: [
+        { id: 1, tags: ['a', 'b'] },
+        { id: 2, tags: [] }
+      ],
+      total: 2
+    }
+    const b = {
+      list: [
+        { id: 1, tags: ['a', 'b'] },
+        { id: 2, tags: [] }
+      ],
+      total: 2
+    }
+    expect(storeUtils.deepEqual(a, b)).toBe(true)
+  })
+
+  it('Date 按值比较', () => {
+    const date = new Date(0)
+    expect(storeUtils.deepEqual(date, date)).toBe(true)
+    expect(storeUtils.deepEqual(new Date(0), new Date(0))).toBe(true)
+    expect(storeUtils.deepEqual(new Date(0), new Date(1))).toBe(false)
+    expect(storeUtils.deepEqual(new Date(0), 0)).toBe(false)
+  })
+
+  it('RegExp 按值比较', () => {
+    expect(storeUtils.deepEqual(/a/gi, /a/gi)).toBe(true)
+    expect(storeUtils.deepEqual(/a/gi, /a/g)).toBe(false)
+  })
+
+  it('自引用环形对象相等', () => {
+    const a: Record<string, unknown> = { name: 'x' }
+    a.self = a
+    const b: Record<string, unknown> = { name: 'x' }
+    b.self = b
+    expect(storeUtils.deepEqual(a, b)).toBe(true)
+  })
+
+  it('互指环形对象相等', () => {
+    const a: Record<string, unknown> = { name: 'x' }
+    a.child = { parent: a, list: [a] }
+    const b: Record<string, unknown> = { name: 'x' }
+    b.child = { parent: b, list: [b] }
+    expect(storeUtils.deepEqual(a, b)).toBe(true)
+  })
+
+  it('环形结构不同的对象不等', () => {
+    const a: Record<string, unknown> = { name: 'x' }
+    a.self = a
+    const b: Record<string, unknown> = { name: 'x' }
+    b.self = { other: b }
+    expect(storeUtils.deepEqual(a, b)).toBe(false)
+  })
+
+  it('mobx observable array 与等价 plain array 相等', () => {
+    const obsArr = observable([1, { a: 2 }, [3]])
+    expect(storeUtils.deepEqual(obsArr, [1, { a: 2 }, [3]])).toBe(true)
+    expect(storeUtils.deepEqual(obsArr, [1, { a: 2 }, [4]])).toBe(false)
+    expect(storeUtils.deepEqual(obsArr, observable([1, { a: 2 }, [3]]))).toBe(true)
+    expect(storeUtils.deepEqual(obsArr, { 0: 1 })).toBe(false)
+  })
+
+  it('mobx observable object 与等价 plain object 相等', () => {
+    const obsObj = observable({ a: 1, list: [1, 2] })
+    expect(storeUtils.deepEqual(obsObj, { a: 1, list: [1, 2] })).toBe(true)
+    expect(storeUtils.deepEqual(obsObj, { a: 1, list: [1, 3] })).toBe(false)
+    expect(storeUtils.deepEqual(obsObj, observable({ a: 1, list: [1, 2] }))).toBe(true)
+    expect(storeUtils.deepEqual(observable({}), {})).toBe(true)
+  })
+
+  it('lodash.isequal 行为对齐: 典型 store state', () => {
+    const state = {
+      list: [{ id: 1, title: 'a', data: { count: 10 } }],
+      _loaded: 12345,
+      extra: undefined
+    }
+    const same = {
+      list: [{ id: 1, title: 'a', data: { count: 10 } }],
+      _loaded: 12345,
+      extra: undefined
+    }
+    const diff = {
+      list: [{ id: 1, title: 'b', data: { count: 10 } }],
+      _loaded: 12345,
+      extra: undefined
+    }
+    expect(storeUtils.deepEqual(state, same)).toBe(true)
+    expect(storeUtils.deepEqual(state, diff)).toBe(false)
   })
 })
 

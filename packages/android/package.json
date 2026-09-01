@@ -56,7 +56,6 @@
     "expo-splash-screen": "0.20.4",
     "expo-status-bar": "1.6.0",
     "expo-web-browser": "12.3.2",
-    "lodash.isequal": "4.5.0",
     "mobx": "6.12.3",
     "mobx-react": "9.1.1",
     "mobx-utils": "6.1.1",

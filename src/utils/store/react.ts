@@ -1,9 +1,10 @@
 /*
- * Store React 适配层 —— useSyncExternalStore 细粒度订阅
  * @Author: czy0729
  * @Date: 2026-08-23 13:30:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-23 17:50:48
+ *
+ * Store React 适配层 —— useSyncExternalStore 细粒度订阅
  */
 import { useCallback, useRef, useSyncExternalStore } from 'react'
 import { autorun } from 'mobx'
@@ -56,7 +57,7 @@ export function createStoreSubscription<Store extends object, Selection>(
  * 基于 useSyncExternalStore 的细粒度订阅
  * - 仅当 selector 结果变化时触发重渲, 适合大页面替代整块 observer
  * - selector 内读取 observable 属性即建立依赖, 语义与 autorun 一致
- * - isEqualFn 可自定义比较 (如 lodash.isequal) 以进一步减少重渲
+ * - isEqualFn 可自定义比较 (如 deepEqual) 以进一步减少重渲
  */
 export function useStoreSelector<Store extends object, Selection>(
   store: Store,

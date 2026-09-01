@@ -1,14 +1,15 @@
 /*
- * Store 共享基类 —— 与请求入库策略无关的全部成员
- * 差异成员(fetch / toJS)由 LegacyStore 与 Store 各自实现
  * @Author: czy0729
  * @Date: 2026-08-23 15:00:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-23 17:50:39
+ *
+ * Store 共享基类 —— 与请求入库策略无关的全部成员
+ * 差异成员(fetch / toJS)由 LegacyStore 与 Store 各自实现
  */
 import { action, extendObservable } from 'mobx'
-import isEqual from 'lodash.isequal'
 import { DEV } from '@src/config'
+import { deepEqual } from '../compare'
 import { logger } from '../dev'
 import { queue } from '../fetch'
 import { setStorage } from '../storage'
@@ -226,7 +227,7 @@ export default class BaseStore<T extends StoreState> {
     // 引用相等快速路径
     if (prevState === nextState) return true
 
-    return isEqual(
+    return deepEqual(
       {
         ...prevState,
         _loaded: 0

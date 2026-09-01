@@ -62,7 +62,6 @@
     "expo-splash-screen": "~0.29.7",
     "expo-updates": "~0.26.5",
     "expo-web-browser": "~14.0.0",
-    "lodash.isequal": "^4.5.0",
     "mobx": "6.12.3",
     "mobx-react": "9.1.1",
     "mobx-utils": "^6.1.1",

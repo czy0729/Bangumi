@@ -1,27 +1,21 @@
 /*
- * Store 纯函数集 (base / legacy / index 共用)
  * @Author: czy0729
  * @Date: 2026-08-23 13:18:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-23 17:50:51
+ * @Last Modified time: 2026-09-02 10:00:00
+ *
+ * Store 纯函数集 (base / legacy / index 共用)
  */
 import { extendObservable, isObservable, isObservableArray, observable, remove } from 'mobx'
 import { LIST_EMPTY } from '@constants/constants'
+import { deepEqual, hasOwn, plainClone } from '../compare'
 import { getTimestamp } from '../utils'
+
+export { deepEqual, plainClone }
 
 import type { DeepPartial, ListEmpty } from '@types'
 import type { FetchAPIArgs } from '../fetch/types'
 import type { WritableState } from './types'
-
-const hasOwn = Object.prototype.hasOwnProperty
-
-/** 是否为普通对象(原型为 Object.prototype 或 null), 用于区分 Date 等特殊引用类型 */
-const isPlainObject = (value: unknown): value is Record<string, unknown> => {
-  if (value === null || typeof value !== 'object') return false
-  // Object.getPrototypeOf 签名为 (o: any) => any, 改用类型正确的 Reflect 版本
-  const proto = Reflect.getPrototypeOf(value)
-  return proto === Object.prototype || proto === null
-}
 
 /**
  * 将一份增量状态合并进 observable 目标对象
@@ -105,36 +99,6 @@ export function applyStateDiff<T extends object>(
       observerTarget[key] = item
     }
   }
-}
-
-/**
- * 深拷贝 JSON 形状的纯数据 (数组/普通对象递归克隆)
- * 原始值与 Date 等特殊引用类型原样返回
- * 用于浅响应入库数据的 toJS 出口, 保证返回独立副本
- */
-export function plainClone<T>(value: T): T {
-  // 内部统一以 unknown 视角处理:
-  // Array.isArray 会把泛型/unknown 收窄成 any[], 若直接遍历会使元素变成 any
-  const clone = (input: unknown): unknown => {
-    if (Array.isArray(input)) {
-      const list: unknown[] = input
-      return list.map(element => clone(element))
-    }
-
-    if (isPlainObject(input)) {
-      const result: Record<string, unknown> = {}
-      for (const key in input) {
-        if (hasOwn.call(input, key)) {
-          result[key] = clone(input[key])
-        }
-      }
-      return result
-    }
-
-    return input
-  }
-
-  return clone(value) as T
 }
 
 /**
