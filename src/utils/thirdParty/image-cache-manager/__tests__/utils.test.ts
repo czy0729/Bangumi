@@ -27,7 +27,7 @@ jest.mock('../../file-system', () => ({
   }
 }))
 
-import SHA1 from 'crypto-js/sha1'
+import { SHA1 } from '@utils/crypto/sha1'
 import { logger } from '@utils/dev'
 import { FileSystem } from '../../file-system'
 import {
@@ -55,7 +55,7 @@ interface FsMock {
 
 const fs = FileSystem as unknown as FsMock
 
-const sha1 = (uri: string) => SHA1(uri).toString()
+const sha1 = (uri: string) => SHA1(uri)
 
 beforeEach(() => {
   jest.resetAllMocks()

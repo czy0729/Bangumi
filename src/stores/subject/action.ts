@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-31 05:24:11
  */
-import CryptoJS from 'crypto-js'
+import { encrypt, decrypt } from '@utils/crypto/aes'
 import { getBucketId } from '@utils/bucket'
 import { get, update } from '@utils/kv'
 import { APP_ID } from '@constants'
@@ -95,7 +95,7 @@ export default class Action extends Fetch {
     return update(
       `origin_${id}`,
       {
-        content: CryptoJS.AES.encrypt(JSON.stringify(origin), APP_ID).toString()
+        content: encrypt(JSON.stringify(origin), APP_ID)
       },
       true,
       true
@@ -118,8 +118,7 @@ export default class Action extends Fetch {
     if (!content) return false
 
     try {
-      const bytes = CryptoJS.AES.decrypt(content.toString(), APP_ID)
-      const data = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
+      const data = JSON.parse(decrypt(content.toString(), APP_ID))
       if (typeof data?.base === 'object' && typeof data?.custom === 'object') {
         const key = 'origin'
         this.setState({

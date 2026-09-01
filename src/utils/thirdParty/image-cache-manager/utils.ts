@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-30 05:46:01
  */
-import SHA1 from 'crypto-js/sha1'
+import { SHA1 } from '@utils/crypto/sha1'
 import { logger } from '@utils/dev'
 import { TaskQueue } from '../../scheduler/task-queue'
 import { FileSystem } from '../file-system'
@@ -192,7 +192,7 @@ export function getCacheNames(uri: string): {
   tmpName: string
   path: string
 } {
-  const hash = SHA1(uri).toString()
+  const hash = SHA1(uri)
 
   const pathname = uri.split('?')[0]
   const dot = pathname.lastIndexOf('.')

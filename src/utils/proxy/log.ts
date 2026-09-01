@@ -12,5 +12,5 @@ const TAG = '@utils/proxy'
 
 /** 调试打印 */
 export function logProxy(method: string, proxyType: ProxyType, _url: string, finalUrl: string) {
-  if (proxyType) logger.log(TAG, method, `(${proxyType})`, { url: finalUrl })
+  if (proxyType) logger.log(TAG, `${method} (${proxyType})`, { url: decodeURIComponent(finalUrl) })
 }
