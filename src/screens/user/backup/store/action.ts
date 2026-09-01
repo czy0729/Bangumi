@@ -2,20 +2,27 @@
  * @Author: czy0729
  * @Date: 2024-09-14 07:14:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 07:15:45
+ * @Last Modified time: 2026-09-01 21:20:00
  */
-import csv2json from 'csvjson-csv2json'
 import { date, feedback, getTimestamp, info, open } from '@utils'
+import { parseCsv } from '@utils/csv'
 import { t } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { download, temp } from '@utils/kv'
-import { exportLocal } from '../export'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { HOST_API } from '../ds'
+import { exportLocal } from '../export'
 import Fetch from './fetch'
 
-import type { SubjectId, SubjectTypeValue } from '@types'
-import type { Item } from '../types'
+import type { CollectionStatusValue, SubjectId, SubjectTypeValue } from '@types'
+import type { CollectionPayload, EpPayload, Item } from '../types'
+
+/** CSV 数值列转数字，空值返回 '' */
+function toNum(value: string): number | '' {
+  if (!value) return ''
+  const num = Number(value)
+  return Number.isNaN(num) ? '' : num
+}
 
 export default class Action extends Fetch {
   /** 切换导出列 */
@@ -93,7 +100,7 @@ export default class Action extends Fetch {
   }
 
   /** 同步 (导入模式) */
-  onSubmit = async (subjectId: SubjectId, collectionData, epData) => {
+  onSubmit = async (subjectId: SubjectId, collectionData: CollectionPayload, epData: EpPayload) => {
     if (!subjectId) return false
 
     if (Object.keys(collectionData).length) {
@@ -125,22 +132,24 @@ export default class Action extends Fetch {
   /** 导入CSV (导入模式) */
   onMessage = (text: string) => {
     try {
-      const data = csv2json(text)
+      const data = parseCsv(text)
       if (data.length) {
         const upload: Record<SubjectId, Item> = {}
-        data.map((item: any) => {
+        data.map(item => {
           if (item.ID) {
-            let type = item['状态']
-            if (type.includes('在')) type = '3'
-            else if (type.includes('想')) type = '1'
-            else if (type.includes('过')) type = '2'
-            else if (type.includes('搁置')) type = '4'
-            else if (type.includes('抛弃')) type = '5'
+            const status = item['状态'] || ''
+            let type: CollectionStatusValue | '' = ''
+            if (status.includes('在')) type = '3'
+            else if (status.includes('想')) type = '1'
+            else if (status.includes('过')) type = '2'
+            else if (status.includes('搁置')) type = '4'
+            else if (status.includes('抛弃')) type = '5'
+            else if (/^[1-5]$/.test(status)) type = status as CollectionStatusValue
 
             upload[item.ID] = {
               type,
-              rate: item['我的评价'] || '',
-              ep_status: item['看到'] || '',
+              rate: toNum(item['我的评价']),
+              ep_status: toNum(item['看到']),
               vol_status: '',
               comment: item['我的简评'] || '',
               tags: (item['标签'] || '').split(' '),
@@ -149,12 +158,12 @@ export default class Action extends Fetch {
               subject: {
                 id: item.ID,
                 date: item['放送'] || '',
-                eps: item['话数'] || '',
+                eps: toNum(item['话数']),
                 image: item['封面'] || '',
                 jp: item['日文'] || '',
                 cn: item['中文'] || '',
-                rank: item['排名'] || '',
-                score: item['评分'] || '',
+                rank: toNum(item['排名']),
+                score: toNum(item['评分']),
                 type: MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>(item['类型']) || '2'
               }
             }

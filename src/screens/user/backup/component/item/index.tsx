@@ -14,7 +14,7 @@ import { memoStyles } from './styles'
 import type { Ctx } from '../../types'
 import type { Props } from './types'
 
-export default observer(({ item }: Props) => {
+function ItemEntry({ item }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return (
@@ -27,4 +27,6 @@ export default observer(({ item }: Props) => {
       onSubmit={$.onSubmit}
     />
   )
-})
+}
+
+export default observer(ItemEntry)

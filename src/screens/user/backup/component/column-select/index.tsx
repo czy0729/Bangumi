@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-08 10:47:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 00:40:53
+ * @Last Modified time: 2026-09-01 21:00:33
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -17,9 +17,7 @@ import type { Props } from './types'
 function ColumnSelect({ select, disabled, onPress }: Props) {
   r(COMPONENT)
 
-  if (disabled) {
-    return <View style={styles.columnSelect} />
-  }
+  if (disabled) return <View style={styles.columnSelect} />
 
   return (
     <Touchable style={styles.columnSelect} hitSlop={HIT_SLOP} onPress={() => onPress(!select)}>

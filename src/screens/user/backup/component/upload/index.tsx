@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-06 06:14:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-07 17:42:34
+ * @Last Modified time: 2026-09-01 21:44:16
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -39,8 +39,8 @@ function Upload() {
             javaScriptEnabled
             onMessage={event => {
               try {
-                const { data } = JSON.parse(event.nativeEvent.data)
-                $.onMessage(data)
+                const { data } = JSON.parse(event.nativeEvent.data) as { data?: string }
+                $.onMessage(data || '')
               } catch {}
             }}
           />

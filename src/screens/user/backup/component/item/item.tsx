@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-29 19:17:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 16:20:47
+ * @Last Modified time: 2026-09-01 21:01:47
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -40,6 +40,7 @@ import ColumnSelect from '../column-select'
 import { DEFAULT_PROPS } from './ds'
 
 import type { CollectionStatus, SubjectTypeCn } from '@types'
+import type { CollectionPayload, EpPayload } from '../../types'
 
 export default memo(
   ({ navigation, styles, item = {}, upload = {}, onBottom = FROZEN_FN, onSubmit = FROZEN_FN }) => {
@@ -226,14 +227,7 @@ export default memo(
                         ep?: boolean
                       } = {}
 
-                      const collectionData: {
-                        status?: any
-                        rating?: any
-                        tags?: any
-                        comment?: any
-                        ep?: any
-                        private?: any
-                      } = {}
+                      const collectionData: CollectionPayload = {}
                       if (selectStatus) {
                         if (next.status === '想看') {
                           flag.status = true
@@ -265,11 +259,9 @@ export default memo(
                         flag.comment = true
                         collectionData.comment = next.comment
                       }
-                      collectionData.private = item.private
+                      collectionData.privacy = item.private
 
-                      const epData: {
-                        ep?: any
-                      } = {}
+                      const epData: EpPayload = {}
                       if (selectEp) {
                         flag.ep = true
                         epData.ep = next.ep

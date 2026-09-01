@@ -2,16 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-09-29 19:18:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:54:25
+ * @Last Modified time: 2026-09-01 20:52:52
  */
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
-import type { InferArray, Navigation } from '@types'
-import type { memoStyles } from './styles'
-
-import type { Ctx } from '../../types'
+import type { Navigation } from '@types'
+import type { Item } from '../../types'
+import type { Props } from './types'
 
 export const COMPONENT = rc(PARENT, 'Item')
 
@@ -22,13 +21,11 @@ export const HIT_SLOP = {
   left: 20
 } as const
 
-type $ = Ctx['$']
-
-export const DEFAULT_PROPS = {
+export const DEFAULT_PROPS: Props = {
   navigation: {} as Navigation,
-  styles: {} as ReturnType<typeof memoStyles>,
-  item: {} as InferArray<$['data']>,
-  upload: {} as ReturnType<$['upload']>,
-  onBottom: FROZEN_FN as $['onBottom'],
-  onSubmit: FROZEN_FN as $['onSubmit']
+  styles: {} as Props['styles'],
+  item: {} as Item,
+  upload: {} as Props['upload'],
+  onBottom: FROZEN_FN as Props['onBottom'],
+  onSubmit: FROZEN_FN as Props['onSubmit']
 }

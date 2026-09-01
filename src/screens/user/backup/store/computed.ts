@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-09-14 07:08:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 07:12:44
+ * @Last Modified time: 2026-09-01 22:43:51
  */
 import { computed } from 'mobx'
-import { Parser } from 'json2csv'
 import { userStore } from '@stores'
 import { asc } from '@utils'
 import { computedFn } from '@utils/computed-fn'
+import { toCsv } from '@utils/csv'
 import { applyLainProxy, applyProxy } from '@utils/proxy'
 import { HOST, MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
 import { CSV_HEADS } from '../ds'
 import State from './state'
 
+import type { CsvRecord } from '@utils/csv'
 import type { CollectionStatusCn, SubjectId, SubjectTypeCn } from '@types'
 import type { Item } from '../types'
 
@@ -26,7 +27,7 @@ export default class Computed extends State {
   /** 构建完整行 */
   private _buildRow(item: Item) {
     const { subject } = item
-    const row: Record<string, any> = {
+    const row: CsvRecord = {
       [CSV_HEADS[0]]: subject.id,
       [CSV_HEADS[1]]: applyLainProxy(subject.image),
       [CSV_HEADS[2]]: applyProxy(`${HOST}/subject/${subject.id}`).url,
@@ -48,11 +49,11 @@ export default class Computed extends State {
 
     const typeCn = row[CSV_HEADS[3]]
     if (typeCn === '书籍') {
-      row[CSV_HEADS[11]] = row[CSV_HEADS[11]].replace('看', '读')
+      row[CSV_HEADS[11]] = String(row[CSV_HEADS[11]]).replace('看', '读')
     } else if (typeCn === '游戏') {
-      row[CSV_HEADS[11]] = row[CSV_HEADS[11]].replace('看', '玩')
+      row[CSV_HEADS[11]] = String(row[CSV_HEADS[11]]).replace('看', '玩')
     } else if (typeCn === '音乐') {
-      row[CSV_HEADS[11]] = row[CSV_HEADS[11]].replace('看', '听')
+      row[CSV_HEADS[11]] = String(row[CSV_HEADS[11]]).replace('看', '听')
     }
 
     return row
@@ -73,15 +74,13 @@ export default class Computed extends State {
     const heads = this.exportHeads
     const data = this.data.map(item => {
       const row = this._buildRow(item)
-      const filtered: Record<string, any> = {}
+      const filtered: CsvRecord = {}
       heads.forEach(head => {
         filtered[head] = row[head]
       })
       return filtered
     })
-
-    const json2csvParser = new Parser(heads)
-    return json2csvParser.parse(data)
+    return toCsv(heads, data)
   }
 
   /** 导出的 JSON (扁平化) */
@@ -91,7 +90,7 @@ export default class Computed extends State {
     const heads = this.exportHeads
     return this.data.map(item => {
       const row = this._buildRow(item)
-      const filtered: Record<string, any> = {}
+      const filtered: CsvRecord = {}
       heads.forEach(head => {
         filtered[head] = row[head]
       })

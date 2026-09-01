@@ -7,6 +7,9 @@
 import React from 'react'
 import Item from '../item'
 
-export function renderItem({ item }) {
+import type { RenderItem } from '@types'
+import type { Item as BackupItem } from '../../types'
+
+export function renderItem({ item }: RenderItem<BackupItem>) {
   return <Item item={item} />
 }

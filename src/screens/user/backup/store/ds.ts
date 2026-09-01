@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-12-06 05:47:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 07:07:39
+ * @Last Modified time: 2026-09-01 22:44:04
  */
 import { COMPONENT, CSV_HEADS } from '../ds'
 
 import type { Loaded, SubjectId } from '@types'
-import type { Item } from '../types'
+import type { Bottom, Item } from '../types'
 
 /** 默认不选中的列 */
 const DEFAULT_EXCLUDE_COLUMNS = new Set(['封面', '网址'])
@@ -31,7 +31,7 @@ export const EXCLUDE_STATE = {
   /** 置底数据 */
   bottom: {
     current: 0
-  }
+  } as Bottom
 }
 
 export const STATE = {
@@ -44,7 +44,7 @@ export const STATE = {
   last: 0,
 
   /** 导出包含的列名 (默认选中除网址、封面外的所有列) */
-  includeColumns: CSV_HEADS.filter(head => !DEFAULT_EXCLUDE_COLUMNS.has(head as any)) as string[],
+  includeColumns: CSV_HEADS.filter(head => !DEFAULT_EXCLUDE_COLUMNS.has(head)) as string[],
 
   /** 页面初始化完成 */
   _loaded: false as Loaded
