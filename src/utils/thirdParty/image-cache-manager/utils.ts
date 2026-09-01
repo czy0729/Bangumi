@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-30 05:46:01
  */
-import { SHA1 } from '@utils/crypto/sha1'
+import { SHA1 } from '@utils/crypto'
 import { logger } from '@utils/dev'
 import { TaskQueue } from '../../scheduler/task-queue'
 import { FileSystem } from '../file-system'

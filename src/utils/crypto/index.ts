@@ -7,6 +7,9 @@
 import { APP_ID } from '@constants/constants/app'
 import { decrypt, encrypt } from './aes'
 import { HMACSHA256 } from './hmac-sha256'
+import { SHA1 } from './sha1'
+
+export { SHA1, encrypt, decrypt }
 
 /** 加密字符串 */
 export function set(data: object | string) {

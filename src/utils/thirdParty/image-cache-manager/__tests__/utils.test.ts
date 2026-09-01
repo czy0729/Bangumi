@@ -27,7 +27,7 @@ jest.mock('../../file-system', () => ({
   }
 }))
 
-import { SHA1 } from '@utils/crypto/sha1'
+import { SHA1 } from '@utils/crypto'
 import { logger } from '@utils/dev'
 import { FileSystem } from '../../file-system'
 import {
