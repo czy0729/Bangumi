@@ -15,7 +15,7 @@ module.exports = {
     '^.+\\.[jt]sx?$': path.resolve(__dirname, 'jest-transformer.js')
   },
   transformIgnorePatterns: [
-    '/node_modules/(?!p-limit|yocto-queue|expo-*)'
+    '/node_modules/(?!expo-*)'
   ],
   moduleNameMapper: {
     '^.+\\.(png|jpg|jpeg|gif|webp)$': '<rootDir>/__mocks__/fileMock.js',

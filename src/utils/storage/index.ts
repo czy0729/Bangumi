@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-13 04:14:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-31 06:01:56
+ * @Last Modified time: 2026-09-02 11:05:56
  *
  * 本地化
  *  - 写入本地动作会有合并逻辑和时间间隔，目的是避免短时间过度写入
@@ -10,7 +10,7 @@
  *    大键 (记忆长度 >= LAZY_SET_STORAGE_SIZE) 由定时 flush 统一序列化 (间隔内多次保存合并为一次)
  */
 import { AppState } from 'react-native'
-import pLimit from 'p-limit'
+import pLimit from '@utils/thirdParty/p-limit'
 import { getItem, setItem } from './utils'
 import {
   CACHE_MAP,

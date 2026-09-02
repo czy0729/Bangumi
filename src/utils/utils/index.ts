@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-31 20:17:06
+ * @Last Modified time: 2026-09-02 11:05:45
  */
 import { Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
-import pLimit from 'p-limit'
+import pLimit from '@utils/thirdParty/p-limit'
 import { B, IOS, M, TIMEZONE_IS_GMT8 } from '@constants/constants'
 import { date, getTimestamp } from '../date'
 import { applyProxy } from '../proxy'

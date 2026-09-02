@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 04:37:40
+ * @Last Modified time: 2026-09-02 11:06:17
  */
-import pLimit from 'p-limit'
+import pLimit from '@utils/thirdParty/p-limit'
 import { WEB } from '@constants/device'
 import { syncSystemStore, syncUserStore } from '../async'
 import { logger } from '../dev'

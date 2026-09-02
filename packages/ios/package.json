@@ -70,7 +70,6 @@
     "mobx-react": "9.1.1",
     "mobx-utils": "^6.1.1",
     "opencc-js": "^1.0.5",
-    "p-limit": "^4.0.0",
     "patch-package": "6.4.7",
     "postinstall-postinstall": "2.1.0",
     "prop-types": "15.8.1",
