@@ -1,15 +1,19 @@
 /*
- * @Doc: https://github.com/nk2028/opencc-js
  * @Author: czy0729
  * @Date: 2024-04-13 16:32:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 06:57:45
+ * @Last Modified time: 2026-09-03 05:17:01
+ *
+ * https://github.com/nk2028/opencc-js
  */
 import { getSetting } from '../../app'
 import hash from '../hash'
-import { CN, HK, OpenCC, TW } from './module'
+import { createConverter } from './converter'
+import CN from './dict/cn'
+import HK from './dict/hk'
+import TW from './dict/tw'
 
-import type { ConverterFactoryArgument } from 'opencc-js/core'
+import type { Converter } from './converter'
 
 const memoCache = {
   hk: new Map<string, string>(),
@@ -18,20 +22,13 @@ const memoCache = {
 }
 
 const converters = {
-  hk: null as OpenCC.Converter | null,
-  tw: null as OpenCC.Converter | null
+  hk: null as Converter | null,
+  tw: null as Converter | null
 }
 
 /** 检查字符串是否包含中文 */
 function containsChinese(str: string): boolean {
   return /[\u4e00-\u9fa5]/.test(str)
-}
-
-/** 兼容 ESM ([[STPhrases, STCharacters]]) 和 UMD ([STPhrases, STCharacters]) 格式 */
-function normalizeDictGroups(groups: unknown): readonly ConverterFactoryArgument[] {
-  const arr = groups as readonly (readonly [readonly [string, string]])[]
-  if (Array.isArray(arr[0]) && typeof arr[0][0] === 'string') return arr
-  return [arr]
 }
 
 /** 简转繁 */
@@ -55,13 +52,9 @@ export function s2t(str: string): string {
   // 检查目标语言缓存
   if (memoCache[targetLocale].has(id)) return memoCache[targetLocale].get(id)!
 
-  // 初始化转换器, 兼容 ESM 和 UMD 不同的字典结构
+  // 初始化转换器: 字词级简转繁 + 目标地区字词变体
   if (!converters[targetLocale]) {
-    const toDict = targetLocale === 'hk' ? HK : TW
-    converters[targetLocale] = OpenCC.ConverterFactory(
-      ...normalizeDictGroups(CN),
-      ...normalizeDictGroups(toDict)
-    )
+    converters[targetLocale] = createConverter([CN, targetLocale === 'hk' ? HK : TW])
   }
 
   // 执行转换并缓存结果

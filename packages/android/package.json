@@ -55,7 +55,6 @@
     "expo-web-browser": "12.3.2",
     "mobx": "6.12.3",
     "mobx-react": "9.1.1",
-    "opencc-js": "1.0.5",
     "patch-package": "7.0.2",
     "postinstall-postinstall": "2.1.0",
     "react": "18.2.0",

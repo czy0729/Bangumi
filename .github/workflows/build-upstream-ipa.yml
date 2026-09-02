@@ -149,21 +149,6 @@ jobs:
           }
 
           replaceInFile(
-            'src/utils/thirdParty/open-cc/module.ts',
-            [
-              "import * as OpenCC from 'opencc-js/core'",
-              "import CN from 'opencc-js/from/cn'",
-              "import HK from 'opencc-js/to/hk'",
-              "import TW from 'opencc-js/to/tw'",
-            ].join('\n'),
-            [
-              "import * as OpenCC from 'opencc-js/dist/esm-lib/core'",
-              "import CN from 'opencc-js/dist/esm-lib/from/cn'",
-              "import HK from 'opencc-js/dist/esm-lib/to/hk'",
-              "import TW from 'opencc-js/dist/esm-lib/to/tw'",
-            ].join('\n'),
-          )
-          replaceInFile(
             'src/utils/thirdParty/file-system/index.ts',
             'expo-file-system/legacy',
             'expo-file-system',
