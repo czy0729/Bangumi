@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-07 21:42:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 21:55:46
+ * @Last Modified time: 2026-09-02 03:32:10
  *
  * web 端入口: fetch 资源 + 缓存去重 (cache.ts) + 解码 (decoder.ts)
  */
@@ -25,13 +25,10 @@ const TAG = '@utils/protobuf'
 export const decode = async <T extends DataAssets>(name: T): Promise<Data[T]> =>
   runWithCache(name, async () => {
     try {
-      const protoResponse = await fetch(`assets/proto/${name}/proto/index.proto`)
-      const protoText = await protoResponse.text()
-
       const binResponse = await fetch(`assets/proto/${name}/bin/index.bin`)
       const bytes = new Uint8Array(await binResponse.arrayBuffer())
 
-      const data = convert(name, decodePayload(protoText, bytes))
+      const data = convert(name, decodePayload(name, bytes))
       logger.log(TAG, 'decode', {
         name,
         length: Array.isArray(data) ? data.length : Object.keys(data).length

@@ -74,7 +74,6 @@
     "patch-package": "6.4.7",
     "postinstall-postinstall": "2.1.0",
     "prop-types": "15.8.1",
-    "protobufjs": "^8.8.0",
     "react": "19.1.0",
     "react-native": "0.81.4",
     "react-native-actions-shortcuts": "^1.0.1",
@@ -123,6 +122,7 @@
     "jest": "^29.7.0",
     "jest-expo": "^55.0.17",
     "prettier": "^2.6.2",
+    "protobufjs": "^8.8.0",
     "typescript": "^6.0.3"
   }
 }
