@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2026-08-30 07:30:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-02 07:30:00
+ * @Last Modified time: 2026-09-02 13:36:13
  *
  * 仅 native 端: bin 资源模块映射与本地加载 (metro asset + expo-asset)
  */
-import { toByteArray } from 'base64-js'
 import { Asset } from 'expo-asset'
+import { toByteArray } from '@utils/thirdParty/base64'
 import { logger } from '../dev'
 import { FileSystem } from '../thirdParty/file-system'
 

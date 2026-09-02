@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-23 21:11:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-02 07:30:00
+ * @Last Modified time: 2026-09-02 13:06:58
  *
  * 原生端 decode 集成测试：
  * 仅 mock 资源加载层（expo-asset / expo-file-system），
@@ -27,9 +27,9 @@ jest.mock('@assets/proto/anime/bin/index.bin', () => 102, { virtual: true })
 jest.mock('@assets/proto/manga/bin/index.bin', () => 202, { virtual: true })
 jest.mock('@assets/proto/ja/bin/index.bin', () => 302, { virtual: true })
 
-import { fromByteArray } from 'base64-js'
 import { Asset } from 'expo-asset'
 import protobuf from 'protobufjs'
+import { fromByteArray } from '../../thirdParty/base64'
 import { FileSystem } from '../../thirdParty/file-system'
 import { cacheMap, promiseMap } from '../cache'
 import { decode, get } from '../index'
