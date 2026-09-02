@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-03-27 13:18:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-17 12:44:23
+ * @Last Modified time: 2026-09-02 14:19:01
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { NavigationEvents } from '@components'
 import Stores from '@stores'
-import { contextTypes } from '@constants/constants'
 import { WEB } from '@constants/device'
 import { getScreenKey } from './utils'
-import { Config, Props, WrapComponentProps } from './types'
+
+import type { Config, Props, WrapComponentProps } from './types'
 
 /** 封装应用主要功能实现的装饰器 */
 const Inject = (Store, config?: Config) => {
@@ -24,8 +24,6 @@ const Inject = (Store, config?: Config) => {
         static navigationOptions =
           /** @ts-ignore */
           WrapComponent.navigationOptions
-
-        static childContextTypes = contextTypes
 
         constructor(props) {
           super(props)
@@ -52,15 +50,6 @@ const Inject = (Store, config?: Config) => {
 
         /** 页面独立状态机引用 */
         $: any
-
-        getChildContext() {
-          const { navigation } = this.props
-          return {
-            $: this.$,
-            navigation,
-            route: this.$.params
-          }
-        }
 
         onWillFocus = () => {
           if (listenIsFocused && !this.state.isFocused) {

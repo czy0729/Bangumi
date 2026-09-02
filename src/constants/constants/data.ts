@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2024-09-02 12:03:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:50:17
+ * @Last Modified time: 2026-09-02 14:16:49
  */
-import PropTypes from 'prop-types'
 import { HOST_DOGE } from '../cdn/ds'
 import { PAD, RATIO, WEB } from '../device'
 import { IOS } from './env'
@@ -48,7 +47,7 @@ export const IMG_INFO_ONLY = WEB
 /** 默认条目缩略图 */
 export const IMG_SUBJECT_ONLY = `${HOST}/img/no_icon_subject.png` as const
 
-const h = (w: any) => Math.floor(w * 1.4)
+const h = (w: number) => Math.floor(w * 1.4)
 
 /** 头像大小 */
 export const IMG_AVATAR_WIDTH = 32
@@ -393,13 +392,6 @@ export const SITES_DS = [
 
 /** @deprecated 制造 [已收藏] 前面的占位 */
 export const COLLECTION_INDENT = PAD ? '　　    ' : '　　   '
-
-/** 页面通用 context */
-export const contextTypes = {
-  $: PropTypes.object,
-  navigation: PropTypes.object,
-  route: PropTypes.object
-} as const
 
 /** 抹平 ScrollView 跨平台不同表现参数 */
 export const SCROLL_VIEW_RESET_PROPS = {

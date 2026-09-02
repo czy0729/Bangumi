@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-03-10 04:02:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-05 03:46:21
+ * @Last Modified time: 2026-09-02 14:18:09
  */
 import React, { useCallback, useRef } from 'react'
-import { SafeAreaView } from 'react-navigation'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { observer } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { _, tinygrailStore } from '@stores'

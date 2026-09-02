@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:45:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 01:27:28
+ * @Last Modified time: 2026-09-02 14:19:18
  */
 import { observer } from 'mobx-react'
-import { contextTypes } from '@constants/constants'
 import { DEV } from '@src/config'
-import { IReactComponent } from '@types'
 import { withDev } from '../utils'
+
+import type { IReactComponent } from '@types'
 
 /**
  * @deprecated Observer with Context
@@ -22,8 +22,6 @@ export default function obc<T extends IReactComponent>(
   param2?: object | string,
   param3?: string
 ): T {
-  Component.contextTypes = contextTypes
-
   let devRerenderKey: string
 
   // 处理第二个参数
