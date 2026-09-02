@@ -1,4 +1,9 @@
 /**
+ * @Author: czy0729
+ * @Date: 2023-10-04 19:53:07
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-02 19:59:16
+ *
  * 开发环境切换脚本
  *
  * 功能说明：
@@ -17,11 +22,6 @@
  * 注意事项：
  * - 若非 mac 环境，切换前请关闭编辑器，避免 node_modules 被占用
  * - 主分支以 ios 环境代码为准，提交 git 前务必切回 ios 环境
- *
- * @Author: czy0729
- * @Date: 2023-10-04 19:53:07
- * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-10 16:30:20
  */
 
 const fs = require('fs')

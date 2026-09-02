@@ -13,6 +13,12 @@ bgm.tv (Bangumi) 第三方客户端，React Native (Expo SDK 54) 项目。作者
 
 违反此条比代码写得差更严重。
 
+## ⛔ 依赖迭代：不碰 *.lock
+
+- 任何情况下禁止修改 `*.lock`（yarn.lock、package-lock.json、Podfile.lock 等）：不编辑、不生成、不删除
+- 禁止运行 `yarn install` / `npm install` / `pod install` 等会改动 lock 或 node_modules 的命令；依赖增删只改 `package.json`（含 `resolutions`）与源码
+- lock 刷新、原生工程同步（pod install / gradle sync）、真机回归由用户执行；AI 须在方案中显式列出这些"待用户自理项"
+
 ## 通用
 
 - 优先选择编辑而非重写整个文件

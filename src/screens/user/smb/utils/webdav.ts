@@ -4,16 +4,21 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-30 05:22:17
  */
-import { AuthType, createClient } from 'webdav'
+import { getDirectoryContents } from '@utils/thirdParty/webdav'
 import { alert, asc, desc, info, loading } from '@utils'
 import { queue } from '@utils/fetch'
 import { getFileMediaType, matchTags } from './utils'
 
-import type { WebDAVClient } from 'webdav'
 import type { SubjectId } from '@types'
 import type { SMBListItem, SMBRawItem, WebDAVRawItem } from '../types'
 
-let webDAVClient: WebDAVClient
+type WebDAVClientOptions = {
+  url: string
+  username?: string
+  password?: string
+}
+
+let webDAVClientOptions: WebDAVClientOptions | null = null
 
 /**
  * 使用 webDAV 服务获取文件夹信息
@@ -30,7 +35,7 @@ export function webDAVList(
   } = {}
 ): Promise<SMBListItem[]> {
   return new Promise(async resolve => {
-    webDAVClient = null
+    webDAVClientOptions = null
 
     let host = String(config.ip)
     if (host.indexOf('http') !== 0) host = `http://${host}`
@@ -38,11 +43,11 @@ export function webDAVList(
     if (config.port) host += `:${config.port}`
     const url = [host, config.sharedFolder].filter(item => !!item).join('/')
 
-    webDAVClient = createClient(url, {
-      authType: AuthType.Password,
+    webDAVClientOptions = {
+      url,
       username: config.username,
       password: config.password
-    })
+    }
     info('连接 webDAV...')
 
     setTimeout(async () => {
@@ -54,22 +59,28 @@ export function webDAVList(
       }
 
       resolve(data)
-      webDAVClient = null
+      webDAVClientOptions = null
     }, 1000)
   })
 }
 
 function _webDAVList(path = ''): Promise<SMBListItem[] | false> {
   return new Promise(async resolve => {
-    if (!webDAVClient) {
+    if (!webDAVClientOptions) {
       resolve(false)
       return
     }
 
+    const { url, username, password } = webDAVClientOptions
+
     try {
-      const items = (await webDAVClient.getDirectoryContents(`/${path}`)) as WebDAVRawItem[]
+      const items = (await getDirectoryContents(url, {
+        username,
+        password,
+        path
+      })) as WebDAVRawItem[]
       if (!items?.length) {
-        webDAVClient = null
+        webDAVClientOptions = null
 
         alert('读取文件夹失败')
         resolve(false)
@@ -96,9 +107,11 @@ function _webDAVList(path = ''): Promise<SMBListItem[] | false> {
           item => () =>
             new Promise<void>(async rsl => {
               try {
-                const items = (await webDAVClient.getDirectoryContents(
-                  `/${path}${path ? '/' : ''}${item.name}`
-                )) as WebDAVRawItem[]
+                const items = (await getDirectoryContents(url, {
+                  username,
+                  password,
+                  path: `/${path}${path ? '/' : ''}${item.name}`
+                })) as WebDAVRawItem[]
 
                 const list = items.map(item => webDAVToSMB(item))
                 item.list = list
