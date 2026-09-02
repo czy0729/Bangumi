@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-11-17 15:10:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-19 12:23:19
+ * @Last Modified time: 2026-09-02 12:33:17
  */
-import aniep from 'aniep'
+import aniep from '@utils/thirdParty/aniep'
 
 /** 缓存搜索过的结果 */
 const cacheMap = new Map<string, [number, string]>()
@@ -34,13 +34,13 @@ const KEYWORDS_MAP = {
 export function getEp(input: string) {
   if (!input) return [null, '']
 
-  if (cacheMap.has(input)) return cacheMap.get(input)
-
   const name = input.toLocaleLowerCase().replace(' end ', '')
+  if (cacheMap.has(name)) return cacheMap.get(name)
+
   const ep = aniep(name) as number
 
   let type = ''
-  for (const keyword in KEYWORDS_MAP) {
+  for (const keyword of Object.keys(KEYWORDS_MAP) as (keyof typeof KEYWORDS_MAP)[]) {
     if (name.includes(keyword)) {
       type = KEYWORDS_MAP[keyword]
       break
