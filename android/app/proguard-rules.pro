@@ -160,11 +160,6 @@
   public *;
 }
 
-##### react-native-device-info #####
--keepclassmembers class com.android.installreferrer.api.** {
-  *;
-}
-
 ##### react-native-reanimated #####
 -keep class com.swmansion.reanimated.** { *; }
 -keep class com.facebook.react.turbomodule.** { *; }
