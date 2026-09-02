@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-05-05 19:37:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 14:29:05
+ * @Last Modified time: 2026-09-02 23:26:34
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Flex } from '../flex'
-import { Heatmap } from '../heatmap'
-import { Touchable } from '../touchable'
-import { memoStyles } from './styles'
+import { memoStyles } from '../styles'
+import { Flex } from '../../flex'
+import { Heatmap } from '../../heatmap'
+import { Touchable } from '../../touchable'
 
-import type { ToolBarTouchableProps } from './types'
+import type { Props } from './types'
 
-function ToolBarTouchable({ heatmap, onSelect, children }: ToolBarTouchableProps) {
+function ToolBarTouchable({ heatmap, onSelect, children }: Props) {
   const styles = memoStyles()
 
   return (

@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2022-05-05 19:38:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 14:28:39
+ * @Last Modified time: 2026-09-02 23:26:09
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { Flex } from '../flex'
-import { Heatmap } from '../heatmap'
-import { Iconfont } from '../iconfont'
-import { Popover } from '../popover/comp'
-import { Text } from '../text'
-import { memoStyles } from './styles'
+import { memoStyles } from '../styles'
+import { Flex } from '../../flex'
+import { Heatmap } from '../../heatmap'
+import { Iconfont } from '../../iconfont'
+import { Popover } from '../../popover/comp'
+import { Text } from '../../text'
+import { styles as opacityStyles } from './styles'
 
-import type { PopoverData } from '../popover'
-import type { ToolBarPopoverProps } from './types'
+import type { PopoverData } from '../../popover'
+import type { Props } from './types'
 
 function ToolBarPopover<Data extends PopoverData>({
   style,
@@ -30,12 +31,15 @@ function ToolBarPopover<Data extends PopoverData>({
   heatmap,
   transparent,
   onSelect
-}: ToolBarPopoverProps<Data>) {
+}: Props<Data>) {
   const styles = memoStyles()
 
   return (
     <Popover style={stl(styles.touch, style)} data={data} onSelect={onSelect}>
-      <Flex style={stl(styles.item, transparent && styles.opacity, itemStyle)} justify='center'>
+      <Flex
+        style={stl(styles.item, transparent && opacityStyles.opacity, itemStyle)}
+        justify='center'
+      >
         {!!icon && <Iconfont name={icon} size={iconSize} color={iconColor} />}
         {!!text && (
           <Text style={stl(icon && _.ml.xs)} type={type} size={12} bold noWrap selectable={false}>

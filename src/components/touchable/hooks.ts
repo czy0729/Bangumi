@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-12-30 05:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-09 22:51:12
+ * @Last Modified time: 2026-09-03 01:08:04
  */
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { uiStore } from '@stores'
 import { CLICK_LOCK_MS } from './ds'
 
@@ -14,11 +14,16 @@ import type { TouchableHandlePress } from './types'
 export function useCallOnceInInterval(onPress: TouchableHandlePress) {
   const [disabled, setDisabled] = useState(false)
 
+  /** handler 自身防抖锁: 间隔小于一帧的连点可能在 disabled 传到 Touchable 前重复进入, 这里再挡一道 */
+  const lockedRef = useRef(false)
+
   const handlePress = useCallback(
     (event: GestureResponderEvent) => {
       // 滑动过程中不响应点击，防止误触
       if (uiStore.isScrolling) return
+      if (lockedRef.current) return
 
+      lockedRef.current = true
       setDisabled(true)
 
       /**
@@ -35,6 +40,7 @@ export function useCallOnceInInterval(onPress: TouchableHandlePress) {
         })
 
         setTimeout(() => {
+          lockedRef.current = false
           setDisabled(false)
         }, CLICK_LOCK_MS)
       })

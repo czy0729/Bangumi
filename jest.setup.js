@@ -170,8 +170,8 @@ jest.mock('@assets/json', () => ({ loadJSON: jest.fn() }))
 jest.mock(
   '@stores',
   () => {
-    // mutable cell for dynamic homeSortSink
-    const state = { homeSortSink: false }
+    // mutable cell for dynamic homeSortSink / uiStore.isScrolling
+    const state = { homeSortSink: false, isScrolling: false }
     global.__mockStoreState__ = state
     return {
       systemStore: {
@@ -182,12 +182,28 @@ jest.mock(
           }
         }
       },
+      uiStore: {
+        get isScrolling() {
+          return global.__mockStoreState__.isScrolling
+        }
+      },
       userStore: {
         userProgress: () => ({})
       },
       _: {
         r: v => v,
-        window: { width: 375, height: 812 }
+        window: { width: 375, height: 812 },
+        // 与 src/stores/theme/action.ts 真实实现语义一致 (测试环境 PAD 未定义恒为手机)
+        device: (mobileValue, padValue) => mobileValue,
+        // 与 src/stores/theme/computed.ts 一致: create 即 StyleSheet.create
+        create: styles => styles,
+        absoluteFill: {
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0
+        }
       }
     }
   },

@@ -13,6 +13,16 @@
   - 边界情况：switch 无 default、空值/undefined 未处理
 - **不要在测试文件里局部 mock `@utils/dev`**：jest.setup.js 已按 resolved 路径全局注册完整 mock（含全部导出与 logger 七个方法），相对路径导入同样生效；需要断言日志时直接 `import { logger } from '@utils/dev'` 后对 jest.fn 断言
 
+# hook 测试规范
+
+RNTL 的 `renderHook` 因 `ensure-peer-deps` 严格校验 `react-test-renderer` 与 `react` 版本完全一致而不可用（版本漂移即抛错，依赖安装由用户自理）。hook 测试直接用 `react-test-renderer` 手写最小 harness（参考 `src/components/touchable/__tests__/hooks.test.ts`）：
+
+- `jest.requireActual('react-test-renderer')` 引入（该包无 TS 类型，`requireActual` 返回 any 规避）
+- 顶部设 `globalThis.IS_REACT_ACT_ENVIRONMENT = true`，否则 act 内状态更新不生效
+- 所有触发 setState 的调用（含 afterEach 里 `jest.runAllTimers()` 执行到的解锁回调）都要包在 act 内
+- 依赖 store 的 hook：在 jest.setup.js 的 `@stores` mock 通过 `global.__mockStoreState__` 可变 cell 暴露字段（如 `uiStore.isScrolling`），测试里直接改 cell 控制分支
+- 屏蔽 `react-test-renderer is deprecated` 官方告警用定向 `jest.spyOn(console, 'error')` 过滤，保留其余错误输出
+
 # cheerio HTML 解析测试规范
 
 以下模式来自 `src/stores/user/__tests__/common.test.ts`，按需参考，自行判断是否适用。

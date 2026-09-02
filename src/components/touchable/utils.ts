@@ -2,15 +2,12 @@
  * @Author: czy0729
  * @Date: 2021-12-29 17:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 01:11:19
+ * @Last Modified time: 2026-09-03 00:42:40
  */
 import { StyleSheet } from 'react-native'
 import { _ } from '@stores'
-import { postTask } from '@utils'
-import { IOS } from '@constants'
 
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native'
-import type { TimerRef } from '@types'
 
 export const defaultHitSlop = {
   top: _.device(3, 4),
@@ -25,37 +22,6 @@ export const styles = _.create({
     zIndex: 1
   }
 })
-
-let isCalled = false
-let timer: TimerRef
-
-/** 防止瞬间多次点击 */
-export function callOnceInInterval(
-  /** 执行方法 */
-  functionTobeCalled: () => void,
-
-  /** 两次执行最小间隔 */
-  interval: number = 80
-) {
-  if (isCalled) return false
-
-  isCalled = true
-  clearTimeout(timer)
-  timer = setTimeout(() => (isCalled = false), interval)
-
-  /** 把点击事件放在队列里面, 不阻塞 UI */
-  if (IOS) {
-    requestAnimationFrame(() => {
-      functionTobeCalled()
-    })
-  } else {
-    postTask(() => {
-      functionTobeCalled()
-    }, 0)
-  }
-
-  return true
-}
 
 /** 分离出 containerStyle */
 export function separateStyles<T extends ViewStyle | TextStyle>(

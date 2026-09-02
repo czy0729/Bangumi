@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-03-17 04:06:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 02:36:50
+ * @Last Modified time: 2026-09-03 01:07:31
  */
 import type { ColorValue, ViewStyle, WithViewStyles } from '@types'
 
@@ -43,3 +43,17 @@ export type Props = WithViewStyles<{
   /** 异步点击回调，接收 toggleSwitch 函数用于异步完成后手动触发切换 */
   onAsyncPress?: (toggleSwitch?: ToggleSwitchFn) => void
 }>
+
+/** useSwitch 参数 (背景色必传, 主题色兜底由 index.tsx 提供) */
+export type UseSwitchOptions = Required<Pick<Props, 'backgroundActive' | 'backgroundInactive'>> &
+  Pick<
+    Props,
+    | 'value'
+    | 'width'
+    | 'height'
+    | 'disabled'
+    | 'circleColorActive'
+    | 'circleColorInactive'
+    | 'onSyncPress'
+    | 'onAsyncPress'
+  >
