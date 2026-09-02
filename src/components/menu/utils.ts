@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-16 00:31:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 05:51:52
+ * @Last Modified time: 2026-09-03 05:44:04
  */
 import { WEB } from '@constants'
 
@@ -20,7 +20,13 @@ export function platformFix(title: string) {
   return title
 }
 
-/** 排除重复的 string 项 */
-export function removeDuplicateStrings(data: unknown[] | readonly unknown[]) {
-  return [...new Set(data.filter((item: unknown): item is string => typeof item === 'string'))]
+/** 排除重复的 string 项 (重复项保留首次出现, 非 string 项原样保留) */
+export function removeDuplicateStrings<T>(data: readonly T[]): T[] {
+  const seen = new Set<string>()
+  return data.filter(item => {
+    if (typeof item !== 'string') return true
+    if (seen.has(item)) return false
+    seen.add(item)
+    return true
+  })
 }

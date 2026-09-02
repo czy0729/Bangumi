@@ -4,8 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-02 16:55:41
  */
-import React from 'react'
-import { observer } from 'mobx-react'
+import React, { memo } from 'react'
 import RNSlider from '@react-native-community/slider'
 import { r } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
@@ -15,7 +14,7 @@ import type { Props as SliderProps } from './types'
 export type { SliderProps }
 
 /** 滑动输入条 */
-export const Slider = observer(
+export const Slider = memo(
   ({
     defaultValue = 0,
     value,
@@ -26,12 +25,14 @@ export const Slider = observer(
     onChange = FROZEN_FN,
     onAfterChange = FROZEN_FN,
     maximumTrackTintColor,
-    minimumTrackTintColor
+    minimumTrackTintColor,
+    ...other
   }: SliderProps) => {
     r(COMPONENT)
 
     return (
       <RNSlider
+        {...other}
         value={defaultValue || value}
         minimumValue={min}
         maximumValue={max}

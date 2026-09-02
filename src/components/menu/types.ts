@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-19 14:02:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 05:44:15
+ * @Last Modified time: 2026-09-03 05:43:47
  */
 import type { ReactNode, WithViewStyles } from '@types'
 
@@ -39,7 +39,7 @@ export type Props = WithViewStyles<{
   desc?: string
 
   /** 数据列表 */
-  data?: DataItemType[] | readonly DataItemType[]
+  data?: readonly DataItemType[]
 
   /** 选中回调 */
   onSelect?: (

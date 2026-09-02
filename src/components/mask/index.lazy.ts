@@ -7,3 +7,4 @@
 import { lazy } from 'react'
 
 export const Mask = lazy(() => import('./index'))
+export type { Props as MaskProps } from './types'

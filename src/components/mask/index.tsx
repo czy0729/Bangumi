@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-12 22:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 01:50:55
+ * @Last Modified time: 2026-09-03 05:50:37
  */
 import React from 'react'
 import Animated from 'react-native-reanimated'
@@ -13,10 +13,10 @@ import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { Component } from '../component'
 import { Touchable } from '../touchable'
-import { COMPONENT, DARK_THEME, LIGHT_THEME } from './ds'
+import { COMPONENT, GRADIENT_DARK, GRADIENT_LIGHT } from './ds'
 import { styles } from './styles'
 
-import type { MaskProps } from './types'
+import type { Props as MaskProps } from './types'
 export type { MaskProps }
 
 /** 兼容不同客户端的全屏遮罩 */
@@ -27,7 +27,10 @@ export const Mask = observer(({ style, linear, onPress }: MaskProps) => {
     <Component id='component-mask'>
       {linear ? (
         <Animated.View style={stl(styles.linear, style)} pointerEvents='none'>
-          <LinearGradient style={styles.linearInner} colors={_.select(LIGHT_THEME, DARK_THEME)} />
+          <LinearGradient
+            style={styles.linearInner}
+            colors={_.select(GRADIENT_LIGHT, GRADIENT_DARK)}
+          />
         </Animated.View>
       ) : (
         <Animated.View style={stl(styles.mask, style)} pointerEvents='none' />

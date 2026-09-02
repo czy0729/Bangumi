@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2019-06-09 20:04:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-02 17:23:37
+ * @Last Modified time: 2026-09-03 05:36:25
  */
 const SPEECHS = [
   '"啊 欢迎回来 主人！"虽然想这么说，但这种做作的语气只会让我想用钢丝勒断说话人的脖子。',
@@ -164,11 +164,11 @@ const SPEECHS = [
   '虽然我不聪明，但还是会望日观星的哟～☆'
 ] as const
 
-/** 随机得到一个 Bangumi 娘话语 */
-export const randomSpeech = (): string => {
-  const { length } = SPEECHS
-  const index = Math.floor(Math.random() * (0 - length) + length)
-  return SPEECHS[index]
-}
+/** 看板娘总数（需与 @constants 的 ASSETS_MUSUMES 条目数保持一致） */
+export const MESUME_COUNT = 7
 
-export default SPEECHS
+/** 随机得到一个看板娘编号 (1-MESUME_COUNT) */
+export const randomMesumeIndex = (): number => Math.floor(Math.random() * MESUME_COUNT) + 1
+
+/** 随机得到一个 Bangumi 娘话语 */
+export const randomSpeech = (): string => SPEECHS[Math.floor(Math.random() * SPEECHS.length)]

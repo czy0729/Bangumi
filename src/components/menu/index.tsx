@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-06 06:57:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 05:52:52
+ * @Last Modified time: 2026-09-03 05:44:31
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -56,39 +56,37 @@ export const Menu = observer(
               {desc}
             </Text>
           )}
-          {removeDuplicateStrings(data).map(
-            (item: string | { title?: string; type?: string }, index: number) => {
-              const showBorder = title.length !== 0 || (title.length === 0 && index !== 0)
-              if (typeof item === 'string') {
-                return (
-                  <View key={item} style={showBorder && styles.border}>
-                    <Touchable style={styles.item} onPress={() => onSelect(item, index)}>
-                      <Text
-                        align='center'
-                        size={WEB ? 13 : 14}
-                        numberOfLines={WEB ? undefined : 1}
-                        noWrap={WEB ? false : true}
-                        selectable={false}
-                      >
-                        {platformFix(item)}
-                      </Text>
-                    </Touchable>
-                  </View>
-                )
-              }
-
-              if (item.type === 'divider')
-                return <View key={`divider|${index}`} style={styles.border} />
-
+          {removeDuplicateStrings(data).map((item, index) => {
+            const showBorder = title.length !== 0 || (title.length === 0 && index !== 0)
+            if (typeof item === 'string') {
               return (
-                <View key={`title|${index}`} style={showBorder && styles.border}>
-                  <Touchable style={styles.item} onPress={() => onSelect(item.title, index)}>
-                    {item.title}
+                <View key={item} style={showBorder && styles.border}>
+                  <Touchable style={styles.item} onPress={evt => onSelect(item, index, evt)}>
+                    <Text
+                      align='center'
+                      size={WEB ? 13 : 14}
+                      numberOfLines={WEB ? undefined : 1}
+                      noWrap={WEB ? false : true}
+                      selectable={false}
+                    >
+                      {platformFix(item)}
+                    </Text>
                   </Touchable>
                 </View>
               )
             }
-          )}
+
+            if (item.type === 'divider')
+              return <View key={`divider|${index}`} style={styles.border} />
+
+            return (
+              <View key={`title|${index}`} style={showBorder && styles.border}>
+                <Touchable style={styles.item} onPress={evt => onSelect(item.title, index, evt)}>
+                  {item.title}
+                </Touchable>
+              </View>
+            )
+          })}
         </View>
       </Component>
     )
