@@ -185,7 +185,8 @@ jest.mock(
       uiStore: {
         get isScrolling() {
           return global.__mockStoreState__.isScrolling
-        }
+        },
+        setScrolling: jest.fn()
       },
       userStore: {
         userProgress: () => ({})

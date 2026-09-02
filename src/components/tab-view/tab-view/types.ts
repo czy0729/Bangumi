@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-17 21:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-17 21:30:00
+ * @Last Modified time: 2026-09-03 02:50:57
  */
 import type { ReactNode } from 'react'
 import type { Animated, StyleProp, ViewStyle } from 'react-native'
@@ -71,3 +71,6 @@ export type Props<T extends Route> = PagerProps & {
   /** @add 背景组件 */
   renderBackground?: ReactNode
 }
+
+/** 滑动状态 hook 参数 */
+export type UseTabViewSwipeOptions = Pick<Props<Route>, 'onSwipeStart' | 'onSwipeEnd'>
