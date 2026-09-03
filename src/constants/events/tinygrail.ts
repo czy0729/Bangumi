@@ -131,7 +131,7 @@ export default {
 
   T资产分析: 'TTree',
   '资产分析.选择范围': 'TTree.onTypeSelect',
-  '资产分析.选择计算类型': 'TTree.onCaculateTypeSelect',
+  '资产分析.选择计算类型': 'TTree.onCalculateTypeSelect',
   '资产分析.选择筛选': 'TTree.onFilter',
   '资产分析.刷新': 'TTree.refresh',
   '资产分析.提醒': 'TTree.alert',
@@ -140,7 +140,7 @@ export default {
 
   T前百首富: 'TTreeRich',
   '前百首富.刷新': 'TTreeRich.refresh',
-  '前百首富.选择计算类型': 'TTreeRich.onCaculateTypeSelect',
+  '前百首富.选择计算类型': 'TTreeRich.onCalculateTypeSelect',
   '前百首富.选择筛选': 'TTreeRich.onFilter',
   '前百首富.人物菜单': 'TTreeRich.onShowMenu',
   '前百首富.长按隐藏': 'TTreeRich.onLongPressHide',

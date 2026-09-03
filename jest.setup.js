@@ -163,7 +163,14 @@ jest.mock('@utils/async', () => ({ syncUserStore: jest.fn() }), { virtual: true 
 
 jest.mock('@utils/thirdParty', () => ({ axios: jest.fn() }), { virtual: true })
 
-jest.mock('@utils/crypto', () => ({ default: { get: () => [] } }), { virtual: true })
+// 同时提供 default 与命名导出, constants/cdn/ds.ts 等消费方使用 import { get } 命名导入;
+// 返回 JSON 字符串 '[]', 兼容 constants/model/news.ts 的 JSON.parse(get(...)) 用法
+jest.mock('@utils/crypto', () => ({
+  __esModule: true,
+  default: { get: () => '[]', set: () => '' },
+  get: () => '[]',
+  set: () => ''
+}))
 
 jest.mock('@assets/json', () => ({ loadJSON: jest.fn() }))
 
@@ -263,7 +270,11 @@ jest.mock(
       MODEL_RAKUEN_TYPE: model('全部'),
       D: 86400,
       D3: 259200,
-      D7: 604800
+      D7: 604800,
+
+      // barrel 导出的埋点事件表; 消费方 (web-view log detail 等) 会在模块顶层
+      // 对它做 Object.entries, 缺失会得到 undefined 并抛错, 故提供空对象兜底
+      EVENTS: {}
     }
   },
   { virtual: true }

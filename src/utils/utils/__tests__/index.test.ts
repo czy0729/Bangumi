@@ -1,6 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2026-05-12
+ * @Date: 2026-09-03 23:32:49
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-03 23:32:49
  */
 jest.mock('../../ui', () => ({
   info: jest.fn()
@@ -8,6 +10,18 @@ jest.mock('../../ui', () => ({
 
 jest.mock('../utils', () => ({
   log: jest.fn()
+}))
+
+// applyProxy 依赖真实 HOST 与代理配置, 单测中固定直通 (与旧测试环境行为一致)
+jest.mock('../../proxy', () => ({
+  applyProxy: (url: string) => ({ url, headers: {}, proxyType: '' })
+}))
+
+// toLocalTimeStr / date 在模块加载期读取 TIMEZONE_IS_GMT8, ESM import 提升使其无法用
+// process.env.TZ 覆盖, 故在此固定, 保证断言不随运行机器时区漂移
+jest.mock('@constants/data', () => ({
+  ...jest.requireActual('@constants/data'),
+  TIMEZONE_IS_GMT8: true
 }))
 
 import {
