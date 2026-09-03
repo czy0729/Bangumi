@@ -3,6 +3,8 @@
  * @Date: 2024-08-25 00:59:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 05:14:54
+ *
+ * 角色/人物条目右侧文字区域: 标题、职位标签、info 拆分
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -16,14 +18,14 @@ import { styles } from './styles'
 import type { Props } from './types'
 
 function Content({
-  type,
+  type = 'character',
+  linkProps,
   cn,
   jp,
   replies,
   info = '',
-  position,
-  positionDetails,
-  linkProps
+  position = [],
+  positionDetails = []
 }: Props) {
   const infos = String(info)
     .split('/')
@@ -52,7 +54,7 @@ function Content({
 
       <Flex style={_.mt.xs} wrap='wrap'>
         {position.map((item, index) => (
-          <Flex key={item} style={styles.position}>
+          <Flex key={`${item}${index}`} style={styles.position}>
             <Tag
               type={
                 type === 'character'
@@ -75,17 +77,17 @@ function Content({
       {!!infos.length && (
         <Flex style={_.mt.sm} wrap='wrap'>
           {infos.map((item, index) => (
-            <>
+            <React.Fragment key={`${item}${index}`}>
               {!!index && (
-                <Text key={`split-${index}`} size={11} bold>
+                <Text size={11} bold>
                   {' '}
                   /{' '}
                 </Text>
               )}
-              <Text key={index} size={11} bold>
+              <Text size={11} bold>
                 {item}
               </Text>
-            </>
+            </React.Fragment>
           ))}
         </Flex>
       )}

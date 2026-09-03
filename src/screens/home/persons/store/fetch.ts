@@ -10,6 +10,8 @@ import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
 import Computed from './computed'
 
+import type { Persons } from '@stores/mono/types'
+import type { ResultData } from '@utils/kv/type'
 import type { SnapshotId } from '../types'
 
 /** 若更新过则不会再主动更新 */
@@ -32,7 +34,7 @@ export default class Fetch extends Computed {
   fetchThirdParty = async () => {
     if (this.ota || this.persons._loaded) return
 
-    const data = await get(this.thirdPartyKey)
+    const data = await get<ResultData<Persons>>(this.thirdPartyKey)
 
     // 即使没有数据，也要占位，用于后续判断是否需要回写
     this.setState({

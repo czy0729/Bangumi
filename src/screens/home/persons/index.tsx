@@ -3,11 +3,13 @@
  * @Date: 2020-05-21 16:36:54
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-25 05:20:03
+ *
+ * 更多制作人员页: 条目制作人员分页列表
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Extra from './component/extra'
 import List from './component/list'
 import ToolBar from './component/tool-bar'
@@ -17,10 +19,10 @@ import { usePersonsPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 制作人员 */
-const Persons = (props: NavigationProps) => {
+function Persons(props: NavigationProps) {
   const { id, $ } = usePersonsPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-persons'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.persons._loaded}>
@@ -32,7 +34,7 @@ const Persons = (props: NavigationProps) => {
         <Extra />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Persons
+export default observer(Persons)

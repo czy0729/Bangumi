@@ -3,6 +3,8 @@
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 05:16:43
+ *
+ * 角色/人物列表条目: 封面 + 文字信息 + 声优列表
  */
 import React, { useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -15,10 +17,12 @@ import { InView } from '../../base'
 import Actors from './actors'
 import Content from './content'
 import More from './more'
-import { COMPONENT, IMG_WIDTH, ITEM_HEIGHT } from './ds'
+import { COMPONENT, IMG_WIDTH, ITEM_CHARACTER_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 
-import type { CoverProps } from '@components'
+export { ITEM_CHARACTER_HEIGHT }
+
+import type { CoverProps, LinkProps } from '@components'
 import type { MonoId } from '@types'
 import type { Props as ItemCharacterProps } from './types'
 export type { ItemCharacterProps }
@@ -48,27 +52,25 @@ export const ItemCharacter = observer(
     const cn = cnjp(nameCn, name).trim()
     const jp = cnjp(name, nameCn).trim()
 
-    const linkProps = useMemo(
-      () =>
-        ({
-          path: 'Mono',
-          getParams: () => ({
-            monoId,
-            _name: cn,
-            _jp: jp,
-            _image: cover,
-            _count: String(replies || '').replace('+', '')
-          }),
-          eventId: event.id,
-          getEventData: () => ({
-            to: 'Mono',
-            monoId
-          })
-        } as const),
-      [cn, cover, event, jp, monoId, replies]
+    const linkProps: LinkProps<'Mono'> = useMemo(
+      () => ({
+        path: 'Mono',
+        getParams: () => ({
+          monoId,
+          _name: cn,
+          _jp: jp,
+          _image: cover,
+          _count: String(replies || '').replace('+', '')
+        }),
+        eventId: event.id,
+        getEventData: () => ({
+          to: 'Mono',
+          monoId
+        })
+      }),
+      [monoId, cn, jp, cover, replies, event.id]
     )
-
-    const y = ITEM_HEIGHT * (index + 1)
+    const y = InView.y(index, ITEM_CHARACTER_HEIGHT)
 
     const coverProps: CoverProps = {
       src: cover
@@ -94,13 +96,13 @@ export const ItemCharacter = observer(
           <Flex.Item style={_.ml.md}>
             <Content
               type={type}
+              linkProps={linkProps}
               cn={cn}
               jp={jp}
               replies={replies}
               info={info}
-              position={positions.length ? positions : [position]}
+              position={positions.length ? positions : position ? [position] : []}
               positionDetails={positionDetails}
-              linkProps={linkProps}
             />
             <Actors actors={actors} y={y} event={event} />
           </Flex.Item>

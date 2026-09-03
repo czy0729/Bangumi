@@ -2,121 +2,25 @@
  * @Author: czy0729
  * @Date: 2024-08-24 13:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 05:14:32
+ * @Last Modified time: 2026-09-04 03:45:00
+ *
+ * 角色/声优条目内的声优列表, 每个声优一个 Popover 菜单
  */
-import React, { useCallback, useMemo } from 'react'
+import React from 'react'
 import { observer } from 'mobx-react'
-import { Cover, Flex, Link, Text } from '@components'
+import { Flex } from '@components'
 import { _ } from '@stores'
-import { cnjp, getMonoCoverSmall, stl } from '@utils'
-import { useNavigation } from '@utils/hooks'
-import { HOST, IMG_INFO_ONLY } from '@constants'
-import {
-  CHARACTERS_ACTORS_DATA,
-  TEXT_COLLABS,
-  TEXT_COLLECTIONS,
-  TEXT_TOPIC,
-  TEXT_WORKS,
-  TEXT_WORKS_VOICE
-} from '../ds'
-import { InView, Popover } from '../../../base'
-import { styles } from './styles'
+import { EVENT } from '@constants'
+import ActorItem from './item'
 
-import type { PersonId, TopicId } from '@types'
 import type { Props } from './types'
 
-function Actors({ actors, y, event }: Props) {
-  const navigation = useNavigation()
-
+function Actors({ actors = [], y, event = EVENT }: Props) {
   return (
     <Flex style={_.mt.sm} wrap='wrap'>
-      {actors.map(item => {
-        const monoId = (String(item.id).includes('person') ? item.id : `person/${item.id}`).replace(
-          /^\//g,
-          ''
-        ) as PersonId
-        const name = cnjp(item.nameCn, item.name)
-
-        const memoData = useMemo(() => [name, ...CHARACTERS_ACTORS_DATA], [name])
-        const memoAction = useMemo(
-          () => ({
-            [TEXT_WORKS_VOICE]: () => navigation.push('Voices', { monoId, name }),
-            [TEXT_WORKS]: () => navigation.push('Works', { monoId, name }),
-            [TEXT_COLLABS]: () =>
-              navigation.push('WebBrowser', {
-                url: `${HOST}/${monoId}/collabs`,
-                title: `${name}的合作`
-              }),
-            [TEXT_COLLECTIONS]: () =>
-              navigation.push('WebBrowser', {
-                url: `${HOST}/${monoId}/collections`,
-                title: `谁收藏了${name}`
-              }),
-            [TEXT_TOPIC]: () =>
-              navigation.push('Topic', {
-                topicId: monoId.replace('person', 'prsn') as TopicId
-              })
-          }),
-          [monoId, name]
-        )
-
-        const elContent = useMemo(
-          () => (
-            <>
-              <Text size={11} bold numberOfLines={1}>
-                {name}
-              </Text>
-
-              {!!item.job && (
-                <Text type='sub' size={9} lineHeight={11} bold numberOfLines={1}>
-                  {item.job}
-                </Text>
-              )}
-            </>
-          ),
-          [item.job, name]
-        )
-
-        const handleSelect = useCallback(
-          (label: string) => {
-            if (typeof memoAction[label] === 'function') {
-              memoAction[label]()
-              return
-            }
-
-            navigation.push('Mono', { monoId })
-          },
-          [memoAction, monoId]
-        )
-
-        return (
-          <Flex key={item.id} style={stl(styles.touch, actors.length <= 1 && styles.touchLg)}>
-            <Link
-              path='Mono'
-              getParams={() => ({ monoId })}
-              eventId={event.id}
-              getEventData={() => ({
-                to: 'Mono',
-                monoId
-              })}
-            >
-              <InView style={styles.inView} y={y}>
-                <Cover
-                  src={getMonoCoverSmall(item.cover) || IMG_INFO_ONLY}
-                  size={styles.inView.minWidth}
-                  radius={_.radiusXs}
-                />
-              </InView>
-            </Link>
-
-            <Flex.Item style={_.ml.sm}>
-              <Popover data={memoData} onSelect={handleSelect}>
-                {elContent}
-              </Popover>
-            </Flex.Item>
-          </Flex>
-        )
-      })}
+      {actors.map(item => (
+        <ActorItem key={item.id} item={item} y={y} event={event} single={actors.length <= 1} />
+      ))}
     </Flex>
   )
 }

@@ -10,6 +10,8 @@ import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
 import Computed from './computed'
 
+import type { Characters } from '@stores/mono/types'
+import type { ResultData } from '@utils/kv/type'
 import type { SnapshotId } from '../types'
 
 /** 若更新过则不会再主动更新 */
@@ -38,7 +40,7 @@ export default class Fetch extends Computed {
   /** 获取云快照 */
   fetchThirdParty = async () => {
     if (!this.ota && !this.characters._loaded) {
-      const data = await get(this.thirdPartyKey)
+      const data = await get<ResultData<Characters>>(this.thirdPartyKey)
       if (!data) {
         // 就算没有数据也插入 key, 用于判断是否需要更新云数据
         this.setState({

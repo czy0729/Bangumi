@@ -3,11 +3,13 @@
  * @Date: 2020-05-21 16:36:54
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-27 06:26:21
+ *
+ * 更多角色页: 条目角色分页列表
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Extra from './component/extra'
 import List from './component/list'
 import Header from './header'
@@ -16,10 +18,10 @@ import { useCharactersPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 条目更多角色 */
-const Characters = (props: NavigationProps) => {
+function Characters(props: NavigationProps) {
   const { id, $ } = useCharactersPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-characters'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.characters._loaded}>
@@ -30,7 +32,7 @@ const Characters = (props: NavigationProps) => {
         <Extra />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Characters
+export default observer(Characters)

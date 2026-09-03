@@ -11,7 +11,7 @@ export const COMPONENT = rc(PARENT, 'ItemCharacter')
 
 export const IMG_WIDTH = 72
 
-export const ITEM_HEIGHT = 104
+export const ITEM_CHARACTER_HEIGHT = 104
 
 export const HIGHLIGHT_POSITION = [
   '原作',

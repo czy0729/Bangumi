@@ -7,6 +7,9 @@
 import type { MonoId } from '@types'
 
 export type Props = {
+  /** 人物 MonoId */
   monoId: MonoId
+
+  /** 显示名 */
   name: string
 }
