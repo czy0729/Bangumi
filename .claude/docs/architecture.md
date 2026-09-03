@@ -19,7 +19,7 @@
 │   ├── screens/            # 所有页面模块（~100+）
 │   ├── stores/             # MobX domain stores（18个）
 │   ├── navigations/        # React Navigation 配置
-│   ├── constants/          # 常量: api/, html/, cdn/, device/, model/, site/, i18n/
+│   ├── constants/          # 常量: index.ts 为 barrel; 子模块 api/, app/, assets/, cdn/, data/, device/, env/, events/, host/, html/, i18n/, init/, model/, site/, text/, tinygrail/ (运行时管线已迁至 utils/cdn)
 │   ├── styles/             # 主题、颜色、布局工具 (index.ts 汇总; colors.ts 单文件; layout.ts 布局/尺寸; device.ts 设备检测; tools/ 工具类: container/margin/border/effect/legacy)
 │   ├── types/              # TypeScript 类型定义
 │   ├── utils/              # ~35+ 工具模块

@@ -1,13 +1,14 @@
 /*
- * 客户端特定数据结构
  * @Author: czy0729
  * @Date: 2022-06-27 13:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-28 17:33:48
+ * @Last Modified time: 2026-09-03 23:26:25
+ *
+ * 客户端特定数据结构
  */
 import type { AppIcons, IoniconsIcons, MaterialIcons } from '@components/@'
 import type { SITES } from '@constants'
-import type { EventKeys } from '@constants/events'
+import type { EventKeys } from '@constants'
 import type { Id, SubjectId, UserId } from './bangumi'
 import type { NavigationPushType, Paths } from './route'
 import type { DeepPartial, Expand, Override, ViewStyle } from './utils'

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2026-08-25 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 19:27:01
+ * @Last Modified time: 2026-09-03 23:30:41
  */
 import { API_HOST, API_HOST_BACKUP } from '@constants/api'
-import { HOST_IMAGE } from '@constants/constants'
+import { HOST_IMAGE } from '@constants/host'
 import { syncSystemStore } from '../async'
 import { hmacSHA256 } from '../crypto'
 import { isEchProxyRunning } from './ech'

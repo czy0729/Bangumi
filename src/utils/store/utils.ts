@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2026-08-23 13:18:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-02 10:00:00
+ * @Last Modified time: 2026-09-03 23:31:21
  *
  * Store 纯函数集 (base / legacy / index 共用)
  */
 import { extendObservable, isObservable, isObservableArray, observable, remove } from 'mobx'
-import { LIST_EMPTY } from '@constants/constants'
+import { LIST_EMPTY } from '@constants/data'
 import { deepEqual, hasOwn, plainClone } from '../compare'
 import { getTimestamp } from '../utils'
 

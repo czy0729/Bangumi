@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-25 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 10:00:00
+ * @Last Modified time: 2026-09-03 23:30:48
  */
 import { syncSystemStore } from '@utils/async'
 import { API_HOST, API_HOST_BACKUP, API_P1 } from '@constants/api'
@@ -14,7 +14,7 @@ jest.mock('@utils/async', () => ({
   syncSystemStore: jest.fn()
 }))
 
-jest.mock('@constants/constants', () => ({
+jest.mock('@constants/host', () => ({
   HOST: 'https://bgm.tv',
   HOST_IMAGE: '//lain.bgm.tv'
 }))

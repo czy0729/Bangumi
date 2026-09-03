@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-11 09:18:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-23 23:33:29
+ * @Last Modified time: 2026-09-03 23:26:55
  */
 import { Dimensions } from 'react-native'
 import { HOST_AC_MEDIA } from '@constants/cdn'
-import { HOST } from '@constants/constants'
+import { HOST } from '@constants/host'
 
 import type { Id, SubjectId, UserId } from '@types'
 

@@ -8,7 +8,7 @@ import React, { forwardRef, useCallback, useImperativeHandle, useState } from 'r
 import { ActionSheetIOS, Platform, Share, Text, TouchableHighlight, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { syncThemeStore } from '@utils/async'
-import { IOS } from '@constants/constants'
+import { IOS } from '@constants/env'
 import { androidTextFixedStyle } from '@styles'
 import { ModalView } from '../../modal-view'
 import { Portal } from '../../portal'

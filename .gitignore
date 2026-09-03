@@ -14,6 +14,7 @@
 .claude/settings.local.json
 .opencode/
 .zcode/
+.codebuddy/
 \[auth\]/
 \[deprecated\]/
 android.zip

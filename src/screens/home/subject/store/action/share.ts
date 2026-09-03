@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-26 10:08:52
+ * @Last Modified time: 2026-09-03 23:20:33
  */
 import { systemStore } from '@stores'
 import {
@@ -22,11 +22,12 @@ import {
   showActionSheet
 } from '@utils'
 import { calendarEventsSaveGameReleaseDate } from '@utils/calendar'
+import { CDN_OSS_SUBJECT } from '@utils/cdn'
 import { baiduTranslate, t } from '@utils/fetch'
 import { download, lx, lxCache, temp } from '@utils/kv'
 import { applyLainProxy, applyProxy } from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
-import { CDN_OSS_SUBJECT, HOST, HOST_CDN, URL_SPA } from '@constants'
+import { HOST, HOST_CDN, URL_SPA } from '@constants'
 import Menus from './menus'
 
 import type { EpsItem } from '../../types'

@@ -11,6 +11,9 @@ export const HOST_DOGE = get(
   'U2FsdGVkX1+2qULvXezwI6fbFGIL7st4kYo0Q2RAf8JEKUaEyfYwKrhjaJ6FHS3ErIS9X8w8Oq1O88AEI37otA=='
 ) as string
 
+/** DogeCloud 默认图 */
+export const DOGE_CDN_IMG_DEFAULT = `${HOST_DOGE}/assets/default.png`
+
 /** DogeCloud */
 export const HOST_CDN_AVATAR = get(
   'U2FsdGVkX19B9z0TLPcopsUYzdq1hhviuF8j4ZjtcA+ho5Zr2/GAfv31rFzztvUJ'

@@ -33,7 +33,7 @@ const TinygrailTree = (props: NavigationProps) => {
           ) : (
             <Chart
               data={$.state.data}
-              caculateType={$.state.caculateType}
+              calculateType={$.state.calculateType}
               isTemple={$.isTemple}
               onPress={handleShowMenu}
               onLongPress={$.onToggleItem}

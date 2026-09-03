@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-05-19 08:09:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-11 08:19:39
+ * @Last Modified time: 2026-09-03 23:22:43
  */
 import { computed } from 'mobx'
 import { subjectStore, systemStore, tinygrailStore } from '@stores'
 import { asc, formatNumber, toFixed } from '@utils'
+import { getXsbRelationOTA } from '@utils/cdn'
 import { logger } from '@utils/dev'
-import { getXsbRelationOTA, HOST } from '@constants'
+import { HOST } from '@constants'
 import { calculateRate, decimal } from '@tinygrail/_/utils'
 import State from './state'
 import { NAMESPACE } from './ds'

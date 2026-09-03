@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-23 06:46:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-14 04:21:41
+ * @Last Modified time: 2026-09-03 23:07:58
  */
-import { HOST_CDN } from '../constants'
+import { HOST_CDN } from '../host'
 import { getFolder, getVersion } from './utils'
-import { HOST_CDN_STATIC, HOST_DOGE, VERSION_RAKUEN } from './ds'
+import { HOST_DOGE, VERSION_RAKUEN } from './ds'
 
 import type { Id, UserId } from '@types'
 
@@ -24,17 +24,4 @@ export const CDN_RAKUEN_USER_TOPICS = (userId: UserId) => {
     0,
     1
   )}/${userId}.txt` as const
-}
-
-/** @deprecated */
-const _HOST_STATIC = `${HOST_CDN_STATIC}/Bangumi-Rakuen` as const
-
-/** @deprecated 超展开小组 CDN 自维护数据 */
-export const _CDN_RAKUEN = (topicId: Id, type: 'topic' | 'comment' = 'topic') => {
-  return `${_HOST_STATIC}/data/${type}/${getFolder(topicId)}/${topicId}.json` as const
-}
-
-/** @deprecated 某用户的超展开 */
-export const _CDN_RAKUEN_USER_TOPICS = (userId: UserId) => {
-  return `${_HOST_STATIC}/data/user/${String(userId).slice(0, 1)}/${userId}.json` as const
 }

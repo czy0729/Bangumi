@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-24 21:42:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 15:16:50
+ * @Last Modified time: 2026-09-03 23:30:20
  */
 import { rakuenStore, systemStore } from '@stores'
-import { D } from '@constants/constants'
+import { D } from '@constants/data'
 import { DEV } from '@src/config'
 import { t, ua } from '../fetch'
 import { getStorage, setStorage } from '../storage'

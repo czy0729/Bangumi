@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-09-14 04:50:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-13 20:46:00
+ * @Last Modified time: 2026-09-03 23:31:47
  */
 import { asc, getTimestamp } from '@utils'
 import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
-import { DATA_ALPHABET } from '@constants/constants'
+import { DATA_ALPHABET } from '@constants/data'
 
 /** 预设排序 */
 export const SORT = {
@@ -152,7 +152,7 @@ export const ANIME_TAGS = [
 
 export const ANIME_TAGS_MAP = Object.fromEntries(
   ANIME_TAGS.map((item, index) => [item, index])
-) as Record<typeof ANIME_TAGS[number], number>
+) as Record<(typeof ANIME_TAGS)[number], number>
 
 export const ANIME_OFFICIAL = [
   'J.C.STAFF',
@@ -281,7 +281,7 @@ export const ANIME_OFFICIAL = [
 
 export const ANIME_OFFICIAL_MAP = Object.fromEntries(
   ANIME_OFFICIAL.map((item, index) => [item, index])
-) as Record<typeof ANIME_OFFICIAL[number], number>
+) as Record<(typeof ANIME_OFFICIAL)[number], number>
 
 export const ANIME_SORT = ['排名', '上映时间', '评分人数', '随机', '名称'] as const
 

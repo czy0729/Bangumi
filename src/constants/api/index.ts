@@ -1,18 +1,19 @@
 /*
- * 接口定义
- *  - https://github.com/bangumi/api
- *
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-21 04:47:38
+ * @Last Modified time: 2026-09-03 23:05:46
+ *
+ * 接口定义
+ *  - https://github.com/bangumi/api
  */
-import { HOST, IMG_DEFAULT } from '../constants'
+import { IMG_DEFAULT } from '../data'
 import { WEB } from '../device'
+import { HOST } from '../host'
 
-import type { EpId, Id, SubjectId, UserId } from '@types'
+import type { EpId, SubjectId, UserId } from '@types'
 import type { EpStatus, SubjectType } from '../model/types'
-import type { ApiCollectionAction, ApiCoverType, ApiMonoType } from './types'
+import type { ApiCollectionAction } from './types'
 
 export * from './ds'
 export * from './tinygrail'
@@ -149,23 +150,12 @@ export const API_COLLECTION_ACTION = (
 /* v0 API - 图片                                                               */
 /* -------------------------------------------------------------------------- */
 
-/** 条目封面 (v0) */
-export const API_COVER = (subjectId: SubjectId, type: string = 'common') =>
-  `${API_V0}/subjects/${subjectId}/image?type=${type}`
-
 /**
  * 用户头像 (v0)
  *  - 在 API 代理下不能使用此接口，因为接口会直接返回 lain 地址，中途无法插手修改成 Lain 代理地址
  * */
 export const API_AVATAR = (username: string | number) =>
   WEB ? IMG_DEFAULT : `${API_V0}/users/${username}/avatar?type=large`
-
-/** 角色 / 人物图片 (v0) */
-export const API_MONO_COVER = (
-  monoId: Id,
-  type: ApiCoverType = 'medium',
-  monoType: ApiMonoType = 'characters'
-) => `${API_V0}/${monoType}/${monoId}/image?type=${type}`
 
 /** 获取用户对指定条目的收藏（v0） */
 export const API_USERS_SUBJECT_COLLECTION = (username: UserId, subjectId: SubjectId) =>
@@ -178,34 +168,9 @@ export const API_USERS_SUBJECT_COLLECTION = (username: UserId, subjectId: Subjec
 /** 每日放送 */
 export const API_CALENDAR = () => `${API_HOST}/calendar`
 
-/**
- * 条目搜索
- *
- * @query type
- *  - 1 book
- *  - 2 anime
- *  - 3 music
- *  - 4 game
- *  - 6 real
- * @query start 开始条数
- * @query max_results 每页条数, 最多25
- */
-export const API_SEARCH = (keywords: string) => `${API_HOST}/search/subject/${keywords}`
-
 /* -------------------------------------------------------------------------- */
 /* 第三方 / 扩展接口                                                             */
 /* -------------------------------------------------------------------------- */
-
-/** 瓷砖进度 */
-export const API_MOSAIC_TILE = (username: UserId, type: 'progress' | string = 'progress') =>
-  `https://bangumi-mosaic-tile.aho.im/users/${username}/timelines/${type}.json`
-
-/** 随机 Pixiv */
-export const API_SETU = (num: number = 20) =>
-  `https://api.lolicon.app/setu/v2?r18=0&num=${num}&size=small&dateAfter=1609459200000`
-
-/** 随机二次元头像 */
-export const API_RANDOM_AVATAR = () => 'https://api.yimian.xyz/img?type=head'
 
 /** 圣地巡游 */
 export const API_ANITABI = (subjectId: SubjectId) =>

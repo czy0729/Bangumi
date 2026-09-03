@@ -19,7 +19,7 @@ import useCachedResources from '@utils/hooks/useCachedResources'
 import useErrorHandlerAndroid from '@utils/hooks/useErrorHandlerAndroid'
 import useOrientationSync from '@utils/hooks/useOrientationSync'
 import useWSALayout from '@utils/hooks/useWSALayout'
-import { ANDROID } from '@constants/constants/env'
+import { ANDROID } from '@constants/env'
 import NativeStacks from '@src/navigations/native-stacks'
 
 // iOS 侧载情况下, App 切出或者休眠后返回, 滑动退后会卡死, 暂不使用这个优化; 安卓开启以节省重叠页面的内存占用

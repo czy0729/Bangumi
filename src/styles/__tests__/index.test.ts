@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-14 17:39:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-14 17:40:53
+ * @Last Modified time: 2026-09-03 23:26:00
  */
 jest.mock('@constants/device', () => ({
   PAD: 0,
@@ -15,7 +15,6 @@ jest.mock('@constants/device', () => ({
   WSA: false
 }))
 jest.mock('expo-constants', () => ({ __esModule: true, default: { statusBarHeight: 44 } }))
-jest.mock('@constants/constants', () => ({ IOS: true }))
 
 import * as colors from '@styles/colors'
 import * as layout from '@styles/layout'

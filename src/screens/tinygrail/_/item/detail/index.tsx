@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-03-03 23:17:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 20:35:48
+ * @Last Modified time: 2026-09-03 23:21:14
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { tinygrailStore } from '@stores'
 import {
-  caculateICO,
+  calculateICO,
   formatNumber,
   formatTime,
   getTimestamp,
@@ -115,7 +115,7 @@ function Detail(props) {
   let icoUser: number
   let icoHighlight: boolean
   if (users && users !== 'ico') {
-    const { nextUser } = caculateICO(props)
+    const { nextUser } = calculateICO(props)
     icoUser = users
 
     /** 人数差一点就达成条件 */

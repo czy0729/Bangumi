@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-24 00:25:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-24 00:26:36
+ * @Last Modified time: 2026-09-03 23:27:33
  *
  * expo-calendar 封装层测试, mock 整个 expo-calendar 命名空间
  * 断言依赖 GMT+8 时区, 文件顶部统一设置
@@ -18,6 +18,12 @@ jest.mock('expo-calendar', () => ({
   createCalendarAsync: jest.fn(),
   createEventAsync: jest.fn(),
   getEventsAsync: jest.fn()
+}))
+
+// 本套件覆盖非 iOS 分支; iOS 分支见同目录 ios.test.ts
+jest.mock('@constants/env', () => ({
+  IOS: false,
+  ANDROID: true
 }))
 
 import dayjs from 'dayjs'
@@ -102,10 +108,7 @@ describe('calendarEventsRequestPermissions', () => {
     // 创建的 id 被缓存供后续写入使用
     Calendar.createEventAsync.mockResolvedValue('evt-1')
     await calendarEventsSaveEvent('测试', {})
-    expect(Calendar.createEventAsync).toHaveBeenCalledWith(
-      'cal-new-1',
-      expect.anything()
-    )
+    expect(Calendar.createEventAsync).toHaveBeenCalledWith('cal-new-1', expect.anything())
   })
 
   it('[修复] 并发调用只查找/创建一次日历', async () => {

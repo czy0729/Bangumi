@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-20 16:37:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-22 06:31:24
+ * @Last Modified time: 2026-09-03 23:25:28
  */
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -13,8 +13,7 @@ import { desc } from '@utils'
 import { r } from '@utils/dev'
 import { useMount, useObserver } from '@utils/hooks'
 import { get } from '@utils/kv'
-import { WEB } from '@constants'
-import events from '@constants/events'
+import { EVENTS as events, WEB } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 

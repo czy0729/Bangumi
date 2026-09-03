@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-04-13 00:32:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 07:59:59
+ * @Last Modified time: 2026-09-03 23:32:14
  */
-import { HOST, IOS, VERSION_GITHUB_RELEASE } from '@constants/constants'
+import { EVENTS as events } from '@constants'
 import { WEB } from '@constants/device'
-import events from '@constants/events'
+import { IOS, VERSION_GITHUB_RELEASE } from '@constants/env'
+import { HOST } from '@constants/host'
 import { DEV, IOS_IPA } from '@src/config'
 import { syncSystemStore as _s, syncThemeStore as _, syncUserStore as _u } from '../async'
 import { isDevtoolsOpen } from '../dom'
@@ -15,8 +16,9 @@ import { urlStringify } from '../utils'
 import { getReferer, log, umami, umamiEvent, xhr } from './utils'
 import { SI_UV, WEBSITE_UV } from './ds'
 
-import type { EventKeys } from '@constants/events'
+import type { EventKeys } from '@constants'
 import type { EventData, HMQuery } from './type'
+
 /** 上次路由完整参数 */
 let lastQuery = ''
 

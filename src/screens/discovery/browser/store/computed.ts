@@ -9,7 +9,7 @@ import { subjectStore, tagStore, userStore } from '@stores'
 import { x18 } from '@utils'
 import { computedFn } from '@utils/computed-fn'
 import {
-  HTML_BROSWER,
+  HTML_BROWSER,
   LIST_EMPTY,
   TEXT_MENU_FAVOR,
   TEXT_MENU_FIXED,
@@ -84,7 +84,7 @@ export default class Computed extends State {
 
   /** 索引网址 */
   @computed get url() {
-    return HTML_BROSWER(this.state.type as SubjectType, this.airtime, 1, this.state.sort)
+    return HTML_BROWSER(this.state.type as SubjectType, this.airtime, 1, this.state.sort)
   }
 
   /** 是否列表布局 */

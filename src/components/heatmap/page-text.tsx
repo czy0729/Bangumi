@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-06 18:02:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-22 04:26:06
+ * @Last Modified time: 2026-09-03 23:00:17
  */
 import React from 'react'
 import { _ } from '@stores'
 import { formatNumber, toFixed } from '@utils'
-import events from '@constants/events'
+import { EVENTS as events } from '@constants'
 import { Text } from '../text'
 
 const heatmapData = {

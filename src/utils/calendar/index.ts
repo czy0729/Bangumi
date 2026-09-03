@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-07-10 16:08:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-24 00:25:23
+ * @Last Modified time: 2026-09-03 23:27:29
  */
 import dayjs from 'dayjs'
 import * as Calendar from 'expo-calendar'
-import { IOS } from '@constants/constants'
+import { IOS } from '@constants/env'
 import { formatCalendarDate, parseReleaseDate } from './utils'
 import { CALENDAR_NAME, CALENDAR_TITLE } from './ds'
 

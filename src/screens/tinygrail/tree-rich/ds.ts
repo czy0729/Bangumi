@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-11-20 09:37:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 15:51:47
+ * @Last Modified time: 2026-09-03 23:23:55
  */
-import { MODEL_TINYGRAIL_CACULATE_RICH_TYPE } from '@constants'
-import { Loaded, TinygrailCaculateRichType } from '@types'
+import { MODEL_TINYGRAIL_CALCULATE_RICH_TYPE } from '@constants'
+
+import type { Loaded, TinygrailCalculateRichType } from '@types'
 
 export const H_TOOL_BAR = 44
 
@@ -13,11 +14,11 @@ export const NAMESPACE = 'ScreenTinygrailTreeRich'
 
 export const KEY = '1/100'
 
-export const DEFAULT_CACULATE_TYPE =
-  MODEL_TINYGRAIL_CACULATE_RICH_TYPE.getValue<TinygrailCaculateRichType>('周股息')
+export const DEFAULT_CALCULATE_TYPE =
+  MODEL_TINYGRAIL_CALCULATE_RICH_TYPE.getValue<TinygrailCalculateRichType>('周股息')
 
 export const EXCLUDE_STATE = {
-  caculateType: DEFAULT_CACULATE_TYPE,
+  calculateType: DEFAULT_CALCULATE_TYPE,
   loading: false,
   data: [],
   total: 0,

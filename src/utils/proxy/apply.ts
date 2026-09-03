@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2026-08-25 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 10:00:00
+ * @Last Modified time: 2026-09-03 23:30:39
  */
 import { API_HOST, API_HOST_BACKUP, API_P1 } from '@constants/api'
-import { HOST } from '@constants/constants'
 import { WEB } from '@constants/device'
+import { HOST } from '@constants/host'
 import { HOST_PROXY } from '@src/config'
 import { syncSystemStore } from '../async'
 import { isEchProxyRunning } from './ech'

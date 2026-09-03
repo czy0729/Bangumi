@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _, tinygrailStore } from '@stores'
-import { caculateICO, stl, toFixed } from '@utils'
+import { calculateICO, stl, toFixed } from '@utils'
 import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -39,7 +39,7 @@ export const StockPreview = observer(
 
     renderICO() {
       const { total } = this.props
-      const { level, next } = caculateICO(this.props)
+      const { level, next } = calculateICO(this.props)
       const percent = toFixed((total / next) * 100, 0)
 
       let backgroundColor

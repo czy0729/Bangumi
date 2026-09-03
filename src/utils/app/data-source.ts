@@ -2,19 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 05:17:59
+ * @Last Modified time: 2026-09-03 23:26:46
  */
 import { isObservableArray } from 'mobx'
+import { CDN_OSS_MAGMA_MONO, CDN_OSS_MAGMA_POSTER, CDN_OSS_SUBJECT } from '@utils/cdn'
 import { DEV, FROZEN_ARRAY, FROZEN_OBJECT } from '@constants'
-import { CDN_OSS_MAGMA_MONO, CDN_OSS_MAGMA_POSTER, CDN_OSS_SUBJECT } from '@constants/cdn'
-import {
-  HOST,
-  HOST_2,
-  HOST_3,
-  HOST_BGM_STATIC,
-  HOST_IMAGE,
-  IMG_DEFAULT
-} from '@constants/constants'
+import { IMG_DEFAULT } from '@constants/data'
+import { HOST, HOST_2, HOST_3, HOST_BGM_STATIC, HOST_IMAGE } from '@constants/host'
 import { getJSON } from '@assets/json'
 import userData from '@assets/json/user.json'
 import { logger } from '../dev'

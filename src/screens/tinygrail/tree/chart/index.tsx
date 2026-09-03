@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2019-11-23 04:45:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-11 01:44:35
+ * @Last Modified time: 2026-09-03 23:23:26
  */
 import React from 'react'
 import { View } from 'react-native'
 import { _ } from '@stores'
 import { ob } from '@utils/decorators'
-import { MODEL_TINYGRAIL_CACULATE_TYPE } from '@constants'
-import { TinygrailCaculateTypeCn } from '@types'
+import { MODEL_TINYGRAIL_CALCULATE_TYPE } from '@constants'
 import Item from '../item'
 
-function Chart({ data = [], caculateType, isTemple, onPress, onLongPress }) {
-  const label =
-    MODEL_TINYGRAIL_CACULATE_TYPE.getLabel<TinygrailCaculateTypeCn>(caculateType)
+import type { TinygrailCalculateTypeCn } from '@types'
+
+function Chart({ data = [], calculateType, isTemple, onPress, onLongPress }) {
+  const label = MODEL_TINYGRAIL_CALCULATE_TYPE.getLabel<TinygrailCalculateTypeCn>(calculateType)
   let extra: string
   if (label === '股息') extra = '+'
   return (

@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-10 04:54:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 00:00:00
+ * @Last Modified time: 2026-09-03 23:28:24
  */
-import { APP_ID } from '@constants/constants/app'
+import { APP_ID } from '@constants/app'
 import { decrypt, encrypt } from './aes'
 import { HMACSHA256 } from './hmac-sha256'
 import { SHA1 } from './sha1'

@@ -6,7 +6,8 @@
  */
 import { applyProxy, logProxy } from '@utils/proxy'
 import { WEB } from '@constants'
-import { APP_ID, UA } from '@constants/constants'
+import { UA } from '@constants/env'
+import { APP_ID } from '@constants/app'
 import { syncUserStore } from '../async'
 import { safe } from '../fetch'
 import { checkDenied } from '../fetch/utils'

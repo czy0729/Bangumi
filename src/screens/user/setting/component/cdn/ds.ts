@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-07-18 08:31:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-24 05:46:08
+ * @Last Modified time: 2026-09-03 23:24:47
  */
 import { _ } from '@stores'
+import { CDN_MAGMA } from '@utils/cdn'
 import { rc } from '@utils/dev'
-import { CDN_MAGMA, HOST_BGM_STATIC } from '@constants'
+import { HOST_BGM_STATIC } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'CDN')

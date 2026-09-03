@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:07:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-09 09:27:56
+ * @Last Modified time: 2026-09-03 23:21:20
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _, tinygrailStore } from '@stores'
-import { caculateICO, stl, toFixed } from '@utils'
+import { calculateICO, stl, toFixed } from '@utils'
 import { decimal } from '@tinygrail/_/utils'
 import { memoStyles } from './styles'
 
@@ -44,7 +44,7 @@ class StockPreview extends React.Component<typeof DEFAULT_PROPS> {
 
   renderICO() {
     const { total } = this.props
-    const { level, next } = caculateICO(this.props)
+    const { level, next } = calculateICO(this.props)
     const percent = toFixed((total / next) * 100, 0)
     return (
       <Flex style={this.styles.ico}>

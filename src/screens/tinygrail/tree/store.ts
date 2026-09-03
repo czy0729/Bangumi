@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-20 22:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:07:19
+ * @Last Modified time: 2026-09-03 23:23:04
  */
 import { computed, observable, toJS } from 'mobx'
 import { _, tinygrailStore } from '@stores'
@@ -10,7 +10,7 @@ import { info, tinygrailOSS, toFixed } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
 import treemap from '@utils/thirdParty/treemap'
-import { MODEL_TINYGRAIL_ASSETS_TYPE, MODEL_TINYGRAIL_CACULATE_TYPE } from '@constants'
+import { MODEL_TINYGRAIL_ASSETS_TYPE, MODEL_TINYGRAIL_CALCULATE_TYPE } from '@constants'
 import { HEADER_HEIGHT } from '@styles'
 import { VALHALL_PRICE } from '@tinygrail/_/ds'
 import { H_TOOL_BAR, NAMESPACE, STATE, TINYGRAIL_VALHALL_ID } from './ds'
@@ -118,7 +118,7 @@ export default class ScreenTinygrailTree extends store<typeof STATE> {
       const list = this.charaAssets
       if (!list.length) return
 
-      const { total = 0, currentTotal, filterCount, filterTotal, nodes } = this.caculate()
+      const { total = 0, currentTotal, filterCount, filterTotal, nodes } = this.calculate()
       if (filterCount) {
         // @ts-expect-error
         nodes.push({
@@ -144,18 +144,18 @@ export default class ScreenTinygrailTree extends store<typeof STATE> {
   }
 
   /** 计算 */
-  caculate = () => {
-    const { caculateType, filterItems } = this.state
+  calculate = () => {
+    const { calculateType, filterItems } = this.state
     const list = this.charaAssets
 
     // 总
-    const label = MODEL_TINYGRAIL_CACULATE_TYPE.getLabel(caculateType)
-    const total = caculateTotal(list, label, this.isTemple) // 所有总值
+    const label = MODEL_TINYGRAIL_CALCULATE_TYPE.getLabel(calculateType)
+    const total = calculateTotal(list, label, this.isTemple) // 所有总值
 
     // 过滤
     const filterIdSet = new Set(filterItems.map(item => item.id))
     const _list = list.filter(item => !filterIdSet.has(item.id))
-    const currentTotal = caculateTotal(_list, label, this.isTemple) // 过滤后总值
+    const currentTotal = calculateTotal(_list, label, this.isTemple) // 过滤后总值
 
     const filterRate = Math.max(0.0072 - filterIdSet.size * 0.0002, 0.005) // 过滤比例
     let filterCount = 0 // 过滤的个数
@@ -164,7 +164,7 @@ export default class ScreenTinygrailTree extends store<typeof STATE> {
       .filter(item => {
         if (!currentTotal) return true
 
-        const value = caculateValue(item, label, this.isTemple) // 面积
+        const value = calculateValue(item, label, this.isTemple) // 面积
 
         // 面积除以当前总面积小于过滤比例, 需要隐藏区域
         if (value / currentTotal < filterRate) {
@@ -175,7 +175,7 @@ export default class ScreenTinygrailTree extends store<typeof STATE> {
         return true
       })
       .map(item => {
-        const value = caculateValue(item, label, this.isTemple)
+        const value = calculateValue(item, label, this.isTemple)
         return {
           id: item.id,
           icon: item.icon || item.cover,
@@ -239,13 +239,13 @@ export default class ScreenTinygrailTree extends store<typeof STATE> {
   }
 
   /** 选择计算类型 */
-  onCaculateTypeSelect = (caculateType: any) => {
+  onCalculateTypeSelect = (calculateType: any) => {
     t('资产分析.选择计算类型', {
-      type: caculateType
+      type: calculateType
     })
 
     this.setState({
-      caculateType: MODEL_TINYGRAIL_CACULATE_TYPE.getValue(caculateType),
+      calculateType: MODEL_TINYGRAIL_CALCULATE_TYPE.getValue(calculateType),
       filterItems: []
     })
     this.generateTreeMap()
@@ -255,25 +255,25 @@ export default class ScreenTinygrailTree extends store<typeof STATE> {
   /** 隐藏低持仓 */
   onHideLow = () => {
     this.setState({
-      filterItems: this.charaAssets.filter(item => caculateValue(item, '持仓价值') < 100)
+      filterItems: this.charaAssets.filter(item => calculateValue(item, '持仓价值') < 100)
     })
     this.generateTreeMap()
   }
 }
 
 /** 计算列表的总值 */
-function caculateTotal(list: any[], label: string | boolean, isTemple: boolean = false) {
+function calculateTotal(list: any[], label: string | boolean, isTemple: boolean = false) {
   let total = 0
   try {
     list.forEach(item => {
-      total += caculateValue(item, label, isTemple)
+      total += calculateValue(item, label, isTemple)
     })
   } catch {}
   return total
 }
 
 /** 计算单项的总值 (isTemple===false && item.sacrifices 为合并) */
-function caculateValue(
+function calculateValue(
   item: {
     sacrifices: number
     id: string | number

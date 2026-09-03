@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2026-01-20 08:06:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-30 06:41:30
+ * @Last Modified time: 2026-09-03 23:29:29
  */
 import { urlStringify } from '@utils'
 import { applyProxy, logProxy } from '@utils/proxy'
 import { WEB } from '@constants'
-import { HOST, UA } from '@constants/constants'
+import { UA } from '@constants/env'
+import { HOST } from '@constants/host'
 import { safe } from '../fetch'
 import { checkDenied } from '../fetch/utils'
 import { axios } from '../thirdParty'

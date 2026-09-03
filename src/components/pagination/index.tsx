@@ -22,7 +22,7 @@ import { Touchable } from '../touchable'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { EventKeys } from '@constants/events'
+import type { EventKeys } from '@constants'
 import type { InputInstance } from '../input'
 import type { Props as PaginationProps } from './types'
 export type { PaginationProps }

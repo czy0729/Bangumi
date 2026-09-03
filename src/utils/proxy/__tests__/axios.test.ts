@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-25 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 10:00:00
+ * @Last Modified time: 2026-09-03 23:30:51
  */
 import { syncSystemStore } from '@utils/async'
 import { applyProxyToAxiosConfig, axiosWithProxy, axiosWithProxyRedirect } from '../axios'
@@ -14,7 +14,7 @@ jest.mock('@utils/async', () => ({
   syncSystemStore: jest.fn()
 }))
 
-jest.mock('@constants/constants', () => ({
+jest.mock('@constants/host', () => ({
   HOST: 'https://bgm.tv',
   HOST_IMAGE: '//lain.bgm.tv'
 }))
@@ -102,7 +102,11 @@ describe('axiosWithProxyRedirect', () => {
     setSetting({ workerProxy: WORKER })
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const axiosFn = jest.fn(async (_config: ProxyRequestConfig) => ({ data: '', headers: {}, request: {} }))
+    const axiosFn = jest.fn(async (_config: ProxyRequestConfig) => ({
+      data: '',
+      headers: {},
+      request: {}
+    }))
     const config: { url: string; headers?: Record<string, string> } = {
       url: 'https://bgm.tv/page/auth'
     }
@@ -117,7 +121,11 @@ describe('axiosWithProxyRedirect', () => {
     setSetting({ workerProxy: WORKER, workerProxyDirect: true })
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const axiosFn = jest.fn(async (_config: ProxyRequestConfig) => ({ data: '', headers: {}, request: {} }))
+    const axiosFn = jest.fn(async (_config: ProxyRequestConfig) => ({
+      data: '',
+      headers: {},
+      request: {}
+    }))
     const config: { url: string; headers?: Record<string, string> } = {
       url: 'https://bgm.tv/page/auth'
     }
@@ -131,7 +139,11 @@ describe('axiosWithProxyRedirect', () => {
     setSetting({ workerProxyDisabled: true, workerProxy: WORKER })
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const axiosFn = jest.fn(async (_config: ProxyRequestConfig) => ({ data: '', headers: {}, request: {} }))
+    const axiosFn = jest.fn(async (_config: ProxyRequestConfig) => ({
+      data: '',
+      headers: {},
+      request: {}
+    }))
     const config: { url: string; headers?: Record<string, string> } = {
       url: 'https://bgm.tv/page/auth'
     }
@@ -144,7 +156,11 @@ describe('axiosWithProxyRedirect', () => {
 
   it('safeConfig 强制 responseType text 且不校验状态码', async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const axiosFn = jest.fn(async (_config: ProxyRequestConfig) => ({ data: '', headers: {}, request: {} }))
+    const axiosFn = jest.fn(async (_config: ProxyRequestConfig) => ({
+      data: '',
+      headers: {},
+      request: {}
+    }))
 
     await axiosWithProxyRedirect(axiosFn, { url: 'https://bgm.tv/x' })
 

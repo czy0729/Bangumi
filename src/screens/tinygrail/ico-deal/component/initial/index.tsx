@@ -2,19 +2,20 @@
  * @Author: czy0729
  * @Date: 2019-09-20 21:21:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-15 07:41:00
+ * @Last Modified time: 2026-09-03 23:22:23
  */
 import React from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { caculateICO, calculateFutureICO, formatNumber } from '@utils'
+import { calculateFutureICO, calculateICO, formatNumber } from '@utils'
 import { ob } from '@utils/decorators'
 import TinygrailAvatar from '@tinygrail/_/avatar'
 import TinygrailRank from '@tinygrail/_/rank'
-import { Ctx } from '../../types'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 function Initial() {
   const { $, navigation } = useStore<Ctx>()
@@ -22,7 +23,7 @@ function Initial() {
   const { step } = $.state
   const { users } = $.chara
   const { list } = $.initial
-  const { nextUser, amount } = caculateICO($.chara)
+  const { nextUser, amount } = calculateICO($.chara)
   const futureICO = step ? calculateFutureICO($.chara, step) : null
   return (
     <View style={styles.container}>

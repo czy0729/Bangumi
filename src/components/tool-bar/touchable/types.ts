@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-02 23:13:58
  */
-import type { EventKeys } from '@constants/events'
+import type { EventKeys } from '@constants'
 import type { ReactNode } from '@types'
 import type { TouchableHandlePress } from '../../touchable/types'
 

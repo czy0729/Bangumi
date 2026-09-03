@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-14 16:50:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-22 20:34:41
+ * @Last Modified time: 2026-09-03 23:31:53
  */
-import { DATA_ALPHABET } from '@constants/constants'
+import { DATA_ALPHABET } from '@constants/data'
 import { ANIME_COLLECTED, ANIME_YEAR } from '../anime'
 
 export const HENTAI_FIRST = DATA_ALPHABET

@@ -6,7 +6,7 @@
  */
 import { computed } from 'mobx'
 import { systemStore, tinygrailStore } from '@stores'
-import { getXsbRelationOTA } from '@constants'
+import { getXsbRelationOTA } from '@utils/cdn'
 import State from './state'
 
 import type { MonoId } from '@types'

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-23 05:43:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-13 12:08:44
+ * @Last Modified time: 2026-09-03 23:07:40
  */
 import dayjs from 'dayjs'
 import { getFolder } from './utils'
-import { HOST_CDN_STATIC, HOST_DOGE } from './ds'
+import { HOST_DOGE } from './ds'
 
 import type { SubjectId } from '@types'
 
@@ -26,22 +26,11 @@ export const CDN_REC = (subjectId: SubjectId) => {
   return `${HOST_DOGE}/bangumi-rec/${getFolder(subjectId, 100)}/${subjectId}.json` as const
 }
 
-/** @deprecated */
-const HOST_ONAIR = `${HOST_CDN_STATIC}/bangumi-onair` as const
-
-/** @deprecated 每日放送 */
-export const _CDN_ONAIR = () =>
-  `https://raw.githubusercontent.com/ekibot/bangumi-onair/master/calendar.json?t=${getTimestamp()}` as const
-
-/** @deprecated 单集数据源 */
-export const _CDN_EPS = (subjectId: SubjectId) =>
-  `${HOST_ONAIR}/onair/${getFolder(subjectId, 1000)}/${subjectId}.json?t=${getTimestamp()}` as const
-
-function trim(str = '') {
+function trim(str: string = '') {
   return str.replace(/^\s+|\s+$/gm, '')
 }
 
-function getTimestamp(date = '') {
+function getTimestamp(date: string = '') {
   const _date = trim(date)
   if (_date) return dayjs(_date).unix()
   return dayjs().unix()

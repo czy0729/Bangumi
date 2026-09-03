@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 14:03:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 19:48:41
+ * @Last Modified time: 2026-09-03 23:25:44
  */
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -12,7 +12,7 @@ import {
   HTML_USERS,
   HTML_USERS_BLOGS,
   HTML_USERS_CATALOGS,
-  HTML_USERS_CHARCTER,
+  HTML_USERS_CHARACTER,
   HTML_USERS_MONO_RECENTS,
   HTML_USERS_PERSON,
   HTML_USERS_WIKI
@@ -141,7 +141,7 @@ export default class Fetch extends Computed {
       const { list, pagination } = this[STATE_KEY](ITEM_KEY)
       const page = refresh ? 1 : pagination.page + 1
       const html = await fetchHTML({
-        url: HTML_USERS_CHARCTER(userId, page)
+        url: HTML_USERS_CHARACTER(userId, page)
       })
 
       const next = cheerioCharacters(html)

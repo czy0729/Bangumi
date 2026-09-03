@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-11-20 14:14:53
  */
 import { StyleSheet } from 'react-native'
-import { IOS } from '@constants/constants'
+import { IOS } from '@constants/env'
 import { colorBorder } from '../colors'
 import { IS_IOS_5_6_7_8, radiusXs, ratio, sm, statusBarHeight, tabsHeaderHeight } from '../layout'
 import { fontSize } from '../utils'

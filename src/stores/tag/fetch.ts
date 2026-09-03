@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:06:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-25 16:09:19
+ * @Last Modified time: 2026-09-03 23:25:32
  */
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
-import { HTML_BROSWER, HTML_RANK_V2, HTML_TAG } from '@constants'
+import { HTML_BROWSER, HTML_RANK_V2, HTML_TAG } from '@constants'
 import { cheerioRank, cheerioTags } from './common'
 import Computed from './computed'
 import { DEFAULT_TYPE } from './init'
@@ -138,7 +138,7 @@ export default class Fetch extends Computed {
       const { list, pagination } = this[STATE_KEY](...ITEM_ARGS)
       const page = refresh ? 1 : pagination.page + 1
       const html = await fetchHTML({
-        url: HTML_BROSWER(type, airtime, page, sort)
+        url: HTML_BROWSER(type, airtime, page, sort)
       })
 
       const next = cheerioRank(html)

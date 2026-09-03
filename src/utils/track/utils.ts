@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:01:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 06:43:49
+ * @Last Modified time: 2026-09-03 23:32:28
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
 import { logger } from '@utils/dev'
-import { HOST, VERSION_CODE } from '@constants/constants'
 import { WEB } from '@constants/device'
+import { VERSION_CODE } from '@constants/env'
+import { HOST } from '@constants/host'
 import { GITHUB_ACTION, IOS_IPA } from '@src/config'
 import { syncUserStore as _u } from '../async'
 import { getTimestamp, interceptor, randomn, urlStringify } from '../utils'

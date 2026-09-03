@@ -1,13 +1,14 @@
 /*
- * 使用 new XMLHttpRequest 的请求
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 05:52:24
+ * @Last Modified time: 2026-09-03 23:29:23
+ *
+ * 使用 new XMLHttpRequest 的请求
  */
 import { applyProxy, logProxy } from '@utils/proxy'
-import { HOST, HOST_CDN, HOST_NAME } from '@constants/constants'
 import { WEB } from '@constants/device'
+import { HOST, HOST_CDN, HOST_NAME } from '@constants/host'
 import { FROZEN_FN } from '@constants/init'
 import { syncUserStore } from '../async'
 import { loading } from '../ui'

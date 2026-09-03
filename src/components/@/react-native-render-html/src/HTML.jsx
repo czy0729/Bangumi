@@ -1,9 +1,10 @@
 /*
- * https://github.com/archriss/react-native-render-html/pull/268/commits/8a61abcd0d900bbc58141f5cf7491fb0f09fbfe4
  * @Author: czy0729
  * @Date: 2019-08-14 16:25:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-29 01:07:32
+ * @Last Modified time: 2026-09-04 00:49:57
+ *
+ * https://github.com/archriss/react-native-render-html/pull/268/commits/8a61abcd0d900bbc58141f5cf7491fb0f09fbfe4
  */
 import React, { PureComponent } from 'react'
 import { View, Text, Dimensions, StyleSheet } from 'react-native'
@@ -30,7 +31,7 @@ import {
 } from 'react-native-render-html/src/HTMLDefaultStyles'
 import htmlparser2 from 'htmlparser2'
 import { stl } from '@utils/utils'
-import { IOS } from '@constants/constants'
+import { IOS } from '@constants/env'
 import { _ } from '@stores'
 import { androidTextFixedStyle } from '@styles'
 import * as HTMLRenderers from './HTMLRenderers'

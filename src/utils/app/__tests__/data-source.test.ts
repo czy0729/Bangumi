@@ -1,6 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2026-05-12
+ * @Date: 2026-09-03 23:27:12
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-03 23:27:12
  */
 jest.mock('../../utils', () => ({
   getTimestamp: jest.fn(() => Date.now() / 1000)
@@ -16,13 +18,21 @@ jest.mock(
   { virtual: true }
 )
 
-jest.mock('@constants/cdn', () => ({
+jest.mock('@utils/cdn', () => ({
   CDN_OSS_MAGMA_MONO: (src: string) => src,
   CDN_OSS_MAGMA_POSTER: (src: string) => src,
   CDN_OSS_SUBJECT: (src: string) => src
 }))
 
-jest.mock('@constants/constants', () => ({
+jest.mock('@constants/host', () => ({
+  HOST: 'https://bgm.tv',
+  HOST_2: 'https://bangumi.tv',
+  HOST_3: 'https://chii.in',
+  HOST_BGM_STATIC: 'https://lain.bgm.tv',
+  IMG_DEFAULT: 'https://lain.bgm.tv/img/default_cover.jpg',
+  EVENT: { id: 'test', data: {} }
+}))
+jest.mock('@constants/data', () => ({
   HOST: 'https://bgm.tv',
   HOST_2: 'https://bangumi.tv',
   HOST_3: 'https://chii.in',

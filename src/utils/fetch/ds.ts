@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:22:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-11 06:29:58
+ * @Last Modified time: 2026-09-03 23:29:03
  */
-import { HOST } from '@constants/constants'
 import { WEB } from '@constants/device'
+import { HOST } from '@constants/host'
 
 /** 开发显示请求信息 */
 export const SHOW_LOG = true

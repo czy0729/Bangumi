@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 20:42:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:07:26
+ * @Last Modified time: 2026-09-03 23:24:00
  */
 import { computed, observable } from 'mobx'
 import { _, tinygrailStore } from '@stores'
@@ -10,11 +10,11 @@ import { info, tinygrailOSS, toFixed } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
 import treemap from '@utils/thirdParty/treemap'
-import { MODEL_TINYGRAIL_CACULATE_RICH_TYPE } from '@constants'
+import { MODEL_TINYGRAIL_CALCULATE_RICH_TYPE } from '@constants'
 import { HEADER_HEIGHT } from '@styles'
 import { H_TOOL_BAR, KEY, NAMESPACE, STATE } from './ds'
 
-import type { TinygrailCaculateRichType, TinygrailCaculateRichTypeCn } from '@types'
+import type { TinygrailCalculateRichType, TinygrailCalculateRichTypeCn } from '@types'
 
 export default class ScreenTinygrailTreeRich extends store<typeof STATE> {
   state = observable(STATE)
@@ -63,7 +63,7 @@ export default class ScreenTinygrailTreeRich extends store<typeof STATE> {
       const { list } = this.rich
       if (!list.length) return
 
-      const { total = 0, currentTotal, filterCount, filterTotal, nodes } = this.caculate()
+      const { total = 0, currentTotal, filterCount, filterTotal, nodes } = this.calculate()
       if (filterCount) {
         nodes.push({
           id: 0,
@@ -88,18 +88,18 @@ export default class ScreenTinygrailTreeRich extends store<typeof STATE> {
   }
 
   /** 计算 */
-  caculate = () => {
-    const { caculateType, filterItems } = this.state
+  calculate = () => {
+    const { calculateType, filterItems } = this.state
     const { list } = this.rich
 
     // 总
-    const label = MODEL_TINYGRAIL_CACULATE_RICH_TYPE.getLabel(caculateType)
-    const total = caculateTotal(list, label) // 所有总值
+    const label = MODEL_TINYGRAIL_CALCULATE_RICH_TYPE.getLabel(calculateType)
+    const total = calculateTotal(list, label) // 所有总值
 
     // 过滤
     const filterIdSet = new Set(filterItems.map(item => item.id))
     const _list = list.filter(item => !filterIdSet.has(item.userId))
-    const currentTotal = caculateTotal(_list, label) // 过滤后总值
+    const currentTotal = calculateTotal(_list, label) // 过滤后总值
 
     const filterRate = 0.0088 // 过滤比例
     let filterCount = 0 // 过滤的个数
@@ -110,7 +110,7 @@ export default class ScreenTinygrailTreeRich extends store<typeof STATE> {
           return true
         }
 
-        const value = caculateValue(item, label) // 面积
+        const value = calculateValue(item, label) // 面积
 
         // 面积除以当前总面积小于过滤比例, 需要隐藏区域
         if (value / currentTotal < filterRate) {
@@ -121,7 +121,7 @@ export default class ScreenTinygrailTreeRich extends store<typeof STATE> {
         return true
       })
       .map(item => {
-        const value = caculateValue(item, label)
+        const value = calculateValue(item, label)
         return {
           id: item.userId,
           icon: item.avatar,
@@ -170,14 +170,14 @@ export default class ScreenTinygrailTreeRich extends store<typeof STATE> {
   }
 
   /** 选择计算类型 */
-  onCaculateTypeSelect = (caculateType: TinygrailCaculateRichTypeCn) => {
+  onCalculateTypeSelect = (calculateType: TinygrailCalculateRichTypeCn) => {
     t('资产分析.选择计算类型', {
-      type: caculateType
+      type: calculateType
     })
 
     this.setState({
-      caculateType:
-        MODEL_TINYGRAIL_CACULATE_RICH_TYPE.getValue<TinygrailCaculateRichType>(caculateType),
+      calculateType:
+        MODEL_TINYGRAIL_CALCULATE_RICH_TYPE.getValue<TinygrailCalculateRichType>(calculateType),
       filterItems: []
     })
     this.generateTreeMap()
@@ -186,18 +186,18 @@ export default class ScreenTinygrailTreeRich extends store<typeof STATE> {
 }
 
 /** 计算列表的总值 */
-function caculateTotal(list: any[], label: string | boolean) {
+function calculateTotal(list: any[], label: string | boolean) {
   let total = 0
   try {
     list.forEach(item => {
-      total += caculateValue(item, label)
+      total += calculateValue(item, label)
     })
   } catch {}
   return total
 }
 
 /** 计算单项的总值 */
-function caculateValue(
+function calculateValue(
   item: { share: any; assets: any; total: any; principal: any },
   label: string | boolean
 ) {

@@ -13,7 +13,7 @@ import { useDomTitle, useRunAfter } from '@utils/hooks'
 import { Heatmap } from '../heatmap'
 import { COMPONENT } from './ds'
 
-import type { EventKeys } from '@constants/events'
+import type { EventKeys } from '@constants'
 import type { Props as TrackProps } from './types'
 export type { TrackProps }
 

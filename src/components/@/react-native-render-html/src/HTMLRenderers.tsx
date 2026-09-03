@@ -10,7 +10,7 @@ import HTMLImage from 'react-native-render-html/src/HTMLImage'
 import { _constructStyles, _getElementClassStyles } from 'react-native-render-html/src/HTMLStyles'
 import { WebView } from 'react-native-webview'
 import { stl } from '@utils/utils'
-import { IOS } from '@constants/constants'
+import { IOS } from '@constants/env'
 import { androidTextFixedStyle } from '@styles'
 
 export function a(htmlAttribs, children, _convertedCSSStyles, passProps) {

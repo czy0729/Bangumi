@@ -65,8 +65,8 @@ jest.mock('../../utils', () => ({
   }
 }))
 
-jest.mock('@constants/constants', () => ({
-  ...jest.requireActual('@constants/constants'),
+jest.mock('@constants/data', () => ({
+  ...jest.requireActual('@constants/data'),
   LIST_EMPTY: {
     list: [],
     pagination: { page: 0, pageTotal: 0 },

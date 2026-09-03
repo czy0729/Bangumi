@@ -1,8 +1,11 @@
 /*
+ * @Author: czy0729
+ * @Date: 2026-09-03 23:31:29
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-03 23:31:29
+ *
  * Store V1 / V2 性能基准对比
  * 运行: BENCH=1 npx jest src/utils/store/__tests__/store-benchmark.test.ts
- * @Author: czy0729
- * @Date: 2026-08-23 14:30:00
  */
 import { observable, toJS } from 'mobx'
 import StoreModern from '../index'
@@ -61,8 +64,8 @@ jest.mock('../../utils', () => ({
   }
 }))
 
-jest.mock('@constants/constants', () => ({
-  ...jest.requireActual('@constants/constants'),
+jest.mock('@constants/data', () => ({
+  ...jest.requireActual('@constants/data'),
   LIST_EMPTY: {
     list: [],
     pagination: { page: 0, pageTotal: 0 },

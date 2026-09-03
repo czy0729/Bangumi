@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-04-21 16:57:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-24 05:39:53
+ * @Last Modified time: 2026-09-03 23:24:51
  */
 import React, { useEffect, useState } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Highlight, Text } from '@components'
 import { Cover, ItemSettingBlock } from '@_'
 import { _ } from '@stores'
+import { CDN_OSS_MAGMA_POSTER } from '@utils/cdn'
 import { ping } from '@utils/fetch'
-import { CDN_OSS_MAGMA_POSTER } from '@constants'
 import commonStyles from '../../../styles'
 import { IMG_HEIGHT, IMG_WIDTH, TEXTS, URL_LAIN } from '../ds'
 import { memoStyles } from './styles'

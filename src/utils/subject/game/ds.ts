@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-13 21:03:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-22 20:20:05
+ * @Last Modified time: 2026-09-03 23:31:50
  */
-import { DATA_ALPHABET } from '@constants/constants'
+import { DATA_ALPHABET } from '@constants/data'
 import { ANIME_COLLECTED, ANIME_YEAR } from '../anime'
 
 export const GAME_FIRST = DATA_ALPHABET

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-22 13:09:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 22:16:56
+ * @Last Modified time: 2026-09-03 23:19:58
  */
 import type { ModelValueOf } from '@types'
 import type {
@@ -51,8 +51,8 @@ import type {
   TAG_ORDERBY,
   TIMELINE_SCOPE,
   TIMELINE_TYPE,
-  TINYGRAIL_CACULATE_RICH_TYPE,
-  TINYGRAIL_CACULATE_TYPE
+  TINYGRAIL_CALCULATE_RICH_TYPE,
+  TINYGRAIL_CALCULATE_TYPE
 } from './index'
 import type { Model } from './utils'
 
@@ -89,20 +89,11 @@ export type CollectionStatusValue = ModelValueOf<typeof COLLECTION_STATUS, 'titl
 /** 收藏排序方式 */
 export type CollectionsOrder = ModelValueOf<typeof COLLECTIONS_ORDERBY>
 
-/** 收藏排序方式中文名称 */
-export type CollectionsOrderCn = ModelValueOf<typeof COLLECTIONS_ORDERBY, 'label'>
-
 /** 章节类型 */
 export type EpType = ModelValueOf<typeof EP_TYPE>
 
-/** 章节类型中文名称 */
-export type EpTypeCn = ModelValueOf<typeof EP_TYPE, 'label'>
-
 /** 章节状态 */
 export type EpStatus = ModelValueOf<typeof EP_STATUS>
-
-/** 章节状态中文名称 */
-export type EpStatusCn = ModelValueOf<typeof EP_STATUS, 'label'>
 
 /** 人物作品排序方式 */
 export type MonoWorksOrderby = ModelValueOf<typeof MONO_WORKS_ORDERBY>
@@ -119,20 +110,11 @@ export type PrivateCn = ModelValueOf<typeof PRIVATE, 'label'>
 /** 超展开板块 */
 export type RakuenScope = ModelValueOf<typeof RAKUEN_SCOPE>
 
-/** 超展开板块中文名称 */
-export type RakuenScopeCn = ModelValueOf<typeof RAKUEN_SCOPE, 'label'>
-
 /** 超展开帖子图片自动加载 */
 export type RakuenAutoLoadImage = ModelValueOf<typeof RAKUEN_AUTO_LOAD_IMAGE>
 
-/** 超展开帖子图片自动加载中文名称 */
-export type RakuenAutoLoadImageCn = ModelValueOf<typeof RAKUEN_AUTO_LOAD_IMAGE, 'label'>
-
 /** 超展开子楼层折叠 */
 export type RakuenSubExpand = ModelValueOf<typeof RAKUEN_SUB_EXPAND>
-
-/** 超展开子楼层折叠中文名称 */
-export type RakuenSubExpandCn = ModelValueOf<typeof RAKUEN_SUB_EXPAND, 'label'>
 
 /** 超展开帖子新楼层样式 */
 export type RakuenNewFloorStyle = ModelValueOf<typeof RAKUEN_NEW_FLOOR_STYLE>
@@ -143,14 +125,8 @@ export type RakuenNewFloorStyleCn = ModelValueOf<typeof RAKUEN_NEW_FLOOR_STYLE, 
 /** 超展开楼层导航条方向 */
 export type RakuenScrollDirection = ModelValueOf<typeof RAKUEN_SCROLL_DIRECTION>
 
-/** 超展开楼层导航条方向中文名称 */
-export type RakuenScrollDirectionCn = ModelValueOf<typeof RAKUEN_SCROLL_DIRECTION, 'label'>
-
 /** 超展开全局聚合类型 */
 export type RakuenType = ModelValueOf<typeof RAKUEN_TYPE>
-
-/** 超展开全局聚合类型中文名称 */
-export type RakuenTypeCn = ModelValueOf<typeof RAKUEN_TYPE, 'label'>
 
 /** 超展开小组范围 */
 export type RakuenTypeGroup = ModelValueOf<typeof RAKUEN_TYPE_GROUP>
@@ -167,38 +143,20 @@ export type RakuenTypeMonoCn = ModelValueOf<typeof RAKUEN_TYPE_MONO, 'label'>
 /** 排行榜动画筛选条件 */
 export type RankAnimeFilter = ModelValueOf<typeof RANK_ANIME_FILTER>
 
-/** 排行榜动画筛选条件中文名称 */
-export type RankAnimeFilterCn = ModelValueOf<typeof RANK_ANIME_FILTER, 'label'>
-
 /** 排行榜书籍筛选条件 */
 export type RankBookFilter = ModelValueOf<typeof RANK_BOOK_FILTER>
-
-/** 排行榜书籍筛选条件中文名称 */
-export type RankBookFilterCn = ModelValueOf<typeof RANK_BOOK_FILTER, 'label'>
 
 /** 排行榜书籍二级筛选 */
 export type RankBookFilterSub = ModelValueOf<typeof RANK_BOOK_FILTER_SUB>
 
-/** 排行榜书籍二级筛选中文名称 */
-export type RankBookFilterSubCn = ModelValueOf<typeof RANK_BOOK_FILTER_SUB, 'label'>
-
 /** 排行榜游戏筛选条件 */
 export type RankGameFilter = ModelValueOf<typeof RANK_GAME_FILTER>
-
-/** 排行榜游戏筛选条件中文名称 */
-export type RankGameFilterCn = ModelValueOf<typeof RANK_GAME_FILTER, 'label'>
 
 /** 排行榜游戏平台筛选 */
 export type RankGameFilterSub = ModelValueOf<typeof RANK_GAME_FILTER_SUB>
 
-/** 排行榜游戏平台筛选中文名称 */
-export type RankGameFilterSubCn = ModelValueOf<typeof RANK_GAME_FILTER_SUB, 'label'>
-
 /** 排行榜三次元筛选条件 */
 export type RankRealFilter = ModelValueOf<typeof RANK_REAL_FILTER>
-
-/** 排行榜三次元筛选条件中文名称 */
-export type RankRealFilterCn = ModelValueOf<typeof RANK_REAL_FILTER, 'label'>
 
 /** 评分状态 */
 export type RatingStatus = ModelValueOf<typeof RATING_STATUS>
@@ -209,14 +167,8 @@ export type RatingStatusCn = ModelValueOf<typeof RATING_STATUS, 'label'>
 /** 人物声优外部排序方式 */
 export type MonoVoicesOuterOrderby = ModelValueOf<typeof MONO_VOICES_OUTER_ORDERBY>
 
-/** 人物声优外部排序方式中文名称 */
-export type MonoVoicesOuterOrderbyCn = ModelValueOf<typeof MONO_VOICES_OUTER_ORDERBY, 'label'>
-
 /** 人物声优内部排序方式 */
 export type MonoVoicesInnerOrderby = ModelValueOf<typeof MONO_VOICES_INNER_ORDERBY>
-
-/** 人物声优内部排序方式中文名称 */
-export type MonoVoicesInnerOrderbyCn = ModelValueOf<typeof MONO_VOICES_INNER_ORDERBY, 'label'>
 
 /** 搜索分类 */
 export type SearchCat = ModelValueOf<typeof SEARCH_CAT>
@@ -227,20 +179,11 @@ export type SearchCatCn = ModelValueOf<typeof SEARCH_CAT, 'label'>
 /** 搜索细度 */
 export type SearchLegacy = ModelValueOf<typeof SEARCH_LEGACY>
 
-/** 搜索细度中文名称 */
-export type SearchLegacyCn = ModelValueOf<typeof SEARCH_LEGACY, 'label'>
-
 /** 字体大小调整设置 */
 export type SettingFontsizeAdjust = ModelValueOf<typeof SETTING_FONTSIZE_ADJUST>
 
-/** 字体大小调整设置中文名称 */
-export type SettingFontsizeAdjustCn = ModelValueOf<typeof SETTING_FONTSIZE_ADJUST, 'label'>
-
 /** 字间距调整设置 */
 export type SettingLetterSpacing = ModelValueOf<typeof SETTING_LETTER_SPACING>
-
-/** 字间距调整设置中文名称 */
-export type SettingLetterSpacingCn = ModelValueOf<typeof SETTING_LETTER_SPACING, 'label'>
 
 /** 首页布局设置 */
 export type SettingHomeLayout = ModelValueOf<typeof SETTING_HOME_LAYOUT>
@@ -275,12 +218,6 @@ export type SettingHomeSortingCn = ModelValueOf<typeof SETTING_HOME_SORTING, 'la
 /** 首页动画信息内联设置 */
 export type SettingHomeAnimeInfoInline = ModelValueOf<typeof SETTING_HOME_ANIME_INFO_INLINE>
 
-/** 首页动画信息内联设置中文名称 */
-export type SettingHomeAnimeInfoInlineCn = ModelValueOf<
-  typeof SETTING_HOME_ANIME_INFO_INLINE,
-  'label'
->
-
 /** 初始页面设置 */
 export type SettingInitialPage = ModelValueOf<typeof SETTING_INITIAL_PAGE>
 
@@ -296,9 +233,6 @@ export type SettingTransitionCn = ModelValueOf<typeof SETTING_TRANSITION, 'label
 /** 条目分割样式设置 */
 export type SettingSubjectSplitStyles = ModelValueOf<typeof SETTING_SUBJECT_SPLIT_STYLES>
 
-/** 条目分割样式设置中文名称 */
-export type SettingSubjectSplitStylesCn = ModelValueOf<typeof SETTING_SUBJECT_SPLIT_STYLES, 'label'>
-
 /** 用户网格数量设置 */
 export type SettingUserGridNum = ModelValueOf<typeof SETTING_USER_GRID_NUM>
 
@@ -307,9 +241,6 @@ export type SettingUserGridNumCn = ModelValueOf<typeof SETTING_USER_GRID_NUM, 'l
 
 /** 用户评论行数设置 */
 export type SettingUserCommentsLines = ModelValueOf<typeof SETTING_USER_COMMENTS_LINES>
-
-/** 用户评论行数设置中文名称 */
-export type SettingUserCommentsLinesCn = ModelValueOf<typeof SETTING_USER_COMMENTS_LINES, 'label'>
 
 /** CDN 源设置 */
 export type SettingCDNOrigin = ModelValueOf<typeof SETTING_CDN_ORIGIN>
@@ -320,14 +251,8 @@ export type SettingCDNOriginCn = ModelValueOf<typeof SETTING_CDN_ORIGIN, 'label'
 /** Live2D 模型设置 */
 export type SettingLive2DModel = ModelValueOf<typeof SETTING_LIVE2D_MODEL>
 
-/** Live2D 模型设置中文名称 */
-export type SettingLive2DModelCn = ModelValueOf<typeof SETTING_LIVE2D_MODEL, 'label'>
-
 /** 服务可用性显示设置 */
 export type SettingServerStatus = ModelValueOf<typeof SETTING_SERVER_STATUS>
-
-/** 服务可用性显示设置中文名称 */
-export type SettingServerStatusCn = ModelValueOf<typeof SETTING_SERVER_STATUS, 'label'>
 
 /** Live2D 缩放比例 */
 export type SettingLive2DScale = '大' | '中' | '小'
@@ -360,13 +285,16 @@ export type TimeLineType = ModelValueOf<typeof TIMELINE_TYPE>
 export type TimeLineTypeCn = ModelValueOf<typeof TIMELINE_TYPE, 'label'>
 
 /** 小圣杯计算类型 */
-export type TinygrailCaculateType = ModelValueOf<typeof TINYGRAIL_CACULATE_TYPE>
+export type TinygrailCalculateType = ModelValueOf<typeof TINYGRAIL_CALCULATE_TYPE>
 
 /** 小圣杯计算类型中文名称 */
-export type TinygrailCaculateTypeCn = ModelValueOf<typeof TINYGRAIL_CACULATE_TYPE, 'label'>
+export type TinygrailCalculateTypeCn = ModelValueOf<typeof TINYGRAIL_CALCULATE_TYPE, 'label'>
 
 /** 小圣杯富人计算类型 */
-export type TinygrailCaculateRichType = ModelValueOf<typeof TINYGRAIL_CACULATE_RICH_TYPE>
+export type TinygrailCalculateRichType = ModelValueOf<typeof TINYGRAIL_CALCULATE_RICH_TYPE>
 
 /** 小圣杯富人计算类型中文名称 */
-export type TinygrailCaculateRichTypeCn = ModelValueOf<typeof TINYGRAIL_CACULATE_RICH_TYPE, 'label'>
+export type TinygrailCalculateRichTypeCn = ModelValueOf<
+  typeof TINYGRAIL_CALCULATE_RICH_TYPE,
+  'label'
+>

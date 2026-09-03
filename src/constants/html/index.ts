@@ -1,14 +1,14 @@
 /*
- * HTML 地址
- *  - 地址开头带叹号的代表不携带 cookie 进行请求
- *
  * @Author: czy0729
  * @Date: 2019-04-12 22:58:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-08 01:47:28
+ * @Last Modified time: 2026-09-03 23:12:49
+ *
+ * HTML 地址
+ *  - 地址开头带叹号的代表不携带 cookie 进行请求
  */
 import { urlStringify } from '@utils/utils'
-import { HOST, URL_ZHINAN } from '../constants'
+import { HOST, URL_ZHINAN } from '../host'
 import { MODEL_TIMELINE_SCOPE } from '../model'
 
 import type {
@@ -136,10 +136,6 @@ export const HTML_RAKUEN = (
   type: RakuenType | RakuenTypeMono | RakuenTypeGroup
 ) => `${HOST}/rakuen/${scope}?type=${type}`
 
-/** @deprecated [已废弃] 超展开搜索 */
-export const HTML_RAKUEN_SEARCH = (q: string = '', page: number = 1) =>
-  `https://search.gitee.com/?q=${q}&type=code&repo=VFZSSmVrMUVZelJPUkU1b1RucFplbHBuUFQxaE56WXpaZz09YTc2M2Y%3D&pageno=${page}`
-
 /** 超展开热门 (需登录) */
 export const HTML_RAKUEN_HOT = () => HOST
 
@@ -205,19 +201,6 @@ export const HTML_TAG = (
   return `${HOST}/${type}/tag/${text}${
     airtime ? `/airtime/${airtime}` : ''
   }?sort=${order}&page=${page}&meta=${meta ? 1 : ''}`
-}
-
-/** 排行榜 */
-export const HTML_RANK = (
-  type: SubjectType = 'anime',
-  order: TagOrder = 'rank',
-  page: number = 1,
-  filter?: RankFilter,
-  airtime?: string
-) => {
-  return `${HOST}/${type}/browser${filter ? `/${filter}` : ''}${
-    airtime ? `/airtime/${airtime}` : ''
-  }?sort=${order}&page=${page}`
 }
 
 /**
@@ -303,7 +286,7 @@ export const HTML_RANK_V2 = (query: {
 }
 
 /** 索引 */
-export const HTML_BROSWER = (
+export const HTML_BROWSER = (
   type: SubjectType = 'anime',
   airtime: string | number = '2022-6',
   page: number = 1,
@@ -331,9 +314,6 @@ export const HTML_USERS_WIKI = (userId: UserId = '') => `${HOST}/user/${userId}/
 export const HTML_NEW_TOPIC = (group?: string) =>
   group ? `${HOST}/group/${group}/new_topic` : `${HOST}/rakuen/new_topic`
 
-/** 添加新时间线 */
-export const HTML_NEW_TIMELINE = (userId: UserId) => `${HOST}/user/${userId}/timeline?type=say`
-
 /** 电波提醒 */
 export const HTML_NOTIFY = () => `${HOST}/notify/all`
 
@@ -345,9 +325,6 @@ export const HTML_PM = (page: number = 1) => `${HOST}/pm/inbox.chii?page=${page}
 
 /** 发件箱 */
 export const HTML_PM_OUT = (page: number = 1) => `${HOST}/pm/outbox.chii?page=${page}`
-
-/** 短信详情 */
-export const HTML_PM_DETAIL = (id: Id) => `${HOST}/pm/view/${id}.chii`
 
 /** 短信详情 V2 */
 export const HTML_PM_DETAIL_V2 = (id: Id, thread?: string) =>
@@ -371,9 +348,6 @@ export const HTML_PM_CREATE = () => `${HOST}/pm/create.chii`
 
 /** 新短信参数 */
 export const HTML_PM_PARAMS = (userId: UserId) => `${HOST}/pm/compose/${userId}.chii`
-
-/** 每日放送 */
-export const HTML_CALENDAR = () => `${HOST}/calendar`
 
 /** 时光机 */
 export const HTML_USER_COLLECTIONS = (
@@ -411,7 +385,7 @@ export const HTML_ACTION_DISCONNECT_REV = (userNumId: number, formhash: string) 
   `${HOST}/disconnect/rev/${userNumId}?gh=${formhash}`
 
 /** 用户收藏的虚拟角色 */
-export const HTML_USERS_CHARCTER = (userId: UserId = '', page: number = 1) =>
+export const HTML_USERS_CHARACTER = (userId: UserId = '', page: number = 1) =>
   `${HOST}/user/${userId}/mono/character?page=${page}`
 
 /** 用户收藏的现实人物 */

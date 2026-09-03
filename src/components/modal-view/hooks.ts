@@ -14,7 +14,7 @@ import {
   withTiming
 } from 'react-native-reanimated'
 import { scheduleOnRN } from '@utils'
-import { IOS } from '@constants/constants'
+import { IOS } from '@constants/env'
 import { PAD } from '@constants/device'
 import { getFocusMargin, getOpacity, getPosition, getScale } from './utils'
 

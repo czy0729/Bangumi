@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 09:48:28
+ * @Last Modified time: 2026-09-03 23:24:22
  */
 import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
@@ -11,18 +11,24 @@ import { _, useStore } from '@stores'
 import { toFixed } from '@utils'
 import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { B, M, MODEL_TINYGRAIL_CACULATE_RICH_TYPE, TINYGRAIL_CACULATE_RICH_TYPE } from '@constants'
-import { TinygrailCaculateRichTypeCn } from '@types'
-import { Ctx } from '../types'
+import {
+  B,
+  M,
+  MODEL_TINYGRAIL_CALCULATE_RICH_TYPE,
+  TINYGRAIL_CALCULATE_RICH_TYPE
+} from '@constants'
 import { memoStyles } from './styles'
 
-const caculateTypeData = TINYGRAIL_CACULATE_RICH_TYPE.map(item => item.label)
+import type { TinygrailCalculateRichTypeCn } from '@types'
+import type { Ctx } from '../types'
+
+const calculateTypeData = TINYGRAIL_CALCULATE_RICH_TYPE.map(item => item.label)
 
 function ToolBar() {
   const { $ } = useStore<Ctx>()
   const styles = memoStyles()
-  const { caculateType, total = 0, filterItems } = $.state
-  const caculateTypeLabel = MODEL_TINYGRAIL_CACULATE_RICH_TYPE.getLabel(caculateType)
+  const { calculateType, total = 0, filterItems } = $.state
+  const calculateTypeLabel = MODEL_TINYGRAIL_CALCULATE_RICH_TYPE.getLabel(calculateType)
   let totalText: string
   if (total > B) {
     totalText = `${toFixed(total / B, 1)}亿`
@@ -35,11 +41,11 @@ function ToolBar() {
     <Flex style={styles.container}>
       <Flex.Item>
         <Popover
-          data={caculateTypeData}
-          onSelect={(title: TinygrailCaculateRichTypeCn) => $.onCaculateTypeSelect(title)}
+          data={calculateTypeData}
+          onSelect={(title: TinygrailCalculateRichTypeCn) => $.onCalculateTypeSelect(title)}
         >
           <Flex style={styles.item} justify='center'>
-            <Text type='warning'>{caculateTypeLabel || '计算类型'}</Text>
+            <Text type='warning'>{calculateTypeLabel || '计算类型'}</Text>
             <Text style={_.ml.xs} type='warning' size={12}>
               {totalText}
             </Text>

@@ -1,6 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2026-05-12
+ * @Date: 2026-09-03 23:27:00
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-03 23:27:00
  */
 jest.mock('@stores/calendar/onair', () => ({
   ON_AIR: {
@@ -8,7 +10,19 @@ jest.mock('@stores/calendar/onair', () => ({
   }
 }))
 
-jest.mock('@constants/constants', () => ({
+jest.mock('@constants/env', () => ({
+  EVENT: { id: 'test', data: {} },
+  HOST: 'https://bgm.tv',
+  IOS: false,
+  URL_PRIVACY: 'https://example.com/privacy'
+}))
+jest.mock('@constants/host', () => ({
+  EVENT: { id: 'test', data: {} },
+  HOST: 'https://bgm.tv',
+  IOS: false,
+  URL_PRIVACY: 'https://example.com/privacy'
+}))
+jest.mock('@constants/data', () => ({
   EVENT: { id: 'test', data: {} },
   HOST: 'https://bgm.tv',
   IOS: false,
@@ -60,9 +74,9 @@ import {
   appNavigate,
   appRandom,
   bootApp,
-  caculateICO,
   calculateFutureICO,
   calculateFutureLevel,
+  calculateICO,
   fixedSubjectInfo,
   formatPlaytime,
   formatTime,
@@ -140,9 +154,9 @@ describe('formatTime', () => {
   })
 })
 
-describe('caculateICO', () => {
+describe('calculateICO', () => {
   it('正常计算', () => {
-    const result = caculateICO({ users: 20, total: 1000000 })
+    const result = calculateICO({ users: 20, total: 1000000 })
     expect(result).toHaveProperty('level')
     expect(result).toHaveProperty('next')
     expect(result).toHaveProperty('price')
@@ -152,23 +166,23 @@ describe('caculateICO', () => {
   })
 
   it('total < 500000 时 price 为 0', () => {
-    const result = caculateICO({ users: 0, total: 0 })
+    const result = calculateICO({ users: 0, total: 0 })
     expect(result.price).toBe(0)
   })
 
   it('users 为 undefined 时安全处理', () => {
-    const result = caculateICO({ total: 1000000 })
+    const result = calculateICO({ total: 1000000 })
     expect(result).toHaveProperty('level')
   })
 
   it('total 为 undefined 时安全处理', () => {
-    const result = caculateICO({ users: 20 })
+    const result = calculateICO({ users: 20 })
     expect(result).toHaveProperty('level')
   })
 
   it('[隐藏问题] level=0 时 amount 小于 level=1 时的 amount', () => {
-    const result0 = caculateICO({ users: 0, total: 600000 })
-    const result1 = caculateICO({ users: 15, total: 600000 })
+    const result0 = calculateICO({ users: 0, total: 600000 })
+    const result1 = calculateICO({ users: 15, total: 600000 })
     expect(result0.amount).toBeLessThan(result1.amount)
   })
 })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-02 16:30:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 20:46:15
+ * @Last Modified time: 2026-09-03 23:21:02
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
@@ -10,8 +10,9 @@ import { observer } from 'mobx-react'
 import { Cover, Flex, Highlight, Text, Touchable } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { getGroupThumbStatic, getVisualLength } from '@utils'
+import { CDN_OSS_MAGMA_PIC } from '@utils/cdn'
 import { t } from '@utils/fetch'
-import { CDN_OSS_MAGMA_PIC, HOST_IMAGE } from '@constants'
+import { HOST_IMAGE } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 

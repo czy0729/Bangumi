@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 22:07:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-02 15:32:29
+ * @Last Modified time: 2026-09-03 23:12:19
  */
 import { Dimensions, Platform } from 'react-native'
 
@@ -33,9 +33,6 @@ if (WSA) {
 
 /** 是否平板 */
 export const PAD = isPad
-
-/** @deprecated 是否 Storybook 环境, 也就是是否 Web SPA */
-export const STORYBOOK = false
 
 /** 是否 Storybook 环境, 也就是是否 Web SPA */
 export const WEB = false

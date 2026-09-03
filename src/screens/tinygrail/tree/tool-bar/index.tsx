@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-21 23:37:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 05:30:50
+ * @Last Modified time: 2026-09-03 23:23:44
  */
 import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
@@ -15,25 +15,26 @@ import {
   B,
   M,
   MODEL_TINYGRAIL_ASSETS_TYPE,
-  MODEL_TINYGRAIL_CACULATE_TYPE,
+  MODEL_TINYGRAIL_CALCULATE_TYPE,
   TINYGRAIL_ASSETS_TYPE,
-  TINYGRAIL_CACULATE_TEMPLE_TYPE,
-  TINYGRAIL_CACULATE_TYPE
+  TINYGRAIL_CALCULATE_TEMPLE_TYPE,
+  TINYGRAIL_CALCULATE_TYPE
 } from '@constants'
-import { ViewStyle } from '@types'
-import { Ctx } from '../types'
 import { memoStyles } from './styles'
 
+import type { ViewStyle } from '@types'
+import type { Ctx } from '../types'
+
 const TYPE_DATA = TINYGRAIL_ASSETS_TYPE.map(item => item.label)
-const CACULATE_TYPE_DATA = TINYGRAIL_CACULATE_TYPE.map(item => item.label)
-const CACULATE_TEMPLE_TYPE_DATA = TINYGRAIL_CACULATE_TEMPLE_TYPE.map(item => item.label)
+const CALCULATE_TYPE_DATA = TINYGRAIL_CALCULATE_TYPE.map(item => item.label)
+const CALCULATE_TEMPLE_TYPE_DATA = TINYGRAIL_CALCULATE_TEMPLE_TYPE.map(item => item.label)
 
 function ToolBar({ style }: { style?: ViewStyle }) {
   const { $ } = useStore<Ctx>()
   const styles = memoStyles()
-  const { type, caculateType, total = 0, filterItems } = $.state
+  const { type, calculateType, total = 0, filterItems } = $.state
   const typeLabel = MODEL_TINYGRAIL_ASSETS_TYPE.getLabel(type)
-  const caculateTypeLabel = MODEL_TINYGRAIL_CACULATE_TYPE.getLabel(caculateType)
+  const calculateTypeLabel = MODEL_TINYGRAIL_CALCULATE_TYPE.getLabel(calculateType)
   let totalText
   if (total > B) {
     totalText = `${toFixed(total / B, 1)}亿`
@@ -56,11 +57,11 @@ function ToolBar({ style }: { style?: ViewStyle }) {
       </Flex.Item>
       <Flex.Item>
         <Popover
-          data={$.isTemple ? CACULATE_TEMPLE_TYPE_DATA : CACULATE_TYPE_DATA}
-          onSelect={title => $.onCaculateTypeSelect(title)}
+          data={$.isTemple ? CALCULATE_TEMPLE_TYPE_DATA : CALCULATE_TYPE_DATA}
+          onSelect={title => $.onCalculateTypeSelect(title)}
         >
           <Flex style={styles.item} justify='center'>
-            <Text type='warning'>{caculateTypeLabel || '计算类型'}</Text>
+            <Text type='warning'>{calculateTypeLabel || '计算类型'}</Text>
             <Text style={_.ml.xs} type='warning' size={12}>
               {totalText}
             </Text>

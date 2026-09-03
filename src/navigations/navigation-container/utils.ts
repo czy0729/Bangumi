@@ -7,7 +7,7 @@
 import { useEffect, useRef } from 'react'
 import { enableScreens } from 'react-native-screens'
 import { devLog } from '@components/dev/utils'
-import { IOS } from '@constants/constants'
+import { IOS } from '@constants/env'
 import { DEV, IOS_IPA } from '@src/config'
 
 import type { Navigation } from '@types'

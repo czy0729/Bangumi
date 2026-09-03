@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:02:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-17 12:46:39
+ * @Last Modified time: 2026-09-03 23:32:08
  */
-import { IOS } from '@constants/constants'
 import { WEB, WSA } from '@constants/device'
+import { IOS } from '@constants/env'
 import { DEV, GITHUB_ACTION, IOS_IPA } from '@src/config'
 import { window } from '../../styles/layout'
 import { get } from '../crypto'

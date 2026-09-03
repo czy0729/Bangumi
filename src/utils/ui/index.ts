@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 23:45:30
+ * @Last Modified time: 2026-09-03 23:32:33
  */
 import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
-import { IOS } from '@constants/constants'
 import { WEB } from '@constants/device'
+import { IOS } from '@constants/env'
 import { FROZEN_FN } from '@constants/init'
 import { syncS2T, syncSystemStore } from '../async'
 import { log } from './utils'

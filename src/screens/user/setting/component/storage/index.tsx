@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-07 07:48:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-24 18:28:48
+ * @Last Modified time: 2026-09-03 23:25:15
  */
 import React, { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
@@ -29,7 +29,7 @@ function Storage({ filter }: WithFilterProps) {
   const { state, setTrue, setFalse } = useBoolean(false)
   const [storageSize, setStorageSize] = useState('')
 
-  const caculateStorageSize = useCallback(async () => {
+  const calculateStorageSize = useCallback(async () => {
     if (WEB) return
 
     try {
@@ -42,7 +42,7 @@ function Storage({ filter }: WithFilterProps) {
       })
       setStorageSize(`${toFixed(storageSize / 1000 / 1000, 1)} mb`)
     } catch (error) {
-      logger.error('Setting', 'caculateStorageSize', error)
+      logger.error('Setting', 'calculateStorageSize', error)
     }
   }, [])
 
@@ -56,10 +56,10 @@ function Storage({ filter }: WithFilterProps) {
 
       setTimeout(() => {
         info('已清除数据缓存')
-        caculateStorageSize()
+        calculateStorageSize()
       }, 2400)
     })
-  }, [caculateStorageSize])
+  }, [calculateStorageSize])
 
   const clearImages = useCallback(() => {
     confirm('清除所有图片缓存，确定?', () => {
@@ -87,14 +87,14 @@ function Storage({ filter }: WithFilterProps) {
 
         setTimeout(() => {
           info('已清除')
-          caculateStorageSize()
+          calculateStorageSize()
         }, 2400)
       }
     )
-  }, [caculateStorageSize])
+  }, [calculateStorageSize])
 
   useMount(() => {
-    caculateStorageSize()
+    calculateStorageSize()
   })
 
   const shows = getShows(filter, TEXTS)

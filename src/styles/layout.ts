@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-24 16:03:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-21 20:43:11
+ * @Last Modified time: 2026-09-03 23:25:57
  */
 import { Dimensions, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
-import { IOS } from '@constants/constants'
 import {
   PAD,
   PAD_LEVEL_1,
@@ -16,6 +15,7 @@ import {
   WEB,
   WSA
 } from '@constants/device'
+import { IOS } from '@constants/env'
 import { IS_IOS_5_6_7_8, isPad, ratio } from './device'
 
 export * from './device'

@@ -1,9 +1,10 @@
 /*
- * 与 bgm.tv 有关的数据结构
  * @Author: czy0729
  * @Date: 2022-06-27 13:10:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-21 16:29:59
+ * @Last Modified time: 2026-09-03 23:26:36
+ *
+ * 与 bgm.tv 有关的数据结构
  */
 import type {
   DATA_AIRTIME,
@@ -17,7 +18,7 @@ import type {
   DATA_REAL_AREA,
   DATA_SOURCE,
   DATA_THEME
-} from '@constants/constants'
+} from '@constants/data'
 import type {
   RankAnimeFilter,
   RankBookFilter,

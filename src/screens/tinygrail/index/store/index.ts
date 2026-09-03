@@ -25,7 +25,7 @@ export default class ScreenTinygrail extends Action {
 
     // 获取资产和用户唯一标识
     await queue([tinygrailStore.fetchAssets, tinygrailStore.fetchHash, this.fetchCharaAssets])
-    queue([systemStore.fetchAdvance, this.caculateChange, this.fetchCount, this.checkCount])
+    queue([systemStore.fetchAdvance, this.calculateChange, this.fetchCount, this.checkCount])
 
     return true
   }

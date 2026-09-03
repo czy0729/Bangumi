@@ -14,7 +14,7 @@ import Pager from 'react-native-tab-view/src/Pager'
 import TabBar from 'react-native-tab-view/src/TabBar'
 import { uiStore } from '@stores'
 import { stl } from '@utils/utils'
-import { IOS } from '@constants/constants'
+import { IOS } from '@constants/env'
 import SceneView from '../scene-view'
 
 import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native'

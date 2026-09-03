@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-02 23:13:52
  */
-import type { EventKeys } from '@constants/events'
+import type { EventKeys } from '@constants'
 import type { ColorValue, ViewStyle } from '@types'
 import type { IconfontNames } from '../../iconfont/types'
 import type { PopoverData } from '../../popover'

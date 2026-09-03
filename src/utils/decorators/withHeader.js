@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 11:49:11
+ * @Last Modified time: 2026-09-03 23:29:00
  */
 import React from 'react'
 import { Flex, Heatmap, Iconfont, Menu, Popover } from '@components'
@@ -10,7 +10,7 @@ import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { hm as utilsHM } from '@utils/fetch'
 import { syncS2T } from '@utils/async'
-import { IOS } from '@constants/constants'
+import { IOS } from '@constants/env'
 import IconBack from './cycles/back'
 import ob from './ob'
 

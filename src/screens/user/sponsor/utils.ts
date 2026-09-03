@@ -94,7 +94,7 @@ export function useTreemapSquarify() {
 
   const filterUserIdsSet = new Set(filterUserIds)
   let list = LIST.filter(item => !filterUserIdsSet.has(item.data))
-  const total = caculateTotal(list)
+  const total = calculateTotal(list)
 
   /** 过滤的个数 */
   let filterCount = 0
@@ -112,7 +112,7 @@ export function useTreemapSquarify() {
     return true
   })
 
-  const currentTotal = caculateTotal(list)
+  const currentTotal = calculateTotal(list)
   const nodes = list.map(item => ({
     data: item.data,
     weight: item.weight,
@@ -157,7 +157,7 @@ export function useTreemapSquarify() {
   }
 }
 
-function caculateTotal(nodes: any[]) {
+function calculateTotal(nodes: any[]) {
   let total = 0
   nodes.forEach(item => (total += item.weight || 0))
   return total

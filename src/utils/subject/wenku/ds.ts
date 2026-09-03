@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-20 01:18:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-22 20:38:59
+ * @Last Modified time: 2026-09-03 23:32:05
  */
-import { DATA_ALPHABET } from '@constants/constants'
+import { DATA_ALPHABET } from '@constants/data'
 import { desc } from '../../utils'
 import { ANIME_COLLECTED, ANIME_YEAR } from '../anime'
 

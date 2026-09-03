@@ -12,12 +12,6 @@
  */
 export type ApiCollectionAction = 'create' | 'update'
 
-/** 封面图大小 */
-export type ApiCoverType = 'small' | 'grid' | 'medium' | 'large'
-
-/** 角色类型 */
-export type ApiMonoType = 'characters' | 'persons'
-
 /**
  * 列表类型
  *  - mvc    最高市值

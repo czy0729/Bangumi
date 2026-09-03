@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-02 11:05:45
+ * @Last Modified time: 2026-09-03 23:32:36
  */
 import { Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import pLimit from '@utils/thirdParty/p-limit'
-import { B, IOS, M, TIMEZONE_IS_GMT8 } from '@constants/constants'
+import { B, M, TIMEZONE_IS_GMT8 } from '@constants/data'
+import { IOS } from '@constants/env'
 import { date, getTimestamp } from '../date'
 import { applyProxy } from '../proxy'
 import Base64 from '../thirdParty/base64'
@@ -18,7 +19,6 @@ import { log } from './utils'
 
 export { asc, compare, desc } from './sort'
 export { pad, safeObject, titleCase, trim } from './base'
-
 export * from '../date'
 export * from './relative-time'
 

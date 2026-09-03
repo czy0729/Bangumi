@@ -1,14 +1,14 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-24 00:26:11
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-24 00:26:11
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-03 23:27:35
  *
- * iOS 分支测试: 单独文件以便用工厂 mock 覆盖 @constants/constants 的 IOS 标识
+ * iOS 分支测试: 单独文件以便用工厂 mock 覆盖 @constants/env 的 IOS 标识
  */
 process.env.TZ = 'Asia/Shanghai'
 
-jest.mock('@constants/constants', () => ({
+jest.mock('@constants/env', () => ({
   IOS: true
 }))
 

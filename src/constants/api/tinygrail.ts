@@ -1,11 +1,11 @@
 /*
- * 小圣杯
- *  - https://bgm.tv/dev/app/1143
- *
  * @Author: czy0729
  * @Date: 2022-05-22 14:04:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-27 23:49:36
+ * @Last Modified time: 2026-09-03 23:06:11
+ *
+ * 小圣杯
+ *  - https://bgm.tv/dev/app/1143
  */
 import type { Id, UserId } from '@types'
 import type { ApiTinygrailMagic, ApiTinygrailType } from './types'
@@ -23,7 +23,10 @@ export const TINYGRAIL_ASSETS_LIMIT = 1000
 
 /** K 线起始时间（当天 00:00 +08:00） */
 const now = new Date()
-const TINYGRAIL_START = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}T00:00:00+08:00`
+const TINYGRAIL_START = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
+  2,
+  '0'
+)}-${String(now.getDate()).padStart(2, '0')}T00:00:00+08:00`
 
 /* -------------------------------------------------------------------------- */
 /* 角色基础                                                                    */
@@ -314,8 +317,11 @@ export const API_TINYGRAIL_SEND_RED_PACKET = (userId: UserId, amount: number, me
   `${API_HOST_TINYGRAIL}/api/event/send/${userId}/${amount}/${encodeURIComponent(message)}`
 
 /** 红包记录 */
-export const API_TINYGRAIL_RED_PACKET_LOG = (userId: UserId, page: number = 1, limit: number = 100) =>
-  `${API_HOST_TINYGRAIL}/api/chara/user/send/log/${userId}/${page}/${limit}`
+export const API_TINYGRAIL_RED_PACKET_LOG = (
+  userId: UserId,
+  page: number = 1,
+  limit: number = 100
+) => `${API_HOST_TINYGRAIL}/api/chara/user/send/log/${userId}/${page}/${limit}`
 
 /** 每周分红 */
 export const API_TINYGRAIL_BONUS = () => `${API_HOST_TINYGRAIL}/api/event/share/bonus`

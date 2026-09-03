@@ -1,19 +1,19 @@
 /*
- * @Params: { _title }
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 20:38:06
+ * @Last Modified time: 2026-09-03 23:20:52
  */
 import { computed, observable } from 'mobx'
 import { rakuenStore, systemStore, userStore } from '@stores'
 import { feedback, getTimestamp, info } from '@utils'
+import { CDN_OSS_MAGMA_PIC } from '@utils/cdn'
 import { computedFn } from '@utils/computed-fn'
 import { fetchHTML, t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import store from '@utils/store'
 import { webhookGroup } from '@utils/webhooks'
-import { CDN_OSS_MAGMA_PIC, HOST, HOST_IMAGE, LIST_EMPTY } from '@constants'
+import { HOST, HOST_IMAGE, LIST_EMPTY } from '@constants'
 import { NAMESPACE, STATE } from './ds'
 
 import type { Group } from '@stores/rakuen/types'
