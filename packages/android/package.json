@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
-    "@gorhom/portal": "1.0.14",
     "@react-native-async-storage/async-storage": "1.18.2",
     "@react-native-community/blur": "4.3.2",
     "@react-native-community/cameraroll": "4.1.2",

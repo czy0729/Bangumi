@@ -6,7 +6,6 @@
  */
 import React, { memo } from 'react'
 import { View } from 'react-native'
-import { PortalProvider } from '@gorhom/portal'
 import Backdrop from '../backdrop'
 import { MenuContext, MenuParamsContext } from '../context'
 import Menu from '../menu'
@@ -22,13 +21,11 @@ function ProviderComponent({ children, theme, paddingBottom }: Props) {
   return (
     <MenuContext.Provider value={contextValue}>
       <MenuParamsContext.Provider value={paramsValue}>
-        <PortalProvider>
-          <View style={styles.flex}>
-            {children}
-            <Backdrop />
-            <Menu />
-          </View>
-        </PortalProvider>
+        <View style={styles.flex}>
+          {children}
+          <Backdrop />
+          <Menu />
+        </View>
       </MenuParamsContext.Provider>
     </MenuContext.Provider>
   )

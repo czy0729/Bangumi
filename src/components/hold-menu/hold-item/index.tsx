@@ -7,7 +7,7 @@
 import React, { memo } from 'react'
 import { GestureDetector } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
-import { Portal } from '@gorhom/portal'
+import { Portal } from '@components/portal'
 import { useHoldMenu } from '../context'
 import { useItemAnimation } from './useItemAnimation'
 import { useItemGesture } from './useItemGesture'
