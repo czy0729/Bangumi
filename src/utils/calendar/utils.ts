@@ -1,10 +1,12 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-24 00:25:27
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-24 00:25:27
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-04 19:17:25
  */
-import dayjs from 'dayjs'
+import dayjs from '@utils/thirdParty/dayjs'
+
+import type { Dayjs } from '@utils/thirdParty/dayjs'
 
 /** 日历接口使用的 UTC 时间格式 */
 export const CALENDAR_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ss.000[Z]'
@@ -48,6 +50,6 @@ export function parseReleaseDate(date: string): string | null {
  *
  * 输入按北京时间理解, 减去 8 小时后标记为 UTC
  */
-export function formatCalendarDate(date: dayjs.Dayjs): string {
+export function formatCalendarDate(date: Dayjs): string {
   return date.subtract(8, 'hours').format(CALENDAR_DATE_FORMAT)
 }

@@ -2,19 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-03-12 16:48:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:28:27
+ * @Last Modified time: 2026-09-04 19:20:08
  */
-import dayjs from 'dayjs'
-import dayjsCustomParseFormat from 'dayjs/plugin/customParseFormat'
-import dayjsCustomTimezone from 'dayjs/plugin/timezone'
-import dayjsCustomUTC from 'dayjs/plugin/utc'
-import dayjsCustomWeekday from 'dayjs/plugin/weekday'
+import dayjs from '@utils/thirdParty/dayjs'
 import { TIMEZONE_IS_GMT8 } from '@constants/data'
-
-dayjs.extend(dayjsCustomParseFormat)
-dayjs.extend(dayjsCustomUTC)
-dayjs.extend(dayjsCustomTimezone)
-dayjs.extend(dayjsCustomWeekday)
 
 /**
  * 返回 timestamp

@@ -2,12 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-08-03 02:51:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-03 03:04:54
+ * @Last Modified time: 2026-09-04 19:16:27
  */
-import dayjs from 'dayjs'
-import isoWeek from 'dayjs/plugin/isoWeek'
-
-dayjs.extend(isoWeek)
+import dayjs from '@utils/thirdParty/dayjs'
 
 export function getWeekData(prev: number = 1) {
   if (prev === 0) return '本周'

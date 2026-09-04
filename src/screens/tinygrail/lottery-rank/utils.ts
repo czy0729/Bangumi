@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-07-17 15:46:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-07 09:07:02
+ * @Last Modified time: 2026-09-04 19:16:15
  */
-import dayjs from 'dayjs'
+import dayjs from '@utils/thirdParty/dayjs'
 
 import type { Detail } from './types'
 

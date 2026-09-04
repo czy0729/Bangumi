@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-01-30 22:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:29:38
+ * @Last Modified time: 2026-09-04 19:20:26
  *
  * API v0 接口
  *  - https://bangumi.github.io/api
  */
-import dayjs from 'dayjs'
 import { getTimestamp } from '@utils'
+import dayjs from '@utils/thirdParty/dayjs'
 import { API_V0 } from '@constants/api'
 import { HOST } from '@constants/host'
 import { syncSystemStore } from '../async'

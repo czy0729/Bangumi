@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-09-26 16:05:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-06 09:58:13
+ * @Last Modified time: 2026-09-04 19:15:25
  */
-import dayjs from 'dayjs'
 import { rakuenStore, subjectStore, usersStore } from '@stores'
 import { cnjp, feedback, getTimestamp, info, queue } from '@utils'
 import { request } from '@utils/fetch.v0'
 import { API_COLLECTIONS } from '@utils/fetch.v0/ds'
 import { get, update } from '@utils/kv'
+import dayjs from '@utils/thirdParty/dayjs'
 import { D, DEV, MODEL_SUBJECT_TYPE } from '@constants'
 import Computed from './computed'
 import { COLLECTION_STATUS } from './ds'
@@ -107,10 +107,7 @@ export default class Fetch extends Computed {
   }
 
   /** 批量获取条目留言 (并发拉取指定页) */
-  fetchSubjectCommentsBatch = async (
-    pages: number[],
-    onProgress?: (done: number) => void
-  ) => {
+  fetchSubjectCommentsBatch = async (pages: number[], onProgress?: (done: number) => void) => {
     return subjectStore.fetchSubjectCommentsBatch(
       {
         subjectId: this.subjectId,
@@ -153,23 +150,24 @@ export default class Fetch extends Computed {
     const list: Collection['data'] = []
     try {
       // 阶段一: 并发拉取每个状态的第一页, 确认各状态 total
-      const firstPages = (await queue(
-        COLLECTION_STATUS.map(item => async () => {
-          const response = await request<Collection>(
-            API_COLLECTIONS(this.userId, subjectTypeValue, 1, 100, item.value),
-            undefined,
-            {
-              timeout: 8000,
-              onError: () => {}
+      const firstPages =
+        (await queue(
+          COLLECTION_STATUS.map(item => async () => {
+            const response = await request<Collection>(
+              API_COLLECTIONS(this.userId, subjectTypeValue, 1, 100, item.value),
+              undefined,
+              {
+                timeout: 8000,
+                onError: () => {}
+              }
+            )
+            return {
+              item,
+              response
             }
-          )
-          return {
-            item,
-            response
-          }
-        }),
-        3
-      )) || []
+          }),
+          3
+        )) || []
 
       // 阶段二: 根据 total 并发补拉剩余页
       const restTasks: Array<() => Promise<void>> = []

@@ -9,7 +9,7 @@
  */
 process.env.TZ = 'Asia/Shanghai'
 
-import dayjs from 'dayjs'
+import dayjs from '@utils/thirdParty/dayjs'
 import { formatCalendarDate, parseReleaseDate } from '../utils'
 
 describe('parseReleaseDate', () => {

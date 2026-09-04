@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-23 05:43:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:07:40
+ * @Last Modified time: 2026-09-04 19:15:02
  */
-import dayjs from 'dayjs'
+import dayjs from '@utils/thirdParty/dayjs'
 import { getFolder } from './utils'
 import { HOST_DOGE } from './ds'
 
@@ -30,6 +30,7 @@ function trim(str: string = '') {
   return str.replace(/^\s+|\s+$/gm, '')
 }
 
+/** 缓存穿透时间戳 (秒) */
 function getTimestamp(date: string = '') {
   const _date = trim(date)
   if (_date) return dayjs(_date).unix()

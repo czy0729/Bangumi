@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-24 00:25:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:27:33
+ * @Last Modified time: 2026-09-04 19:17:48
  *
  * expo-calendar 封装层测试, mock 整个 expo-calendar 命名空间
  * 断言依赖 GMT+8 时区, 文件顶部统一设置
@@ -26,7 +26,7 @@ jest.mock('@constants/env', () => ({
   ANDROID: true
 }))
 
-import dayjs from 'dayjs'
+import dayjs from '@utils/thirdParty/dayjs'
 import {
   calendarEventsRequestPermissions,
   calendarEventsSaveEvent,

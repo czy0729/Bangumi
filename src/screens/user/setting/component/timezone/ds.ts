@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-03-14 20:29:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-02 00:48:13
+ * @Last Modified time: 2026-09-04 19:19:53
  */
 import { rc } from '@utils/dev'
-import { TIMEZONE_IS_GMT8 } from '@constants'
+import { TIMEZONE_IS_GMT8 } from '@constants/data'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Timezone')

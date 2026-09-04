@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-12-23 07:58:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-26 13:43:27
+ * @Last Modified time: 2026-09-04 19:17:00
  */
-import dayjs from 'dayjs'
+import dayjs from '@utils/thirdParty/dayjs'
 import { calendarEventsRequestPermissions, calendarEventsSaveEvent } from '../calendar'
 import { confirm, feedback, info } from '../ui'
 import { toLocal } from '../utils'

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-07 00:56:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-01 10:14:50
+ * @Last Modified time: 2026-09-04 19:16:51
  */
 import { useCallback, useState } from 'react'
-import dayjs from 'dayjs'
 import { _, usersStore } from '@stores'
 import { queue, toFixed } from '@utils'
 import { logger } from '@utils/dev'
 import { update } from '@utils/kv'
+import dayjs from '@utils/thirdParty/dayjs'
 import treemap from '@utils/thirdParty/treemap'
 import { DEV, IOS } from '@constants'
 import advanceJSON from '@assets/json/advance.json'
