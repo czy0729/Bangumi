@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-09-01 04:09:50
  */
 import type { Override, RakuenNewFloorStyleCn, TopicId, UserId } from '@types'
+import type { LikesUsers } from '../../../base/likes/types'
 import type { Props as ComponentProps } from '../types'
 
 export type Props = Override<
@@ -48,8 +49,26 @@ export type Ctx = {
       likeType: string
     }
     myFriendsMap: Record<UserId, true>
-    postUsersMap: Record<string, any>
+    postUsersMap: Record<
+      string,
+      {
+        userId: UserId
+        userName: string
+        avatar: string
+      }
+    >
     isBlockUser: (userId: UserId, userName: string, replySub?: string) => boolean
-    showLikesUsers: (list: any[], emoji: number) => void
+    showLikesUsers: (list: LikesUsers, emoji: number) => void
   }
 }
+
+export type FriendsMap = Record<UserId, boolean>
+
+export type QuoteUsersMap = Record<
+  string,
+  {
+    userId: UserId
+    userName: string
+    avatar: string
+  }
+>

@@ -11,6 +11,7 @@ import type { BlogId, EventType, Navigation, RakuenNewFloorStyleCn, TopicId, Use
 import type { LikesUsers } from '../../../base/likes/types'
 import type { Props } from '../types'
 import type { memoStyles } from './styles'
+import type { FriendsMap, QuoteUsersMap } from './types'
 
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
@@ -19,25 +20,25 @@ export const DEFAULT_PROPS = {
   topicId: '' as TopicId | BlogId,
   authorId: '' as Props['authorId'],
   avatar: '' as Props['avatar'],
-  blockKeywords: [] as any[],
+  blockKeywords: [] as string[],
   erase: '' as Props['erase'],
   filterDelete: true as boolean,
   floor: '' as Props['floor'],
   directFloor: false as boolean,
   id: 0 as Props['id'],
-  isBlockUser: false as any,
+  isBlockUser: false as boolean | ((userId: UserId, userName: string) => boolean),
   matchLink: false as boolean,
   message: '' as string,
-  myFriendsMap: {} as Record<UserId, boolean>,
+  myFriendsMap: {} as FriendsMap,
   postId: '' as Props['postId'],
-  postUsersMap: {} as Record<UserId, any>,
+  postUsersMap: {} as QuoteUsersMap,
   quote: true as boolean,
   quoteAvatar: true as boolean,
   wide: false as boolean,
-  readedTime: '' as any,
+  readedTime: '' as string | number,
   replySub: '' as Props['replySub'],
   time: '' as Props['time'],
-  translate: '' as any,
+  translate: '' as string,
   uid: '' as UserId,
   url: '' as string,
   userId: '' as Props['userId'],

@@ -9,7 +9,7 @@ import { observer } from 'mobx-react'
 import { Flex } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { layoutHeightMap } from '../utils'
+import { setLayoutHeight } from '../utils'
 import { memoStyles } from './styles'
 
 import type { LayoutChangeEvent } from 'react-native'
@@ -21,7 +21,7 @@ function ContainerLayout({ id, subLength, isJump, children }: Props) {
   const handleLayout = useCallback(
     (evt: LayoutChangeEvent) => {
       if (subLength) {
-        layoutHeightMap.set(Number(id), evt.nativeEvent.layout.height)
+        setLayoutHeight(Number(id), evt.nativeEvent.layout.height)
       }
     },
     [id, subLength]

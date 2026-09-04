@@ -8,9 +8,8 @@ import React from 'react'
 import { View } from 'react-native'
 import { Avatar, Component, Flex, Text } from '@components'
 import { _, systemStore } from '@stores'
-import { getIsBlocked, getTimestamp, matchUserIdFromAvatar, removeHTMLTag, stl } from '@utils'
+import { matchUserIdFromAvatar, removeHTMLTag, stl } from '@utils'
 import { memo } from '@utils/decorators'
-import decoder from '@utils/thirdParty/html-entities-decoder'
 import { EVENT, FROZEN_ARRAY, FROZEN_FN, FROZEN_OBJECT } from '@constants'
 import { IMAGES_MAX_WIDTH_SUB, REG_MARK } from '../ds'
 import { Likes, Name, UserAge, UserStatusAvatar } from '../../../base'
@@ -21,10 +20,11 @@ import IconExtra from '../icon-extra'
 import Mark from '../mark'
 import PlusOne from '../plus-one'
 import UserLabel from '../user-label'
-import { layoutHeightMap } from '../utils'
+import { decodeMessage, deriveFloorState, setLayoutHeight } from '../utils'
 import { DEFAULT_PROPS, REG_BGM, REG_PLUS } from './ds'
 
 import type { BlogId, TopicId } from '@types'
+import type { FriendsMap, QuoteUsersMap } from './types'
 
 export default memo(
   ({
@@ -43,9 +43,9 @@ export default memo(
     isBlockUser = false,
     matchLink = false,
     message = '',
-    myFriendsMap = FROZEN_OBJECT,
+    myFriendsMap = FROZEN_OBJECT as FriendsMap,
     postId = '',
-    postUsersMap = FROZEN_OBJECT,
+    postUsersMap = FROZEN_OBJECT as QuoteUsersMap,
     quote = true,
     quoteAvatar = true,
     wide = false,
@@ -66,7 +66,22 @@ export default memo(
     onLikesLongPress = FROZEN_FN,
     onShowFixedTextare = FROZEN_FN
   }) => {
-    const msg = decoder(message)
+    const {
+      msg: decodedMsg,
+      isBlocked,
+      isNew,
+      isJump
+    } = deriveFloorState({
+      message,
+      id,
+      time,
+      postId,
+      readedTime,
+      newFloorStyle,
+      blockKeywords,
+      blockedSource: removeHTMLTag(decodeMessage(message))
+    })
+    const msg = decodedMsg
     const rawMsg = removeHTMLTag(msg)
     const isDelete = rawMsg.includes('删除了回复')
     if (filterDelete && isDelete) return null
@@ -116,7 +131,7 @@ export default memo(
 
     // 回复引用的用户是屏蔽用户也要隐藏
     const quoteUserName = rawMsg.match(/^(.+?)说:/)?.[1]
-    const quoteUser = quoteUserName ? postUsersMap[quoteUserName] : ''
+    const quoteUser = quoteUserName ? postUsersMap[quoteUserName] : undefined
     if (quoteUser) {
       const quoteUserId = matchUserIdFromAvatar(quoteUser.avatar)
       if (
@@ -128,14 +143,10 @@ export default memo(
       }
     }
 
-    if (getIsBlocked(blockKeywords, rawMsg, `Topic|${id}`)) {
+    if (isBlocked) {
       message = '<span style="color:#999;font-size:12px">已屏蔽</span>'
     }
 
-    let isNew = false
-    if (newFloorStyle !== '不设置') isNew = !!readedTime && getTimestamp(time) > readedTime
-
-    const isJump = !!postId && postId === id
     const showQuoteAvatar = quote && quoteAvatar && !!quoteUser
 
     return (
@@ -147,7 +158,7 @@ export default memo(
           align='start'
           onLayout={e => {
             try {
-              layoutHeightMap.set(Number(id), Math.max(1, e.nativeEvent.layout.height))
+              setLayoutHeight(Number(id), Math.max(1, e.nativeEvent.layout.height))
             } catch {}
           }}
         >
@@ -216,7 +227,7 @@ export default memo(
                   {translate.trim()}
                 </Text>
               )}
-              {showQuoteAvatar && (
+              {showQuoteAvatar && quoteUser && (
                 <Flex style={stl(styles.quoteUserRound, wide && styles.quoteUserRoundWide)}>
                   <Avatar
                     navigation={navigation}

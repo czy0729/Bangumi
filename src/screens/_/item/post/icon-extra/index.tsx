@@ -97,7 +97,7 @@ function IconExtra({
       switch (title) {
         case ACTION_LIKES:
           viewRef.current.measure(
-            (_x: any, _y: any, _w: any, _h: any, pageX: number, pageY: number) => {
+            (_x: number, _y: number, _w: number, _h: number, pageX: number, pageY: number) => {
               uiStore.setXY(pageX, pageY - (IOS ? 0 : 12))
               uiStore.showLikesGrid(topicId, id, formhash, likeType, {
                 recommandPosition: 'top'

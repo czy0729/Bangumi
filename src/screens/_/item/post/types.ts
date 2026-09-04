@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-14 05:16:49
  */
+import type { CommentsItem } from '@stores/rakuen/types'
 import type { Id, TopicId, UserId, ViewStyle, WithEvent } from '@types'
 
 export type Props = WithEvent<{
@@ -35,7 +36,7 @@ export type Props = WithEvent<{
   message?: string
 
   /** 子回复数据 */
-  sub?: any[]
+  sub?: SubItem[]
 
   /** 楼层 ID */
   id?: Id
@@ -77,6 +78,13 @@ export type Props = WithEvent<{
   onJumpTo?: () => void
 }>
 
+/** 子回复数据 */
+export type SubItem = Pick<
+  CommentsItem,
+  'avatar' | 'floor' | 'id' | 'message' | 'replySub' | 'time' | 'userId' | 'userName'
+> &
+  Partial<Pick<CommentsItem, 'erase'>>
+
 export type Ctx = {
   $: {
     params: {
@@ -84,7 +92,7 @@ export type Ctx = {
     }
     state: {
       directFloor: string
-      expands: any[]
+      expands: Id[]
       translateResultFloor: Record<string, string>
     }
     topicId: TopicId

@@ -8,12 +8,11 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { rakuenStore, uiStore, useStore } from '@stores'
-import { getIsBlocked, getTimestamp, HTMLDecode } from '@utils'
-import decoder from '@utils/thirdParty/html-entities-decoder'
+import { HTMLDecode } from '@utils'
 import { HOST, MODEL_RAKUEN_NEW_FLOOR_STYLE } from '@constants'
 import Item from './item'
 import PlusOne from './plus-one'
-import { isBlockUser, isSpecFloor } from './utils'
+import { deriveFloorState, isBlockUser, isSpecFloor } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -63,7 +62,24 @@ export const ItemPost = observer(
     const directFloor = $?.state?.directFloor === floor
     const isAuthor = authorId === userId
     const isFriend = $?.myFriendsMap?.[userId]
-    let msg = decoder(message)
+
+    const newFloorStyle = MODEL_RAKUEN_NEW_FLOOR_STYLE.getLabel(rakuenStore.setting.newFloorStyle)
+    const readedTime = $?.readed?._time
+    const {
+      msg: decodedMsg,
+      isBlocked,
+      isNew,
+      isJump
+    } = deriveFloorState({
+      message,
+      id,
+      time,
+      postId,
+      readedTime,
+      newFloorStyle,
+      blockKeywords: rakuenStore.setting.blockKeywords
+    })
+    let msg = decodedMsg
     if (isSpecFloor(msg, sub.length)) {
       return (
         <Component id='item-post' data-key={id} data-type='plus-one' style={styles.delete}>
@@ -93,17 +109,8 @@ export const ItemPost = observer(
       isExpand = true
     }
 
-    // 新楼层标识
-    const newFloorStyle = MODEL_RAKUEN_NEW_FLOOR_STYLE.getLabel(rakuenStore.setting.newFloorStyle)
-    const readedTime = $?.readed?._time
-    let isNew = false
-    if (newFloorStyle !== '不设置') isNew = !!readedTime && getTimestamp(time) > Number(readedTime)
-
-    // 跳转楼层标识
-    const isJump = !!postId && postId === id
-
     // 屏蔽关键字命中
-    if (getIsBlocked(rakuenStore.setting.blockKeywords, msg, uuid)) {
+    if (isBlocked) {
       msg = '<span style="color:#999;font-size:13px">已屏蔽</span>'
     }
 

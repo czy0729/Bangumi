@@ -18,7 +18,7 @@ function FloorNew({ isMini }: Props) {
   return (
     <View style={stl(styles.image, isMini && styles.mini)}>
       <Image
-        src={GROUP_THUMB_MAP['circle']}
+        src={GROUP_THUMB_MAP.circle}
         size={isMini ? 64 : 80}
         resizeMode='contain'
         placeholder={false}
