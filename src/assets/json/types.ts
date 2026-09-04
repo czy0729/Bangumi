@@ -10,7 +10,7 @@ type Substring = `substrings/${'anime' | 'book' | 'game' | 'real' | 'alias' | 'a
 
 type TypeRank = `typerank/${SubjectType}`
 
-// anime-ids 已迁移到 protobuf (见 @utils/protobuf), 仅其余类型保留 JSON
+// anime-ids 已迁移到 protobuf (见 @utils/thirdParty/protobuf), 仅其余类型保留 JSON
 type TypeRankIds = `typerank/${Exclude<SubjectType, 'anime'>}-ids`
 
 export type JSONPath =

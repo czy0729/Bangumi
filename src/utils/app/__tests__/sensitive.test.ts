@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-17
  */
-jest.mock('../../crypto', () => ({
+jest.mock('../../thirdParty/crypto', () => ({
   __esModule: true,
   default: {
     get: jest.fn(() => JSON.stringify(['敏感词A', '敏感词B', '测试敏感']))
@@ -41,7 +41,7 @@ describe('detectSensitiveWords', () => {
 
   // [问题] SENSITIVE_WORDS 在模块加载时确定，运行时无法更新
   it('[问题] 敏感词列表在模块加载时确定，运行时无法更新', () => {
-    const Crypto = require('../../crypto').default
+    const Crypto = require('../../thirdParty/crypto').default
     Crypto.get.mockReturnValueOnce(['新词'])
     // SENSITIVE_WORDS 已经在 import 时确定，重新 mock 不影响已有实例
     expect(detectSensitiveWords('敏感词A')).toContain('敏感词A')

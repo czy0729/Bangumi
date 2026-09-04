@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-30 21:45:36
  */
-import { get } from '@utils/protobuf'
 import { getJSON } from '@assets/json'
+import { get } from './protobuf'
 
 import type { SubjectId } from '@types'
 

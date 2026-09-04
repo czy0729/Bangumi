@@ -8,7 +8,7 @@ import { logger } from '@utils/dev'
 import { MD5 } from './md5'
 import { utf8Decode, utf8Encode } from './utf8'
 
-const TAG = '@utils/crypto'
+const TAG = '@utils/thirdParty/crypto'
 
 // ─── AES S-box ───
 const SBOX = [

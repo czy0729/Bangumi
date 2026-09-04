@@ -15,7 +15,7 @@ import { ITEM_SCHEMAS } from '../schemas'
 
 import type { DataAssets } from '../types'
 
-const ASSETS_DIR = path.resolve(__dirname, '../../../assets/proto')
+const ASSETS_DIR = path.resolve(__dirname, '../../../../assets/proto')
 const DATASETS = Object.keys(ITEM_SCHEMAS) as DataAssets[]
 
 /** protobufjs 生产同款链路的解码输出 */

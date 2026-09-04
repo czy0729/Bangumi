@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-09-09 21:56:39
  */
 import React from 'react'
-import { isFutureDate } from '@utils/date'
+import { isFutureDate } from '@utils/thirdParty/date'
 import Item from '../item'
 import ItemRecents from '../item-recents'
 

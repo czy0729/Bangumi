@@ -12,8 +12,8 @@ import { HOST, HOST_2, HOST_3, HOST_BGM_STATIC, HOST_IMAGE } from '@constants/ho
 import { getJSON } from '@assets/json'
 import userData from '@assets/json/user.json'
 import { logger } from '../dev'
-import { HTMLDecode, removeHTMLTag } from '../html'
-import { get } from '../protobuf'
+import { HTMLDecode, removeHTMLTag } from '../thirdParty/html'
+import { get } from '../thirdParty/protobuf'
 import { getTimestamp } from '../utils'
 import { getSetting } from './utils'
 import {

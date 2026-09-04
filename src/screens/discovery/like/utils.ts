@@ -6,7 +6,7 @@
  */
 import { systemStore } from '@stores'
 import { desc } from '@utils'
-import { decode } from '@utils/protobuf'
+import { decode } from '@utils/thirdParty/protobuf'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { loadJSON } from '@assets/json'
 import { REASONS, TIME_PATTERN } from './ds'

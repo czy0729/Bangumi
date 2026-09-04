@@ -7,7 +7,7 @@
 import { collectionStore, subjectStore, systemStore, timelineStore, userStore } from '@stores'
 import { getTimestamp, queue } from '@utils'
 import { logger } from '@utils/dev'
-import { decode } from '@utils/protobuf'
+import { decode } from '@utils/thirdParty/protobuf'
 import {
   H1,
   H6,

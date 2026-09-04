@@ -19,7 +19,7 @@ jest.mock('@utils', () => ({
   queue: async (fetchs: (() => unknown)[] = []) => Promise.all(fetchs.map(fn => fn()))
 }))
 
-jest.mock('@utils/protobuf', () => ({
+jest.mock('@utils/thirdParty/protobuf', () => ({
   decode: jest.fn(),
   get: jest.fn(() => [])
 }))

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-10-28 21:39:06
  */
-import Crypto from '@utils/crypto'
+import Crypto from '@utils/thirdParty/crypto'
 
 export const defaultKey = 'recent'
 

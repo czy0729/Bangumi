@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-09-01 21:20:00
  */
 import { date, feedback, getTimestamp, info, open } from '@utils'
-import { parseCsv } from '@utils/csv'
+import { parseCsv } from '@utils/thirdParty/csv'
 import { t } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { download, temp } from '@utils/kv'

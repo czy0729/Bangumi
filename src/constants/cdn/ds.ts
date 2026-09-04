@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-10-04 16:59:37
  */
-import { get } from '@utils/crypto'
+import { get } from '@utils/thirdParty/crypto'
 
 /** DogeCloud */
 export const HOST_DOGE = get(

@@ -7,7 +7,7 @@
  * 条目封面 hash CDN 与 MAGMA CDN
  *  - hash 数据源已停止初始化, CDN_OSS_SUBJECT 现恒等返回原地址
  */
-import Crypto from '@utils/crypto'
+import Crypto from '@utils/thirdParty/crypto'
 import { HOST_CDN_FASTLY, HOST_CDN_ONEDRIVE, VERSION_OSS } from '@constants/cdn/ds'
 import { getOTA, hash } from '@constants/cdn/utils'
 import { HOST_CDN } from '@constants/host'

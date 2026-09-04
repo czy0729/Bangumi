@@ -6,7 +6,7 @@
  */
 import { WEB } from '@constants/device'
 import { syncSystemStore } from '../async'
-import Crypto from '../crypto'
+import Crypto from '../thirdParty/crypto'
 import { logger } from '../dev'
 import { get, update } from '../kv'
 import hash from '../thirdParty/hash'

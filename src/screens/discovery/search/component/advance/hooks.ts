@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react'
 import { SEARCH_SUBSTRINGS } from '@stores/calendar/onair'
 import { asc, desc, ensureCacheLimit, t2s } from '@utils'
 import { logger } from '@utils/dev'
-import { decode, get } from '@utils/protobuf'
+import { decode, get } from '@utils/thirdParty/protobuf'
 import { loadJSON } from '@assets/json'
 import { COMPONENT } from './ds'
 

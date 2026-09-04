@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-11-03 16:44:11
  */
 import { getTimestamp } from '../../index'
-import { decode, get } from '../../protobuf'
+import { decode, get } from '../../thirdParty/protobuf'
 import { ANIME_OFFICIAL_MAP, ANIME_TAGS_MAP, REG_SEASONS, SORT } from './ds'
 
 import type { SubjectId } from '@types'

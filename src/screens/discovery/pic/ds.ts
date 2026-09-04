@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-07 22:23:35
  */
-import Crypto from '@utils/crypto'
+import Crypto from '@utils/thirdParty/crypto'
 
 import type { Id } from '@types'
 

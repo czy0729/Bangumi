@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-08-30 05:56:10
  */
 import { getTimestamp } from '../../index'
-import { decode, get } from '../../protobuf'
+import { decode, get } from '../../thirdParty/protobuf'
 import { SORT } from '../anime'
 import {
   ADV_COLLECTED,

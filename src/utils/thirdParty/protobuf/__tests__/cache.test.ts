@@ -111,7 +111,7 @@ describe('get', () => {
   })
 
   it('同一 name 仅首次调用输出开发日志', () => {
-    const { logger } = require('../../dev') as { logger: { log: any } }
+    const { logger } = require('../../../dev') as { logger: { log: any } }
     logger.log.mockClear()
 
     const logName = 'manga'
@@ -121,6 +121,6 @@ describe('get', () => {
     get(logName)
 
     expect(logger.log).toHaveBeenCalledTimes(1)
-    expect(logger.log).toHaveBeenCalledWith('@utils/protobuf/cache', 'get', logName, DATA.length)
+    expect(logger.log).toHaveBeenCalledWith('@utils/thirdParty/protobuf/cache', 'get', logName, DATA.length)
   })
 })

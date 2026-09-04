@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-02 01:21:45
  */
-import { deepEqual } from '@utils/compare'
+import { deepEqual } from '@utils/thirdParty/compare'
 import { logger } from '@utils/dev'
 
 const TAG = '@utils/decorators/memo'

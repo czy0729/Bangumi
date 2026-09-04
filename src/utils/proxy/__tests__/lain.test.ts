@@ -6,7 +6,7 @@
  */
 import { syncSystemStore } from '@utils/async'
 import { API_HOST } from '@constants/api'
-import { hmacSHA256 } from '../../crypto'
+import { hmacSHA256 } from '../../thirdParty/crypto'
 import { applyLainProxy } from '../lain'
 import { clearWorkerLogs, getWorkerLogs } from '../worker-log'
 
@@ -19,7 +19,7 @@ jest.mock('@constants/host', () => ({
   HOST_IMAGE: '//lain.bgm.tv'
 }))
 
-jest.mock('@utils/crypto', () => ({
+jest.mock('@utils/thirdParty/crypto', () => ({
   // constants/cdn/ds.ts 以命名导入使用 get
   get: (value: string) => value,
   default: { get: (value: string) => value },

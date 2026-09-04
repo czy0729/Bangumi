@@ -8,12 +8,12 @@
  */
 import { Asset } from 'expo-asset'
 import { toByteArray } from '@utils/thirdParty/base64'
-import { logger } from '../dev'
-import { FileSystem } from '../thirdParty/file-system'
+import { logger } from '../../dev'
+import { FileSystem } from '../file-system'
 
 import type { DataAssets } from './types'
 
-const TAG = '@utils/protobuf/assets'
+const TAG = '@utils/thirdParty/protobuf/assets'
 
 /** 数据集 → bin 资源模块, 惰性 require 返回 metro asset number */
 const MODULES: Record<DataAssets, () => number> = {

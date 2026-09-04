@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-25 21:33:54
  */
-import Crypto from '../../crypto'
+import Crypto from '../crypto'
 
 export const HOST_DLSITE = Crypto.get<string>(
   'U2FsdGVkX1/KIhRSq3OGNA0jdQEshRJYfMjLgaU4wwahZuitWmXaIxp7Xs1ZPJ85'

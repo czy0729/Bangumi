@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-07-29 14:00:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-31 05:16:26
+ * @Last Modified time: 2026-09-04 21:25:44
  */
 import { discoveryStore } from '@stores'
 import { HTMLDecode, removeHTMLTag } from '@utils'
 import { getBucketId } from '@utils/bucket'
 import { queue } from '@utils/fetch'
 import { update } from '@utils/kv'
-import { decode } from '@utils/protobuf'
+import { decode } from '@utils/thirdParty/protobuf'
 import Computed from './computed'
 
 import type { CatalogDetail } from '@stores/discovery/types'

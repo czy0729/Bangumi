@@ -5,11 +5,11 @@
  * @Last Modified time: 2026-08-30 05:11:37
  */
 import { DEV } from '@src/config'
-import { logger } from '../dev'
+import { logger } from '../../dev'
 
 import type { Cheerio, CheerioElement, CheerioStatic } from 'cheerio-without-node-native'
 
-const TAG = '@utils/html'
+const TAG = '@utils/thirdParty/html'
 
 /**
  * cheerio 体积较大 (436KB), 函数内懒加载以延迟其求值

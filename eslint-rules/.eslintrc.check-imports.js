@@ -8,6 +8,11 @@
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
+  // 覆盖根 .eslintrc.js 合并进来的 project, 本配置只做 no-undef 检查, 无需 TS 类型信息
+  // (tsconfig exclude 了 src/assets, 不禁用会导致部分 .web.ts 报解析错误)
+  parserOptions: {
+    project: null
+  },
   ignorePatterns: [
     '/components/@/*',
     '/eslint-rules',
@@ -19,12 +24,27 @@ module.exports = {
   ],
   globals: {
     JSX: true,
+    DOMElement: true,
+    IntersectionObserver: true,
+    URLSearchParams: true,
+    document: true,
+    fetch: true,
     global: true,
+    location: true,
     log: true,
+    navigator: true,
     rerender: true,
-    warn: true
+    warn: true,
+    window: true
   },
   rules: {
-    'no-undef': 'error'
+    'no-undef': 'error',
+
+    // project 已禁用, 根配置合并进来的 typed 规则无法加载, 全部关闭
+    '@typescript-eslint/no-unsafe-argument': 0,
+    '@typescript-eslint/no-unsafe-assignment': 0,
+    '@typescript-eslint/no-unsafe-call': 0,
+    '@typescript-eslint/no-unsafe-member-access': 0,
+    '@typescript-eslint/no-unsafe-return': 0
   }
 }

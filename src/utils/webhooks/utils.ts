@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-08-24 10:00:00
  */
 import { getMonoCoverSmall, getSubjectCoverCommon } from '../app'
-import { removeHTMLTag } from '../html'
+import { removeHTMLTag } from '../thirdParty/html'
 
 import type {
   Catalog,

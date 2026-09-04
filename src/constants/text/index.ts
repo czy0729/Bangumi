@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-26 11:32:30
  */
-import Crypto from '@utils/crypto'
+import Crypto from '@utils/thirdParty/crypto'
 import { WEB } from '../device'
 
 /** 加载 */

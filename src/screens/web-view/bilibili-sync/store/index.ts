@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-14 15:51:22
  */
-import { get } from '@utils/protobuf'
+import { get } from '@utils/thirdParty/protobuf'
 import Action from './action'
 import { NAMESPACE } from './ds'
 

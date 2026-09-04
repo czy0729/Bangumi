@@ -6,7 +6,7 @@
  */
 import { HOST_AC_SEARCH } from '@constants/cdn'
 import { xhrCustom } from '../fetch'
-import { cheerio, htmlMatch } from '../html'
+import { cheerio, htmlMatch } from '../thirdParty/html'
 import { t2s } from '../thirdParty/cn-char'
 import { similar } from '../utils'
 

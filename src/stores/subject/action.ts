@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-09-01 19:12:02
  */
 import { getBucketId } from '@utils/bucket'
-import { decrypt, encrypt } from '@utils/crypto'
+import { decrypt, encrypt } from '@utils/thirdParty/crypto'
 import { get, update } from '@utils/kv'
 import { APP_ID } from '@constants'
 import UserStore from '../user'

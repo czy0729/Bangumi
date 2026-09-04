@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-12 02:08:32
  */
-import { get } from '@utils/protobuf'
+import { get } from '@utils/thirdParty/protobuf'
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
 

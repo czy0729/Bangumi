@@ -8,7 +8,7 @@ import { WEB, WSA } from '@constants/device'
 import { IOS } from '@constants/env'
 import { DEV, GITHUB_ACTION, IOS_IPA } from '@src/config'
 import { window } from '../../styles/layout'
-import { get } from '../crypto'
+import { get } from '../thirdParty/crypto'
 
 /** ==================== config ==================== */
 export const API_XHR = get(

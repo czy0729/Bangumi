@@ -9,7 +9,7 @@ import { search as searchMV } from '@utils/bilibili'
 import { logger } from '@utils/dev'
 import { getPreview, getTrailer, getVideo, matchGame, matchMovie, search } from '@utils/douban'
 import { xhrCustom } from '@utils/fetch'
-import { decode, get as protoGet } from '@utils/protobuf'
+import { decode, get as protoGet } from '@utils/thirdParty/protobuf'
 import { DEV, HOST_AC, HOST_AC_API, HOST_AC_M, WEB } from '@constants'
 import Oss from './oss'
 

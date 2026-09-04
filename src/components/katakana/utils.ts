@@ -8,7 +8,7 @@ import { Children, isValidElement } from 'react'
 import { getStorage, setStorage } from '@utils'
 import { logger } from '@utils/dev'
 import { baiduTranslate } from '@utils/fetch'
-import { decode } from '@utils/protobuf'
+import { decode } from '@utils/thirdParty/protobuf'
 import { FROZEN_FN } from '@constants'
 import { BAIDU_BATCH_LIMIT, CACHE_KEY, COMPONENT, TRANSLATE_INTERVAL } from './ds'
 

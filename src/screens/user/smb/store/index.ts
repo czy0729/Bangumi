@@ -7,7 +7,7 @@
 import { collectionStore, smbStore, subjectStore } from '@stores'
 import { sleep } from '@utils'
 import { queue } from '@utils/fetch'
-import { decode } from '@utils/protobuf'
+import { decode } from '@utils/thirdParty/protobuf'
 import { WEB } from '@constants'
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'

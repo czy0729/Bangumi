@@ -7,7 +7,7 @@
 import { toJS } from 'mobx'
 import { discoveryStore, smbStore, userStore } from '@stores'
 import { alert, confirm, getTimestamp, info } from '@utils'
-import Crypto from '@utils/crypto'
+import Crypto from '@utils/thirdParty/crypto'
 import { queue, t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { IOS, WEB } from '@constants'

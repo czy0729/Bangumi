@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-13
  */
-jest.mock('../../utils', () => ({
+jest.mock('../../../utils', () => ({
   safeObject: (obj: any) => obj
 }))
 

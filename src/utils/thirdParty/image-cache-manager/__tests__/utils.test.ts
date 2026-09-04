@@ -27,7 +27,10 @@ jest.mock('../../file-system', () => ({
   }
 }))
 
-import { SHA1 } from '@utils/crypto'
+// jest.setup.js 全局 mock 了 crypto (只提供 get / set), 这里需要真实 SHA1
+jest.unmock('@utils/thirdParty/crypto')
+
+import { SHA1 } from '../../crypto'
 import { logger } from '@utils/dev'
 import { FileSystem } from '../../file-system'
 import {

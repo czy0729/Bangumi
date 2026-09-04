@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-30 21:45:14
  */
-import { decode } from '@utils/protobuf'
+import { decode } from '@utils/thirdParty/protobuf'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { getTimestamp } from '../../index'
 import { SORT } from '../anime'

@@ -7,7 +7,7 @@
 import { computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
 import { date, getTimestamp, x18s } from '@utils'
-import { get } from '@utils/protobuf'
+import { get } from '@utils/thirdParty/protobuf'
 import {
   APP_USERID_IOS_AUTH,
   APP_USERID_TOURIST,

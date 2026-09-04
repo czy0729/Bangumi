@@ -6,7 +6,7 @@
  */
 import { HOST_AC_REFERER, HOST_DB, HOST_DB_MOVIE } from '@constants/cdn'
 import { xhrCustom } from '../fetch'
-import { cheerio } from '../html'
+import { cheerio } from '../thirdParty/html'
 import { desc, similar, sleep } from '../utils'
 
 import type { Cat, DoubanId, SearchItem, SubType, TrailerItem, VideoItem } from './types'

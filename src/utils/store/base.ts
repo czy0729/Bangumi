@@ -9,7 +9,7 @@
  */
 import { action, extendObservable } from 'mobx'
 import { DEV } from '@src/config'
-import { deepEqual } from '../compare'
+import { deepEqual } from '../thirdParty/compare'
 import { logger } from '../dev'
 import { queue } from '../fetch'
 import { setStorage } from '../storage'

@@ -6,7 +6,7 @@
  */
 import Constants from 'expo-constants'
 import { WEB } from '@constants/device'
-import Crypto from '../crypto'
+import Crypto from '../thirdParty/crypto'
 import { isDevtoolsOpen } from '../dom'
 import { axios } from '../thirdParty'
 import hash from '../thirdParty/hash'

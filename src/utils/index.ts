@@ -6,9 +6,9 @@
  */
 export * from './app'
 export * from './cache'
-export * from './html'
+export * from './thirdParty/html'
 export * from './match'
-export * from './pinyin'
+export * from './thirdParty/pinyin'
 export * from './scheduler'
 export * from './storage'
 export * from './thirdParty/cn-char'

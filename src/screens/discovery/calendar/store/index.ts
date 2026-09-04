@@ -6,7 +6,7 @@
  */
 import { calendarStore } from '@stores'
 import { queue } from '@utils/fetch'
-import { get } from '@utils/protobuf'
+import { get } from '@utils/thirdParty/protobuf'
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
 

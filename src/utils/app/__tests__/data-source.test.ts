@@ -49,12 +49,12 @@ jest.mock('@assets/json/user.json', () => ({
   default: {}
 }))
 
-jest.mock('../../html', () => ({
+jest.mock('../../thirdParty/html', () => ({
   HTMLDecode: (s: string) => s,
   removeHTMLTag: (s: string) => s.replace(/<[^>]+>/g, '')
 }))
 
-jest.mock('../../protobuf', () => ({
+jest.mock('../../thirdParty/protobuf', () => ({
   get: jest.fn(() => [])
 }))
 
@@ -975,7 +975,7 @@ describe('findSubjectCn', () => {
 
   it('cnFirst=true 且有匹配时返回中文名', () => {
     const { getSetting: mockGetSetting } = require('../utils')
-    const { get: mockGet } = require('../../protobuf')
+    const { get: mockGet } = require('../../thirdParty/protobuf')
     mockGetSetting.mockReturnValueOnce({ cnFirst: true })
     mockGet.mockReturnValueOnce([{ id: 100, j: '日文', c: '中文名' }])
     expect(findSubjectCn('日文', 100)).toBe('中文名')
@@ -983,7 +983,7 @@ describe('findSubjectCn', () => {
 
   it('[问题] cnFirst=true 且匹配但 c 为空时缓存并返回 jp', () => {
     const { getSetting: mockGetSetting } = require('../utils')
-    const { get: mockGet } = require('../../protobuf')
+    const { get: mockGet } = require('../../thirdParty/protobuf')
     mockGetSetting.mockReturnValueOnce({ cnFirst: true })
     mockGet.mockReturnValueOnce([{ id: 200, j: '日文', c: '' }])
     const result = findSubjectCn('日文', 200)
@@ -1007,13 +1007,13 @@ describe('findSubjectJp', () => {
   })
 
   it('匹配到数据时返回日文名', () => {
-    const { get: mockGet } = require('../../protobuf')
+    const { get: mockGet } = require('../../thirdParty/protobuf')
     mockGet.mockReturnValueOnce([{ id: 300, j: '日文名', c: '中文名' }])
     expect(findSubjectJp('中文名', 300)).toBe('日文名')
   })
 
   it('匹配到但 j 为空时缓存并返回 cn', () => {
-    const { get: mockGet } = require('../../protobuf')
+    const { get: mockGet } = require('../../thirdParty/protobuf')
     mockGet.mockReturnValueOnce([{ id: 400, j: '', c: '某中文' }])
     const result = findSubjectJp('某中文', 400)
     expect(result).toBe('某中文')

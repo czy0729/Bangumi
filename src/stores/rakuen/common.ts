@@ -22,7 +22,7 @@ import {
   safeObject,
   trim
 } from '@utils'
-import Crypto from '@utils/crypto'
+import Crypto from '@utils/thirdParty/crypto'
 import decoder from '@utils/thirdParty/html-entities-decoder'
 import { LIKE_TYPE_RAKUEN } from '@constants'
 import { INIT_BLOG, INIT_COMMENTS_ITEM, INIT_TOPIC } from './init'

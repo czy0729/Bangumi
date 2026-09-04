@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-05-30 05:20:01
  */
 import Constants from 'expo-constants'
-import Crypto from '@utils/crypto'
+import Crypto from '@utils/thirdParty/crypto'
 import { xhrCustom as xhr } from '@utils/fetch'
 import Base64 from '@utils/thirdParty/base64'
 import { GITHUB_HOST } from '@constants'

@@ -6,7 +6,7 @@
  *
  * 字典 - 文章站点
  */
-import Crypto from '@utils/crypto'
+import Crypto from '@utils/thirdParty/crypto'
 import { Model } from './utils'
 
 export const NEWS = JSON.parse(

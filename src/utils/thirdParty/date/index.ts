@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-04 19:20:08
  */
-import dayjs from '@utils/thirdParty/dayjs'
+import dayjs from '../dayjs'
 import { TIMEZONE_IS_GMT8 } from '@constants/data'
 
 /**

@@ -51,9 +51,9 @@ jest.mock(
     const { lastDate, relativeEnToEpoch, relativeToEpoch } = require(__dirname +
       '/src/utils/utils/relative-time')
     const { t2s } = require(__dirname + '/src/utils/thirdParty/cn-char')
-    const { htmlMatch } = require(__dirname + '/src/utils/html/match')
-    const { cEach, cPagination, cText, HTMLDecode } = require(__dirname + '/src/utils/html/parse')
-    const { removeHTMLTag, HTMLTrim } = require(__dirname + '/src/utils/html/tag')
+    const { htmlMatch } = require(__dirname + '/src/utils/thirdParty/html/match')
+    const { cEach, cPagination, cText, HTMLDecode } = require(__dirname + '/src/utils/thirdParty/html/parse')
+    const { removeHTMLTag, HTMLTrim } = require(__dirname + '/src/utils/thirdParty/html/tag')
     const { asc, desc } = require(__dirname + '/src/utils/utils/sort')
     const { safeObject, titleCase, trim } = require(__dirname + '/src/utils/utils/base')
     const { matchAvatar, matchUserId } = require(__dirname + '/src/utils/match')
@@ -165,7 +165,7 @@ jest.mock('@utils/thirdParty', () => ({ axios: jest.fn() }), { virtual: true })
 
 // 同时提供 default 与命名导出, constants/cdn/ds.ts 等消费方使用 import { get } 命名导入;
 // 返回 JSON 字符串 '[]', 兼容 constants/model/news.ts 的 JSON.parse(get(...)) 用法
-jest.mock('@utils/crypto', () => ({
+jest.mock('@utils/thirdParty/crypto', () => ({
   __esModule: true,
   default: { get: () => '[]', set: () => '' },
   get: () => '[]',

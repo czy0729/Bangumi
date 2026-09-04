@@ -9,7 +9,7 @@ import { Alert } from 'react-native'
 import { setJSExceptionHandler, setNativeExceptionHandler } from 'react-native-exception-handler'
 import RNRestart from 'react-native-restart'
 import { FROZEN_FN } from '@constants/init'
-import { getTimestamp } from '../date'
+import { getTimestamp } from '../thirdParty/date'
 import { err } from '../fetch'
 import { update } from '../kv'
 

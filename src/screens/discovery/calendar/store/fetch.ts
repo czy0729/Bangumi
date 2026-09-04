@@ -6,7 +6,7 @@
  */
 import { collectionStore } from '@stores'
 import { getTimestamp } from '@utils'
-import { decode } from '@utils/protobuf'
+import { decode } from '@utils/thirdParty/protobuf'
 import { D1 } from '@constants'
 import Computed from './computed'
 

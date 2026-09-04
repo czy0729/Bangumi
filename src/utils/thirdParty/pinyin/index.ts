@@ -5,14 +5,14 @@
  * @Last Modified time: 2023-12-15 14:17:07
  */
 /** 拼音表体积较大 (~47KB), 函数内懒加载以移出启动求值链 */
-function syncGetPinYinFirstCharacter(): typeof import('../thirdParty/pinyin')['getPinYinFirstCharacter'] {
-  return (require('../thirdParty/pinyin') as typeof import('../thirdParty/pinyin'))
+function syncGetPinYinFirstCharacter(): typeof import('./dict')['getPinYinFirstCharacter'] {
+  return (require('./dict') as typeof import('./dict'))
     .getPinYinFirstCharacter
 }
 
 /** 简繁字典含顶层 Map 构建, 同步懒加载以移出启动求值链 */
-function syncT2s(): typeof import('../thirdParty/cn-char')['t2s'] {
-  return (require('../thirdParty/cn-char') as typeof import('../thirdParty/cn-char')).t2s
+function syncT2s(): typeof import('../cn-char')['t2s'] {
+  return (require('../cn-char') as typeof import('../cn-char')).t2s
 }
 
 /** 缓存结果 */

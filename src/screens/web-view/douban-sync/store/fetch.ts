@@ -7,7 +7,7 @@
 import { desc, feedback, getTimestamp, info, sleep } from '@utils'
 import { queue, t, xhrCustom } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
-import { decode } from '@utils/protobuf'
+import { decode } from '@utils/thirdParty/protobuf'
 import { HOST_DB_M } from '@constants'
 import i18n from '@constants/i18n'
 import { HOST_API, LOADED, LOADED_TOTAL_EPS } from '../ds'

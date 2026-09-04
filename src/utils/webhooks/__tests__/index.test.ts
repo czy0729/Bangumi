@@ -17,7 +17,7 @@ jest.mock('../../app', () => ({
   getMonoCoverSmall: jest.fn((url?: string) => `mono:${url || ''}`)
 }))
 
-jest.mock('../../html', () => ({
+jest.mock('../../thirdParty/html', () => ({
   removeHTMLTag: jest.fn((html: string) => String(html || '').replace(/<[^>]+>/g, ''))
 }))
 

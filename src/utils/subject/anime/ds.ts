@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-09-03 23:31:47
  */
 import { asc, getTimestamp } from '@utils'
-import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin'
+import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin/dict'
 import { DATA_ALPHABET } from '@constants/data'
 
 /** 预设排序 */

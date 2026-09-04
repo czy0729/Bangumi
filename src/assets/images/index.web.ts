@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-19 07:02:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 20:26:27
+ * @Last Modified time: 2026-09-04 21:45:30
  */
 export const GROUP_THUMB_MAP = {
   bilibili: './assets/images/bilibili.png',

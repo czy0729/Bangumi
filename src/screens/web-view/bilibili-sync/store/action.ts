@@ -7,7 +7,7 @@
 import { feedback, getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
-import { get } from '@utils/protobuf'
+import { get } from '@utils/thirdParty/protobuf'
 import { t2s } from '@utils/thirdParty/cn-char'
 import { HOST_API, MEDIA_SUBJECT } from '../ds'
 import Fetch from './fetch'

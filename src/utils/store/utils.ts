@@ -8,7 +8,7 @@
  */
 import { extendObservable, isObservable, isObservableArray, observable, remove } from 'mobx'
 import { LIST_EMPTY } from '@constants/data'
-import { deepEqual, hasOwn, plainClone } from '../compare'
+import { deepEqual, hasOwn, plainClone } from '../thirdParty/compare'
 import { getTimestamp } from '../utils'
 
 export { deepEqual, plainClone }

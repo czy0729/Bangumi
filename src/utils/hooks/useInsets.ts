@@ -2,14 +2,12 @@
  * @Author: czy0729
  * @Date: 2025-12-01 18:14:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 05:53:06
+ * @Last Modified time: 2026-09-04 21:46:27
  */
 import { useMemo } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { IOS, PAD, WEB, WSA } from '@constants'
 import { IS_IOS_5_6_7_8, tabBarHeight } from '@styles/layout'
-
-import type { EdgeInsets } from 'react-native-safe-area-context'
 
 /** 最大头部高度 */
 const MAX_HEADER_HEIGHT = WEB ? 48 : 80

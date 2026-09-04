@@ -7,11 +7,11 @@
  * 解码结果缓存与并发去重
  */
 import { DEV, LOG_LEVEL } from '@src/config'
-import { logger } from '../dev'
+import { logger } from '../../dev'
 
 import type { Data, DataAssets } from './types'
 
-const TAG = '@utils/protobuf/cache'
+const TAG = '@utils/thirdParty/protobuf/cache'
 
 /** 缓存结果 */
 export const cacheMap = new Map<string, unknown>()

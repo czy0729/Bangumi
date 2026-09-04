@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-07-14 20:36:39
  */
-import Crypto from '../crypto'
+import Crypto from '../thirdParty/crypto'
 
 const SENSITIVE_WORDS = JSON.parse(
   Crypto.get(

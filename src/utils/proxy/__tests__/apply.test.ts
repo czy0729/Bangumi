@@ -27,7 +27,7 @@ jest.mock('../ech', () => ({
   isEchProxyRunning: jest.fn(() => false)
 }))
 
-jest.mock('@utils/crypto', () => ({
+jest.mock('@utils/thirdParty/crypto', () => ({
   // constants/cdn/ds.ts 以命名导入使用 get
   get: (value: string) => value,
   default: { get: (value: string) => value },

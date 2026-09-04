@@ -5,9 +5,9 @@
  * @Last Modified time: 2026-08-31 20:15:42
  */
 import { DEV } from '@src/config'
-import { logger } from '../dev'
-import HTMLParser from '../thirdParty/html-parser'
-import { safeObject } from '../utils'
+import { logger } from '../../dev'
+import HTMLParser from '../html-parser'
+import { safeObject } from '../../utils'
 import { htmlMatch } from './match'
 import { cheerio, cText, DECODE_SPECIAL_CHARS } from './parse'
 import { HTMLTrim } from './tag'
@@ -18,7 +18,7 @@ export * from './match'
 
 import type { Cheerio } from 'cheerio-without-node-native'
 
-const TAG = '@utils/html'
+const TAG = '@utils/thirdParty/html'
 
 /** 解码十进制或十六进制数字 HTML 实体（如 emoji） */
 export function decodeNumericHTMLEntity(match: string, value: string, radix: number): string {

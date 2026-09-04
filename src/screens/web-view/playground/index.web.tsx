@@ -7,7 +7,7 @@
 import React, { useEffect } from 'react'
 import { Component, Flex, Header, Page, Text } from '@components'
 import { useObserver } from '@utils/hooks'
-import { get } from '@utils/protobuf'
+import { get } from '@utils/thirdParty/protobuf'
 
 const Playground = () => {
   useEffect(() => {

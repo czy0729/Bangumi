@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-08-30 08:30:58
  */
 import { FROZEN_FN } from '@constants/init'
-import { getTimestamp } from '../date'
+import { getTimestamp } from '../thirdParty/date'
 import hash from '../thirdParty/hash'
 import useMount from './useMount'
 

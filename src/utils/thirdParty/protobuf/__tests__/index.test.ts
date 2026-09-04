@@ -29,8 +29,8 @@ jest.mock('@assets/proto/ja/bin/index.bin', () => 302, { virtual: true })
 
 import { Asset } from 'expo-asset'
 import protobuf from 'protobufjs'
-import { fromByteArray } from '../../thirdParty/base64'
-import { FileSystem } from '../../thirdParty/file-system'
+import { fromByteArray } from '../../base64'
+import { FileSystem } from '../../file-system'
 import { cacheMap, promiseMap } from '../cache'
 import { decode, get } from '../index'
 

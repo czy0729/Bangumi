@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-30 21:43:37
  */
-import { decode, get } from '@utils/protobuf'
+import { decode, get } from '@utils/thirdParty/protobuf'
 import { getJSON, loadJSON } from '@assets/json'
 import { TABS } from './ds'
 

@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-05-17 05:40:45
  */
 import { getTimestamp } from '../../index'
-import { decode, get } from '../../protobuf'
+import { decode, get } from '../../thirdParty/protobuf'
 import { SORT } from '../anime'
 import { MANGA_AUTHORS_MAP, MANGA_TAGS_MAP } from './ds'
 

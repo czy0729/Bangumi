@@ -7,7 +7,7 @@
 import { API_HOST, API_HOST_BACKUP } from '@constants/api'
 import { HOST_IMAGE } from '@constants/host'
 import { syncSystemStore } from '../async'
-import { hmacSHA256 } from '../crypto'
+import { hmacSHA256 } from '../thirdParty/crypto'
 import { isEchProxyRunning } from './ech'
 import { addWorkerLog } from './worker-log'
 

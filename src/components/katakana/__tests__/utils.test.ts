@@ -7,10 +7,10 @@
 import React from 'react'
 import { getStorage, setStorage } from '@utils'
 import { baiduTranslate } from '@utils/fetch'
-import { decode } from '@utils/protobuf'
+import { decode } from '@utils/thirdParty/protobuf'
 import { getCache, getKatakanaText, matchKatakanas, translate, translateAll } from '../utils'
 
-jest.mock('@utils/protobuf', () => ({ decode: jest.fn() }))
+jest.mock('@utils/thirdParty/protobuf', () => ({ decode: jest.fn() }))
 
 const decodeMock = decode as jest.Mock
 const getStorageMock = getStorage as jest.Mock

@@ -7,7 +7,7 @@
 import { getTimestamp, info } from '@utils'
 import { queue } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
-import { decode } from '@utils/protobuf'
+import { decode } from '@utils/thirdParty/protobuf'
 import i18n from '@constants/i18n'
 import { HOST_API, LOADED } from '../ds'
 import Computed from './computed'

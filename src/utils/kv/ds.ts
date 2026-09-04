@@ -8,7 +8,7 @@
 import { WEB } from '@constants/device'
 import { UA } from '@constants/env'
 import { DEV } from '@src/config'
-import Crypto from '../crypto'
+import Crypto from '../thirdParty/crypto'
 
 export const HOST =
   WEB && DEV

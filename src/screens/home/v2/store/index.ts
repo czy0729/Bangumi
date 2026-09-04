@@ -10,7 +10,7 @@ import { date, feedback, getTimestamp, info, pick, postTask, sortObject } from '
 import { logger } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { update } from '@utils/kv'
-import { get } from '@utils/protobuf'
+import { get } from '@utils/thirdParty/protobuf'
 import {
   D,
   DEVICE_MODEL_NAME,

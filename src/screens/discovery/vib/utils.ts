@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-31 20:14:07
  */
-import { decode } from '@utils/protobuf'
+import { decode } from '@utils/thirdParty/protobuf'
 import { axios } from '@utils/thirdParty'
 import { URL_SOURCE } from './ds'
 
