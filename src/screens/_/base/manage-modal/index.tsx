@@ -133,6 +133,9 @@ export const ManageModal = observer(
           this._fetched = true
           logger.log(COMPONENT, 'componentWillReceiveProps', JSON.stringify(result))
 
+          // 弱网/异常路径可能返回空, 直接结束, 避免下方解构报错
+          if (!result) return
+
           if (result?.error && result?.error?.includes?.('token')) {
             // 提前告知授权信息失效
             const navigation = navigationReference()

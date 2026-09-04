@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-14 16:04:53
  */
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Input, Text, Touchable } from '@components'
 import { _ } from '@stores'
@@ -55,7 +55,26 @@ function CommentInput({
   )
 
   const styles = memoStyles()
-  const sensitiveWords = detectSensitiveWords(t2s(comment))
+
+  // t2s + 敏感词扫描较贵, 打字时防抖 300ms 再算, 避免每敲一个字符全量重算
+  // 首次挂载同步计算, 保证编辑已有吐槽时提示即时可见
+  const mountedRef = useRef(false)
+  const [sensitiveWords, setSensitiveWords] = useState<string[]>(() =>
+    detectSensitiveWords(t2s(comment))
+  )
+  useEffect(() => {
+    if (!mountedRef.current) {
+      mountedRef.current = true
+      return
+    }
+
+    const timer = setTimeout(() => {
+      setSensitiveWords(detectSensitiveWords(t2s(comment)))
+    }, 300)
+
+    return () => clearTimeout(timer)
+  }, [comment])
+
   const remaining = 380 - (comment?.length || 0)
 
   return (

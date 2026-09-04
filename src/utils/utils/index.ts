@@ -18,7 +18,7 @@ import { asc } from './sort'
 import { log } from './utils'
 
 export { asc, compare, desc } from './sort'
-export { pad, safeObject, titleCase, trim } from './base'
+export { getSubjectId, pad, safeObject, shortTime, titleCase, trim } from './base'
 export * from '../date'
 export * from './relative-time'
 

@@ -27,3 +27,14 @@ export function titleCase<S extends string>(str: S): Capitalize<S> {
 export function trim(str: string = '') {
   return str.replace(/^\s+|\s+$/gm, '')
 }
+
+/** 条目 Id 转纯数字 subjectId (兼容 '/subject/123' 形式) */
+export function getSubjectId(id: string | number): string {
+  return String(id).replace('/subject/', '')
+}
+
+/** 掐掉年份的时间显示 ('2024-05-01' → '24-05-01'), 相对时间 (含"前") 原样返回 */
+export function shortTime(time: string = ''): string {
+  if (!time || time.includes('前')) return time
+  return time.slice(2)
+}

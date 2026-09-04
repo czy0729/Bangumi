@@ -80,13 +80,26 @@ function Button({ props, item, epStatus = '', isSp = false, num = 0 }: Props) {
   const elHeatMap = useMemo(() => {
     if (!heatMap) return null
 
+    /** 评论数极差, 全部等回复时为 0 */
+    const range = commentMax - commentMin
+
     return (
       <View
         style={[
           styles.bar,
           {
-            /** 1.68 是比率, 增大少回复与高回复的透明度幅度 */
-            opacity: (item.comment - commentMin / 1.68) / commentMax
+            /**
+             * 1.68 是比率, 增大少回复与高回复的透明度幅度
+             * 分母用极差而非最大值, 否则峰值会超过 1 被截断, 失去区分度
+             * 只要有评论数, 透明度至少 0.15, 保证热图条可见
+             */
+            opacity:
+              item.comment > 0
+                ? Math.max(
+                    0.15,
+                    range > 0 ? Math.min(1, ((item.comment - commentMin) / range) * 1.68) : 0
+                  )
+                : 0
           }
         ]}
       />

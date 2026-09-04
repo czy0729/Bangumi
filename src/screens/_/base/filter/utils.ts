@@ -18,12 +18,17 @@ export function scrollToX(
       if (scrollView && value) {
         let index = 0
         if (mutiple) {
-          data.forEach(items => {
-            const idx = items.findIndex((i: any) => i == value)
-            if (idx > index) index = idx
+          // 多组数据时取第一个命中的选中项
+          data.some(items => {
+            const idx = items.findIndex((i: any) => String(i) === String(value))
+            if (idx !== -1) {
+              index = idx
+              return true
+            }
+            return false
           })
         } else {
-          index = data.findIndex(i => i == value)
+          index = data.findIndex(i => String(i) === String(value))
         }
 
         if (index >= 4) {

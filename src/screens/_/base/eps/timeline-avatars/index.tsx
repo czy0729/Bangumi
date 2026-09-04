@@ -35,8 +35,12 @@ function TimelineAvatars({ subjectId, index, sort, isSide }: Props) {
   // 数据源
   const userIds = systemStore.setting.collectionTimelines || []
   const timelines = timelineStore.collectionTimelines(userIds, subjectId)
-  const users = (Array.isArray(timelines) ? timelines : []).filter(
-    t => t && (t.sort?.eps === sort || t.sort?.eps === index + 1)
+  const users = useMemo(
+    () =>
+      (Array.isArray(timelines) ? timelines : []).filter(
+        t => t && (t.sort?.eps === sort || t.sort?.eps === index + 1)
+      ),
+    [timelines, sort, index]
   )
 
   const count = users.length

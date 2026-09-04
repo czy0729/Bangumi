@@ -10,6 +10,7 @@ import { Component, Expand, RenderHtml } from '@components'
 import { _ } from '@stores'
 import { appNavigate, open, removeHTMLTag } from '@utils'
 import { r } from '@utils/dev'
+import { safeSliceHtml } from './utils'
 import { COMPONENT } from './ds'
 
 import type { RenderHtmlProps } from '@components'
@@ -60,7 +61,7 @@ export const HTML = observer(
       return (
         <Component id='base-html' data-type='split'>
           <Expand ratio={ratio} checkLayout={false} onExpand={handleExpand}>
-            <RenderHtml {...passProps} html={expand ? html : html.slice(0, length)} />
+            <RenderHtml {...passProps} html={expand ? html : safeSliceHtml(html, length)} />
           </Expand>
         </Component>
       )

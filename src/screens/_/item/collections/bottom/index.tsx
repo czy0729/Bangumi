@@ -9,13 +9,14 @@ import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text } from '@components'
 import { _, subjectStore } from '@stores'
+import { shortTime } from '@utils'
 import { Rank, Stars, Tag, Tags } from '../../../base'
 import { memoStyles } from './styles'
 
 function Bottom({ id, score, rank, total, simpleStars, time, tags, hideScore, hasComment }) {
   const styles = memoStyles()
 
-  const info = String(time).slice(2)
+  const info = shortTime(String(time || ''))
   const tag = tags
     .split(' ')
     .map((item: string) => item.replace('自己可见', ''))

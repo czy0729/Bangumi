@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Input, Text, TextareaItem, Touchable } from '@components'
 import { _ } from '@stores'
-import { HTMLDecode } from '@utils'
+import { decodeContent } from '../utils'
 import { CONTROL_DS } from '../ds'
 import { IconTouchable } from '../../../icon'
 import { Popover } from '../../popover'
@@ -79,7 +79,7 @@ function Catalog({
             <Text style={_.mt.xs} type='sub' size={10} lineHeight={11} bold numberOfLines={2}>
               {date}
               {detail.content ? ' · ' : ''}
-              {HTMLDecode(String(detail.content)).replace(/<br>/g, '')}
+              {decodeContent(detail.content)}
             </Text>
           </Touchable>
         )}

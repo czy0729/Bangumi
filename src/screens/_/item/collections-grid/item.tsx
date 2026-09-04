@@ -8,14 +8,14 @@ import React, { useMemo } from 'react'
 import { Component, Cover, Flex, Link, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
-import { cnjp, getVisualLength, stl } from '@utils'
+import { cnjp, getSubjectId, getVisualLength, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { EVENT } from '@constants'
 import { InView, Rank, Stars } from '../../base'
 import Collection from './collection'
 import { COMPONENT_MAIN, DEFAULT_PROPS, HIT_SLOP } from './ds'
 
-import type { CollectionStatusCn, SubjectId, SubjectTypeCn } from '@types'
+import type { CollectionStatusCn, SubjectTypeCn } from '@types'
 
 const Item = memo(
   ({
@@ -41,7 +41,7 @@ const Item = memo(
     y,
     event = EVENT
   }) => {
-    const subjectId = String(id).replace('/subject/', '') as SubjectId
+    const subjectId = getSubjectId(id)
 
     const { width } = gridStyles
     const height = isRectangle ? width : gridStyles.height
@@ -51,8 +51,12 @@ const Item = memo(
     )
 
     const text = cnjp(nameCn, name)
-    const visualLength = getVisualLength(text)
-    const textSize = visualLength >= 32 ? 10 : visualLength >= 20 ? 11 : 12
+
+    // getVisualLength 逐字符正则, 网格上百格全量重算很贵, 只依赖文本
+    const textSize = useMemo(() => {
+      const visualLength = getVisualLength(text)
+      return visualLength >= 32 ? 10 : visualLength >= 20 ? 11 : 12
+    }, [text])
 
     return (
       <Component

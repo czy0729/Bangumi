@@ -9,17 +9,7 @@ import { BackHandler, ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Collapsible, Component, Divider, Empty, Modal } from '@components'
 import { _, collectionStore, discoveryStore, usersStore, userStore } from '@stores'
-import {
-  asc,
-  confirm,
-  desc,
-  feedback,
-  getStorage,
-  getTimestamp,
-  HTMLDecode,
-  info,
-  setStorage
-} from '@utils'
+import { asc, confirm, desc, feedback, getStorage, getTimestamp, info, setStorage } from '@utils'
 import { r } from '@utils/dev'
 import { queue, t } from '@utils/fetch'
 import { FROZEN_FN, SCROLL_VIEW_RESET_PROPS } from '@constants'
@@ -29,7 +19,7 @@ import Catalog from './catalog'
 import Create from './create'
 import Subjects from './subjects'
 import ToolBar from './tool-bar'
-import { fixedOrder } from './utils'
+import { decodeContent, fixedOrder, getFormhash } from './utils'
 import {
   COMPONENT,
   ORDER_DS,
@@ -240,7 +230,7 @@ export const FolderManageModal = observer(
       const { list } = this.catalogDetail(id)
       if (list?.length) {
         const { erase } = list[0]
-        const formhash = erase?.split('?gh=')[1]
+        const formhash = getFormhash(erase)
         if (formhash) this.formhash = formhash
       }
 
@@ -333,7 +323,7 @@ export const FolderManageModal = observer(
           this.setState({
             create: item.id,
             title: item.title || '',
-            desc: HTMLDecode(detail.content || '').replace(/<br>/g, '')
+            desc: decodeContent(detail.content)
           })
           break
 
@@ -545,7 +535,7 @@ export const FolderManageModal = observer(
       if (item) {
         this.setState({
           edit: item.id,
-          content: HTMLDecode(item.comment || '').replace(/<br>/g, ''),
+          content: decodeContent(item.comment),
           order: item.order || '0'
         })
 
@@ -592,7 +582,7 @@ export const FolderManageModal = observer(
 
     /** 直接提交顺序 */
     onSort: HandleSort = (item, order, pItem) => {
-      const formhash = item.erase?.split('?gh=')[1]
+      const formhash = getFormhash(item.erase)
       if (!formhash) {
         info('目录信息有误, 暂不能修改条目, 请重新进入页面')
         return
@@ -602,7 +592,7 @@ export const FolderManageModal = observer(
         {
           modify: item.modify,
           formhash,
-          content: HTMLDecode(item.comment || '').replace(/<br>/g, ''),
+          content: decodeContent(item.comment),
           order: order || '0'
         },
         () => {
@@ -614,7 +604,7 @@ export const FolderManageModal = observer(
 
     /** 提交 */
     onSubmit: HandleSubmit = (item, pItem) => {
-      const formhash = item.erase?.split('?gh=')[1]
+      const formhash = getFormhash(item.erase)
       if (!formhash) {
         info('目录信息有误, 暂不能修改条目, 请重新进入页面')
         return

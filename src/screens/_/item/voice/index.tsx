@@ -55,8 +55,14 @@ export const ItemVoice = observer(
     const jp = cnjp(name, nameCn)
     const y = (collected !== '全部' ? ITEM_HEIGHT_WITH_COLLECTED : ITEM_HEIGHT) * index
 
+    // 条目收藏状态, 同一渲染内每个 id 只查一次
+    // as const 让 map 回调产出元组, 否则被推断成数组, new Map 参数类型不匹配
+    const collectMap = new Map(
+      list.map(item => [item.id, collectionStore.collect(item.id)] as const)
+    )
+
     // 角色级判断：是否存在任意收藏
-    const hasCollectedInSeries = list.some(item => collectionStore.collect(item.id))
+    const hasCollectedInSeries = list.some(item => collectMap.get(item.id))
 
     // 当为 已收藏 或 系列有收藏 时
     // 如果这个角色没有任何收藏作品，整个角色不显示
@@ -70,7 +76,7 @@ export const ItemVoice = observer(
     const elSubjects = (
       <Flex.Item style={_.ml.md} flex={3.4}>
         {list.map(item => {
-          const collect = collectionStore.collect(item.id)
+          const collect = collectMap.get(item.id)
 
           // 已收藏：只显示收藏作品
           if (collected === '已收藏' && !collect) return null

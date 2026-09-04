@@ -9,6 +9,7 @@ import { View } from 'react-native'
 import { Component, Flex, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
+import { getSubjectId } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { EVENT, FROZEN_FN, IMG_WIDTH } from '@constants'
@@ -66,7 +67,7 @@ const Item = memo(
       // isOuterTouch
     } = useMemo(
       () => ({
-        subjectId: String(id).replace('/subject/', ''),
+        subjectId: getSubjectId(id),
         hasComment: !!comments && comments !== 'undefined',
         isOuterTouch: touchPosition === 'outer'
       }),

@@ -7,6 +7,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, Flex } from '@components'
+import { getSubjectId } from '@utils'
 import { r } from '@utils/dev'
 import { EVENT, FROZEN_ARRAY, IMG_HEIGHT_LG, IMG_WIDTH_LG } from '@constants'
 import { PreventTouchPlaceholder } from '../../base'
@@ -53,7 +54,7 @@ export const ItemSearch = observer(
 
     const styles = memoStyles()
 
-    const subjectId = String(id).replace('/subject/', '')
+    const subjectId = getSubjectId(id)
 
     // 人物高清图不是正方形的图, 所以要特殊处理
     const isMono = !String(id).includes('/subject/')

@@ -4,14 +4,21 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-25 18:54:43
  */
-import dayjs from 'dayjs'
 import { systemStore } from '@stores'
-import { desc, HTMLDecode } from '@utils'
+import { desc, HTMLDecode, pad } from '@utils'
 import { TEXT_MENU_SPLIT_LEFT, TEXT_MENU_SPLIT_RIGHT, TEXT_MENU_TOPIC, WEB, WSA } from '@constants'
 
 import type { Ep } from '@stores/subject/types'
 
-const TODAY = dayjs().subtract(1, 'day').format('YYYY-MM-DD 23:59:59')
+/** 昨天的 23:59:59, 用于判断放送时间是否在今天以前 (原生 Date 生成, 格式与 dayjs 对齐) */
+function getYesterdayEnd() {
+  const date = new Date()
+  date.setDate(date.getDate() - 1)
+
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} 23:59:59`
+}
+
+const TODAY = getYesterdayEnd()
 
 export function getPopoverData(
   item: Ep,

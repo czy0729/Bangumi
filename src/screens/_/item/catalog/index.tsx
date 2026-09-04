@@ -108,7 +108,7 @@ export const ItemCatalog = observer(
                 title={titleValue}
                 list={list
                   .filter((item: { image: any }) => !!item.image)
-                  .filter((_: any, index: number) => index < 3)
+                  .slice(0, 3)
                   .map((item: { id: any; image: any }) => ({
                     id: item.id,
                     image: item.image
