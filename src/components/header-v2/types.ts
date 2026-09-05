@@ -63,6 +63,9 @@ export type UseHeaderV2Options = Pick<Props, 'headerRight' | 'headerTitleAlign' 
 
 /** HeaderV2 头部逻辑返回值 */
 export type UseHeaderV2Result = {
+  /** 包裹 StoreContext.Provider 后的右侧渲染函数, 用于原生头部和自绘头部 */
+  bridgedHeaderRight?: Props['headerRight']
+
   /** 按设备适配的标题对齐 */
   headerTitleAlignValue: 'center' | 'left'
 

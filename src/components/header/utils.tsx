@@ -6,7 +6,7 @@
  */
 import React, { useCallback, useRef, useState } from 'react'
 import { View } from 'react-native'
-import { _, systemStore } from '@stores'
+import { _, StoreContext, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { IOS } from '@constants'
 import { IOS_IPA } from '@src/config'
@@ -21,6 +21,7 @@ export const HEADER_TRANSITION_HEIGHT = 32
 export const updateHeader = ({
   // 必要
   navigation,
+  storeContextId,
   title = '',
   headerTitleAlign,
   headerTitleStyle,
@@ -74,12 +75,12 @@ export const updateHeader = ({
       paddingLeft: 5
     },
     headerLeft: () => (
-      <>
+      <StoreContext.Provider value={storeContextId}>
         <View style={styles.headerLeftContainerStyle}>
           <Back navigation={navigation} color={tintColor} onPress={onBackPress} />
         </View>
         {headerLeft}
-      </>
+      </StoreContext.Provider>
     ),
 
     /** ==================== headerTitle ==================== */
@@ -98,7 +99,9 @@ export const updateHeader = ({
       paddingRight: 6
     }
     options.headerRight = () => (
-      <View style={styles.headerRightContainerStyle}>{headerRight()}</View>
+      <StoreContext.Provider value={storeContextId}>
+        <View style={styles.headerRightContainerStyle}>{headerRight()}</View>
+      </StoreContext.Provider>
     )
   }
 

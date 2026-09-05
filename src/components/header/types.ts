@@ -75,6 +75,9 @@ export type UpdateHeaderProps = Expand<
       | 'fixed'
       | 'statusBarEventsType'
     > & {
+      /** 页面 Store 上下文 id, 用于 headerLeft / headerRight 桥接 StoreContext */
+      storeContextId?: string
+
       onBackPress?: () => void
     }
   >

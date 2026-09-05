@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-02 06:14:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 06:19:42
+ * @Last Modified time: 2026-09-05 23:12:11
  */
 import calendarStore from './calendar'
 import collectionStore from './collection'
@@ -24,6 +24,7 @@ import userStore from './user'
 import usersStore from './users'
 
 export { StoreContext, useInitStore, useStore } from './utils'
+export { useStoreContextBridge } from './bridge'
 
 const _ = themeStore
 

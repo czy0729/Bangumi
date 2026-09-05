@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-08-19 18:11:59
  */
 import { useEffect, useMemo } from 'react'
-import { _ } from '@stores'
+import { _, useStoreContextBridge } from '@stores'
 import { useNavigation } from '@utils/hooks'
 import { getHeaderTitleAlign, getHeaderTitleStyle } from './utils'
 import { COMPONENT } from './ds'
@@ -19,15 +19,25 @@ export function useHeaderV2({
   headerTitleStyle
 }: UseHeaderV2Options): UseHeaderV2Result {
   const navigation = useNavigation(COMPONENT)
+  const bridge = useStoreContextBridge()
+
+  /**
+   * 原生头部渲染 headerRight 时位于 StoreContext.Provider 之外,
+   * 需要包一层 Provider, 否则内部的 useStore 拿不到页面状态机
+   */
+  const bridgedHeaderRight = useMemo(() => {
+    if (!headerRight) return headerRight
+    return bridge(headerRight)
+  }, [headerRight, bridge])
 
   useEffect(() => {
     navigation.setOptions({
       headerShown: false,
       headerTransparent: false,
       headerShadowVisible: false,
-      headerRight
+      headerRight: bridgedHeaderRight
     })
-  }, [navigation, headerRight])
+  }, [navigation, bridgedHeaderRight])
 
   const headerTitleAlignValue = getHeaderTitleAlign(headerTitleAlign, _.isPad)
 
@@ -37,5 +47,5 @@ export function useHeaderV2({
     [headerTitleStyle, _.isPad]
   )
 
-  return { headerTitleAlignValue, headerTitleStyleValue }
+  return { bridgedHeaderRight, headerTitleAlignValue, headerTitleStyleValue }
 }

@@ -33,7 +33,7 @@ export const HeaderV2 = observer(
     headerTitleTextStyle,
     headerRight
   }: HeaderV2Props) => {
-    const { headerTitleAlignValue, headerTitleStyleValue } = useHeaderV2({
+    const { bridgedHeaderRight, headerTitleAlignValue, headerTitleStyleValue } = useHeaderV2({
       headerRight,
       headerTitleAlign,
       headerTitleStyle
@@ -51,7 +51,7 @@ export const HeaderV2 = observer(
           headerTitleSize={headerTitleSize}
           headerTitleAppend={headerTitleAppend}
           headerTitleTextStyle={headerTitleTextStyle}
-          headerRight={headerRight}
+          headerRight={bridgedHeaderRight}
         />
         <Track title={title} domTitle={domTitle} hm={hm} alias={alias} />
       </Component>

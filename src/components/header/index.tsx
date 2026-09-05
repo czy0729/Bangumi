@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-16 02:10:13
  */
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { observer } from 'mobx-react'
-import { _ } from '@stores'
+import { _, StoreContext } from '@stores'
 import { r } from '@utils/dev'
 import { useNavigation } from '@utils/hooks'
 import { WEB } from '@constants'
@@ -44,9 +44,16 @@ const Header = observer(
 
     const navigation = useNavigation()
 
+    /**
+     * 原生头部渲染 headerLeft / headerRight 时位于 StoreContext.Provider 之外,
+     * 需要把当前页面的上下文 id 传给 updateHeader, 在 options JSX 外包一层 Provider
+     */
+    const storeContextId = useContext(StoreContext)
+
     useEffect(() => {
       updateHeader({
         navigation,
+        storeContextId,
         mode,
         fixed,
         title,
@@ -59,6 +66,7 @@ const Header = observer(
       })
     }, [
       navigation,
+      storeContextId,
       mode,
       fixed,
       title,
