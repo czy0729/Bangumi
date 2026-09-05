@@ -9,6 +9,9 @@ import { Dimensions, Platform } from 'react-native'
 /** 是否 WSA 子系统 */
 export const WSA = false
 
+/** 是否魅族 */
+export const MEIZU = false
+
 /** 平板小 */
 export const PAD_LEVEL_1 = 616
 

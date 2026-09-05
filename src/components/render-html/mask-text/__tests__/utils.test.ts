@@ -1,16 +1,11 @@
 /*
  * @Author: czy0729
  * @Date: 2026-05-31 00:00:00
- * @Last Modified by: imagebuilder1837
- * @Last Modified time: 2026-05-31 00:00:00
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-05 20:29:45
  */
 import React from 'react'
-import {
-  MASK_BACKGROUND_COLOR,
-  MASK_TEXT_COLOR,
-  getMaskTextStyle,
-  maskRichText
-} from '../utils'
+import { getMaskTextStyle, MASK_BACKGROUND_COLOR, MASK_TEXT_COLOR, maskRichText } from '../utils'
 
 jest.mock('../../emoji-text', () => {
   function EmojiText() {
@@ -18,6 +13,14 @@ jest.mock('../../emoji-text', () => {
   }
   return { __esModule: true, default: EmojiText }
 })
+
+let mockMeizu = false
+jest.mock('@constants', () => ({
+  IOS: false,
+  get MEIZU() {
+    return mockMeizu
+  }
+}))
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const EmojiText = require('../../emoji-text').default
@@ -30,7 +33,11 @@ function lastStyle(node: any) {
 describe('maskRichText', () => {
   it('保留多行富文本结构', () => {
     const br = React.createElement('Text', { key: 'br' }, '\n')
-    const bold = React.createElement('Text', { key: 'bold', style: { fontWeight: 'bold' } }, '第二行')
+    const bold = React.createElement(
+      'Text',
+      { key: 'bold', style: { fontWeight: 'bold' } },
+      '第二行'
+    )
 
     const result = maskRichText(['第一行', br, bold], true) as any[]
 
@@ -115,5 +122,33 @@ describe('maskRichText', () => {
     expect(hidden.map(item => (React.isValidElement(item) ? item.props.children : item))).toEqual(
       visible.map(item => (React.isValidElement(item) ? item.props.children : item))
     )
+  })
+})
+
+describe('maskRichText 魅族', () => {
+  beforeEach(() => {
+    mockMeizu = true
+  })
+
+  afterEach(() => {
+    mockMeizu = false
+  })
+
+  it('收起时文本替换为等长全角空格', () => {
+    expect(maskRichText('剧透内容', false)).toBe('　　　　')
+    expect(maskRichText(12345, false)).toBe('　　　　　')
+  })
+
+  it('展开时保留原文', () => {
+    expect(maskRichText('剧透内容', true)).toBe('剧透内容')
+  })
+
+  it('收起时嵌套文本同样替换', () => {
+    const node = React.createElement('Text', { key: 'text' }, '正文')
+
+    const result = maskRichText(node, false) as any
+
+    expect(result.props.children).toBe('　　')
+    expect(lastStyle(result)).toEqual({ color: MASK_BACKGROUND_COLOR, opacity: 0 })
   })
 })

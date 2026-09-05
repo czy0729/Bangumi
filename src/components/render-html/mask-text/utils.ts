@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2026-02-26 21:45:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 07:03:04
+ * @Last Modified time: 2026-09-05 20:29:39
  */
 import React from 'react'
-import { IOS } from '@constants'
+import { IOS, MEIZU } from '@constants'
 import EmojiText from '../emoji-text'
 
 import type { ReactElement } from 'react'
@@ -38,7 +38,13 @@ type ElementProps = {
 function maskChildren(children: ReactNode, show: boolean, style: TextStyle): ReactNode {
   if (children == null || typeof children === 'boolean') return children
 
-  if (typeof children === 'string' || typeof children === 'number') return children
+  if (typeof children === 'string' || typeof children === 'number') {
+    // 魅族 Flyme 强制深色/高对比度会把同色遮盖的文字重绘提亮导致剧透字现形,
+    // 隐藏态参照 EmojiText 的处理, 替换成等长全角空格, 原文不进渲染树
+    if (!show && MEIZU) return '　'.repeat(String(children).length)
+
+    return children
+  }
 
   if (Array.isArray(children))
     return (children as ReactNode[]).map(item => maskChildren(item, show, style))

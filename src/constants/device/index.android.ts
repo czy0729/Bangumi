@@ -2,13 +2,21 @@
  * @Author: czy0729
  * @Date: 2021-12-25 22:07:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:12:19
+ * @Last Modified time: 2026-09-05 20:30:22
  */
 import { Dimensions, Platform } from 'react-native'
 
 /** 是否 WSA 子系统 */
 // @ts-expect-error
 export const WSA = String(Platform?.constants?.Model).toLocaleLowerCase().includes('subsystem')
+
+/** 是否魅族 (Flyme 系统强制深色/高对比度会把同色遮盖的剧透字重绘提亮, 需要专门 hack) */
+// @ts-expect-error
+const DEVICE_BRAND = `${Platform?.constants?.Brand || ''} ${
+  // @ts-expect-error
+  Platform?.constants?.Manufacturer || ''
+}`
+export const MEIZU = DEVICE_BRAND.toLocaleLowerCase().includes('meizu')
 
 /** 平板小 */
 export const PAD_LEVEL_1 = WSA ? 440 : 528

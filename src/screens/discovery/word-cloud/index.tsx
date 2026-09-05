@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-07 07:57:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-29 17:57:35
+ * @Last Modified time: 2026-09-05 19:58:28
  */
 import React from 'react'
 import { RefreshControl } from 'react-native'
@@ -16,6 +16,7 @@ import Media from './component/media'
 import SelectedList from './component/selected-list'
 import Header from './header'
 import { useWordCloudPage } from './hooks'
+import { styles } from './styles'
 
 import type { NavigationProps } from '@types'
 
@@ -33,9 +34,7 @@ function WordCloud(props: NavigationProps) {
             <>
               <Filter />
               <ScrollView
-                style={{
-                  height: '100%'
-                }}
+                style={styles.scroll}
                 refreshControl={
                   <RefreshControl
                     refreshing={refreshing}
