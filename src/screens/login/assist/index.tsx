@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 11:47:50
+ * @Last Modified time: 2026-09-05 04:42:38
  */
 import React from 'react'
 import { View } from 'react-native'
-import cheerio from 'cheerio-without-node-native'
 import {
   Button,
   Component,
@@ -19,13 +18,14 @@ import {
   Text
 } from '@components'
 import { _, userStore } from '@stores'
-import { copy, feedback, getTimestamp, info } from '@utils'
+import { copy, feedback, getFormhash, getTimestamp, info } from '@utils'
 import { ob } from '@utils/decorators'
 import { t, xhrCustom } from '@utils/fetch'
 import { APP_ID, APP_SECRET, HOST, URL_OAUTH_REDIRECT } from '@constants'
 import i18n from '@constants/i18n'
-import { NavigationProps } from '@types'
 import { memoStyles } from './styles'
+
+import type { NavigationProps } from '@types'
 
 const code = `JSON.stringify({
   userAgent: navigator.userAgent,
@@ -172,7 +172,7 @@ class LoginAssist extends React.Component<NavigationProps> {
       })
 
       const { _response } = await res
-      this.formhash = cheerio.load(_response)('input[name=formhash]').attr('value')
+      this.formhash = getFormhash(_response)
       return res
     } catch (error) {
       this.setState({

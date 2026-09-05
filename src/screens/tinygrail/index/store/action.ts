@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2024-12-29 11:16:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:22:30
+ * @Last Modified time: 2026-09-05 04:43:08
  */
-import cheerio from 'cheerio-without-node-native'
 import { systemStore, tinygrailStore } from '@stores'
 import {
   alert,
@@ -12,6 +11,7 @@ import {
   date,
   feedback,
   formatNumber,
+  getFormhash,
   getTimestamp,
   info,
   toFixed,
@@ -338,7 +338,7 @@ export default class Action extends Fetch {
     )
     const { request } = data
     const { _response } = request
-    this._formhash = cheerio.load(_response)('input[name=formhash]').attr('value')
+    this._formhash = getFormhash(_response)
 
     return data
   }

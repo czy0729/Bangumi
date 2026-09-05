@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-22 16:38:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 05:34:42
+ * @Last Modified time: 2026-09-05 04:43:28
  */
 import { toJS } from 'mobx'
-import cheerio from 'cheerio-without-node-native'
-import { getTimestamp, info, loading, urlStringify } from '@utils'
+import { getFormhash, getTimestamp, info, loading, urlStringify } from '@utils'
 import fetch, { xhr } from '@utils/fetch'
 import { fetchCollectionSingleV0 } from '@utils/fetch.v0'
 import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/proxy'
@@ -306,9 +305,7 @@ export default class Action extends Fetch {
         },
         true
       )
-      const formhash = cheerio
-        .load(data || '')('input[name=formhash]')
-        .attr('value')
+      const formhash = getFormhash(data)
       return await this.authorize(formhash)
     } catch (error) {
       // 失败必须隐藏授权 loading, 否则它会永远挂在界面上 (原本只在成功路径隐藏)

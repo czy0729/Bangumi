@@ -28,7 +28,6 @@
   },
   "resolutions": {
     "define-properties": "1.2.0",
-    "htmlparser2": "^3.9.0",
     "use-latest-callback": "0.1.9"
   },
   "dependencies": {
@@ -43,7 +42,7 @@
     "@react-navigation/native-stack": "6.9.13",
     "@sdcx/nested-scroll": "^0.14.0",
     "@types/react": "~18.3.12",
-    "cheerio-without-node-native": "0.20.2",
+    "cheerio": "1.0.0",
     "expo": "54.0.22",
     "expo-asset": "~12.0.9",
     "expo-blur": "~15.0.7",
@@ -59,6 +58,7 @@
     "expo-splash-screen": "~31.0.10",
     "expo-updates": "~29.0.12",
     "expo-web-browser": "~15.0.8",
+    "htmlparser2": "^3.9.0",
     "mobx": "6.12.3",
     "mobx-react": "9.1.1",
     "patch-package": "6.4.7",
@@ -96,6 +96,7 @@
     "@typescript-eslint/eslint-plugin": "^8.59.0",
     "@typescript-eslint/parser": "^8.59.0",
     "babel-plugin-module-resolver": "^5.0.2",
+    "cheerio-without-node-native": "0.20.2",
     "crypto-js": "^4.2.0",
     "dayjs": "1.10.8",
     "eslint": "^8.57.1",

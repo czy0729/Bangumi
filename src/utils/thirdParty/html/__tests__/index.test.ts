@@ -1,6 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2026-05-13
+ * @Date: 2026-09-05 16:19:12
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2026-09-05 16:19:12
  */
 jest.mock('../../../utils', () => ({
   safeObject: (obj: any) => obj
@@ -56,6 +58,7 @@ describe('removeHTMLTag', () => {
   })
 
   it('处理非字符串输入', () => {
+    // @ts-ignore
     expect(removeHTMLTag(123)).toBe('123')
   })
 
@@ -562,14 +565,14 @@ describe('异常被静默吞掉', () => {
         text: () => {
           throw new Error('test')
         }
-      })
+      } as any)
     ).not.toThrow()
     expect(
       cText({
         text: () => {
           throw new Error('test')
         }
-      })
+      } as any)
     ).toBe('')
   })
 

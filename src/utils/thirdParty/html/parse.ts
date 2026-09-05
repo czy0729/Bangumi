@@ -2,25 +2,15 @@
  * @Author: czy0729
  * @Date: 2026-08-08 09:30:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 05:11:37
+ * @Last Modified time: 2026-09-05 15:55:37
  */
 import { DEV } from '@src/config'
 import { logger } from '../../dev'
+import { resolveEngine } from './engines'
 
-import type { Cheerio, CheerioElement, CheerioStatic } from 'cheerio-without-node-native'
+import type { CheerioDoc, CheerioNode, CheerioSelection } from './types'
 
 const TAG = '@utils/thirdParty/html'
-
-/**
- * cheerio 体积较大 (436KB), 函数内懒加载以延迟其求值
- * - 本文件内的调用点是真实延迟; 其他文件的静态 import (stores/user/action 等 5 处)
- *   依赖 inlineRequires 将 require 内联进使用函数, 使用点全在函数内故同样延迟
- */
-function syncCheerioRN(): CheerioStatic {
-  // 兼容两种模块形态: 原始 CJS 导出本身即函数, 或经 babel interop 后挂在 default 上
-  const mod = require('cheerio-without-node-native') as { default?: CheerioStatic } & CheerioStatic
-  return mod.default || mod
-}
 
 export const DECODE_SPECIAL_CHARS: Record<string, string> = {
   '&amp;': '&',
@@ -46,12 +36,26 @@ export function removeCF(HTML: string = ''): string {
   ).replace(/data-cfsrc/g, 'src')
 }
 
-/** cheerio.load */
+/**
+ * cheerio.load: 传 DOM 节点返回元素级集合, 传 HTML 返回文档级 $
+ *  - 节点重载在前: 业务回调的 element 实参常为 any, TS 会命中第一个重载,
+ *    而元素级路径 (有 .find/.text 等) 才是 any 场景下语义正确的默认值
+ */
 export function cheerio(
-  target: string | CheerioElement,
+  target: CheerioNode,
+  remove?: boolean | object,
+  decodeEntities?: boolean
+): CheerioSelection
+export function cheerio(
+  target: string,
+  remove?: boolean | object,
+  decodeEntities?: boolean
+): CheerioDoc
+export function cheerio(
+  target: string | CheerioNode,
   remove: boolean | object = true,
   decodeEntities: boolean = false
-): Cheerio {
+): CheerioDoc | CheerioSelection {
   if (typeof target === 'string') {
     // 需要优化内容
     if (target.indexOf('<!DOCTYPE html>') === 0) {
@@ -61,16 +65,18 @@ export function cheerio(
     }
 
     if (remove) {
-      return syncCheerioRN().load(removeCF(target), {
+      // decodeEntities 是 0.20 的顶层选项 (1.x 收进 htmlparser2 子项, 默认行为一致),
+      // 双引擎同参传递保证行为一致
+      return resolveEngine().load(removeCF(target), {
         decodeEntities
-      })
+      } as any)
     }
-    return syncCheerioRN().load(target, {
+    return resolveEngine().load(target, {
       decodeEntities
-    })
+    } as any)
   }
 
-  return syncCheerioRN()(target)
+  return resolveEngine()(target)
 }
 
 /**
@@ -80,7 +86,7 @@ export function cheerio(
  * @param cleanWhitespace 是否去除换行并合并多个空格
  */
 export function cText(
-  $el: Cheerio,
+  $el: CheerioSelection,
   matchRawTextNode: boolean = false,
   cleanWhitespace: boolean = false
 ): string {
@@ -117,7 +123,10 @@ export function cText(
 }
 
 /** cheerio.each */
-export function cEach($el: Cheerio, callback: ($ele: Cheerio, index?: number) => void) {
+export function cEach(
+  $el: CheerioSelection,
+  callback: ($ele: CheerioSelection, index?: number) => void
+) {
   if (DEV && !$el?.each) {
     logger.warn(TAG, 'cEach', '$el 不是有效的 cheerio 对象')
   }
@@ -133,8 +142,8 @@ export function cEach($el: Cheerio, callback: ($ele: Cheerio, index?: number) =>
  * cheerio 查找最大页码、当前页码
  *  - 只适用于 bgm.tv
  * */
-export function cPagination($: Cheerio) {
-  if (DEV && !$?.find) {
+export function cPagination($: CheerioDoc) {
+  if (DEV && !$) {
     logger.warn(TAG, 'cPagination', '$ 不是有效的 cheerio 对象')
   }
 

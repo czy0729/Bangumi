@@ -25,6 +25,14 @@ RNTL 的 `renderHook` 因 `ensure-peer-deps` 严格校验 `react-test-renderer` 
 
 # cheerio HTML 解析测试规范
 
+## HTML 解析引擎对照 (engine-battery)
+
+- 生产引擎固定为 `next`（cheerio 1.0 slim，静态 import）；`legacy`（0.20）仅测试对照用，生产代码不引用、不进 bundle
+- 双引擎对照方式：命令行 `HTML_ENGINE=legacy npx jest`，battery 测试在模块顶层 `__setEngineForTest(legacyEngine())` 注入（结果收集在模块顶层执行，注入不能放 beforeAll），afterAll 传 `null` 恢复
+- `src/utils/thirdParty/html/__tests__/engine-battery.test.ts` 对 24 个真实页面 fixture + 内联边界用例跑生产在用的全部选择器/方法组合，与 `battery-baseline/<engine>.json` 逐字节对照；`REGEN_FIXTURES=1` 重新生成基线
+- 修改引擎适配层或 `src/utils/thirdParty/html/` 解析逻辑后，必须跑 battery 并确认两引擎基线零 diff；新引擎行为确需变化时先改适配层归一（如实体大小写归一在 `engines/slim.ts`），归一不了才 REGEN 基线并记录理由
+- 注意：文档级 `$`（`cheerio(html)` 的返回值）没有 `.find` 等实例方法，`cFind($, ...)` 会走 catch 返回 `$el` 本身，`.length` 是函数 arity——测试中 cFind/cList 必须作用于元素实例（与生产一致）
+
 以下模式来自 `src/stores/user/__tests__/common.test.ts`，按需参考，自行判断是否适用。
 
 ## 结构

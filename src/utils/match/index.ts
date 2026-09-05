@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-08 11:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 07:59:00
+ * @Last Modified time: 2026-09-05 17:29:59
  */
 import { pad } from '../utils/base'
 
@@ -36,14 +36,16 @@ function match<T>(
 /**
  * 匹配头像地址
  *  - style="background-image:url('//lain.bgm.tv/pic/user/l/000/00/00/000000.jpg?r=0')"
- *  - 没匹配到必须返回空，不能返回默认头像地址
+ *  - 兼容冒号后带空格的书写 (部分页面的内联样式为 "background-image: url(...)")
+ *  - 非空输入未匹配到返回默认头像地址; 空输入由 match() 短路直接返回空,
+ *    由上层按"无头像"自行兜底 (与既有持久化数据保持一致)
  * */
 export function matchAvatar(str: string = ''): string {
   return (
     match(
       str,
       str =>
-        str.match(/background-image:url\('(.+?)'\)/)?.[1] || '//lain.bgm.tv/pic/user/s/icon.jpg',
+        str.match(/background-image:\s*url\('(.+?)'\)/)?.[1] || '//lain.bgm.tv/pic/user/s/icon.jpg',
       'matchAvatar'
     ) || ''
   )

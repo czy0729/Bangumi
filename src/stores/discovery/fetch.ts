@@ -149,7 +149,7 @@ export default class Fetch extends Computed {
         }
       })
 
-      const $ = cheerio(JSON.parse(_response.slice(1, _response.length - 2)).body)
+      const $ = cheerio(String(JSON.parse(_response.slice(1, _response.length - 2)).body || ''))
 
       this.setState({
         [STATE_KEY]: {

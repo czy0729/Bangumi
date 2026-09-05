@@ -89,7 +89,7 @@ function cheerioTimelineItem(
     return (
       this.nodeType === NODE_TYPE_RAW_TEXT &&
       this.parent === $info[0] &&
-      String(this.data || '').trim()
+      !!String(this.data || '').trim()
     )
   })
   const $card = cFind($info, '.card')

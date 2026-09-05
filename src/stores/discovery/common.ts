@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-21 22:49:17
+ * @Last Modified time: 2026-09-05 15:53:28
  */
 import {
   cData,
@@ -276,7 +276,10 @@ export function cheerioChannel(html: string): Channel {
       const $subject = $li.find(' > td > small.feed > a')
       const $user = $li.find(' > td[align=right] > a')
       return {
-        id: $a.attr('href')?.replace('/subject/topic', 'subject'),
+        id: ($a.attr('href') || '').replace(
+          '/subject/topic',
+          'subject'
+        ) as ChannelDiscussItem['id'],
         title: HTMLDecode(cText($a)),
         replies: $li.find(' > td > a.l + small.grey').text().trim().replace(/\(|\)/g, ''),
         subjectId: $subject.attr('href')?.replace('/subject/', ''),

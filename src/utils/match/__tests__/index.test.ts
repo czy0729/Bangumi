@@ -28,12 +28,12 @@ describe('matchAvatar', () => {
     expect(matchAvatar('no match')).toBe('//lain.bgm.tv/pic/user/s/icon.jpg')
   })
 
-  it('空字符串应返回默认头像而非空字符串', () => {
-    expect(matchAvatar('')).toBe('//lain.bgm.tv/pic/user/s/icon.jpg')
+  it('空字符串返回空字符串 (空输入由 match() 短路, 默认头像由上层兜底)', () => {
+    expect(matchAvatar('')).toBe('')
   })
 
-  it('无参数应返回默认头像而非空字符串', () => {
-    expect(matchAvatar()).toBe('//lain.bgm.tv/pic/user/s/icon.jpg')
+  it('无参数返回空字符串', () => {
+    expect(matchAvatar()).toBe('')
   })
 })
 

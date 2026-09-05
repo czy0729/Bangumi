@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-22 19:10:23
+ * @Last Modified time: 2026-09-05 17:29:26
  */
 import {
   cData,
@@ -13,6 +13,7 @@ import {
   cParse,
   cText,
   getCoverSmall,
+  getFormhash,
   HTMLDecode,
   htmlMatch,
   HTMLTrim,
@@ -217,7 +218,8 @@ export function cheerioTopic(html: string) {
   let likes: Likes = {}
 
   try {
-    const $ = cheerio(htmlMatch(html, '<div id="subject_info">', '</body>'))
+    const topicHTML = htmlMatch(html, '<div id="subject_info">', '</body>')
+    const $ = cheerio(topicHTML)
 
     // 主楼
     const $group = $('#pageHeader a.avatar')
@@ -238,7 +240,7 @@ export function cheerioTopic(html: string) {
       id: String($('div.postTopic').attr('id') || '').substring(5),
       avatar: getCoverSmall(matchAvatar($('div.postTopic span.avatarNeue').attr('style'))),
       floor,
-      formhash: $('input[name=formhash]').attr('value') || '',
+      formhash: getFormhash(topicHTML),
       likeType: String($('a.like_dropdown').data('like-type') || LIKE_TYPE_RAKUEN),
       group: $group.text().trim().replace(/\n/g, '') || $group.attr('title') || '',
       groupHref: $group.attr('href') || '',
@@ -335,13 +337,14 @@ export function cheerioBlog(html: string) {
   let blogComments = []
 
   try {
-    const $ = cheerio(htmlMatch(html, '<div id="columnA', '<div id="footer'))
+    const blogHTML = htmlMatch(html, '<div id="columnA', '<div id="footer')
+    const $ = cheerio(blogHTML)
     const $user = $('#viewEntry .author .title a.l')
 
     blog = {
       avatar: cData($('#viewEntry .author img'), 'src'),
       floor: '#0',
-      formhash: cData($('input[name=formhash]'), 'value'),
+      formhash: getFormhash(blogHTML),
       message: cHtml($('#entry_content')),
       time: getBlogTime(cText($('.header .time'))),
       title: cText($('#viewEntry h1.title')),
@@ -507,7 +510,8 @@ export function cheerioTopicEdit(html: string): string | boolean {
 
 /** 个人设置隐私 */
 export function cheerioPrivacy(html: string) {
-  const $ = cheerio(htmlMatch(html, '<div id="columnSearchB', '<div id="footer'))
+  const privacyHTML = htmlMatch(html, '<div id="columnSearchB', '<div id="footer')
+  const $ = cheerio(privacyHTML)
 
   const blockedUsers: BlockedUsersItem[] = []
   $('tr').each((_index: number, element: any) => {
@@ -533,7 +537,7 @@ export function cheerioPrivacy(html: string) {
   return {
     blockedUsers,
     privacy,
-    formhash: $('input[name="formhash"]').val() || ''
+    formhash: getFormhash(privacyHTML)
   }
 }
 

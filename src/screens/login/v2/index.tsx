@@ -2,18 +2,26 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 03:03:31
+ * @Last Modified time: 2026-09-05 04:42:56
  */
 import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import cheerio from 'cheerio-without-node-native'
 import Constants from 'expo-constants'
 import { Component, KeyboardSpacer } from '@components'
 import { Notice, StatusBarPlaceholder } from '@_'
 import { _, rakuenStore, usersStore, userStore } from '@stores'
 import { INIT_ACCESS_TOKEN } from '@stores/user/init'
-import { confirm, feedback, getStorage, getTimestamp, info, setStorage, urlStringify } from '@utils'
+import {
+  confirm,
+  feedback,
+  getFormhash,
+  getStorage,
+  getTimestamp,
+  info,
+  setStorage,
+  urlStringify
+} from '@utils'
 import { logger } from '@utils/dev'
 import { hm, queue, t } from '@utils/fetch'
 import { get } from '@utils/kv'
@@ -231,7 +239,7 @@ class LoginV2 extends React.Component<NavigationProps> {
       },
       true
     )
-    this._formhash = cheerio.load(data)('input[name=formhash]').attr('value')
+    this._formhash = getFormhash(data)
 
     return true
   }

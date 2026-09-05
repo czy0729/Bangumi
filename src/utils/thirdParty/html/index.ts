@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-31 20:15:42
+ * @Last Modified time: 2026-09-05 16:07:01
  */
 import { DEV } from '@src/config'
 import { logger } from '../../dev'
-import HTMLParser from '../html-parser'
 import { safeObject } from '../../utils'
+import HTMLParser from '../html-parser'
 import { htmlMatch } from './match'
-import { cheerio, cText, DECODE_SPECIAL_CHARS } from './parse'
-import { HTMLTrim } from './tag'
+import { cheerio, cText, HTMLDecode } from './parse'
+import { HTMLTrim as htmlTrim } from './tag'
 
 export { cEach, cPagination, cText, cheerio, HTMLDecode, removeCF } from './parse'
-export { removeHTMLTag, HTMLTrim } from './tag'
+export { getFormhash } from './formhash'
+export { removeHTMLTag } from './tag'
 export * from './match'
 
-import type { Cheerio } from 'cheerio-without-node-native'
+import type { CheerioSelection } from './types'
 
 const TAG = '@utils/thirdParty/html'
 
@@ -25,6 +26,12 @@ export function decodeNumericHTMLEntity(match: string, value: string, radix: num
   const codePoint = Number.parseInt(value, radix)
 
   if (!Number.isFinite(codePoint)) return match
+
+  // 越界与代理项区间: fromCodePoint 对代理项不抛错, 会产出孤立代理项字符,
+  // 该字符无法被 JSON 序列化, 会让后续持久化直接失败, 这里统一回退为原文
+  if (codePoint > 0x10ffff || (codePoint >= 0xd800 && codePoint <= 0xdfff)) {
+    return match
+  }
 
   try {
     return String.fromCodePoint(codePoint)
@@ -37,10 +44,8 @@ export function decodeNumericHTMLEntity(match: string, value: string, radix: num
 export function decodeHTMLEntities(str: string = ''): string {
   if (str.length === 0) return ''
 
-  return str
-    .replace(/(&amp;|&lt;|&gt;|&nbsp;|&#39;|&quot;)/g, match => {
-      return DECODE_SPECIAL_CHARS[match] || match
-    })
+  // 命名实体复用 parse 的实现, 保持与 HTMLDecode 完全一致 (含多次编码只解一次的行为)
+  return HTMLDecode(str)
     .replace(/&#x([0-9a-fA-F]+);/g, (match, hex) => {
       return decodeNumericHTMLEntity(match, hex, 16)
     })
@@ -133,6 +138,9 @@ export function HTMLToTree(html: string, cmd = true) {
 export function findTreeNode(children: any, cmd: string = '', defaultValue?) {
   if (!cmd) return children
 
+  // children 可能不是数组 (脏数据或节点没有子节点), 直接 filter 会抛错
+  if (!Array.isArray(children)) return defaultValue
+
   const split = ' > '
   const tags = cmd.split(split)
   const tag = tags.shift()
@@ -190,9 +198,33 @@ export function findTreeNode(children: any, cmd: string = '', defaultValue?) {
   return _find
 }
 
+/**
+ * HTML 压缩
+ *  - 实现在 ./tag, 这里只补空值边界: undefined / null 一律返回空字符串,
+ *    保证 HTMLTrim(x).replace(...) 这类链式调用在脏数据下不会抛错
+ */
+export function HTMLTrim<T>(str: T, deep?: boolean): T | '' {
+  if (str === undefined || str === null) return ''
+  return htmlTrim(str, deep)
+}
+
 /** 裁剪 HTML 后 cheerio 解析（替代 $ 避免命名冲突） */
 export function cParse(html: string, start: string, end: string, removeScript: boolean = true) {
   return cheerio(htmlMatch(html, start, end, removeScript))
+}
+
+/** @deprecated cParse 的旧名, 等价实现, 仅保留兼容历史调用 */
+export const $ = cParse
+
+/**
+ * data-* 属性名转 cheerio .data() 的 camelCase 键
+ *  - 不能直接用 split('data-')[1]: data-user-id 会被截断成 user, 属性名里再出现
+ *    data- 时也会丢字段
+ */
+function toDataKey(key: string): string {
+  return key.slice('data-'.length).replace(/-([a-zA-Z])/g, (_match, char: string) => {
+    return char.toUpperCase()
+  })
 }
 
 /** cheerio.attr(key) */
@@ -218,7 +250,7 @@ export function cData(
   }
 
   try {
-    if (key.startsWith('data-')) return $el.data(key.split('data-')[1]) || ''
+    if (key.startsWith('data-')) return $el.data(toDataKey(key)) || ''
     return $el.attr(key) || ''
   } catch (error) {
     return ''
@@ -232,14 +264,14 @@ export function cHtml($el: any): string {
   }
 
   try {
-    return HTMLTrim($el.html() || '').replace(/\u0000/g, '')
+    return htmlTrim($el.html() || '').replace(/\u0000/g, '')
   } catch (error) {
     return ''
   }
 }
 
 /** cheerio.map */
-export function cMap<T>($el: any, callback: ($ele: Cheerio, index?: number) => T): T[] {
+export function cMap<T>($el: any, callback: ($ele: CheerioSelection, index?: number) => T): T[] {
   if (DEV && !$el?.map) {
     logger.warn(TAG, 'cMap', '$el 不是有效的 cheerio 对象')
   }
@@ -249,7 +281,13 @@ export function cMap<T>($el: any, callback: ($ele: Cheerio, index?: number) => T
       $el
         .map((index: number, ele: any) => {
           const result = callback(cheerio(ele), index)
-          return typeof result === 'object' ? (safeObject(result) as T) : result
+
+          // null 的 typeof 同样是 object: safeObject(null) 会抛错并被外层 catch 吞掉,
+          // 单个回调返回 null 会让整次 map 的结果全部丢失; 数组则会 Object.fromEntries
+          // 变成 { 0: ... } 下标对象, 两者都要排除
+          return result !== null && typeof result === 'object' && !Array.isArray(result)
+            ? (safeObject(result as Record<string, unknown>) as T)
+            : result
         })
         .get() || []
     )
@@ -262,7 +300,7 @@ export function cMap<T>($el: any, callback: ($ele: Cheerio, index?: number) => T
  * cheerio.find.eq
  *  - 切勿使用 cFind($, ...)
  * */
-export function cFind($el: any, selector: string, index: number | 'last' = 0): Cheerio {
+export function cFind($el: any, selector: string, index: number | 'last' = 0): CheerioSelection {
   if (DEV && !$el?.find) {
     logger.warn(TAG, 'cFind', '$el 不是有效的 cheerio 对象')
   }
@@ -275,7 +313,7 @@ export function cFind($el: any, selector: string, index: number | 'last' = 0): C
 }
 
 /** cheerio.find */
-export function cList($el: any, selector: string): Cheerio {
+export function cList($el: any, selector: string): CheerioSelection {
   if (DEV && !$el?.find) {
     logger.warn(TAG, 'cList', '$el 不是有效的 cheerio 对象')
   }
@@ -328,8 +366,14 @@ export function cHasClass($el: any, className: string) {
   }
 }
 
+/**
+ * 链接字符集按 RFC 3986 收窄, 而不是 [^\s]+
+ *  - 中文没有空格分词, 用 [^\s]+ 会把紧贴链接的标点连同后面的正文一并删掉
+ *    ("见 https://bgm.tv，好看" 会整段消失)
+ */
+const URL_REGEX = /https?:\/\/[A-Za-z0-9\-._~:/?#[\]@!$&'()*+,;=%]+/g
+
 /** 去除字符串中所有链接 */
-export function removeURLs(str: string = '') {
-  const urlRegex = /(https?:\/\/[^\s]+)/g
-  return str.replace(urlRegex, '')
+export function removeURLs(str: string = ''): string {
+  return str.replace(URL_REGEX, '')
 }

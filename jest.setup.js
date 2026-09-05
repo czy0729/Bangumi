@@ -1,6 +1,8 @@
 /*
  * @Author: czy0729
- * @Date: 2026-05-17
+ * @Date: 2026-05-17 04:42:03
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2026-09-05 04:42:03
  */
 
 // 全局 mock，避免每个测试文件重复声明
@@ -45,14 +47,18 @@ jest.mock(__dirname + '/src/utils/dev', () => ({
 jest.mock(
   '@utils',
   () => {
-    const cheerioRN = require('cheerio-without-node-native')
-    const cheerio = target =>
-      typeof target === 'string' ? cheerioRN.load(target) : cheerioRN(target)
+    const { resolveEngine } = require(__dirname + '/src/utils/thirdParty/html/engines')
+    const cheerio = target => {
+      const $ = resolveEngine()
+      return typeof target === 'string' ? $.load(target) : $(target)
+    }
     const { lastDate, relativeEnToEpoch, relativeToEpoch } = require(__dirname +
       '/src/utils/utils/relative-time')
     const { t2s } = require(__dirname + '/src/utils/thirdParty/cn-char')
     const { htmlMatch } = require(__dirname + '/src/utils/thirdParty/html/match')
-    const { cEach, cPagination, cText, HTMLDecode } = require(__dirname + '/src/utils/thirdParty/html/parse')
+    const { getFormhash } = require(__dirname + '/src/utils/thirdParty/html/formhash')
+    const { cEach, cPagination, cText, HTMLDecode } = require(__dirname +
+      '/src/utils/thirdParty/html/parse')
     const { removeHTMLTag, HTMLTrim } = require(__dirname + '/src/utils/thirdParty/html/tag')
     const { asc, desc } = require(__dirname + '/src/utils/utils/sort')
     const { safeObject, titleCase, trim } = require(__dirname + '/src/utils/utils/base')
@@ -104,6 +110,7 @@ jest.mock(
       cText,
       cPagination,
       cheerio,
+      getFormhash,
       htmlMatch,
       getCoverSmall: (str = '') => str || '',
       getCoverMedium: src => src,

@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-19 02:49:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-30 06:40:29
+ * @Last Modified time: 2026-09-05 04:43:18
  */
-import cheerio from 'cheerio-without-node-native'
-import { getTimestamp, urlStringify } from '@utils'
+import { getFormhash, getTimestamp, urlStringify } from '@utils'
 import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
 import Base64 from '@utils/thirdParty/base64'
@@ -119,7 +118,7 @@ export async function doLogin({ ua = '', cookie = '', formhash = '' }, captcha) 
         Cookie: loginCookie
       },
       data: urlStringify({
-        formhash: cheerio.load(data)('input[name=formhash]').attr('value'),
+        formhash: getFormhash(data),
         redirect_uri: '',
         client_id: APP_ID,
         submit: '授权'
