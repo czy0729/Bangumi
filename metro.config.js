@@ -35,7 +35,7 @@ const projectBlockList = ['dist', 'web', 'ios', 'android'].map(
         .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/.*`
     )
 )
-config.resolver.blacklistRE = [/packages\/.*/, ...projectBlockList]
+config.resolver.blockList = [/packages\/.*/, ...projectBlockList]
 config.resolver.assetExts.push('proto', 'bin')
 
 // Metro 0.76 不支持 tsconfig paths，从 tsconfig.json 动态读取别名映射

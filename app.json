@@ -23,12 +23,22 @@
       ],
       "expo-asset",
       "expo-font",
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./src/assets/images/splash.png",
+          "backgroundColor": "#ffffff",
+          "dark": {
+            "image": "./src/assets/images/splash_night.png",
+            "backgroundColor": "#000000"
+          }
+        }
+      ]
     ],
     "name": "Bangumi",
     "slug": "bangumi",
     "scheme": "bangumi",
-    "privacy": "public",
     "platforms": [
       "ios"
     ],
@@ -42,16 +52,6 @@
         "NSRemindersUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders",
         "NSCalendarsFullAccessUsageDescription": "The app needs to access your calendar.",
         "NSRemindersFullAccessUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders"
-      },
-      "splash": {
-        "image": "./src/assets/images/splash.png",
-        "resizeMode": "contain",
-        "backgroundColor": "#ffffff",
-        "dark": {
-          "image": "./src/assets/images/splash_night.png",
-          "resizeMode": "contain",
-          "backgroundColor": "#000000"
-        }
       }
     },
     "androidStatusBar": {
@@ -59,11 +59,6 @@
       "backgroundColor": "#ffffff"
     },
     "icon": "./src/assets/images/icon.png",
-    "splash": {
-      "image": "./src/assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "extra": {
       "storybookEnabled": true,
       "eas": {
@@ -73,7 +68,6 @@
     "updates": {
       "enabled": false,
       "fallbackToCacheTimeout": 0,
-      "useClassicUpdates": true,
       "url": "https://u.expo.dev/ecbab469-60cb-4ec7-b6b7-b90e6d72c937"
     },
     "assetBundlePatterns": [],
