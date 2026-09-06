@@ -32,7 +32,8 @@
           "dark": {
             "image": "./src/assets/images/splash_night.png",
             "backgroundColor": "#000000"
-          }
+          },
+          "imageWidth": 850
         }
       ]
     ],

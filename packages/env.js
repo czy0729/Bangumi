@@ -30,7 +30,7 @@ const path = require('path')
 // ==================== 常量定义 ====================
 
 /** 支持的环境列表 */
-const SUPPORTED_ENVS = ['android', 'ios', 'web', 'ipa']
+const SUPPORTED_ENVS = ['android', 'ios', 'web']
 
 /** 根目录配置文件路径 */
 const ROOT_PATHS = {

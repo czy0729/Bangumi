@@ -86,10 +86,16 @@ def collect_versions(current_version):
         for release in releases:
             tag = release.get("tag_name", "")
 
-            if not tag.startswith("upstream-") or release.get("draft"):
+            if release.get("draft"):
                 continue
 
-            version = tag[len("upstream-"):]
+            # 兼容历史 release (upstream-<version>) 与现有 release tag (v<version>)
+            if tag.startswith("upstream-"):
+                version = tag[len("upstream-"):]
+            elif tag.startswith("v") and tag[1:2].isdigit():
+                version = tag[1:]
+            else:
+                continue
 
             ipa, sha = find_assets(release.get("assets", []))
 
@@ -122,7 +128,7 @@ def collect_versions(current_version):
 
     if not any(v["version"] == current_version for v in versions):
         raise RuntimeError(
-            f"Release with IPA and SHA256 assets not found for upstream-{current_version}"
+            f"Release with IPA and SHA256 assets not found for v{current_version}"
         )
 
     versions.sort(key=lambda v: version_key(v["version"]), reverse=True)
