@@ -67,11 +67,6 @@ export const TEXTS = {
     information:
       '遇到头像加载问题？启用高速付费域名可解决加载失败问题（采用与封面加速相同的技术方案）'
   },
-  iOSImageCache: {
-    hd: 'iOS 使用系统默认图片缓存策略',
-    information:
-      '警告：此选项仅建议部分加载不到图片的 iOS 设备开启，若您的设备图片能正常加载请勿开启，开启后可能会导致图片每次都进行网络请求，切换后需要重新冷启动才能生效'
-  },
   imageSkeleton: {
     setting: {
       title: '图片加载动画',

@@ -52,24 +52,13 @@ jest.mock('@utils/fetch', () => ({
   t: jest.fn()
 }))
 
-jest.mock('@utils/thirdParty/image-cache-manager', () => ({
-  __esModule: true,
-  default: {
-    get: jest.fn(() => ({ getPath: async () => null }))
-  },
-  scheduleCleanup: jest.fn()
-}))
-
 import { showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
-import ImageCacheManager from '@utils/thirdParty/image-cache-manager'
 import {
   checkBgmEmoji,
   checkError404,
   checkError451,
-  checkErrorTimeout,
   checkLocalError,
-  clearErrorTimeout,
   computeHeaders,
   computeImageStyles,
   fixedRemoteImageUrl,
@@ -83,8 +72,6 @@ import {
   parseCdnProbeError,
   setError404,
   setError451,
-  setErrorTimeout,
-  timeoutPromise,
   withDefaults
 } from '../utils'
 
@@ -199,7 +186,7 @@ describe('checkBgmEmoji', () => {
   })
 })
 
-describe('setError451 / setError404 / setErrorTimeout 标记', () => {
+describe('setError451 / setError404 标记', () => {
   it('setError451 已存在时返回 true 表示此前已记录 (而非设置成功)', () => {
     const src = 'https://mark.test/451-a.jpg'
     expect(checkError451(src)).toBe(false)
@@ -213,15 +200,6 @@ describe('setError451 / setError404 / setErrorTimeout 标记', () => {
     expect(checkError404(src)).toBe(false)
     setError404(src)
     expect(checkError404(src)).toBe(true)
-  })
-
-  it('clearErrorTimeout 只在实删时返回 true', () => {
-    const src = 'https://mark.test/timeout-a.jpg'
-    setErrorTimeout(src)
-    expect(checkErrorTimeout(src)).toBe(true)
-    expect(clearErrorTimeout(src)).toBe(true)
-    expect(clearErrorTimeout(src)).toBe(false)
-    expect(checkErrorTimeout(src)).toBe(false)
   })
 
   it('不同 src 互不影响', () => {
@@ -427,48 +405,12 @@ describe('getLocalCache / getLocalCacheStatic', () => {
     expect(getLocalCacheStatic(src)).toEqual({ path: src, size: 0 })
   })
 
-  it('内存缓存命中后不再触发下载管理器', async () => {
-    const spy = ImageCacheManager.get as jest.Mock
-    spy.mockClear()
-
+  it('内存缓存命中后返回同一记录', async () => {
     const src = 'https://cache.test/memo-hit.jpg'
-    await getLocalCache(src)
-    await getLocalCache(src)
+    const first = await getLocalCache(src)
+    const second = await getLocalCache(src)
 
-    expect(spy).not.toHaveBeenCalled()
-  })
-})
-
-describe('timeoutPromise', () => {
-  beforeEach(() => {
-    jest.useFakeTimers()
-  })
-
-  afterEach(() => {
-    jest.useRealTimers()
-  })
-
-  it('超时后以固定信息 reject', async () => {
-    const onReject = jest.fn()
-    timeoutPromise().promise.catch(onReject)
-
-    jest.advanceTimersByTime(9999)
-    expect(onReject).not.toHaveBeenCalled()
-
-    jest.advanceTimersByTime(1)
-    await Promise.resolve()
-    expect(onReject).toHaveBeenCalledWith('download timed out')
-  })
-
-  it('clear 后取消定时器不再 reject', async () => {
-    const onReject = jest.fn()
-    const guard = timeoutPromise()
-    guard.promise.catch(onReject)
-    guard.clear()
-
-    jest.advanceTimersByTime(20000)
-    await Promise.resolve()
-    expect(onReject).not.toHaveBeenCalled()
+    expect(second).toBe(first)
   })
 })
 

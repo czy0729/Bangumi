@@ -6,16 +6,13 @@
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Image as RNImage } from 'react-native'
-import { systemStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { logger } from '@utils/dev'
 import { applyLainProxy } from '@utils/proxy'
 import { invalidate } from '@utils/thirdParty/image-cache-manager'
 import { IOS, WEB } from '@constants'
 import {
-  checkErrorTimeout,
   checkLocalError,
-  clearErrorTimeout,
   computeHeaders,
   fixedRemoteImageUrl,
   getAutoSize,
@@ -26,9 +23,7 @@ import {
   probeMagmaCdn,
   removeLocalCache,
   setError404,
-  setError451,
-  setErrorTimeout,
-  timeoutPromise
+  setError451
 } from './utils'
 import {
   COMPONENT,
@@ -332,17 +327,12 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
     handleErrorRef.current = handleError
   })
 
-  /** 缓存图片, 交给系统默认策略处理 */
+  /** 缓存图片: 直接使用远端地址, 缓存交给引擎自管 (expo-image / FastImage) */
   const cacheWithSystemStrategy = useCallback(
     (src: ImageProps['src']) => {
       if (typeof src === 'string') {
         if (checkLocalError(src)) {
           recoveryToBgmCover()
-          return
-        }
-
-        if (checkErrorTimeout(src)) {
-          handleErrorRef.current?.()
           return
         }
       }
@@ -356,6 +346,7 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
       if (uri === 'https:') return false
 
       if (uri) {
+        // 仅安卓: 登记内存命中记录, 供 preGetLocalCache 短路复用 (iOS 由 expo-image 自管, 不再登记)
         if (typeof uri === 'string' && !IOS) getLocalCache(uri)
         if (mountedRef.current) {
           setUri(uri)
@@ -368,57 +359,14 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
   )
 
   /**
-   * 缓存图片
-   * 安卓/iOS v2 走系统策略, iOS 原生走自定义下载
+   * 缓存图片: 统一走系统策略, 缓存交由引擎自管
+   * - iOS: expo-image 内建磁盘 + 内存缓存 (cachePolicy)
+   * - 安卓: FastImage 自带磁盘 + 内存缓存 (getLocalCache 仅登记内存命中记录, 供 preGetLocalCache 短路复用)
+   * 旧 iOS 自研下载缓存 (image-cache-manager 竞速下载到本地 path) 已随 iOS 引擎迁移 expo-image 移除
    */
   const cache = useCallback(
-    async (src: ImageProps['src']) => {
-      if (!IOS || (IOS && systemStore.setting.iosImageCacheV2)) {
-        return cacheWithSystemStrategy(src)
-      }
-
-      try {
-        if (typeof src === 'string') {
-          const fixedSrc = applyLainProxy(fixedRemoteImageUrl(src))
-
-          // 空地址不作处理
-          if (fixedSrc === 'https:' || fixedSrc.includes('https:/img/')) {
-            commitError('error: cache')
-            return false
-          }
-
-          let path: string | undefined
-          const guard = timeoutPromise()
-          try {
-            const result = (await Promise.race([
-              getLocalCache(fixedSrc, headersRef.current),
-              guard.promise
-            ])) as Awaited<ReturnType<typeof getLocalCache>>
-            path = result?.path
-            sizeRef.current = result?.size || 0
-          } catch (error) {
-            guard.clear()
-            setErrorTimeout(propsRef.current.src)
-            handleErrorRef.current?.()
-            return
-          }
-          guard.clear()
-
-          // magma CDN 首次镜像可能未就绪, 触发重试
-          if (fixedSrc.includes(OSS_MEGMA_PREFIX) && path === undefined) {
-            handleErrorRef.current?.()
-          } else {
-            const uri = path || fixedSrc
-            if (mountedRef.current && uriRef.current !== uri) {
-              setUri(uri)
-            }
-          }
-        }
-      } catch (error) {
-        retry(src)
-      }
-    },
-    [commitError, cacheWithSystemStrategy, retry, setUri]
+    (src: ImageProps['src']) => cacheWithSystemStrategy(src),
+    [cacheWithSystemStrategy]
   )
 
   /** 缓存图片 */
@@ -446,7 +394,6 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
         errorCountRef.current = 0
         recoveriedRef.current = false
         fallbackedRef.current = false
-        if (typeof propsRef.current.src === 'string') clearErrorTimeout(propsRef.current.src)
 
         setState(s => ({ ...s, error: false, uri: undefined }))
         cacheRef.current?.(propsRef.current.src)

@@ -2,26 +2,24 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 19:23:20
+ * @Last Modified time: 2026-09-06 20:19:58
  */
 import { Image as RNImage } from 'react-native'
 import { _ } from '@stores'
 import { ensureCacheLimit, getCover400, getStorage, setStorage, showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
 import hash from '@utils/thirdParty/hash'
-import ImageCacheManager, { scheduleCleanup } from '@utils/thirdParty/image-cache-manager'
 import { HOST_BGM_STATIC, HOST_CDN, HOST_IMAGE, IOS, WEB } from '@constants'
 import { getSkeletonColor } from '../skeleton/utils'
 import {
   CACHE_KEY_404,
   CACHE_KEY_451,
-  CACHE_KEY_TIMEOUT,
   DEFAULT_HEADERS,
   MAGMA_PROBE_TIMEOUT,
   OSS_BGM_EMOJI_PREFIX
 } from './ds'
 
-import type { EventType, ImageStyle, TimerRef, ViewStyle } from '@types'
+import type { EventType, ImageStyle, ViewStyle } from '@types'
 import type { ComputeImageStylesOptions, Props, State } from './types'
 
 /** 记录 451 (OSS 鉴定为敏感) 的图片 */
@@ -29,9 +27,6 @@ let memo451: Map<string, boolean>
 
 /** 记录 404 的图片 */
 let memo404: Map<string, boolean>
-
-/** 记录超时的图片 */
-let memoTimeout: Map<string, boolean>
 
 /** 记录加载过的图片（内存级缓存） */
 const memoLocal = new Map<
@@ -57,12 +52,6 @@ const MEMO_LOCAL_LIMIT = 500
     memo404 = new Map(Object.entries((await getStorage(CACHE_KEY_404)) || {}))
   } catch {
     memo404 = new Map()
-  }
-
-  try {
-    memoTimeout = new Map(Object.entries((await getStorage(CACHE_KEY_TIMEOUT)) || {}))
-  } catch {
-    memoTimeout = new Map()
   }
 })()
 
@@ -100,23 +89,6 @@ export function setError404(src: Props['src']) {
 export function checkError404(src: Props['src']): boolean {
   if (!memo404 || typeof src !== 'string') return false
   return memo404.has(hash(src))
-}
-
-/** 记录超时 */
-export function setErrorTimeout(src: Props['src']) {
-  if (!memoTimeout || typeof src !== 'string') return false
-
-  const id = hash(src)
-  if (memoTimeout.has(id)) return true
-
-  memoTimeout.set(id, true)
-  setStorage(CACHE_KEY_TIMEOUT, Object.fromEntries(memoTimeout))
-}
-
-/** 检查超时 */
-export function checkErrorTimeout(src: Props['src']): boolean {
-  if (!memoTimeout || typeof src !== 'string') return false
-  return memoTimeout.has(hash(src))
 }
 
 /** 本地是否已标记错误 */
@@ -276,24 +248,17 @@ export function fixedRemoteImageUrl(url: Props['src']): Props['src'] {
 
 /**
  * 获取本地缓存
- * - iOS：真实文件缓存
- * - Android：仅做命中记录
+ * - 安卓: 仅做内存命中记录 (FastImage 自管缓存), 供 preGetLocalCache 短路复用
+ * - iOS: 旧自研文件缓存路径已随引擎迁移 expo-image 废弃, iOS 不再调用本函数
  */
-export async function getLocalCache(src: string, headers?: Record<string, string>) {
+export async function getLocalCache(src: string) {
   const id = hash(src)
   if (memoLocal.has(id)) return memoLocal.get(id)
 
-  const result = IOS
-    ? await ImageCacheManager.get(src, { headers }).getPath()
-    : { path: src, size: 0 }
+  const result = { path: src, size: 0 }
 
-  if (result) {
-    memoLocal.set(id, result)
-    ensureCacheLimit(memoLocal, MEMO_LOCAL_LIMIT)
-  }
-
-  // 首次实际使用文件缓存时, 顺带调度一次启动后的 LRU 清理
-  if (IOS) scheduleCleanup()
+  memoLocal.set(id, result)
+  ensureCacheLimit(memoLocal, MEMO_LOCAL_LIMIT)
 
   return result
 }
@@ -307,26 +272,6 @@ export function getLocalCacheStatic(src: string) {
 /** 本地文件已损坏或被系统清理时, 移除内存命中记录以便下次重新检查磁盘 */
 export function removeLocalCache(src: string) {
   memoLocal.delete(hash(src))
-}
-
-/** 用于下载超时, 默认 10s, 竞速结束后调用 clear 取消底层定时器 */
-export function timeoutPromise(timeout: number = 10000) {
-  let timerId: TimerRef = null
-
-  const promise = new Promise((_resolve, reject) => {
-    timerId = setTimeout(() => {
-      reject('download timed out')
-    }, timeout)
-  })
-
-  return {
-    promise,
-    /** 取消底层定时器, 避免 Promise.race 胜出后定时器仍触发 unhandled rejection */
-    clear: () => {
-      if (timerId) clearTimeout(timerId)
-      timerId = null
-    }
-  }
 }
 
 /** 指数退避重试间隔, 上限 1 小时 */
@@ -454,16 +399,6 @@ export function computeImageStyles(
     container: _.flatten(container),
     image: _.flatten(image) as ImageStyle
   }
-}
-
-/** 清除指定 src 的超时记录, 返回是否实际清除了 */
-export function clearErrorTimeout(src?: string): boolean {
-  if (!memoTimeout || typeof src !== 'string') return false
-  const id = hash(src)
-  if (!memoTimeout.has(id)) return false
-  memoTimeout.delete(id)
-  setStorage(CACHE_KEY_TIMEOUT, Object.fromEntries(memoTimeout))
-  return true
 }
 
 /** 解析 magma CDN 探测错误码 */

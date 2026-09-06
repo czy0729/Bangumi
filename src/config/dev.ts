@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2026-09-06 16:41:54
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-09-06 16:41:54
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-06 19:23:17
  *
  * 开发调试时用配置
  */
@@ -29,5 +29,17 @@ export const INVIEW_SHOW = false
 /** 显示调试菜单按钮 (安卓、开发用) */
 export const ANDROID_DEV_MENU = true
 
-/** 是否不显示图片 (开发调试用, 当前恒为 false) */
-export const TEXT_ONLY = DEV ? !DEV : false
+/**
+ * 是否不显示图片 (开发调试用, 仅开发模式生效, 默认 false)
+ * 本地可在 gitignored 的 src/config/router.local.ts 导出同名常量覆盖 (同 routes.ts 的本地覆盖模式)
+ */
+export const TEXT_ONLY = (() => {
+  if (!DEV) return false
+
+  try {
+    const local = require('./router.local') as { TEXT_ONLY?: boolean }
+    if (typeof local.TEXT_ONLY === 'boolean') return local.TEXT_ONLY
+  } catch {}
+
+  return false
+})()

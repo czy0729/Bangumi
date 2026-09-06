@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-04-07 06:27:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-07 06:35:09
+ * @Last Modified time: 2026-09-06 19:20:11
  */
-import React from 'react'
 import { StorybookPage } from '@components/storybook'
 import { Image as Component } from './index'
 

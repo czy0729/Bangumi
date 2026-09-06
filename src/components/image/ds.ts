@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-08-11 12:07:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:51:37
+ * @Last Modified time: 2026-09-06 20:20:51
  */
 import { rc } from '@utils/dev'
 import { HOST } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
+
+import type { Props as ImageProps } from './types'
 
 export const COMPONENT = rc(PARENT, 'Image')
 
@@ -41,5 +43,35 @@ export const CACHE_KEY_451 = `${NAMESPACE}|CACHE_ERROR_451` as const
 /** 404 错误标记, 用于忽略下次错误 */
 export const CACHE_KEY_404 = `${NAMESPACE}|CACHE_ERROR_404` as const
 
-/** 超时错误标记, 用于忽略下次错误 */
-export const CACHE_KEY_TIMEOUT = `${NAMESPACE}|CACHE_ERROR_TIMEOUT` as const
+/** 透传给底层引擎的 props 黑名单 (安卓/Web 入口使用, iOS 入口为显式白名单) */
+export const OMIT_KEYS: (keyof ImageProps)[] = [
+  'style',
+  'imageStyle',
+  'src',
+  'size',
+  'height',
+  'border',
+  'borderWidth',
+  'radius',
+  'shadow',
+  'placeholder',
+  'autoSize',
+  'autoHeight',
+  'imageViewer',
+  'imageViewerSrc',
+  'withoutFeedback',
+  'headers',
+  'event',
+  'delay',
+  'scale',
+  'cache',
+  'fadeDuration',
+  'errorToHide',
+  'skeleton',
+  'skeletonType',
+  'textOnly',
+  'priority',
+  'onPress',
+  'onLongPress',
+  'onError'
+]

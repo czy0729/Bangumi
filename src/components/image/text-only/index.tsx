@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-04-12 08:06:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 19:06:52
+ * @Last Modified time: 2026-09-06 19:20:34
  */
-import React, { memo } from 'react'
+import { memo } from 'react'
 import { Flex } from '../../flex'
 import { Text } from '../../text'
 import { styles } from './styles'

@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-04-12 08:22:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 18:38:02
+ * @Last Modified time: 2026-09-06 19:20:24
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import Image from '../image'
 

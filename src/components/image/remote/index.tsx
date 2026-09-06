@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-27 10:25:41
  */
-import React from 'react'
 import Animated, {
   Easing,
   useAnimatedStyle,

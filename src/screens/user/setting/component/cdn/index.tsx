@@ -10,13 +10,12 @@ import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
-import { IOS, WEB } from '@constants'
+import { WEB } from '@constants'
 import { getShows } from '../../utils'
 import CDNCover from './cdn-cover'
 import CDNTest from './cdn-test'
 import ImageFadeIn from './image-fade-in'
 import ImageSkeleton from './image-skeleton'
-import IOSImageCache from './ios-image-cache'
 import { COMPONENT, TEXTS } from './ds'
 
 import type { WithFilterProps } from '../../types'
@@ -43,7 +42,6 @@ function CDN({ filter }: WithFilterProps) {
         {shows.imageSkeleton && <ImageSkeleton filter={filter} />}
         {shows.imageFadeIn && <ImageFadeIn />}
         {!WEB && shows.test && <CDNTest filter={filter} />}
-        {IOS && shows.iOSImageCache && <IOSImageCache filter={filter} />}
       </ActionSheet>
     </>
   )
