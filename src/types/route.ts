@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-08 21:23:02
+ * @Last Modified time: 2026-09-06 17:32:25
  */
 import type { ImageSourcePropType } from 'react-native'
 import type {
@@ -25,6 +25,7 @@ export type Paths = keyof typeof Screens
 export type Configs = {
   initialRouteName: Paths | 'HomeTab'
   initialRouteParams: Record<string, unknown>
+  enabled?: boolean
 }
 
 /**

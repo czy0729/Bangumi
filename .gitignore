@@ -12,12 +12,15 @@
 # Bangumi App
 # ----------------------------------------------------------------------------
 .claude/settings.local.json
+.codebuddy/
 .opencode/
 .zcode/
-.codebuddy/
 \[auth\]/
 \[deprecated\]/
 android.zip
+android/app/src/main/jniLibs/**/*.so
+android/rust/openssl/
+android/rust/target/
 android_/
 dist/
 ext/
@@ -26,10 +29,7 @@ ios.zip
 ios_/
 metro-cache/
 node_modules/
-src/config.local.ts
-android/app/src/main/jniLibs/**/*.so
-android/rust/openssl/
-android/rust/target/
+src/config/*.local.ts
 storybook-static/
 web/test/
 yarn.lock
