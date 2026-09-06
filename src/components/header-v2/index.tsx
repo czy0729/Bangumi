@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2024-11-22 07:43:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-16 02:16:45
+ * @Last Modified time: 2026-09-06 00:00:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component } from '../component'
 import { Track } from '../track'
@@ -33,7 +32,7 @@ export const HeaderV2 = observer(
     headerTitleTextStyle,
     headerRight
   }: HeaderV2Props) => {
-    const { bridgedHeaderRight, headerTitleAlignValue, headerTitleStyleValue } = useHeaderV2({
+    const { headerTitleAlignValue, headerTitleStyleValue } = useHeaderV2({
       headerRight,
       headerTitleAlign,
       headerTitleStyle
@@ -51,7 +50,7 @@ export const HeaderV2 = observer(
           headerTitleSize={headerTitleSize}
           headerTitleAppend={headerTitleAppend}
           headerTitleTextStyle={headerTitleTextStyle}
-          headerRight={bridgedHeaderRight}
+          headerRight={headerRight}
         />
         <Track title={title} domTitle={domTitle} hm={hm} alias={alias} />
       </Component>

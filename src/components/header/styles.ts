@@ -6,6 +6,8 @@
  */
 import { _ } from '@stores'
 
+import type { StatusBarEventsType } from './types'
+
 export const styles = _.create({
   headerLeftContainerStyle: {
     marginLeft: _.ios(-4, -9)
@@ -15,12 +17,14 @@ export const styles = _.create({
   }
 })
 
-export const colors = {
+type GetColor = (fixed: boolean) => string
+
+export const colors: Partial<Record<StatusBarEventsType, GetColor>> = {
   Subject: (fixed: boolean) => (_.isDark || !fixed ? '#fff' : '#000'),
   Tinygrail: () => _.colorTinygrailPlain
 }
 
-export const backgroundColors = {
+export const backgroundColors: Partial<Record<StatusBarEventsType, GetColor>> = {
   Tinygrail: () => _.colorTinygrailContainer
 }
 

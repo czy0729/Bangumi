@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:55:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-13 17:42:13
+ * @Last Modified time: 2026-09-06 00:00:00
  */
-import React, { useCallback, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { View } from 'react-native'
-import { _, StoreContext, systemStore } from '@stores'
+import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { IOS } from '@constants'
 import { IOS_IPA } from '@src/config'
 import Back from './back'
 import { backgroundColors, colors, styles } from './styles'
 
+import type { ReactNode, ScrollEvent } from '@types'
 import type { UpdateHeaderProps } from './types'
 
 export const HEADER_TRANSITION_HEIGHT = 32
@@ -21,7 +22,6 @@ export const HEADER_TRANSITION_HEIGHT = 32
 export const updateHeader = ({
   // 必要
   navigation,
-  storeContextId,
   title = '',
   headerTitleAlign,
   headerTitleStyle,
@@ -37,9 +37,9 @@ export const updateHeader = ({
   if (!navigation) return
 
   const titleText = systemStore.setting.s2t ? s2t(title) : title
-  const tintColor = colors[statusBarEventsType] ? colors[statusBarEventsType](fixed) : undefined
-  const backgroundColor = backgroundColors[statusBarEventsType]
-    ? backgroundColors[statusBarEventsType](fixed)
+  const tintColor = statusBarEventsType ? colors[statusBarEventsType]?.(fixed) : undefined
+  const backgroundColor = statusBarEventsType
+    ? backgroundColors[statusBarEventsType]?.(fixed)
     : undefined
   const headerTitleStyles = [
     {
@@ -75,12 +75,12 @@ export const updateHeader = ({
       paddingLeft: 5
     },
     headerLeft: () => (
-      <StoreContext.Provider value={storeContextId}>
+      <>
         <View style={styles.headerLeftContainerStyle}>
           <Back navigation={navigation} color={tintColor} onPress={onBackPress} />
         </View>
-        {headerLeft}
-      </StoreContext.Provider>
+        {headerLeft && headerLeft()}
+      </>
     ),
 
     /** ==================== headerTitle ==================== */
@@ -91,7 +91,7 @@ export const updateHeader = ({
 
     /** ==================== headerRight ==================== */
     headerRightContainerStyle: {},
-    headerRight: undefined
+    headerRight: undefined as (() => ReactNode) | undefined
   }
 
   if (headerRight) {
@@ -99,9 +99,7 @@ export const updateHeader = ({
       paddingRight: 6
     }
     options.headerRight = () => (
-      <StoreContext.Provider value={storeContextId}>
-        <View style={styles.headerRightContainerStyle}>{headerRight()}</View>
-      </StoreContext.Provider>
+      <View style={styles.headerRightContainerStyle}>{headerRight()}</View>
     )
   }
 
@@ -144,7 +142,7 @@ export const updateHeader = ({
 
   /*** @fixed iOS IPA 上有诡异 bug, headerRight 需要延迟渲染, 否则可能会渲染错位 */
   const isDelayRender = !!(IOS_IPA && options?.headerRight)
-  let delayRenderHeaderRight: any
+  let delayRenderHeaderRight: (() => ReactNode) | undefined
   if (isDelayRender) {
     delayRenderHeaderRight = options.headerRight
     options.headerRight = () => null
@@ -165,7 +163,7 @@ export const useOnScroll = () => {
   const yRef = useRef(0)
   const [fixed, setFixed] = useState(false)
   const onScroll = useCallback(
-    ({ nativeEvent }) => {
+    ({ nativeEvent }: ScrollEvent) => {
       const { y } = nativeEvent.contentOffset
       yRef.current = y
 

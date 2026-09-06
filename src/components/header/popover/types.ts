@@ -25,6 +25,6 @@ export type Props<ItemT extends string[] | readonly string[]> = PropsWithChildre
     menuStyle?: ViewStyle
 
     /** Popover onSelect */
-    onSelect?: (title?: ItemT[number]) => any
+    onSelect?: (title?: ItemT[number]) => void
   }>
 >

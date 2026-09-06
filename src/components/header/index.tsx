@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-16 02:10:13
  */
-import React, { useContext, useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { observer } from 'mobx-react'
-import { _, StoreContext } from '@stores'
+import { _, useStoreContextBridge } from '@stores'
 import { r } from '@utils/dev'
 import { useNavigation } from '@utils/hooks'
 import { WEB } from '@constants'
@@ -46,19 +46,26 @@ const Header = observer(
 
     /**
      * 原生头部渲染 headerLeft / headerRight 时位于 StoreContext.Provider 之外,
-     * 需要把当前页面的上下文 id 传给 updateHeader, 在 options JSX 外包一层 Provider
+     * 通过桥接 hook 把当前页面的上下文 id 包进渲染函数, 再传给 updateHeader
      */
-    const storeContextId = useContext(StoreContext)
+    const bridge = useStoreContextBridge()
+    const bridgedHeaderLeft = useMemo(
+      () => (headerLeft ? bridge(() => headerLeft) : undefined),
+      [headerLeft, bridge]
+    )
+    const bridgedHeaderRight = useMemo(
+      () => (headerRight ? bridge(headerRight) : undefined),
+      [headerRight, bridge]
+    )
 
     useEffect(() => {
       updateHeader({
         navigation,
-        storeContextId,
+        headerLeft: bridgedHeaderLeft,
+        headerRight: bridgedHeaderRight,
         mode,
         fixed,
         title,
-        headerLeft,
-        headerRight,
         headerTitleAlign: _.device(headerTitleAlign, 'center'),
         headerTitleStyle,
         statusBarEventsType,
@@ -66,12 +73,11 @@ const Header = observer(
       })
     }, [
       navigation,
-      storeContextId,
+      bridgedHeaderLeft,
+      bridgedHeaderRight,
       mode,
       fixed,
       title,
-      headerLeft,
-      headerRight,
       headerTitleAlign,
       headerTitleStyle,
       statusBarEventsType,

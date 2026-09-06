@@ -4,10 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-09 03:04:58
  */
+import type React from 'react'
 import type Placeholder from './placeholder'
 import type Popover from './popover'
 import type { Expand, ReactNode, TextStyle, WithNavigation } from '@types'
 import type { TrackProps } from '../track'
+
+export type StatusBarEventsType = 'Subject' | 'Topic' | 'Tinygrail'
 
 export type Props = {
   /** 模式 */
@@ -50,14 +53,14 @@ export type Props = {
   statusBarEvents?: boolean
 
   /** 预设的状态栏主题 */
-  statusBarEventsType?: 'Subject' | 'Topic' | 'Tinygrail'
+  statusBarEventsType?: StatusBarEventsType
 
   /** 覆写后退点击回调 */
   onBackPress?: () => void
 }
 
 export type HeaderComponentType = {
-  (props: Props): JSX.Element
+  (props: Props): React.JSX.Element
   Placeholder: typeof Placeholder
   Popover: typeof Popover
 }
@@ -69,14 +72,13 @@ export type UpdateHeaderProps = Expand<
       | 'title'
       | 'headerTitleAlign'
       | 'headerTitleStyle'
-      | 'headerLeft'
       | 'headerRight'
       | 'mode'
       | 'fixed'
       | 'statusBarEventsType'
     > & {
-      /** 页面 Store 上下文 id, 用于 headerLeft / headerRight 桥接 StoreContext */
-      storeContextId?: string
+      /** 左侧渲染函数, 已经过 useStoreContextBridge 桥接 StoreContext */
+      headerLeft?: () => ReactNode
 
       onBackPress?: () => void
     }

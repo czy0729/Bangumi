@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-02 16:52:51
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
@@ -51,7 +50,7 @@ function Popover<ItemT extends string[] | readonly string[]>({
             )
           }
         : {
-            data: data || ([] as any),
+            data: data || ([] as ItemT),
             onSelect
           })}
       {...other}

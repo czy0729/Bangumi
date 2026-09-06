@@ -1,11 +1,15 @@
 /*
  * @Author: czy0729
  * @Date: 2026-09-05 23:11:54
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-09-05 23:11:54
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-06 00:00:00
  */
-import React, { useContext, useMemo } from 'react'
+import { useContext, useMemo } from 'react'
 import { StoreContext } from './utils'
+
+import type { ReactNode } from '@types'
+
+type RenderFn = (...args: unknown[]) => ReactNode
 
 /**
  * 页面 Store 上下文桥接
@@ -20,13 +24,12 @@ export function useStoreContextBridge() {
   const id = useContext(StoreContext)
 
   return useMemo(() => {
-    return <T extends Function>(render: T): T => {
+    return (render: RenderFn): RenderFn => {
       if (!id || typeof render !== 'function') return render
 
-      const wrapped = (...args: any[]) => (
+      return (...args: unknown[]) => (
         <StoreContext.Provider value={id}>{render(...args)}</StoreContext.Provider>
       )
-      return wrapped as unknown as T
     }
   }, [id])
 }
