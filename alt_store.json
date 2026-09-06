@@ -11,6 +11,15 @@
       "localizedDescription": "Bangumi for iOS",
       "versions": [
         {
+          "version": "8.39.3",
+          "buildVersion": "1",
+          "date": "2026-09-06T12:30:49Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/upstream-8.39.3/Bangumi-8.39.3-unsigned.ipa",
+          "size": 22656345,
+          "sha256": "36981de3854437c937b441e92cdeb3afdfa6212d8324bd19eaf2eda03aff2288",
+          "localizedDescription": "Automated unsigned IPA build for upstream Bangumi tag `8.39.3`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.39.3\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.39.3.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/34032611288"
+        },
+        {
           "version": "8.39.0",
           "buildVersion": "1",
           "date": "2026-08-27T19:28:27Z",
