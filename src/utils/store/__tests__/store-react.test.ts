@@ -1,14 +1,17 @@
 /*
- * createStoreSubscription 单元测试 (useStoreSelector 可测核心)
  * @Author: czy0729
- * @Date: 2026-08-23 14:00:00
+ * @Date:  2026-08-23 14:00:00
+ * @Last Modified by:   czy0729
+ * @Last Modified time: 2026-09-06 18:29:06
+ *
+ * createStoreSubscription 单元测试 (useStoreSelector 可测核心)
  */
 import { observable, runInAction } from 'mobx'
 import { createStoreSubscription } from '../react'
 
 import type { IObservableArray } from 'mobx'
 
-// 覆盖 jest.setup.js 的精简 mobx mock
+// 覆盖 jest/setup.js 的精简 mobx mock
 jest.mock('mobx', () => jest.requireActual('mobx'))
 
 describe('createStoreSubscription', () => {

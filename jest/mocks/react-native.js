@@ -1,9 +1,10 @@
 /*
  * @Author: czy0729
  * @Date: 2026-05-10 17:23:15
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-05-10 17:23:15
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-06 18:27:53
  */
+
 // 与 RN StyleSheet.flatten 语义一致: falsy 返回 undefined, 对象原样返回, 数组递归展开后后者覆盖前者
 function flattenStyle(style) {
   if (!style) return undefined
@@ -44,7 +45,9 @@ module.exports = {
   },
   NativeModules: {},
   NativeEventEmitter: class NativeEventEmitter {
-    addListener() { return { remove: jest.fn() } }
+    addListener() {
+      return { remove: jest.fn() }
+    }
     removeAllListeners() {}
   },
   BackHandler: {

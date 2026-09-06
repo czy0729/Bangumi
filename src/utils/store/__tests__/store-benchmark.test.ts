@@ -11,7 +11,7 @@ import { observable, toJS } from 'mobx'
 import StoreModern from '../index'
 import LegacyStore from '../legacy'
 
-// 覆盖 jest.setup.js 的精简 mobx mock, 使用真实实现
+// 覆盖 jest/setup.js 的精简 mobx mock, 使用真实实现
 jest.mock('mobx', () => jest.requireActual('mobx'))
 
 const FIXED_TS = 1700000000

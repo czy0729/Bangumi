@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2024-10-27 04:59:42
- * @Last Modified by:   czy0729
- * @Last Modified time: 2024-10-27 04:59:42
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-06 17:41:43
  */
 import { registerRootComponent } from 'expo'
 

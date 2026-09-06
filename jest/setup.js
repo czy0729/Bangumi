@@ -4,6 +4,10 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2026-09-05 04:42:03
  */
+const path = require('path')
+
+// 本文件位于 jest/ 子目录, mock 注册需以项目根目录为基准解析
+const mockRootDir = path.resolve(__dirname, '..')
 
 // 全局 mock，避免每个测试文件重复声明
 jest.mock('expo-asset', () => ({}))
@@ -21,8 +25,9 @@ jest.mock('@constants/device', () => ({
 }))
 
 // 完整覆盖 src/utils/dev 全部导出, 测试文件无需再局部 mock;
-// 需断言日志时直接 import { logger } from '@utils/dev' (mock 按 resolved 路径注册, 相对路径导入同样生效)
-jest.mock(__dirname + '/src/utils/dev', () => ({
+// 需断言日志时直接 import { logger } from '@utils/dev' (mock 按 resolved 路径注册, 相对路径导入同样生效);
+// 用 doMock 而非 mock: 路径参数引用 mockRootDir, mock 会被 babel-plugin-jest-hoist 提升到声明之前
+jest.doMock(mockRootDir + '/src/utils/dev', () => ({
   __esModule: true,
   globalLog: jest.fn(),
   globalWarn: jest.fn(),
@@ -47,22 +52,22 @@ jest.mock(__dirname + '/src/utils/dev', () => ({
 jest.mock(
   '@utils',
   () => {
-    const { resolveEngine } = require(__dirname + '/src/utils/thirdParty/html/engines')
+    const { resolveEngine } = require(mockRootDir + '/src/utils/thirdParty/html/engines')
     const cheerio = target => {
       const $ = resolveEngine()
       return typeof target === 'string' ? $.load(target) : $(target)
     }
-    const { lastDate, relativeEnToEpoch, relativeToEpoch } = require(__dirname +
+    const { lastDate, relativeEnToEpoch, relativeToEpoch } = require(mockRootDir +
       '/src/utils/utils/relative-time')
-    const { t2s } = require(__dirname + '/src/utils/thirdParty/cn-char')
-    const { htmlMatch } = require(__dirname + '/src/utils/thirdParty/html/match')
-    const { getFormhash } = require(__dirname + '/src/utils/thirdParty/html/formhash')
-    const { cEach, cPagination, cText, HTMLDecode } = require(__dirname +
+    const { t2s } = require(mockRootDir + '/src/utils/thirdParty/cn-char')
+    const { htmlMatch } = require(mockRootDir + '/src/utils/thirdParty/html/match')
+    const { getFormhash } = require(mockRootDir + '/src/utils/thirdParty/html/formhash')
+    const { cEach, cPagination, cText, HTMLDecode } = require(mockRootDir +
       '/src/utils/thirdParty/html/parse')
-    const { removeHTMLTag, HTMLTrim } = require(__dirname + '/src/utils/thirdParty/html/tag')
-    const { asc, desc } = require(__dirname + '/src/utils/utils/sort')
-    const { safeObject, titleCase, trim } = require(__dirname + '/src/utils/utils/base')
-    const { matchAvatar, matchUserId } = require(__dirname + '/src/utils/match')
+    const { removeHTMLTag, HTMLTrim } = require(mockRootDir + '/src/utils/thirdParty/html/tag')
+    const { asc, desc } = require(mockRootDir + '/src/utils/utils/sort')
+    const { safeObject, titleCase, trim } = require(mockRootDir + '/src/utils/utils/base')
+    const { matchAvatar, matchUserId } = require(mockRootDir + '/src/utils/match')
 
     // freeze / cnjp / getOnAir 真实实现依赖 store 设置或 toLocal, 保持语义等价的简化实现
     function freeze(val) {

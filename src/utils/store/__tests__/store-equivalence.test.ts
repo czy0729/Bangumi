@@ -12,7 +12,7 @@ import StoreModern from '../index'
 import LegacyStore from '../legacy'
 import * as storeUtils from '../utils'
 
-// 覆盖 jest.setup.js 的精简 mobx mock, 差分测试需要真实实现
+// 覆盖 jest/setup.js 的精简 mobx mock, 差分测试需要真实实现
 jest.mock('mobx', () => jest.requireActual('mobx'))
 
 const FIXED_TS = 1700000000

@@ -6,13 +6,13 @@
  *
  * barrel 与 jest 虚拟 mock 一致性兜底
  *
- * jest.setup.js 为 '@constants' 注册了 virtual mock, 与真实导出平行维护。
+ * jest/setup.js 为 '@constants' 注册了 virtual mock, 与真实导出平行维护。
  * 本测试确保 mock 用到的 key 始终能在真实 barrel 中找到, 防止常量重命名/删除后 mock 静默漂移。
  */
 import * as mockedConstants from '@constants'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// 裸 '@constants' 在 jest.config moduleNameMapper 中无映射(仅靠 jest.setup.js 的 virtual mock 解析),
+// 裸 '@constants' 在 jest.config moduleNameMapper 中无映射(仅靠 jest/setup.js 的 virtual mock 解析),
 // requireActual('@constants') 会抛 Cannot find module, 故用相对路径解析真实 barrel
 const realConstants = jest.requireActual('../index') as Record<string, any>
 

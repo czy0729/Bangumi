@@ -10,15 +10,15 @@ module.exports = {
   globals: {
     __DEV__: true
   },
-  setupFiles: ['./jest.setup.js'],
+  setupFiles: ['./jest/setup.js'],
   transform: {
-    '^.+\\.[jt]sx?$': path.resolve(__dirname, 'jest-transformer.js')
+    '^.+\\.[jt]sx?$': path.resolve(__dirname, 'jest/transformer.js')
   },
   transformIgnorePatterns: [
     '/node_modules/(?!expo-*)'
   ],
   moduleNameMapper: {
-    '^.+\\.(png|jpg|jpeg|gif|webp)$': '<rootDir>/__mocks__/fileMock.js',
+    '^.+\\.(png|jpg|jpeg|gif|webp)$': '<rootDir>/jest/mocks/fileMock.js',
     '^@_$': '<rootDir>',
     '^@/(.*)$': '<rootDir>/$1',
     '^@_/(.*)$': '<rootDir>/src/screens/_/$1',
@@ -32,9 +32,9 @@ module.exports = {
     '^@types/(.*)$': '<rootDir>/src/types/$1',
     '^@utils/(.*)$': '<rootDir>/src/utils/$1',
     '^@src/(.*)$': '<rootDir>/src/$1',
-    '^react-native$': '<rootDir>/__mocks__/react-native.js',
-    '^expo-web-browser$': '<rootDir>/__mocks__/expo-web-browser.js',
-    '^expo-modules-core(/.*)?$': '<rootDir>/__mocks__/expo-modules-core.js'
+    '^react-native$': '<rootDir>/jest/mocks/react-native.js',
+    '^expo-web-browser$': '<rootDir>/jest/mocks/expo-web-browser.js',
+    '^expo-modules-core(/.*)?$': '<rootDir>/jest/mocks/expo-modules-core.js'
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
