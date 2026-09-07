@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-11 05:47:01
+ * @Last Modified time: 2026-09-07 23:51:00
  */
 import { toJS } from 'mobx'
 import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
@@ -16,6 +16,7 @@ import {
   removeHTMLTag,
   updateVisibleBottom
 } from '@utils'
+import { ensureArrayLimit } from '@utils/cache'
 import CacheManager from '@utils/cache-manager'
 import { baiduTranslate, t } from '@utils/fetch'
 import { generate, get, lx, lxCache, update } from '@utils/kv'
@@ -29,6 +30,9 @@ import Fetch from './fetch'
 import type { CompletionItem, Id, ScrollEvent, TopicType } from '@types'
 import type { GenerateType } from '@utils/kv/type'
 import type { RakuenReplyType } from '@constants/html/types'
+
+/** AI 聊天记录上限 */
+const CHAT_VALUES_MAX = 10
 
 export default class Action extends Fetch {
   /** 缓存用户头像关系 */
@@ -757,7 +761,7 @@ export default class Action extends Fetch {
       userId: this.userId || 0,
       _loaded: now
     })
-    if (newValues.length > 10) newValues.shift()
+    ensureArrayLimit(newValues, CHAT_VALUES_MAX, true)
 
     const { length } = newValues
     this.setState({

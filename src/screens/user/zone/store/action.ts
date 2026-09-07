@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-04-08 18:28:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-07 05:16:21
+ * @Last Modified time: 2026-09-07 23:50:37
  */
 import { toJS } from 'mobx'
 import { systemStore, timelineStore, uiStore, userStore } from '@stores'
 import { USER_STATS_TYPES } from '@stores/users/ds'
 import { feedback, getTimestamp, info, loading } from '@utils'
+import { ensureArrayLimit } from '@utils/cache'
 import { fetchHTML, t } from '@utils/fetch'
 import { generate, get, update } from '@utils/kv'
 import { MUSUME_PROMPT, MUSUME_ZONE_PROMPT } from '@utils/kv/ds'
@@ -29,6 +30,9 @@ import type {
   TimeLineType,
   TimeLineTypeCn
 } from '@types'
+
+/** AI 聊天记录上限 */
+const CHAT_VALUES_MAX = 10
 
 export default class Action extends Fetch {
   private y = 0
@@ -483,7 +487,7 @@ export default class Action extends Fetch {
       userId: this.userId || 0,
       _loaded: now
     })
-    if (newValues.length > 10) newValues.shift()
+    ensureArrayLimit(newValues, CHAT_VALUES_MAX, true)
 
     const { length } = newValues
     this.setState({

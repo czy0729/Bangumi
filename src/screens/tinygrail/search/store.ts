@@ -2,17 +2,21 @@
  * @Author: czy0729
  * @Date: 2019-09-03 21:52:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-17 04:58:20
+ * @Last Modified time: 2026-09-07 23:50:47
  */
 import { observable } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { info } from '@utils'
+import { ensureArrayLimit } from '@utils/cache'
 import { computedFn } from '@utils/computed-fn'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { EXCLUDE_STATE, NAMESPACE, STATE } from './ds'
 
 import type { MonoId, Navigation } from '@types'
+
+/** 历史记录上限 */
+const HISTORY_MAX = 10
 
 export default class ScreenTinygrailSearch extends store<typeof STATE> {
   state = observable(STATE)
@@ -56,7 +60,7 @@ export default class ScreenTinygrailSearch extends store<typeof STATE> {
     } else {
       _history = [id, ..._history.filter(item => item !== id)]
     }
-    if (_history.length > 10) _history.pop()
+    ensureArrayLimit(_history, HISTORY_MAX)
 
     this.setState({
       history: _history

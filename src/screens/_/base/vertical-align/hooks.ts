@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2026-08-20 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-20 00:00:00
+ * @Last Modified time: 2026-09-07 23:37:45
  */
 import { useCallback, useEffect, useState } from 'react'
+import { ensureCacheLimit } from '@utils/cache'
 import { removeSpecCharacters } from './utils'
 
 import type { TextLayoutEvent } from 'react-native'
@@ -12,11 +13,8 @@ import type { UseVerticalAlignDetectionParams } from './types'
 
 const memo = new Map<string, boolean>()
 
-/** 防止缓存无限增长, 超限时清空 */
-function setMemo(key: string, value: boolean) {
-  if (memo.size >= 500) memo.clear()
-  memo.set(key, value)
-}
+/** 缓存上限, 超限淘汰最早写入 */
+const CACHE_MAX = 500
 
 /** 检测文本是否包含需要优化的特殊字符 */
 export function useVerticalAlignDetection({ text, onHit }: UseVerticalAlignDetectionParams) {
@@ -29,7 +27,8 @@ export function useVerticalAlignDetection({ text, onHit }: UseVerticalAlignDetec
       if (typeof text === 'string' && text) {
         const next = e.nativeEvent.lines?.[0]?.ascender <= 2
         if (next) setFlag(true)
-        setMemo(text, next)
+        memo.set(text, next)
+        ensureCacheLimit(memo, CACHE_MAX)
       }
     },
     [flag, text]

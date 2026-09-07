@@ -76,7 +76,8 @@
 
 # 模块级缓存规范
 
-- **Map 缓存需要上限时，统一使用 `@utils/cache` 的 `ensureCacheLimit(map, maxSize)`**，在每次 `set` 之后调用即可（FIFO 淘汰最早条目）；禁止自建「超过上限就删除」的私有工具函数
+- **Map / Set 缓存需要上限时，统一使用 `@utils/cache` 的 `ensureCacheLimit(cache, maxSize)`**，在每次 `set` / `add` 之后调用即可（FIFO 淘汰最早条目，单次只淘汰 1 条）；禁止自建「超过上限就删除」的私有工具函数或 LRU 类
+- **数组缓存需要上限时，统一使用 `@utils/cache` 的 `ensureArrayLimit(list, maxLength)`**，原地 `splice` 从尾部裁剪并返回同一引用；MobX observable 数组需在 `runInAction` 内调用
 - decode / 映射 / 去重等纯函数级缓存优先做成「模块级 Map + `ensureCacheLimit`」，缓存 key 要包含会影响结果的全部输入（如屏蔽词列表需加入内容指纹，修改后缓存自动失效）
 
 # MobX 规范

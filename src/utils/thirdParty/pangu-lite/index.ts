@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2025-08-19 05:56:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-19 20:47:16
+ * @Last Modified time: 2026-09-07 23:40:09
  */
+import { ensureCacheLimit } from '@utils/cache'
 
 // ------------------- 配置 -------------------
 /** 最大缓存数 */
-const LRU_CACHE_LIMIT = 500
+const CACHE_LIMIT = 500
 
 /** 字符串小于多少长度才允许缓存 */
 const LRU_CACHE_LENGTH = 50
@@ -182,32 +183,8 @@ function customReplacer(text: string): string {
   return newText.replace(new RegExp(PLACEHOLDER, 'g'), '//')
 }
 
-// ------------------- 缓存 LRU -------------------
-class LRUCache<K, V> {
-  private limit: number
-  private map: Map<K, V>
-  constructor(limit = 200) {
-    this.limit = limit
-    this.map = new Map()
-  }
-  get(key: K): V | undefined {
-    if (!this.map.has(key)) return undefined
-    const val = this.map.get(key)!
-    this.map.delete(key)
-    this.map.set(key, val)
-    return val
-  }
-  set(key: K, val: V) {
-    if (this.map.has(key)) this.map.delete(key)
-    this.map.set(key, val)
-    if (this.map.size > this.limit) {
-      const oldest = this.map.keys().next().value
-      this.map.delete(oldest)
-    }
-  }
-}
-
-const cache = new LRUCache<string, string>(LRU_CACHE_LIMIT)
+// ------------------- 缓存 (FIFO) -------------------
+const cache = new Map<string, string>()
 
 // ------------------- 导出 API -------------------
 /** 文案排版转换 */
@@ -225,6 +202,7 @@ export function spacing(text: string): string {
   const newText = customReplacer(replacerM(text))
   if (shouldCache) {
     cache.set(text, newText)
+    ensureCacheLimit(cache, CACHE_LIMIT)
   }
 
   return newText

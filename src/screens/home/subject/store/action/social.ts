@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-26 10:09:15
+ * @Last Modified time: 2026-09-07 23:51:21
  */
 import { toJS } from 'mobx'
 import {
@@ -15,6 +15,7 @@ import {
   userStore
 } from '@stores'
 import { confirm, copy, feedback, getTimestamp, info } from '@utils'
+import { ensureArrayLimit } from '@utils/cache'
 import { t } from '@utils/fetch'
 import { generate, get, update } from '@utils/kv'
 import { MUSUME_PROMPT, MUSUME_SUBJECT_PROMPT } from '@utils/kv/ds'
@@ -31,6 +32,9 @@ import { TEXT_COPY_COMMENT, TEXT_LIKES } from '../../ds'
 import Actions from './actions'
 
 import type { CompletionItem, Id, Navigation, UserId } from '@types'
+
+/** AI 聊天记录上限 */
+const CHAT_VALUES_MAX = 10
 
 /** 社交互动 (屏蔽 / 追踪 / 吐槽 / 锐评) */
 export default class Social extends Actions {
@@ -298,7 +302,7 @@ export default class Social extends Actions {
       userId: this.userId || 0,
       _loaded: now
     })
-    if (newValues.length > 10) newValues.shift()
+    ensureArrayLimit(newValues, CHAT_VALUES_MAX, true)
 
     const { length } = newValues
     this.setState({

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-06-21 05:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 04:11:21
+ * @Last Modified time: 2026-09-07 23:51:14
  */
 import { toJS } from 'mobx'
 import { rakuenStore, systemStore } from '@stores'
 import { feedback, getTimestamp, info, removeHTMLTag } from '@utils'
+import { ensureArrayLimit } from '@utils/cache'
 import { t } from '@utils/fetch'
 import { generate, get, update } from '@utils/kv'
 import { MUSUME_BLOG_PROMPT, MUSUME_PROMPT } from '@utils/kv/ds'
@@ -16,6 +17,9 @@ import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
 
 import type { CompletionItem, Id, TopicId } from '@types'
+
+/** AI 聊天记录上限 */
+const CHAT_VALUES_MAX = 10
 
 export default class Action extends Fetch {
   /** 本地化 */
@@ -380,7 +384,7 @@ export default class Action extends Fetch {
       userId: this.userId || 0,
       _loaded: now
     })
-    if (newValues.length > 10) newValues.shift()
+    ensureArrayLimit(newValues, CHAT_VALUES_MAX, true)
 
     const { length } = newValues
     this.setState({

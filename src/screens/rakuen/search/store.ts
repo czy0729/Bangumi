@@ -2,14 +2,18 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-02-12 05:23:04
+ * @Last Modified time: 2026-09-07 23:51:08
  */
 import { computed, observable } from 'mobx'
 import { searchStore, systemStore } from '@stores'
 import { feedback, info, updateVisibleBottom } from '@utils'
+import { ensureArrayLimit } from '@utils/cache'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
+
+/** 历史记录上限 */
+const HISTORY_MAX = 10
 
 export default class ScreenRakuenSearch extends store<typeof STATE> {
   state = observable(STATE)
@@ -100,8 +104,8 @@ export default class ScreenRakuenSearch extends store<typeof STATE> {
 
     const _history = [...history]
     if (!history.includes(value)) _history.unshift(value)
+    ensureArrayLimit(_history, HISTORY_MAX)
 
-    if (_history.length > 10) _history.pop()
     this.setState({
       history: _history,
       searching: true,

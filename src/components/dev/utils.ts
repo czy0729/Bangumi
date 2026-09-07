@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-10-19 13:47:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-27 07:20:03
+ * @Last Modified time: 2026-09-07 23:36:47
  */
 import { observable, runInAction } from 'mobx'
 import { date, getTimestamp } from '@utils'
 import { syncSystemStore } from '@utils/async'
+import { ensureArrayLimit } from '@utils/cache'
 import { DEV } from '@constants'
 
 import type { LogEntry } from './types'
@@ -32,7 +33,7 @@ export function devLog(...args: unknown[]) {
           })
         })
 
-      if (logs.length > LOGS_LIMIT) logs.splice(LOGS_LIMIT)
+      ensureArrayLimit(logs, LOGS_LIMIT)
     })
   }, 40)
 }
