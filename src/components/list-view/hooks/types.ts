@@ -53,6 +53,7 @@ export type UseListCommonPropsOptions<ItemT> = {
   | 'maxToRenderPerBatch'
   | 'updateCellsBatchingPeriod'
   | 'initialNumToRender'
+  | 'windowSize'
 >
 
 /** 提取 T[K] 的函数签名，作为合并回调的参数类型 */

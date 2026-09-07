@@ -4,12 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-25 20:05:18
  */
-import React, { Suspense } from 'react'
+import { Suspense } from 'react'
 import { observer } from 'mobx-react'
 import { BackAndroid, Component, DEV, Heatmap, ImageViewer } from '@components'
 import { systemStore, uiStore } from '@stores'
 import { r } from '@utils/dev'
-import { useGlobalMount, useKeepAwake } from '@utils/hooks'
+import { useGlobalMount, useKeepAwake, useRuntimeCacheRelease } from '@utils/hooks'
 import { ANDROID, WEB } from '@constants'
 import { ANDROID_DEV_MENU } from '@src/config'
 import { LikesGrid } from '../likes-grid'
@@ -25,6 +25,7 @@ export const AppCommon = observer(() => {
 
   useGlobalMount()
   useKeepAwake()
+  useRuntimeCacheRelease()
 
   return (
     <Suspense>

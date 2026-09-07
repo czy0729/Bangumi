@@ -57,6 +57,7 @@ const ListViewComponent = forwardRef(function ListViewComponent<ItemT>(
     optimize = DEFAULT_PROPS.optimize,
     maxToRenderPerBatch,
     updateCellsBatchingPeriod,
+    windowSize,
     estimatedItemHeight,
     itemHeightKey,
     showFooter = DEFAULT_PROPS.showFooter,
@@ -146,7 +147,8 @@ const ListViewComponent = forwardRef(function ListViewComponent<ItemT>(
     maxToRenderPerBatch,
     optimize,
     updateCellsBatchingPeriod,
-    initialNumToRender
+    initialNumToRender,
+    windowSize
   })
 
   const renderList = useRenderList<ItemT>({

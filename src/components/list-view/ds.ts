@@ -54,13 +54,17 @@ export const SCROLL_CALLBACK = () => {
 }
 
 /** FlatList 每批渲染的最大条目数 */
-export const DEFAULT_MAX_TO_RENDER_PER_BATCH = 40
+export const DEFAULT_MAX_TO_RENDER_PER_BATCH = 16
 
 /** FlatList 更新批次的时间间隔（毫秒） */
 export const DEFAULT_UPDATE_CELLS_BATCHING_PERIOD = 40
 
-/** FlatList 虚拟化窗口大小，决定屏幕外保留多少屏的渲染内容 */
-export const DEFAULT_WINDOW_SIZE = 16
+/**
+ * FlatList 虚拟化窗口大小，决定屏幕外保留多少屏的渲染内容
+ * - 值为视口高度的倍数, 上下各约一半; 过大时屏幕外的视图与已解码图片会持续占内存
+ * - 快速滑动白屏明显时可调回 11
+ */
+export const DEFAULT_WINDOW_SIZE = 9
 
 /** 滑动距离超过此阈值（像素）才锁定滚动状态，防止轻微触碰误触发 */
 export const SCROLL_THRESHOLD = 16

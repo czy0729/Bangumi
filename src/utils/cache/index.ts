@@ -7,15 +7,19 @@
 
 /**
  * 确保 Map / Set 缓存不超过指定大小，超出时淘汰最早的条目（FIFO）
- * - 单次调用只淘汰 1 条, 依赖「每次 set 后调用」的约定; 批量 set 的调用点需循环调用
+ * - 内部 while 收敛到 maxSize, 调用方无需关心超出多少, 批量 set 的场景同样安全
+ * - 淘汰为 O(1) 的 delete(firstKey), 不遍历不排序, 可安全用于 HTML 解析等热路径
  * - Map 与 Set 的 keys() / delete() 签名一致, 故可共用
+ * - maxSize <= 0 时会清空整个集合（keys() 取不到键时 break, 不会死循环）
  * @param cache Map 或 Set 实例
  * @param maxSize 最大条目数，默认 100
  */
 export function ensureCacheLimit<K, T>(cache: Map<K, T> | Set<K>, maxSize: number = 100) {
-  if (cache.size > maxSize) {
+  while (cache.size > maxSize) {
     const firstKey = cache.keys().next().value as K | undefined
-    if (firstKey !== undefined) cache.delete(firstKey)
+    if (firstKey === undefined) break
+
+    cache.delete(firstKey)
   }
 }
 

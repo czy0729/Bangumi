@@ -34,7 +34,8 @@ export function useListCommonProps<ItemT>(options: UseListCommonPropsOptions<Ite
     maxToRenderPerBatch,
     optimize,
     updateCellsBatchingPeriod,
-    initialNumToRender
+    initialNumToRender,
+    windowSize
   } = options
 
   return useMemo(
@@ -56,7 +57,7 @@ export function useListCommonProps<ItemT>(options: UseListCommonPropsOptions<Ite
       updateCellsBatchingPeriod:
         updateCellsBatchingPeriod ?? (optimize ? DEFAULT_UPDATE_CELLS_BATCHING_PERIOD : undefined),
       initialNumToRender: initialNumToRender || 10,
-      windowSize: optimize ? DEFAULT_WINDOW_SIZE : undefined,
+      windowSize: windowSize ?? (optimize ? DEFAULT_WINDOW_SIZE : undefined),
       showsHorizontalScrollIndicator: false,
       showsVerticalScrollIndicator: false
     }),
@@ -75,7 +76,8 @@ export function useListCommonProps<ItemT>(options: UseListCommonPropsOptions<Ite
       maxToRenderPerBatch,
       optimize,
       updateCellsBatchingPeriod,
-      initialNumToRender
+      initialNumToRender,
+      windowSize
     ]
   )
 }

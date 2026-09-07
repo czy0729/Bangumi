@@ -13,13 +13,19 @@ import Animated, {
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
+import { ensureCacheLimit } from '@utils/cache'
 import { DOGE_CDN_IMG_DEFAULT, IOS } from '@constants'
 import { IMAGE_FADE_DURATION } from '../ds'
 import Image from '../image'
 
 import type { ImageProps, ImageURISource } from 'react-native'
 import type { Props } from './types'
+import type { ViewStyle } from '@types'
 
+/** 播放记录上限, 超出后最早的图片会重新播放一次过渡, 不影响正确性 */
+const MEMO_MAX = 500
+
+/** 已播放过渐出的图片地址, 同一地址仅首次显示过渡 */
 const memo = new Map<string, boolean>()
 memo.set(DOGE_CDN_IMG_DEFAULT, true)
 
@@ -38,7 +44,7 @@ function Remote({
   const opacity = useSharedValue(fadeDuration === 0 ? 1 : 0)
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: opacity.value
-  }))
+  })) as ViewStyle
 
   const source = {
     headers: {
@@ -70,6 +76,7 @@ function Remote({
 
     setTimeout(() => {
       memo.set(uri, true)
+      ensureCacheLimit(memo, MEMO_MAX)
     }, IMAGE_FADE_DURATION + 100)
   }
 

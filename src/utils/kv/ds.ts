@@ -49,8 +49,12 @@ export const HOST_HM = Crypto.get<string>(
   'U2FsdGVkX1+asNWQt7K0i6LxZhv5NatP0c1eETXeQ+rT/GnP8lXYoUxcXtiNHbw4oyAQrHI4IZC/E1jcpODKQQ=='
 )
 
-/** 唯一性标记, 完全一样的 POST 请求不会发送第二次 */
+/**
+ * 唯一性标记, 完全一样的 POST 请求不会发送第二次
+ * - 指纹为 4 位 hash, 有界即可; 淘汰后同一内容允许再次上报
+ */
 export const UPDATE_CACHE_MAP = new Map<string, boolean>()
+export const UPDATE_CACHE_MAX = 200
 
 /** 统一请求头 */
 export const HEADERS = { 'User-Agent': UA } as const

@@ -6,9 +6,10 @@
  */
 import Constants from 'expo-constants'
 import { WEB } from '@constants/device'
-import Crypto from '../thirdParty/crypto'
+import { ensureCacheLimit } from '../cache'
 import { isDevtoolsOpen } from '../dom'
 import { axios } from '../thirdParty'
+import Crypto from '../thirdParty/crypto'
 import hash from '../thirdParty/hash'
 import { getTimestamp } from '../utils'
 import { err, log } from './utils'
@@ -22,7 +23,8 @@ import {
   HOST_PIC_LIST,
   HOST_RY_MK,
   HOST_RY_MK_AI,
-  UPDATE_CACHE_MAP
+  UPDATE_CACHE_MAP,
+  UPDATE_CACHE_MAX
 } from './ds'
 
 import type { TranslateResult, UserId } from '@types'
@@ -140,6 +142,7 @@ export async function update(
     if (UPDATE_CACHE_MAP.has(finger)) return
 
     UPDATE_CACHE_MAP.set(finger, true)
+    ensureCacheLimit(UPDATE_CACHE_MAP, UPDATE_CACHE_MAX)
     log('update', { key, finger })
   } else {
     log('update', { key })

@@ -30,7 +30,7 @@ describe('ensureCacheLimit', () => {
     expect(Array.from(cache.keys())).toEqual(['b', 'c'])
   })
 
-  it('单次调用只淘汰 1 条, 多次调用才收敛到上限', () => {
+  it('单次调用即收敛到上限, 保留最后写入的条目', () => {
     const cache = new Map<string, number>()
     cache.set('a', 1)
     cache.set('b', 2)
@@ -39,11 +39,8 @@ describe('ensureCacheLimit', () => {
 
     ensureCacheLimit(cache, 2)
 
-    expect(cache.size).toBe(3)
-
-    ensureCacheLimit(cache, 2)
-
     expect(cache.size).toBe(2)
+    expect(Array.from(cache.keys())).toEqual(['c', 'd'])
   })
 
   it('默认上限为 100', () => {

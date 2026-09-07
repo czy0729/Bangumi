@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-07-30 15:52:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 17:40:48
+ * @Last Modified time: 2026-09-08 01:41:30
  */
+import type React from 'react'
 import type { TextStyle, WithViewStyles } from '@types'
 import type { PassProps } from './a/types'
 
@@ -52,4 +53,4 @@ export type Renderer = (
 
   /** render-html 透传参数 */
   passProps: PassProps
-) => JSX.Element | null
+) => React.JSX.Element | null

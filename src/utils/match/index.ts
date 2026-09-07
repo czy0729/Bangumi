@@ -4,12 +4,25 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-05 17:29:59
  */
+import { ensureCacheLimit } from '../cache'
 import { pad } from '../utils/base'
 
 import type { UserId } from '@types'
 
-/** 缓存结果 */
+/** 缓存上限（条目数） */
+const MATCH_CACHE_MAX = 500
+
+/**
+ * 缓存结果
+ * - HTML 解析热路径, 命中率极高, 必须为有界集合, 否则长时间浏览后只增不减
+ * - 写入后由 ensureCacheLimit 收敛到 MATCH_CACHE_MAX, 淘汰为 O(1)
+ */
 const cacheMap = new Map<string, unknown>()
+
+/** 清空解析缓存（切后台等时机释放内存, 下次访问重算） */
+export function clearMatchCache() {
+  cacheMap.clear()
+}
 
 /** 匹配 */
 function match<T>(
@@ -26,6 +39,7 @@ function match<T>(
 
     const result = fn(str) || errorValue
     cacheMap.set(key, result)
+    ensureCacheLimit(cacheMap, MATCH_CACHE_MAX)
 
     return result
   } catch (error) {

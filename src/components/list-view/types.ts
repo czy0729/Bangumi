@@ -93,6 +93,12 @@ export type Props<ItemT = unknown> = Override<
     updateCellsBatchingPeriod?: number
 
     /**
+     * 虚拟化窗口大小（视口高度倍数），覆盖 optimize 预设值
+     * - 调小可显著降低屏幕外视图与已解码图片的内存占用，代价是快速滑动更易白屏
+     */
+    windowSize?: number
+
+    /**
      * 条目预估高度，提供后开启 getItemLayout + 高度缓存，减少挂载期测量；
      * 此时 ListHeaderComponent 需为稳定引用（内联函数组件会导致 header 子树反复 remount）
      */

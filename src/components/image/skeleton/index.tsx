@@ -7,12 +7,18 @@
 import { useEffect, useMemo, useState } from 'react'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
+import { ensureCacheLimit } from '@utils/cache'
 import { WEB } from '@constants'
 import { Skeleton as SkeletonComp } from '../../skeleton'
 
 import type { Props } from './types'
 
-/** 永久缓存已加载的 uri，避免重复显示骨架屏 */
+const LOADED_URI_CACHE_MAX = 1000
+
+/**
+ * 缓存已加载的 uri，避免重复显示骨架屏
+ * - 有界集合, 超出后最早的 uri 会重新显示一次骨架屏
+ */
 const loadedUriCache = new Map<string, boolean>()
 
 function Skeleton({ style, uri, type, textOnly, placeholder, loaded }: Props) {
@@ -45,6 +51,7 @@ function Skeleton({ style, uri, type, textOnly, placeholder, loaded }: Props) {
     const timer = setTimeout(() => {
       setShowSkeleton(false)
       loadedUriCache.set(uriStr, true)
+      ensureCacheLimit(loadedUriCache, LOADED_URI_CACHE_MAX)
     }, 12000)
 
     return () => clearTimeout(timer)

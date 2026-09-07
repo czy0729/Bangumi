@@ -11,6 +11,7 @@ import { IMG_DEFAULT } from '@constants/data'
 import { HOST, HOST_2, HOST_3, HOST_BGM_STATIC, HOST_IMAGE } from '@constants/host'
 import { getJSON } from '@assets/json'
 import userData from '@assets/json/user.json'
+import { ensureCacheLimit } from '../cache'
 import { logger } from '../dev'
 import { HTMLDecode, removeHTMLTag } from '../thirdParty/html'
 import { get } from '../thirdParty/protobuf'
@@ -19,11 +20,15 @@ import { getSetting } from './utils'
 import {
   BANGUMI_URL_TEMPLATES,
   FIND_SUBJECT_CN_CACHE_MAP,
+  FIND_SUBJECT_CN_CACHE_MAX,
   FIND_SUBJECT_JP_CACHE_MAP,
+  FIND_SUBJECT_JP_CACHE_MAX,
   GET_AVATAR_CACHE_MAP,
+  GET_AVATAR_CACHE_MAX,
   HEIGHT,
   NO_IMGS,
   NSFW_CACHE_MAP,
+  NSFW_CACHE_MAX,
   NSFW_KEYWORDS,
   RATING_MAP,
   SITE_MAP,
@@ -36,6 +41,7 @@ import type {
   Cover,
   Id,
   ListEmpty,
+  Loaded,
   Paths,
   ReadonlyResult,
   ScrollEvent,
@@ -55,8 +61,20 @@ export function guessTotalCount(list: ListEmpty, limit: number = 10) {
   return list.pagination.pageTotal * limit
 }
 
+/**
+ * updateVisibleBottom 的 this 约束: 具备 visibleBottom 状态与 setState 的 store 实例
+ * - setState 用方法简写声明, 走双变以兼容各 store 的 DeepPartial<T> 签名, bind 调用点无需改动
+ * - __lastVisibleBottomUpdate 为运行时挂在实例上的节流时间戳, 非 store 基类成员
+ */
+export type VisibleBottomHost = {
+  // 部分 store 的初值为 false (如 home/mono), 故一并接受
+  state: { visibleBottom?: number | false }
+  setState(state: object, stateKey?: string): void
+  __lastVisibleBottomUpdate?: number
+}
+
 /** 统一更新控制页面懒渲染 visibleBottom 变量的函数 */
-export function updateVisibleBottom({ nativeEvent }: ScrollEvent) {
+export function updateVisibleBottom(this: VisibleBottomHost, { nativeEvent }: ScrollEvent) {
   if (typeof this.setState !== 'function') return
 
   const now = Date.now()
@@ -72,8 +90,11 @@ export function updateVisibleBottom({ nativeEvent }: ScrollEvent) {
   this.__lastVisibleBottomUpdate = now
 }
 
-/** 是否数组, 若为 mobx 观察的数组使用原生方法是判断不出来的 */
-export function isArray(value: any): value is any[] {
+/**
+ * 是否数组, 若为 mobx 观察的数组使用原生方法是判断不出来的
+ * - 用 T & unknown[] 而非 unknown[]: 保留实参原有类型信息, 收窄后下游仍按原类型使用
+ */
+export function isArray<T>(value: T): value is T & unknown[] {
   if (!value) return false
 
   return Array.isArray(value) || isObservableArray(value)
@@ -126,11 +147,13 @@ export function findSubjectCn(jp: string = '', subjectId?: SubjectId): string {
     const cn = item.c || ''
     if (cn) {
       FIND_SUBJECT_CN_CACHE_MAP.set(jp, cn)
+      ensureCacheLimit(FIND_SUBJECT_CN_CACHE_MAP, FIND_SUBJECT_CN_CACHE_MAX)
       return cn
     }
   }
 
   FIND_SUBJECT_CN_CACHE_MAP.set(jp, jp)
+  ensureCacheLimit(FIND_SUBJECT_CN_CACHE_MAP, FIND_SUBJECT_CN_CACHE_MAX)
   return jp
 }
 
@@ -149,19 +172,28 @@ export function findSubjectJp(cn: string = '', subjectId?: SubjectId): string {
     const jp = item.j || ''
     if (jp) {
       FIND_SUBJECT_JP_CACHE_MAP.set(cn, jp)
+      ensureCacheLimit(FIND_SUBJECT_JP_CACHE_MAP, FIND_SUBJECT_JP_CACHE_MAX)
       return jp
     }
   }
 
   FIND_SUBJECT_JP_CACHE_MAP.set(cn, cn)
+  ensureCacheLimit(FIND_SUBJECT_JP_CACHE_MAP, FIND_SUBJECT_JP_CACHE_MAX)
   return cn
 }
 
-/** 简单控制请求频率工具函数, 若不需要发请求返回 true */
-export function optimize(data: any, s = 60) {
-  if (DEV || !data?._loaded) return false
+/**
+ * 简单控制请求频率工具函数, 若不需要发请求返回 true
+ * @param data 带 _loaded 的任意状态分片 (各 store 结构不一, 故按 unknown 收窄而非声明具体类型)
+ * @param s 节流间隔（秒）
+ */
+export function optimize(data: unknown, s: number = 60): boolean {
+  if (DEV || typeof data !== 'object' || data === null) return false
 
-  const diff = getTimestamp() - Number(data?._loaded || 0)
+  const { _loaded } = data as { _loaded?: Loaded }
+  if (!_loaded) return false
+
+  const diff = getTimestamp() - Number(_loaded || 0)
   const isPrevent = diff < s
   if (isPrevent) {
     logger.warn('@utils/app', 'optimize', diff, s, Object.keys(data).slice(0, 5))
@@ -170,10 +202,13 @@ export function optimize(data: any, s = 60) {
   return isPrevent
 }
 
-/** 适配系统中文优先返回合适字符串 */
-export function cnjp(cn: any, jp: any): string {
+/**
+ * 适配系统中文优先返回合适字符串
+ * - 上游来源类型不一 (接口字段可能为 string / undefined / null), 故按 unknown 接收后统一转字符串
+ */
+export function cnjp(cn: unknown, jp: unknown): string {
   const { cnFirst } = getSetting()
-  return HTMLDecode((cnFirst ? cn || jp : jp || cn) || '')
+  return HTMLDecode(String((cnFirst ? cn || jp : jp || cn) || ''))
 }
 
 let NSFW_SET: Set<number> | null = null
@@ -201,6 +236,7 @@ export function x18(subjectId: SubjectId, title?: string): boolean {
     NSFW_SET.has(subjectId) || (title ? NSFW_KEYWORDS.some(k => title.includes(k)) : false)
 
   NSFW_CACHE_MAP.set(subjectId, result)
+  ensureCacheLimit(NSFW_CACHE_MAP, NSFW_CACHE_MAX)
   return result
 }
 
@@ -240,7 +276,8 @@ export function matchBgmLink(url: string = ''):
   | false
   | {
       route: Paths
-      params?: Record<string, any>
+      /** 各路由参数值均为 url 上解析出的字符串, 缺失项 (如标签的 airtime) 为 undefined */
+      params?: Record<string, string | undefined>
       app?: boolean
     } {
   try {
@@ -727,29 +764,36 @@ export function getType(label: string, defaultType?: string) {
   return TYPE_MAP[label as keyof typeof TYPE_MAP] || defaultType || 'plain'
 }
 
-/** 获取评分中文 */
-export function getRating(score: number): (typeof RATING_MAP)[keyof typeof RATING_MAP] | '' {
+/** 获取评分中文 (score 缺失时返回空串) */
+export function getRating(score?: number): (typeof RATING_MAP)[keyof typeof RATING_MAP] | '' {
   if (score === undefined) return ''
-  return RATING_MAP[Math.floor(score + 0.5)] || RATING_MAP[1]
+
+  // 键为数字字面量, 计算结果为 number, 需收窄否则索引为隐式 any
+  const key = Math.floor(score + 0.5) as keyof typeof RATING_MAP
+  return RATING_MAP[key] || RATING_MAP[1]
 }
 
 /**
  * 获得在线播放地址
- * @param {*} item bangumiInfo 数据项
+ * @param item bangumiInfo 数据项
  */
 export function getBangumiUrl(item: { site?: string; id?: Id; url?: string }): string {
   if (!item) return ''
 
   const { site, id, url } = item || {}
   if (site && site in BANGUMI_URL_TEMPLATES) {
-    return url || BANGUMI_URL_TEMPLATES[site](id)
+    // site 为 string, 直接索引模板表会得到隐式 any, 按键收窄后再调用
+    const template = BANGUMI_URL_TEMPLATES[site as keyof typeof BANGUMI_URL_TEMPLATES] as (
+      id?: Id
+    ) => string
+    return url || template(id)
   }
 
   return ''
 }
 
 /** 从 cookies 字符串中分析 cookie 值 */
-export function getCookie(cookies = '', name: string) {
+export function getCookie(cookies: string = '', name: string) {
   const list = cookies.split('; ')
   for (let i = 0; i < list.length; i += 1) {
     const eqIndex = list[i].indexOf('=')
@@ -823,17 +867,32 @@ export function getCommentPlainText(str: string) {
   )
 }
 
+/** 本地用户数据项 (assets/json/user.json) */
+type UserDataItem = {
+  /** 昵称 */
+  n?: string
+
+  /** 头像相对路径 */
+  a?: string
+
+  /** 用户名 */
+  i?: string
+}
+
 /** 在本地数据中尽量获取用户头像地址, 目的为进行减少 API 请求 */
 export function getAvatarLocal(userId: UserId) {
   if (!userId) return false
 
   if (GET_AVATAR_CACHE_MAP.has(userId)) return GET_AVATAR_CACHE_MAP.get(userId)
 
-  let find = userData[userId]
-  if (!find) find = Object.values(userData).find((item: any) => item.i == userId)
+  // json 推断出的字面量类型过大, 统一按字典视图使用
+  const userDataMap = userData as Record<string, UserDataItem>
+  let find = userDataMap[userId]
+  if (!find) find = Object.values(userDataMap).find(item => item.i == String(userId))
 
   if (!find?.a) {
     GET_AVATAR_CACHE_MAP.set(userId, false)
+    ensureCacheLimit(GET_AVATAR_CACHE_MAP, GET_AVATAR_CACHE_MAX)
     return false
   }
 
@@ -842,6 +901,7 @@ export function getAvatarLocal(userId: UserId) {
   const path = !/^\d{3}\//.test(a) ? `000/${a}` : a
   const avatar = `${HOST_BGM_STATIC}/pic/user/l/${path}.jpg` as const
   GET_AVATAR_CACHE_MAP.set(userId, avatar)
+  ensureCacheLimit(GET_AVATAR_CACHE_MAP, GET_AVATAR_CACHE_MAX)
   return avatar
 }
 
@@ -896,7 +956,7 @@ export function getVisualLength(str: string = '') {
  *  - 中文算 1
  *  - 数字 / 英文 / 常见半角符号算 0.5
  */
-export function sliceByVisualLength(str: string, maxLen: number, ellipsis = '') {
+export function sliceByVisualLength(str: string, maxLen: number, ellipsis: string = '') {
   let len = 0
   let result = ''
 

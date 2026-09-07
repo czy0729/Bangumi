@@ -83,14 +83,23 @@ export const PRIVACY_STATE = 'bangumi|privacy'
 /** 设备屏幕高度 */
 export const { height: HEIGHT } = Dimensions.get('window')
 
+/**
+ * 以下缓存 Map 均为全局单例, 只增不减会持续占用内存
+ * - 写入点必须在 set 后调用 ensureCacheLimit(MAP, 对应 *_CACHE_MAX) 收敛
+ * - 淘汰为 FIFO, 被淘汰项下次访问时重算, 业务无感
+ */
+
 /** 条目中文名缓存（日文名 → 中文名） */
 export const FIND_SUBJECT_CN_CACHE_MAP = new Map<string, string>()
+export const FIND_SUBJECT_CN_CACHE_MAX = 500
 
 /** 条目日文名缓存（中文名 → 日文名） */
 export const FIND_SUBJECT_JP_CACHE_MAP = new Map<string, string>()
+export const FIND_SUBJECT_JP_CACHE_MAX = 500
 
 /** 敏感条目判断缓存（subjectId → 是否敏感） */
 export const NSFW_CACHE_MAP = new Map<SubjectId, boolean>()
+export const NSFW_CACHE_MAX = 500
 
 /** 评分数字对应文字 */
 export const RATING_MAP = {
@@ -128,3 +137,4 @@ export const BANGUMI_URL_TEMPLATES = {
 
 /** 用户头像缓存（userId → 头像 URL 或 false） */
 export const GET_AVATAR_CACHE_MAP = new Map<UserId, string | false>()
+export const GET_AVATAR_CACHE_MAX = 300

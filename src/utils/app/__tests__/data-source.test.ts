@@ -93,9 +93,13 @@ jest.mock('../ds', () => ({
   NSFW_KEYWORDS: ['乳', '淫'],
   X18_DS: ['nsfw', '18+'],
   FIND_SUBJECT_CN_CACHE_MAP: new Map(),
+  FIND_SUBJECT_CN_CACHE_MAX: 500,
   FIND_SUBJECT_JP_CACHE_MAP: new Map(),
+  FIND_SUBJECT_JP_CACHE_MAX: 500,
   NSFW_CACHE_MAP: new Map(),
-  GET_AVATAR_CACHE_MAP: new Map()
+  NSFW_CACHE_MAX: 500,
+  GET_AVATAR_CACHE_MAP: new Map(),
+  GET_AVATAR_CACHE_MAX: 300
 }))
 
 import {
@@ -137,6 +141,8 @@ import {
   x18,
   x18s
 } from '../data-source'
+
+import type { VisibleBottomHost } from '../data-source'
 
 describe('getVisualLength', () => {
   it('纯英文返回字符数 × 0.5', () => {
@@ -1022,7 +1028,8 @@ describe('findSubjectJp', () => {
 
 describe('updateVisibleBottom', () => {
   it('this 无 setState 函数时直接返回', () => {
-    const ctx = {}
+    // 故意缺少 setState, 验证函数在此形态下不抛错
+    const ctx = {} as VisibleBottomHost
     expect(() =>
       updateVisibleBottom.call(ctx, {
         nativeEvent: { contentOffset: { y: 0 }, layoutMeasurement: { height: 100 } }
