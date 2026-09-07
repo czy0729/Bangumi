@@ -1,8 +1,8 @@
 name: Build upstream unsigned IPA
 
+# 已停用：正在进行 Expo 57 升级优化，完成前停止自动打包
+# 自研 Expo 57 版本的 CI 可参考 ci-ipa 分支
 on:
-  schedule:
-    - cron: '37 8 * * *'
   workflow_dispatch:
     inputs:
       tag:
@@ -28,6 +28,7 @@ concurrency:
 jobs:
   build:
     name: Build unsigned IPA
+    if: false
     runs-on: macos-26
     timeout-minutes: 180
 

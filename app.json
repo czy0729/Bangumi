@@ -1,9 +1,9 @@
 {
   "expo": {
     "description": "A React Native App for https://bgm.tv, tinygrail plugin 260101",
-    "version": "8.39.2",
+    "version": "8.39.4",
     "android": {
-      "versionCode": 903920,
+      "versionCode": 903940,
       "package": "com.czy0729.bangumi",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/foreground.png",
@@ -21,9 +21,6 @@
           "calendarPermission": "The app needs to access your calendar."
         }
       ],
-      "expo-asset",
-      "expo-font",
-      "expo-web-browser",
       [
         "expo-splash-screen",
         {
@@ -34,7 +31,10 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-asset",
+      "expo-font",
+      "expo-web-browser"
     ],
     "name": "Bangumi",
     "slug": "bangumi",
