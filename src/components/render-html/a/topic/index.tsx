@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-19 03:01:35
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, rakuenStore } from '@stores'
@@ -18,14 +17,17 @@ import type { Props } from './types'
 
 function Topic({ topicId, text, onLinkPress }: Props) {
   const styles = memoStyles()
-  const { group, avatar, time } = rakuenStore.topic(topicId)
+  const { group, avatar, time } = rakuenStore.topic(topicId) || {}
 
-  const { list } = rakuenStore.comments(topicId)
+  // comments 可能未读回, list 兜底避免整块崩溃
+  const list = rakuenStore.comments(topicId)?.list
   let reply = 0
-  list.forEach(item => {
-    reply += 1
-    if (item?.sub?.length) reply += item.sub.length
-  })
+  if (Array.isArray(list)) {
+    list.forEach(item => {
+      reply += 1
+      if (item?.sub?.length) reply += item.sub.length
+    })
+  }
 
   return (
     <View style={styles.wrap}>

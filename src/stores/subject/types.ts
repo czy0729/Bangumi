@@ -157,6 +157,7 @@ export type Subject = {
 
   /** 若有此值表示非旧 API 成功获取到的数据, 通常可以用于判断 NSFW */
   v0?: boolean
+  titleLabel?: string
   _responseGroup: 'small' | 'medium' | 'large'
   _loaded: Loaded
 }

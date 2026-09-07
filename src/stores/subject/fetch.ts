@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-31 05:24:52
+ * @Last Modified time: 2026-09-07 21:31:28
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { getBucketId } from '@utils/bucket'
@@ -15,6 +15,7 @@ import {
   API_SUBJECT_EP,
   CDN_MONO,
   CDN_SUBJECT,
+  D1,
   HTML_EP,
   HTML_MONO,
   HTML_MONO_VOICES,
@@ -61,6 +62,7 @@ import type {
   FetchRatingArgs,
   Subject
 } from './types'
+import type { ResultData } from '@utils/kv/type'
 
 export default class Fetch extends Computed {
   /** 条目信息 */
@@ -224,20 +226,27 @@ export default class Fetch extends Computed {
     const subject = this.subject(subjectId)
 
     // 条目数据存在且比较新鲜, 不再请求, 应直接使用条目数据
-    if (subject._loaded && now - Number(subject._loaded) <= 60 * 60 * 24) {
-      return true
-    }
+    if (subject._loaded && now - Number(subject._loaded) <= D1) return true
 
     try {
-      const data = await get(`subject_${subjectId}`)
+      const data = await get<ResultData<Subject>>(`subject_${subjectId}`)
       if (!data) return false
 
       const { ts, ...oss } = data
       if (typeof oss === 'object' && !Array.isArray(oss)) {
-        const key = 'subjectFromOSS'
+        const STATE_KEY = 'subjectFromOSS'
+        const ITEM_KEY = subjectId
+
+        // 桶可能尚未读回, 先同步读回再写入, 避免异步读回覆盖本次写入
+        await this.init(STATE_KEY)
+
         this.setState({
-          [key]: {
-            [subjectId]: {
+          [STATE_KEY]: {
+            [ITEM_KEY]: {
+              name: oss.name,
+              name_cn: oss.name_cn,
+              images: oss.images,
+              air_date: oss.air_date,
               rating: oss.rating,
               rank: oss.rank,
               type: oss.type,
@@ -246,10 +255,16 @@ export default class Fetch extends Computed {
             }
           }
         })
-        this.save(key)
+        this.save(STATE_KEY)
+
+        // 云端快照缺名称时视为未命中, 交还给 v2 / subject 请求补全, 否则本地组装不出条目快照
+        if (!oss.name && !subject.name) return false
+
         return true
       }
-    } catch {}
+    } catch (error) {
+      this.error('fetchSubjectFromOSS', error)
+    }
 
     return false
   }
@@ -483,7 +498,7 @@ export default class Fetch extends Computed {
         3
       )) || []
     const success = results.filter(
-      (item): item is Exclude<(typeof results)[number], null> => item !== null
+      (item): item is Exclude<typeof results[number], null> => item !== null
     )
     success.sort((a, b) => a.page - b.page)
     if (!success.length) return this.subjectComments(subjectId)
@@ -762,7 +777,7 @@ export default class Fetch extends Computed {
     return true
   }
 
-  updateVIB = (subjectId: SubjectId, data: Partial<(typeof STATE.vib)[0]>) => {
+  updateVIB = (subjectId: SubjectId, data: Partial<typeof STATE.vib[0]>) => {
     const key = 'vib'
     this.setState({
       [key]: {

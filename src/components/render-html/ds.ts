@@ -22,6 +22,9 @@ export const SPAN_MARK = {
 /** 平板设备字体固定放大字号 */
 export const PAD_FONT_ZISE_INCREASE = PAD === 2 ? 3 : 2
 
+/** 媒体信息获取失败后的冷却时间 (ms), 冷却期内同 key 不再入队 */
+export const MEDIA_FAIL_COOLDOWN = 60000
+
 /** 平板设备字体固定放大行高 */
 export const PAD_LINE_HEIGHT_INCREASE = PAD === 2 ? 10 : 4
 

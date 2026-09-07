@@ -9,16 +9,27 @@ import { HOST } from '@constants'
 import type { ResponseV0Episodes } from '@types'
 import type { SubjectSnapshot } from './types'
 
+/**
+ * 组装条目快照
+ *
+ * @param air_date 放送日期
+ * @param common 封面地址
+ * @param name 原名
+ * @param name_cn 中文名
+ * @param score 评分
+ * @param total 评分人数
+ * @param rank 排名
+ */
 export function getSubjectSnapshot(
-  air_date = '',
-  common = '',
-  name = '',
-  name_cn = '',
-  score = 0,
-  total = 0,
+  air_date: string = '',
+  common: string = '',
+  name: string = '',
+  name_cn: string = '',
+  score: number | string = 0,
+  total: number | string = 0,
   rank: number | '' = ''
-) {
-  const subjectSnapShot: SubjectSnapshot = {
+): SubjectSnapshot {
+  return {
     air_date,
     images: {
       common
@@ -26,27 +37,34 @@ export function getSubjectSnapshot(
     name,
     name_cn,
     rating: {
-      score,
-      total
+      score: Number(score) || 0,
+      total: Number(total) || 0
     },
     rank,
     _loaded: 1
   }
-  return subjectSnapShot
 }
 
+/** v0 章节数据元素 */
+type V0EpisodeItem = ResponseV0Episodes['data'][number]
+
 export function mapV0Episodes(data: ResponseV0Episodes['data'] = []) {
-  return data.map(item => ({
-    airdate: item.airdate,
-    comment: item.comment,
-    desc: '',
-    duration: item.duration,
-    id: item.id,
-    name: item.name,
-    name_cn: item.name_cn,
-    sort: item.sort,
-    status: item.name || item.name_cn ? 'Air' : 'NA',
-    type: item.type,
-    url: `${HOST}/ep/${item.id}` as const
-  }))
+  return data.map((item: V0EpisodeItem) => {
+    const name = String(item.name ?? '')
+    const name_cn = String(item.name_cn ?? '')
+
+    return {
+      airdate: String(item.airdate ?? ''),
+      comment: Number(item.comment) || 0,
+      desc: '',
+      duration: String(item.duration ?? ''),
+      id: Number(item.id) || 0,
+      name,
+      name_cn,
+      sort: Number(item.sort) || 0,
+      status: (name || name_cn ? 'Air' : 'NA') as 'Air' | 'NA',
+      type: Number(item.type) || 0,
+      url: `${HOST}/ep/${item.id}` as const
+    }
+  })
 }

@@ -24,6 +24,8 @@ import type { GestureResponderEvent } from 'react-native'
 import type { Renderer, Props as RenderHtmlProps } from './types'
 export type { RenderHtmlProps }
 
+const TAG = COMPONENT
+
 /**
  * react-native 中渲染 html
  * @doc https://github.com/archriss/react-native-render-html
@@ -71,7 +73,7 @@ export const RenderHtml = observer(
       this.setState({
         error: true
       })
-      logger.error(COMPONENT, 'componentDidCatch', error)
+      logger.error(TAG, 'componentDidCatch', error)
     }
 
     onLinkPress = (_evt: GestureResponderEvent, href: string) => {

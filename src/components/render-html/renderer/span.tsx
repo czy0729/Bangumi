@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-14 07:18:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 07:15:45
+ * @Last Modified time: 2026-09-07 21:18:30
  */
 import React from 'react'
 import { rakuenStore } from '@stores'
@@ -14,8 +14,11 @@ import LineThroughtText from '../line-throught-text'
 import MaskText from '../mask-text'
 import TagText from '../tag-text'
 import { formatStyles } from '../utils'
+import { COMPONENT } from './ds'
 
 import type { SpanRendererProps } from './types'
+
+const TAG = `${COMPONENT}/span` as const
 
 export function span({
   key,
@@ -112,7 +115,7 @@ export function span({
       }
     }
   } catch (error) {
-    logger.info('RenderHtml', 'generateConfig', error)
+    logger.info(TAG, 'generateConfig', error)
   }
 
   return children

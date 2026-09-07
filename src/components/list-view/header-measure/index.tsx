@@ -34,7 +34,7 @@ function HeaderMeasure({ children, onMeasure }: Props) {
       {DEV && (
         <View style={[styles.dev, styles.devHeader, { backgroundColor: 'rgba(0, 0, 0, 0.6)' }]}>
           <Text type='__plain__' size={10}>
-            {`header ${measured || '…'}`}
+            {`header ${measured ? Math.round(measured) : '…'}`}
           </Text>
         </View>
       )}

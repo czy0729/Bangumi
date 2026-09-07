@@ -5,8 +5,8 @@
  * @Last Modified time: 2026-09-01 19:12:02
  */
 import { getBucketId } from '@utils/bucket'
-import { decrypt, encrypt } from '@utils/thirdParty/crypto'
 import { get, update } from '@utils/kv'
+import { decrypt, encrypt } from '@utils/thirdParty/crypto'
 import { APP_ID } from '@constants'
 import UserStore from '../user'
 import Fetch from './fetch'
@@ -31,8 +31,8 @@ export default class Action extends Fetch {
           subjectV2.image,
           subjectV2.jp,
           subjectV2.cn,
-          subjectV2.rating.score,
-          subjectV2.rating.total,
+          subjectV2.rating?.score,
+          subjectV2.rating?.total,
           subjectV2.rank
         )
       }
@@ -48,11 +48,11 @@ export default class Action extends Fetch {
         flag = true
         subjectSnapShot = getSubjectSnapshot(
           subject.air_date,
-          subject.images.common,
+          subject.images?.common,
           subject.name,
           subject.name_cn,
-          subject.rating.score,
-          subject.rating.total,
+          subject.rating?.score,
+          subject.rating?.total,
           subject.rank
         )
       }
@@ -66,11 +66,11 @@ export default class Action extends Fetch {
         flag = true
         subjectSnapShot = getSubjectSnapshot(
           subjectFromOSS.air_date,
-          subjectFromOSS.images.common,
+          subjectFromOSS.images?.common,
           subjectFromOSS.name,
           subjectFromOSS.name_cn,
-          subjectFromOSS.rating.score,
-          subjectFromOSS.rating.total,
+          subjectFromOSS.rating?.score,
+          subjectFromOSS.rating?.total,
           subjectFromOSS.rank
         )
       }

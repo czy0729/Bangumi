@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-01-19 08:37:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-19 08:38:58
+ * @Last Modified time: 2026-09-07 03:00:00
+ *
+ * 条目媒体块
  */
 export type Props = {
   /** 解析后的文本内容 */

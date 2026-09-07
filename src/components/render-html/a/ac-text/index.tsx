@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-19 02:59:33
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { feedback, stl } from '@utils'
@@ -22,7 +22,7 @@ function ACText({ navigation, style, subjectId, text, onPress }: Props) {
       const rakuenStore = syncRakuenStore()
       if (rakuenStore.setting.acSearchPopable) {
         const uiStore = syncUIStore()
-        const { pageX, pageY } = event.nativeEvent
+        const { pageX = 0, pageY = 0 } = event?.nativeEvent || {}
         uiStore.setXY(pageX, pageY - 8)
         uiStore.showPopableSubject({
           subjectId
@@ -39,7 +39,7 @@ function ACText({ navigation, style, subjectId, text, onPress }: Props) {
         subjectId
       })
 
-      if (navigation) {
+      if (navigation?.push) {
         navigation.push('Subject', {
           subjectId,
           _cn: text
