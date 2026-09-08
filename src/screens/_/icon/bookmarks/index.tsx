@@ -4,9 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-19 21:50:28
  */
-import React from 'react'
 import { observer } from 'mobx-react'
-import { Header } from '@components'
+import { HeaderV2Popover } from '@components'
 import { _, rakuenStore } from '@stores'
 import { appNavigate } from '@utils'
 import { r } from '@utils/dev'
@@ -22,7 +21,7 @@ export const IconBookmarks = observer(({ navigation }: IconBookmarksProps) => {
   if (!data.length) data.push('(空书签)')
 
   return (
-    <Header.Popover
+    <HeaderV2Popover
       style={_.mr.xs}
       data={data}
       name='md-bookmark-outline'

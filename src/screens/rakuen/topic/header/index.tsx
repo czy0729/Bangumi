@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-16 07:25:08
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
-import { Flex, Header as HeaderComp } from '@components'
+import { Flex, HeaderV2 } from '@components'
 import { useStore } from '@stores'
 import HeaderTitle from '../component/header-title'
 import IconFavor from '../component/icon/favor'
@@ -37,7 +37,7 @@ function Header({ onScrollToTop }: Props) {
   )
 
   return (
-    <HeaderComp
+    <HeaderV2
       mode='transition'
       statusBarEventsType='Topic'
       fixed={$.state.fixed}

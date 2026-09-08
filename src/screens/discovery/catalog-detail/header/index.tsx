@@ -4,10 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-29 06:42:16
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Header as HeaderComp, HeaderV2Popover, Image, Text, UserStatus } from '@components'
+import { Flex, HeaderV2 as HeaderComp, HeaderV2Popover, Image, Text, UserStatus } from '@components'
 import { _, useStore } from '@stores'
 import { getCoverLarge, getSPAParams, getVisualLength, open } from '@utils'
 import { t } from '@utils/fetch'
@@ -80,7 +80,7 @@ function Header() {
 
   return (
     <HeaderComp
-      mode='float'
+      mode='transition'
       fixed={$.state.fixed}
       alias='目录详情'
       hm={$.hm}

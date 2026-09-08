@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-22 01:02:06
  */
-import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
+import { getHeaderFixed } from '@components/header-v2/utils'
 import { discoveryStore, userStore } from '@stores'
 import { confirm, feedback, info, removeHTMLTag, updateVisibleBottom } from '@utils'
 import { fetchHTML, queue, t } from '@utils/fetch'
@@ -26,11 +26,11 @@ export default class Action extends Fetch {
 
     // 计算头部是否需要固定
     const { y } = e.nativeEvent.contentOffset
-    const { fixed } = this.state
-    if ((fixed && y > HEADER_TRANSITION_HEIGHT) || (!fixed && y <= HEADER_TRANSITION_HEIGHT)) return
+    const fixed = getHeaderFixed(y, this.state.fixed)
+    if (fixed === null) return
 
     this.setState({
-      fixed: y > HEADER_TRANSITION_HEIGHT
+      fixed
     })
   }
 

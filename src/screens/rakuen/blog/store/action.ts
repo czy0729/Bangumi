@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-09-07 23:51:14
  */
 import { toJS } from 'mobx'
+import { getHeaderFixed } from '@components/header-v2/utils'
 import { rakuenStore, systemStore } from '@stores'
 import { feedback, getTimestamp, info, removeHTMLTag } from '@utils'
 import { ensureArrayLimit } from '@utils/cache'
@@ -16,7 +17,7 @@ import { HOST, IOS } from '@constants'
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
 
-import type { CompletionItem, Id, TopicId } from '@types'
+import type { CompletionItem, Id, ScrollEvent, TopicId } from '@types'
 
 /** AI 聊天记录上限 */
 const CHAT_VALUES_MAX = 10
@@ -25,6 +26,19 @@ export default class Action extends Fetch {
   /** 本地化 */
   save = () => {
     return this.saveStorage(this.namespace, EXCLUDE_STATE)
+  }
+
+  /** 滑动回调 */
+  onScroll = (e: ScrollEvent) => {
+    const { y } = e.nativeEvent.contentOffset
+
+    // 计算头部是否需要固定
+    const fixed = getHeaderFixed(y, this.state.fixed)
+    if (fixed === null) return
+
+    this.setState({
+      fixed
+    })
   }
 
   /** 显示评论框 */

@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-09-07 23:51:00
  */
 import { toJS } from 'mobx'
-import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
+import { getHeaderFixed } from '@components/header-v2/utils'
 import { rakuenStore, systemStore, uiStore } from '@stores'
 import {
   decodeHTMLEntities,
@@ -301,11 +301,11 @@ export default class Action extends Fetch {
     const { y } = e.nativeEvent.contentOffset
     this.onScrollY = y
 
-    const { fixed } = this.state
-    if ((fixed && y > HEADER_TRANSITION_HEIGHT) || (!fixed && y <= HEADER_TRANSITION_HEIGHT)) return
+    const fixed = getHeaderFixed(y, this.state.fixed)
+    if (fixed === null) return
 
     this.setState({
-      fixed: y > HEADER_TRANSITION_HEIGHT
+      fixed
     })
     if (!this.state.scrolled) {
       setTimeout(() => {

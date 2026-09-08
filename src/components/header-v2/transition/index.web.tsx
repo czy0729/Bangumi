@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-03-12 20:43:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-23 16:55:33
+ * @Last Modified time: 2026-09-09 01:30:00
  */
-import React from 'react'
-import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
+import Animated from 'react-native-reanimated'
 import { observer } from 'mobx-react'
+import { systemStore } from '@stores'
 import { r } from '@utils/dev'
+import { s2t } from '@utils/thirdParty/open-cc'
 import { ScrollView } from '../../scroll-view'
 import { StorybookState } from '../../storybook'
 import { Text } from '../../text'
+import { useTransitionProgress } from './hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -25,16 +27,9 @@ function Transition({ fixed, title, headerTitle }: Props) {
       StorybookState.scrollTopMap.get(window?.location?.search)) >= 80
       ? true
       : fixed
-  const wrapStyles = useAnimatedStyle(() => ({
-    opacity: withTiming(_fixed ? 1 : 0, {
-      duration: 160
-    })
-  }))
-  const bodyStyles = useAnimatedStyle(() => ({
-    marginBottom: withTiming(_fixed ? 0 : -24, {
-      duration: 160
-    })
-  }))
+  const { wrapStyles, bodyStyles } = useTransitionProgress(_fixed)
+
+  const titleText = systemStore.setting.s2t && title ? s2t(title) : title
 
   const styles = memoStyles()
 
@@ -44,7 +39,7 @@ function Transition({ fixed, title, headerTitle }: Props) {
         {headerTitle || (
           <ScrollView style={styles.scrollView} contentContainerStyle={styles.container} horizontal>
             <Text style={styles.text} size={15} numberOfLines={1}>
-              {title}
+              {titleText}
             </Text>
           </ScrollView>
         )}

@@ -1,39 +1,38 @@
 /*
  * @Author: czy0729
- * @Date: 2022-03-23 00:51:52
+ * @Date: 2026-09-09 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 22:37:34
+ * @Last Modified time: 2026-09-09 01:30:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { useInsets } from '@utils/hooks'
-import { colors } from '../styles'
 import { Flex } from '../../flex'
 import Back from '../back'
 import Transition from '../transition'
+import { colors } from '../utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { Props } from './types'
 
-/** component-header */
-function HeaderComponent({
-  navigation,
+/** 模式头部 (transition / float): Transition 渐显层 + 返回键 + 左右节点 */
+function HeaderMode({
   fixed,
   title,
   statusBarEventsType,
-  headerTitle,
+  onBackPress,
   headerLeft,
-  headerRight,
-  onBackPress
+  headerTitle,
+  color,
+  headerRight
 }: Props) {
   r(COMPONENT)
 
   const { headerHeight, statusBarHeight } = useInsets()
 
-  const color = colors[statusBarEventsType] ? colors[statusBarEventsType](fixed) : undefined
+  const backColor = color || colors[statusBarEventsType]?.(fixed)
 
   return (
     <Flex
@@ -43,7 +42,7 @@ function HeaderComponent({
       })}
     >
       <Transition fixed={fixed} title={title} headerTitle={headerTitle} />
-      <Back style={styles.back} navigation={navigation} color={color} onPress={onBackPress} />
+      <Back style={styles.back} color={backColor} onPress={onBackPress} />
       {headerLeft}
       <Flex.Item />
       {!!headerRight && headerRight()}
@@ -51,4 +50,4 @@ function HeaderComponent({
   )
 }
 
-export default observer(HeaderComponent)
+export default observer(HeaderMode)

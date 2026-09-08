@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-08 07:58:47
  */
-import React, { useEffect } from 'react'
-import { Component, Flex, Header, Page, Text } from '@components'
+import { useEffect } from 'react'
+import { Component, Flex, HeaderV2, Page, Text } from '@components'
 import { useObserver } from '@utils/hooks'
 import { get } from '@utils/thirdParty/protobuf'
 
@@ -16,7 +16,7 @@ const Playground = () => {
 
   return useObserver(() => (
     <Component id='screen-playground'>
-      <Header title=' ' />
+      <HeaderV2 title=' ' />
       <Page>
         <Flex
           style={{

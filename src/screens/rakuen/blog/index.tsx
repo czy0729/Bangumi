@@ -16,15 +16,15 @@ import type { NavigationProps } from '@types'
 
 /** 日志 */
 function ScreenBlog(props: NavigationProps) {
-  const { id, $, fixed, handleScroll } = useBlogPage(props)
+  const { id, $ } = useBlogPage(props)
 
   return (
     <Component id='screen-blog'>
       <StoreContext.Provider value={id}>
         <Page statusBarEvent={false}>
-          <List $={$} onScroll={handleScroll} />
+          <List $={$} onScroll={$.onScroll} />
         </Page>
-        <Header fixed={fixed} />
+        <Header />
         <Extra />
       </StoreContext.Provider>
     </Component>

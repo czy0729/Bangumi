@@ -1,38 +1,37 @@
 /*
  * @Author: czy0729
- * @Date: 2023-06-01 01:25:39
+ * @Date: 2026-09-09 01:30:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 22:37:43
+ * @Last Modified time: 2026-09-09 01:30:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
 import { Component } from '../../component'
-import { colors } from '../styles'
 import { Flex } from '../../flex'
 import Back from '../back'
 import Transition from '../transition'
+import { colors } from '../utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 import './index.scss'
 
 import type { Props } from './types'
 
-/** component-header */
-function HeaderComponent({
-  navigation,
-  fixed,
+/** 模式头部 [WEB] (transition / float) */
+function HeaderMode({
   mode,
+  fixed,
   title,
   statusBarEventsType,
-  headerTitle,
+  onBackPress,
   headerLeft,
-  headerRight,
-  onBackPress
+  headerTitle,
+  color,
+  headerRight
 }: Props) {
   r(COMPONENT)
 
-  const color = colors[statusBarEventsType] ? colors[statusBarEventsType](fixed) : undefined
+  const backColor = color || colors[statusBarEventsType]?.(fixed)
 
   return (
     <Component
@@ -46,7 +45,7 @@ function HeaderComponent({
     >
       <Transition fixed={fixed} title={title} headerTitle={headerTitle} />
       <Component id='component-header-back'>
-        <Back navigation={navigation} color={color} onPress={onBackPress} />
+        <Back color={backColor} onPress={onBackPress} />
       </Component>
       {headerLeft}
       <Flex.Item />
@@ -55,4 +54,4 @@ function HeaderComponent({
   )
 }
 
-export default observer(HeaderComponent)
+export default observer(HeaderMode)

@@ -4,9 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-01 06:48:39
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
-import { Flex, Header as HeaderComp, HeaderV2Popover } from '@components'
+import { Flex, HeaderV2, HeaderV2Popover } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { open } from '@utils'
@@ -30,9 +30,8 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../types'
-import type { Props } from './types'
 
-function Header({ fixed }: Props) {
+function Header() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const elHeaderTitle = useMemo(() => <HeaderTitle />, [])
@@ -110,10 +109,10 @@ function Header({ fixed }: Props) {
   )
 
   return (
-    <HeaderComp
+    <HeaderV2
       mode='transition'
       statusBarEventsType='Topic'
-      fixed={fixed}
+      fixed={$.state.fixed}
       title={title}
       alias='小组'
       hm={$.hm}

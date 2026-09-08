@@ -4,9 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-16 06:23:12
  */
-import React from 'react'
 import { observer } from 'mobx-react'
-import { Header } from '@components'
+import { HeaderV2Popover } from '@components'
 import { _ } from '@stores'
 import { WEB } from '@constants'
 
@@ -30,7 +29,7 @@ function IconShare({
   if (WEB) return null
 
   return (
-    <Header.Popover
+    <HeaderV2Popover
       style={_.mr.xs}
       data={DATA}
       name='md-ios-share'

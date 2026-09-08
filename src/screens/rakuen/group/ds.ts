@@ -10,7 +10,15 @@ export const COMPONENT = 'Group'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
+/** 页面离开时需要还原的状态 */
+export const RESET_STATE = {
+  /** 头部是否固定 */
+  fixed: false
+}
+
 export const STATE = {
+  ...RESET_STATE,
+
   page: 1,
   show: true,
   ipt: '1',

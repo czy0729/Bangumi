@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-09-03 23:20:52
  */
 import { computed, observable } from 'mobx'
+import { getHeaderFixed } from '@components/header-v2/utils'
 import { rakuenStore, systemStore, userStore } from '@stores'
 import { feedback, getTimestamp, info } from '@utils'
 import { CDN_OSS_MAGMA_PIC } from '@utils/cdn'
@@ -14,10 +15,10 @@ import { get, update } from '@utils/kv'
 import store from '@utils/store'
 import { webhookGroup } from '@utils/webhooks'
 import { HOST, HOST_IMAGE, LIST_EMPTY } from '@constants'
-import { NAMESPACE, STATE } from './ds'
+import { NAMESPACE, RESET_STATE, STATE } from './ds'
 
 import type { Group } from '@stores/rakuen/types'
-import type { TopicId } from '@types'
+import type { ScrollEvent, TopicId } from '@types'
 import type { Params } from './types'
 
 /** 若更新过则不会再主动更新 */
@@ -32,6 +33,7 @@ export default class ScreenGroup extends store<typeof STATE> {
     const storageData = await this.getStorageOnce<typeof STATE>(this.key)
     this.setState({
       ...storageData,
+      ...RESET_STATE,
       ota: {},
       _loaded: true
     })
@@ -40,8 +42,26 @@ export default class ScreenGroup extends store<typeof STATE> {
     return this.fetchGroupInfo()
   }
 
+  /** 页面离开还原状态 */
+  unmount = () => {
+    this.setState(RESET_STATE)
+  }
+
   save = () => {
     return this.saveStorage(this.key)
+  }
+
+  /** 滑动回调 */
+  onScroll = (e: ScrollEvent) => {
+    const { y } = e.nativeEvent.contentOffset
+
+    // 计算头部是否需要固定
+    const fixed = getHeaderFixed(y, this.state.fixed)
+    if (fixed === null) return
+
+    this.setState({
+      fixed
+    })
   }
 
   // -------------------- fetch --------------------

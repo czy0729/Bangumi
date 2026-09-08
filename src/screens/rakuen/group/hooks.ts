@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-17 12:39:08
  */
-import { useOnScroll } from '@components/header/utils'
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'
 import store from './store'
@@ -17,19 +16,17 @@ export function useGroupPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
   const { id, $ } = context
 
-  const { fixed, onScroll } = useOnScroll()
   usePageLifecycle(
     {
       onEnterComplete() {
         $.init()
+      },
+      onLeaveComplete() {
+        $.unmount()
       }
     },
     id
   )
 
-  return {
-    ...context,
-    fixed,
-    handleScroll: onScroll
-  }
+  return context
 }

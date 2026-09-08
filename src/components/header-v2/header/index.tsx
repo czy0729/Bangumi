@@ -4,10 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-19 17:24:33
  */
-import React from 'react'
 import { observer } from 'mobx-react'
+import { systemStore } from '@stores'
 import { stl } from '@utils'
 import { useInsets } from '@utils/hooks'
+import { s2t } from '@utils/thirdParty/open-cc'
 import { Flex } from '../../flex'
 import { Text } from '../../text'
 import Back from '../back'
@@ -21,6 +22,7 @@ function Header({
   transparent,
   title,
   color,
+  onBackPress,
   headerTitleAlign,
   headerTitleStyle,
   headerTitleSize = 16,
@@ -29,6 +31,8 @@ function Header({
   headerRight
 }: Props) {
   const { headerHeight, statusBarHeight } = useInsets()
+
+  const titleText = systemStore.setting.s2t && title ? s2t(title) : title
 
   return (
     <Flex
@@ -51,12 +55,12 @@ function Header({
             numberOfLines={1}
             ellipsizeMode='middle'
           >
-            {title}
+            {titleText}
           </Text>
           {!!headerTitleAppend && headerTitleAppend}
         </Flex>
       )}
-      <Back color={color} />
+      <Back color={color} onPress={onBackPress} />
       <Flex.Item />
       {!!headerRight && headerRight()}
     </Flex>

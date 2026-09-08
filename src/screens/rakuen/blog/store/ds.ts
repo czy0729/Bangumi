@@ -12,7 +12,14 @@ import type { SnapshotId } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
+export const RESET_STATE = {
+  /** 头部是否固定 */
+  fixed: false
+}
+
 export const EXCLUDE_STATE = {
+  ...RESET_STATE,
+
   /** 回复框 placeholder */
   placeholder: '',
 

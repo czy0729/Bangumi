@@ -2,17 +2,18 @@
  * @Author: czy0729
  * @Date: 2025-10-25 15:32:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-19 17:24:31
+ * @Last Modified time: 2026-09-09 01:30:00
  */
 import type { Override } from '@types'
-import type { Props as ComponentProps } from '../types'
+import type { StaticProps } from '../types'
 
 export type Props = Override<
   Pick<
-    ComponentProps,
+    StaticProps,
     | 'transparent'
     | 'title'
     | 'color'
+    | 'onBackPress'
     | 'headerTitleAlign'
     | 'headerTitleStyle'
     | 'headerTitleSize'
@@ -21,6 +22,6 @@ export type Props = Override<
     | 'headerRight'
   >,
   {
-    style: ComponentProps['backgroundStyle']
+    style: StaticProps['backgroundStyle']
   }
 >

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:30:29
+ * @Last Modified time: 2026-09-08 22:09:42
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
-import { Header as HeaderComp } from '@components'
+import { HeaderV2 } from '@components'
 import { useStore } from '@stores'
 import HeaderTitle from '../component/header-title'
 import Menu from './menu'
@@ -28,7 +28,7 @@ function Header({ onScrollTo, onScrollToTop }: Props) {
   const handleHeaderRight = useCallback(() => <Menu onScrollTo={onScrollTo} />, [onScrollTo])
 
   return (
-    <HeaderComp
+    <HeaderV2
       mode='transition'
       statusBarEventsType='Subject'
       fixed={$.state.fixed}

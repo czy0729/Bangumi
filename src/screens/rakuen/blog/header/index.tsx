@@ -6,7 +6,7 @@
  */
 import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
-import { Flex, Header as HeaderComp } from '@components'
+import { Flex, HeaderV2 } from '@components'
 import { useStore } from '@stores'
 import IconFavor from '../component/favor'
 import HeaderTitle from '../component/header-title'
@@ -17,7 +17,7 @@ import { styles } from './styles'
 
 import type { Ctx } from '../types'
 
-function Header({ fixed }) {
+function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const elHeaderTitle = useMemo(() => <HeaderTitle />, [])
@@ -34,10 +34,10 @@ function Header({ fixed }) {
   )
 
   return (
-    <HeaderComp
+    <HeaderV2
       mode='transition'
       statusBarEventsType='Topic'
-      fixed={fixed}
+      fixed={$.state.fixed}
       title={$.title}
       alias='日志'
       hm={$.hm}

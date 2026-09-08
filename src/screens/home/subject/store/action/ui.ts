@@ -6,7 +6,7 @@
  */
 import { StatusBar } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { HEADER_TRANSITION_HEIGHT } from '@components/header/utils'
+import { getHeaderFixed } from '@components/header-v2/utils'
 import { _, otaStore, systemStore, uiStore } from '@stores'
 import {
   appNavigate,
@@ -278,14 +278,9 @@ export default class Ui extends Fetch {
     }
 
     // 计算头部是否需要固定
-    if (
-      (this.state.fixed && y > HEADER_TRANSITION_HEIGHT) ||
-      (!this.state.fixed && y <= HEADER_TRANSITION_HEIGHT)
-    ) {
-      return
-    }
+    const fixed = getHeaderFixed(y, this.state.fixed)
+    if (fixed === null) return
 
-    const fixed = y > HEADER_TRANSITION_HEIGHT
     this.setState({
       fixed
     })

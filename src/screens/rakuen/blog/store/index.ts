@@ -6,13 +6,18 @@
  */
 import { rakuenStore, usersStore } from '@stores'
 import Action from './action'
-import { EXCLUDE_STATE } from './ds'
+import { EXCLUDE_STATE, RESET_STATE } from './ds'
 
 import type { STATE } from './ds'
 
 let loadedFavor = false
 
 export default class ScreenBlog extends Action {
+  /** 页面离开还原状态 */
+  unmount = () => {
+    this.setState(RESET_STATE)
+  }
+
   init = async () => {
     const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(
       this.namespace

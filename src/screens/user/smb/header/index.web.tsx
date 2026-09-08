@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-11-18 07:33:21
  */
 import { observer } from 'mobx-react'
-import { Activity, Flex, Header as HeaderComp, Touchable } from '@components'
+import { Activity, Flex, HeaderV2, HeaderV2Popover, Touchable } from '@components'
 import { useStore } from '@stores'
 import { info, open } from '@utils'
 import { t } from '@utils/fetch'
@@ -21,10 +21,9 @@ function Header() {
   const { fetchingCollections } = $.state
 
   return (
-    <HeaderComp
+    <HeaderV2
       title='本地管理'
       mode='float'
-      fixed
       hm={['smb', 'Smb']}
       headerRight={() => (
         <Flex>
@@ -33,7 +32,7 @@ function Header() {
               <Activity />
             </Touchable>
           )}
-          <HeaderComp.Popover
+          <HeaderV2Popover
             name='md-menu'
             data={['新增服务', '通用配置', '扩展刮削词', '用户令牌', '功能说明']}
             onSelect={key => {

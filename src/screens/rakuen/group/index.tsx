@@ -21,7 +21,7 @@ import type { NavigationProps } from '@types'
 
 /** 小组 */
 function Group(props: NavigationProps) {
-  const { id, $, fixed, handleScroll } = useGroupPage(props)
+  const { id, $ } = useGroupPage(props)
 
   const styles = memoStyles()
 
@@ -29,7 +29,7 @@ function Group(props: NavigationProps) {
     <Component id='screen-rakuen-group'>
       <StoreContext.Provider value={id}>
         <Page statusBarEvent={false}>
-          <ScrollView scrollEventThrottle={16} scrollToTop onScroll={handleScroll}>
+          <ScrollView scrollEventThrottle={16} scrollToTop onScroll={$.onScroll}>
             <Info />
             {$.state.show && (
               <View style={styles.list}>
@@ -39,7 +39,7 @@ function Group(props: NavigationProps) {
           </ScrollView>
           <Pagination />
         </Page>
-        <Header fixed={fixed} />
+        <Header />
         <Extra />
       </StoreContext.Provider>
     </Component>

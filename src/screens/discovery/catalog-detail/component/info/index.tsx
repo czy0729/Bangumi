@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-10 01:31:14
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Header, Heatmap, Loading, Text } from '@components'
+import { Flex, HeaderPlaceholder, Heatmap, Loading, Text } from '@components'
 import { _, useStore } from '@stores'
 import ToolBar from '../tool-bar'
 import Content from './content'
@@ -28,7 +27,7 @@ function Info() {
 
   return (
     <View style={styles.container}>
-      <Header.Placeholder />
+      <HeaderPlaceholder />
       <View style={styles.info}>
         <Text size={20} bold>
           {$.detail.title}
