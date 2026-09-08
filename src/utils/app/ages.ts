@@ -3,11 +3,16 @@
  * @Date: 2025-01-25 08:41:36
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-31 20:44:26
+ *
+ * 站龄推测（自增 ID / 头像地址推断注册年份）
  */
+import { ensureCacheLimit } from '../cache'
+
 import type { UserId } from '@types'
 
 /**
- * 01-01, 02-06, 03-13, 04-18, 05-24, 06-29, 07-31, 08-26, 09-30, 11-05
+ * x.0: 01-01, x.1: 02-06, x.2: 03-13, x.3: 04-18, x.4: 05-24
+ * x.5: 06-29, x.6: 07-31, x.7: 08-26, x.8: 09-30, x.9: 11-05
  */
 const SPLITS = [
   [2, 2008],
@@ -28,20 +33,22 @@ const SPLITS = [
   [753039, 2023],
   [846679, 2024],
   [947430, 2025],
-  [955000, 2025.1],
-  [972000, 2025.2],
-  [990000, 2025.3],
-  [1006000, 2025.4],
-  [1040000, 2025.5],
-  [1075000, 2025.6],
-  [1128000, 2025.7],
-  [1156500, 2025.8],
-  [1185000, 2025.9],
-  [1213500, 2026],
-  [1238500, 2026.1]
+  [1195000, 2026],
+  [1210000, 2026.1],
+  [1225000, 2026.2],
+  [1238500, 2026.3],
+  [1251000, 2026.4],
+  [1260500, 2026.5],
+  [1270000, 2026.6],
+  [1276000, 2026.7],
+  [1282000, 2026.8],
+  [1288000, 2026.9]
 ] as const
 
 const CURRENT_YEAR = getCurrentYearWithDecimal()
+
+/** 站龄缓存上限 (限制缓存条目数, 避免无限增长) */
+const AGES_CACHE_MAX = 500
 
 const MEMO = new Map<UserId, string | number | null>()
 
@@ -71,6 +78,7 @@ export function getAge(userId: UserId, avatar?: string): string | number | null 
     } else {
       // 改过 ID 并且没有设置过头像的用户是无法推断的, 直接返回
       MEMO.set(id, null)
+      ensureCacheLimit(MEMO, AGES_CACHE_MAX)
       return null
     }
   }
@@ -79,6 +87,7 @@ export function getAge(userId: UserId, avatar?: string): string | number | null 
 
   // 缓存结果
   MEMO.set(id, age)
+  ensureCacheLimit(MEMO, AGES_CACHE_MAX)
   return age
 }
 

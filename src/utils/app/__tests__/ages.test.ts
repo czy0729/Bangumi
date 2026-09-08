@@ -3,6 +3,8 @@
  * @Date: 2026-05-10 17:23:34
  * @Last Modified by:   czy0729
  * @Last Modified time: 2026-05-10 17:23:34
+ *
+ * ages.ts 单元测试
  */
 import { extractIdFromAvatar, getAge } from '../ages'
 

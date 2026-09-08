@@ -3,11 +3,17 @@
  * @Date: 2023-12-23 06:33:29
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-08 04:58:17
+ *
+ * 用户与关键字屏蔽检查
  */
 import { syncRakuenStore } from '../async'
+import { ensureCacheLimit } from '../cache'
 import { postTask } from '../scheduler'
 
 import type { UserId } from '@types'
+
+/** 屏蔽追踪缓存上限 (key 含 trackUUID, 需限制容量) */
+const BLOCK_CACHE_MAX = 500
 
 /** 处理屏蔽用户, 追踪计数 uuid */
 const memoBlockedUser = new Map<string, true>()
@@ -37,6 +43,7 @@ export function getIsBlockedUser(
     const memoKey = `${userId}|${trackUUID}`
     if (!memoBlockedUser.has(memoKey)) {
       memoBlockedUser.set(memoKey, true)
+      ensureCacheLimit(memoBlockedUser, BLOCK_CACHE_MAX)
       postTask(() => {
         syncRakuenStore().trackBlockedUser(userId)
       }, 0)
@@ -67,6 +74,7 @@ export function getIsBlocked(
     const memoKey = `${keyword}|${trackUUID}`
     if (!memoBlocked.has(memoKey)) {
       memoBlocked.set(memoKey, true)
+      ensureCacheLimit(memoBlocked, BLOCK_CACHE_MAX)
       postTask(() => {
         syncRakuenStore().trackBlocked(keyword)
       }, 0)

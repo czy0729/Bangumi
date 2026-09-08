@@ -1,6 +1,10 @@
 /*
  * @Author: czy0729
  * @Date: 2026-05-17
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-08
+ *
+ * sensitive.ts 单元测试
  */
 jest.mock('../../thirdParty/crypto', () => ({
   __esModule: true,
@@ -39,11 +43,26 @@ describe('detectSensitiveWords', () => {
     expect(detectSensitiveWords(123 as any)).toEqual([])
   })
 
-  // [问题] SENSITIVE_WORDS 在模块加载时确定，运行时无法更新
-  it('[问题] 敏感词列表在模块加载时确定，运行时无法更新', () => {
+  it('词库懒加载且只解密一次, 后续调用复用', () => {
     const Crypto = require('../../thirdParty/crypto').default
-    Crypto.get.mockReturnValueOnce(['新词'])
-    // SENSITIVE_WORDS 已经在 import 时确定，重新 mock 不影响已有实例
-    expect(detectSensitiveWords('敏感词A')).toContain('敏感词A')
+    const calls = Crypto.get.mock.calls.length
+    expect(calls).toBeGreaterThan(0)
+
+    detectSensitiveWords('敏感词A')
+    detectSensitiveWords('敏感词B')
+    expect(Crypto.get.mock.calls.length).toBe(calls)
+  })
+
+  it('解密失败时返回空数组且不抛错', () => {
+    jest.resetModules()
+
+    const Crypto = require('../../thirdParty/crypto').default
+    Crypto.get.mockImplementationOnce(() => {
+      throw new Error('cipher broken')
+    })
+
+    const { detectSensitiveWords: detect } = require('../sensitive')
+    expect(() => detect('敏感词A')).not.toThrow()
+    expect(detect('敏感词A')).toEqual([])
   })
 })

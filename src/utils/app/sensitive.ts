@@ -3,19 +3,45 @@
  * @Date: 2025-07-10 17:33:24
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-07-14 20:36:39
+ *
+ * 敏感词匹配（加密词库解密与文本检测）
  */
+import { logger } from '../dev'
 import Crypto from '../thirdParty/crypto'
 
-const SENSITIVE_WORDS = JSON.parse(
-  Crypto.get(
-    // eslint-disable-next-line max-len
-    'U2FsdGVkX1/AeS8BOsMSgujqBbeudaUZTmiZpqhkimRwVZBBrCx2Dnu0V3GOnipAYFnhgsSDLRb35R3GEHSTOugARlE4/2LQ61uiMdf4QspHIYQriFZnrGEU419oIm2ZagVv0OvfuU6g5vGjKl6AQywwYYM418TyY4a6CBo+bZQBO59qirCQ4iKc2o/+NM2l029keA9OkVi2Xq5QR4KIakkP/CBQVfF3CDfqmewBiEY+IZdn1CQNQeeLrXDkBFxmdJlH75nPD8TQ8WM1i38l9LUB1joklqXIwE/7q9w03pLiU49Gus578xQzlW7O+m2haQcyemmHmE3zF+KuZ+Wd3frDmWbrimjsyzV5CO1smxQGJ08yZMP5ALAJnqBx/LVa0wH1RwqaOYNwoI5fgNCe/u4hM6f2KiOxfz5AR8W7onaOyevb38s6MaJogQJa10XqCgxgyYqdsixEnElXp4Hi32pNVUuFiineX7d1HojJvzO0BT5HRH10ybloFInRZ3NUFsHH7joSQckihp+hBXEoePP8nyvRf0axn7glmUIDpLlvdb0wi36edFhStlzmCqbK2fZ0h00wVTBYx2OJTh4NKyQTDNNQAsrTuquuezt1M8tjrVwoN5RPLWgu0TBYx0/mEAXih2q99H8d+2wj032A36EXO4nZ/Eiy31TXdh3Iw8Jc0/47qIXhwbOKL7Uhi74x5ZAhyQFxRoTOde5VrW206XnpbCXCkcbcmc+897HnKFaMhsHGsIQymNXAhxfy+6NyeQxr8+dy1zssWJNdvBNs7uJ+hRxqVs0hVTS7x/WAOnCv7B1XukJNcPElkCrRPoGaf5PtfOZMnVzDqP8PwQgIRreeD/aIXnvUvii69FeC+FDq2dGT0CdhPBXRrzjTKjtimwAc16NmWylGbpZXnGcqsuyld4mcT4pC12F3BTZV15s0Yz7On7FX/iQjY2+v5FPycxcX0dadMzvWYkbGDAuJ6/mnj664hpHOvM2EF58+g9KDYMVb+SKFYdvSEkFw+a2LfjAuqe65GM4sHSep4IT7LbKAbjGxKSyBQ+o/vqn7ThwyD8w+q+P2nE/REvZGiunaHxh917ai9A+ATWbjiIsySDmAJW29kQ/KWL3Gqj8IPAEIWDMyGk7E8SDHYX+qx7Q2I0fsAB7QQyol6WqwqyHiBWyNIdbv3RVByp3uZji7cDFGGsH+zuKfv1WvaJj0EFgBFWl6HaJ1L9AUVFtqj/vLCJmJorsKdJ1h6Piz9UWKl+3ww2IbZDWg7OAgBtYos52PocdXwq+WH7xbCQKLKgaSdcigqvQXK8lRFfbFbLtDvyoM4kCEXtTTbiZsD+Akl6rAIJV+kG3jvq6fKCde87uwI3q72wOPCd/9MgT1uyimwablSTuEnx3Lrq4VcweFXgjmssfdGq7S7LZVXXNufsceCUBSIDhmuYo1Rktsn1JqPm4/9XwutMyvpfyLVr4aHpW1hRawqRViNtiDSiLLKcedJp+PS3GvUcR579KXx8i0z0vL9KmhKUtO79l7+4Xgn6UF1k6+/N8wjQxFERl1jrfsPCwBHAvIosybjFgJe7FPI0rozQjqzsj6BkwAHAlbN6PscAAaeSc05lQHBp86j/MIdyVFmaXuP+D+hk50Lqnl+X4kbpfRVw0BXIb27qdMg3icTeN7ukzmfu9vOSDuvwKiJ2kk27wPSxzrOL+ye5YkavOZY/ygqOabuEdlsuja9ef956cF8X31C6oPMhXuHP+GLsNfkkFPSUPhE5Oxit+BdLaB3jt7D8CSPQM7796kTMTUacQgg7RXPcbx79bgl5jojVKOv0MZaPHzOuA7aBlBhYOncamRAmMsgOdFMIchzhgJJHHuO1tdAEGE9C+QGCKGvFufSq7IfwYxnF+QgJZAGoB2RdZG6Fa7Fus422pkd4pBPgAPcYC+yKjcNx9cBVnNwg=='
-  )
-) as string[]
+/** 加密的敏感词库 (解密开销较大, 延迟至首次使用时执行) */
+const SENSITIVE_WORDS_CIPHER =
+  // eslint-disable-next-line max-len
+  'U2FsdGVkX1/AeS8BOsMSgujqBbeudaUZTmiZpqhkimRwVZBBrCx2Dnu0V3GOnipAYFnhgsSDLRb35R3GEHSTOugARlE4/2LQ61uiMdf4QspHIYQriFZnrGEU419oIm2ZagVv0OvfuU6g5vGjKl6AQywwYYM418TyY4a6CBo+bZQBO59qirCQ4iKc2o/+NM2l029keA9OkVi2Xq5QR4KIakkP/CBQVfF3CDfqmewBiEY+IZdn1CQNQeeLrXDkBFxmdJlH75nPD8TQ8WM1i38l9LUB1joklqXIwE/7q9w03pLiU49Gus578xQzlW7O+m2haQcyemmHmE3zF+KuZ+Wd3frDmWbrimjsyzV5CO1smxQGJ08yZMP5ALAJnqBx/LVa0wH1RwqaOYNwoI5fgNCe/u4hM6f2KiOxfz5AR8W7onaOyevb38s6MaJogQJa10XqCgxgyYqdsixEnElXp4Hi32pNVUuFiineX7d1HojJvzO0BT5HRH10ybloFInRZ3NUFsHH7joSQckihp+hBXEoePP8nyvRf0axn7glmUIDpLlvdb0wi36edFhStlzmCqbK2fZ0h00wVTBYx2OJTh4NKyQTDNNQAsrTuquuezt1M8tjrVwoN5RPLWgu0TBYx0/mEAXih2q99H8d+2wj032A36EXO4nZ/Eiy31TXdh3Iw8Jc0/47qIXhwbOKL7Uhi74x5ZAhyQFxRoTOde5VrW206XnpbCXCkcbcmc+897HnKFaMhsHGsIQymNXAhxfy+6NyeQxr8+dy1zssWJNdvBNs7uJ+hRxqVs0hVTS7x/WAOnCv7B1XukJNcPElkCrRPoGaf5PtfOZMnVzDqP8PwQgIRreeD/aIXnvUvii69FeC+FDq2dGT0CdhPBXRrzjTKjtimwAc16NmWylGbpZXnGcqsuyld4mcT4pC12F3BTZV15s0Yz7On7FX/iQjY2+v5FPycxcX0dadMzvWYkbGDAuJ6/mnj664hpHOvM2EF58+g9KDYMVb+SKFYdvSEkFw+a2LfjAuqe65GM4sHSep4IT7LbKAbjGxKSyBQ+o/vqn7ThwyD8w+q+P2nE/REvZGiunaHxh917ai9A+ATWbjiIsySDmAJW29kQ/KWL3Gqj8IPAEIWDMyGk7E8SDHYX+qx7Q2I0fsAB7QQyol6WqwqyHiBWyNIdbv3RVByp3uZji7cDFGGsH+zuKfv1WvaJj0EFgBFWl6HaJ1L9AUVFtqj/vLCJmJorsKdJ1h6Piz9UWKl+3ww2IbZDWg7OAgBtYos52PocdXwq+WH7xbCQKLKgaSdcigqvQXK8lRFfbFbLtDvyoM4kCEXtTTbiZsD+Akl6rAIJV+kG3jvq6fKCde87uwI3q72wOPCd/9MgT1uyimwablSTuEnx3Lrq4VcweFXgjmssfdGq7S7LZVXXNufsceCUBSIDhmuYo1Rktsn1JqPm4/9XwutMyvpfyLVr4aHpW1hRawqRViNtiDSiLLKcedJp+PS3GvUcR579KXx8i0z0vL9KmhKUtO79l7+4Xgn6UF1k6+/N8wjQxFERl1jrfsPCwBHAvIosybjFgJe7FPI0rozQjqzsj6BkwAHAlbN6PscAAaeSc05lQHBp86j/MIdyVFmaXuP+D+hk50Lqnl+X4kbpfRVw0BXIb27qdMg3icTeN7ukzmfu9vOSDuvwKiJ2kk27wPSxzrOL+ye5YkavOZY/ygqOabuEdlsuja9ef956cF8X31C6oPMhXuHP+GLsNfkkFPSUPhE5Oxit+BdLaB3jt7D8CSPQM7796kTMTUacQgg7RXPcbx79bgl5jojVKOv0MZaPHzOuA7aBlBhYOncamRAmMsgOdFMIchzhgJJHHuO1tdAEGE9C+QGCKGvFufSq7IfwYxnF+QgJZAGoB2RdZG6Fa7Fus422pkd4pBPgAPcYC+yKjcNx9cBVnNwg=='
+
+/** 解密后的敏感词库 (null 表示尚未加载) */
+let SENSITIVE_WORDS: string[] | null = null
+
+/**
+ * 懒加载敏感词库
+ *  - 解密失败时以空数组兜底, 不向上抛出异常
+ */
+function getSensitiveWords(): string[] {
+  if (SENSITIVE_WORDS) return SENSITIVE_WORDS
+
+  try {
+    SENSITIVE_WORDS = JSON.parse(Crypto.get(SENSITIVE_WORDS_CIPHER)) as string[]
+  } catch (error) {
+    logger.error('@utils/app', 'getSensitiveWords', error)
+    SENSITIVE_WORDS = []
+  }
+
+  return SENSITIVE_WORDS as string[]
+}
 
 /** 匹配文本中所有疑似敏感词 (注意区分简繁体) */
 export function detectSensitiveWords(input: string) {
   if (typeof input !== 'string' || !input) return []
 
-  return SENSITIVE_WORDS.filter(word => input.includes(word))
+  return getSensitiveWords().filter(word => input.includes(word))
+}
+
+/** 预热敏感词库 (供启动阶段调用) */
+export function warmUpSensitiveWords() {
+  getSensitiveWords()
 }

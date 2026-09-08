@@ -3,6 +3,8 @@
  * @Date: 2023-12-23 06:26:47
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-23 06:27:30
+ *
+ * APP 网页版（Storybook SPA）路由 id 与参数生成
  */
 import { urlStringify } from '../utils'
 
@@ -19,7 +21,7 @@ export function getSPAId(routeName: string) {
 }
 
 /** 获取 APP 网页版参数 */
-export function getSPAParams(routeName: string, params?: Record<string, any>) {
+export function getSPAParams(routeName: string, params?: Record<string, unknown>) {
   return `iframe.html?${urlStringify({
     id: getSPAId(routeName),
     viewMode: 'story',
@@ -29,8 +31,8 @@ export function getSPAParams(routeName: string, params?: Record<string, any>) {
       // .filter(([key]) => !key.startsWith('_'))
       .filter(([key]) => key !== 'id')
       .filter(([, value]) => value != null)
-      .reduce((obj, [key, value]) => {
-        obj[key] = value
+      .reduce<Record<string, string | number | boolean>>((obj, [key, value]) => {
+        obj[key] = value as string | number | boolean
         return obj
       }, {})
   })}`

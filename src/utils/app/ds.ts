@@ -3,6 +3,8 @@
  * @Date: 2022-08-11 09:18:56
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-03 23:26:55
+ *
+ * 数据源常量与缓存 Map 定义
  */
 import { Dimensions } from 'react-native'
 import { HOST_AC_MEDIA } from '@constants/cdn'
@@ -138,3 +140,7 @@ export const BANGUMI_URL_TEMPLATES = {
 /** 用户头像缓存（userId → 头像 URL 或 false） */
 export const GET_AVATAR_CACHE_MAP = new Map<UserId, string | false>()
 export const GET_AVATAR_CACHE_MAX = 300
+
+/** 敏感字符串判断缓存 (小写文本 → 是否敏感, 需限制容量) */
+export const X18S_CACHE_MAP = new Map<string, boolean>()
+export const X18S_CACHE_MAX = 500

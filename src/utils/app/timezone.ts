@@ -3,6 +3,8 @@
  * @Date: 2023-12-23 07:58:40
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-04 19:17:00
+ *
+ * 放送时间与日历日程（onAir 组合判断、日历添加、ics 时间生成）
  */
 import dayjs from '@utils/thirdParty/dayjs'
 import { calendarEventsRequestPermissions, calendarEventsSaveEvent } from '../calendar'
@@ -61,6 +63,9 @@ export function getWeekDay(
   return weekDay === '' ? '' : weekDay
 }
 
+/** ago 时间单位映射 (模块级常量) */
+const AGO_UNIT_MAP = { d: '天', h: '时', m: '分', s: '秒' } as const
+
 /** 修正和缩略 ago 时间 */
 export function correctAgo(time: string = '') {
   let _time = time.replace('...', '')
@@ -68,7 +73,7 @@ export function correctAgo(time: string = '') {
   return _time.includes('-')
     ? _time.replace(`${YEAR}-`, '')
     : _time
-        .replace(/d|h|m|s/g, match => ({ d: '天', h: '时', m: '分', s: '秒' }[match]))
+        .replace(/d|h|m|s/g, match => AGO_UNIT_MAP[match as keyof typeof AGO_UNIT_MAP])
         .replace(' ago', '前')
         .replace(/ /g, '')
 }

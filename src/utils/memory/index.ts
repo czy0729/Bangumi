@@ -9,7 +9,8 @@ import {
   FIND_SUBJECT_CN_CACHE_MAP,
   FIND_SUBJECT_JP_CACHE_MAP,
   GET_AVATAR_CACHE_MAP,
-  NSFW_CACHE_MAP
+  NSFW_CACHE_MAP,
+  X18S_CACHE_MAP
 } from '../app/ds'
 import CacheManager from '../cache-manager'
 import { clearMatchCache } from '../match'
@@ -30,4 +31,5 @@ export function clearRuntimeCaches() {
   FIND_SUBJECT_JP_CACHE_MAP.clear()
   GET_AVATAR_CACHE_MAP.clear()
   NSFW_CACHE_MAP.clear()
+  X18S_CACHE_MAP.clear()
 }

@@ -1,9 +1,10 @@
 /*
- * 出现这种写法是因为设计失误, 为了避免遇到交叉引用, 尽量少用
  * @Author: czy0729
  * @Date: 2020-12-04 11:04:51
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-19 20:42:07
+ *
+ * 出现这种写法是因为设计失误, 为了避免遇到交叉引用, 尽量少用
  */
 import type { RakuenStoreType } from '../../stores/rakuen'
 import type { SystemStoreType } from '../../stores/system'

@@ -3,6 +3,8 @@
  * @Date: 2026-09-03 23:27:12
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-03 23:27:12
+ *
+ * data-source.ts 单元测试
  */
 jest.mock('../../utils', () => ({
   getTimestamp: jest.fn(() => Date.now() / 1000)
@@ -50,7 +52,7 @@ jest.mock('@assets/json/user.json', () => ({
 }))
 
 jest.mock('../../thirdParty/html', () => ({
-  HTMLDecode: (s: string) => s,
+  HTMLDecode: jest.fn((s: string) => s),
   removeHTMLTag: (s: string) => s.replace(/<[^>]+>/g, '')
 }))
 
@@ -99,7 +101,9 @@ jest.mock('../ds', () => ({
   NSFW_CACHE_MAP: new Map(),
   NSFW_CACHE_MAX: 500,
   GET_AVATAR_CACHE_MAP: new Map(),
-  GET_AVATAR_CACHE_MAX: 300
+  GET_AVATAR_CACHE_MAX: 300,
+  X18S_CACHE_MAP: new Map(),
+  X18S_CACHE_MAX: 500
 }))
 
 import {
@@ -762,6 +766,28 @@ describe('x18s', () => {
   it('空字符串', () => {
     expect(x18s('')).toBe(false)
   })
+
+  it('重复调用命中缓存', () => {
+    const { X18S_CACHE_MAP, X18_DS } = require('../ds')
+    X18S_CACHE_MAP.clear()
+
+    expect(x18s('cache me nsfw')).toBe(true)
+    expect(X18S_CACHE_MAP.has(`${X18_DS.length}|cache me nsfw`)).toBe(true)
+    expect(x18s('cache me nsfw')).toBe(true)
+  })
+
+  it('词库长度变化时缓存自动失效', () => {
+    const { X18S_CACHE_MAP, X18_DS } = require('../ds')
+    X18S_CACHE_MAP.clear()
+
+    expect(x18s('nsfw tag')).toBe(true)
+
+    const origin = X18_DS.slice()
+    X18_DS.length = 0
+    expect(x18s('nsfw tag')).toBe(false)
+
+    X18_DS.push(...origin)
+  })
 })
 
 describe('x18', () => {
@@ -995,6 +1021,41 @@ describe('findSubjectCn', () => {
     const result = findSubjectCn('日文', 200)
     expect(result).toBe('日文')
     expect(FIND_SUBJECT_CN_CACHE_MAP.get('日文')).toBe('日文')
+  })
+
+  it('同名不同 subjectId 时取数组中更靠前的匹配项 (与原 find 短路一致)', () => {
+    const { getSetting: mockGetSetting } = require('../utils')
+    const { get: mockGet } = require('../../thirdParty/protobuf')
+    const data = [
+      { id: 300, j: '同名', c: '中文甲' },
+      { id: 400, j: '同名', c: '中文乙' }
+    ]
+
+    // 名称命中项 (index 0) 比 id=400 的项 (index 1) 更靠前, 故两次都取 index 0
+    mockGetSetting.mockReturnValueOnce({ cnFirst: true })
+    mockGet.mockReturnValueOnce(data)
+    expect(findSubjectCn('同名', 300)).toBe('中文甲')
+
+    // 清缓存, 保证第二次真的走查询 (否则不消耗 mock 队列会串到后续用例)
+    FIND_SUBJECT_CN_CACHE_MAP.clear()
+    mockGetSetting.mockReturnValueOnce({ cnFirst: true })
+    mockGet.mockReturnValueOnce(data)
+    expect(findSubjectCn('同名', 400)).toBe('中文甲')
+  })
+
+  it('单次查找只解码一次 (与数据量无关)', () => {
+    const { getSetting: mockGetSetting } = require('../utils')
+    const { get: mockGet } = require('../../thirdParty/protobuf')
+    const { HTMLDecode: mockHTMLDecode } = require('../../thirdParty/html')
+
+    mockGetSetting.mockReturnValueOnce({ cnFirst: true })
+    mockGet.mockReturnValueOnce(
+      Array.from({ length: 50 }, (_, i) => ({ id: i, j: `j${i}`, c: `c${i}` }))
+    )
+    mockHTMLDecode.mockClear()
+
+    expect(findSubjectCn('j10', 10)).toBe('c10')
+    expect(mockHTMLDecode).toHaveBeenCalledTimes(1)
   })
 })
 

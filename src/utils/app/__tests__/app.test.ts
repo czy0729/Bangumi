@@ -3,6 +3,8 @@
  * @Date: 2026-09-03 23:27:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-03 23:27:00
+ *
+ * app.ts 单元测试
  */
 jest.mock('@stores/calendar/onair', () => ({
   ON_AIR: {
@@ -372,6 +374,17 @@ describe('appRandom', () => {
 
   it('undefined 数组返回空数组', () => {
     expect(appRandom(undefined, 'id')).toEqual([])
+  })
+
+  // RANDOM_FACTOR 固定为 5: 末位数字 <= 5 的元素走 unshift (组内逆序) 排在前面, 其余走 push (原序)
+  it('命中组排在前面且组内为逆序, 未命中组保持原序', () => {
+    const arr = [
+      { id: 'a', sort: '9' },
+      { id: 'b', sort: '1' },
+      { id: 'c', sort: '3' },
+      { id: 'd', sort: '8' }
+    ]
+    expect(appRandom(arr, 'sort').map(item => item.id)).toEqual(['c', 'b', 'a', 'd'])
   })
 })
 

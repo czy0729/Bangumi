@@ -3,13 +3,14 @@
  * @Date: 2022-08-11 09:15:10
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-23 09:28:55
+ *
+ * 通用小工具（isNull、getSafeValue、getKeyString、sortObject、getSetting）
  */
 import { syncSystemStore } from '../async'
 import { asc } from '../utils'
 
-
 /** 是否 null */
-export function isNull(value: any) {
+export function isNull(value: unknown) {
   return value === undefined || value === ''
 }
 
@@ -26,17 +27,17 @@ export function getSafeValue(
 }
 
 /** 参数转成字符串 */
-export function getKeyString(...args: any[]) {
+export function getKeyString(...args: unknown[]) {
   return args.toString()
 }
 
 /** 对象键值排序 */
-export function sortObject(object: Record<string, any>) {
-  const newObject = {}
+export function sortObject<T extends object>(object: T): T {
+  const newObject = {} as T
   Object.keys(object)
     .sort((a, b) => asc(a, b))
     .forEach(key => {
-      newObject[key] = object[key]
+      newObject[key as keyof T] = object[key as keyof T]
     })
   return newObject
 }
