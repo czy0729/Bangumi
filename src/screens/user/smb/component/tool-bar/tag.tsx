@@ -4,16 +4,18 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:31:36
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+
+import type { Ctx } from '../../types'
 
 function Tag() {
   const { $ } = useStore<Ctx>()
+
   const { subjectTags } = $.state
   const tagsCount = $.tagsSubjectCount()
+
   return (
     <ToolBar.Popover
       data={[
@@ -38,4 +40,4 @@ function Tag() {
   )
 }
 
-export default ob(Tag)
+export default observer(Tag)

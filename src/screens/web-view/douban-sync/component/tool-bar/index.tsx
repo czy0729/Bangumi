@@ -4,15 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-19 05:42:26
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text, ToolBar as ToolBarComp } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function ToolBar() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   return (
     <>
       <ToolBarComp>
@@ -70,4 +71,4 @@ function ToolBar() {
   )
 }
 
-export default ob(ToolBar, COMPONENT)
+export default observer(ToolBar)

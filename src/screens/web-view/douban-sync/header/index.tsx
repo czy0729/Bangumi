@@ -4,19 +4,20 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-12 05:44:33
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { COMPONENT, HM } from './ds'
 
 import type { Ctx } from '../types'
 
 function Header() {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   const { hide } = $.state
+
   return (
     <HeaderV2
       title='豆瓣同步'
@@ -54,4 +55,4 @@ function Header() {
   )
 }
 
-export default ob(Header, COMPONENT)
+export default observer(Header)

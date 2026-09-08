@@ -4,14 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:29:22
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../../types'
 import Item from '../../item'
+
+import type { Ctx } from '../../../types'
 
 function Lists() {
   const { $ } = useStore<Ctx>()
+
   return (
     <>
       {$.pageList.map((item, index) => (
@@ -21,4 +22,4 @@ function Lists() {
   )
 }
 
-export default ob(Lists)
+export default observer(Lists)

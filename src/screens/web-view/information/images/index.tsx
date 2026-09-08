@@ -4,17 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-12-23 14:51:29
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Image } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
 import { memoStyles } from './styles'
 
 function Images({ data }: { data: string[] }) {
   if (!data.length) return null
 
   const styles = memoStyles()
+
   return (
     <>
       {data.map(item => (
@@ -26,4 +26,4 @@ function Images({ data }: { data: string[] }) {
   )
 }
 
-export default ob(Images)
+export default observer(Images)

@@ -4,17 +4,18 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-02-12 02:23:59
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Input } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../types'
 function SearchBar() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   const styles = memoStyles()
+
   return (
     <Input
       style={styles.searchIpt}
@@ -29,4 +30,4 @@ function SearchBar() {
   )
 }
 
-export default ob(SearchBar, COMPONENT)
+export default observer(SearchBar)

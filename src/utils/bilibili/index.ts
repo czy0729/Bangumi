@@ -6,9 +6,17 @@
  */
 import { HOST_AC_SEARCH } from '@constants/cdn'
 import { xhrCustom } from '../fetch'
-import { cheerio, htmlMatch } from '../thirdParty/html'
 import { t2s } from '../thirdParty/cn-char'
+import { cheerio, htmlMatch } from '../thirdParty/html'
 import { similar } from '../utils'
+
+import type { CheerioNode } from '../thirdParty/html/types'
+
+/** 搜索结果标题相似度阈值 */
+const SIMILAR_RATE = 0.7
+
+/** 搜索结果最大返回条数 */
+const MAX_RESULTS = 7
 
 /** 搜索页 */
 const HTML_SEARCH = (q: string) => {
@@ -18,6 +26,9 @@ const HTML_SEARCH = (q: string) => {
 /** 去除部分干扰匹配的文字 */
 const REG_FIXED =
   /ORIGINAL|SOUNDTRACK|SOUNDTRACKS|SOUND|TRACKS|TRACK|OST|CD|オリジナルサウンドトラック|剧场版|音乐集|游戏|原声集/g
+
+/** 判断标题是否包含任一分割词 */
+const includesAny = (title: string, splits: string[]) => splits.some(item => title.includes(item))
 
 /** 搜索 */
 export async function search(q: string, artist: string) {
@@ -29,13 +40,16 @@ export async function search(q: string, artist: string) {
   })
 
   try {
-    const SIMILAR_RATE = 0.7
-    const _q = t2s(q.toLocaleUpperCase()).replace(REG_FIXED, '').trim()
+    // 查询词标准化, 并预分割, 避免在过滤回调内重复处理
+    const normalized = t2s(q.toLocaleUpperCase()).replace(REG_FIXED, '').trim()
+    const slashSplits = normalized.includes('/') ? normalized.split('/') : null
+    const fullwidthSplits = normalized.includes('／') ? normalized.split('／') : null
+
     return (
       cheerio(htmlMatch(_response, '<div class="search-content', '<div id="biliMainFooter"'))(
         '.bili-video-card'
       )
-        .map((_index: number, element: any) => {
+        .map((_index: number, element: CheerioNode) => {
           const $row = cheerio(element)
           return {
             result_type: 'video',
@@ -53,21 +67,14 @@ export async function search(q: string, artist: string) {
     )
       .filter(item => {
         const title = item.title.toLocaleUpperCase().replace(REG_FIXED, '').trim()
-        if (similar(title, _q) >= SIMILAR_RATE || title.includes(_q)) return true
+        if (similar(title, normalized) >= SIMILAR_RATE || title.includes(normalized)) return true
 
-        if (_q.includes('/')) {
-          const splits = _q.split('/')
-          if (splits.some(item => title.includes(item))) return true
-        }
-
-        if (_q.includes('／')) {
-          const splits = _q.split('／')
-          if (splits.some(item => title.includes(item))) return true
-        }
+        if (slashSplits && includesAny(title, slashSplits)) return true
+        if (fullwidthSplits && includesAny(title, fullwidthSplits)) return true
 
         return false
       })
-      .filter((_item, index: number) => index <= 6)
+      .slice(0, MAX_RESULTS)
   } catch {}
 
   return []

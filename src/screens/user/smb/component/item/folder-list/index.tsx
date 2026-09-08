@@ -4,12 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-16 06:17:23
  */
-import React from 'react'
 import { Linking, View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Image, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { copy, desc } from '@utils'
-import { ob } from '@utils/decorators'
 import { ASSETS_ICONS } from '@constants'
 import FolderEp from '../folder-ep'
 import LastModified from '../last-modified'
@@ -19,6 +18,7 @@ import type { Ctx, SMBListItem } from '../../../types'
 
 function FolderList({ folder }: { folder: SMBListItem }) {
   const { $ } = useStore<Ctx>()
+
   const { smb } = $.current
   const { name, lastModified, list } = folder
   const showFiles = $.isFiles(name)
@@ -91,4 +91,4 @@ function FolderList({ folder }: { folder: SMBListItem }) {
   return <FolderEp folder={folder} />
 }
 
-export default ob(FolderList)
+export default observer(FolderList)

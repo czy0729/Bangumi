@@ -4,18 +4,20 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-04-04 07:46:40
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Activity, Flex, Input, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function SearchBar() {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   const styles = memoStyles()
   const { value, searching } = $.state
+
   return (
     <Flex>
       <Flex.Item>
@@ -50,4 +52,4 @@ function SearchBar() {
   )
 }
 
-export default ob(SearchBar, COMPONENT)
+export default observer(SearchBar)

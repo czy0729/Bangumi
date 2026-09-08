@@ -4,18 +4,19 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-04-04 07:30:03
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, HeaderV2 } from '@components'
 import { IconHeader } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HM } from '../ds'
-import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../types'
+
 function Header() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   return (
     <HeaderV2
       backgroundStyle={_.container.tinygrail}
@@ -49,4 +50,4 @@ function Header() {
   )
 }
 
-export default ob(Header, COMPONENT)
+export default observer(Header)

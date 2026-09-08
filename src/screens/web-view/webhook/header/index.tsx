@@ -4,12 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-12 06:36:20
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { ob } from '@utils/decorators'
 import { HTML_SINGLE_DOC } from '@constants'
 import { HM } from './ds'
 
@@ -32,4 +31,4 @@ function Header() {
   )
 }
 
-export default ob(Header)
+export default observer(Header)

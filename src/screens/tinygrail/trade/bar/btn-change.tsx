@@ -4,15 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-20 11:55:26
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+
+import type { Ctx } from '../types'
 
 function BtnChange({ value, text }) {
   const { $ } = useStore<Ctx>()
+
   const { distance } = $.state
+
   return (
     <Text
       type={distance === value ? 'warning' : 'tinygrailText'}
@@ -24,4 +26,4 @@ function BtnChange({ value, text }) {
   )
 }
 
-export default ob(BtnChange)
+export default observer(BtnChange)

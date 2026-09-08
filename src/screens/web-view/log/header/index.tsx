@@ -4,23 +4,25 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-04-04 06:46:13
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
-import { Ctx } from '../types'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../types'
+
 function Header() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   const { show, showStats } = $.state
   const itemProps = {
     style: _.mr.xs,
     size: 18,
     color: _.colorDesc
   } as const
+
   return (
     <HeaderV2
       title={$.headerInfo || '错误上报分析'}
@@ -46,4 +48,4 @@ function Header() {
   )
 }
 
-export default ob(Header, COMPONENT)
+export default observer(Header)

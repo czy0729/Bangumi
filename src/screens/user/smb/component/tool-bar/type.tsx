@@ -4,16 +4,18 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:31:43
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
+
+import type { Ctx } from '../../types'
 
 function Type() {
   const { $ } = useStore<Ctx>()
+
   const { tags } = $.state
   const tagsCount = $.tagsCount()
+
   return (
     <ToolBar.Popover
       data={['全部', ...$.memoTags.map(item => `${item} (${tagsCount[item]})`)]}
@@ -33,4 +35,4 @@ function Type() {
   )
 }
 
-export default ob(Type)
+export default observer(Type)

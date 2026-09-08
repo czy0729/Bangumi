@@ -4,18 +4,21 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-11 16:03:04
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Loading } from '@components'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore, otaStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
 function ItemGrid({ pickIndex, index, num }) {
+  r(COMPONENT)
+
   const subjectId = otaStore.gameSubjectId(pickIndex)
   const { id, t: title, c: image, sc: score, r: rank, en: time } = otaStore.game(subjectId)
+
   if (!id) {
     const gridStyles = _.grid(num)
     return (
@@ -34,6 +37,7 @@ function ItemGrid({ pickIndex, index, num }) {
   }
 
   const styles = memoStyles()
+
   return (
     <ItemCollectionsGrid
       style={(_.isPad || _.isLandscape) && !(index % num) && styles.left}
@@ -50,4 +54,4 @@ function ItemGrid({ pickIndex, index, num }) {
   )
 }
 
-export default ob(ItemGrid, COMPONENT)
+export default observer(ItemGrid)

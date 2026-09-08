@@ -4,11 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-04 00:38:07
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { ScrollView, Text } from '@components'
 import { _, systemStore, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { LABEL_DS } from '../../ds'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -16,7 +15,8 @@ import { memoStyles } from './styles'
 import type { Ctx } from '../../types'
 
 function Counts() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   const styles = memoStyles()
   const { counts, lastCounts = [] } = $.wiki
 
@@ -59,4 +59,4 @@ function Counts() {
   )
 }
 
-export default ob(Counts, COMPONENT)
+export default observer(Counts)

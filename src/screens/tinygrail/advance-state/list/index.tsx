@@ -4,13 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-11-08 06:31:09
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils/app'
-import { ob } from '@utils/decorators'
 import ItemAdvance from '@tinygrail/_/item-advance'
-import { Ctx } from '../types'
+
+import type { Ctx } from '../types'
 
 function List() {
   const { $ } = useStore<Ctx>()
@@ -47,4 +47,4 @@ function List() {
   )
 }
 
-export default ob(List)
+export default observer(List)

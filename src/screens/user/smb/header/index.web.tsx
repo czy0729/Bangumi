@@ -4,20 +4,22 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:33:21
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Activity, Flex, Header as HeaderComp, Touchable } from '@components'
 import { useStore } from '@stores'
 import { info, open } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HTML_SINGLE_DOC } from '@constants'
-import { Ctx } from '../types'
 import { styles } from './styles'
 import './index.scss'
 
+import type { Ctx } from '../types'
+
 function Header() {
   const { $, navigation } = useStore<Ctx>()
+
   const { fetchingCollections } = $.state
+
   return (
     <HeaderComp
       title='本地管理'
@@ -77,4 +79,4 @@ function Header() {
   )
 }
 
-export default ob(Header)
+export default observer(Header)

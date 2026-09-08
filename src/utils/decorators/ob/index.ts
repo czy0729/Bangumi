@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-16 17:45:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-31 14:53:36
+ * @Last Modified time: 2026-09-08 22:02:04
  */
 import { observer } from 'mobx-react'
 import { DEV } from '@src/config'
@@ -19,15 +19,15 @@ import type { IReactComponent } from '@types'
  */
 export default function ob<T extends IReactComponent>(
   Component: T,
-  param2?: object | string,
+  param2?: Record<string, unknown> | string,
   param3?: string
 ): T {
-  let devRerenderKey: string
+  let devRerenderKey: string | undefined
 
   // 处理第二个参数
   if (param2) {
     if (typeof param2 === 'object') {
-      Component.defaultProps = param2
+      ;(Component as { defaultProps?: Record<string, unknown> }).defaultProps = param2
     } else if (typeof param2 === 'string') {
       devRerenderKey = param2
     }

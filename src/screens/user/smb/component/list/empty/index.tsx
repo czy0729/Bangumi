@@ -4,17 +4,19 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:27:56
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Empty as EmptyComp, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
-import { Ctx } from '../../../types'
+
+import type { Ctx } from '../../../types'
 
 function Empty() {
   const { $, navigation } = useStore<Ctx>()
+
   const { filter } = $.state
   const value = filter.trim()
+
   return (
     <EmptyComp
       text={
@@ -46,4 +48,4 @@ function Empty() {
   )
 }
 
-export default ob(Empty)
+export default observer(Empty)

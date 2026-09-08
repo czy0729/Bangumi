@@ -4,19 +4,20 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:23:54
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx, MergeListItem } from '../../types'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-export default ob(({ subjectId, merge, ...folder }: MergeListItem) => {
-  const { $, navigation } = useStore<Ctx>()
+import type { Ctx, MergeListItem } from '../../types'
+
+export default observer(({ subjectId, merge, ...folder }: MergeListItem) => {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
   if (!folder?.list?.length) return null
 
   const { id, jp, cn, image, type } = $.subjectV2(subjectId)
+
   return (
     <Item
       navigation={navigation}
@@ -31,4 +32,4 @@ export default ob(({ subjectId, merge, ...folder }: MergeListItem) => {
       merge={merge}
     />
   )
-}, COMPONENT)
+})

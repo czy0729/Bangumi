@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-19 20:07:36
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Menu } from '@components'
 import { Popover } from '@components/popover/old'
-import { observer } from '@utils/decorators'
 import { FROZEN_FN, IOS } from '@constants'
 
 /** 旧实现, 暂保留 */

@@ -1,15 +1,14 @@
+import { observer } from 'mobx-react'
 /*
  * @Author: czy0729
  * @Date: 2019-11-21 23:37:31
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-03 23:23:44
  */
-import React from 'react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
 import { _, useStore } from '@stores'
 import { stl, toFixed } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import {
   B,
@@ -31,6 +30,7 @@ const CALCULATE_TEMPLE_TYPE_DATA = TINYGRAIL_CALCULATE_TEMPLE_TYPE.map(item => i
 
 function ToolBar({ style }: { style?: ViewStyle }) {
   const { $ } = useStore<Ctx>()
+
   const styles = memoStyles()
   const { type, calculateType, total = 0, filterItems } = $.state
   const typeLabel = MODEL_TINYGRAIL_ASSETS_TYPE.getLabel(type)
@@ -111,4 +111,4 @@ function ToolBar({ style }: { style?: ViewStyle }) {
   )
 }
 
-export default ob(ToolBar)
+export default observer(ToolBar)

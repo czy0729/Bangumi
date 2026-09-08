@@ -4,20 +4,22 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-04-04 07:26:04
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Button, Flex } from '@components'
 import { useStore } from '@stores'
 import { confirm } from '@utils'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function Btn() {
-  const { $ } = useStore<Ctx>()
-  const styles = memoStyles()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   const ids = $.list.list.filter(item => !!item.icoId).map(item => item.icoId)
   if (!ids.length) return null
+
+  const styles = memoStyles()
 
   return (
     <Flex style={styles.wrap} justify='center'>
@@ -38,4 +40,4 @@ function Btn() {
   )
 }
 
-export default ob(Btn, COMPONENT)
+export default observer(Btn)

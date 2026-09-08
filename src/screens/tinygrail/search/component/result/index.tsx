@@ -4,12 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-04-04 07:51:43
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { tinygrailOSS } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -17,7 +16,8 @@ import { memoStyles } from './styles'
 import type { Ctx } from '../../types'
 
 function Result({ style }) {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   const styles = memoStyles()
   const { list } = $.state
 
@@ -88,4 +88,4 @@ function Result({ style }) {
   )
 }
 
-export default ob(Result, COMPONENT)
+export default observer(Result)

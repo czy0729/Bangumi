@@ -5,10 +5,11 @@
  * @Last Modified time: 2024-11-18 02:23:39
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Button, Flex, RenderHtml, ScrollView } from '@components'
 import { _, systemStore } from '@stores'
 import { appNavigate } from '@utils/app'
-import { ob, withHeader } from '@utils/decorators'
+import { withHeader } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { HTML } from './ds'
 import { memoStyles } from './styles'
@@ -103,4 +104,4 @@ class UGCAgree extends React.Component<NavigationProps> {
 export default withHeader({
   screen: title,
   hm: ['about/guideline', 'UGCAgree']
-})(ob(UGCAgree))
+})(observer(UGCAgree))

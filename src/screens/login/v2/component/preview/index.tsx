@@ -4,18 +4,20 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-03-22 17:27:59
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Button, Heatmap, Mesume, Page } from '@components'
 import { _ } from '@stores'
 import { open } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { FROZEN_FN, HOST, WEB } from '@constants'
 import i18n from '@constants/i18n'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function Preview({ onLogin = FROZEN_FN, onTour = FROZEN_FN }) {
+  r(COMPONENT)
+
   const Component = WEB ? Page : View
   return (
     <Component style={_.container.column}>
@@ -48,4 +50,4 @@ function Preview({ onLogin = FROZEN_FN, onTour = FROZEN_FN }) {
   )
 }
 
-export default ob(Preview, COMPONENT)
+export default observer(Preview)

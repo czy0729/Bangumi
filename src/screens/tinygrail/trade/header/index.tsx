@@ -4,13 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-16 05:44:38
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Avatar, Flex, Text } from '@components'
 import { IconHeader, IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { tinygrailOSS, toFixed } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
 import Today from './today'
@@ -20,6 +19,7 @@ import type { Ctx } from '../types'
 
 function Header({ goBack = FROZEN_FN }) {
   const { $, navigation } = useStore<Ctx>()
+
   const { icon, name, current, fluctuation } = $.chara
   let color = _.colorTinygrailPlain
   if (fluctuation < 0) {
@@ -114,4 +114,4 @@ function Header({ goBack = FROZEN_FN }) {
   )
 }
 
-export default ob(Header)
+export default observer(Header)

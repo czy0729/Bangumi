@@ -4,17 +4,19 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:21:03
  */
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
+import { observer } from 'mobx-react'
 import { Button, Flex, Text } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../../types'
 import { transformData } from '../../../utils/directory'
 import { loadJAData } from '../../../utils/load-data'
 import { styles } from './styles'
 
+import type { Ctx } from '../../../types'
+
 const DirectoryItem = () => {
   const { $ } = useStore<Ctx>()
+
   const inputRef = useRef(null)
   const [uploading, setUploading] = useState(false)
   const [num, setNum] = useState(0)
@@ -95,4 +97,4 @@ const DirectoryItem = () => {
   )
 }
 
-export default ob(DirectoryItem)
+export default observer(DirectoryItem)

@@ -4,15 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-20 11:37:37
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Loading } from '@components'
 import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { ob } from '@utils/decorators'
 import Item from '@tinygrail/_/item'
 import { refreshControlProps } from '@tinygrail/styles'
-import { Ctx } from '../types'
+
+import type { Ctx } from '../types'
 
 const EVENT = {
   id: '英灵殿.跳转'
@@ -20,6 +20,7 @@ const EVENT = {
 
 function List() {
   const { $ } = useStore<Ctx>()
+
   if (!$.computedList._loaded) {
     return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
@@ -44,7 +45,7 @@ function List() {
   )
 }
 
-export default ob(List)
+export default observer(List)
 
 function renderItem({ item, index }) {
   return <Item index={index} type='valhall' event={EVENT} {...item} />

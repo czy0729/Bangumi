@@ -4,18 +4,20 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:29:14
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../../types'
 import ItemGrid from '../../item-grid'
 import { styles } from './styles'
 
+import type { Ctx } from '../../../types'
+
 function Grids() {
   const { $ } = useStore<Ctx>()
+
   const { layoutGridNums } = $.state.configs
+
   return (
     <Flex style={styles.grids} justify='between' wrap='wrap'>
       {$.pageList.map((item, index) => (
@@ -35,4 +37,4 @@ function Grids() {
   )
 }
 
-export default ob(Grids)
+export default observer(Grids)

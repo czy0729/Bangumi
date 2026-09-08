@@ -4,13 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-01 05:39:01
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Rank, Stars, Tag } from '@_'
 import { _, collectionStore, otaStore, uiStore, useStore } from '@stores'
 import { desc, x18 } from '@utils'
-import { ob } from '@utils/decorators'
 import { withT } from '@utils/fetch'
 import {
   HOST_BGM_STATIC,
@@ -26,7 +25,8 @@ import type { CollectionStatus } from '@types'
 import type { Ctx } from '../../types'
 
 function Item({ pickIndex }) {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   const styles = memoStyles()
   const subjectId = otaStore.mangaSubjectId(pickIndex)
   const manga = otaStore.manga(subjectId)
@@ -168,4 +168,4 @@ function Item({ pickIndex }) {
   )
 }
 
-export default ob(Item, COMPONENT)
+export default observer(Item)

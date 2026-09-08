@@ -9,7 +9,7 @@ import { Flex, Heatmap, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Rank, Stars, Tag } from '@_'
 import { _, collectionStore, otaStore, uiStore, useStore } from '@stores'
-import { ob } from '@utils/decorators'
+import { observer } from 'mobx-react'
 import { t } from '@utils/fetch'
 import { HENTAI_TAGS } from '@utils/subject/hentai'
 import {
@@ -142,4 +142,4 @@ function Item({ index, pickIndex }) {
   )
 }
 
-export default ob(Item)
+export default observer(Item)

@@ -4,16 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-01-16 17:21:25
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import ToolBarComp from '@tinygrail/_/tool-bar'
 import { SORT_DS } from '../../ds'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function ToolBar() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   return (
     <ToolBarComp
       data={SORT_DS}
@@ -27,4 +28,4 @@ function ToolBar() {
   )
 }
 
-export default ob(ToolBar, COMPONENT)
+export default observer(ToolBar)

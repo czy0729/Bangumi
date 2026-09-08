@@ -6,12 +6,13 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Input } from '@components'
-import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../../types'
 
 class Filter extends React.Component<Ctx> {
   state = {
@@ -63,4 +64,4 @@ class Filter extends React.Component<Ctx> {
   }
 }
 
-export default ob(Filter)
+export default observer(Filter)

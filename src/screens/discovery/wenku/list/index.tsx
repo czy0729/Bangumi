@@ -8,7 +8,7 @@ import React from 'react'
 import { Loading } from '@components'
 import { Filter, PaginationList } from '@_'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { observer } from 'mobx-react'
 import { ADVANCE_LIMIT, filterDS } from '../ds'
 import Item from '../item'
 import ItemGrid from '../item-grid'
@@ -80,7 +80,7 @@ class List extends React.Component<Ctx> {
   }
 }
 
-export default ob(List)
+export default observer(List)
 
 export function keyExtractor(item: any) {
   return String(item)

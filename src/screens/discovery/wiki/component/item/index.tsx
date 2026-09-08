@@ -4,19 +4,20 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-17 08:15:24
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Divider, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { appNavigate, findSubjectCn } from '@utils'
-import { ob } from '@utils/decorators'
 import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 function Item({ id, name, detail, userName, userId, time }) {
-  const navigation = useNavigation()
+  const navigation = useNavigation(COMPONENT)
+
   const styles = memoStyles()
+
   return (
     <View style={styles.item}>
       <Flex>
@@ -62,4 +63,4 @@ function Item({ id, name, detail, userName, userId, time }) {
   )
 }
 
-export default ob(Item, COMPONENT)
+export default observer(Item)

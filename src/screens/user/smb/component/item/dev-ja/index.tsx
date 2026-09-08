@@ -4,9 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-11-26 16:39:52
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Text } from '@components'
-import { ob } from '@utils/decorators'
 import { cleaned, cleaned2, cleaned3, cleaned4, cleaned5, findJA } from '@utils/thirdParty/ja'
 import { extractAnimeName } from '../../../utils/directory'
 
@@ -27,4 +26,4 @@ function DevJA({ folderName }: { folderName: string }) {
   )
 }
 
-export default ob(DevJA)
+export default observer(DevJA)

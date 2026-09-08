@@ -5,10 +5,10 @@
  * @Last Modified time: 2026-07-04 05:58:34
  */
 import React from 'react'
+import { observer } from 'mobx-react'
 import { ListView, Loading, Text } from '@components'
 import { _ } from '@stores'
 import { keyExtractor } from '@utils'
-import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import Item from '../item'
 import { COMPONENT } from './ds'
@@ -53,4 +53,4 @@ class List extends React.Component<Ctx> {
   }
 }
 
-export default ob(List)
+export default observer(List)

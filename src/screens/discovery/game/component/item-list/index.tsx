@@ -4,14 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-06 07:32:07
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Heatmap, HorizontalList, Image, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Rank, Stars, Tags } from '@_'
 import { _, collectionStore, otaStore, uiStore } from '@stores'
 import { HTMLDecode, showImageViewer, stl, x18 } from '@utils'
-import { ob } from '@utils/decorators'
 import { withT } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import {
@@ -23,13 +22,14 @@ import {
   WEB
 } from '@constants'
 import { getThumbs, toArray } from './utils'
-import { THUMB_HEIGHT, THUMB_WIDTH } from './ds'
+import { COMPONENT, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 import { memoStyles } from './styles'
 
 import type { CollectionStatus } from '@types'
 
 function ItemList({ index, pickIndex }) {
-  const navigation = useNavigation()
+  const navigation = useNavigation(COMPONENT)
+
   const styles = memoStyles()
   const subjectId = otaStore.gameSubjectId(pickIndex)
   const game = otaStore.game(subjectId)
@@ -202,4 +202,4 @@ function ItemList({ index, pickIndex }) {
   )
 }
 
-export default ob(ItemList)
+export default observer(ItemList)

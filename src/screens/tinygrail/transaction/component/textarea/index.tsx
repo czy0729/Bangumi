@@ -4,21 +4,22 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-03-07 17:04:20
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Input, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { COLORS } from '../../ds'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function Textarea() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
   if (!$.state.show) return null
 
   const styles = memoStyles()
+
   return (
     <View style={styles.container}>
       <Input
@@ -72,4 +73,4 @@ function Textarea() {
   )
 }
 
-export default ob(Textarea, COMPONENT)
+export default observer(Textarea)

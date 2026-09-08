@@ -4,12 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-03 23:22:23
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { calculateFutureICO, calculateICO, formatNumber } from '@utils'
-import { ob } from '@utils/decorators'
 import TinygrailAvatar from '@tinygrail/_/avatar'
 import TinygrailRank from '@tinygrail/_/rank'
 import { COMPONENT, EVENT } from './ds'
@@ -18,13 +17,15 @@ import { memoStyles } from './styles'
 import type { Ctx } from '../../types'
 
 function Initial() {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   const styles = memoStyles()
   const { step } = $.state
   const { users } = $.chara
   const { list } = $.initial
   const { nextUser, amount } = calculateICO($.chara)
   const futureICO = step ? calculateFutureICO($.chara, step) : null
+
   return (
     <View style={styles.container}>
       <Text type='tinygrailPlain' size={12} lineHeight={16}>
@@ -125,4 +126,4 @@ function Initial() {
   )
 }
 
-export default ob(Initial, COMPONENT)
+export default observer(Initial)

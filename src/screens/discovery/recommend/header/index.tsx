@@ -4,15 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-17 07:52:31
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
-import { ob } from '@utils/decorators'
 import { useNavigation } from '@utils/hooks'
 import { WEB } from '@constants'
 import { COMPONENT, DATA, HM } from './ds'
 
 function Header() {
-  const navigation = useNavigation()
+  const navigation = useNavigation(COMPONENT)
+
   return (
     <HeaderV2
       title='AI 推荐'
@@ -41,4 +41,4 @@ function Header() {
   )
 }
 
-export default ob(Header, COMPONENT)
+export default observer(Header)

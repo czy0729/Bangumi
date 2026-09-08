@@ -4,26 +4,27 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:32:16
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Loading, Text } from '@components'
 import { Popover } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { ACTIONS_SMB } from '../../ds'
-import { Ctx } from '../../types'
 import Servers from '../servers'
 import ToolBar from '../tool-bar'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function Top() {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
   const smb = $.current?.smb
   if (!smb) return null
 
   const styles = memoStyles()
   const { loading } = $.state
+
   return (
     <View style={styles.top}>
       <Flex style={styles.container}>
@@ -59,4 +60,4 @@ function Top() {
   )
 }
 
-export default ob(Top, COMPONENT)
+export default observer(Top)

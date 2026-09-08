@@ -4,17 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:30:47
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function Servers({ store }: { store: Ctx['$'] }) {
-  let { $ } = useStore<Ctx>()
+  let { $ } = useStore<Ctx>(COMPONENT)
   $ = $?.state ? $ : store
 
   const smb = $.current?.smb
@@ -43,4 +43,4 @@ function Servers({ store }: { store: Ctx['$'] }) {
   )
 }
 
-export default ob(Servers, COMPONENT)
+export default observer(Servers)

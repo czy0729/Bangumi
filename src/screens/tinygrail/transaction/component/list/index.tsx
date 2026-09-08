@@ -4,17 +4,18 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-03-07 17:05:34
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
-import { Ctx } from '../../types'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function List() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   return (
     <PaginationList
       forwardRef={$.forwardRef}
@@ -32,4 +33,4 @@ function List() {
   )
 }
 
-export default ob(List, COMPONENT)
+export default observer(List)

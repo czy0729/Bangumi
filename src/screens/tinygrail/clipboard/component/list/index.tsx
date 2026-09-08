@@ -4,18 +4,18 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-27 06:33:21
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { ListView } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { ob } from '@utils/decorators'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../types'
 
 function List() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   return (
     <ListView
       contentContainerStyle={_.container.bottom}
@@ -37,4 +37,4 @@ function List() {
   )
 }
 
-export default ob(List, COMPONENT)
+export default observer(List)

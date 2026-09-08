@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-03 23:22:12
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { CountDown, Flex, Iconfont, Image, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import {
@@ -17,7 +17,6 @@ import {
   HTMLDecode,
   tinygrailOSS
 } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import Bar from '../bar'
 import Subject from '../subject'
@@ -27,7 +26,8 @@ import { memoStyles } from './styles'
 import type { Ctx } from '../../types'
 
 const Info = () => {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   const styles = memoStyles()
 
   const { icon, monoId, name, total, end = '', bonus } = $.chara
@@ -149,4 +149,4 @@ const Info = () => {
   )
 }
 
-export default ob(Info, COMPONENT)
+export default observer(Info)

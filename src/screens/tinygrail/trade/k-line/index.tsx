@@ -7,10 +7,10 @@
 import React from 'react'
 import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
+import { observer } from 'mobx-react'
 import { Loading, Text } from '@components'
 import { _, tinygrailStore } from '@stores'
 import { info } from '@utils'
-import { ob } from '@utils/decorators'
 import { HOST_CDN } from '@constants'
 import html from './html'
 import { getKData } from './utils'
@@ -103,4 +103,4 @@ class KLine extends React.Component<Props> {
   }
 }
 
-export default ob(KLine)
+export default observer(KLine)

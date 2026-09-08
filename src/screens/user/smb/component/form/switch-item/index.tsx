@@ -4,19 +4,21 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:23:20
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, SwitchPro, Text } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { alert } from '@utils'
 import { syncS2T } from '@utils/async'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../../types'
 import { styles } from './styles'
+
+import type { Ctx } from '../../../types'
 
 function SwitchItem() {
   const { $ } = useStore<Ctx>()
+
   const { autoJA } = $.state
+
   return (
     <Flex style={_.mt.sm}>
       <Flex style={styles.label}>
@@ -43,4 +45,4 @@ function SwitchItem() {
   )
 }
 
-export default ob(SwitchItem)
+export default observer(SwitchItem)

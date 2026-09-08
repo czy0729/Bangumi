@@ -4,22 +4,24 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-31 01:01:45
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Button, Flex, Input, Slider as SliderComp, Text } from '@components'
 import { _, tinygrailStore, useStore } from '@stores'
 import { confirm, debounce, formatNumber } from '@utils'
-import { ob } from '@utils/decorators'
 import { decimal } from '@tinygrail/_/utils'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function Slider() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   const styles = memoStyles()
   const { loading, amount } = $.state
   const { balance } = $.assets
+
   return (
     <View style={styles.container}>
       <Flex>
@@ -81,4 +83,4 @@ function Slider() {
   )
 }
 
-export default ob(Slider, COMPONENT)
+export default observer(Slider)

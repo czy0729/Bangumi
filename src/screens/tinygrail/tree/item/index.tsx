@@ -4,15 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-17 05:32:07
  */
-import React from 'react'
 import { View } from 'react-native'
-import { Flex, Image, Text, TextType } from '@components'
+import { observer } from 'mobx-react'
+import { Flex, Image, Text } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
-import { ob } from '@utils/decorators'
 import { B, M } from '@constants'
 import { memoStyles } from './styles'
+
+import type { TextType } from '@components'
 
 const area = _.window.width * _.window.height
 
@@ -156,4 +157,4 @@ function Item({
   )
 }
 
-export default ob(Item)
+export default observer(Item)

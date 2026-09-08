@@ -4,16 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:31:21
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function Tags() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
   if (!$.memoTags.length) return null
 
   const styles = memoStyles()
@@ -50,4 +50,4 @@ function Tags() {
   )
 }
 
-export default ob(Tags, COMPONENT)
+export default observer(Tags)

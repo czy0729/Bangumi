@@ -4,15 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-11-11 04:09:14
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex } from '@components'
-import { ob } from '@utils/decorators'
-import { m15, h1, h4, h12, d1, w1, month1 } from '../store'
+import { d1, h1, h12, h4, m15, month1, w1 } from '../store'
 import BtnChange from './btn-change'
 import { memoStyles } from './styles'
 
 function Bar() {
   const styles = memoStyles()
+
   return (
     <Flex style={styles.bar} justify='around'>
       <BtnChange value={m15} text='15分钟' />
@@ -26,4 +26,4 @@ function Bar() {
   )
 }
 
-export default ob(Bar)
+export default observer(Bar)

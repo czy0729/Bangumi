@@ -4,20 +4,21 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 02:14:36
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function History({ style }) {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
   if ($.state.value !== '') return null
 
   const styles = memoStyles()
+
   return (
     <View style={style}>
       {$.state.history.map(item => (
@@ -40,4 +41,4 @@ function History({ style }) {
   )
 }
 
-export default ob(History, COMPONENT)
+export default observer(History)

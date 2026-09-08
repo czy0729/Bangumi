@@ -4,17 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-19 15:59:39
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import TinygrailHeader from '@tinygrail/_/header'
 import { COMPONENT, HM } from './ds'
 
 function Header() {
-  const navigation = useNavigation()
+  const navigation = useNavigation(COMPONENT)
+
   return (
     <TinygrailHeader
       title='番市首富'
@@ -37,4 +37,4 @@ function Header() {
   )
 }
 
-export default ob(Header, COMPONENT)
+export default observer(Header)

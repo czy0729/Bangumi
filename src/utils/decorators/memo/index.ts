@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-08-09 01:49:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-08 03:56:28
+ * @Last Modified time: 2026-09-08 21:39:35
  */
 import React from 'react'
 import { DEV } from '@src/config'
 import { withDev } from '../utils'
 import { memoCompare } from './utils'
-import { CustemCompareFn } from './types'
+
+import type { CustemCompareFn } from './types'
 
 /**
  * 封装通用 React.memo

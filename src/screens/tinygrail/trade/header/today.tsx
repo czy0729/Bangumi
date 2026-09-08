@@ -4,16 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-20 11:58:55
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
 import { date, getTimestamp, toFixed } from '@utils'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+
+import type { Ctx } from '../types'
 
 function Today() {
   const { $ } = useStore<Ctx>()
+
   let high = '-'
   let low = '-'
   let amount = 0
@@ -58,7 +59,7 @@ function Today() {
   )
 }
 
-export default ob(Today)
+export default observer(Today)
 
 const styles = _.create({
   today: {

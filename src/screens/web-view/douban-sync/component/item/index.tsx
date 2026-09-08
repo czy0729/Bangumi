@@ -4,16 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-19 05:41:50
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-export default ob(({ item }) => {
-  const { $, navigation } = useStore<Ctx>()
+import type { Ctx } from '../../types'
+
+export default observer(({ item }) => {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   const { subjectId } = item
 
   // 隐藏未匹配
@@ -39,4 +40,4 @@ export default ob(({ item }) => {
       onSubmit={$.onSubmit}
     />
   )
-}, COMPONENT)
+})

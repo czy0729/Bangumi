@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-03 23:23:26
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
 import { MODEL_TINYGRAIL_CALCULATE_TYPE } from '@constants'
 import Item from '../item'
 
@@ -17,6 +16,7 @@ function Chart({ data = [], calculateType, isTemple, onPress, onLongPress }) {
   const label = MODEL_TINYGRAIL_CALCULATE_TYPE.getLabel<TinygrailCalculateTypeCn>(calculateType)
   let extra: string
   if (label === '股息') extra = '+'
+
   return (
     <View style={_.container.tinygrail}>
       {data.map(item => (
@@ -34,4 +34,4 @@ function Chart({ data = [], calculateType, isTemple, onPress, onLongPress }) {
   )
 }
 
-export default ob(Chart)
+export default observer(Chart)

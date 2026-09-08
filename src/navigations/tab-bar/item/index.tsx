@@ -4,13 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-11-13 12:20:38
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex } from '@components/flex'
 import { Iconfont } from '@components/iconfont'
 import { Text } from '@components/text'
 import { Touchable } from '@components/touchable'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
 import { WSA } from '@constants'
 import { styles } from './styles'
 
@@ -67,4 +66,4 @@ function TabBarItem({ navigation, route, length, config, isFocused }: Props) {
   )
 }
 
-export default ob(TabBarItem)
+export default observer(TabBarItem)

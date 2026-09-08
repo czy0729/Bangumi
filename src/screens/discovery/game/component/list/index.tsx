@@ -4,11 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-27 06:17:22
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Loading } from '@components'
 import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import Filter from '../filter'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
@@ -16,7 +15,8 @@ import { COMPONENT } from './ds'
 import type { Ctx } from '../../types'
 
 function List() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   if (!$.state._loaded && !$.state.data._loaded) {
     return (
       <>
@@ -27,6 +27,7 @@ function List() {
   }
 
   const numColumns = $.isList ? undefined : _.portrait(_.device(3, 4), 5)
+
   return (
     <PaginationList
       key={`${$.state.layout}${numColumns}`}
@@ -43,4 +44,4 @@ function List() {
   )
 }
 
-export default ob(List, COMPONENT)
+export default observer(List)

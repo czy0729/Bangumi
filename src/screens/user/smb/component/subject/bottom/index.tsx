@@ -4,11 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-09-23 11:19:32
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { Rank, Stars } from '@_'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
 import { styles } from './styles'
 
 function Bottom({ rating, rank }) {
@@ -25,4 +24,4 @@ function Bottom({ rating, rank }) {
   )
 }
 
-export default ob(Bottom)
+export default observer(Bottom)

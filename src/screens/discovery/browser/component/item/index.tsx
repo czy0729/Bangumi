@@ -4,9 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-25 21:18:00
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import GridItem from './grid'
 import ListItem from './list'
@@ -16,7 +15,8 @@ import type { SubjectTypeCn } from '@types'
 import type { Ctx } from '../../types'
 
 function Item({ item, index }) {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   const Component = $.isList ? ListItem : GridItem
 
   return (
@@ -29,4 +29,4 @@ function Item({ item, index }) {
   )
 }
 
-export default ob(Item, COMPONENT)
+export default observer(Item)

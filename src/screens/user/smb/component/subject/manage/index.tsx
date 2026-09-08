@@ -4,14 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:31:05
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Manage as ManageComp } from '@_'
 import { collectionStore, uiStore, userStore, useStore } from '@stores'
 import { cnjp } from '@utils'
-import { ob } from '@utils/decorators'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { SubjectTypeCn } from '@types'
-import { Ctx } from '../../../types'
+
+import type { SubjectTypeCn } from '@types'
+import type { Ctx } from '../../../types'
 
 function Manage({ subjectId }) {
   const { $ } = useStore<Ctx>()
@@ -52,4 +52,4 @@ function Manage({ subjectId }) {
   )
 }
 
-export default ob(Manage)
+export default observer(Manage)

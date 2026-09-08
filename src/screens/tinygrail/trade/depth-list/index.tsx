@@ -4,17 +4,18 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-20 11:55:46
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
 import { stl, toFixed } from '@utils'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
 import { memoStyles } from './styles'
+
+import type { Ctx } from '../types'
 
 function DepthList({ style }) {
   const { $ } = useStore<Ctx>()
+
   const { asks = [], bids = [], _loaded } = $.depth
   if (!_loaded) return null
   if (!asks.length && !bids.length) return null
@@ -127,4 +128,4 @@ function DepthList({ style }) {
   )
 }
 
-export default ob(DepthList)
+export default observer(DepthList)

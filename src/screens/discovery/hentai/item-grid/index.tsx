@@ -1,14 +1,13 @@
+import { observer } from 'mobx-react'
 /*
  * @Author: czy0729
  * @Date: 2021-01-03 05:07:34
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-01 05:40:44
  */
-import React from 'react'
 import { Flex, Loading } from '@components'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore, otaStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { HOST_BGM_STATIC, IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
 import { memoStyles } from './styles'
 
@@ -18,6 +17,7 @@ const EVENT = {
 
 function ItemGrid({ pickIndex, index, num }) {
   const styles = memoStyles()
+
   const subjectId = otaStore.hentaiSubjectId(pickIndex)
   const { id, i: image, c: cn, a: air, s: score, r: rank } = otaStore.hentai(subjectId)
   if (!id) {
@@ -54,4 +54,4 @@ function ItemGrid({ pickIndex, index, num }) {
   )
 }
 
-export default ob(ItemGrid)
+export default observer(ItemGrid)

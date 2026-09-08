@@ -4,16 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-19 18:34:13
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import Btns from '@tinygrail/_/btns'
-import { Ctx } from '../../types'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function ToolBar() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   return (
     <Btns>
       <Btns.Touchable
@@ -49,4 +50,4 @@ function ToolBar() {
   )
 }
 
-export default ob(ToolBar, COMPONENT)
+export default observer(ToolBar)

@@ -6,11 +6,11 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, HorizontalList, ScrollView, Text } from '@components'
 import { Cover, Tag } from '@_'
 import { _ } from '@stores'
 import { getCoverLarge, showImageViewer, simpleTime, stl } from '@utils'
-import { ob } from '@utils/decorators'
 import { r } from '@utils/dev'
 import { COMPONENT, COVER_HEIGHT, COVER_WIDTH } from './ds'
 
@@ -139,4 +139,4 @@ class List extends React.Component<Ctx> {
   }
 }
 
-export default ob(List)
+export default observer(List)

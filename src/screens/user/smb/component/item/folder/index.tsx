@@ -4,22 +4,23 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:24:05
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Image, Text, Touchable } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { copy } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { ASSETS_ICONS } from '@constants'
-import { Ctx, SMBListItem } from '../../../types'
 import { fixedUrl, openURL } from '../../../utils'
 import FolderList from '../folder-list'
 import { memoStyles } from './styles'
 
+import type { Ctx, SMBListItem } from '../../../types'
+
 function Folder({ folder, defaultShow = false }: { folder: SMBListItem; defaultShow?: boolean }) {
   const { $ } = useStore<Ctx>()
+
   const styles = memoStyles()
   const { smb } = $.current
   let showFolder = $.isExpanded(folder.name)
@@ -113,4 +114,4 @@ function Folder({ folder, defaultShow = false }: { folder: SMBListItem; defaultS
   )
 }
 
-export default ob(Folder)
+export default observer(Folder)

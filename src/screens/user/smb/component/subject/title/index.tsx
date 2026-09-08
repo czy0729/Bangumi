@@ -4,13 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:31:11
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Highlight } from '@components'
 import { useStore } from '@stores'
 import { cnjp, HTMLDecode } from '@utils'
-import { ob } from '@utils/decorators'
 import { TEXT_SPACE } from '@constants'
-import { Ctx } from '../../../types'
+
+import type { Ctx } from '../../../types'
 
 function Title({ name, nameCn }) {
   const { $ } = useStore<Ctx>()
@@ -23,6 +23,7 @@ function Title({ name, nameCn }) {
   const { length: lengthRight } = right
   const sizeLeft = lengthLeft >= 20 ? 13 : lengthLeft >= 12 ? 14 : 15
   const sizeRight = lengthRight >= 24 ? 9 : lengthRight >= 16 ? 10 : 11
+
   return (
     <Flex wrap='wrap' align='end'>
       <Highlight size={sizeLeft} bold numberOfLines={1} value={filter}>
@@ -44,4 +45,4 @@ function Title({ name, nameCn }) {
   )
 }
 
-export default ob(Title)
+export default observer(Title)

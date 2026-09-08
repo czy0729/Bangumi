@@ -4,15 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:27:24
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { desc } from '@utils'
-import { ob } from '@utils/decorators'
-import { Ctx, SMBListItem } from '../../../types'
 import Folder from '../folder'
 import { styles } from './styles'
+
+import type { Ctx, SMBListItem } from '../../../types'
 
 const LIMIT = 3
 
@@ -28,6 +28,7 @@ function Folders({
   defaultShow?: boolean
 }) {
   const { $ } = useStore<Ctx>()
+
   const { layoutList } = $.state.configs
   const folderNames = [folder.name]
   if (merge?.length) merge.forEach(item => folderNames.push(item.name))
@@ -70,4 +71,4 @@ function Folders({
   )
 }
 
-export default ob(Folders)
+export default observer(Folders)

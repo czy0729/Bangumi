@@ -4,14 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-04-18 15:51:13
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 
 function Extra() {
+  r(COMPONENT)
+
   return <Heatmap bottom={_.bottom} id='章节' screen='Episodes' />
 }
 
-export default ob(Extra, COMPONENT)
+export default observer(Extra)

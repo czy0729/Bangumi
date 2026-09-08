@@ -4,11 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-01 05:36:51
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Loading } from '@components'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore, otaStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { HOST_BGM_STATIC, IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
 import { memoStyles } from './styles'
 
@@ -22,6 +21,7 @@ function ItemGrid({ pickIndex, index, num }) {
   const { id, wid, image, cn, score, rank, begin, update } = otaStore.wenku(subjectId)
   if (!id) {
     const gridStyles = _.grid(num)
+
     return (
       <Flex
         style={{
@@ -55,4 +55,4 @@ function ItemGrid({ pickIndex, index, num }) {
   )
 }
 
-export default ob(ItemGrid)
+export default observer(ItemGrid)

@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-11-11 02:13:49
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
 import Item from '../item'
 
 function Chart({ data = [], onPress, onLongPress }) {
@@ -20,4 +19,4 @@ function Chart({ data = [], onPress, onLongPress }) {
   )
 }
 
-export default ob(Chart)
+export default observer(Chart)

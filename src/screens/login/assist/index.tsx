@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import {
   Button,
   Component,
@@ -19,7 +20,6 @@ import {
 } from '@components'
 import { _, userStore } from '@stores'
 import { copy, feedback, getFormhash, getTimestamp, info } from '@utils'
-import { ob } from '@utils/decorators'
 import { t, xhrCustom } from '@utils/fetch'
 import { APP_ID, APP_SECRET, HOST, URL_OAUTH_REDIRECT } from '@constants'
 import i18n from '@constants/i18n'
@@ -352,4 +352,4 @@ class LoginAssist extends React.Component<NavigationProps> {
   }
 }
 
-export default ob(LoginAssist)
+export default observer(LoginAssist)

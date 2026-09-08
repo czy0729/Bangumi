@@ -4,11 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-04 21:07:14
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Text, Touchable } from '@components'
 import { open } from '@utils'
-import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
 import { styles } from './styles'
 
@@ -33,4 +32,4 @@ function Information() {
   )
 }
 
-export default ob(Information)
+export default observer(Information)

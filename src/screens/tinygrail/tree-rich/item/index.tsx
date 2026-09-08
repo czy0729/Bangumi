@@ -4,13 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-03-13 08:21:54
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Image, Text } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
 import { toFixed } from '@utils'
-import { ob } from '@utils/decorators'
 import { B, M } from '@constants'
 import { memoStyles } from './styles'
 
@@ -123,4 +122,4 @@ function Item({ w, h, x, y, id, icon, name, price, percent, onPress, onLongPress
   )
 }
 
-export default ob(Item)
+export default observer(Item)

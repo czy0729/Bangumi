@@ -4,20 +4,22 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-12 06:32:52
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { open } from '@utils'
-import { ob } from '@utils/decorators'
 import { HTML_SINGLE_DOC } from '@constants'
 import { TABS } from '../ds'
-import { Ctx } from '../types'
 import { COMPONENT, HM } from './ds'
 
+import type { Ctx } from '../types'
+
 function Header() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   const { uri } = $.state
+
   return (
     <HeaderV2
       title='更新内容'
@@ -44,4 +46,4 @@ function Header() {
   )
 }
 
-export default ob(Header, COMPONENT)
+export default observer(Header)

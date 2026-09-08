@@ -4,14 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-27 06:28:25
  */
-import React from 'react'
 import { View } from 'react-native'
 import { toJS } from 'mobx'
+import { observer } from 'mobx-react'
 import { Flex, Heatmap, Image, ScrollView, Text, Touchable } from '@components'
 import { InView } from '@_'
 import { _, useStore } from '@stores'
 import { cnjp, desc, HTMLDecode, showImageViewer, stl } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { WEB } from '@constants'
 import { COMPONENT, IMAGE_HEIGHT, IMAGE_WIDTH } from './ds'
@@ -20,7 +19,8 @@ import { memoStyles } from './styles'
 import type { Ctx } from '../../types'
 
 function List() {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   const styles = memoStyles()
 
   // sp 排在正常章节后面, 已播放优先
@@ -103,4 +103,4 @@ function List() {
   )
 }
 
-export default ob(List, COMPONENT)
+export default observer(List)

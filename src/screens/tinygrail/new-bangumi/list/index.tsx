@@ -4,15 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-20 12:10:50
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { ob } from '@utils/decorators'
 import Item from '@tinygrail/_/item'
 import { refreshControlProps } from '@tinygrail/styles'
 import { TABS } from '../ds'
-import { Ctx } from '../types'
+
+import type { Ctx } from '../types'
 
 const EVENT = {
   id: '新番榜单.跳转'
@@ -20,6 +20,7 @@ const EVENT = {
 
 function List({ id }) {
   const { $ } = useStore<Ctx>()
+
   const list = $.computedList(id)
   if (!list._loaded) {
     return <Loading style={_.container.flex} color={_.colorTinygrailText} />
@@ -46,7 +47,7 @@ function List({ id }) {
   )
 }
 
-export default ob(List)
+export default observer(List)
 
 function renderItem({ item, index }) {
   return <Item index={index} event={EVENT} {...item} />

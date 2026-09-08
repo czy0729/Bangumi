@@ -4,11 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-09 09:26:09
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont } from '@components'
 import { Popover as PopoverComp } from '@_'
 import { _ } from '@stores'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { EVENT, FROZEN_FN } from '@constants'
@@ -141,4 +140,4 @@ function Popover({
   )
 }
 
-export default ob(Popover)
+export default observer(Popover)

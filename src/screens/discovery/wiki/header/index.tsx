@@ -4,15 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-04-06 13:35:01
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { open } from '@utils'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { HOST, TEXT_MENU_BROWSER } from '@constants'
 import { COMPONENT, DATA, HM } from './ds'
 
 function Header() {
+  r(COMPONENT)
+
   return (
     <HeaderV2
       title='维基人'
@@ -35,4 +37,4 @@ function Header() {
   )
 }
 
-export default ob(Header, COMPONENT)
+export default observer(Header)

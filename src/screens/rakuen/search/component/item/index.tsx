@@ -4,25 +4,27 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-02-14 13:21:11
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Divider, Flex, Heatmap, Highlight, Text, Touchable } from '@components'
 import { Avatar, InView } from '@_'
 import { _, useStore } from '@stores'
 import { getTimestamp, lastDate, removeHTMLTag } from '@utils'
-import { ob } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { Ctx } from '../../types'
 import { COMPONENT, LENGTH } from './ds'
 import { memoStyles } from './styles'
 
+import type { Ctx } from '../../types'
+
 function Item({ index, id, title, message, avatar, userId, userName, time, group }) {
-  const { $, navigation } = useStore<Ctx>()
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
+
   const styles = memoStyles()
   const { value } = $.state
   const offset = message.indexOf(value)
   const content =
     offset < LENGTH ? message.slice(0, LENGTH) : message.slice(48, LENGTH + offset - 48)
+
   return (
     <View style={styles.item}>
       {!!index && <Divider />}
@@ -61,4 +63,4 @@ function Item({ index, id, title, message, avatar, userId, userName, time, group
   )
 }
 
-export default ob(Item, COMPONENT)
+export default observer(Item)

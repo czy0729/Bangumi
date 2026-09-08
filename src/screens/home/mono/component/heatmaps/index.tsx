@@ -4,12 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-01-10 04:31:14
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 
 function Heatmaps({ index }: { index: number }) {
+  r(COMPONENT)
+
   return (
     <>
       {index === 2 && <Heatmap id='人物.跳转' from='吐槽' />}
@@ -19,4 +21,4 @@ function Heatmaps({ index }: { index: number }) {
   )
 }
 
-export default ob(Heatmaps, COMPONENT)
+export default observer(Heatmaps)

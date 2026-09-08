@@ -4,16 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-19 18:34:05
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Loading, ScrollView } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import Item from '../item'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function List() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
+
   if (!$.state._loaded || !$.star._loaded) return <Loading />
 
   const isSelf = $.state.label === '持仓'
@@ -37,4 +38,4 @@ function List() {
   )
 }
 
-export default ob(List, COMPONENT)
+export default observer(List)

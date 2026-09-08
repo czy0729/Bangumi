@@ -4,13 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-01 05:38:05
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Heatmap, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Rank, Stars, Tag } from '@_'
 import { _, collectionStore, otaStore, uiStore, useStore } from '@stores'
 import { x18 } from '@utils'
-import { ob } from '@utils/decorators'
 import { fill } from '@utils/dev'
 import { t } from '@utils/fetch'
 import {
@@ -28,6 +27,7 @@ import type { Ctx } from '../types'
 
 function Item({ index, pickIndex }) {
   const { $, navigation } = useStore<Ctx>()
+
   const styles = memoStyles()
   const subjectId = otaStore.wenkuSubjectId(pickIndex)
   const {
@@ -161,4 +161,4 @@ function Item({ index, pickIndex }) {
   )
 }
 
-export default ob(Item)
+export default observer(Item)

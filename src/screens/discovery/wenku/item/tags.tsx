@@ -4,12 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-16 11:20:27
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Tags as CompTags } from '@_'
 import { useStore } from '@stores'
 import { desc } from '@utils'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
+
+import type { Ctx } from '../types'
 
 function Tags({ value }) {
   const { $ } = useStore<Ctx>()
@@ -22,4 +22,4 @@ function Tags({ value }) {
   return <CompTags value={tags} />
 }
 
-export default ob(Tags)
+export default observer(Tags)

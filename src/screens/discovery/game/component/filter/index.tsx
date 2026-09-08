@@ -4,14 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-03-16 16:06:35
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Filter as FilterComp } from '@_'
-import { ob } from '@utils/decorators'
+import { r } from '@utils/dev'
 import { TEXT_UPDATE_GAME } from '@constants'
 import { ADVANCE_LIMIT, filterDS } from '../../ds'
 import { COMPONENT } from './ds'
 
 function Filter() {
+  r(COMPONENT)
+
   return (
     <FilterComp
       filterDS={filterDS}
@@ -28,4 +30,4 @@ function Filter() {
   )
 }
 
-export default ob(Filter, COMPONENT)
+export default observer(Filter)

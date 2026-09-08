@@ -4,14 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:22:25
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
 import { WEB } from '@constants'
-import { ReactNode } from '@types'
-import { Ctx } from '../../../types'
 import { styles } from './styles'
+
+import type { ReactNode } from '@types'
+import type { Ctx } from '../../../types'
 
 function Example({ store }: { store: Ctx['$'] }) {
   let { $ } = useStore<Ctx>()
@@ -107,4 +107,4 @@ function Example({ store }: { store: Ctx['$'] }) {
   )
 }
 
-export default ob(Example)
+export default observer(Example)

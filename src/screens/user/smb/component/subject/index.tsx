@@ -4,18 +4,18 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-18 07:30:56
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../../types'
 import Bottom from './bottom'
 import Manage from './manage'
 import Title from './title'
 import { COMPONENT } from './ds'
 
+import type { Ctx } from '../../types'
+
 function Subject({ subjectId }) {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
   if (!subjectId) return null
 
   const { jp, cn, eps = 0, rank, rating } = $.subjectV2(subjectId)
@@ -34,4 +34,4 @@ function Subject({ subjectId }) {
   )
 }
 
-export default ob(Subject, COMPONENT)
+export default observer(Subject)

@@ -4,14 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-20 12:10:49
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { ob } from '@utils/decorators'
-import { Ctx } from '../types'
 import Item from '../../_/item'
 import { levelList, sortList } from '../../_/utils'
+
+import type { Ctx } from '../types'
 
 const EVENT = {
   id: '关联角色.跳转'
@@ -19,6 +19,7 @@ const EVENT = {
 
 function List() {
   const { $ } = useStore<Ctx>()
+
   if (!$.list._loaded) {
     return <Loading style={_.container.flex} color={_.colorTinygrailText} />
   }
@@ -59,7 +60,7 @@ function List() {
   )
 }
 
-export default ob(List)
+export default observer(List)
 
 function renderItem({ item, index }) {
   return <Item index={index} event={EVENT} {...item} />
