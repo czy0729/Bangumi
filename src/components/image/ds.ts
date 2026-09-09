@@ -65,6 +65,7 @@ export const OMIT_KEYS: (keyof ImageProps)[] = [
   'delay',
   'scale',
   'cache',
+  'cachePolicy',
   'fadeDuration',
   'errorToHide',
   'skeleton',

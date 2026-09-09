@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-03 21:15:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 03:13:40
+ * @Last Modified time: 2026-09-09 15:55:04
  */
 import type {
   ColorValue,
@@ -76,6 +76,12 @@ export type Props = Override<
 
     /** 是否本地缓存 */
     cache?: boolean
+
+    /**
+     * 缓存策略 (iOS / expo-image 生效, 安卓与 Web 忽略)
+     * 默认 memory-disk, 长列表场景传 disk 可避免大量解码位图常驻内存
+     */
+    cachePolicy?: 'disk' | 'memory' | 'memory-disk'
 
     /** 图片请求头 */
     headers?: Record<string, string>

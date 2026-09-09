@@ -7,12 +7,12 @@
 import { observer } from 'mobx-react'
 import { NavigationContainer as NavigationNativeContainer } from '@react-navigation/native'
 import { navigationReference } from '@utils'
-import { useEnableScreens } from './utils'
+import { useNavigationRef } from './utils'
 
 import type { Props } from './types'
 
 function NavigationContainer({ children }: Props) {
-  const navigationRef = useEnableScreens()
+  const navigationRef = useNavigationRef()
 
   return (
     <NavigationNativeContainer

@@ -16,6 +16,7 @@ export const memoStyles = _.memoStyles(() => {
     ios: {
       position: 'absolute',
       zIndex: 1,
+      left: 0,
       right: 0,
       backgroundColor
     },

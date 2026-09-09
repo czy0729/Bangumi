@@ -15,7 +15,12 @@ export const DEFAULT_SCREEN_OPTIONS = {
     backgroundColor: 'transparent',
     elevation: 0
   },
-  freezeOnBlur: false
+  /**
+   * 失焦页面冻结 React 树 (screens 的 Screen 默认取 freezeEnabled(), 即 false)
+   * 之前显式关掉, 导致已 push 的页面全部继续保活, 是跳转几个页面后内存打满的原因之一
+   * 若发现返回页面时局部状态 / 动画不刷新, 改回 false 即可回滚
+   */
+  freezeOnBlur: true
 } as const
 
 export const ANIMATIONS = {

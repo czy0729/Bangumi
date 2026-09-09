@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2020-01-18 17:00:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-18 08:30:00
+ * @Last Modified time: 2026-09-09 15:55:07
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { checkLocalError, getRecoveryBgmCover } from '@components/image/utils'
 import { systemStore } from '@stores'
@@ -76,7 +75,11 @@ export const Cover = observer(
       size,
       height,
       textOnly,
-      fallback
+      fallback,
+
+      // 封面是网格 / 长列表里数量最多的一类图片, 默认只走磁盘缓存,
+      // 避免大量解码位图常驻内存 (iOS 内存打满被 Jetsam 掉的主要来源之一)
+      cachePolicy: other.cachePolicy || 'disk'
     }
 
     // 封面拟物

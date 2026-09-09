@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-09-06 19:14:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-08 04:14:25
+ * @Last Modified time: 2026-09-09 15:55:32
  *
  * Image 组件 iOS 入口 (完全基于 expo-image)
  *
@@ -104,7 +104,8 @@ export const Image = observer(function Image(baseProps: ImageProps) {
     onPress,
     onLongPress,
     errorToHide,
-    fadeDuration
+    fadeDuration,
+    cachePolicy
   } = props
 
   const headers = useImageHeaders(src, props.headers)
@@ -239,6 +240,7 @@ export const Image = observer(function Image(baseProps: ImageProps) {
               }
             }}
             contentFit={contentFit}
+            cachePolicy={cachePolicy || 'memory-disk'}
             // expo-image priority 取值 ('low' | 'normal' | 'high') 与旧 prop 一致
             priority={props.priority}
             tintColor={tintColor as string}

@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-08-08 16:38:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-22 20:03:32
+ * @Last Modified time: 2026-09-09 16:53:58
  */
-import React from 'react'
 import Animated from 'react-native-reanimated'
 import { BlurView } from 'expo-blur'
 import { _ } from '@stores'
