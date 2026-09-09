@@ -13,6 +13,12 @@ export type Props = WithViewStyles<{
   /** 是否使用线性渐变遮罩 */
   linear?: boolean
 
+  /**
+   * 是否显示, 受控显隐动画 (淡入淡出, 淡出结束后再卸载)
+   * 不传则始终渲染, 行为与旧版一致
+   */
+  show?: boolean
+
   /** 点击遮罩回调 */
   onPress: () => void
 }>

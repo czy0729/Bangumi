@@ -42,6 +42,9 @@ export type MenuParamsContextValue = {
 export const MenuContext = createContext<MenuContextValue | null>(null)
 export const MenuParamsContext = createContext<MenuParamsContextValue | null>(null)
 
+/** 遮罩显隐上下文, 仅 Backdrop 消费, 开合菜单不触发其他消费者 re-render */
+export const MenuShowContext = createContext(false)
+
 /** 获取菜单稳定上下文 */
 export const useHoldMenu = () => {
   const value = useContext(MenuContext)

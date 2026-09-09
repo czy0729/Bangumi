@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:32:36
+ * @Last Modified time: 2026-09-10 05:30:10
  */
 import { Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import pLimit from '@utils/thirdParty/p-limit'
 import { B, M, TIMEZONE_IS_GMT8 } from '@constants/data'
 import { IOS } from '@constants/env'
-import { date, getTimestamp } from '../thirdParty/date'
 import { applyProxy } from '../proxy'
 import Base64 from '../thirdParty/base64'
+import { date, getTimestamp } from '../thirdParty/date'
 import { info } from '../ui'
 import { pad } from './base'
 import { asc } from './sort'
@@ -23,7 +23,7 @@ export * from '../thirdParty/date'
 export * from './relative-time'
 
 import type { ComponentType } from 'react'
-import type { TimerRef, ViewStyle, TextStyle, ImageStyle } from '@types'
+import type { TimerRef } from '@types'
 
 /**
  * 全局强制组件设置默认参数
@@ -99,10 +99,8 @@ export function runAfter(fn: () => void, postTask: boolean = false) {
 }
 
 /** 若有后续样式返回数组否则返回第一参数 (用于防止组件重渲染) */
-export function stl(
-  ...styles: (ViewStyle | TextStyle | ImageStyle | false | null | undefined)[]
-): ViewStyle | ViewStyle[] {
-  const filteredStyles = styles.filter(Boolean) as ViewStyle[]
+export function stl<T extends readonly unknown[]>(...styles: T): T[number] | T[number][] {
+  const filteredStyles = styles.filter(Boolean) as T[number][]
   return filteredStyles.length === 1 ? filteredStyles[0] : filteredStyles
 }
 

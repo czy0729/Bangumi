@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-09 07:26:12
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-09 07:26:12
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-10 05:05:37
  */
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useSharedValue } from 'react-native-reanimated'
@@ -23,6 +23,7 @@ export const useMenuController = (
   paddingBottom?: number
 ) => {
   const [params, setParams] = useState<MenuOpenParams | null>(null)
+  const [show, setShow] = useState(false)
   const active = useSharedValue(0)
   const position = useSharedValue<MenuPosition | null>(null)
   const safePaddingBottom = (paddingBottom || 0) + 24
@@ -38,10 +39,12 @@ export const useMenuController = (
   }, [])
 
   const activate = useCallback(() => {
+    setShow(true)
     active.value = 1
   }, [active])
 
   const close = useCallback(() => {
+    setShow(false)
     active.value = 0
     if (closeTimeoutRef.current) {
       clearTimeout(closeTimeoutRef.current)
@@ -85,7 +88,7 @@ export const useMenuController = (
 
   const paramsValue = useMemo<MenuParamsContextValue>(() => ({ params }), [params])
 
-  return { contextValue, paramsValue }
+  return { contextValue, paramsValue, show }
 }
 
 export default useMenuController

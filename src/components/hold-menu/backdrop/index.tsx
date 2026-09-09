@@ -2,40 +2,34 @@
  * @Author: czy0729
  * @Date: 2026-08-09 05:48:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-09 05:50:26
+ * @Last Modified time: 2026-09-10 05:21:32
  */
-import React, { memo } from 'react'
-import { Dimensions } from 'react-native'
+import { memo, useContext } from 'react'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
-import Animated, { Easing, useAnimatedStyle, withTiming } from 'react-native-reanimated'
+import Animated from 'react-native-reanimated'
+import { stl } from '@utils'
 import { MENU_ANIMATION_DURATION } from '../ds'
-import { useHoldMenu } from '../context'
+import { useMask } from '../../mask'
+import { MenuShowContext, useHoldMenu } from '../context'
 import { styles } from './styles'
 
-const WINDOW_HEIGHT = Dimensions.get('window').height
-
-/** 全屏遮罩, 点击关闭, 未展开时移到屏幕外并隐藏 */
+/** 全屏遮罩, 点击关闭, 淡入淡出, 淡出结束后再卸载 */
 function BackdropComponent() {
-  const { active, theme, close } = useHoldMenu()
+  const show = useContext(MenuShowContext)
+  const { theme, close } = useHoldMenu()
+
+  const { showValue, maskStyle } = useMask(show, MENU_ANIMATION_DURATION)
 
   const tapGesture = Gesture.Tap().onEnd(close)
 
-  const animatedStyle = useAnimatedStyle(() => {
-    const isActive = active.value === 1
-    return {
-      top: isActive ? 0 : WINDOW_HEIGHT,
-      opacity: withTiming(isActive ? 1 : 0, {
-        duration: MENU_ANIMATION_DURATION,
-        easing: Easing.out(Easing.cubic)
-      }),
-      backgroundColor: theme === 'dark' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.1)'
-    }
-  }, [theme])
+  if (!showValue) return null
 
   return (
     <GestureDetector gesture={tapGesture}>
       <Animated.View
-        style={[styles.backdrop, animatedStyle]}
+        style={stl(styles.backdrop, maskStyle, {
+          backgroundColor: theme === 'dark' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.1)'
+        })}
         accessible={false}
         importantForAccessibility='no'
       />
