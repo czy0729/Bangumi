@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-03-01 12:00:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-15 06:26:26
+ * @Last Modified time: 2026-09-09 13:57:54
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
+import { observer } from 'mobx-react'
 import { ScrollView, Text, Touchable } from '@components'
 import { ItemFriends, ItemSetting } from '@_'
 import { usersStore } from '@stores'
 import { info } from '@utils'
 import { queue } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { read } from '../../db'
 import { sortByRecent } from './utils'
 import { memoStyles } from './styles'
@@ -39,30 +39,28 @@ function UsersAdvance() {
     )
   }, [])
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <>
-        <ItemSetting
-          hd='Users Advance'
-          ft={
-            <Touchable onPress={handleSubmit}>
-              <Text>查看</Text>
-            </Touchable>
-          }
-          withoutFeedback
-        />
-        {show && (
-          <ScrollView style={styles.scrollView}>
-            {list.map(item => (
-              <ItemFriends key={item} {...usersStore.users(item)} />
-            ))}
-          </ScrollView>
-        )}
-      </>
-    )
-  })
+  return (
+    <>
+      <ItemSetting
+        hd='Users Advance'
+        ft={
+          <Touchable onPress={handleSubmit}>
+            <Text>查看</Text>
+          </Touchable>
+        }
+        withoutFeedback
+      />
+      {show && (
+        <ScrollView style={styles.scrollView}>
+          {list.map(item => (
+            <ItemFriends key={item} {...usersStore.users(item)} />
+          ))}
+        </ScrollView>
+      )}
+    </>
+  )
 }
 
-export default UsersAdvance
+export default observer(UsersAdvance)

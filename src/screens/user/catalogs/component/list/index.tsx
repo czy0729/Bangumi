@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 06:05:46
+ * @Last Modified time: 2026-09-09 13:57:08
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { ItemCatalog } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 import type { CatalogsItem } from '@stores/users/types'
@@ -39,22 +39,20 @@ function List({ id }: Props) {
   const handleHeaderRefresh = useCallback(() => $.fetchCatalogs(id, true), [$, id])
   const handleFooterRefresh = useCallback(() => $.fetchCatalogs(id), [$, id])
 
-  return useObserver(() => {
-    const catalogs = $.catalogs(id)
-    if (!catalogs._loaded) return <Loading style={_.container.plain} />
+  const catalogs = $.catalogs(id)
+  if (!catalogs._loaded) return <Loading style={_.container.plain} />
 
-    return (
-      <ListView
-        keyExtractor={keyExtractor}
-        contentContainerStyle={_.container.bottom}
-        data={catalogs}
-        renderItem={handleRenderItem}
-        onScroll={$.onScroll}
-        onHeaderRefresh={handleHeaderRefresh}
-        onFooterRefresh={handleFooterRefresh}
-      />
-    )
-  })
+  return (
+    <ListView
+      keyExtractor={keyExtractor}
+      contentContainerStyle={_.container.bottom}
+      data={catalogs}
+      renderItem={handleRenderItem}
+      onScroll={$.onScroll}
+      onHeaderRefresh={handleHeaderRefresh}
+      onFooterRefresh={handleFooterRefresh}
+    />
+  )
 }
 
-export default List
+export default observer(List)

@@ -4,9 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-02-07 07:53:59
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { ITEMS_USED } from '@tinygrail/_/characters-modal'
 import TinygrailScrollView from '@tinygrail/_/scroll-view'
 import Item from '../item'
@@ -17,7 +16,7 @@ import type { Ctx } from '../../types'
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <TinygrailScrollView contentContainerStyle={_.container.bottom}>
       {$.items.list
         .slice()
@@ -26,7 +25,7 @@ function List() {
           <Item key={item.id} item={item} />
         ))}
     </TinygrailScrollView>
-  ))
+  )
 }
 
-export default List
+export default observer(List)

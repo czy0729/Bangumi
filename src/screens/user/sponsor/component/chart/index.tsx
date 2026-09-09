@@ -4,13 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-21 15:12:51
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { IconTouchable } from '@_'
 import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { useNavigation } from '@utils/hooks'
 import { USERS_MAP } from '../../ds'
 import { useTreemapSquarify } from '../../utils'
 import Item from '../item'
@@ -29,101 +29,99 @@ function Chart() {
     handleResetFilter
   } = useTreemapSquarify()
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <>
-        <Flex style={styles.filter} direction='column' justify='center'>
-          <Flex>
-            {filterLength ? (
-              <>
-                <Text size={12} bold>
-                  已隐藏 {filterLength} 格
-                </Text>
-                <View style={styles.refresh}>
-                  <IconTouchable
-                    name='md-refresh'
-                    color={_.colorDesc}
-                    size={18}
-                    onPress={() => handleResetFilter()}
-                  />
-                </View>
-              </>
-            ) : (
-              <>
-                {/* <Text size={12} bold>
-                  还有 {filterCount} 格未显示，点击方格隐藏，点击色块显示区间
-                </Text> */}
-              </>
-            )}
-          </Flex>
-          {!filterLength && (
-            <Flex style={styles.block} justify='around'>
-              <Touchable style={styles.touch} onPress={() => handleBatchFilter(200)}>
-                <Flex>
-                  <View style={[styles.l, styles.l4]} />
-                  <Text style={_.mr.sm} size={10} bold>
-                    ≥ 100
-                  </Text>
-                </Flex>
-              </Touchable>
-              <Touchable onPress={() => handleBatchFilter(50)}>
-                <Flex>
-                  <View style={[styles.l, styles.l3]} />
-                  <Text style={_.mr.sm} size={10} bold>
-                    ≥ 50
-                  </Text>
-                </Flex>
-              </Touchable>
-              <Touchable onPress={() => handleBatchFilter(20)}>
-                <Flex>
-                  <View style={[styles.l, styles.l2]} />
-                  <Text style={_.mr.sm} size={10} bold>
-                    ≥ 20
-                  </Text>
-                </Flex>
-              </Touchable>
-              <Touchable onPress={() => handleBatchFilter(10)}>
-                <Flex>
-                  <View style={[styles.l, styles.l1]} />
-                  <Text style={_.mr.sm} size={10} bold>
-                    ≥ 10
-                  </Text>
-                </Flex>
-              </Touchable>
-            </Flex>
+  return (
+    <>
+      <Flex style={styles.filter} direction='column' justify='center'>
+        <Flex>
+          {filterLength ? (
+            <>
+              <Text size={12} bold>
+                已隐藏 {filterLength} 格
+              </Text>
+              <View style={styles.refresh}>
+                <IconTouchable
+                  name='md-refresh'
+                  color={_.colorDesc}
+                  size={18}
+                  onPress={() => handleResetFilter()}
+                />
+              </View>
+            </>
+          ) : (
+            <>
+              {/* <Text size={12} bold>
+                还有 {filterCount} 格未显示，点击方格隐藏，点击色块显示区间
+              </Text> */}
+            </>
           )}
         </Flex>
-        <View style={styles.container}>
-          {data.map(item => (
-            <Item
-              key={item.data}
-              {...item}
-              onPress={() => {
-                handleFilter(item.data)
-              }}
-              onLongPress={
-                systemStore.advance
-                  ? () => {
-                      const userId = item.data
-                      navigation.push('Zone', {
-                        userId,
-                        _name: USERS_MAP[item.data]?.n
-                      })
+        {!filterLength && (
+          <Flex style={styles.block} justify='around'>
+            <Touchable style={styles.touch} onPress={() => handleBatchFilter(200)}>
+              <Flex>
+                <View style={[styles.l, styles.l4]} />
+                <Text style={_.mr.sm} size={10} bold>
+                  ≥ 100
+                </Text>
+              </Flex>
+            </Touchable>
+            <Touchable onPress={() => handleBatchFilter(50)}>
+              <Flex>
+                <View style={[styles.l, styles.l3]} />
+                <Text style={_.mr.sm} size={10} bold>
+                  ≥ 50
+                </Text>
+              </Flex>
+            </Touchable>
+            <Touchable onPress={() => handleBatchFilter(20)}>
+              <Flex>
+                <View style={[styles.l, styles.l2]} />
+                <Text style={_.mr.sm} size={10} bold>
+                  ≥ 20
+                </Text>
+              </Flex>
+            </Touchable>
+            <Touchable onPress={() => handleBatchFilter(10)}>
+              <Flex>
+                <View style={[styles.l, styles.l1]} />
+                <Text style={_.mr.sm} size={10} bold>
+                  ≥ 10
+                </Text>
+              </Flex>
+            </Touchable>
+          </Flex>
+        )}
+      </Flex>
+      <View style={styles.container}>
+        {data.map(item => (
+          <Item
+            key={item.data}
+            {...item}
+            onPress={() => {
+              handleFilter(item.data)
+            }}
+            onLongPress={
+              systemStore.advance
+                ? () => {
+                    const userId = item.data
+                    navigation.push('Zone', {
+                      userId,
+                      _name: USERS_MAP[item.data]?.n
+                    })
 
-                      t('赞助者.跳转', {
-                        userId
-                      })
-                    }
-                  : undefined
-              }
-            />
-          ))}
-        </View>
-      </>
-    )
-  })
+                    t('赞助者.跳转', {
+                      userId
+                    })
+                  }
+                : undefined
+            }
+          />
+        ))}
+      </View>
+    </>
+  )
 }
 
-export default Chart
+export default observer(Chart)

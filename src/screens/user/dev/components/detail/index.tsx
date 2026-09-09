@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2022-02-27 16:26:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-15 06:36:03
+ * @Last Modified time: 2026-09-09 13:57:30
  */
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Platform } from 'react-native'
+import { observer } from 'mobx-react'
 import Constants from 'expo-constants'
 import { _, userStore } from '@stores'
 import { date, omit, pick } from '@utils'
-import { useMount, useObserver } from '@utils/hooks'
+import { useMount } from '@utils/hooks'
 import { get } from '@utils/kv'
 import Block from './block'
 import { formatString } from './utils'
@@ -35,7 +36,7 @@ function Detail({ userId }: { userId?: UserId }) {
     }, 0)
   })
 
-  return useObserver(() => (
+  return (
     <>
       {userStore.isDeveloper && !!userId && (
         <Block
@@ -56,7 +57,7 @@ function Detail({ userId }: { userId?: UserId }) {
       <Block title='Platform' value={[Platform]} />
       <Block title='Constants' value={[Constants]} />
     </>
-  ))
+  )
 }
 
-export default Detail
+export default observer(Detail)

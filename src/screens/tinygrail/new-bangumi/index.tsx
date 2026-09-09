@@ -4,10 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-04-04 07:34:24
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { StoreContext } from '@stores'
-import { useInsets, useObserver } from '@utils/hooks'
+import { useInsets } from '@utils/hooks'
 import TinygrailHeader from '@tinygrail/_/header'
 import IconGo from '@tinygrail/_/icon-go'
 import TinygrailPage from '@tinygrail/_/page'
@@ -21,11 +21,11 @@ import { HM, TABS } from './ds'
 import type { NavigationProps } from '@types'
 
 /** 新番榜单 */
-const TinygrailNew = (props: NavigationProps) => {
+function TinygrailNew(props: NavigationProps) {
   const { id, $ } = useTinygrailNewPage(props)
   const { headerStyle } = useInsets()
 
-  return useObserver(() => (
+  return (
     <Component id='screen-tinygrail-new'>
       <StoreContext.Provider value={id}>
         <TinygrailPage header={false}>
@@ -49,7 +49,7 @@ const TinygrailNew = (props: NavigationProps) => {
         <TinygrailHeader title='新番榜单' hm={HM} headerRight={() => <IconGo $={$} />} />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default TinygrailNew
+export default observer(TinygrailNew)

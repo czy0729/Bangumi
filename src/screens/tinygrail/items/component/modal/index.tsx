@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-12-26 01:31:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-07 07:54:16
+ * @Last Modified time: 2026-09-09 13:34:57
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { tinygrailStore, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import CharactersModal from '@tinygrail/_/characters-modal'
 import { COMPONENT } from './ds'
 
@@ -22,14 +22,14 @@ function Modal() {
     [$]
   )
 
-  return useObserver(() => (
+  return (
     <CharactersModal
       visible={$.state.visible}
       title={$.state.title}
       onClose={$.onCloseModal}
       onSubmit={handleSubmit}
     />
-  ))
+  )
 }
 
-export default Modal
+export default observer(Modal)

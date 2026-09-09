@@ -4,9 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-02-06 15:06:40
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import TinygrailTabs from '@tinygrail/_/tabs-v2'
 import { TABS } from '../../ds'
 import { renderItem } from './utils'
@@ -15,7 +14,7 @@ import { COMPONENT } from './ds'
 function Tabs() {
   r(COMPONENT)
 
-  return useObserver(() => <TinygrailTabs routes={TABS} tabBarLength={6} renderItem={renderItem} />)
+  return <TinygrailTabs routes={TABS} tabBarLength={6} renderItem={renderItem} />
 }
 
-export default Tabs
+export default observer(Tabs)

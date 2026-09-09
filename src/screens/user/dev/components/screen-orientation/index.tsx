@@ -4,14 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-15 06:18:34
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import * as orientation from 'expo-screen-orientation'
 import { Text, Touchable } from '@components'
 import { ItemSetting } from '@_'
-import { useObserver } from '@utils/hooks'
 
 function ScreenOrientation() {
-  return useObserver(() => (
+  return (
     <ItemSetting
       hd='Screen Orientation Lock'
       ft={
@@ -25,7 +24,7 @@ function ScreenOrientation() {
       }
       withoutFeedback
     />
-  ))
+  )
 }
 
-export default ScreenOrientation
+export default observer(ScreenOrientation)

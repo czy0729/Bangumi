@@ -4,13 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-13 17:45:04
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Divider, Text } from '@components'
 import { _ } from '@stores'
 import { open, stl } from '@utils'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import TinygrailScrollView from '@tinygrail/_/scroll-view'
 import { DATA } from '../../ds'
 import { startsWithNumberDot, startsWithNumberDotNumber } from '../../utils'
@@ -19,7 +18,7 @@ import { COMPONENT } from './ds'
 function Scroll({ forwardRef, forwardItemRef }) {
   r(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <TinygrailScrollView
       forwardRef={forwardRef}
       style={_.container.wind}
@@ -94,7 +93,7 @@ function Scroll({ forwardRef, forwardItemRef }) {
         )
       })}
     </TinygrailScrollView>
-  ))
+  )
 }
 
-export default Scroll
+export default observer(Scroll)

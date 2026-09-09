@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-14 18:05:52
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 import type { Props } from './types'
@@ -15,14 +14,14 @@ import type { Props } from './types'
 function Column({ style, type, text, right, onPress }: Props) {
   r(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <Flex style={style}>
       <Text size={11} type={!text || text === '/' ? 'sub' : type} onPress={onPress}>
         {text || ''}
       </Text>
       {right}
     </Flex>
-  ))
+  )
 }
 
-export default Column
+export default observer(Column)

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-05-07 18:05:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-04 06:23:47
+ * @Last Modified time: 2026-09-09 13:56:52
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { ListView } from '@components'
 import { ItemBlog } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT, EVENT } from './ds'
 
 import type { Ctx } from '../../types'
@@ -22,7 +22,7 @@ function List() {
     [navigation]
   )
 
-  return useObserver(() => (
+  return (
     <ListView
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}
@@ -31,7 +31,7 @@ function List() {
       onHeaderRefresh={$.refresh}
       onFooterRefresh={$.fetchBlogs}
     />
-  ))
+  )
 }
 
-export default List
+export default observer(List)

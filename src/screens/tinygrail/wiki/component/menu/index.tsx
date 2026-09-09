@@ -4,13 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-24 19:40:18
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Divider, Drawer, ScrollView, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { open, stl } from '@utils'
 import { r } from '@utils/dev'
-import { useInsets, useObserver } from '@utils/hooks'
+import { useInsets } from '@utils/hooks'
 import { DATA } from '../../ds'
 import { startsWithNumberDot, startsWithNumberDotNumber, startsWithURL } from '../../utils'
 import { COMPONENT } from './ds'
@@ -21,82 +21,80 @@ function Menu({ show, onToggle, onScrollTo }) {
 
   const { statusBarHeight } = useInsets()
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <Drawer
-        style={styles.drawer}
-        show={show}
-        onToggle={() => {
-          onToggle(false)
-        }}
+  return (
+    <Drawer
+      style={styles.drawer}
+      show={show}
+      onToggle={() => {
+        onToggle(false)
+      }}
+    >
+      <ScrollView
+        contentContainerStyle={[
+          styles.contentContainerStyle,
+          {
+            paddingTop: statusBarHeight + _.sm
+          }
+        ]}
       >
-        <ScrollView
-          contentContainerStyle={[
-            styles.contentContainerStyle,
-            {
-              paddingTop: statusBarHeight + _.sm
-            }
-          ]}
-        >
-          {DATA.map((item, index) => {
-            return (
-              <View key={item.title}>
-                {!!index && <Divider />}
-                <Touchable
-                  style={styles.item}
-                  onPress={() => {
-                    onScrollTo(item.title)
-                  }}
-                >
-                  <Text size={16}>{item.title}</Text>
-                </Touchable>
-                {item.message
-                  .filter(
-                    i => startsWithNumberDotNumber(i) || startsWithNumberDot(i) || startsWithURL(i)
-                  )
-                  .map((i, idx) => {
-                    const isURL = startsWithURL(i)
-                    if (isURL) {
-                      const str = i.split('url=')[1]
-                      const [name, url] = str.split(',')
-                      return (
-                        <Touchable
-                          key={idx}
-                          style={styles.sub}
-                          onPress={() => {
-                            open(url)
-                          }}
-                        >
-                          <Text size={15} underline>
-                            [{name}]
-                          </Text>
-                        </Touchable>
-                      )
-                    }
-
-                    const isSubTitle = isURL ? false : startsWithNumberDotNumber(i)
-                    const isTitle = isURL || isSubTitle ? false : startsWithNumberDot(i)
+        {DATA.map((item, index) => {
+          return (
+            <View key={item.title}>
+              {!!index && <Divider />}
+              <Touchable
+                style={styles.item}
+                onPress={() => {
+                  onScrollTo(item.title)
+                }}
+              >
+                <Text size={16}>{item.title}</Text>
+              </Touchable>
+              {item.message
+                .filter(
+                  i => startsWithNumberDotNumber(i) || startsWithNumberDot(i) || startsWithURL(i)
+                )
+                .map((i, idx) => {
+                  const isURL = startsWithURL(i)
+                  if (isURL) {
+                    const str = i.split('url=')[1]
+                    const [name, url] = str.split(',')
                     return (
                       <Touchable
                         key={idx}
-                        style={stl(isTitle && styles.title, isSubTitle && styles.sub)}
+                        style={styles.sub}
                         onPress={() => {
-                          onScrollTo(i)
+                          open(url)
                         }}
                       >
-                        <Text size={15}>{i}</Text>
+                        <Text size={15} underline>
+                          [{name}]
+                        </Text>
                       </Touchable>
                     )
-                  })}
-              </View>
-            )
-          })}
-        </ScrollView>
-      </Drawer>
-    )
-  })
+                  }
+
+                  const isSubTitle = isURL ? false : startsWithNumberDotNumber(i)
+                  const isTitle = isURL || isSubTitle ? false : startsWithNumberDot(i)
+                  return (
+                    <Touchable
+                      key={idx}
+                      style={stl(isTitle && styles.title, isSubTitle && styles.sub)}
+                      onPress={() => {
+                        onScrollTo(i)
+                      }}
+                    >
+                      <Text size={15}>{i}</Text>
+                    </Touchable>
+                  )
+                })}
+            </View>
+          )
+        })}
+      </ScrollView>
+    </Drawer>
+  )
 }
 
-export default Menu
+export default observer(Menu)

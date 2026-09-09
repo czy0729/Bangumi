@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-12-20 03:15:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 15:25:03
+ * @Last Modified time: 2026-09-09 13:24:59
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 function Heatmaps() {
   r(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <>
       <Heatmap bottom={_.bottom} id='吐槽' screen='Say' />
       <Heatmap right={67} bottom={_.bottom} id='吐槽.显示评论框' transparent />
@@ -22,7 +21,7 @@ function Heatmaps() {
       <Heatmap right={67} bottom={_.bottom - 68} id='吐槽.回复吐槽' transparent />
       <Heatmap right={121} bottom={_.bottom - 68} id='吐槽.回复失败' transparent />
     </>
-  ))
+  )
 }
 
-export default Heatmaps
+export default observer(Heatmaps)

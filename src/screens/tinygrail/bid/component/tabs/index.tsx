@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2025-01-16 17:19:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-28 06:07:40
+ * @Last Modified time: 2026-09-09 13:27:48
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import TinygrailTabs from '@tinygrail/_/tabs-v2'
 import { TABS } from '../../ds'
 import ToolBar from '../tool-bar'
@@ -21,8 +21,8 @@ function Tabs() {
 
   const elToolBar = useMemo(() => <ToolBar />, [])
 
-  return useObserver(() => {
-    const handleRenderLabel = useCallback(({ route, focused }) => {
+  const handleRenderLabel = useCallback(
+    ({ route, focused }) => {
       const getCount = (route: { key: string }) => {
         switch (route.key) {
           case 'bid':
@@ -50,17 +50,18 @@ function Tabs() {
           )}
         </Flex>
       )
-    }, [])
+    },
+    [$]
+  )
 
-    return (
-      <TinygrailTabs
-        routes={TABS}
-        renderContentHeaderComponent={elToolBar}
-        renderItem={renderItem}
-        renderLabel={handleRenderLabel}
-      />
-    )
-  })
+  return (
+    <TinygrailTabs
+      routes={TABS}
+      renderContentHeaderComponent={elToolBar}
+      renderItem={renderItem}
+      renderLabel={handleRenderLabel}
+    />
+  )
 }
 
-export default Tabs
+export default observer(Tabs)

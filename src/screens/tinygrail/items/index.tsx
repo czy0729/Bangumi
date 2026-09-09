@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-02-07 07:46:51
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import TinygrailPage from '@tinygrail/_/page'
 import List from './component/list'
 import Modal from './component/modal'
@@ -17,10 +16,10 @@ import { useTinygrailItemsPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 我的道具 */
-const TinygrailItems = (props: NavigationProps) => {
+function TinygrailItems(props: NavigationProps) {
   const { id } = useTinygrailItemsPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-tinygrail-items'>
       <StoreContext.Provider value={id}>
         <TinygrailPage>
@@ -30,7 +29,7 @@ const TinygrailItems = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default TinygrailItems
+export default observer(TinygrailItems)

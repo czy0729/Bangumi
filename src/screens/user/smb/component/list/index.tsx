@@ -4,11 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-26 21:59:19
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { ScrollView } from '@components'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Filter from '../filter'
 import Pagination from '../pagination'
 import Top from '../top'
@@ -23,7 +22,7 @@ import type { Ctx } from '../../types'
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <View>
       <Top />
       <ScrollView key={$.refreshKey} contentContainerStyle={styles.scrollView}>
@@ -32,7 +31,7 @@ function List() {
       </ScrollView>
       {!!$.pageList.length && <Pagination />}
     </View>
-  ))
+  )
 }
 
-export default List
+export default observer(List)

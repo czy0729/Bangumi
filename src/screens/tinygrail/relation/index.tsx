@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:48:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 15:58:29
+ * @Last Modified time: 2026-09-09 13:44:43
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import TinygrailHeader from '@tinygrail/_/header'
 import TinygrailIconGo from '@tinygrail/_/icon-go'
 import TinygrailPage from '@tinygrail/_/page'
@@ -20,10 +19,10 @@ import { HM } from './ds'
 import type { NavigationProps } from '@types'
 
 /** 关联角色 */
-const TinygrailRelation = (props: NavigationProps) => {
+function TinygrailRelation(props: NavigationProps) {
   const { id, $ } = useTinygrailRelationPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-tinygrail-relation'>
       <StoreContext.Provider value={id}>
         <TinygrailPage>
@@ -45,7 +44,7 @@ const TinygrailRelation = (props: NavigationProps) => {
         />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default TinygrailRelation
+export default observer(TinygrailRelation)

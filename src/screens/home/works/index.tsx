@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-23 02:50:33
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import List from './component/list'
 import Header from './header'
 import { useWorksPage } from './hooks'
@@ -15,10 +14,10 @@ import { useWorksPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 人物的作品 */
-const Works = (props: NavigationProps) => {
+function Works(props: NavigationProps) {
   const { id, $ } = useWorksPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-works'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded} loading={$.loading}>
@@ -28,7 +27,7 @@ const Works = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Works
+export default observer(Works)

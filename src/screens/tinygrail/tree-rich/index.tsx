@@ -4,11 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-17 15:52:18
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Loading, Text } from '@components'
 import { IconHeader } from '@_'
 import { _, StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import TinygrailHeader from '@tinygrail/_/header'
 import TinygrailPage from '@tinygrail/_/page'
 import Chart from './chart'
@@ -19,10 +18,10 @@ import { HM } from './ds'
 import type { NavigationProps } from '@types'
 
 /** 前百首富 */
-const TinygrailTreeRich = (props: NavigationProps) => {
+function TinygrailTreeRich(props: NavigationProps) {
   const { id, $, refreshing, handleRefresh, handleShowMenu } = useTinygrailTreeRichPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-tinygrail-tree-rich'>
       <StoreContext.Provider value={id}>
         <TinygrailPage>
@@ -54,7 +53,7 @@ const TinygrailTreeRich = (props: NavigationProps) => {
         />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default TinygrailTreeRich
+export default observer(TinygrailTreeRich)

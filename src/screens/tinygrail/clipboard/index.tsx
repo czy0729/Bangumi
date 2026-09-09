@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-27 06:33:31
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import TinygrailPage from '@tinygrail/_/page'
 import Btn from './component/btn'
 import List from './component/list'
@@ -17,10 +16,10 @@ import { useTinygrailClipboardPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 粘贴板 */
-const TinygrailClipboard = (props: NavigationProps) => {
+function TinygrailClipboard(props: NavigationProps) {
   const { id } = useTinygrailClipboardPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-tinygrail-clipboard'>
       <StoreContext.Provider value={id}>
         <TinygrailPage>
@@ -30,7 +29,7 @@ const TinygrailClipboard = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default TinygrailClipboard
+export default observer(TinygrailClipboard)

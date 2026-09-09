@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-27 06:30:26
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import List from './component/list'
 import Header from './header'
 import { useSubjectWikiPage } from './hooks'
@@ -15,10 +14,10 @@ import { useSubjectWikiPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 修订历史 */
-const SubjectWiki = (props: NavigationProps) => {
+function SubjectWiki(props: NavigationProps) {
   const { id, $, navigation } = useSubjectWikiPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-subject-wiki'>
       <StoreContext.Provider value={id}>
         <Page>
@@ -28,7 +27,7 @@ const SubjectWiki = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default SubjectWiki
+export default observer(SubjectWiki)

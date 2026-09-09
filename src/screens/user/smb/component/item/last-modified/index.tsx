@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-11-24 05:14:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-11-24 05:20:45
+ * @Last Modified time: 2026-09-09 13:58:09
  */
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { observer } from 'mobx-react'
 import { Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { timeAgo } from './utils'
 
 function LastModified({ value }) {
   const [fulltime, setFulltime] = useState(false)
 
-  return useObserver(() => (
+  return (
     <Touchable
       onPress={() => {
         setFulltime(!fulltime)
@@ -23,7 +23,7 @@ function LastModified({ value }) {
         [{fulltime ? String(value).replace('T', ' ').split('.')?.[0] : timeAgo(value)}]
       </Text>
     </Touchable>
-  ))
+  )
 }
 
-export default LastModified
+export default observer(LastModified)

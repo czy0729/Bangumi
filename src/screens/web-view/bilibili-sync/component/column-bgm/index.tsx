@@ -4,17 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-14 16:41:59
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 function ColumnBgm({ select, text, next }) {
   r(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <Text
       style={_.mt.md}
       type={!text ? _.select('sub', 'icon') : select ? _.select('sub', 'icon') : 'desc'}
@@ -29,7 +28,7 @@ function ColumnBgm({ select, text, next }) {
         </Text>
       )}
     </Text>
-  ))
+  )
 }
 
-export default ColumnBgm
+export default observer(ColumnBgm)

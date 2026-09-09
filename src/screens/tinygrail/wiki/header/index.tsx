@@ -4,15 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-14 14:40:33
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { HM } from './ds'
 
 function Header({ onToggle }) {
-  return useObserver(() => (
+  return (
     <HeaderV2
       title='小圣杯游戏指南'
       hm={HM}
@@ -27,7 +26,7 @@ function Header({ onToggle }) {
         />
       )}
     />
-  ))
+  )
 }
 
-export default Header
+export default observer(Header)

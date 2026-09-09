@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-02-07 09:06:56
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import TinygrailPage from '@tinygrail/_/page'
 import List from './component/list'
 import ToolBar from './component/tool-bar'
@@ -17,10 +16,10 @@ import { useTinygrailLotteryRankPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 刮刮乐日榜 */
-const TinygrailLotteryRank = (props: NavigationProps) => {
+function TinygrailLotteryRank(props: NavigationProps) {
   const { id } = useTinygrailLotteryRankPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-tinygrail-ico'>
       <StoreContext.Provider value={id}>
         <TinygrailPage>
@@ -30,7 +29,7 @@ const TinygrailLotteryRank = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default TinygrailLotteryRank
+export default observer(TinygrailLotteryRank)

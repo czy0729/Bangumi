@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 10:01:50
+ * @Last Modified time: 2026-09-09 12:56:15
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Heatmap, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import List from './component/list'
 import Header from './header'
 import { useMonoPage } from './hooks'
@@ -15,10 +14,10 @@ import { useMonoPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 人物 */
-const Mono = (props: NavigationProps) => {
+function Mono(props: NavigationProps) {
   const { id } = useMonoPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-mono'>
       <StoreContext.Provider value={id}>
         <Page statusBarEvent={false}>
@@ -28,7 +27,7 @@ const Mono = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Mono
+export default observer(Mono)

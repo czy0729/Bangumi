@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-01-09 15:16:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-16 21:39:31
+ * @Last Modified time: 2026-09-09 13:26:26
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { IconHeader } from '@_'
 import { _, StoreContext } from '@stores'
 import { alert } from '@utils'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import TinygrailHeader from '@tinygrail/_/header'
 import TinygrailPage from '@tinygrail/_/page'
 import TinygrailToolBar from '@tinygrail/_/tool-bar'
@@ -21,10 +20,10 @@ import { HM } from './ds'
 import type { NavigationProps } from '@types'
 
 /** 卖出推荐 */
-const TinygrailAdvanceBid = (props: NavigationProps) => {
+function TinygrailAdvanceBid(props: NavigationProps) {
   const { id, $ } = useTinygrailAdvanceBidPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-tinygrail-advance-bid'>
       <StoreContext.Provider value={id}>
         <TinygrailPage>
@@ -56,7 +55,7 @@ const TinygrailAdvanceBid = (props: NavigationProps) => {
         />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default TinygrailAdvanceBid
+export default observer(TinygrailAdvanceBid)

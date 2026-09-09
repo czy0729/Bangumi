@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-27 06:29:19
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import List from './component/list'
 import Header from './header'
 import { usePreviewPage } from './hooks'
@@ -15,10 +14,10 @@ import { usePreviewPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 预览 */
-const Preview = (props: NavigationProps) => {
+function Preview(props: NavigationProps) {
   const { id, $ } = usePreviewPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-preview'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded}>
@@ -28,7 +27,7 @@ const Preview = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Preview
+export default observer(Preview)

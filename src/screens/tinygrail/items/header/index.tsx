@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-05-02 05:54:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-07 07:48:23
+ * @Last Modified time: 2026-09-09 13:35:19
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont } from '@components'
 import { Popover } from '@_'
 import { _ } from '@stores'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { useNavigation } from '@utils/hooks'
 import { ITEMS_NOTIFY } from '@tinygrail/_/characters-modal'
 import TinygrailHeader from '@tinygrail/_/header'
 import { COMPONENT, DS, HM } from './ds'
@@ -36,9 +37,7 @@ function Header() {
     [navigation]
   )
 
-  return useObserver(() => (
-    <TinygrailHeader title='我的道具' hm={HM} headerRight={handleHeaderRight} />
-  ))
+  return <TinygrailHeader title='我的道具' hm={HM} headerRight={handleHeaderRight} />
 }
 
-export default Header
+export default observer(Header)

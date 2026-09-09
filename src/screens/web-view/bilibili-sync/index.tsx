@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-26 22:31:14
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import List from './component/list'
 import Login from './component/login'
 import Header from './header'
@@ -16,10 +15,10 @@ import { useBilibiliSyncPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** bilibili 同步 */
-const BilibiliSync = (props: NavigationProps) => {
+function BilibiliSync(props: NavigationProps) {
   const { id, $ } = useBilibiliSyncPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-bilibili-sync'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded}>
@@ -35,7 +34,7 @@ const BilibiliSync = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default BilibiliSync
+export default observer(BilibiliSync)

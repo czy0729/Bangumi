@@ -2,18 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-06-22 16:48:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-19 22:26:33
+ * @Last Modified time: 2026-09-09 13:24:03
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Avatar, InView, Name } from '@_'
 import { _, rakuenStore } from '@stores'
-import { ReviewsItem } from '@stores/rakuen/types'
 import { getIsBlockedUser, HTMLDecode } from '@utils'
-import { useNavigation, useObserver } from '@utils/hooks'
-import { WithIndex } from '@types'
+import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+
+import type { ReviewsItem } from '@stores/rakuen/types'
+import type { WithIndex } from '@types'
 
 function Item({
   index,
@@ -28,48 +29,47 @@ function Item({
 }: WithIndex<ReviewsItem>) {
   const navigation = useNavigation(COMPONENT)
 
-  return useObserver(() => {
-    if (getIsBlockedUser(rakuenStore.blockUserIds, userName, userId, `Reviews|${id}`)) return null
+  if (getIsBlockedUser(rakuenStore.blockUserIds, userName, userId, `Reviews|${id}`)) return null
 
-    const styles = memoStyles()
-    return (
-      <Touchable
-        style={styles.item}
-        animate
-        onPress={() => {
-          navigation.push('Blog', {
-            blogId: id
-          })
-        }}
-      >
-        <Flex style={styles.wrap} align='start'>
-          <InView style={styles.inView} y={150 * (index + 1)}>
-            <Avatar navigation={navigation} userId={userId} name={userName} src={avatar} />
-          </InView>
-          <Flex.Item>
-            <Text bold>
-              {HTMLDecode(title)}
-              {replies !== '+0' && (
-                <Text type='main' size={12} lineHeight={14} bold>
-                  {'  '}
-                  {replies}
-                </Text>
-              )}
-            </Text>
-            <Text style={_.mt.xs} type='sub' size={12}>
-              {time} /{' '}
-              <Name userId={userId} showFriend type='sub' size={12}>
-                {userName}
-              </Name>
-            </Text>
-            <Text style={styles.content} size={12} lineHeight={14} numberOfLines={4}>
-              {content}
-            </Text>
-          </Flex.Item>
-        </Flex>
-      </Touchable>
-    )
-  })
+  const styles = memoStyles()
+
+  return (
+    <Touchable
+      style={styles.item}
+      animate
+      onPress={() => {
+        navigation.push('Blog', {
+          blogId: id
+        })
+      }}
+    >
+      <Flex style={styles.wrap} align='start'>
+        <InView style={styles.inView} y={150 * (index + 1)}>
+          <Avatar navigation={navigation} userId={userId} name={userName} src={avatar} />
+        </InView>
+        <Flex.Item>
+          <Text bold>
+            {HTMLDecode(title)}
+            {replies !== '+0' && (
+              <Text type='main' size={12} lineHeight={14} bold>
+                {'  '}
+                {replies}
+              </Text>
+            )}
+          </Text>
+          <Text style={_.mt.xs} type='sub' size={12}>
+            {time} /{' '}
+            <Name userId={userId} showFriend type='sub' size={12}>
+              {userName}
+            </Name>
+          </Text>
+          <Text style={styles.content} size={12} lineHeight={14} numberOfLines={4}>
+            {content}
+          </Text>
+        </Flex.Item>
+      </Flex>
+    </Touchable>
+  )
 }
 
-export default Item
+export default observer(Item)

@@ -2,23 +2,23 @@
  * @Author: czy0729
  * @Date: 2019-09-20 00:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-06-14 01:37:23
+ * @Last Modified time: 2026-09-09 13:30:13
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import TinygrailPage from '@tinygrail/_/page'
-import { NavigationProps } from '@types'
 import Scroll from './component/scroll'
 import Header from './header'
 import { useTinygrailICODealPage } from './hooks'
 
+import type { NavigationProps } from '@types'
+
 /** ICO 详情 */
-const TinygrailICODeal = (props: NavigationProps) => {
+function TinygrailICODeal(props: NavigationProps) {
   const { id } = useTinygrailICODealPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-tinygrail-ico-deal'>
       <StoreContext.Provider value={id}>
         <TinygrailPage>
@@ -27,7 +27,7 @@ const TinygrailICODeal = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default TinygrailICODeal
+export default observer(TinygrailICODeal)

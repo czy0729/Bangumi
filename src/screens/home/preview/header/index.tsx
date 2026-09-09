@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-17 11:16:57
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2 } from '@components'
 import { useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../types'
@@ -15,9 +14,7 @@ import type { Ctx } from '../types'
 function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
-    <HeaderV2 title={$.name ? `${$.name}的预览` : '预览'} alias='预览' hm={$.hm} />
-  ))
+  return <HeaderV2 title={$.name ? `${$.name}的预览` : '预览'} alias='预览' hm={$.hm} />
 }
 
-export default Header
+export default observer(Header)

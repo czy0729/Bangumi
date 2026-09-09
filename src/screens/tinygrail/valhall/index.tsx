@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-17 15:59:32
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import TinygrailHeader from '@tinygrail/_/header'
 import TinygrailIconGo from '@tinygrail/_/icon-go'
 import TinygrailPage from '@tinygrail/_/page'
@@ -20,10 +19,10 @@ import { HM } from './ds'
 import type { NavigationProps } from '@types'
 
 /** 英灵殿 */
-const TinygrailValhall = (props: NavigationProps) => {
+function TinygrailValhall(props: NavigationProps) {
   const { id, $ } = useTinygrailValhallPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-tinygrail-valhall'>
       <StoreContext.Provider value={id}>
         <TinygrailPage>
@@ -41,7 +40,7 @@ const TinygrailValhall = (props: NavigationProps) => {
         <TinygrailHeader title='英灵殿' hm={HM} headerRight={() => <TinygrailIconGo $={$} />} />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default TinygrailValhall
+export default observer(TinygrailValhall)

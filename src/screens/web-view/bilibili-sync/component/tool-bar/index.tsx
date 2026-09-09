@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-19 05:38:04
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text, ToolBar as ToolBarComp } from '@components'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../types'
@@ -15,7 +14,7 @@ import type { Ctx } from '../../types'
 function ToolBar() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <ToolBarComp>
       <ToolBarComp.Touchable onSelect={() => $.onToggle('hideNotMatched')}>
         <Text size={11} bold>
@@ -49,7 +48,7 @@ function ToolBar() {
         </Text>
       </ToolBarComp.Touchable>
     </ToolBarComp>
-  ))
+  )
 }
 
-export default ToolBar
+export default observer(ToolBar)

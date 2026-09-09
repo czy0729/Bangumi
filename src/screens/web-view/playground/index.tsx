@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-28 00:14:16
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import {
   BGM_MAP,
   BgmText,
@@ -18,10 +18,9 @@ import {
 } from '@components'
 import { ScrollView } from '@_'
 import { _ } from '@stores'
-import { useObserver } from '@utils/hooks'
 
-const Playground = () => {
-  return useObserver(() => (
+function Playground() {
+  return (
     <Component id='screen-playground'>
       <Page>
         <HeaderPlaceholder />
@@ -58,7 +57,7 @@ const Playground = () => {
       </Page>
       <HeaderV2 title='Playground' />
     </Component>
-  ))
+  )
 }
 
-export default Playground
+export default observer(Playground)

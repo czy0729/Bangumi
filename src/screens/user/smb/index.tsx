@@ -4,11 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-26 21:59:36
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import './styles'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Config from './component/config'
 import Form from './component/form'
 import List from './component/list'
@@ -20,10 +19,10 @@ import { useSmbPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 本地管理 */
-const Smb = (props: NavigationProps) => {
+function Smb(props: NavigationProps) {
   const { id, $ } = useSmbPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-smb'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded}>
@@ -37,7 +36,7 @@ const Smb = (props: NavigationProps) => {
         <Scrape />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Smb
+export default observer(Smb)

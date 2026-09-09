@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-26 22:44:37
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Web from './component/web'
 import Header from './header'
 import { useVersionsPage } from './hooks'
@@ -15,10 +14,10 @@ import { useVersionsPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 更新内容 */
-const Versions = (props: NavigationProps) => {
+function Versions(props: NavigationProps) {
   const { id, $ } = useVersionsPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-versions'>
       <StoreContext.Provider value={id}>
         <Page>
@@ -28,7 +27,7 @@ const Versions = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Versions
+export default observer(Versions)

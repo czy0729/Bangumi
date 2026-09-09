@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-11-20 17:58:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 15:51:05
+ * @Last Modified time: 2026-09-09 13:55:34
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, Loading, Text } from '@components'
 import { IconHeader } from '@_'
 import { _, StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import TinygrailHeader from '@tinygrail/_/header'
 import TinygrailPage from '@tinygrail/_/page'
 import Chart from './chart'
@@ -19,11 +18,11 @@ import { HM } from './ds'
 import type { NavigationProps } from '@types'
 
 /** 资产分析 */
-const TinygrailTree = (props: NavigationProps) => {
+function TinygrailTree(props: NavigationProps) {
   const { id, $, refreshing, handleRefresh, handleShowMenu, handleAlert } =
     useTinygrailTreePage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-tinygrail-tree'>
       <StoreContext.Provider value={id}>
         <TinygrailPage>
@@ -69,7 +68,7 @@ const TinygrailTree = (props: NavigationProps) => {
         />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default TinygrailTree
+export default observer(TinygrailTree)

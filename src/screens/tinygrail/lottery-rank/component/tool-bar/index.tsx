@@ -4,12 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-02-07 09:11:12
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import TinygrailSegmentedControl from '@tinygrail/_/segmented-control'
 import { getDay } from '../../utils'
 import { COMPONENT, VALUES } from './ds'
@@ -20,46 +19,44 @@ import type { Ctx } from '../../types'
 function ToolBar() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => {
-    const { prev, sort, _loaded } = $.state
+  const { prev, sort, _loaded } = $.state
 
-    return (
-      <Flex style={styles.toolBar} justify='around'>
-        <View style={styles.side} />
-        <Flex>
-          <IconTouchable
-            name='md-navigate-before'
-            color={Number(getDay(prev)) <= 250718 ? _.colorTinygrailIcon : _.colorTinygrailPlain}
-            size={18}
-            onPress={() => {
-              $.onSubtractDay(1)
-            }}
-          />
-          <Text type='tinygrailPlain' size={12} bold>
-            {getDay(prev)} ({$.list.length})
-          </Text>
-          <IconTouchable
-            name='md-navigate-next'
-            color={prev === 0 ? _.colorTinygrailIcon : _.colorTinygrailPlain}
-            size={18}
-            onPress={() => {
-              $.onSubtractDay(-1)
-            }}
-          />
-        </Flex>
-        <View style={styles.side}>
-          {!!_loaded && (
-            <TinygrailSegmentedControl
-              style={styles.segment}
-              values={VALUES}
-              selectedIndex={sort === 'amount' ? 1 : 0}
-              onValueChange={$.onSort}
-            />
-          )}
-        </View>
+  return (
+    <Flex style={styles.toolBar} justify='around'>
+      <View style={styles.side} />
+      <Flex>
+        <IconTouchable
+          name='md-navigate-before'
+          color={Number(getDay(prev)) <= 250718 ? _.colorTinygrailIcon : _.colorTinygrailPlain}
+          size={18}
+          onPress={() => {
+            $.onSubtractDay(1)
+          }}
+        />
+        <Text type='tinygrailPlain' size={12} bold>
+          {getDay(prev)} ({$.list.length})
+        </Text>
+        <IconTouchable
+          name='md-navigate-next'
+          color={prev === 0 ? _.colorTinygrailIcon : _.colorTinygrailPlain}
+          size={18}
+          onPress={() => {
+            $.onSubtractDay(-1)
+          }}
+        />
       </Flex>
-    )
-  })
+      <View style={styles.side}>
+        {!!_loaded && (
+          <TinygrailSegmentedControl
+            style={styles.segment}
+            values={VALUES}
+            selectedIndex={sort === 'amount' ? 1 : 0}
+            onValueChange={$.onSort}
+          />
+        )}
+      </View>
+    </Flex>
+  )
 }
 
-export default ToolBar
+export default observer(ToolBar)

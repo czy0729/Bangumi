@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-26 22:35:01
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Notice, PaginationList } from '@_'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import ToolBar from '../tool-bar'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
@@ -17,7 +16,7 @@ import type { Ctx } from '../../types'
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <>
       <ToolBar />
       <PaginationList
@@ -36,7 +35,7 @@ function List() {
         onPage={$.onPage}
       />
     </>
-  ))
+  )
 }
 
-export default List
+export default observer(List)

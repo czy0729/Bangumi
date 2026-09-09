@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-26 22:41:21
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Form from './component/form'
 import List from './component/list'
 import Summary from './component/summary'
@@ -17,10 +16,10 @@ import { useLogPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 错误上报分析 */
-const Log = (props: NavigationProps) => {
+function Log(props: NavigationProps) {
   const { id } = useLogPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-log'>
       <StoreContext.Provider value={id}>
         <Page>
@@ -32,7 +31,7 @@ const Log = (props: NavigationProps) => {
         <Summary />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Log
+export default observer(Log)

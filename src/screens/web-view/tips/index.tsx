@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-26 22:44:22
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import Web from '@screens/web-view/versions/component/web'
 import Header from './header'
 import { useTipsPage } from './hooks'
@@ -15,22 +14,20 @@ import { useTipsPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 特色功能 */
-const Tips = (props: NavigationProps) => {
+function Tips(props: NavigationProps) {
   const { id, $ } = useTipsPage(props)
 
-  return useObserver(() => {
-    return (
-      <Component id='screen-tips'>
-        <StoreContext.Provider value={id}>
-          <Page>
-            <HeaderPlaceholder />
-            {!!$.state._loaded && <Web uri={$.state.uri} />}
-          </Page>
-          <Header />
-        </StoreContext.Provider>
-      </Component>
-    )
-  })
+  return (
+    <Component id='screen-tips'>
+      <StoreContext.Provider value={id}>
+        <Page>
+          <HeaderPlaceholder />
+          {!!$.state._loaded && <Web uri={$.state.uri} />}
+        </Page>
+        <Header />
+      </StoreContext.Provider>
+    </Component>
+  )
 }
 
-export default Tips
+export default observer(Tips)

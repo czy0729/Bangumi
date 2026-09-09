@@ -4,11 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-17 10:05:18
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { useStore } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -17,7 +16,7 @@ import type { Ctx } from '../../types'
 function SectionRight({ event, text, to }) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  return useObserver(() => (
+  return (
     <Touchable
       style={styles.touch}
       onPress={() => {
@@ -38,7 +37,7 @@ function SectionRight({ event, text, to }) {
         <Iconfont name='md-navigate-next' />
       </Flex>
     </Touchable>
-  ))
+  )
 }
 
-export default SectionRight
+export default observer(SectionRight)

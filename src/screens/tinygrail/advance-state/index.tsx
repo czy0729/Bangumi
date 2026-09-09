@@ -4,12 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-17 05:16:20
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { IconHeader } from '@_'
 import { _, StoreContext } from '@stores'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { alert } from '@utils/ui'
 import TinygrailHeader from '@tinygrail/_/header'
 import TinygrailPage from '@tinygrail/_/page'
@@ -21,10 +20,10 @@ import { HM } from './ds'
 import type { NavigationProps } from '@types'
 
 /** 低价股 */
-const TinygrailAdvanceState = (props: NavigationProps) => {
+function TinygrailAdvanceState(props: NavigationProps) {
   const { id, $ } = useTinygrailAdvanceStatePage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-tinygrail-advance-state'>
       <StoreContext.Provider value={id}>
         <TinygrailPage>
@@ -53,7 +52,7 @@ const TinygrailAdvanceState = (props: NavigationProps) => {
         />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default TinygrailAdvanceState
+export default observer(TinygrailAdvanceState)

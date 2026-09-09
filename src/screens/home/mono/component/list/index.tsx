@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-11-26 03:42:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 02:10:14
+ * @Last Modified time: 2026-09-09 13:05:34
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
+import { observer } from 'mobx-react'
 import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
-import { useInsets, useObserver } from '@utils/hooks'
+import { useInsets } from '@utils/hooks'
 import Info from '../info'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
@@ -22,7 +23,7 @@ function List() {
 
   const elInfo = useMemo(() => <Info />, [])
 
-  return useObserver(() => (
+  return (
     <PaginationList
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}
@@ -35,7 +36,7 @@ function List() {
       onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
     />
-  ))
+  )
 }
 
-export default List
+export default observer(List)

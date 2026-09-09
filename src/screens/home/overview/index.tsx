@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-23 02:20:30
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import List from './component/list'
 import ToolBar from './component/tool-bar'
 import Header from './header'
@@ -16,10 +15,10 @@ import { useOverviewPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 条目封面一览 */
-const Overview = (props: NavigationProps) => {
+function Overview(props: NavigationProps) {
   const { id } = useOverviewPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-overview'>
       <StoreContext.Provider value={id}>
         <Page>
@@ -30,7 +29,7 @@ const Overview = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default Overview
+export default observer(Overview)

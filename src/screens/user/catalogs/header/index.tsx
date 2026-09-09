@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-16 01:00:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 06:06:48
+ * @Last Modified time: 2026-09-09 13:57:17
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
-import { useObserver } from '@utils/hooks'
 import { TEXT_MENU_BROWSER } from '@constants'
 import { COMPONENT, DATA } from './ds'
 
@@ -36,14 +36,14 @@ function Header() {
     [$]
   )
 
-  return useObserver(() => (
+  return (
     <HeaderV2
       title={$.params.userId ? 'TA的目录' : '我的目录'}
       alias='用户目录'
       hm={$.hm}
       headerRight={handleHeaderRight}
     />
-  ))
+  )
 }
 
-export default Header
+export default observer(Header)

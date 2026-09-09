@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-10-13 04:46:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-15 06:22:20
+ * @Last Modified time: 2026-09-09 13:57:39
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { devLog, Flex, Iconfont, Input, Text, Touchable } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { update } from '@utils/kv'
 import { memoStyles } from './styles'
 
@@ -41,48 +41,46 @@ function UpdateKey() {
     devLog(result)
   }, [key, val])
 
-  return useObserver(() => {
-    const styles = memoStyles()
+  const styles = memoStyles()
 
-    return (
-      <>
-        <ItemSetting
-          hd='Update Key'
-          ft={
-            <Touchable onPress={() => setShow(!show)}>
-              <Text>使用</Text>
+  return (
+    <>
+      <ItemSetting
+        hd='Update Key'
+        ft={
+          <Touchable onPress={() => setShow(!show)}>
+            <Text>使用</Text>
+          </Touchable>
+        }
+        withoutFeedback
+      />
+      {show && (
+        <View style={styles.container}>
+          <Flex>
+            <Flex.Item>
+              <Input
+                style={styles.input}
+                value={key}
+                placeholder='key'
+                onChange={handleKeyChange}
+              />
+            </Flex.Item>
+            <Flex.Item style={_.ml.md}>
+              <Input
+                style={styles.input}
+                value={val}
+                placeholder='val'
+                onChange={handleValChange}
+              />
+            </Flex.Item>
+            <Touchable style={_.ml.lg} onPress={handleSubmit}>
+              <Iconfont name='md-check' />
             </Touchable>
-          }
-          withoutFeedback
-        />
-        {show && (
-          <View style={styles.container}>
-            <Flex>
-              <Flex.Item>
-                <Input
-                  style={styles.input}
-                  value={key}
-                  placeholder='key'
-                  onChange={handleKeyChange}
-                />
-              </Flex.Item>
-              <Flex.Item style={_.ml.md}>
-                <Input
-                  style={styles.input}
-                  value={val}
-                  placeholder='val'
-                  onChange={handleValChange}
-                />
-              </Flex.Item>
-              <Touchable style={_.ml.lg} onPress={handleSubmit}>
-                <Iconfont name='md-check' />
-              </Touchable>
-            </Flex>
-          </View>
-        )}
-      </>
-    )
-  })
+          </Flex>
+        </View>
+      )}
+    </>
+  )
 }
 
-export default UpdateKey
+export default observer(UpdateKey)

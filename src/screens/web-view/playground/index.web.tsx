@@ -5,16 +5,16 @@
  * @Last Modified time: 2023-12-08 07:58:47
  */
 import { useEffect } from 'react'
+import { observer } from 'mobx-react'
 import { Component, Flex, HeaderV2, Page, Text } from '@components'
-import { useObserver } from '@utils/hooks'
 import { get } from '@utils/thirdParty/protobuf'
 
-const Playground = () => {
+function Playground() {
   useEffect(() => {
     get('bangumi-data')
   }, [])
 
-  return useObserver(() => (
+  return (
     <Component id='screen-playground'>
       <HeaderV2 title=' ' />
       <Page>
@@ -28,7 +28,7 @@ const Playground = () => {
         </Flex>
       </Page>
     </Component>
-  ))
+  )
 }
 
-export default Playground
+export default observer(Playground)

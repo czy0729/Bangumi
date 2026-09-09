@@ -2,46 +2,44 @@
  * @Author: czy0729
  * @Date: 2024-03-11 06:57:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-06 14:55:31
+ * @Last Modified time: 2026-09-09 13:36:22
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Avatar as AvatarComp } from '@components'
 import { _ } from '@stores'
 import { tinygrailOSS } from '@utils'
 import { t } from '@utils/fetch'
-import { useNavigation, useObserver } from '@utils/hooks'
+import { useNavigation } from '@utils/hooks'
 
 function Avatar({ charaId, icons, onPress }) {
   const navigation = useNavigation()
 
-  return useObserver(() => {
-    if (!icons) return null
+  if (!icons) return null
 
-    return (
-      <View style={[_.mt.xxs, _.mr.sm]}>
-        <AvatarComp
-          src={tinygrailOSS(icons)}
-          size={32}
-          borderColor='transparent'
-          skeletonType='tinygrail'
-          onPress={() => {
-            // ICO 的记录没有人物 ID
-            if (!onPress) return
+  return (
+    <View style={[_.mt.xxs, _.mr.sm]}>
+      <AvatarComp
+        src={tinygrailOSS(icons)}
+        size={32}
+        borderColor='transparent'
+        skeletonType='tinygrail'
+        onPress={() => {
+          // ICO 的记录没有人物 ID
+          if (!onPress) return
 
-            navigation.push('Mono', {
-              monoId: `character/${charaId}`
-            })
+          navigation.push('Mono', {
+            monoId: `character/${charaId}`
+          })
 
-            t('资金日志.跳转', {
-              to: 'Mono',
-              monoId: charaId
-            })
-          }}
-        />
-      </View>
-    )
-  })
+          t('资金日志.跳转', {
+            to: 'Mono',
+            monoId: charaId
+          })
+        }}
+      />
+    </View>
+  )
 }
 
-export default Avatar
+export default observer(Avatar)

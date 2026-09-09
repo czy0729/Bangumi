@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-26 22:34:47
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import List from './component/list'
 import Login from './component/login'
 import Tips from './component/tips'
@@ -17,10 +16,10 @@ import { useDoubanSyncPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 豆瓣同步 */
-const DoubanSync = (props: NavigationProps) => {
+function DoubanSync(props: NavigationProps) {
   const { id, $ } = useDoubanSyncPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-douban-sync'>
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded}>
@@ -32,7 +31,7 @@ const DoubanSync = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default DoubanSync
+export default observer(DoubanSync)

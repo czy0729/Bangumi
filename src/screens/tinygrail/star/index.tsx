@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-19 18:33:29
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { StoreContext } from '@stores'
-import { useObserver } from '@utils/hooks'
 import TinygrailPage from '@tinygrail/_/page'
 import List from './component/list'
 import ToolBar from './component/tool-bar'
@@ -17,10 +16,10 @@ import { useTinygrailStarPage } from './hooks'
 import type { NavigationProps } from '@types'
 
 /** 通天塔 */
-const TinygrailStar = (props: NavigationProps) => {
+function TinygrailStar(props: NavigationProps) {
   const { id } = useTinygrailStarPage(props)
 
-  return useObserver(() => (
+  return (
     <Component id='screen-tinygrail-star'>
       <StoreContext.Provider value={id}>
         <TinygrailPage>
@@ -30,7 +29,7 @@ const TinygrailStar = (props: NavigationProps) => {
         <Header />
       </StoreContext.Provider>
     </Component>
-  ))
+  )
 }
 
-export default TinygrailStar
+export default observer(TinygrailStar)

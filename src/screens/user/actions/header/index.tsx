@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-11-24 15:39:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-28 20:30:44
+ * @Last Modified time: 2026-09-09 13:56:42
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
+import { observer } from 'mobx-react'
 import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { useObserver } from '@utils/hooks'
 import { COMPONENT, HM } from './ds'
 
 import type { Ctx } from '../types'
@@ -36,9 +36,7 @@ function Header() {
     [navigation]
   )
 
-  return useObserver(() => (
-    <HeaderV2 title={$.params.name || '自定义跳转'} hm={HM} headerRight={handleHeaderRight} />
-  ))
+  return <HeaderV2 title={$.params.name || '自定义跳转'} hm={HM} headerRight={handleHeaderRight} />
 }
 
-export default Header
+export default observer(Header)
