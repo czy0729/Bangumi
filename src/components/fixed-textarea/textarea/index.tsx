@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-07-29 04:25:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-27 08:25:21
+ * @Last Modified time: 2026-09-10 00:44:50
  */
-import React from 'react'
 import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { observer } from 'mobx-react'
@@ -83,7 +82,7 @@ function Textarea({
         </Flex.Item>
         {IOS && !editing && <Touchable style={styles.placeholder} onPress={onFocus} />}
         {editing && (
-          <Touchable style={styles.touch} onPress={onSubmit}>
+          <Touchable style={styles.touch} onPress={() => onSubmit?.(value)}>
             <Flex style={styles.send} justify='center'>
               <Iconfont name='md-send' size={16} color={value !== '' ? _.colorMain : _.colorSub} />
             </Flex>

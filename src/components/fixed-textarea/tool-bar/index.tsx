@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-08-01 05:35:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 05:03:37
+ * @Last Modified time: 2026-09-10 00:45:12
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex } from '../../flex'

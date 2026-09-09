@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-08-01 19:19:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 04:52:15
+ * @Last Modified time: 2026-09-10 00:33:48
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { BlurView } from 'expo-blur'
 import { _ } from '@stores'
@@ -13,9 +12,9 @@ import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT } from '../../blur-view'
 import { SafeAreaBottom } from '../../safe-area-bottom'
 import { memoStyles } from './styles'
 
-import type { PropsWithChildren } from 'react'
+import type { Props } from './types'
 
-function Container({ children }: PropsWithChildren) {
+function Container({ children }: Props) {
   const styles = memoStyles()
 
   if (IOS || WEB) {

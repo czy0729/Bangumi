@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2026-05-17 04:42:03
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-09-05 04:42:03
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-10 00:15:00
  */
 const path = require('path')
 
@@ -140,6 +140,7 @@ jest.mock(
       getPinYinFilterValue: () => '',
       x18: () => false,
       trim,
+      feedback: jest.fn(),
       getStorage: jest.fn(),
       setStorage: jest.fn(),
       titleCase

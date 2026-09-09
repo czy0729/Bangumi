@@ -2,25 +2,29 @@
  * @Author: czy0729
  * @Date: 2023-07-30 18:30:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-27 08:24:26
+ * @Last Modified time: 2026-09-10 00:49:05
  */
-import React from 'react'
 import { View } from 'react-native'
+import Animated from 'react-native-reanimated'
 import { observer } from 'mobx-react'
 import { Touchable } from '../../touchable'
+import { useMask } from './hooks'
 import { memoStyles } from './styles'
 
 import type { Props } from './types'
 
 function Mask({ showTextarea, showBgm, onMask }: Props) {
-  if (!(showTextarea || showBgm)) return null
+  const show = showTextarea || showBgm
+  const { showValue, maskStyle } = useMask(show)
 
   const styles = memoStyles()
 
+  if (!showValue) return null
+
   return (
-    <View style={styles.container}>
+    <View style={styles.container} pointerEvents={show ? 'auto' : 'none'}>
       <Touchable withoutFeedback onPress={onMask}>
-        <View style={styles.mask} />
+        <Animated.View style={[styles.mask, maskStyle]} />
       </Touchable>
     </View>
   )

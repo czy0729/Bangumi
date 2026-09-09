@@ -28,8 +28,10 @@ export const memoStyles = _.memoStyles(() => ({
   body: {
     overflow: 'hidden'
   },
+  /** 收起态: 正向固定单行高度裁剪多行输入框, 不再依赖负 margin 与 TextareaItem 显式高度耦合 */
   fixed: {
-    marginBottom: -144
+    height: 48,
+    overflow: 'hidden'
   },
   textarea: {
     minHeight: 48,
