@@ -10,7 +10,6 @@ import {
   getKeyboardSpaceHeight,
   getSubmitValue,
   insertTextAt,
-  resetMaxKeyboardHeight,
   upsertHistory,
   upsertReplyHistory
 } from '../utils'
@@ -145,10 +144,10 @@ describe('upsertReplyHistory', () => {
     expect(result).toEqual(['z', 'c', 'a', 'b'])
   })
 
-  it('[问题] 补入锁定文本后不二次裁剪, 可能超出上限一条 (与原行为一致)', () => {
+  it('[问题] 补入锁定文本后不二次裁剪, 可能超出上限一条', () => {
     const result = upsertReplyHistory(['a', 'b'], 'c', 'z', 2)
     expect(result).toEqual(['z', 'c', 'a'])
-    expect(result.length).toBeGreaterThan(2)
+    expect(result.length).toBe(3)
   })
 
   it('无锁定文本时按上限裁剪', () => {
@@ -161,31 +160,29 @@ describe('upsertReplyHistory', () => {
 })
 
 describe('getKeyboardSpaceHeight', () => {
-  beforeEach(() => {
-    resetMaxKeyboardHeight()
-  })
-
   it('Android 直接使用键盘高度', () => {
-    expect(getKeyboardSpaceHeight(800, false)).toBe(800)
+    expect(getKeyboardSpaceHeight(800, false, 0)).toEqual({ height: 800, maxHeight: 800 })
   })
 
   it('Android 高度取历史最大值, 键盘变矮时保持不变', () => {
-    expect(getKeyboardSpaceHeight(800, false)).toBe(800)
-    expect(getKeyboardSpaceHeight(700, false)).toBe(800)
+    const first = getKeyboardSpaceHeight(800, false, 0)
+    expect(first).toEqual({ height: 800, maxHeight: 800 })
+    expect(getKeyboardSpaceHeight(700, false, first.maxHeight)).toEqual({
+      height: 800,
+      maxHeight: 800
+    })
   })
 
   it('iOS 扣除 24 工具条高度', () => {
-    expect(getKeyboardSpaceHeight(800, true)).toBe(776)
+    expect(getKeyboardSpaceHeight(800, true, 0)).toEqual({ height: 776, maxHeight: 776 })
   })
 
   it('iOS 第三方键盘弹出慢一拍, 保证不低于 336', () => {
-    resetMaxKeyboardHeight()
-    expect(getKeyboardSpaceHeight(300, true)).toBe(336)
+    expect(getKeyboardSpaceHeight(300, true, 0)).toEqual({ height: 336, maxHeight: 276 })
   })
 
   it('[问题] 高度低于历史最大值时 iOS 也不会回落', () => {
-    getKeyboardSpaceHeight(800, true)
-    expect(getKeyboardSpaceHeight(300, true)).toBe(776)
+    expect(getKeyboardSpaceHeight(300, true, 776)).toEqual({ height: 776, maxHeight: 776 })
   })
 })
 

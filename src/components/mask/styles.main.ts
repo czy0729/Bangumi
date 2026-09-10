@@ -30,5 +30,8 @@ export const styles = _.create({
     right: 0,
     bottom: 0,
     left: 0
+  },
+  pressHidden: {
+    pointerEvents: 'none'
   }
 })

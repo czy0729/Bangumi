@@ -5,12 +5,38 @@
  * @Last Modified time: 2026-09-09 15:58:33
  */
 import { useEffect, useRef } from 'react'
+import { _ } from '@stores'
+import { IOS } from '@constants'
 import { DEV } from '@src/config'
 
+import type { Theme } from '@react-navigation/native'
 import type { Navigation } from '@types'
 
 /** 上一个页面路径 */
 let lastPath = ''
+
+/**
+ * 生成与当前主题一致的导航主题
+ *
+ * 不传 theme 时 react-navigation 会回落 DefaultTheme (浅色),
+ * native-stack 的页面容器底色取的是 colors.background,
+ * iOS 26 玻璃转场露出这层底色时黑暗模式下会闪白色边缘
+ */
+export function getTheme(): Theme {
+  if (!IOS) return
+
+  return {
+    dark: _.isDark,
+    colors: {
+      primary: _.colorMain,
+      background: _.colorPlain,
+      card: _.colorPlain,
+      text: _.colorTitle,
+      border: _.colorBorder,
+      notification: _.colorMain
+    }
+  }
+}
 
 export function useNavigationRef() {
   const navigationRef = useRef<Navigation>(null)

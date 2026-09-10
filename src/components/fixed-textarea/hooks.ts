@@ -543,11 +543,21 @@ export function useKeyboard(): UseKeyboardReturn {
   const [showKeyboardSpacer, setShowKeyboardSpacer] = useState(false)
   const [keyboardHeight, setKeyboardHeight] = useState(0)
 
+  /** 历史最大键盘高度, 键盘切换中英文高度会变化, 固定取历史最大值 */
+  const maxKeyboardHeightRef = useRef(0)
+
   const onToggleKeyboard = useCallback((isOpen: boolean, height: number) => {
     if (!isOpen) return
 
+    const { height: spaceHeight, maxHeight } = getKeyboardSpaceHeight(
+      height,
+      IOS,
+      maxKeyboardHeightRef.current
+    )
+    maxKeyboardHeightRef.current = maxHeight
+
     setShowKeyboardSpacer(true)
-    setKeyboardHeight(getKeyboardSpaceHeight(height, IOS))
+    setKeyboardHeight(spaceHeight)
   }, [])
 
   /** 收起输入框时复位, 否则下次展开键盘不再走出现动画 */

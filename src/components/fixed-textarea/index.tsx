@@ -55,9 +55,12 @@ const FixedTextarea = observer(
     /** 最新输入值镜像, 供提交 / 卸载存草稿等非渲染期读取 */
     const valueRef = useRef('')
 
-    /** 生命周期内 simple 不变, 卸载存草稿用 */
+    /** simple 镜像, 供卸载存草稿等非渲染期读取 (生命周期内不变) */
     const simpleRef = useRef(simple)
-    simpleRef.current = simple
+
+    useEffect(() => {
+      simpleRef.current = simple
+    }, [simple])
 
     const forwardTextareaRef = useCallback((handle: { textAreaRef: TextInput }) => {
       textAreaRef.current = handle?.textAreaRef ?? null
@@ -130,10 +133,14 @@ const FixedTextarea = observer(
       }
     }, [saveReplyHistory])
 
-    useImperativeHandle(ref, () => ({
-      /** 聚焦输入框 */
-      onFocus: handleFocus
-    }))
+    useImperativeHandle(
+      ref,
+      () => ({
+        /** 聚焦输入框 */
+        onFocus: handleFocus
+      }),
+      [handleFocus]
+    )
 
     /** 收起: 复位键盘占位状态后走失焦流程 */
     const handleClose = useCallback(() => {
@@ -141,17 +148,19 @@ const FixedTextarea = observer(
       handleBlur()
     }, [resetKeyboardSpacer, handleBlur])
 
-    /** 提交, 之后保存历史 */
-    const handleSubmit = useCallback(() => {
-      if (valueRef.current === '') return
+    /** 提交, 之后保存历史 (value 由 Textarea 触发提交时传入) */
+    const handleSubmit = useCallback(
+      (value: string) => {
+        if (value === '') return
 
-      onSubmit?.(getSubmitValue(valueRef.current, source, showSource))
-      saveReplyHistory(valueRef.current)
-      onClose()
-      resetValue()
-      collapse()
-      handleClose()
-    }, [onSubmit, source, showSource, saveReplyHistory, onClose, resetValue, collapse, handleClose])
+        onSubmit?.(getSubmitValue(value, source, showSource))
+        saveReplyHistory(value)
+        resetValue()
+        collapse()
+        handleClose()
+      },
+      [onSubmit, source, showSource, saveReplyHistory, resetValue, collapse, handleClose]
+    )
 
     /** 遮罩点击, 保存草稿后收起 */
     const handleMask = useCallback(() => {

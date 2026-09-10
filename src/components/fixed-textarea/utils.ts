@@ -93,28 +93,31 @@ export function upsertReplyHistory(
   return next
 }
 
-/** 历史记录的最大键盘高度, 键盘切换中英文高度会变化, 固定取历史最大值 */
-let maxKeyboardHeight = 0
-
 /**
- * 键盘高度归一: 扣除 iOS 工具条高度, 不低于历史最大值;
+ * 键盘高度归一: 扣除 iOS 工具条高度, 不低于入参记录的历史最大值;
  * iOS 弹出第三方键盘会慢一拍, 但可以肯定至少是 336 高度
+ * 键盘切换中英文高度会变化, 历史最大值由调用方自行持有并写回
  *
  * @param keyboardHeight 键盘弹出事件高度
  * @param isIOS 是否 iOS
+ * @param maxKeyboardHeight 历史最大键盘高度
  */
-export function getKeyboardSpaceHeight(keyboardHeight: number, isIOS: boolean): number {
-  let height = keyboardHeight - (isIOS ? 24 : 0)
-  if (height > maxKeyboardHeight) {
-    maxKeyboardHeight = height
-  } else {
-    height = maxKeyboardHeight
+export function getKeyboardSpaceHeight(
+  keyboardHeight: number,
+  isIOS: boolean,
+  maxKeyboardHeight: number
+): {
+  /** 归一后的键盘占位高度 */
+  height: number
+
+  /** 本次更新后的历史最大高度, 由调用方写回 */
+  maxHeight: number
+} {
+  const deducted = keyboardHeight - (isIOS ? 24 : 0)
+  const maxHeight = Math.max(deducted, maxKeyboardHeight)
+
+  return {
+    height: isIOS ? Math.max(336, maxHeight) : maxHeight,
+    maxHeight
   }
-
-  return isIOS ? Math.max(336, height) : height
-}
-
-/** 重置键盘最大高度记录 (测试用) */
-export function resetMaxKeyboardHeight() {
-  maxKeyboardHeight = 0
 }

@@ -8,7 +8,6 @@ import React from 'react'
 import { getStorage, setStorage } from '@utils'
 import { NAMESPACE } from '../ds'
 import { useKeyboard, usePanelController, useReplyHistory, useTextareaValue } from '../hooks'
-import { resetMaxKeyboardHeight } from '../utils'
 
 import type { UsePanelControllerOptions, UseTextareaValueOptions } from '../types'
 
@@ -447,7 +446,6 @@ describe('usePanelController', () => {
 
 describe('useKeyboard', () => {
   beforeEach(() => {
-    resetMaxKeyboardHeight()
     jest.clearAllMocks()
   })
 
@@ -460,6 +458,19 @@ describe('useKeyboard', () => {
 
     expect(result.current.showKeyboardSpacer).toBe(true)
     // jest 环境 @constants 未提供 IOS, 走 Android 分支直接使用原始高度
+    expect(result.current.keyboardHeight).toBe(800)
+  })
+
+  it('同一实例内高度取历史最大值, 键盘变矮时保持不变', () => {
+    const { result } = renderHook(() => useKeyboard(), undefined)
+
+    act(() => {
+      result.current.onToggleKeyboard(true, 800)
+    })
+    act(() => {
+      result.current.onToggleKeyboard(true, 700)
+    })
+
     expect(result.current.keyboardHeight).toBe(800)
   })
 

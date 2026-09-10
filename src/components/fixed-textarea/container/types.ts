@@ -6,7 +6,4 @@
  */
 import type { PropsWithChildren } from 'react'
 
-export type Props = PropsWithChildren<{
-  /** 是否处于编辑 (键盘展开) 态, 收起态底部留白按 safe area 感知 */
-  editing?: boolean
-}>
+export type Props = PropsWithChildren

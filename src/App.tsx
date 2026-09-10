@@ -8,6 +8,7 @@ import { Suspense } from 'react'
 import { LogBox, StatusBar } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { observer } from 'mobx-react'
 // 入口直连子模块, 避免 @components / @utils / @constants barrel 被启动链全量求值
 import { DeepLink } from '@components/deep-link'
 import { HoldMenuProvider } from '@components/hold-menu'
@@ -36,7 +37,7 @@ if (ANDROID) {
   StatusBar.setBackgroundColor('transparent')
 }
 
-export default function App() {
+function App() {
   // 加载图标等资源
   const loadingResult = useCachedResources()
 
@@ -54,9 +55,15 @@ export default function App() {
   const isLoadingComplete = loadingResult >= 3
   const elStacks = <NativeStacks isLoadingComplete={isLoadingComplete} />
 
+  /**
+   * iOS 26 的玻璃转场会把页面做圆角裁切和轻微缩放, 四边会露出底下容器的背景
+   * 根链必须是与主题一致的不透明底色 (container.plain), 否则黑暗模式下会闪白色边缘
+   */
+  const style = _.ios(_.container.plain, _.container.flex)
+
   return (
-    <GestureHandlerRootView style={_.container.flex}>
-      <SafeAreaProvider style={_.container.flex}>
+    <GestureHandlerRootView style={style}>
+      <SafeAreaProvider style={style}>
         <Provider>
           {!ANDROID ? <HoldMenuProvider>{elStacks}</HoldMenuProvider> : elStacks}
           {isLoadingComplete && (
@@ -70,3 +77,5 @@ export default function App() {
     </GestureHandlerRootView>
   )
 }
+
+export default observer(App)

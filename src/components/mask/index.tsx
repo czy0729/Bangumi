@@ -35,7 +35,12 @@ export const Mask = observer(({ style, linear, show, onPress }: MaskProps) => {
    */
   const fadeStyle = show === undefined ? undefined : maskStyle
 
-  if (!showValue) return null
+  /**
+   * 常驻挂载 (不再用 showValue 卸载): 受控 show 首次变为 true 若属于首次挂载,
+   * 首帧会直接落到目标透明度并与挂载合并, 遮罩出现没有淡入过渡
+   * 隐藏态用 pointerEvents 保证不拦截触摸
+   */
+  const hidden = !showValue
 
   return (
     <Component id='component-mask'>
@@ -50,7 +55,12 @@ export const Mask = observer(({ style, linear, show, onPress }: MaskProps) => {
         <Animated.View style={stl(styles.mask, fadeStyle, style)} pointerEvents='none' />
       )}
 
-      <Touchable style={styles.press} ripple={false} onPress={onPress} disabled={show === false} />
+      <Touchable
+        style={stl(styles.press, hidden && styles.pressHidden)}
+        ripple={false}
+        onPress={onPress}
+        disabled={hidden || show === false}
+      />
     </Component>
   )
 })

@@ -7,7 +7,7 @@
 import { observer } from 'mobx-react'
 import { NavigationContainer as NavigationNativeContainer } from '@react-navigation/native'
 import { navigationReference } from '@utils'
-import { useNavigationRef } from './utils'
+import { getTheme, useNavigationRef } from './utils'
 
 import type { Props } from './types'
 
@@ -18,6 +18,7 @@ function NavigationContainer({ children }: Props) {
     <NavigationNativeContainer
       // @ts-expect-error
       ref={navigationRef}
+      theme={getTheme()}
       onReady={() => {
         if (navigationRef.current) navigationReference(navigationRef.current)
       }}

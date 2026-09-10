@@ -59,6 +59,13 @@ export function getScreenOptions(isFullScreen: boolean) {
 
   const screenOptions = {
     ...DEFAULT_SCREEN_OPTIONS,
+
+    /**
+     * native-stack 下页面容器底色走 contentStyle (cardStyle 不生效)
+     * 必须是不透明的 _.colorPlain: iOS 26 玻璃转场会露出这层底色, 透明或浅色会出现白色边缘
+     * 注意 modal 形态 (transparentModal / containedTransparentModal) 下 native-stack 不套这层底色,
+     * 那种场景由根容器 (App.tsx 的 container.plain) 兜底
+     */
     contentStyle: {
       backgroundColor: _.colorPlain
     },
@@ -95,7 +102,7 @@ export function getOptions(name: string) {
 }
 
 /** unique ID for this screen */
-export function getId({ params }) {
+export function getId({ params }: { params?: Record<string, string | number | boolean> }) {
   return params ? urlStringify(params) : undefined
 }
 

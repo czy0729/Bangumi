@@ -13,23 +13,31 @@ import { useMask } from '../../mask'
 import { MenuShowContext, useHoldMenu } from '../context'
 import { styles } from './styles'
 
-/** 全屏遮罩, 点击关闭, 淡入淡出, 淡出结束后再卸载 */
+/** 全屏遮罩, 点击关闭, 淡入淡出, 常驻挂载 */
 function BackdropComponent() {
   const show = useContext(MenuShowContext)
   const { theme, close } = useHoldMenu()
 
-  const { showValue, maskStyle } = useMask(show, MENU_ANIMATION_DURATION)
+  const { maskStyle } = useMask(show, MENU_ANIMATION_DURATION)
 
-  const tapGesture = Gesture.Tap().onEnd(close)
+  /** 隐藏时禁用手势, 常驻遮罩不拦截触摸 */
+  const tapGesture = Gesture.Tap().enabled(show).onEnd(close)
 
-  if (!showValue) return null
-
+  /**
+   * 常驻挂载: show 首次变为 true 若属于首次挂载, 首帧会直接落到目标透明度,
+   * 与挂载合并成最终态, 遮罩出现没有淡入过渡
+   */
   return (
     <GestureDetector gesture={tapGesture}>
       <Animated.View
-        style={stl(styles.backdrop, maskStyle, {
-          backgroundColor: theme === 'dark' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.1)'
-        })}
+        style={stl(
+          styles.backdrop,
+          maskStyle,
+          show ? styles.backdropShown : styles.backdropHidden,
+          {
+            backgroundColor: theme === 'dark' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.1)'
+          }
+        )}
         accessible={false}
         importantForAccessibility='no'
       />

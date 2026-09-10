@@ -14,5 +14,11 @@ export const styles = _.create({
     right: 0,
     bottom: 0,
     left: 0
+  },
+  backdropShown: {
+    pointerEvents: 'auto'
+  },
+  backdropHidden: {
+    pointerEvents: 'none'
   }
 })
