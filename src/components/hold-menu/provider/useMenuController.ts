@@ -2,10 +2,12 @@
  * @Author: czy0729
  * @Date: 2026-08-09 07:26:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-10 05:05:37
+ * @Last Modified time: 2026-09-10 10:30:00
  */
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { useSharedValue } from 'react-native-reanimated'
+
+import type { ScrollView } from 'react-native'
+import { useAnimatedRef, useSharedValue } from 'react-native-reanimated'
 import { getMenuPosition } from '../utils'
 
 import type { MenuContextValue, MenuParamsContextValue } from '../context'
@@ -26,6 +28,12 @@ export const useMenuController = (
   const [show, setShow] = useState(false)
   const active = useSharedValue(0)
   const position = useSharedValue<MenuPosition | null>(null)
+  const highlightIndex = useSharedValue(-1)
+  const scrollOffset = useSharedValue(0)
+  const scrollViewRef = useAnimatedRef<ScrollView>()
+  // 菜单项坐标与内容高度由 MenuItems onLayout 实测写入
+  const rowOffsets = useSharedValue<number[]>([])
+  const contentHeight = useSharedValue(0)
   const safePaddingBottom = (paddingBottom || 0) + 24
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -46,6 +54,11 @@ export const useMenuController = (
   const close = useCallback(() => {
     setShow(false)
     active.value = 0
+    // 复位拖动选择状态, 避免下次展开残留高亮
+    highlightIndex.value = -1
+    scrollOffset.value = 0
+    rowOffsets.value = []
+    contentHeight.value = 0
     if (closeTimeoutRef.current) {
       clearTimeout(closeTimeoutRef.current)
     }
@@ -54,7 +67,7 @@ export const useMenuController = (
       closeTimeoutRef.current = null
       setParams(null)
     }, CLOSE_CLEANUP_DELAY)
-  }, [active])
+  }, [active, highlightIndex, scrollOffset, rowOffsets, contentHeight])
 
   // Provider 卸载时清理关闭动画后的定时器, 避免卸载后 setParams 触发警告
   useEffect(() => {
@@ -72,6 +85,12 @@ export const useMenuController = (
     position.value = getMenuPosition(params, safePaddingBottom)
   }, [params, position, safePaddingBottom])
 
+  // 拖动选择上下文, shared value 引用稳定, useMemo 仅为固定结构
+  const highlightContextValue = useMemo(
+    () => ({ highlightIndex, scrollOffset, scrollViewRef, rowOffsets, contentHeight }),
+    [highlightIndex, scrollOffset, scrollViewRef, rowOffsets, contentHeight]
+  )
+
   // 稳定上下文, 仅依赖稳定引用, 开合菜单不触发 HoldItem/Backdrop re-render
   const contextValue = useMemo<MenuContextValue>(
     () => ({
@@ -81,9 +100,10 @@ export const useMenuController = (
       paddingBottom: safePaddingBottom,
       open,
       activate,
-      close
+      close,
+      highlight: highlightContextValue
     }),
-    [active, position, theme, safePaddingBottom, open, activate, close]
+    [active, position, theme, safePaddingBottom, open, activate, close, highlightContextValue]
   )
 
   const paramsValue = useMemo<MenuParamsContextValue>(() => ({ params }), [params])

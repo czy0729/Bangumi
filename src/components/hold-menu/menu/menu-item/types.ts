@@ -11,6 +11,9 @@ export type Props = {
   /** 菜单项 */
   item: MenuItemProps
 
+  /** 项索引, 用于拖动悬停高亮匹配 */
+  index: number
+
   /** 是否为最后一项, 最后一项不显示分隔线 */
   isLast?: boolean
 

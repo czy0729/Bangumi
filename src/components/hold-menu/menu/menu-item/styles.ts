@@ -8,6 +8,8 @@ import { _ } from '@stores'
 import {
   MENU_BORDER_DARK_COLOR,
   MENU_BORDER_LIGHT_COLOR,
+  MENU_ITEM_HIGHLIGHT_DARK_COLOR,
+  MENU_ITEM_HIGHLIGHT_LIGHT_COLOR,
   MENU_ITEM_PADDING_VERTICAL,
   MENU_SEPARATOR_HEIGHT,
   MENU_TEXT_DARK_COLOR,
@@ -39,5 +41,8 @@ export const memoStyles = _.memoStyles(() => ({
   separator: {
     width: '100%',
     height: MENU_SEPARATOR_HEIGHT
+  },
+  highlight: {
+    backgroundColor: _.select(MENU_ITEM_HIGHLIGHT_LIGHT_COLOR, MENU_ITEM_HIGHLIGHT_DARK_COLOR)
   }
 }))

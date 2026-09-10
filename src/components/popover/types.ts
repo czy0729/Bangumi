@@ -27,7 +27,8 @@ export type Props<Data extends PopoverData> = PropsWithChildren<
 
     hitSlop?: Record<'top' | 'right' | 'bottom' | 'left', number>
 
-    activateOn?: 'tap' | 'hold'
+    /** 激活方式 (tap-hold 为点击与长按共存, 仅 iOS 生效, Android 仍为点击) */
+    activateOn?: 'tap' | 'hold' | 'tap-hold'
 
     /** 菜单选择 */
     onSelect?: (

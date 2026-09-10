@@ -17,6 +17,8 @@ function Popover({ activateOn, children, ...other }) {
   const data = other.data || other.overlay?.props?.data || []
   const title = other.title || other.overlay?.props?.title || ''
   const onSelect = other.onSelect || other.overlay?.props?.onSelect || FROZEN_FN
+  // 外部传了 onLongPress 说明长按语义归调用方, 菜单自动降级为纯点击激活, 不抢占长按
+  const hasExternalLongPress = typeof other.onLongPress === 'function'
 
   const items = useMemo<PopoverIOSItems>(() => {
     const itemsValue = (
@@ -48,7 +50,7 @@ function Popover({ activateOn, children, ...other }) {
       <HoldItem
         key={items.map(item => item.text).join()}
         items={items}
-        activateOn={activateOn || 'tap'}
+        activateOn={activateOn || (hasExternalLongPress ? 'tap' : 'tap-hold')}
         closeOnTap
         hapticFeedback={IOS ? 'Light' : 'None'}
       >

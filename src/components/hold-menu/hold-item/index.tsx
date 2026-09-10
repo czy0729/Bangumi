@@ -1,10 +1,10 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-09 07:10:05
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-09 07:10:05
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-10 12:00:00
  */
-import React, { memo } from 'react'
+import { memo } from 'react'
 import { GestureDetector } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
 import { Portal } from '@components/portal'
@@ -32,8 +32,11 @@ function HoldItemComponent({
   const {
     containerRef,
     onStart,
+    isActive,
     isAnimating,
     scaleBack,
+    selectable,
+    selectItem,
     animatedContainerStyle,
     animatedPortalStyle,
     animatedPortalProps
@@ -54,6 +57,9 @@ function HoldItemComponent({
     onStart,
     scaleBack,
     isAnimating,
+    isActive,
+    selectable,
+    selectItem,
     close,
     closeOnTap
   })

@@ -75,3 +75,7 @@ export const MENU_BORDER_DARK_COLOR = 'rgba(255, 255, 255, 0.1)'
 
 /** 毛玻璃浅色背景透出 */
 export const MENU_BLUR_LIGHT_BACKGROUND_COLOR = 'rgba(255, 255, 255, 0.56)'
+
+/** 菜单项拖动悬停高亮背景 */
+export const MENU_ITEM_HIGHLIGHT_LIGHT_COLOR = 'rgba(0, 0, 0, 0.08)'
+export const MENU_ITEM_HIGHLIGHT_DARK_COLOR = 'rgba(255, 255, 255, 0.12)'

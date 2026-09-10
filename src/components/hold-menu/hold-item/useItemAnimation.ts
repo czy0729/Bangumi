@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-08-09 06:05:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-09 07:05:20
+ * @Last Modified time: 2026-09-10 12:00:00
  */
-import { useCallback, useRef } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 import {
   useAnimatedProps,
   useAnimatedReaction,
@@ -45,7 +45,7 @@ export const useItemAnimation = ({
   actionParams,
   disableMove
 }: ItemAnimationProps) => {
-  const { active, position, activate } = useHoldMenu()
+  const { active, position, activate, close } = useHoldMenu()
 
   // 本 item 是否展开过菜单, 仅展开的 item 显示 Portal clone
   const isActive = useSharedValue(false)
@@ -58,6 +58,20 @@ export const useItemAnimation = ({
   const itemRectHeight = useSharedValue(0)
   const itemScale = useSharedValue(1)
   const containerRef = useRef<View>(null)
+
+  // 各菜单项是否可选 (title 项不可选), 供长按拖动的命中测试
+  const selectable = useMemo(() => items.map(item => !item.isTitle), [items])
+
+  // 拖动抬手选中: 执行对应菜单项回调后关闭菜单 (JS 线程, 由手势 worklet 调度)
+  const selectItem = useCallback(
+    (index: number, pageX: number, pageY: number) => {
+      const item = items[index]
+      if (!item || item.isTitle) return
+      item.onPress?.({ pageX, pageY }, ...(actionParams?.[item.text] || []))
+      close()
+    },
+    [items, actionParams, close]
+  )
 
   // 手势开始时提交菜单内容并计算位置, 使展开动画首帧即包含完整菜单项
   const prepare = useCallback(() => {
@@ -115,17 +129,20 @@ export const useItemAnimation = ({
     activate()
   }, [hapticStyle, activate])
 
+  // 菜单是否存在内容, 用布尔避免把带回调函数的 items 数组捕获进 worklet
+  const hasItems = items.length > 0
+
   const onCompletion = useCallback(
     (finished?: boolean) => {
       'worklet'
       isAnimating.value = false
-      if (!finished || !items.length) return
+      if (!finished || !hasItems) return
 
       isActive.value = true
       scaleBack()
       scheduleOnRN(activateMenu)
     },
-    [isAnimating, items, isActive, scaleBack, activateMenu]
+    [isAnimating, hasItems, isActive, scaleBack, activateMenu]
   )
 
   const scaleTap = useCallback(() => {
@@ -233,6 +250,8 @@ export const useItemAnimation = ({
     isActive,
     isAnimating,
     scaleBack,
+    selectable,
+    selectItem,
     animatedContainerStyle,
     animatedPortalStyle,
     animatedPortalProps

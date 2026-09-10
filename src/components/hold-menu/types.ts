@@ -1,10 +1,10 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-09 07:27:47
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-09 07:27:47
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-10 11:00:00
  */
-import type { ElementType, PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 import type { ViewStyle } from '@types'
 
 /** 菜单项点击事件 */
@@ -21,13 +21,10 @@ export type MenuItemProps = {
   /** 文本 */
   text: string
 
-  /** 图标 (暂不支持) */
-  icon?: string
-
-  /** 是否为标题 */
+  /** 是否为标题 (标题项不显示点击反馈, 参与布局但不参与选中) */
   isTitle?: boolean
 
-  /** 是否为破坏性操作 */
+  /** 是否为破坏性操作 (红色文本) */
   isDestructive?: boolean
 
   /** 是否显示下方分隔线 */
@@ -37,7 +34,7 @@ export type MenuItemProps = {
   onPress?: (evt?: MenuPressEvent, ...args: unknown[]) => void
 }
 
-/** 菜单锚点位置 */
+/** 菜单锚点位置 (暂不参与计算, 仅作 API 兼容) */
 export type MenuAnchorPosition =
   | 'top-right'
   | 'top-left'
@@ -121,9 +118,6 @@ export type Props = PropsWithChildren<{
   /** 菜单主题, 同时影响遮罩和毛玻璃 */
   theme?: 'light' | 'extraLight' | 'dark'
 
-  /** 图标组件 (兼容, 暂不使用) */
-  iconComponent?: ElementType
-
   /** 底部安全距离, 主要用于菜单贴底时不遮挡底部指示条 */
   paddingBottom?: number
 }>
@@ -150,8 +144,8 @@ export type HoldItemProps = PropsWithChildren<{
   /** 是否从底部展开 */
   bottom?: boolean
 
-  /** 激活方式 */
-  activateOn?: 'tap' | 'double-tap' | 'hold'
+  /** 激活方式 (tap-hold 为点击与长按共存, 长按优先) */
+  activateOn?: 'tap' | 'double-tap' | 'hold' | 'tap-hold'
 
   /** 触发反馈 */
   hapticFeedback?: HapticFeedbackStyle
