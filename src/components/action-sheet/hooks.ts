@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-12 06:40:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 07:26:10
+ * @Last Modified time: 2026-09-10 12:00:00
  */
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { NavigationContext } from '@react-navigation/native'
@@ -48,6 +48,14 @@ export const useActionSheet = (
   }, [])
 
   const handleShow = useCallback(() => {
+    // 收起动画进行中又要展开: 中断收起并回到展开态
+    // (withTiming 被打断后 finished 为 false, 收起完成回调不会执行, 因此不会误调 onClose 也不会闪一下再展开)
+    if (closingRef.current) {
+      closingRef.current = false
+      animateTo(1)
+      return
+    }
+
     if (showValue) return
 
     // 仅当残留展开态 (收起归零动画被丢弃, progress 停在 ≈1) 时才归零;
@@ -63,8 +71,11 @@ export const useActionSheet = (
 
     closingRef.current = true
     animateTo(0, () => {
-      setShow(false)
+      // 收起途中被重新展开 (handleShow 已清掉标志) 时不再执行收起收尾, 避免刚展开又被卸载并误调 onClose
+      if (!closingRef.current) return
+
       closingRef.current = false
+      setShow(false)
       onClose?.()
     })
   }, [animateTo, onClose, showValue])
@@ -78,7 +89,13 @@ export const useActionSheet = (
     handleClose()
   }, [show, handleShow, handleClose])
 
-  useBackHandler(() => {
+  /**
+   * 用 ref 持有最新返回键逻辑, 交给 useBackHandler 一个稳定引用
+   * - useBackHandler 依赖 handler 身份决定是否重订阅, 内联箭头会让每次渲染都先 remove 再 add
+   * - RN 的 BackHandler 是「最后注册的最先调用」, 重订阅会让本面板插队抢在其他浮层之前
+   */
+  const backHandlerRef = useRef<() => boolean>(() => false)
+  backHandlerRef.current = () => {
     // Android 的 hardwareBackPress 是全局广播, 被覆盖屏也会收到,
     // 只在所属 screen 聚焦时响应, 避免在新页面按返回时误关本页面板
     if (!showValue || !navigation?.isFocused()) return false
@@ -88,7 +105,10 @@ export const useActionSheet = (
 
     handleClose()
     return true
-  })
+  }
+  const handleBack = useCallback(() => backHandlerRef.current(), [])
+
+  useBackHandler(handleBack)
 
   const contentStyle = useAnimatedStyle(() => ({
     transform: [

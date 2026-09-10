@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-07 19:45:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:32:33
+ * @Last Modified time: 2026-09-10 12:00:00
  */
 import { Alert, Clipboard, findNodeHandle, NativeModules, Vibration } from 'react-native'
 import { WEB } from '@constants/device'
@@ -185,7 +185,13 @@ export function showActionSheet(
       cancelButtonIndex,
       destructiveButtonIndex
     },
-    callback
+    index => {
+      // 取消 / 点遮罩 / 返回键时原生会回调 -1, 统一在这里过滤
+      // 否则调用方按有效索引处理 (如 `index < list.length`) 会取到 undefined 并抛错
+      if (index < 0) return
+
+      callback(index)
+    }
   )
 }
 

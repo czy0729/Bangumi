@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 07:13:33
+ * @Last Modified time: 2026-09-10 12:00:00
  */
-import React, { Suspense } from 'react'
 import { View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { observer } from 'mobx-react'
@@ -16,6 +15,7 @@ import { Iconfont } from '../iconfont'
 import { Mask } from '../mask'
 import { Portal } from '../portal'
 import { Text } from '../text'
+import { Touchable } from '../touchable'
 import BtnClose from './btn-close'
 import { useActionSheet } from './hooks'
 import Scroll from './scroll'
@@ -59,7 +59,7 @@ export const ActionSheet = observer(
     let elTitle =
       typeof title === 'string'
         ? !!title && (
-            <Text size={12} bold type='sub' align='center' onPress={onTitlePress}>
+            <Text size={12} bold type='sub' align='center'>
               {title}
             </Text>
           )
@@ -81,10 +81,13 @@ export const ActionSheet = observer(
         }}
       >
         {!!elTitle && (
-          <Flex style={_.mb.sm} justify='center'>
-            {elTitle}
-            {!!onTitlePress && <Iconfont name='md-navigate-next' size={18} />}
-          </Flex>
+          // 整行可点: 原来只有 Text 绑定了 onTitlePress, 右侧箭头与 ReactNode 标题点不到
+          <Touchable style={_.mb.sm} disabled={!onTitlePress} onPress={onTitlePress}>
+            <Flex justify='center'>
+              {elTitle}
+              {!!onTitlePress && <Iconfont name='md-navigate-next' size={18} />}
+            </Flex>
+          </Touchable>
         )}
         {children}
       </View>
@@ -93,26 +96,25 @@ export const ActionSheet = observer(
     const styles = memoStyles()
 
     const elBody = (
-      <Suspense>
-        <Component id='component-action-sheet' style={styles.actionSheet}>
-          <Mask style={maskStyle} onPress={handleClose} />
+      <Component id='component-action-sheet' style={styles.actionSheet}>
+        {/* 不传 show: 遮罩 opacity 由 useActionSheet 的 progress 驱动, 与面板动画同步; 传 show 会叠加 Mask 内置淡入淡出 */}
+        <Mask style={maskStyle} onPress={handleClose} />
 
-          <Animated.View style={[styles.content, { height: calcHeight }, contentStyle]}>
-            <Scroll
-              forwardRef={forwardRef}
-              contentContainerStyle={contentContainerStyle}
-              height={calcHeight}
-              scrollEnabled={scrollEnabled}
-              onScroll={onScroll}
-              onClose={handleClose}
-            >
-              {elContent}
-            </Scroll>
+        <Animated.View style={[styles.content, { height: calcHeight }, contentStyle]}>
+          <Scroll
+            forwardRef={forwardRef}
+            contentContainerStyle={contentContainerStyle}
+            height={calcHeight}
+            scrollEnabled={scrollEnabled}
+            onScroll={onScroll}
+            onClose={handleClose}
+          >
+            {elContent}
+          </Scroll>
 
-            <BtnClose onClose={handleClose} />
-          </Animated.View>
-        </Component>
-      </Suspense>
+          <BtnClose onClose={handleClose} />
+        </Animated.View>
+      </Component>
     )
 
     return usePortal ? <Portal>{elBody}</Portal> : elBody

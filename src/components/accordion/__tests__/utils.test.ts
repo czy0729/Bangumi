@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-17 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-17 10:00:00
+ * @Last Modified time: 2026-09-10 12:00:00
  */
 import {
   getExpandTarget,
@@ -22,6 +22,11 @@ describe('getMeasuredHeight', () => {
   it('等于或高于下限返回原值', () => {
     expect(getMeasuredHeight(48)).toBe(48)
     expect(getMeasuredHeight(120)).toBe(120)
+  })
+
+  it('非有限值兜底为 MIN_HEIGHT, 不产出 NaN', () => {
+    expect(getMeasuredHeight(NaN)).toBe(48)
+    expect(getMeasuredHeight(Infinity)).toBe(48)
   })
 })
 
@@ -44,6 +49,17 @@ describe('getHiddenTranslateY', () => {
 
   it('高度为 0 时仅剩底部安全区', () => {
     expect(getHiddenTranslateY(0, 34)).toBe(34)
+  })
+
+  it('非有限值按 0 处理, 避免 NaN 进入 withTiming', () => {
+    expect(getHiddenTranslateY(NaN, 34)).toBe(34)
+    expect(getHiddenTranslateY(120, NaN)).toBe(120)
+    expect(getHiddenTranslateY(NaN, NaN)).toBe(0)
+    expect(getHiddenTranslateY(Infinity, 34)).toBe(34)
+  })
+
+  it('负值收敛为 0', () => {
+    expect(getHiddenTranslateY(-100, -20)).toBe(0)
   })
 })
 

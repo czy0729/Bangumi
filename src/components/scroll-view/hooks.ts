@@ -80,15 +80,21 @@ export function useScrollViewRef({ scrollToTop, forwardRef, connectRef }: UseScr
   /** ScrollView 实例引用 */
   const scrollViewEl = useRef<RNScrollView['scrollTo'] | null>(null)
 
-  /** ref 回调, 按场景分配引用方式 */
+  /**
+   * ref 回调, 按场景分配引用方式
+   * - node 为 null 即卸载, 必须同样透传出去: 否则调用方 (如 VirtualizedList 注入的 scrollRef)
+   *   会一直持有已销毁的实例
+   */
   const ref = useCallback(
     (node: RNScrollView | null) => {
-      if (!node) return
       if (scrollToTop) {
-        scrollViewEl.current = node.scrollTo
-      } else if (forwardRef || connectRef) {
-        ;(forwardRef || connectRef)?.(node.scrollTo as ScrollTo, node)
+        scrollViewEl.current = node ? node.scrollTo : null
+        return
       }
+
+      if (!(forwardRef || connectRef)) return
+
+      ;(forwardRef || connectRef)?.(node ? (node.scrollTo as ScrollTo) : null, node)
     },
     [connectRef, forwardRef, scrollToTop]
   )

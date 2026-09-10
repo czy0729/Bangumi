@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-11 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-12 06:24:31
+ * @Last Modified time: 2026-09-10 12:00:00
  */
 import React, { forwardRef, useCallback, useImperativeHandle, useState } from 'react'
 import { ActionSheetIOS, Platform, Share, Text, TouchableHighlight, View } from 'react-native'
@@ -33,7 +33,9 @@ export const ActionSheetStatic = {
     const key: number = Portal.add(
       <AndroidActionSheet
         visible
-        ref={ref => (instance = ref)}
+        ref={ref => {
+          instance = ref
+        }}
         onAnimationEnd={visible => {
           if (!visible) Portal.remove(key)
         }}

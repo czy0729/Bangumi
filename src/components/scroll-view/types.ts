@@ -27,11 +27,11 @@ export type Props = Expand<
     /** 是否启用动画滚动组件 */
     animated?: boolean
 
-    /** 连接 ref.scrollTo */
-    forwardRef?: (scrollTo: ScrollTo, scrollViewRef?: ScrollView) => void
+    /** 连接 ref.scrollTo (scrollTo 为 null 表示实例已卸载) */
+    forwardRef?: (scrollTo: ScrollTo | null, scrollViewRef?: ScrollView | null) => void
 
-    /** @deprecated 连接 ref.scrollTo */
-    connectRef?: (scrollTo: ScrollTo, scrollViewRef?: ScrollView) => void
+    /** @deprecated 连接 ref.scrollTo (scrollTo 为 null 表示实例已卸载) */
+    connectRef?: (scrollTo: ScrollTo | null, scrollViewRef?: ScrollView | null) => void
 
     /** 是否显示左右溢出遮罩（仅水平模式有效） */
     showMask?: boolean
