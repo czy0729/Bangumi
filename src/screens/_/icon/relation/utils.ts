@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-17 06:08:36
  */
+import { ensureCacheLimit } from '@utils/cache'
 import { xhrCustom } from '@utils/fetch'
 import { HOST_DOGE } from '@constants'
 
@@ -45,6 +46,7 @@ export async function getNodeId(subjectId: SubjectId): Promise<CacheItem | null>
 
   const result = { nodeId, extra }
   cacheMap.set(subjectId, result)
+  ensureCacheLimit(cacheMap, 500)
 
   return result
 }

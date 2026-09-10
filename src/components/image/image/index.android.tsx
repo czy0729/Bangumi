@@ -8,12 +8,24 @@ import FastImage from 'react-native-fast-image'
 
 export default FastImage
 
-export async function clearCache() {
+/** 仅清除图片内存缓存, 保留磁盘缓存 (运行时退后台自动释放使用) */
+export async function clearMemoryCache() {
   try {
     await FastImage.clearMemoryCache()
-    await FastImage.clearDiskCache()
     return true
   } catch (error) {
     return false
   }
+}
+
+export async function clearCache() {
+  const memory = await clearMemoryCache()
+
+  try {
+    await FastImage.clearDiskCache()
+  } catch (error) {
+    return false
+  }
+
+  return memory
 }

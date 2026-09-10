@@ -9,6 +9,30 @@ import { HOST } from '@constants'
 import type { ResponseV0Episodes } from '@types'
 import type { SubjectSnapshot } from './types'
 
+/** 条目信息桶容量上限 (每桶): 内含 eps / staff / crt / collection 等大数组 */
+export const SUBJECT_BUCKET_LIMIT = 30
+
+/** 条目 HTML 桶容量上限 (每桶): 单条体量最大 (整套 HTML 解析结果) */
+export const SUBJECT_FORM_HTML_BUCKET_LIMIT = 20
+
+/** 条目 new api 桶容量上限 (每桶): 单条最轻, 但被列表高频读取, 上界放宽避免频繁重取 */
+export const SUBJECT_V2_BUCKET_LIMIT = 300
+
+/** 条目吐槽箱桶容量上限 (每桶): 内含留言列表 */
+export const SUBJECT_COMMENTS_BUCKET_LIMIT = 20
+
+/** 条目云缓存容量上限: 单条体量大 (整个条目数据), 淘汰后走 v2 / HTML 重新组装 */
+export const SUBJECT_FROM_OSS_LIMIT = 30
+
+/** 章节信息 (集数大于 1000 的条目) 容量上限: 内含 eps 列表 */
+export const EP_V2_LIMIT = 20
+
+/** 条目 VIB 数据容量上限: 单条最轻, 但被条目页高频读取, 上界放宽避免频繁重取 */
+export const VIB_LIMIT = 100
+
+/** 条目分数容量上限: 单条最轻, 但被列表高频读取, 上界放宽避免频繁重取 */
+export const RANK_LIMIT = 300
+
 /**
  * 组装条目快照
  *

@@ -4,10 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-08 00:00:00
  *
- * 切后台时释放可重建的运行时缓存
+ * 切后台 / 内存告警时释放可重建的运行时缓存
  */
 import { useEffect } from 'react'
-import { AppState } from 'react-native'
+import { AppState, DeviceEventEmitter } from 'react-native'
+import { logger } from '../dev'
 import { clearRuntimeCaches } from '../memory'
 import { getTimestamp } from '../utils'
 
@@ -18,9 +19,11 @@ const THROTTLE_S = 30
 let lastTs = 0
 
 /**
- * 监听 AppState, 进入后台时清理可重建缓存
+ * 监听 AppState 与系统内存告警, 清理可重建缓存 (含图片内存缓存)
  * - 只响应 background, 不响应 inactive (下拉通知栏、来电等过渡态会频繁触发)
- * - 清理后回前台首次用到时重算, 成本为一次解析 / 遍历, 用户无感
+ * - iOS 内存告警 (memoryWarning) 也立即清理: 前台大列表滚动被 Jetsam 前系统会先发告警,
+ *   是否能收到随平台 / 版本而定, 收不到也不影响主链路
+ * - 清理后回前台首次用到时重算 / 重新解码, 用户基本无感
  */
 export default function useRuntimeCacheRelease() {
   useEffect(() => {
@@ -34,6 +37,16 @@ export default function useRuntimeCacheRelease() {
       clearRuntimeCaches()
     })
 
-    return () => subscription.remove()
+    const warningSubscription = DeviceEventEmitter.addListener('memoryWarning', () => {
+      // DEV 下可据此确认系统内存告警是否真的派发到 JS 侧
+      logger.info('useRuntimeCacheRelease', 'memoryWarning')
+
+      clearRuntimeCaches()
+    })
+
+    return () => {
+      subscription.remove()
+      warningSubscription.remove()
+    }
   }, [])
 }

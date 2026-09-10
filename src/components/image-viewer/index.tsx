@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-20 04:47:39
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { Modal, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { stl } from '@utils'
@@ -78,6 +78,8 @@ export const ImageViewer = observer(
             headers={proxyImageUrls?.[0]?.headers}
             placeholder={false}
             skeleton={false}
+            // 大图来回切换, 保留内存缓存避免反复全屏解码 (默认已降级为磁盘缓存)
+            cachePolicy='memory-disk'
           />
         )
       },

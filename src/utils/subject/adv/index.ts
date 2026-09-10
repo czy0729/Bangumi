@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-30 05:56:10
  */
+import { ensureRecordLimit } from '../../cache'
 import { getTimestamp } from '../../index'
 import { decode, get } from '../../thirdParty/protobuf'
 import { SORT } from '../anime'
@@ -130,6 +131,7 @@ export function search(query: Query): SearchResult {
     _loaded: getTimestamp()
   }
   SEARCH_CACHE[finger] = result
+  ensureRecordLimit(SEARCH_CACHE, 50)
 
   return result
 }

@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-05-17 05:40:29
  */
 import { loadJSON } from '@assets/json'
+import { ensureRecordLimit } from '../../cache'
 import { getTimestamp } from '../../index'
 import { SORT } from '../anime'
 import {
@@ -22,7 +23,6 @@ import {
 
 import type { SubjectId } from '@types'
 import type { Finger, Item, Query, SearchResult, UnzipItem } from './types'
-
 
 export {
   HENTAI_BODY,
@@ -139,6 +139,7 @@ export function search(query: Query): SearchResult {
     _loaded: getTimestamp()
   }
   SEARCH_CACHE[finger] = result
+  ensureRecordLimit(SEARCH_CACHE, 50)
 
   return result
 }

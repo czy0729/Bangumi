@@ -26,10 +26,10 @@ function List() {
       footerTextType='tinygrailText'
       footerEmptyDataText={`您可以复制带有人物链接或 ID 的文本\n进入本页面会自动获取粘贴板文本中所有角色 ID\n获取角色数据并生成列表`}
       data={$.list}
-      windowSize={6}
-      initialNumToRender={24}
-      maxToRenderPerBatch={24}
-      updateCellsBatchingPeriod={24}
+      windowSize={5}
+      initialNumToRender={16}
+      maxToRenderPerBatch={10}
+      updateCellsBatchingPeriod={40}
       lazy={24}
       scrollToTop
       renderItem={renderItem}

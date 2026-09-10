@@ -6,6 +6,7 @@
  */
 import { decode } from '@utils/thirdParty/protobuf'
 import { MODEL_SUBJECT_TYPE } from '@constants'
+import { ensureRecordLimit } from '../../cache'
 import { getTimestamp } from '../../index'
 import { SORT } from '../anime'
 import { NSFW_COLLECTED, NSFW_SORT, NSFW_TYPE, NSFW_YEAR } from './ds'
@@ -98,6 +99,7 @@ export function search(query: Query): SearchResult {
     _loaded: getTimestamp()
   }
   SEARCH_CACHE[finger] = result
+  ensureRecordLimit(SEARCH_CACHE, 50)
 
   return result
 }

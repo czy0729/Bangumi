@@ -1,14 +1,19 @@
 /*
- * @Doc: https://github.com/pie6k/react-ios-corners/blob/master/src/index.tsx
  * @Author: czy0729
  * @Date: 2023-12-09 14:31:59
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-10-25 03:01:58
+ *
+ * https://github.com/pie6k/react-ios-corners/blob/master/src/index.tsx
  */
 import { _ } from '@stores'
+import { ensureCacheLimit } from '@utils/cache'
 import { WEB } from '@constants'
 
 import type { getMaskPathInput } from './types'
+
+/** 圆角轨迹 / 半径缓存上限 (key 含具体尺寸, 不加界会随不同尺寸组合增长) */
+const CACHE_LIMIT = 500
 
 const pathCache = new Map<string, string>()
 const radiusCache = new Map<string, number>()
@@ -74,6 +79,8 @@ export function getSquirclePath(
     .trim()
     .replace(/\n/g, ' ')
   pathCache.set(id, path)
+  ensureCacheLimit(pathCache, CACHE_LIMIT)
+
   return path
 }
 
@@ -85,6 +92,7 @@ export function getRadius(size: number, radius?: number | boolean): number {
   // 若长和高一样, radius 大于等于长和高, 认为是圆
   if (size && radius && Number(radius) >= size) {
     radiusCache.set(id, radius as number)
+    ensureCacheLimit(radiusCache, CACHE_LIMIT)
     return radius as number
   }
 
@@ -104,6 +112,7 @@ export function getRadius(size: number, radius?: number | boolean): number {
   if (!size) {
     const borderRadius = value || MIN_RADIUS
     radiusCache.set(id, borderRadius)
+    ensureCacheLimit(radiusCache, CACHE_LIMIT)
     return borderRadius
   }
 
@@ -124,6 +133,8 @@ export function getRadius(size: number, radius?: number | boolean): number {
     MAX_RADIUS
   )
   radiusCache.set(id, borderRadius)
+  ensureCacheLimit(radiusCache, CACHE_LIMIT)
+
   return borderRadius
 }
 

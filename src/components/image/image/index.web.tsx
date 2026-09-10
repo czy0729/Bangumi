@@ -137,6 +137,10 @@ export default function Image({
   )
 }
 
+export async function clearMemoryCache() {
+  // void
+}
+
 export async function clearCache() {
   // void
 }

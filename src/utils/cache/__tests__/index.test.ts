@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-07 23:50:27
  */
-import { ensureArrayLimit, ensureCacheLimit } from '../index'
+import { ensureArrayLimit, ensureCacheLimit, ensureRecordLimit } from '../index'
 
 describe('ensureCacheLimit', () => {
   it('未超过上限时不淘汰', () => {
@@ -137,5 +137,54 @@ describe('ensureArrayLimit', () => {
     ensureArrayLimit(list, 5, true)
 
     expect(list).toEqual([1, 2, 3])
+  })
+})
+
+describe('ensureRecordLimit', () => {
+  it('未超过上限时不淘汰', () => {
+    const record: Record<string, number> = { a: 1, b: 2 }
+
+    ensureRecordLimit(record, 5)
+
+    expect(Object.keys(record)).toEqual(['a', 'b'])
+  })
+
+  it('超过上限时按插入顺序淘汰最早的键', () => {
+    const record: Record<string, number> = { a: 1, b: 2, c: 3 }
+
+    ensureRecordLimit(record, 2)
+
+    expect(record).toEqual({ b: 2, c: 3 })
+  })
+
+  it('单次调用即收敛到上限', () => {
+    const record: Record<string, number> = { a: 1, b: 2, c: 3, d: 4 }
+
+    ensureRecordLimit(record, 2)
+
+    expect(Object.keys(record)).toEqual(['c', 'd'])
+  })
+
+  it('默认上限为 100', () => {
+    const record: Record<string, number> = {}
+    for (let i = 0; i < 100; i += 1) record[`k${i}`] = i
+
+    ensureRecordLimit(record)
+
+    expect(Object.keys(record)).toHaveLength(100)
+
+    record.k100 = 100
+    ensureRecordLimit(record)
+
+    expect(Object.keys(record)).toHaveLength(100)
+    expect(record.k0).toBeUndefined()
+    expect(record.k100).toBe(100)
+  })
+
+  it('空对象不报错', () => {
+    const record: Record<string, number> = {}
+
+    expect(() => ensureRecordLimit(record, 0)).not.toThrow()
+    expect(Object.keys(record)).toEqual([])
   })
 })

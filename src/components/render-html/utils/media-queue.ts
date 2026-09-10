@@ -8,6 +8,7 @@
  */
 import { rakuenStore, subjectStore } from '@stores'
 import { sleep } from '@utils'
+import { ensureCacheLimit } from '@utils/cache'
 import { logger } from '@utils/dev'
 import { MEDIA_FAIL_COOLDOWN } from '../ds'
 import { COMPONENT } from './ds'
@@ -110,6 +111,7 @@ export async function fetchMediaQueue(
   const key = getMediaKey(item.type, item.id)
   IDS_SET.delete(key)
   LOADED_IDS.add(key)
+  ensureCacheLimit(LOADED_IDS, 1000)
   LOADING_KEY = key
 
   try {
@@ -142,6 +144,7 @@ export async function fetchMediaQueue(
     // 失败项不算已完结, 从标记移除并进入冷却, 后续请求冷却后可重新入队真实重试
     LOADED_IDS.delete(key)
     FAILED_AT.set(key, Date.now())
+    ensureCacheLimit(FAILED_AT, 1000)
     LOADING_KEY = null
     loading = false
     fireCallbacks(key, false)

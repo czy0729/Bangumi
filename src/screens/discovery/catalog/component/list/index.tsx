@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-16 22:38:27
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Empty, ScrollView } from '@components'
@@ -21,15 +21,12 @@ import type { Ctx } from '../../types'
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  // --- Data Logic ---
   const { fixedFilter, fixedPagination, show, filterKey } = $.state
   const { list, _loaded: isLoaded } = $.catalog
 
-  // --- Memos (Elements) ---
   const elToolBar = useMemo(() => <ToolBar />, [])
   const elPagination = useMemo(() => <Pagination />, [])
 
-  // --- Render ---
   const styles = memoStyles()
 
   return (
@@ -45,7 +42,7 @@ function List() {
               list
                 .filter(item => {
                   const total = Object.keys(DATA_CATALOG_TYPE_MAP).reduce((sum, key) => {
-                    const v = item[key] || 0
+                    const v = (item[key] as number) || 0
                     return sum + v
                   }, 0)
                   return !!total

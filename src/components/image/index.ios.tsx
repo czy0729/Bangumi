@@ -209,6 +209,13 @@ export const Image = observer(function Image(baseProps: ImageProps) {
   const contentFit =
     (typeof props.resizeMode === 'string' && CONTENT_FIT[props.resizeMode]) || 'cover'
 
+  /**
+   * 默认缓存策略: 远程图在长列表里数量最多, memory-disk 会让解码位图常驻内存,
+   * 是 iOS 上内存持续上涨的主要来源之一; 默认只保留磁盘缓存 (回看时重新解码)
+   * 大图查看 (imageViewer) 需要来回切换, 保留内存缓存避免反复全屏解码
+   */
+  const defaultCachePolicy = imageViewer ? 'memory-disk' : 'disk'
+
   /** RN Image 透传 props 中 expo-image 仍支持的着色, 显式白名单转发 */
   const tintColor = props.tintColor
 
@@ -240,7 +247,7 @@ export const Image = observer(function Image(baseProps: ImageProps) {
               }
             }}
             contentFit={contentFit}
-            cachePolicy={cachePolicy || 'memory-disk'}
+            cachePolicy={cachePolicy || defaultCachePolicy}
             // expo-image priority 取值 ('low' | 'normal' | 'high') 与旧 prop 一致
             priority={props.priority}
             tintColor={tintColor as string}

@@ -19,13 +19,25 @@ import type { Image as RNImage } from 'react-native'
 // 均以 RN Image 风格 props 调用, 故类型对齐 RN Image (iOS 入口直接使用 expo-image, 不经过本导出)
 export default ExpoImage as unknown as typeof RNImage
 
-/** 清除图片缓存: expo-image 原生提供内存 + 磁盘两级清理 (设置页"清除图片缓存"入口使用) */
-export async function clearCache() {
+/** 仅清除图片内存缓存, 保留磁盘缓存 (运行时退后台自动释放使用) */
+export async function clearMemoryCache() {
   try {
     await ExpoImage.clearMemoryCache()
-    await ExpoImage.clearDiskCache()
     return true
   } catch {}
 
   return false
+}
+
+/** 清除图片缓存: expo-image 原生提供内存 + 磁盘两级清理 (设置页"清除图片缓存"入口使用) */
+export async function clearCache() {
+  const memory = await clearMemoryCache()
+
+  try {
+    await ExpoImage.clearDiskCache()
+  } catch {
+    return false
+  }
+
+  return memory
 }

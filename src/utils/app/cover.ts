@@ -182,8 +182,9 @@ export function randomizeImgHost(url: string): string {
     return `img${random}.`
   })
 
-  // 缓存
+  // 缓存 (加上限兜底, 淘汰后仅表现为该地址重新随机一次 host, 不影响正确性)
   __randomizeImgHostCache.set(url, result)
+  ensureCacheLimit(__randomizeImgHostCache, 500)
 
   return result
 }

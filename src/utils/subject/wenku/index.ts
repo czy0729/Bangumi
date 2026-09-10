@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-05-17 05:40:57
  */
 import { loadJSON } from '@assets/json'
+import { ensureRecordLimit } from '../../cache'
 import { desc, getTimestamp } from '../../index'
 import { SORT } from '../anime'
 import {
@@ -42,6 +43,10 @@ export {
   WENKU_YEAR
 }
 
+/** 搜索结果上限: 指纹由筛选条件组合而成, 不加界会随浏览持续累积大数组 */
+const SEARCH_CACHE_LIMIT = 50
+
+/** 缓存搜索结果 */
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
 let wenku: Item[] = []
 let loaded: boolean = false
@@ -148,6 +153,7 @@ export function search(query: Query): SearchResult {
     _loaded: getTimestamp()
   }
   SEARCH_CACHE[finger] = result
+  ensureRecordLimit(SEARCH_CACHE, SEARCH_CACHE_LIMIT)
 
   return result
 }

@@ -20,11 +20,16 @@ export const ITEMS_DESC = {
   鲤鱼之眼: '将幻想乡的股转至英灵殿（部分转为星之力）'
 } as const
 
+/**
+ * tinygrail 列表通用参数
+ * - 原先 initialNumToRender / maxToRenderPerBatch / updateCellsBatchingPeriod 均为 24,
+ *   首批即挂载 24 行 (及其头像), iOS 内存吃紧; 向全局默认靠拢, 只保留略大的首屏数量避免白屏
+ */
 export const TINYGRAIL_LIST_PROPS = {
-  windowSize: 6,
-  initialNumToRender: 24,
-  maxToRenderPerBatch: 24,
-  updateCellsBatchingPeriod: 24,
+  windowSize: 5,
+  initialNumToRender: 16,
+  maxToRenderPerBatch: 10,
+  updateCellsBatchingPeriod: 40,
   lazy: 24,
   refreshControlProps: {
     titleColor: _.colorTinygrailText,

@@ -4,8 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-06 17:26:54
  */
+import { ensureCacheLimit } from '@utils/cache'
+
 import type { SubjectTypeCn } from '@types'
 import type { TypeCn } from '../types'
+
+/** 类型推断结果缓存上限 (key 由 desc 全文参与拼接, 不加界会随条目数增长) */
+const MEMO_LIMIT = 500
 
 const memo = new Map<string, SubjectTypeCn>()
 
@@ -48,5 +53,7 @@ export function getTypeCn(
   }
 
   memo.set(id, value)
+  ensureCacheLimit(memo, MEMO_LIMIT)
+
   return value
 }

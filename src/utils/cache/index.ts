@@ -24,6 +24,22 @@ export function ensureCacheLimit<K, T>(cache: Map<K, T> | Set<K>, maxSize: numbe
 }
 
 /**
+ * 确保 Record 对象不超过指定条目数，超出时按插入顺序淘汰最早的键（就地删除）
+ * - 非数字字符串键在现代 JS 引擎中按插入顺序遍历，天然适合做 FIFO
+ * - 只做「保底裁剪」，依赖「每次写入后调用」的约定
+ * @param record 普通对象
+ * @param maxSize 最大条目数，默认 100
+ */
+export function ensureRecordLimit<T>(record: Record<string, T>, maxSize: number = 100) {
+  const keys = Object.keys(record)
+  if (keys.length <= maxSize) return
+
+  keys.slice(0, keys.length - maxSize).forEach(key => {
+    delete record[key]
+  })
+}
+
+/**
  * 确保数组不超过指定长度，超出时原地裁剪并返回同一引用
  * - 默认从尾部裁剪（保留头部 / 最早写入项），适用于 unshift 头插的日志、历史等
  * - keepTail 为 true 时从头部裁剪（保留尾部 / 最新写入项），适用于 push 尾插的记录
