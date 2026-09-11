@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-07-15 13:09:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 04:41:29
+ * @Last Modified time: 2026-09-11 23:44:02
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
-import { Flex, Iconfont } from '@components'
+import { flexStyle, Iconfont } from '@components'
 import { rakuenStore } from '@stores'
+import { stl } from '@utils'
 import { HOST } from '@constants'
 import { Popover } from '../../../base'
 import { DATA_BOOKMARKS_SAVED, DATA_BOOKMARKS_UNSAVE } from './ds'
@@ -25,23 +26,21 @@ function BtnPopover({ id, title }: Props) {
 
   return (
     <Popover
-      style={styles.touch}
+      style={stl(flexStyle({ justify: 'end' }), styles.touch, styles.body)}
       data={isSaved ? DATA_BOOKMARKS_SAVED : DATA_BOOKMARKS_UNSAVE}
       onSelect={handleSelect}
     >
-      <Flex style={styles.body} justify='end'>
-        {isSaved && (
-          <Iconfont
-            style={{
-              marginRight: 12,
-              marginLeft: 4
-            }}
-            name='md-bookmark-outline'
-            size={19}
-          />
-        )}
-        <Iconfont name='md-more-vert' size={19} />
-      </Flex>
+      {isSaved && (
+        <Iconfont
+          style={{
+            marginRight: 12,
+            marginLeft: 4
+          }}
+          name='md-bookmark-outline'
+          size={19}
+        />
+      )}
+      <Iconfont name='md-more-vert' size={19} />
     </Popover>
   )
 }

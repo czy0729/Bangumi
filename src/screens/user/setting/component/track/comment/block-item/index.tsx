@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2026-05-05 04:55:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-06 19:02:23
+ * @Last Modified time: 2026-09-12 03:25:30
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Iconfont, Input, Text, Touchable } from '@components'
+import { Flex, flexStyle, Iconfont, Input, Text, Touchable } from '@components'
 import { UserStatusAvatar } from '@_'
 import { _, subjectStore, systemStore, usersStore, userStore } from '@stores'
-import { confirm, info, titleCase } from '@utils'
+import { confirm, info, stl, titleCase } from '@utils'
 import { useNavigation } from '@utils/hooks'
 import Block from '../../../block'
 import { memoStyles } from './styles'
@@ -104,16 +104,14 @@ function BlockItem({ item, setFalse }: Props) {
                     )}
                   </Flex.Item>
                   <Touchable
-                    style={_.ml.md}
+                    style={stl(flexStyle({ justify: 'center' }), _.ml.md, styles.icon)}
                     onPress={() => {
                       confirm('确定取消?', () =>
                         systemStore.cancelTrackUsersCollection(userId, item.label)
                       )
                     }}
                   >
-                    <Flex style={styles.icon} justify='center'>
-                      <Iconfont name='md-close' size={20} />
-                    </Flex>
+                    <Iconfont name='md-close' size={20} />
                   </Touchable>
                 </Flex>
               )
@@ -137,10 +135,11 @@ function BlockItem({ item, setFalse }: Props) {
               onSubmitEditing={handleSubmit}
             />
           </Flex.Item>
-          <Touchable style={_.ml.md} onPress={handleSubmit}>
-            <Flex style={styles.icon} justify='center'>
-              <Iconfont name='md-add' size={24} />
-            </Flex>
+          <Touchable
+            style={stl(flexStyle({ justify: 'center' }), _.ml.md, styles.icon)}
+            onPress={handleSubmit}
+          >
+            <Iconfont name='md-add' size={24} />
           </Touchable>
         </Flex>
       </Block>

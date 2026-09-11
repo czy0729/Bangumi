@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2026-05-15 05:31:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 06:39:45
+ * @Last Modified time: 2026-09-11 23:25:37
  */
-import React from 'react'
 import { observer } from 'mobx-react'
-import { ActionSheet, Flex, Loading, Text, Touchable } from '@components'
+import { ActionSheet, Flex, flexStyle, Loading, Text, Touchable } from '@components'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { useNavigation } from '@utils/hooks'
 import { IconTouchable } from '../../icon'
@@ -56,16 +56,17 @@ export const RecommendTopic = observer(
                   <Item key={item.id} {...item} openWebBrowser={openWebBrowser} onClose={onHide} />
                 ))}
                 {hasMore ? (
-                  <Touchable style={styles.loadMore} onPress={onLoadMore}>
-                    <Flex justify='center'>
-                      {loading ? (
-                        <Loading.Medium />
-                      ) : (
-                        <Text type='sub' size={13}>
-                          加载更多
-                        </Text>
-                      )}
-                    </Flex>
+                  <Touchable
+                    style={stl(flexStyle({ justify: 'center' }), styles.loadMore)}
+                    onPress={onLoadMore}
+                  >
+                    {loading ? (
+                      <Loading.Medium />
+                    ) : (
+                      <Text type='sub' size={13}>
+                        加载更多
+                      </Text>
+                    )}
                   </Touchable>
                 ) : (
                   <Flex style={styles.loadMore} justify='center'>

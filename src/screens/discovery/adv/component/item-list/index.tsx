@@ -2,12 +2,21 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-06 07:31:48
+ * @Last Modified time: 2026-09-12 03:22:41
  */
-import React, { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Heatmap, HorizontalList, Image, Loading, Text, Touchable } from '@components'
+import {
+  Flex,
+  flexStyle,
+  Heatmap,
+  HorizontalList,
+  Image,
+  Loading,
+  Text,
+  Touchable
+} from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, InView, Manage, Rank, Stars } from '@_'
 import { _, collectionStore, otaStore, uiStore } from '@stores'
@@ -30,14 +39,13 @@ import type { Props } from './types'
 
 function Item({ index, pickIndex }: Props) {
   const navigation = useNavigation(COMPONENT)
+
   const styles = memoStyles()
 
-  // --- Data Logic ---
   const subjectId = otaStore.advSubjectId(pickIndex)
   const adv = otaStore.adv(subjectId)
   const { id } = adv
 
-  // --- Handlers ---
   const handlePress = useCallback(() => {
     const { title, cover } = adv
     const image = cover ? `${HOST_BGM_STATIC}/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
@@ -67,7 +75,6 @@ function Item({ index, pickIndex }: Props) {
     )
   }, [adv, id])
 
-  // --- Render ---
   if (!id) {
     return (
       <Flex style={styles.loading} justify='center'>
@@ -83,6 +90,13 @@ function Item({ index, pickIndex }: Props) {
   const thumbs = getThumbs(id, length)
   const thumbs2 = getThumbs(id, length, false)
 
+  /** 稳定 style 引用, 避免每次渲染生成新数组击穿子组件 memo */
+  const itemStyle = useMemo(
+    () => stl(flexStyle({ align: 'start' }), styles.container, styles.wrap),
+    [styles]
+  )
+  const thumbsData = useMemo(() => thumbs.slice(0, 3).map((image, id) => ({ id, image })), [thumbs])
+
   const tipStr = [date, dev, formatPlaytime(time), cn ? '汉化' : '']
     .filter(item => !!item)
     .join(' / ')
@@ -91,91 +105,91 @@ function Item({ index, pickIndex }: Props) {
   const y = InView.y(index, IMG_HEIGHT_LG, _.window.height * 0.4)
 
   return (
-    <Touchable style={styles.container} animate onPress={handlePress}>
-      <Flex style={styles.wrap} align='start'>
-        <InView style={styles.inView} y={y}>
-          <Cover
-            src={image}
-            width={IMG_WIDTH_LG}
-            height={IMG_HEIGHT_LG}
-            radius
-            cdn={!x18(id, titleText)}
-          />
-        </InView>
+    <Touchable
+      style={itemStyle}
+      onPress={handlePress}
+    >
+      <InView style={styles.inView} y={y}>
+        <Cover
+          src={image}
+          width={IMG_WIDTH_LG}
+          height={IMG_HEIGHT_LG}
+          radius
+          cdn={!x18(id, titleText)}
+        />
+      </InView>
 
-        <Flex style={styles.content} direction='column' align='start'>
-          <View style={styles.body}>
-            <Flex style={_.container.block} align='start'>
-              <Flex.Item>
-                <Text size={size} bold numberOfLines={3}>
-                  {titleText}
-                </Text>
-                <Text style={_.mt.sm} size={11} lineHeight={14} numberOfLines={5}>
-                  {tipStr}
-                </Text>
-                <Flex style={_.mt.md} wrap='wrap'>
-                  <Rank value={rank} />
-                  <Stars style={_.mr.xs} value={score} simple />
-                  {!!total && (
-                    <Text style={_.mr.sm} type='sub' size={11} bold>
-                      ({total})
-                    </Text>
-                  )}
-                </Flex>
-              </Flex.Item>
-              <Manage
-                subjectId={id}
-                collection={collection}
-                typeCn='游戏'
-                onPress={handleManagePress}
-              />
-            </Flex>
-          </View>
+      <Flex style={styles.content} direction='column' align='start'>
+        <View style={styles.body}>
+          <Flex style={_.container.block} align='start'>
+            <Flex.Item>
+              <Text size={size} bold numberOfLines={3}>
+                {titleText}
+              </Text>
+              <Text style={_.mt.sm} size={11} lineHeight={14} numberOfLines={5}>
+                {tipStr}
+              </Text>
+              <Flex style={_.mt.md} wrap='wrap'>
+                <Rank value={rank} />
+                <Stars style={_.mr.xs} value={score} simple />
+                {!!total && (
+                  <Text style={_.mr.sm} type='sub' size={11} bold>
+                    ({total})
+                  </Text>
+                )}
+              </Flex>
+            </Flex.Item>
+            <Manage
+              subjectId={id}
+              collection={collection}
+              typeCn='游戏'
+              onPress={handleManagePress}
+            />
+          </Flex>
+        </View>
 
-          {!!thumbs.length && (
-            <InView style={styles.thumbs} y={y}>
-              <HorizontalList
-                data={thumbs.filter((_, idx) => idx < 3)}
-                renderItem={(item, idx) => (
-                  <Image
-                    key={item}
-                    style={stl(!!idx && _.ml.sm, idx === thumbs.length - 1 && _.mr.md)}
-                    src={item}
-                    size={THUMB_WIDTH}
-                    height={THUMB_HEIGHT}
-                    radius={_.radiusSm}
-                    errorToHide
+        {!!thumbs.length && (
+          <InView style={styles.thumbs} y={y}>
+            <HorizontalList
+              data={thumbsData}
+              renderItem={(item, idx) => (
+                <Image
+                  key={item.id}
+                  style={stl(!!idx && _.ml.sm, idx === thumbsData.length - 1 && _.mr.md)}
+                  src={item.image}
+                  size={THUMB_WIDTH}
+                  height={THUMB_HEIGHT}
+                  radius={_.radiusSm}
+                  errorToHide
+                  onPress={() => {
+                    showImageViewer(
+                      thumbs2.map(t => ({ url: t })),
+                      idx
+                    )
+                  }}
+                />
+              )}
+              renderNums={
+                thumbs2.length > 3 &&
+                (() => (
+                  <Touchable
+                    style={stl(flexStyle({ justify: 'center' }), styles.nums)}
                     onPress={() => {
                       showImageViewer(
                         thumbs2.map(t => ({ url: t })),
-                        idx
+                        3
                       )
                     }}
-                  />
-                )}
-                renderNums={
-                  thumbs2.length > 3 &&
-                  (() => (
-                    <Touchable
-                      onPress={() => {
-                        showImageViewer(
-                          thumbs2.map(t => ({ url: t })),
-                          3
-                        )
-                      }}
-                    >
-                      <Flex style={styles.nums} justify='center'>
-                        <Text size={15} bold>
-                          + {thumbs2.length}
-                        </Text>
-                      </Flex>
-                    </Touchable>
-                  ))
-                }
-              />
-            </InView>
-          )}
-        </Flex>
+                  >
+                    <Text size={15} bold>
+                      + {thumbs2.length}
+                    </Text>
+                  </Touchable>
+                ))
+              }
+            />
+          </InView>
+        )}
       </Flex>
       {index === 0 && <Heatmap id='ADV.跳转' />}
     </Touchable>

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 05:16:43
+ * @Last Modified time: 2026-09-11 23:44:58
  *
  * 角色/人物列表条目: 封面 + 文字信息 + 声优列表
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Component, Cover, Flex, Link } from '@components'
 import { _ } from '@stores'

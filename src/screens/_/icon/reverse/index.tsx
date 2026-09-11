@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-13 20:33:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 01:25:42
+ * @Last Modified time: 2026-09-11 23:26:27
  */
-import React from 'react'
 import { observer } from 'mobx-react'
-import { Component, Flex, Iconfont, Touchable } from '@components'
+import { Component, flexStyle, Iconfont, Touchable } from '@components'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
@@ -21,10 +20,11 @@ export const IconReverse = observer(
 
     return (
       <Component id='icon-reverse'>
-        <Touchable style={stl(styles.touch, style)} onPress={onPress}>
-          <Flex style={styles.btn} justify='center'>
-            <Iconfont style={iconStyle} name='md-sort' size={size} color={color} />
-          </Flex>
+        <Touchable
+          style={stl(flexStyle({ justify: 'center' }), styles.touch, style, styles.btn)}
+          onPress={onPress}
+        >
+          <Iconfont style={iconStyle} name='md-sort' size={size} color={color} />
           {children}
         </Touchable>
       </Component>

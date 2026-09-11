@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:43:32
+ * @Last Modified time: 2026-09-12 03:22:48
  */
-import React, { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
-import { Flex, Loading, Text, Touchable } from '@components'
+import { Flex, flexStyle, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, InView, Manage, PreventTouchPlaceholder, Rank, Stars, Tags } from '@_'
 import { _, collectionStore, otaStore, uiStore, useStore } from '@stores'
-import { cnjp, desc, x18 } from '@utils'
+import { cnjp, desc, stl, x18 } from '@utils'
 import { t } from '@utils/fetch'
 import {
   HOST_BGM_STATIC,
@@ -113,52 +113,56 @@ function ItemList({ index, pickIndex }: Props) {
 
   const collection = collectionStore.collect(id)
 
+  /** 稳定 style 引用, 避免每次渲染生成新数组击穿子组件 memo */
+  const itemStyle = useMemo(
+    () => stl(flexStyle({ align: 'start' }), styles.container, styles.wrap),
+    [styles]
+  )
+
   return (
     <>
-      <Touchable style={styles.container} animate onPress={handlePress}>
-        <Flex style={styles.wrap} align='start'>
-          <InView style={styles.inView} y={InView.y(index, IMG_HEIGHT_LG, _.window.height * 0.4)}>
-            <Cover
-              src={cover}
-              width={IMG_WIDTH_LG}
-              height={IMG_HEIGHT_LG}
-              radius
-              cdn={!x18(id, title)}
-            />
-          </InView>
+      <Touchable style={itemStyle} onPress={handlePress}>
+        <InView style={styles.inView} y={InView.y(index, IMG_HEIGHT_LG, _.window.height * 0.4)}>
+          <Cover
+            src={cover}
+            width={IMG_WIDTH_LG}
+            height={IMG_HEIGHT_LG}
+            radius
+            cdn={!x18(id, title)}
+          />
+        </InView>
 
-          <Flex.Item style={_.ml.wind}>
-            <Flex style={styles.content} direction='column' justify='between' align='start'>
-              <Flex align='start'>
-                <Flex.Item>
-                  <Text size={titleSize} bold numberOfLines={2}>
-                    {title}
-                  </Text>
-                </Flex.Item>
-                <Manage subjectId={id} collection={collection} onPress={handleManage} />
-              </Flex>
-
-              <Text style={styles.tip} size={11} lineHeight={14}>
-                {tipStr}
-              </Text>
-
-              <Flex>
-                <Flex>
-                  <Rank value={rank} />
-                  <Stars style={_.mr.xs} value={score} simple />
-                  {!!total && (
-                    <Text style={_.mr.sm} type='sub' size={11} bold>
-                      ({total})
-                    </Text>
-                  )}
-                </Flex>
-                <Flex.Item>
-                  <Tags value={cates} active={tags} />
-                </Flex.Item>
-              </Flex>
+        <Flex.Item style={_.ml.wind}>
+          <Flex style={styles.content} direction='column' justify='between' align='start'>
+            <Flex align='start'>
+              <Flex.Item>
+                <Text size={titleSize} bold numberOfLines={2}>
+                  {title}
+                </Text>
+              </Flex.Item>
+              <Manage subjectId={id} collection={collection} onPress={handleManage} />
             </Flex>
-          </Flex.Item>
-        </Flex>
+
+            <Text style={styles.tip} size={11} lineHeight={14}>
+              {tipStr}
+            </Text>
+
+            <Flex>
+              <Flex>
+                <Rank value={rank} />
+                <Stars style={_.mr.xs} value={score} simple />
+                {!!total && (
+                  <Text style={_.mr.sm} type='sub' size={11} bold>
+                    ({total})
+                  </Text>
+                )}
+              </Flex>
+              <Flex.Item>
+                <Tags value={cates} active={tags} />
+              </Flex.Item>
+            </Flex>
+          </Flex>
+        </Flex.Item>
       </Touchable>
 
       <PreventTouchPlaceholder />

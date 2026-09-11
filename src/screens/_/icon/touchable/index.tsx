@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-28 01:24:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-12 22:01:12
+ * @Last Modified time: 2026-09-11 23:26:37
  */
-import React from 'react'
 import { observer } from 'mobx-react'
-import { Component, Flex, Iconfont, Text, Touchable } from '@components'
+import { Component, flexStyle, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
@@ -36,19 +35,16 @@ export const IconTouchable = observer(
       return (
         <Component id='icon-touchable' data-type='count'>
           <Touchable
-            style={stl(styles.icon, style)}
+            style={stl(flexStyle({ align: 'end' }), styles.icon, style)}
             withoutFeedback={withoutFeedback}
-            scale={0.8}
             hitSlop={hitSlop}
             onPress={onPress}
             onLongPress={onLongPress}
           >
-            <Flex align='end'>
-              <Iconfont name={name} size={size} color={color} shadow={shadow} />
-              <Text style={_.ml.xs} type='sub' size={10}>
-                {count}
-              </Text>
-            </Flex>
+            <Iconfont name={name} size={size} color={color} shadow={shadow} />
+            <Text style={_.ml.xs} type='sub' size={10}>
+              {count}
+            </Text>
             {children}
           </Touchable>
         </Component>

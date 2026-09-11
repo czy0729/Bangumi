@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-10-01 22:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-18 20:56:36
+ * @Last Modified time: 2026-09-12 03:23:01
  */
-import React from 'react'
+import { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Avatar, Cover, Flex, Iconfont, Katakana, Text, Touchable } from '@components'
+import { Avatar, Cover, Flex, flexStyle, Iconfont, Katakana, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { InView, Stars, Tag } from '@_'
 import { _ } from '@stores'
@@ -70,6 +70,9 @@ function ItemRecents({
     })
   }
 
+  /** 稳定 style 引用, 避免每次渲染生成新数组击穿子组件 memo */
+  const titleStyle = useMemo(() => stl(flexStyle({ align: 'start' }), _.container.block), [_])
+
   return (
     <>
       {!!showDivider && (
@@ -97,25 +100,26 @@ function ItemRecents({
 
         <Flex.Item style={_.ml.md}>
           <Flex style={styles.content} direction='column' justify='between' align='start'>
-            <Touchable animate onPress={handlePressSubject}>
-              <Flex style={_.container.block} align='start'>
-                <Flex.Item>
-                  <Katakana.Provider size={13} bold numberOfLines={numberOfLines}>
-                    <Katakana size={13} bold>
-                      {left}
+            <Touchable
+              style={titleStyle}
+              onPress={handlePressSubject}
+            >
+              <Flex.Item>
+                <Katakana.Provider size={13} bold numberOfLines={numberOfLines}>
+                  <Katakana size={13} bold>
+                    {left}
+                  </Katakana>
+                  {!!right && right !== left && (
+                    <Katakana type='sub' size={12} lineHeight={13} bold>
+                      {' '}
+                      {right}
                     </Katakana>
-                    {!!right && right !== left && (
-                      <Katakana type='sub' size={12} lineHeight={13} bold>
-                        {' '}
-                        {right}
-                      </Katakana>
-                    )}
-                  </Katakana.Provider>
-                </Flex.Item>
-                <Flex>
-                  {x18(id, name || nameJP) && <Tag style={_.ml.sm} value='NSFW' />}
-                  {!!type && <Tag style={_.ml.sm} value={typeCn} />}
-                </Flex>
+                  )}
+                </Katakana.Provider>
+              </Flex.Item>
+              <Flex>
+                {x18(id, name || nameJP) && <Tag style={_.ml.sm} value='NSFW' />}
+                {!!type && <Tag style={_.ml.sm} value={typeCn} />}
               </Flex>
             </Touchable>
 

@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-07-20 11:02:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:38:38
+ * @Last Modified time: 2026-09-12 03:23:37
  */
-import React from 'react'
+import { useMemo } from 'react'
 import { observer } from 'mobx-react'
-import { Flex, Loading, Text, Touchable } from '@components'
+import { Flex, flexStyle, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Rank, Stars } from '@_'
 import { _, collectionStore, otaStore, uiStore, userStore } from '@stores'
+import { stl } from '@utils'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import {
@@ -71,45 +72,46 @@ function ItemList({ pickIndex }: Props) {
     )
   }
 
+  /** 稳定 style 引用, 避免每次渲染生成新数组击穿子组件 memo */
+  const itemStyle = useMemo(
+    () => stl(flexStyle({ align: 'start' }), styles.container, styles.wrap),
+    [styles]
+  )
+
   return (
-    <Touchable style={styles.container} animate onPress={handlePress}>
-      <Flex style={styles.wrap} align='start'>
-        <Cover
-          src={image}
-          width={IMG_WIDTH_LG}
-          height={IMG_HEIGHT_LG}
-          radius
-          cdn={false}
-          textOnly={textOnly}
-        />
-
-        <Flex.Item style={_.ml.wind}>
-          <Flex style={styles.content} direction='column' justify='between' align='start'>
-            <Flex align='start'>
-              <Flex.Item>
-                <Text size={titleSize} bold numberOfLines={3}>
-                  {title}
-                </Text>
-              </Flex.Item>
-              <Manage subjectId={id} collection={collection} onPress={handleManage} />
-            </Flex>
-
-            <Text style={styles.tip} size={11} lineHeight={14}>
-              {tip}
-            </Text>
-
-            <Flex style={_.mt.md} wrap='wrap'>
-              <Rank value={rank} />
-              <Stars style={_.mr.xs} value={score} simple />
-              {!!total && (
-                <Text type='sub' size={11} bold>
-                  ({total})
-                </Text>
-              )}
-            </Flex>
+    <Touchable style={itemStyle} onPress={handlePress}>
+      <Cover
+        src={image}
+        width={IMG_WIDTH_LG}
+        height={IMG_HEIGHT_LG}
+        radius
+        cdn={false}
+        textOnly={textOnly}
+      />
+      <Flex.Item style={_.ml.wind}>
+        <Flex style={styles.content} direction='column' justify='between' align='start'>
+          <Flex align='start'>
+            <Flex.Item>
+              <Text size={titleSize} bold numberOfLines={3}>
+                {title}
+              </Text>
+            </Flex.Item>
+            <Manage subjectId={id} collection={collection} onPress={handleManage} />
           </Flex>
-        </Flex.Item>
-      </Flex>
+          <Text style={styles.tip} size={11} lineHeight={14}>
+            {tip}
+          </Text>
+          <Flex style={_.mt.md} wrap='wrap'>
+            <Rank value={rank} />
+            <Stars style={_.mr.xs} value={score} simple />
+            {!!total && (
+              <Text type='sub' size={11} bold>
+                ({total})
+              </Text>
+            )}
+          </Flex>
+        </Flex>
+      </Flex.Item>
     </Touchable>
   )
 }

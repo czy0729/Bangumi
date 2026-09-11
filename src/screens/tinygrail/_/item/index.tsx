@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:51:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-05-14 16:32:49
+ * @Last Modified time: 2026-09-12 03:24:54
  */
-import React from 'react'
 import { observer } from 'mobx-react'
-import { Flex, Touchable } from '@components'
+import { Flex, flexStyle, Touchable } from '@components'
 import { _, useStore } from '@stores'
 import { stl } from '@utils'
 import { t } from '@utils/fetch'
@@ -66,14 +65,16 @@ function Item(props) {
       <Flex.Item>
         <Flex align='start'>
           <Flex.Item style={_.mr.sm}>
-            <Touchable style={styles.item} withoutFeedback={withoutFeedback} onPress={handlePress}>
-              <Flex align='start'>
-                <Flex.Item>
-                  <Title {...props} />
-                  <Detail {...props} />
-                </Flex.Item>
-                {type === 'auction' && <Auction {...props} />}
-              </Flex>
+            <Touchable
+              style={stl(flexStyle({ align: 'start' }), styles.item)}
+              withoutFeedback={withoutFeedback}
+              onPress={handlePress}
+            >
+              <Flex.Item>
+                <Title {...props} />
+                <Detail {...props} />
+              </Flex.Item>
+              {type === 'auction' && <Auction {...props} />}
             </Touchable>
           </Flex.Item>
         </Flex>

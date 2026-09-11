@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-11-24 07:56:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-24 04:37:36
+ * @Last Modified time: 2026-09-12 03:25:50
  */
-import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Cover, Flex, Hover, Image, Text, Touchable } from '@components'
+import { Cover, flexStyle, Hover, Image, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _, collectionStore, useStore } from '@stores'
 import { stl, x18 } from '@utils'
@@ -64,14 +63,15 @@ function ItemGrid({ subjectId, merge, ...folder }: MergeListItem) {
   }
   const elTitle = (
     <>
-      <LinearGradient style={StyleSheet.absoluteFill} colors={COLORS} pointerEvents='none' />
+      <LinearGradient style={_.absoluteFill} colors={COLORS} pointerEvents='none' />
       <View style={stl(styles.content, !subjectId && styles.folderContent)}>
-        <Touchable onPress={showModalFoldersHandle}>
-          <Flex style={styles.title} align='end'>
-            <Text size={size} bold>
-              {title}
-            </Text>
-          </Flex>
+        <Touchable
+          style={stl(flexStyle({ align: 'end' }), styles.title)}
+          onPress={showModalFoldersHandle}
+        >
+          <Text size={size} bold>
+            {title}
+          </Text>
         </Touchable>
       </View>
     </>

@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-07-01 17:20:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-24 23:10:40
+ * @Last Modified time: 2026-09-12 03:24:34
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
-import { Avatar, Flex, Text, Touchable } from '@components'
+import { Avatar, Flex, flexStyle, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl, tinygrailOSS, titleCase } from '@utils'
 import TinygrailLevel from '../../level'
@@ -38,56 +38,61 @@ function Item({
   const styles = memoStyles()
 
   return (
-    <Touchable onPress={handlePress}>
-      <Flex style={stl(styles.item, !disabled && styles[`active${titleCase(type)}` as const])}>
-        {src ? (
-          <Avatar
-            key={src}
-            src={tinygrailOSS(src)}
-            size={30}
-            radius={_.radiusXs}
-            skeletonType='tinygrail'
-          />
-        ) : (
-          <Text type='tinygrailPlain' size={9} lineHeight={10} bold numberOfLines={1}>
-            #{id}{' '}
-          </Text>
-        )}
-        <Flex.Item style={_.ml.xs}>
-          <Flex>
-            {rank <= 500 && <TinygrailRank style={styles.rank} size={8} value={rank} />}
+    <Touchable
+      style={stl(
+        flexStyle(),
+        styles.item,
+        !disabled && styles[`active${titleCase(type)}` as const]
+      )}
+      onPress={handlePress}
+    >
+      {src ? (
+        <Avatar
+          key={src}
+          src={tinygrailOSS(src)}
+          size={30}
+          radius={_.radiusXs}
+          skeletonType='tinygrail'
+        />
+      ) : (
+        <Text type='tinygrailPlain' size={9} lineHeight={10} bold numberOfLines={1}>
+          #{id}{' '}
+        </Text>
+      )}
+      <Flex.Item style={_.ml.xs}>
+        <Flex>
+          {rank <= 500 && <TinygrailRank style={styles.rank} size={8} value={rank} />}
+          <Flex.Item>
+            <Text type='tinygrailPlain' size={9} bold numberOfLines={1}>
+              <TinygrailLevel value={level} size={9} lineHeight={9} />
+              {name}
+            </Text>
+          </Flex.Item>
+        </Flex>
+        {assets && sacrifices ? (
+          <Flex style={_.mt.xs}>
             <Flex.Item>
-              <Text type='tinygrailPlain' size={9} bold numberOfLines={1}>
-                <TinygrailLevel value={level} size={9} lineHeight={9} />
-                {name}
-              </Text>
+              <TinygrailProgress
+                size='xs'
+                assets={assets}
+                sacrifices={sacrifices}
+                refine={refine}
+              />
             </Flex.Item>
-          </Flex>
-          {assets && sacrifices ? (
-            <Flex style={_.mt.xs}>
-              <Flex.Item>
-                <TinygrailProgress
-                  size='xs'
-                  assets={assets}
-                  sacrifices={sacrifices}
-                  refine={refine}
-                />
-              </Flex.Item>
-              {!!refine && (
-                <Text style={_.ml.xs} type='tinygrailText' size={9} bold>
-                  +{refine}
-                </Text>
-              )}
-            </Flex>
-          ) : (
-            !!extra && (
-              <Text style={_.mt.xs} type='tinygrailText' size={9} numberOfLines={1}>
-                {extra}
+            {!!refine && (
+              <Text style={_.ml.xs} type='tinygrailText' size={9} bold>
+                +{refine}
               </Text>
-            )
-          )}
-        </Flex.Item>
-      </Flex>
+            )}
+          </Flex>
+        ) : (
+          !!extra && (
+            <Text style={_.mt.xs} type='tinygrailText' size={9} numberOfLines={1}>
+              {extra}
+            </Text>
+          )
+        )}
+      </Flex.Item>
     </Touchable>
   )
 }

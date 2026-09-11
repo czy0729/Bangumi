@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-01 05:34:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 05:23:44
+ * @Last Modified time: 2026-09-11 23:25:10
  */
-import React from 'react'
 import { observer } from 'mobx-react'
-import { Bgm, BgmText, Flex, Text, Touchable } from '@components'
+import { Bgm, BgmText, flexStyle, Text, Touchable } from '@components'
 import { rakuenStore, timelineStore, uiStore, userStore } from '@stores'
 import { stl } from '@utils'
 import { t } from '@utils/fetch'
@@ -86,23 +85,20 @@ function Btn({ topicId, id, formhash, onPress, onLongPress, ...item }: LikesPass
     typeof onLongPress === 'function' ? () => onLongPress(users, emoji) : undefined
 
   return (
-    <Touchable animate hitSlop={HIT_SLOP} onPress={handlePress} onLongPress={handleLongPress}>
-      <Flex style={stl(styles.item, selected && styles.itemActive)} justify='center'>
-        {WEB ? (
-          <Bgm style={styles.image} index={emoji} size={16} textOnly={false} />
-        ) : (
-          <BgmText style={styles.bgm} size={15} lineHeight={17} index={emoji} selectable={false} />
-        )}
-        <Text
-          style={styles.text}
-          size={12}
-          type={selected ? 'main' : 'sub'}
-          bold
-          selectable={false}
-        >
-          {total}
-        </Text>
-      </Flex>
+    <Touchable
+      style={stl(flexStyle({ justify: 'center' }), styles.item, selected && styles.itemActive)}
+      hitSlop={HIT_SLOP}
+      onPress={handlePress}
+      onLongPress={handleLongPress}
+    >
+      {WEB ? (
+        <Bgm style={styles.image} index={emoji} size={16} textOnly={false} />
+      ) : (
+        <BgmText style={styles.bgm} size={15} lineHeight={17} index={emoji} selectable={false} />
+      )}
+      <Text style={styles.text} size={12} type={selected ? 'main' : 'sub'} bold selectable={false}>
+        {total}
+      </Text>
     </Touchable>
   )
 }

@@ -2,15 +2,24 @@
  * @Author: czy0729
  * @Date: 2026-05-15 05:31:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 06:39:48
+ * @Last Modified time: 2026-09-11 23:43:46
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Avatar, Expand, Flex, Text, Touchable, UserStatus } from '@components'
+import {
+  Avatar,
+  Expand,
+  Flex,
+  flexItemStyle,
+  flexStyle,
+  Text,
+  Touchable,
+  UserStatus
+} from '@components'
 import { isBlockUser } from '@_/item/post/utils'
 import { _ } from '@stores'
-import { open } from '@utils'
+import { open, stl } from '@utils'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
@@ -78,26 +87,24 @@ function Item({
 
   return (
     <View style={_.container.block}>
-      <Touchable animate onPress={handlePress}>
-        <Flex style={styles.item} align='start'>
-          <UserStatus style={styles.avatar} userId={user_username}>
-            <Avatar src={user_avatar} size={34} radius={_.radiusXs} onPress={handleAvatarPress} />
-          </UserStatus>
-          <Flex.Item style={_.ml.sm}>
-            <Text size={13} bold numberOfLines={3}>
-              {title}
-              {!!reply_count && (
-                <Text type='main' size={10} lineHeight={13} bold>
-                  {' '}
-                  +{reply_count}
-                </Text>
-              )}
-            </Text>
-            <Text style={_.mt.xs} type='sub' size={11} numberOfLines={1}>
-              {created_at.slice(2, 10)} / {user_nickname} / {group_name}
-            </Text>
-          </Flex.Item>
-        </Flex>
+      <Touchable style={stl(flexStyle({ align: 'start' }), styles.item)} onPress={handlePress}>
+        <UserStatus style={styles.avatar} userId={user_username}>
+          <Avatar src={user_avatar} size={34} radius={_.radiusXs} onPress={handleAvatarPress} />
+        </UserStatus>
+        <View style={stl(flexItemStyle(), _.ml.sm)}>
+          <Text size={13} bold numberOfLines={3}>
+            {title}
+            {!!reply_count && (
+              <Text type='main' size={10} lineHeight={13} bold>
+                {' '}
+                +{reply_count}
+              </Text>
+            )}
+          </Text>
+          <Text style={_.mt.xs} type='sub' size={11} numberOfLines={1}>
+            {created_at.slice(2, 10)} / {user_nickname} / {group_name}
+          </Text>
+        </View>
       </Touchable>
       {!!content && (
         <Flex.Item style={styles.content}>

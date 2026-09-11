@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-05 21:12:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-23 06:56:54
+ * @Last Modified time: 2026-09-11 23:25:16
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Component, Flex, Iconfont, Touchable } from '@components'
+import { Component, flexStyle, Iconfont, Touchable } from '@components'
 import { _, systemStore } from '@stores'
-import { info } from '@utils'
+import { info, stl } from '@utils'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { API_MK_STATUS_HOST, WEB } from '@constants'
@@ -65,15 +65,17 @@ export const Logo = observer(({ navigation, forceUpdate, path = 'Setting' }: Log
   return (
     <Component id='base-logo'>
       <View style={styles.logo}>
-        <Touchable onPress={handlePress} onLongPress={handleLongPress}>
-          <Flex style={styles.logo} justify='center'>
-            <Iconfont
-              style={styles.icon}
-              size={22}
-              name='bgm'
-              color={_.select(_.colorTitle, _.colorDesc)}
-            />
-          </Flex>
+        <Touchable
+          style={stl(flexStyle({ justify: 'center' }), styles.logo)}
+          onPress={handlePress}
+          onLongPress={handleLongPress}
+        >
+          <Iconfont
+            style={styles.icon}
+            size={22}
+            name='bgm'
+            color={_.select(_.colorTitle, _.colorDesc)}
+          />
         </Touchable>
 
         {systemStore.notifyServerStatus && (

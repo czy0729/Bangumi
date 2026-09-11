@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-08 20:23:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 21:43:49
+ * @Last Modified time: 2026-09-11 23:26:08
  */
-import React from 'react'
 import { observer } from 'mobx-react'
-import { Component, Flex, Iconfont, Touchable } from '@components'
+import { Component, flexStyle, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
@@ -22,10 +21,11 @@ export const IconBack = observer(
 
     return (
       <Component id='icon-back'>
-        <Touchable style={stl(styles.touch, style)} onPress={navigation.goBack}>
-          <Flex style={styles.icon} justify='center'>
-            <Iconfont name='md-arrow-back' color={color} shadow={shadow} />
-          </Flex>
+        <Touchable
+          style={stl(flexStyle({ justify: 'center' }), styles.touch, style, styles.icon)}
+          onPress={navigation.goBack}
+        >
+          <Iconfont name='md-arrow-back' color={color} shadow={shadow} />
         </Touchable>
       </Component>
     )

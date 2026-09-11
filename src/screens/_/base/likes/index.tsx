@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-03-31 05:22:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 20:47:57
+ * @Last Modified time: 2026-09-12 03:43:33
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
-import { Component, Flex, Iconfont, ScrollView, Touchable } from '@components'
+import { Component, flexStyle, Iconfont, ScrollView, Touchable } from '@components'
 import { rakuenStore, timelineStore, uiStore } from '@stores'
-import { feedback } from '@utils'
+import { feedback, stl } from '@utils'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
 import { IOS } from '@constants'
@@ -97,10 +97,12 @@ export const Likes = observer(
           rightMaskStyle={rightMaskStyle}
         >
           {showCreateBtn && (
-            <Touchable animate hitSlop={HIT_SLOP} onPress={handleOpenGrid}>
-              <Flex style={styles.item} justify='center'>
-                <Iconfont name='md-favorite-outline' size={18} />
-              </Flex>
+            <Touchable
+              style={stl(flexStyle({ justify: 'center' }), styles.item)}
+              hitSlop={HIT_SLOP}
+              onPress={handleOpenGrid}
+            >
+              <Iconfont name='md-favorite-outline' size={18} />
             </Touchable>
           )}
           {visibleLikesList.map(item => {
@@ -120,10 +122,12 @@ export const Likes = observer(
             )
           })}
           {hasHiddenLikes && (
-            <Touchable animate hitSlop={HIT_SLOP} onPress={setTrue}>
-              <Flex style={styles.item} justify='center'>
-                <Iconfont name='md-navigate-next' size={18} />
-              </Flex>
+            <Touchable
+              style={stl(flexStyle({ justify: 'center' }), styles.item)}
+              hitSlop={HIT_SLOP}
+              onPress={setTrue}
+            >
+              <Iconfont name='md-navigate-next' size={18} />
             </Touchable>
           )}
         </ScrollView>

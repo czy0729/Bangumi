@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-01-31 19:17:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 20:39:20
+ * @Last Modified time: 2026-09-12 03:24:20
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
-import { Flex, Iconfont, Input, Text, Touchable } from '@components'
+import { Flex, flexStyle, Iconfont, Input, Text, Touchable } from '@components'
 import { _, rakuenStore, userStore } from '@stores'
+import { stl } from '@utils'
 import { r } from '@utils/dev'
 import i18n from '@constants/i18n'
 import Block from '@screens/user/setting/component/block'
@@ -57,10 +58,11 @@ function BlockedUsers({ onNavigate }: Props) {
                 onSubmitEditing={handleSubmit}
               />
             </Flex.Item>
-            <Touchable style={_.ml.md} onPress={handleSubmit}>
-              <Flex style={styles.icon} justify='center'>
-                <Iconfont name='md-add' size={24} />
-              </Flex>
+            <Touchable
+              style={stl(flexStyle({ justify: 'center' }), _.ml.md, styles.icon)}
+              onPress={handleSubmit}
+            >
+              <Iconfont name='md-add' size={24} />
             </Touchable>
           </Flex>
         </>

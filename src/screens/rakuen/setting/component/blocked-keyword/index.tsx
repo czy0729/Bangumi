@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-01-31 20:18:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-31 21:19:15
+ * @Last Modified time: 2026-09-12 03:24:11
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
-import { Flex, Iconfont, Input, Touchable } from '@components'
+import { Flex, flexStyle, Iconfont, Input, Touchable } from '@components'
 import { _, rakuenStore } from '@stores'
-import { info } from '@utils'
+import { info, stl } from '@utils'
 import { r } from '@utils/dev'
 import Block from '@screens/user/setting/component/block'
 import Tip from '@screens/user/setting/component/tip'
@@ -55,10 +55,11 @@ function BlockedKeyword() {
             onSubmitEditing={handleSubmit}
           />
         </Flex.Item>
-        <Touchable style={_.ml.md} onPress={handleSubmit}>
-          <Flex style={styles.icon} justify='center'>
-            <Iconfont name='md-add' size={24} />
-          </Flex>
+        <Touchable
+          style={stl(flexStyle({ justify: 'center' }), _.ml.md, styles.icon)}
+          onPress={handleSubmit}
+        >
+          <Iconfont name='md-add' size={24} />
         </Touchable>
       </Flex>
     </Block>

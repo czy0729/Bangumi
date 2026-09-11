@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2026-01-09 08:01:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 05:15:46
+ * @Last Modified time: 2026-09-11 23:44:27
  *
  * 人物条目右上角更多操作 Popover
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
-import { Flex, Iconfont } from '@components'
+import { flexStyle, Iconfont } from '@components'
+import { stl } from '@utils'
 import { useNavigation } from '@utils/hooks'
 import { HOST } from '@constants'
 import { PERSONS_ACTORS_DATA, TEXT_COLLABS, TEXT_COLLECTIONS, TEXT_TOPIC, TEXT_WORKS } from '../ds'
@@ -60,10 +61,12 @@ function More({ monoId, name }: Props) {
   )
 
   return (
-    <Popover style={styles.navigate} data={[name, ...PERSONS_ACTORS_DATA]} onSelect={handleSelect}>
-      <Flex style={styles.more} justify='center'>
-        <Iconfont name='md-more-vert' size={20} />
-      </Flex>
+    <Popover
+      style={stl(flexStyle({ justify: 'center' }), styles.navigate, styles.more)}
+      data={[name, ...PERSONS_ACTORS_DATA]}
+      onSelect={handleSelect}
+    >
+      <Iconfont name='md-more-vert' size={20} />
     </Popover>
   )
 }

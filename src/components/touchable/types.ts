@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 07:50:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-25 12:27:57
+ * @Last Modified time: 2026-09-11 23:43:41
  */
 import type { TouchableWithoutFeedbackProps } from 'react-native'
 import type { Override } from '@types'
@@ -44,10 +44,10 @@ export type Props = Override<
     /** 涟漪状的背景（安卓 only）*/
     ripple?: boolean
 
-    /** 是否使用缩放动画 */
+    /** @deprecated 是否使用缩放动画 */
     animate?: boolean
 
-    /** 点击中动画缩放比例, 默认 0.95 */
+    /** @deprecated  点击中动画缩放比例, 默认 0.95 */
     scale?: number
 
     /** 覆写 onPress */

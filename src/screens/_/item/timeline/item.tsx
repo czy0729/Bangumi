@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-08 17:13:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 20:56:52
+ * @Last Modified time: 2026-09-11 23:27:24
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { View } from 'react-native'
-import { Cover, Flex, Iconfont, Text, Touchable } from '@components'
+import { Cover, Flex, flexStyle, Iconfont, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _, uiStore, userStore } from '@stores'
 import { appNavigate, confirm, lastDate, stl, x18 } from '@utils'
@@ -195,7 +195,7 @@ const Item = memo(
                   {
                     flex: 1,
                     width: '100%'
-                  }
+                  } as const
                 )}
                 align='end'
               >
@@ -254,16 +254,19 @@ const Item = memo(
               <View style={styles.menu}>
                 {!SHARE_MODE &&
                   (clearHref ? (
-                    <Touchable style={styles.touch} onPress={handleClear}>
-                      <Flex style={styles.extra} justify='center'>
-                        <Iconfont name='md-close' size={18} />
-                      </Flex>
+                    <Touchable
+                      style={stl(flexStyle({ justify: 'center' }), styles.touch, styles.extra)}
+                      onPress={handleClear}
+                    >
+                      <Iconfont name='md-close' size={18} />
                     </Touchable>
                   ) : (
-                    <Popover style={styles.touch} data={HIDDEN_DS} onSelect={handleSelect}>
-                      <Flex style={styles.extra} justify='center'>
-                        <Iconfont name='md-more-vert' size={18} />
-                      </Flex>
+                    <Popover
+                      style={stl(flexStyle({ justify: 'center' }), styles.touch, styles.extra)}
+                      data={HIDDEN_DS}
+                      onSelect={handleSelect}
+                    >
+                      <Iconfont name='md-more-vert' size={18} />
                     </Popover>
                   ))}
               </View>

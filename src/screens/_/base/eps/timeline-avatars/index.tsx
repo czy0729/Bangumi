@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-06 18:34:52
  */
-import React, { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { View } from 'react-native'
 import Animated, {
   cancelAnimation,
@@ -16,7 +16,7 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated'
 import { observer } from 'mobx-react'
-import { Avatar, Flex, Popover, Text } from '@components'
+import { Avatar, flexStyle, Popover, Text } from '@components'
 import { systemStore, timelineStore } from '@stores'
 import { lastDate, stl } from '@utils'
 import { useNavigation } from '@utils/hooks'
@@ -132,37 +132,35 @@ function TimelineAvatars({ subjectId, index, sort, isSide }: Props) {
 
   return (
     <View style={stl(styles.collectionTimelines, isSide && styles.side)}>
-      <Popover data={memoData} onSelect={handleSelect}>
-        <Flex style={styles.container} wrap='nowrap'>
-          <View style={styles.avatarContainer}>
-            <Animated.View style={animatedStyle}>
-              {users.map(u => (
-                <View key={u.userId} style={styles.avatarWrapper}>
-                  <Avatar src={u.avatar} size={AVATAR_SIZE} placeholder={false} skeleton={false} />
-                  <ClientTrack id='collectionTimelines' userId={u.userId} subjectId={subjectId} />
-                </View>
-              ))}
-
-              {/* 镜像补位 */}
-              <View key='mirror' style={styles.avatarWrapper}>
-                <Avatar
-                  src={users[0]?.avatar}
-                  size={AVATAR_SIZE}
-                  placeholder={false}
-                  skeleton={false}
-                />
+      <Popover style={stl(flexStyle(), styles.container)} data={memoData} onSelect={handleSelect}>
+        <View style={styles.avatarContainer}>
+          <Animated.View style={animatedStyle}>
+            {users.map(u => (
+              <View key={u.userId} style={styles.avatarWrapper}>
+                <Avatar src={u.avatar} size={AVATAR_SIZE} placeholder={false} skeleton={false} />
+                <ClientTrack id='collectionTimelines' userId={u.userId} subjectId={subjectId} />
               </View>
-            </Animated.View>
-          </View>
+            ))}
 
-          {count > 1 && (
-            <View style={styles.countBadge}>
-              <Text type='sub' size={10} bold>
-                {count}
-              </Text>
+            {/* 镜像补位 */}
+            <View key='mirror' style={styles.avatarWrapper}>
+              <Avatar
+                src={users[0]?.avatar}
+                size={AVATAR_SIZE}
+                placeholder={false}
+                skeleton={false}
+              />
             </View>
-          )}
-        </Flex>
+          </Animated.View>
+        </View>
+
+        {count > 1 && (
+          <View style={styles.countBadge}>
+            <Text type='sub' size={10} bold>
+              {count}
+            </Text>
+          </View>
+        )}
       </Popover>
     </View>
   )

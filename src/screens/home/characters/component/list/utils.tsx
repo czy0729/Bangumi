@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2024-04-18 14:52:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-07 05:28:52
+ * @Last Modified time: 2026-09-11 23:45:15
  */
-import React from 'react'
 import { ItemCharacter } from '@_'
 import { EVENT } from './ds'
 

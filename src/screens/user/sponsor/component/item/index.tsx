@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:34:38
+ * @Last Modified time: 2026-09-12 03:26:10
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Text, Touchable, UserStatus } from '@components'
+import { Flex, flexStyle, Text, Touchable, UserStatus } from '@components'
 import { Avatar } from '@_'
 import { _ } from '@stores'
 import { HTMLDecode, stl } from '@utils'
@@ -62,59 +62,51 @@ function Item({ w, h, x, y, data, percent, price, isFilter, onPress, onLongPress
       ]}
     >
       <Touchable
-        style={{
-          width: w,
-          height: h
-        }}
+        style={stl(
+          flexStyle({ direction: 'column', justify: 'center' }),
+          {
+            width: w,
+            height: h,
+            backgroundColor: _.colorPlain
+          },
+          styles.body,
+          backgroundStyle
+        )}
         onPress={onPress}
         onLongPress={onLongPress}
       >
-        <Flex
-          style={[
-            styles.body,
-            {
-              width: w,
-              height: h,
-              backgroundColor: _.colorPlain
-            },
-            backgroundStyle
-          ]}
-          direction='column'
-          justify='center'
-        >
-          {showAvatar && (
-            <View
-              style={{
-                marginBottom: Math.floor(5.6 * ratio)
-              }}
-              pointerEvents='none'
+        {showAvatar && (
+          <View
+            style={{
+              marginBottom: Math.floor(5.6 * ratio)
+            }}
+            pointerEvents='none'
+          >
+            <UserStatus
+              style={backgroundStyle}
+              userId={USERS_MAP[data]?.i || data}
+              mini={avatarSize < 32}
             >
-              <UserStatus
-                style={backgroundStyle}
-                userId={USERS_MAP[data]?.i || data}
-                mini={avatarSize < 32}
-              >
-                <Avatar
-                  src={
-                    USERS_MAP[data]?.a
-                      ? `${HOST_BGM_STATIC}/pic/user/l/000/${USERS_MAP[data]?.a}.jpg`
-                      : IMG_DEFAULT_AVATAR
-                  }
-                  size={avatarSize}
-                  borderWidth={0}
-                />
-              </UserStatus>
-            </View>
+              <Avatar
+                src={
+                  USERS_MAP[data]?.a
+                    ? `${HOST_BGM_STATIC}/pic/user/l/000/${USERS_MAP[data]?.a}.jpg`
+                    : IMG_DEFAULT_AVATAR
+                }
+                size={avatarSize}
+                borderWidth={0}
+              />
+            </UserStatus>
+          </View>
+        )}
+        <Flex style={styles.content} justify='center'>
+          {showAvatar ? (
+            elName
+          ) : (
+            <UserStatus style={backgroundStyle} userId={USERS_MAP[data]?.i || data} mini>
+              <View style={_.mh.sm}>{elName}</View>
+            </UserStatus>
           )}
-          <Flex style={styles.content} justify='center'>
-            {showAvatar ? (
-              elName
-            ) : (
-              <UserStatus style={backgroundStyle} userId={USERS_MAP[data]?.i || data} mini>
-                <View style={_.mh.sm}>{elName}</View>
-              </UserStatus>
-            )}
-          </Flex>
         </Flex>
       </Touchable>
       <View

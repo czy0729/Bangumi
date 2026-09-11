@@ -2,10 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-22 20:25:43
+ * @Last Modified time: 2026-09-12 03:24:25
  */
-import React from 'react'
-import { Flex, Touchable, UserStatus } from '@components'
+import { Flex, flexStyle, Touchable, UserStatus } from '@components'
 import { InView, PreventTouchPlaceholder } from '@_'
 import { getCoverMedium, getMonoCoverSmall } from '@utils'
 import { memo } from '@utils/decorators'
@@ -50,35 +49,33 @@ const Item = memo(
       <Readed topicId={topicId}>
         <Flex align='start'>
           <Flex.Item>
-            <Touchable animate onPress={onPress}>
-              <Flex align='start'>
-                <UserStatus userId={userId}>
-                  <InView style={styles.inView} index={index} y={InView.y(index, ITEM_HEIGHT)}>
-                    <Avatar
-                      src={src}
-                      name={userName}
-                      userId={userId}
-                      priority={index < 10 ? 'high' : 'normal'}
-                    />
-                  </InView>
-                </UserStatus>
-                <Flex.Item style={styles.wrap}>
-                  <Flex.Item>
-                    <Content
-                      groupCn={groupCn}
-                      title={title}
-                      time={time}
-                      epoch={epoch}
-                      topicId={topicId}
-                      replyCount={replyCount}
-                      userId={userId}
-                      userName={userName}
-                      avatar={avatar}
-                      isGroup={isGroup}
-                    />
-                  </Flex.Item>
+            <Touchable style={flexStyle({ align: 'start' })} onPress={onPress}>
+              <UserStatus userId={userId}>
+                <InView style={styles.inView} index={index} y={InView.y(index, ITEM_HEIGHT)}>
+                  <Avatar
+                    src={src}
+                    name={userName}
+                    userId={userId}
+                    priority={index < 10 ? 'high' : 'normal'}
+                  />
+                </InView>
+              </UserStatus>
+              <Flex.Item style={styles.wrap}>
+                <Flex.Item>
+                  <Content
+                    groupCn={groupCn}
+                    title={title}
+                    time={time}
+                    epoch={epoch}
+                    topicId={topicId}
+                    replyCount={replyCount}
+                    userId={userId}
+                    userName={userName}
+                    avatar={avatar}
+                    isGroup={isGroup}
+                  />
                 </Flex.Item>
-              </Flex>
+              </Flex.Item>
             </Touchable>
           </Flex.Item>
           <BtnPopover

@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-05-02 16:30:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:21:02
+ * @Last Modified time: 2026-09-12 03:23:58
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Cover, Flex, Highlight, Text, Touchable } from '@components'
+import { Cover, Flex, flexStyle, Highlight, Text, Touchable } from '@components'
 import { _, systemStore, useStore } from '@stores'
 import { getGroupThumbStatic, getVisualLength } from '@utils'
 import { CDN_OSS_MAGMA_PIC } from '@utils/cdn'
@@ -18,7 +18,7 @@ import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
-function Item({ id, cover, name, num }: any) {
+function Item({ id, cover, name, num }) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const handlePress = useCallback(() => {
@@ -48,29 +48,27 @@ function Item({ id, cover, name, num }: any) {
 
   return (
     <View style={styles.container}>
-      <Touchable animate scale={0.92} onPress={handlePress}>
-        <Flex align='start'>
-          <Cover size={styles.body.height} src={src} radius />
-          <Flex.Item style={_.ml.sm}>
-            <Flex style={styles.body} direction='column' align='start' justify='center'>
-              <Highlight
-                value={type !== 'all' ? '' : filter}
-                size={size}
-                lineHeight={11}
-                numberOfLines={2}
-                bold
-              >
-                {name}
-              </Highlight>
-              <Text style={_.mt.xs} type='sub' size={10}>
-                <Text type='sub' size={10} bold>
-                  {num}
-                </Text>{' '}
-                位成员
-              </Text>
-            </Flex>
-          </Flex.Item>
-        </Flex>
+      <Touchable style={flexStyle({ align: 'start' })} onPress={handlePress}>
+        <Cover size={styles.body.height} src={src} radius />
+        <Flex.Item style={_.ml.sm}>
+          <Flex style={styles.body} direction='column' align='start' justify='center'>
+            <Highlight
+              value={type !== 'all' ? '' : filter}
+              size={size}
+              lineHeight={11}
+              numberOfLines={2}
+              bold
+            >
+              {name}
+            </Highlight>
+            <Text style={_.mt.xs} type='sub' size={10}>
+              <Text type='sub' size={10} bold>
+                {num}
+              </Text>{' '}
+              位成员
+            </Text>
+          </Flex>
+        </Flex.Item>
       </Touchable>
     </View>
   )
