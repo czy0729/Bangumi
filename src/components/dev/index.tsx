@@ -4,14 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-18 04:47:51
  */
-import React from 'react'
 import { DevSettings, View } from 'react-native'
 import { runInAction } from 'mobx'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { syncSystemStore } from '@utils/async'
 import { DEV as dev, IOS } from '@constants'
-import { Flex } from '../flex'
+import { Flex, flexStyle } from '../flex'
 import { Iconfont } from '../iconfont'
 import { ScrollView } from '../scroll-view'
 import { Text } from '../text'
@@ -47,26 +47,25 @@ export const DEV = observer(() => {
       )}
       {!IOS && (
         <View style={styles.dev}>
-          <Touchable style={styles.touch} onPress={() => DevSettings.reload()}>
-            <Flex style={styles.icon} justify='center'>
-              <Iconfont name='md-refresh' color={_.colorPlain} size={20} />
-            </Flex>
+          <Touchable
+            style={stl(flexStyle({ justify: 'center' }), styles.touch, styles.icon)}
+            onPress={() => DevSettings.reload()}
+          >
+            <Iconfont name='md-refresh' color={_.colorPlain} size={20} />
           </Touchable>
         </View>
       )}
       {!!logs.length && (
         <View style={styles.clear}>
           <Touchable
-            style={styles.clearTouch}
+            style={stl(flexStyle({ justify: 'center' }), styles.clearTouch, styles.icon)}
             onPress={() => {
               runInAction(() => {
                 logs.clear()
               })
             }}
           >
-            <Flex style={styles.icon} justify='center'>
-              <Iconfont name='md-close' color={_.__colorPlain__} size={20} />
-            </Flex>
+            <Iconfont name='md-close' color={_.__colorPlain__} size={20} />
           </Touchable>
         </View>
       )}

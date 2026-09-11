@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-07-13 20:58:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 05:14:42
+ * @Last Modified time: 2026-09-11 20:21:25
  */
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
@@ -12,7 +12,7 @@ import { feedback, stl } from '@utils'
 import { r } from '@utils/dev'
 import { FROZEN_FN, IOS } from '@constants'
 import { Component } from '../component'
-import { Flex } from '../flex'
+import { Flex, flexStyle } from '../flex'
 import { Heatmap } from '../heatmap'
 import { Iconfont } from '../iconfont'
 import { Input } from '../input'
@@ -56,16 +56,19 @@ export const Pagination = observer(
       disabled?: boolean
     ) => (
       <Touchable
-        style={stl(styles.touch, disabled && styles.disabled)}
+        style={stl(
+          flexStyle({ justify: 'center' }),
+          styles.touch,
+          styles.pagination,
+          disabled && styles.disabled
+        )}
         disabled={disabled}
         onPress={() => {
           onPress()
           feedback(true)
         }}
       >
-        <Flex style={styles.pagination} justify='center'>
-          <Iconfont name={name} size={22} color={_.colorDesc} />
-        </Flex>
+        <Iconfont name={name} size={22} color={_.colorDesc} />
         {!!heatmapId && <Heatmap id={heatmapId} />}
       </Touchable>
     )
@@ -74,7 +77,9 @@ export const Pagination = observer(
     const renderInput = () => (
       <Flex>
         <Input
-          ref={ref => (inputRef.current = ref)}
+          ref={ref => {
+            inputRef.current = ref
+          }}
           style={stl(styles.input, inputStyle)}
           value={input}
           keyboardType='number-pad'
@@ -130,4 +135,3 @@ export const Pagination = observer(
 )
 
 export default Pagination
-

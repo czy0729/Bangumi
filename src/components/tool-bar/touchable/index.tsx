@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-05 19:37:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-02 23:26:34
+ * @Last Modified time: 2026-09-11 20:27:22
  */
-import React from 'react'
 import { observer } from 'mobx-react'
+import { stl } from '@utils'
 import { memoStyles } from '../styles'
-import { Flex } from '../../flex'
+import { flexStyle } from '../../flex'
 import { Heatmap } from '../../heatmap'
 import { Touchable } from '../../touchable'
 
@@ -17,10 +17,11 @@ function ToolBarTouchable({ heatmap, onSelect, children }: Props) {
   const styles = memoStyles()
 
   return (
-    <Touchable style={styles.touch} onPress={onSelect}>
-      <Flex style={styles.item} justify='center'>
-        {children}
-      </Flex>
+    <Touchable
+      style={stl(flexStyle({ justify: 'center' }), styles.touch, styles.item)}
+      onPress={onSelect}
+    >
+      {children}
       {!!heatmap && <Heatmap id={heatmap} />}
     </Touchable>
   )

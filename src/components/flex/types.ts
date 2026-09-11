@@ -34,3 +34,14 @@ export type ItemProps = Override<
     flex?: number
   }
 >
+
+export type FlexStyleParams = {
+  direction?: Props['direction']
+  wrap?: Props['wrap']
+  justify?: Props['justify']
+  align?: Props['align']
+}
+
+export type FlexItemStyleParams = {
+  flex?: number
+}

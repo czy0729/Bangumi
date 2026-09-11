@@ -2,21 +2,13 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 03:08:05
+ * @Last Modified time: 2026-09-11 20:26:54
  */
-import React from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import Portal from '@components/portal'
-import { _, systemStore } from '@stores'
+import { _ } from '@stores'
 import { r } from '@utils/dev'
-import { IOS, WSA } from '@constants'
-import { Flex } from '../flex'
-import { Iconfont } from '../iconfont'
-import { Touchable } from '../touchable'
 import { scrollToTopCallback } from './utils'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
 
 import type { Props as ScrollToToProps } from './types'
 
@@ -24,69 +16,12 @@ export { scrollToTopCallback }
 
 export type { ScrollToToProps }
 
-/** [Android] 仿 iOS 点击头部列表滚动到顶 */
-const ScrollToTop = observer(
-  ({ isFocused = true, scrollTo, scrollToIndex, scrollToLocation, onPress }: ScrollToToProps) => {
-    r(COMPONENT)
+/** [Android] 仿 iOS 点击头部列表滚动到顶 (已停用) */
+const ScrollToTop = observer(() => {
+  r(COMPONENT)
 
-    return null
-
-    if (IOS) return null
-
-    if ((IOS || !isFocused) && !systemStore.dev) return null
-
-    const styles = memoStyles()
-
-    // 子系统使用右下方固定位置按钮代替顶部点击
-    if (WSA) {
-      return (
-        <View style={styles.scrollToTop}>
-          <Touchable
-            style={styles.touch}
-            onPress={() => {
-              if (onPress) {
-                onPress()
-                return
-              }
-
-              scrollToTopCallback({
-                scrollTo,
-                scrollToIndex,
-                scrollToLocation
-              })
-            }}
-          >
-            <Flex style={styles.icon} justify='center'>
-              <Iconfont name='md-vertical-align-top' color={_.colorSub} size={20} />
-            </Flex>
-          </Touchable>
-        </View>
-      )
-    }
-
-    return (
-      <Portal>
-        <Touchable
-          style={styles.container}
-          useRN
-          highlight
-          onPress={() => {
-            if (onPress) {
-              onPress()
-              return
-            }
-
-            scrollToTopCallback({
-              scrollTo,
-              scrollToIndex,
-              scrollToLocation
-            })
-          }}
-        />
-      </Portal>
-    )
-  }
-)
+  return null
+})
 
 // @ts-expect-error
 ScrollToTop.scrollToTop = (

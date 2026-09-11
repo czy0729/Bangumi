@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-06-01 01:49:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-27 09:12:01
+ * @Last Modified time: 2026-09-11 00:00:00
  */
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { stl } from '@utils'
 import FlexItem from './flex-item'
-import { getFlexValue } from './utils'
+import { flexStyle as getFlexStyle } from './utils'
 
-import type { ViewStyle } from 'react-native'
 import type { Props as FlexProps } from './types'
 
 /** Flex 布局 */
@@ -24,15 +23,7 @@ function Flex({
   ...restProps
 }: FlexProps) {
   const flexStyle = useMemo(
-    (): ViewStyle => ({
-      // @ts-ignore
-      zIndex: 'unset',
-      flexDirection: direction,
-      flexWrap: wrap,
-      justifyContent: getFlexValue(justify) as ViewStyle['justifyContent'],
-      alignItems: getFlexValue(align) as ViewStyle['alignItems'],
-      ...(wrap === 'wrap' ? { maxWidth: '100%' } : {})
-    }),
+    () => getFlexStyle({ direction, wrap, justify, align }),
     [direction, wrap, justify, align]
   )
 

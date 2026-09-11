@@ -4,14 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-19 03:05:44
  */
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, rakuenStore } from '@stores'
 import { fixedRemoteImageUrl, getStorage, open, setStorage, stl } from '@utils'
 import hash from '@utils/thirdParty/hash'
 import { ActivityIndicator } from '../../activity-indicator'
-import { Flex } from '../../flex'
+import { Flex, flexStyle } from '../../flex'
 import { Iconfont } from '../../iconfont'
 import { Image } from '../../image'
 import { Text } from '../../text'
@@ -159,27 +159,30 @@ function ToggleImage(props: Props) {
   if (!isIcon && !show) {
     return (
       <Touchable
-        style={stl(styles.image, styles.isLoad)}
+        style={stl(
+          flexStyle({ direction: 'column', justify: 'center' }),
+          styles.image,
+          styles.isLoad,
+          styles.placeholder
+        )}
         onPress={handleToggleShow}
         onLongPress={handleLongPress}
       >
-        <Flex style={styles.placeholder} direction='column' justify='center'>
-          <Text size={11} type='sub' bold>
-            {info}
+        <Text size={11} type='sub' bold>
+          {info}
+        </Text>
+        {isRemote && (
+          <Text
+            style={styles.src}
+            size={9}
+            lineHeight={10}
+            type='sub'
+            align='center'
+            numberOfLines={2}
+          >
+            {fixedRemoteImageUrl(src)}
           </Text>
-          {isRemote && (
-            <Text
-              style={styles.src}
-              size={9}
-              lineHeight={10}
-              type='sub'
-              align='center'
-              numberOfLines={2}
-            >
-              {fixedRemoteImageUrl(src)}
-            </Text>
-          )}
-        </Flex>
+        )}
       </Touchable>
     )
   }
@@ -213,9 +216,9 @@ function ToggleImage(props: Props) {
 
         <View style={styles.close}>
           <Touchable style={styles.closeTouch} onPress={handleToggleShow}>
-            <Flex style={styles.closeIcon} justify='center'>
+            <View style={stl(flexStyle({ justify: 'center' }), styles.closeIcon)}>
               <Iconfont size={16} name='md-close' color={_.colorIcon} />
-            </Flex>
+            </View>
           </Touchable>
         </View>
       </Flex>

@@ -8,7 +8,7 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { IOS } from '@constants'
-import { Flex } from '../../../flex'
+import { Flex, flexStyle } from '../../../flex'
 import { Iconfont } from '../../../iconfont'
 import { Text } from '../../../text'
 import { Touchable } from '../../../touchable'
@@ -37,21 +37,25 @@ function SourceText({
         <Flex>
           {showSource && (
             <Touchable
-              style={stl(styles.opacity, styles.btn, _.mr.md, !showSourceText && _.ml._xs)}
+              style={stl(
+                flexStyle(),
+                styles.opacity,
+                styles.btn,
+                _.mr.md,
+                !showSourceText && _.ml._xs
+              )}
               onPress={onToggleSourceText}
             >
-              <Flex>
-                {showSourceText && (
-                  <Text size={11} type='sub'>
-                    [来自Bangumi for {IOS ? 'iOS' : 'android'}]
-                  </Text>
-                )}
-                <Iconfont
-                  name={showSourceText ? 'md-navigate-before' : 'md-navigate-next'}
-                  color={_.colorSub}
-                  size={18}
-                />
-              </Flex>
+              {showSourceText && (
+                <Text size={11} type='sub'>
+                  [来自Bangumi for {IOS ? 'iOS' : 'android'}]
+                </Text>
+              )}
+              <Iconfont
+                name={showSourceText ? 'md-navigate-before' : 'md-navigate-next'}
+                color={_.colorSub}
+                size={18}
+              />
             </Touchable>
           )}
           <Marks
@@ -63,17 +67,15 @@ function SourceText({
         </Flex>
       </Flex.Item>
       <Count value={value} />
-      <Touchable style={styles.touch} onPress={onToggleSource}>
-        <Flex>
-          <Iconfont
-            name={showSource ? 'md-check-circle' : 'md-radio-button-off'}
-            size={11}
-            color={showSource ? _.colorMain : _.colorSub}
-          />
-          <Text style={_.ml.xs} type='sub' size={11}>
-            宣传语
-          </Text>
-        </Flex>
+      <Touchable style={stl(flexStyle(), styles.touch)} onPress={onToggleSource}>
+        <Iconfont
+          name={showSource ? 'md-check-circle' : 'md-radio-button-off'}
+          size={11}
+          color={showSource ? _.colorMain : _.colorSub}
+        />
+        <Text style={_.ml.xs} type='sub' size={11}>
+          宣传语
+        </Text>
       </Touchable>
     </Flex>
   )

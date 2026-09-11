@@ -8,11 +8,11 @@ import { useMemo } from 'react'
 import { ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { desc } from '@utils'
+import { desc, stl } from '@utils'
 import { IOS, SCROLL_VIEW_RESET_PROPS, WSA } from '@constants'
 import { BGM_EMOJIS_GROUP_DATA } from '../ds'
 import { BgmText } from '../../bgm-text'
-import { Flex } from '../../flex'
+import { Flex, flexStyle } from '../../flex'
 import { Iconfont } from '../../iconfont'
 import { SegmentedControl } from '../../segmented-control'
 import { Text } from '../../text'
@@ -94,10 +94,12 @@ function Content(props: Props) {
             const numId = Number(id)
 
             return (
-              <Touchable key={id} style={styles.bgm} onPress={() => onSelectBgm(id, false)}>
-                <Flex justify='center'>
-                  <BgmText index={id} size={numId >= 600 ? 36 : 18} animated />
-                </Flex>
+              <Touchable
+                key={id}
+                style={stl(flexStyle({ justify: 'center' }), styles.bgm)}
+                onPress={() => onSelectBgm(id, false)}
+              >
+                <BgmText index={id} size={numId >= 600 ? 36 : 18} animated />
               </Touchable>
             )
           })}
@@ -117,15 +119,17 @@ function Content(props: Props) {
                 const descText = desc ? (numId >= 700 ? desc[numId - 700] : desc[numId - 600]) : ''
 
                 return (
-                  <Touchable key={id} style={styles.bgm} onPress={() => onSelectBgm(id)}>
-                    <Flex direction='column'>
-                      <BgmText index={numId} size={isSpecial ? 36 : 18} />
-                      {!!descText && (
-                        <Text type='icon' size={8} align='center'>
-                          {descText}
-                        </Text>
-                      )}
-                    </Flex>
+                  <Touchable
+                    key={id}
+                    style={stl(flexStyle({ direction: 'column' }), styles.bgm)}
+                    onPress={() => onSelectBgm(id)}
+                  >
+                    <BgmText index={numId} size={isSpecial ? 36 : 18} />
+                    {!!descText && (
+                      <Text type='icon' size={8} align='center'>
+                        {descText}
+                      </Text>
+                    )}
                   </Touchable>
                 )
               })}

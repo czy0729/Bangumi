@@ -4,10 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-28 10:24:36
  */
-import React from 'react'
 import { observer } from 'mobx-react'
+import { stl } from '@utils'
 import { IOS } from '@constants'
-import { Flex } from '../../flex'
+import { flexStyle } from '../../flex'
 import { Iconfont } from '../../iconfont'
 import { Touchable } from '../../touchable'
 import { styles } from './styles'
@@ -18,10 +18,11 @@ function Clear({ colorClear: color, onPress }: Props) {
   if (IOS) return null
 
   return (
-    <Touchable style={styles.close} useRN onPress={onPress}>
-      <Flex style={styles.icon} justify='center'>
-        <Iconfont name='md-close' size={16} color={color} />
-      </Flex>
+    <Touchable
+      style={stl(flexStyle({ justify: 'center' }), styles.close, styles.icon)}
+      onPress={onPress}
+    >
+      <Iconfont name='md-close' size={16} color={color} />
     </Touchable>
   )
 }

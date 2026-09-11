@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-01-19 09:32:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:50:43
+ * @Last Modified time: 2026-09-11 20:22:17
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { Cover } from '../../../cover'
-import { Flex } from '../../../flex'
+import { flexStyle } from '../../../flex'
 import { Text } from '../../../text'
 import { Touchable } from '../../../touchable'
 import { memoStyles } from './styles'
@@ -28,22 +29,20 @@ function Mono({ text, cover, name, nameCn, onLinkPress }: Props) {
 
   return (
     <View style={styles.wrap}>
-      <Touchable animate onPress={onLinkPress}>
-        <Flex style={styles.body}>
-          <Cover src={gCover} size={48} radius />
-          <View style={_.ml.sm}>
-            <Text style={styles.top} size={11} bold numberOfLines={2}>
-              {text}
-            </Text>
-            {!!bottom && bottom !== text && (
-              <Flex style={_.mt.xs}>
-                <Text style={styles.bottom} type='sub' size={10} bold numberOfLines={1}>
-                  {bottom}
-                </Text>
-              </Flex>
-            )}
-          </View>
-        </Flex>
+      <Touchable animate style={stl(flexStyle(), styles.body)} onPress={onLinkPress}>
+        <Cover src={gCover} size={48} radius />
+        <View style={_.ml.sm}>
+          <Text style={styles.top} size={11} bold numberOfLines={2}>
+            {text}
+          </Text>
+          {!!bottom && bottom !== text && (
+            <View style={_.mt.xs}>
+              <Text style={styles.bottom} type='sub' size={10} bold numberOfLines={1}>
+                {bottom}
+              </Text>
+            </View>
+          )}
+        </View>
       </Touchable>
     </View>
   )

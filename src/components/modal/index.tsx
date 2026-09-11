@@ -4,13 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-22 05:22:11
  */
-import React, { Suspense, useCallback, useEffect, useState } from 'react'
+import { Suspense, useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { feedback, stl } from '@utils'
 import { syncThemeStore } from '@utils/async'
 import { r } from '@utils/dev'
-import { Flex } from '../flex'
+import { Flex, flexStyle } from '../flex'
 import { Iconfont } from '../iconfont'
 import { ModalView } from '../modal-view'
 import { Text } from '../text'
@@ -67,10 +67,11 @@ export const Modal = observer(
             <Flex style={styles.head}>
               <View style={stl(styles.side, rightWidth > 36 && { width: rightWidth })}>
                 {!!onClose && (
-                  <Touchable onPress={onClose}>
-                    <Flex style={styles.btn} justify='center'>
-                      <Iconfont name='md-close' color={_.colorIcon} size={23} />
-                    </Flex>
+                  <Touchable
+                    style={stl(flexStyle({ justify: 'center' }), styles.btn)}
+                    onPress={onClose}
+                  >
+                    <Iconfont name='md-close' color={_.colorIcon} size={23} />
                   </Touchable>
                 )}
               </View>

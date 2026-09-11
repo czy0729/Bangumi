@@ -5,8 +5,9 @@
  * @Last Modified time: 2026-03-18 05:30:21
  */
 import Flex from './flex'
+import { flexItemStyle, flexStyle } from './utils'
 
-export { Flex }
+export { Flex, flexItemStyle, flexStyle }
 
 import type { Props as FlexProps, ItemProps as FlexItemProps } from './types'
 export type { FlexProps, FlexItemProps }

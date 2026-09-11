@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-07-06 07:36:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 03:01:11
+ * @Last Modified time: 2026-09-11 20:22:26
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
-import { HTMLDecode } from '@utils'
+import { HTMLDecode, stl } from '@utils'
 import { Cover } from '../../../cover'
-import { Flex } from '../../../flex'
+import { Flex, flexStyle } from '../../../flex'
 import { Iconfont } from '../../../iconfont'
 import { Text } from '../../../text'
 import { Touchable } from '../../../touchable'
@@ -28,39 +28,37 @@ function Subject({ text, href, image, name, name_cn, rating, rank, air_date, onL
 
   return (
     <View style={styles.wrap}>
-      <Touchable animate onPress={onLinkPress}>
-        <Flex style={styles.body}>
-          <Cover src={image} size={40} radius={_.radiusXs} />
-          <View style={_.ml.sm}>
-            <Text style={styles.top} size={12} bold numberOfLines={2}>
-              {top}
-              {!!air_date && air_date !== '0000-00-00' && (
-                <Text size={10} lineHeight={12} type='sub' bold>
-                  {'  '}
-                  {String(air_date).slice(0, 7)}
-                </Text>
-              )}
-            </Text>
-            {(showScore || showBottom) && (
-              <Flex style={_.mt.sm}>
-                {showScore && (
-                  <Flex style={_.mr.xs}>
-                    <Rank value={rank} />
-                    <Iconfont name='md-star' size={10} color={_.colorWarning} />
-                    <Text style={_.ml.xxs} type='sub' size={10} bold>
-                      {rating?.score}
-                    </Text>
-                    {!!rating?.total && (
-                      <Text style={_.ml.xs} type='sub' size={10} bold>
-                        ({rating?.total})
-                      </Text>
-                    )}
-                  </Flex>
-                )}
-              </Flex>
+      <Touchable style={stl(flexStyle(), styles.body)} onPress={onLinkPress}>
+        <Cover src={image} size={40} radius={_.radiusXs} />
+        <View style={_.ml.sm}>
+          <Text style={styles.top} size={12} bold numberOfLines={2}>
+            {top}
+            {!!air_date && air_date !== '0000-00-00' && (
+              <Text size={10} lineHeight={12} type='sub' bold>
+                {'  '}
+                {String(air_date).slice(0, 7)}
+              </Text>
             )}
-          </View>
-        </Flex>
+          </Text>
+          {(showScore || showBottom) && (
+            <View style={_.mt.sm}>
+              {showScore && (
+                <Flex style={_.mr.xs}>
+                  <Rank value={rank} />
+                  <Iconfont name='md-star' size={10} color={_.colorWarning} />
+                  <Text style={_.ml.xxs} type='sub' size={10} bold>
+                    {rating?.score}
+                  </Text>
+                  {!!rating?.total && (
+                    <Text style={_.ml.xs} type='sub' size={10} bold>
+                      ({rating?.total})
+                    </Text>
+                  )}
+                </Flex>
+              )}
+            </View>
+          )}
+        </View>
       </Touchable>
     </View>
   )

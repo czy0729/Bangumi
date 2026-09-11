@@ -7,8 +7,9 @@
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, rakuenStore } from '@stores'
+import { stl } from '@utils'
 import { Avatar } from '../../../avatar'
-import { Flex } from '../../../flex'
+import { flexItemStyle, flexStyle } from '../../../flex'
 import { Text } from '../../../text'
 import { Touchable } from '../../../touchable'
 import { memoStyles } from './styles'
@@ -31,33 +32,31 @@ function Topic({ topicId, text, onLinkPress }: Props) {
 
   return (
     <View style={styles.wrap}>
-      <Touchable animate onPress={onLinkPress}>
-        <Flex style={styles.body}>
-          <Avatar src={avatar} size={48} radius={_.radiusSm} />
-          <Flex.Item style={_.ml.sm}>
-            <Text style={styles.top} size={11} bold numberOfLines={2}>
-              {text}{' '}
-              {!!time && (
-                <Text size={9} lineHeight={11} type='sub' bold>
-                  {String(time).split(' ')?.[0]}
-                </Text>
-              )}
-            </Text>
-            <Flex style={_.mt.xs}>
-              <Text
-                style={styles.bottom}
-                type='sub'
-                size={9}
-                lineHeight={10}
-                bold
-                numberOfLines={2}
-              >
-                {group}
-                {reply ? ` · ${reply} 回复` : ''}
+      <Touchable animate style={stl(flexStyle(), styles.body)} onPress={onLinkPress}>
+        <Avatar src={avatar} size={48} radius={_.radiusSm} />
+        <View style={stl(flexItemStyle(), _.ml.sm)}>
+          <Text style={styles.top} size={11} bold numberOfLines={2}>
+            {text}{' '}
+            {!!time && (
+              <Text size={9} lineHeight={11} type='sub' bold>
+                {String(time).split(' ')?.[0]}
               </Text>
-            </Flex>
-          </Flex.Item>
-        </Flex>
+            )}
+          </Text>
+          <View style={_.mt.xs}>
+            <Text
+              style={styles.bottom}
+              type='sub'
+              size={9}
+              lineHeight={10}
+              bold
+              numberOfLines={2}
+            >
+              {group}
+              {reply ? ` · ${reply} 回复` : ''}
+            </Text>
+          </View>
+        </View>
       </Touchable>
     </View>
   )

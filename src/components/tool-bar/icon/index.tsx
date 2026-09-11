@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-05-05 19:34:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-02 23:13:20
+ * @Last Modified time: 2026-09-11 20:27:03
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex } from '../../flex'
+import { stl } from '@utils'
+import { flexStyle } from '../../flex'
 import { Iconfont } from '../../iconfont'
 import { Touchable } from '../../touchable'
 import { memoStyles } from './styles'
@@ -18,14 +18,15 @@ function ToolBarIcon({ icon, iconStyle, iconSize = 19, iconColor, onSelect }: Pr
   const styles = memoStyles()
 
   return (
-    <Touchable style={styles.iconTouch} onPress={onSelect}>
-      <Flex style={styles.iconItem} justify='center'>
-        {!!icon && (
-          <View style={iconStyle}>
-            <Iconfont name={icon} size={iconSize} color={iconColor} />
-          </View>
-        )}
-      </Flex>
+    <Touchable
+      style={stl(flexStyle({ justify: 'center' }), styles.iconTouch, styles.iconItem)}
+      onPress={onSelect}
+    >
+      {!!icon && (
+        <View style={iconStyle}>
+          <Iconfont name={icon} size={iconSize} color={iconColor} />
+        </View>
+      )}
     </Touchable>
   )
 }

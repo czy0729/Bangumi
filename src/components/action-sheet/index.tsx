@@ -8,9 +8,10 @@ import { View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { Component } from '../component'
-import { Flex } from '../flex'
+import { Flex, flexStyle } from '../flex'
 import { Iconfont } from '../iconfont'
 import { Mask } from '../mask'
 import { Portal } from '../portal'
@@ -82,11 +83,13 @@ export const ActionSheet = observer(
       >
         {!!elTitle && (
           // 整行可点: 原来只有 Text 绑定了 onTitlePress, 右侧箭头与 ReactNode 标题点不到
-          <Touchable style={_.mb.sm} disabled={!onTitlePress} onPress={onTitlePress}>
-            <Flex justify='center'>
-              {elTitle}
-              {!!onTitlePress && <Iconfont name='md-navigate-next' size={18} />}
-            </Flex>
+          <Touchable
+            style={stl(flexStyle({ justify: 'center' }), _.mb.sm)}
+            disabled={!onTitlePress}
+            onPress={onTitlePress}
+          >
+            {elTitle}
+            {!!onTitlePress && <Iconfont name='md-navigate-next' size={18} />}
           </Touchable>
         )}
         {children}

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-03 16:06:45
  */
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -12,7 +12,7 @@ import { _ } from '@stores'
 import { feedback, postTask, stl } from '@utils'
 import { r } from '@utils/dev'
 import { Component } from '../component'
-import { Flex } from '../flex'
+import { flexStyle } from '../flex'
 import { Iconfont } from '../iconfont'
 import { Touchable } from '../touchable'
 import { COMPONENT } from './ds'
@@ -155,14 +155,12 @@ export const Expand = observer(
               )}
 
               <View style={stl(styles.more, moreStyle)}>
-                <Touchable onPress={handlePress}>
-                  <Flex justify='center'>
-                    <Iconfont
-                      name='md-keyboard-arrow-down'
-                      color={iconColor}
-                      size={_.device(24, 32)}
-                    />
-                  </Flex>
+                <Touchable style={flexStyle({ justify: 'center' })} onPress={handlePress}>
+                  <Iconfont
+                    name='md-keyboard-arrow-down'
+                    color={iconColor}
+                    size={_.device(24, 32)}
+                  />
                 </Touchable>
               </View>
             </>
