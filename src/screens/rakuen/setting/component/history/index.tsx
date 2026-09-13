@@ -24,14 +24,25 @@ function History<T extends HistoryItem = HistoryItem>({
   style,
   data,
   showAvatar = false,
+  information,
   onNavigate,
   onDelete = FROZEN_FN
 }: Props<T>) {
   const navigation = useNavigation(COMPONENT)
 
+  /** 分组标题的补充说明, 渲染在列表上方 */
+  const elInformation = !!information && (
+    <View style={styles.information}>
+      <Text type='sub' size={12} lineHeight={13}>
+        {information}
+      </Text>
+    </View>
+  )
+
   if (!data.length) {
     return (
       <View style={stl(styles.container, style)}>
+        {elInformation}
         <View style={styles.item}>
           <Flex style={styles.content}>
             <Text type='title' size={15} bold>
@@ -45,6 +56,7 @@ function History<T extends HistoryItem = HistoryItem>({
 
   return (
     <View style={stl(styles.container, style)}>
+      {elInformation}
       <Expand ratio={1.6} linearGradientColor={_.select(_.colorPlainRaw, _.colorBgRaw)}>
         {data.map(item => {
           let userId: UserId = ''

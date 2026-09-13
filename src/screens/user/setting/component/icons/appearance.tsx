@@ -286,12 +286,11 @@ export function IconVibrate(props: IconProps) {
   )
 }
 
-/** 切页动画 */
+/** 切页动画 / 动效 */
 export function IconAnimation(props: IconProps) {
   return (
     <IconBase {...props}>
-      <Path d='m8 6-4 6 4 6' />
-      <Path d='m16 6 4 6-4 6' />
+      <Polygon points='6 3 20 12 6 21 6 3' />
     </IconBase>
   )
 }

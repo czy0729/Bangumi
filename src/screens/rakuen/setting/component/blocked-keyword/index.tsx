@@ -11,7 +11,6 @@ import { _, rakuenStore } from '@stores'
 import { info, stl } from '@utils'
 import { r } from '@utils/dev'
 import Block from '@screens/user/setting/component/block'
-import Tip from '@screens/user/setting/component/tip'
 import History from '../history'
 import { handleDeleteKeyword } from './utils'
 import { COMPONENT } from './ds'
@@ -40,9 +39,12 @@ function BlockedKeyword() {
   }, [])
 
   return (
-    <Block>
-      <Tip>屏蔽关键字（对超展开标题、帖子正文生效）</Tip>
-      <History data={rakuenStore.setting.blockKeywords} onDelete={handleDelete} />
+    <Block tip='屏蔽关键字'>
+      <History
+        data={rakuenStore.setting.blockKeywords}
+        information='对超展开标题、帖子正文生效'
+        onDelete={handleDelete}
+      />
       <Flex style={styles.section}>
         <Flex.Item>
           <Input

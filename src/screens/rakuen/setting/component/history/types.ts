@@ -17,6 +17,9 @@ export type Props<T extends HistoryItem = HistoryItem> = WithViewStyles<{
   /** 是否显示用户头像（仅绝交用户有头像） */
   showAvatar?: boolean
 
+  /** 卡内说明: 分组标题的补充说明, 渲染在列表上方 (与 ITEM 行的 information 同字号) */
+  information?: string
+
   /** 点击记录时的导航回调 (当前仅跳转用户空间) */
   onNavigate?: (path: 'Zone', params: { userId: UserId }) => void
 

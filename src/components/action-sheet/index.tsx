@@ -40,6 +40,7 @@ export const ActionSheet = observer(
     titleLeft,
     scrollEnabled = true,
     usePortal = true,
+    backgroundColor,
     onTitlePress,
     onClose,
     onScroll,
@@ -51,8 +52,8 @@ export const ActionSheet = observer(
       show,
       onClose,
       height,
-      // 与 styles.content.backgroundColor 同值: Reanimated 每帧重算, 动画中 re-render 不会丢背景
-      _.select(_.colorPlain, _._colorDarkModeLevel1)
+      // 默认与 styles.content.backgroundColor 同值: Reanimated 每帧重算, 动画中 re-render 不会丢背景
+      backgroundColor || _.select(_.colorPlain, _._colorDarkModeLevel1)
     )
 
     if (!showValue) return null

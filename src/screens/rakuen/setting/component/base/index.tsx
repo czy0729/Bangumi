@@ -11,7 +11,7 @@ import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import Block from '@screens/user/setting/component/block'
-import Tip from '@screens/user/setting/component/tip'
+import { IconBan, IconClock, IconFilter } from '@screens/user/setting/component/icons'
 import { styles } from '../styles'
 import { useAsyncSwitchSetting } from '../../hooks'
 import { COMPONENT } from './ds'
@@ -31,6 +31,7 @@ function Base() {
   const elFilterDelete = useMemo(
     () => (
       <ItemSetting
+        icon={<IconFilter />}
         hd='过滤用户删除的楼层'
         ft={
           <SwitchPro
@@ -56,6 +57,7 @@ function Base() {
   const elIsBlockDefaultUser = useMemo(
     () => (
       <ItemSetting
+        icon={<IconBan />}
         hd='屏蔽疑似广告姬'
         information='屏蔽默认头像发布且回复数小于 4 的帖子'
         ft={
@@ -82,6 +84,7 @@ function Base() {
   const elIsMarkOldTopic = useMemo(
     () => (
       <ItemSetting
+        icon={<IconClock />}
         hd='标记坟贴'
         information='标记发布时间大于 1 年的帖子'
         ft={
@@ -105,8 +108,7 @@ function Base() {
   )
 
   return (
-    <Block>
-      <Tip>列表</Tip>
+    <Block tip='列表'>
       {elFilterDelete}
       {elIsBlockDefaultUser}
       {elIsMarkOldTopic}

@@ -17,7 +17,6 @@ import Slider from './component/slider'
 import Topic from './component/topic'
 import Header from './header'
 import { useRakuenSettingPage } from './hooks'
-import { styles } from './styles'
 
 /** 超展开设置 */
 function RakuenSetting() {
@@ -27,7 +26,7 @@ function RakuenSetting() {
     <Component id='screen-rakuen-setting'>
       <Page style={_.select(_.container.bg, _.container.plain)}>
         <HeaderPlaceholder />
-        <ScrollView contentContainerStyle={styles.container} onScroll={handleScroll}>
+        <ScrollView contentContainerStyle={_.container.bottom} onScroll={handleScroll}>
           <Topic />
           <BigEmoji />
           <Likes />

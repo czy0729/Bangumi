@@ -36,6 +36,12 @@ export type Props = PropsWithChildren<{
   /** 是否通过 Portal 挂载到全局, 默认 true */
   usePortal?: boolean
 
+  /**
+   * 面板底色, 默认 colorPlain (浅色) / colorDarkModeLevel1 (深色)
+   *  - 内容使用卡片 (Block) 的面板传页面底色 colorBg, 否则浅色模式下卡片与面板同为纯白看不出分组
+   * */
+  backgroundColor?: string
+
   /** 标题点击回调 */
   onTitlePress?: () => void
 

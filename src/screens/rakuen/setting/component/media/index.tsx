@@ -14,7 +14,7 @@ import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { IOS } from '@constants'
 import Block from '@screens/user/setting/component/block'
-import Tip from '@screens/user/setting/component/tip'
+import { IconLink, IconPopover, IconTextSearch } from '@screens/user/setting/component/icons'
 import { styles } from '../styles'
 import { useAsyncSwitchSetting } from '../../hooks'
 import { getYuqueThumbs } from '../utils'
@@ -35,6 +35,7 @@ function Media() {
   const elMatchLink = useMemo(
     () => (
       <ItemSetting
+        icon={<IconLink />}
         hd='楼层链接显示成信息块'
         information='若楼层出现特定页面链接，使用不同的 UI 代替'
         ft={
@@ -65,6 +66,7 @@ function Media() {
   const elAcSearchV2 = useMemo(
     () => (
       <ItemSetting
+        icon={<IconTextSearch />}
         hd='楼层内容猜测条目'
         information='使用条目词库对楼层文字进行猜测匹配，若匹配成功文字下方显示下划线，点击直接去到条目页面'
         ft={
@@ -95,6 +97,7 @@ function Media() {
   const elAcSearchPopable = useMemo(
     () => (
       <ItemSetting
+        icon={<IconPopover />}
         hd='猜测条目先显示缩略信息'
         information='若猜测命中关键字，为了不打断阅读，会在图层上方先显示缩略信息，再次点击才会进入条目页面'
         ft={
@@ -147,8 +150,7 @@ function Media() {
   )
 
   return (
-    <Block>
-      <Tip>媒体信息块</Tip>
+    <Block tip='媒体信息块'>
       {elMatchLink}
       {elAcSearchV2}
       {acSearchV2 && elAcSearchPopable}

@@ -11,7 +11,7 @@ import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import Block from '@screens/user/setting/component/block'
-import Tip from '@screens/user/setting/component/tip'
+import { IconHeart } from '@screens/user/setting/component/icons'
 import { styles } from '../styles'
 import { useAsyncSwitchSetting } from '../../hooks'
 import { getYuqueThumbs } from '../utils'
@@ -24,9 +24,9 @@ function Likes() {
   const { value, handleSwitch } = useAsyncSwitchSetting('likes')
 
   return (
-    <Block>
-      <Tip>贴贴</Tip>
+    <Block tip='贴贴'>
       <ItemSetting
+        icon={<IconHeart />}
         hd='贴贴模块'
         information='帖子回复上面贴表情的功能，长按数字按钮展开贴过的用户列表。因在网页版随处可见，不建议关闭。'
         ft={

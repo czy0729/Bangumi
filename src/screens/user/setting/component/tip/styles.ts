@@ -6,10 +6,13 @@
  */
 import { _ } from '@stores'
 
-/** Tip 位于分组卡片外部, 水平与卡片内 ITEM 行文字对齐 (卡片边距 wind + 行内边距 _wind) */
+/**
+ * Tip 位于分组卡片外部, 水平与卡片内 ITEM 行文字对齐 (卡片边距 wind + 行内边距 _wind)
+ *  - paddingTop 与卡片 marginBottom 一起构成"上一张卡片 → 分组标题"的距离 (16 + 8 = 24)
+ * */
 export const memoStyles = _.memoStyles(() => ({
   tip: {
-    paddingTop: _.sm,
+    paddingTop: _.md,
     paddingHorizontal: _.wind + _._wind
   }
 }))

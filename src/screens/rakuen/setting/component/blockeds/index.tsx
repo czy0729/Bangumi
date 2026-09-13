@@ -5,18 +5,15 @@
  * @Last Modified time: 2024-12-25 15:22:51
  */
 import React, { useCallback } from 'react'
-import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { rakuenStore } from '@stores'
 import { r } from '@utils/dev'
 import Block from '@screens/user/setting/component/block'
-import Tip from '@screens/user/setting/component/tip'
 import BlockedKeyword from '../blocked-keyword'
 import BlockedUsers from '../blocked-users'
 import History from '../history'
 import { handleDeleteBlockGroup } from './utils'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
 
 import type { Props } from './types'
 
@@ -28,17 +25,18 @@ function Blockeds({ onNavigate }: Props) {
     handleDeleteBlockGroup(item)
   }, [])
 
-  const styles = memoStyles()
-
   return (
-    <View style={styles.container}>
+    <>
       <BlockedUsers onNavigate={onNavigate} />
       <BlockedKeyword />
-      <Block>
-        <Tip>屏蔽小组 / 条目（对帖子所属小组名生效）</Tip>
-        <History data={rakuenStore.setting.blockGroups} onDelete={handleDelete} />
+      <Block tip='屏蔽小组 · 条目'>
+        <History
+          data={rakuenStore.setting.blockGroups}
+          information='对帖子所属小组名生效'
+          onDelete={handleDelete}
+        />
       </Block>
-    </View>
+    </>
   )
 }
 

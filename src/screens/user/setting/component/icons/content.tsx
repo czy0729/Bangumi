@@ -102,6 +102,19 @@ export function IconTarget(props: IconProps) {
   )
 }
 
+/** 文本匹配 / 猜测 */
+export function IconTextSearch(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <Path d='M21 6H3' />
+      <Path d='M10 12H3' />
+      <Path d='M10 18H3' />
+      <Circle cx='17' cy='15' r='3' />
+      <Path d='m21 19-1.9-1.9' />
+    </IconBase>
+  )
+}
+
 /** 屏蔽 */
 export function IconBan(props: IconProps) {
   return (
@@ -334,6 +347,16 @@ export function IconRows(props: IconProps) {
   )
 }
 
+/** 折叠 / 展开 */
+export function IconFold(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <Path d='m7 15 5 5 5-5' />
+      <Path d='m7 9 5-5 5 5' />
+    </IconBase>
+  )
+}
+
 /** 列表上限 */
 export function IconListCount(props: IconProps) {
   return (
@@ -354,6 +377,18 @@ export function IconWrapText(props: IconProps) {
       <Path d='M3 12h13a3 3 0 0 1 0 6h-3' />
       <Path d='m15 15-3 3 3 3' />
       <Line x1='3' y1='18' x2='8' y2='18' />
+    </IconBase>
+  )
+}
+
+/** 引用 */
+export function IconQuote(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <Line x1='5' y1='4' x2='5' y2='20' />
+      <Line x1='10' y1='7' x2='20' y2='7' />
+      <Line x1='10' y1='12' x2='20' y2='12' />
+      <Line x1='10' y1='17' x2='15' y2='17' />
     </IconBase>
   )
 }
@@ -381,12 +416,43 @@ export function IconPagination(props: IconProps) {
   )
 }
 
+/** 收起 */
+export function IconCollapse(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <Polyline points='17 11 12 6 7 11' />
+      <Polyline points='17 18 12 13 7 18' />
+    </IconBase>
+  )
+}
+
+/** 拖动条 / 直达滑块 */
+export function IconSlider(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <Line x1='3' y1='12' x2='21' y2='12' />
+      <Circle cx='14' cy='12' r='3' />
+    </IconBase>
+  )
+}
+
 /** 尺寸 */
 export function IconResize(props: IconProps) {
   return (
     <IconBase {...props}>
       <Path d='M15 3h6v6M21 3l-7 7' />
       <Path d='M9 21H3v-6M3 21l7-7' />
+    </IconBase>
+  )
+}
+
+/** 加宽 */
+export function IconExpandWidth(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <Polyline points='18 8 22 12 18 16' />
+      <Polyline points='6 8 2 12 6 16' />
+      <Line x1='2' y1='12' x2='22' y2='12' />
     </IconBase>
   )
 }
@@ -440,6 +506,18 @@ export function IconSwapText(props: IconProps) {
       <Path d='m12 3 3 3-3 3' />
       <Line x1='21' y1='18' x2='9' y2='18' />
       <Path d='m12 15-3 3 3 3' />
+    </IconBase>
+  )
+}
+
+/** 交换 */
+export function IconSwapHorizontal(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <Path d='M8 3 4 7l4 4' />
+      <Path d='M4 7h16' />
+      <Path d='m16 21 4-4-4-4' />
+      <Path d='M20 17H4' />
     </IconBase>
   )
 }

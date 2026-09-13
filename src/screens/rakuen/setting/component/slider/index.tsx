@@ -13,7 +13,7 @@ import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { MODEL_RAKUEN_SCROLL_DIRECTION, RAKUEN_SCROLL_DIRECTION } from '@constants'
 import Block from '@screens/user/setting/component/block'
-import Tip from '@screens/user/setting/component/tip'
+import { IconAnimation, IconSlider, IconSwapHorizontal } from '@screens/user/setting/component/icons'
 import { styles } from '../styles'
 import { useAsyncSetSetting, useAsyncSwitchSetting } from '../../hooks'
 import { getYuqueThumbs } from '../utils'
@@ -34,6 +34,7 @@ function Slider() {
   const elSliderAnimated = useMemo(
     () => (
       <ItemSetting
+        icon={<IconAnimation />}
         hd='跳转滚动动画'
         information='频繁跳动可能会产生视觉疲劳，若您经常使用跳转功能，建议关闭'
         ft={
@@ -60,6 +61,7 @@ function Slider() {
   const elSwitchSlider = useMemo(
     () => (
       <ItemSetting
+        icon={<IconSwapHorizontal />}
         hd='交换跳转按钮'
         information='为了方便左手持机用户，启用后左侧按钮为下一楼，右侧按钮为上一楼'
         ft={
@@ -90,6 +92,7 @@ function Slider() {
   const elScrollDirection = useMemo(
     () => (
       <ItemSetting
+        icon={<IconSlider />}
         hd='楼层直达条'
         ft={
           <SegmentedControl
@@ -119,8 +122,7 @@ function Slider() {
   )
 
   return (
-    <Block>
-      <Tip>楼层跳转</Tip>
+    <Block tip='楼层跳转'>
       {elSliderAnimated}
       {elSwitchSlider}
       {elScrollDirection}

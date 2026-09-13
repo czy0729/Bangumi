@@ -20,7 +20,7 @@ import { t } from '@utils/fetch'
 import { useStableRandomItem } from '@utils/hooks'
 import { BIG_EMOJI_SIZE } from '@constants'
 import Block from '@screens/user/setting/component/block'
-import Tip from '@screens/user/setting/component/tip'
+import { IconAnimation, IconResize } from '@screens/user/setting/component/icons'
 import { styles as commonStyles } from '../styles'
 import { useAsyncSetSetting, useAsyncSwitchSetting } from '../../hooks'
 import { COMPONENT } from './ds'
@@ -41,6 +41,7 @@ function Topic() {
   const elBigEmojiAnimated = useMemo(
     () => (
       <ItemSetting
+        icon={<IconAnimation />}
         hd='动画'
         information='若关闭动画，会自动选择中间一帧显示。'
         ft={
@@ -65,7 +66,7 @@ function Topic() {
 
   const elBigEmojiSize = useMemo(
     () => (
-      <ItemSettingBlock title='尺寸'>
+      <ItemSettingBlock icon={<IconResize />} title='尺寸'>
         {BIG_EMOJI_SIZE.map((item, index) => (
           <ItemSettingBlock.Item
             key={item.label}
@@ -95,8 +96,7 @@ function Topic() {
   )
 
   return (
-    <Block>
-      <Tip>大表情</Tip>
+    <Block tip='大表情'>
       {elBigEmojiAnimated}
       {elBigEmojiSize}
     </Block>

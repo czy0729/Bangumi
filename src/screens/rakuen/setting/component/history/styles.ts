@@ -11,6 +11,11 @@ export const styles = _.create({
     paddingLeft: _._wind,
     paddingBottom: _.sm
   },
+  /** 卡内说明 (分组标题的补充说明) */
+  information: {
+    paddingTop: _.sm,
+    paddingRight: _.sm
+  },
   item: {
     paddingRight: _.sm
   },

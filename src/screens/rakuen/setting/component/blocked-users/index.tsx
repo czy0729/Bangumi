@@ -12,7 +12,6 @@ import { stl } from '@utils'
 import { r } from '@utils/dev'
 import i18n from '@constants/i18n'
 import Block from '@screens/user/setting/component/block'
-import Tip from '@screens/user/setting/component/tip'
 import History from '../history'
 import { handleBlockUser, handleDeleteBlockUser } from './utils'
 import { COMPONENT } from './ds'
@@ -37,12 +36,12 @@ function BlockedUsers({ onNavigate }: Props) {
   }, [keyword])
 
   return (
-    <Block>
-      <Tip>与以下用户绝交（不再看到用户的所有话题、评论、日志、私信、提醒）</Tip>
+    <Block tip='用户绝交'>
       {userStore.isWebLogin ? (
         <>
           <History<BlockedUsersItem>
             data={rakuenStore.blockedUsers.list}
+            information='不再看到用户的所有话题、评论、日志、私信、提醒'
             onNavigate={onNavigate}
             onDelete={handleDeleteBlockUser}
           />

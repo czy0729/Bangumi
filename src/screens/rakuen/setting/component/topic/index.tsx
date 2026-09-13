@@ -20,7 +20,15 @@ import {
   RAKUEN_SUB_EXPAND
 } from '@constants'
 import Block from '@screens/user/setting/component/block'
-import Tip from '@screens/user/setting/component/tip'
+import {
+  IconCollapse,
+  IconExpandWidth,
+  IconFold,
+  IconImage,
+  IconLayout,
+  IconQuote,
+  IconUser
+} from '@screens/user/setting/component/icons'
 import { styles } from '../styles'
 import { useAsyncSetSetting, useAsyncSwitchSetting } from '../../hooks'
 import { getYuqueThumbs } from '../utils'
@@ -46,6 +54,7 @@ function Topic() {
   const elQuote = useMemo(
     () => (
       <ItemSetting
+        icon={<IconQuote />}
         hd='展开引用'
         information='展开子回复中上一级的回复内容'
         ft={
@@ -76,6 +85,7 @@ function Topic() {
   const elQuoteAvatar = useMemo(
     () => (
       <ItemSetting
+        icon={<IconUser />}
         hd='显示引用头像'
         ft={
           <SwitchPro
@@ -106,6 +116,7 @@ function Topic() {
   const elShowFixedToggleFloorBtn = useMemo(
     () => (
       <ItemSetting
+        icon={<IconCollapse />}
         hd='长楼层收起按钮'
         information='当楼层展开后子楼层很多，整体处于屏幕中的时候，在底部显示收起楼层按钮'
         ft={
@@ -132,6 +143,7 @@ function Topic() {
   const elWide = useMemo(
     () => (
       <ItemSetting
+        icon={<IconExpandWidth />}
         hd='楼层加宽展示'
         ft={
           <SwitchPro
@@ -161,6 +173,7 @@ function Topic() {
   const elAutoLoadImageV2 = useMemo(
     () => (
       <ItemSetting
+        icon={<IconImage />}
         hd='图片自动加载'
         information='开启自动加载会强制加载所有图片，但因图床为用户自己选择，可能出现不稳定且图片体积大，导致加载失败或卡顿，建议谨慎开启自动加载。'
         ft={
@@ -189,6 +202,7 @@ function Topic() {
   const elNewFloorStyle = useMemo(
     () => (
       <ItemSetting
+        icon={<IconLayout />}
         hd='新楼层样式'
         ft={
           <SegmentedControl
@@ -221,6 +235,7 @@ function Topic() {
   const elSubExpand = useMemo(
     () => (
       <ItemSetting
+        icon={<IconFold />}
         hd='子楼层折叠'
         information='子回复超过此值后折叠，需手动展开；0 代表一直折叠，因性能问题暂不提供不折叠'
         ft={
@@ -246,8 +261,7 @@ function Topic() {
   )
 
   return (
-    <Block>
-      <Tip>帖子</Tip>
+    <Block tip='帖子'>
       {elQuote}
       {quote && elQuoteAvatar}
       {elShowFixedToggleFloorBtn}
