@@ -8,9 +8,8 @@ import type { TouchableWithoutFeedbackProps } from 'react-native'
 
 export type Props = TouchableWithoutFeedbackProps & {
   /**
-   * @deprecated iOS 端此值无变化
-   * 安卓端 Touchable 都使用了 react-native-gesture-handler 提供的封装
-   * 有比 RN 提供的更快的反馈效果，若设置为 true 强制使用 RN 提供的 Touchable
+   * withoutFeedback 路径没有按压视觉反馈, 不经过安卓轻量底座;
+   * 设置为 true 强制使用 RN 原生 Touchable, 仅用于事件语义的对照与回退
    */
   useRN?: boolean
 }

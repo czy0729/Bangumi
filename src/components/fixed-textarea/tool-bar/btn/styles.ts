@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-30 18:24:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-08-01 05:56:46
+ * @Last Modified time: 2026-09-13 08:37:18
  */
 import { _ } from '@stores'
 
@@ -14,8 +14,8 @@ export const styles = _.create({
     overflow: 'hidden'
   },
   icon: {
-    width: 20,
-    height: 20
+    width: 28,
+    height: 36
   },
   text: {
     marginRight: -2,

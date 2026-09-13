@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-09-02 23:30:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 01:08:23
+ * @Last Modified time: 2026-09-13 16:20:00
  */
 import React from 'react'
 import { CLICK_LOCK_MS } from '../ds'
@@ -84,7 +84,6 @@ describe('useCallOnceInInterval', () => {
     })
 
     expect(onPress).not.toHaveBeenCalled()
-    expect(result.current.handleDisabled).toBe(false)
   })
 
   it('点击后立即锁定, 回调在微任务中携带坐标执行', async () => {
@@ -92,14 +91,14 @@ describe('useCallOnceInInterval', () => {
     const { result } = renderHook(() => useCallOnceInInterval(onPress))
 
     press(result.current.handlePress, 10, 20)
-    expect(result.current.handleDisabled).toBe(true)
+    // 锁是 ref 且同步生效, 同一帧内重复点击被挡掉
+    press(result.current.handlePress, 11, 21)
 
     await actAsync(async () => {
       await Promise.resolve()
     })
     expect(onPress).toHaveBeenCalledTimes(1)
     expect(onPress).toHaveBeenCalledWith({ pageX: 10, pageY: 20 })
-    expect(result.current.handleDisabled).toBe(true)
   })
 
   it('CLICK_LOCK_MS 后解锁', async () => {
@@ -110,16 +109,27 @@ describe('useCallOnceInInterval', () => {
     await actAsync(async () => {
       await Promise.resolve()
     })
+    expect(onPress).toHaveBeenCalledTimes(1)
 
+    // 解锁前仍被拦
     act(() => {
       jest.advanceTimersByTime(CLICK_LOCK_MS - 1)
     })
-    expect(result.current.handleDisabled).toBe(true)
+    press(result.current.handlePress, 1, 1)
+    await actAsync(async () => {
+      await Promise.resolve()
+    })
+    expect(onPress).toHaveBeenCalledTimes(1)
 
+    // 到时解锁, 可再次触发
     act(() => {
       jest.advanceTimersByTime(1)
     })
-    expect(result.current.handleDisabled).toBe(false)
+    press(result.current.handlePress, 2, 2)
+    await actAsync(async () => {
+      await Promise.resolve()
+    })
+    expect(onPress).toHaveBeenCalledTimes(2)
   })
 
   it('锁定期间重复调用 handlePress 被忽略, 只触发第一次的 onPress', async () => {

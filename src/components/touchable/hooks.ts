@@ -2,20 +2,26 @@
  * @Author: czy0729
  * @Date: 2023-12-30 05:35:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 01:08:04
+ * @Last Modified time: 2026-09-13 16:20:00
  */
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useRef } from 'react'
 import { uiStore } from '@stores'
 import { CLICK_LOCK_MS } from './ds'
 
+import type { TimerRef } from '@types'
 import type { GestureResponderEvent } from 'react-native'
 import type { TouchableHandlePress } from './types'
 
 export function useCallOnceInInterval(onPress: TouchableHandlePress) {
-  const [disabled, setDisabled] = useState(false)
-
-  /** handler 自身防抖锁: 间隔小于一帧的连点可能在 disabled 传到 Touchable 前重复进入, 这里再挡一道 */
+  /**
+   * 防双击锁: 用 ref 而不是 state
+   *  - 点击路径上不产生任何 React 重渲染, 抬手后动作能立即执行
+   *  - 间隔小于一帧的连点可能在锁生效前重复进入, 这里同步加锁挡掉
+   */
   const lockedRef = useRef(false)
+
+  /** 解锁计时器, 只保留最新一个 */
+  const timerRef = useRef<TimerRef>(null)
 
   const handlePress = useCallback(
     (event: GestureResponderEvent) => {
@@ -24,7 +30,6 @@ export function useCallOnceInInterval(onPress: TouchableHandlePress) {
       if (lockedRef.current) return
 
       lockedRef.current = true
-      setDisabled(true)
 
       /**
        * 这里一定不能用 requestAnimationFrame
@@ -39,9 +44,10 @@ export function useCallOnceInInterval(onPress: TouchableHandlePress) {
           pageY
         })
 
-        setTimeout(() => {
+        if (timerRef.current) clearTimeout(timerRef.current)
+        timerRef.current = setTimeout(() => {
+          timerRef.current = null
           lockedRef.current = false
-          setDisabled(false)
         }, CLICK_LOCK_MS)
       })
     },
@@ -49,7 +55,6 @@ export function useCallOnceInInterval(onPress: TouchableHandlePress) {
   )
 
   return {
-    handleDisabled: disabled,
     handlePress
   }
 }

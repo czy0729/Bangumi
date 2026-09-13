@@ -44,7 +44,8 @@ export const Touchable = observer(
   }: TouchableProps) => {
     r(COMPONENT)
 
-    const { handleDisabled, handlePress } = useCallOnceInInterval(onPress)
+    /** 防双击锁走 ref, 不再回写 disabled, 避免点击路径上的重渲染 */
+    const { handlePress } = useCallOnceInInterval(onPress)
 
     if (withoutFeedback) {
       return (
@@ -53,7 +54,7 @@ export const Touchable = observer(
           hitSlop={hitSlop}
           delayPressIn={delayPressIn}
           delayPressOut={delayPressOut}
-          disabled={disabled || handleDisabled}
+          disabled={disabled}
           useRN={useRN}
           onPress={handlePress}
           {...other}
@@ -69,7 +70,7 @@ export const Touchable = observer(
         hitSlop={hitSlop}
         delayPressIn={delayPressIn}
         delayPressOut={delayPressOut}
-        disabled={disabled || handleDisabled}
+        disabled={disabled}
         useRN={useRN}
         onPress={handlePress}
         {...other}

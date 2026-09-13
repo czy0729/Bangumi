@@ -16,6 +16,9 @@ export const COMPONENT = rc(PARENT, 'Touchable')
  */
 export const CLICK_LOCK_MS = 250
 
+/** 按下时的透明度 (与旧 RN TouchableOpacity 的 activeOpacity 对齐) */
+export const ACTIVE_OPACITY = 0.72
+
 export const EXTRA_BUTTON_PROPS = {
   borderless: false,
   rippleColor: 'rgba(255, 255, 255, 0)',
