@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Heatmap, SegmentedControl } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
+import { IconResize } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
 import { DATA } from './ds'
@@ -22,6 +23,7 @@ function Live2DScale({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconResize />}
       ft={
         <SegmentedControl
           style={styles.segmentedControl}

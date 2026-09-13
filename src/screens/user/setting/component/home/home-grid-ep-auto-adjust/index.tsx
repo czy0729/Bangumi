@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
+import { IconAutoSize } from '../../icons'
 import styles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
@@ -22,6 +23,7 @@ function HomeGridEpAutoAdjust({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconAutoSize />}
       ft={
         <SwitchPro
           style={styles.switch}

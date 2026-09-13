@@ -33,3 +33,6 @@ export const Divider = observer(({ style }: DividerProps) => {
 })
 
 export default Divider
+
+/** 分组卡片内的行间细线 (Block 提供上下文, ITEM 行消费) */
+export * from './hairline'

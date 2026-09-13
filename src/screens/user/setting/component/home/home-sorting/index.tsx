@@ -11,6 +11,7 @@ import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { MODEL_SETTING_HOME_SORTING, SETTING_HOME_SORTING } from '@constants'
+import { IconSortAsc } from '../../icons'
 import { HOME_SORTING_INFORMATION, TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -23,7 +24,7 @@ function HomeSorting({ filter }: WithFilterProps) {
 
   return (
     <ItemSettingBlock
-      style={_.mt.sm}
+      icon={<IconSortAsc />}
       filter={filter}
       thumb={getYuqueThumbs([
         '0/2026/png/386799/1784480417290-1a550c79-5afb-4771-bdf5-147fbe4a0aa1.png',

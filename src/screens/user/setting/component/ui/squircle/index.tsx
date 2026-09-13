@@ -10,6 +10,7 @@ import { Heatmap } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { IconRadius } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -22,7 +23,7 @@ function Squircle({ filter }: WithFilterProps) {
 
   return (
     <ItemSettingBlock
-      style={_.mt.sm}
+      icon={<IconRadius />}
       filter={filter}
       thumb={getYuqueThumbs([
         '0/2023/jpeg/386799/1703391888067-91ac3d7e-4352-41fb-8881-27057c60c425.jpeg',

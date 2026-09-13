@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
+import { IconVibrate } from '../../icons'
 import commonStyles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
@@ -21,6 +22,7 @@ function Vibration({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconVibrate />}
       ft={
         <SwitchPro
           style={commonStyles.switch}

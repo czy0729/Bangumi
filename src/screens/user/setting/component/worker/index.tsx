@@ -13,6 +13,7 @@ import { _ } from '@stores'
 import { useBoolean, useNavigation } from '@utils/hooks'
 import { ANDROID, API_HOST, HOST, HOST_BGM_STATIC, IOS } from '@constants'
 import { ECH_PROXY_ENABLED } from '@src/config'
+import { IconDomain, IconInfo, IconKey, IconLock, IconServer, IconTerminal, IconWifi } from '../icons'
 import commonStyles from '../../styles'
 import { getShows } from '../../utils'
 import { useWorkerSettings } from './hooks'
@@ -88,7 +89,11 @@ function Worker({ filter, open }: Props) {
     if (!show) return null
 
     return (
-      <ItemSettingBlock style={_.mt.md} filter={filter} {...TEXTS[textKey]}>
+      <ItemSettingBlock
+        icon={<IconDomain />}
+        filter={filter}
+        {...TEXTS[textKey]}
+      >
         <View style={_.container.block}>
           <InputItem
             value={value}
@@ -142,7 +147,11 @@ function Worker({ filter, open }: Props) {
     if (!show) return null
 
     return (
-      <ItemSettingBlock style={_.mt.md} filter={filter} {...TEXTS[textKey]}>
+      <ItemSettingBlock
+        icon={<IconKey />}
+        filter={filter}
+        {...TEXTS[textKey]}
+      >
         <View style={_.container.block}>
           <InputItem
             value={value}
@@ -168,6 +177,7 @@ function Worker({ filter, open }: Props) {
   return (
     <>
       <ItemSetting
+        icon={<IconServer />}
         arrow
         highlight
         filter={filter}
@@ -199,7 +209,7 @@ function Worker({ filter, open }: Props) {
           />
         </View>
 
-        <ItemSettingBlock style={_.mt.sm} filter={filter} {...TEXTS.proxyMode}>
+        <ItemSettingBlock icon={<IconWifi />} filter={filter} {...TEXTS.proxyMode}>
           <ItemSettingBlock.Item
             title='直连'
             active={proxyMode === 'disabled'}
@@ -242,6 +252,7 @@ function Worker({ filter, open }: Props) {
           <>
             <ItemSetting
               style={_.mt.sm}
+              icon={<IconLock />}
               ft={
                 <Text type={echRunning ? 'success' : 'sub'} size={13} bold>
                   {echRunning
@@ -301,6 +312,7 @@ function Worker({ filter, open }: Props) {
             {shows.workerProxyDirect && (
               <ItemSetting
                 style={_.mt.sm}
+                icon={<IconTerminal />}
                 ft={
                   <SwitchPro
                     style={commonStyles.switch}
@@ -339,7 +351,12 @@ function Worker({ filter, open }: Props) {
         )}
 
         {proxyMode === 'disabled' && (
-          <ItemSetting style={_.mt.sm} filter={filter} {...TEXTS.workerProxyDisabled} />
+          <ItemSetting
+            style={_.mt.sm}
+            icon={<IconInfo />}
+            filter={filter}
+            {...TEXTS.workerProxyDisabled}
+          />
         )}
       </ActionSheet>
     </>

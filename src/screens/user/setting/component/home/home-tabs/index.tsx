@@ -10,6 +10,8 @@ import { observer } from 'mobx-react'
 import { Flex, Highlight, Text } from '@components'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { WEB } from '@constants'
+import { IconPanelTop } from '../../icons'
 import { useAsyncSetSetting, useAsyncSwitchSetting } from '../../../hooks'
 import Item from './item'
 import { ITEMS, TEXTS } from './ds'
@@ -27,9 +29,14 @@ function HomeTabs({ filter }: WithFilterProps) {
 
   return (
     <View style={styles.blocks}>
-      <Highlight type='title' size={15} bold value={filter}>
-        {TEXTS.blocks.setting}
-      </Highlight>
+      <Flex>
+        <View style={_.mr.sm}>
+          <IconPanelTop />
+        </View>
+        <Highlight type='title' size={WEB ? 13 : 14} bold value={filter}>
+          {TEXTS.blocks.setting}
+        </Highlight>
+      </Flex>
       <Text style={_.mt.sm} type='sub' size={12}>
         点击切换是否显示，切换后需要重新启动才能生效
       </Text>

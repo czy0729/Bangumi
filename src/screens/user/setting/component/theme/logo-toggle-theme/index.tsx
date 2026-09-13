@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
+import { IconSun } from '../../icons'
 import styles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
@@ -23,6 +24,7 @@ function LogoToggleTheme({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconSun />}
       ft={
         <SwitchPro
           style={styles.switch}

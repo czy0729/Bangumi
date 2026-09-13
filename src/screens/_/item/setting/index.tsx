@@ -4,10 +4,19 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-13 22:34:56
  */
-import React from 'react'
+import React, { useContext } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Component, Flex, Highlight, Iconfont, Text, Touchable } from '@components'
+import {
+  Component,
+  Flex,
+  Hairline,
+  HairlineContext,
+  Highlight,
+  Iconfont,
+  Text,
+  Touchable
+} from '@components'
 import { _ } from '@stores'
 import { navigationReference, showImageViewer, stl } from '@utils'
 import { r } from '@utils/dev'
@@ -23,6 +32,7 @@ export const ItemSetting = observer(
     style,
     contentStyle,
     show = true,
+    icon,
     hd,
     hdSize = WEB ? 13 : 14,
     ft,
@@ -44,6 +54,9 @@ export const ItemSetting = observer(
   }: ItemSettingProps) => {
     r(COMPONENT)
 
+    /** 处于分组卡片内时, 行顶部绘制细线 (卡片会裁掉第一行的细线) */
+    const divided = useContext(HairlineContext)
+
     if (!show) return null
 
     const styles = memoStyles()
@@ -55,6 +68,7 @@ export const ItemSetting = observer(
         <Flex>
           <Flex.Item>
             <Flex>
+              {!!icon && <View style={_.mr.sm}>{icon}</View>}
               <Highlight type='title' size={hdSize} lineHeight={hdSize + 1} bold value={filter}>
                 {hd}
               </Highlight>
@@ -77,7 +91,7 @@ export const ItemSetting = observer(
                     showImageViewer(thumb, 0, true)
                   }}
                 >
-                  <Iconfont name='md-info-outline' size={16} />
+                  <Iconfont name='md-info-outline' size={14} />
                 </Touchable>
               )}
               {!!onInfoPress && (
@@ -103,9 +117,11 @@ export const ItemSetting = observer(
       </View>
     )
 
+    let el: React.ReactNode
+
     if (onPress) {
       if (extra) {
-        return (
+        el = (
           <Component id='item-setting' data-type='press'>
             <Flex>
               <Flex.Item>
@@ -118,21 +134,30 @@ export const ItemSetting = observer(
             </Flex>
           </Component>
         )
+      } else {
+        el = (
+          <Component id='item-setting' data-type='press'>
+            <Touchable style={stl(styles.touchable, style)} onPress={onPress} {...other}>
+              {content}
+            </Touchable>
+          </Component>
+        )
       }
-
-      return (
-        <Component id='item-setting' data-type='press'>
-          <Touchable style={stl(styles.touchable, style)} onPress={onPress} {...other}>
-            {content}
-          </Touchable>
+    } else {
+      el = (
+        <Component id='item-setting' style={stl(styles.touchable, style)} {...other}>
+          {content}
         </Component>
       )
     }
 
+    if (!divided) return el
+
     return (
-      <Component id='item-setting' style={stl(styles.touchable, style)} {...other}>
-        {content}
-      </Component>
+      <>
+        <Hairline />
+        {el}
+      </>
     )
   }
 )

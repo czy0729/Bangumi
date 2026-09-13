@@ -7,9 +7,14 @@
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
+  /**
+   * 上下内边距与 ITEM 行一致 (12)
+   *  - 块自带对称内边距后, 调用处不再需要补 `_.mt.*`
+   *  - 相邻块间距 = 12 + 12 = 24 (与旧版 16 + 8 相同, 旧版外统一)
+   * */
   container: {
     paddingHorizontal: _._wind,
-    paddingBottom: _.md
+    paddingVertical: 12
   },
   touch: {
     minWidth: _.window.contentWidth / 5,

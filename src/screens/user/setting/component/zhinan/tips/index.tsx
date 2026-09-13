@@ -8,6 +8,7 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemSetting } from '@_'
 import { useNavigation } from '@utils/hooks'
+import { IconSparkles } from '../../icons'
 import { TEXTS } from '../ds'
 
 import type { Props } from './types'
@@ -18,6 +19,7 @@ function Tips({ filter, setFalse }: Props) {
 
   return (
     <ItemSetting
+      icon={<IconSparkles />}
       arrow
       highlight
       filter={filter}

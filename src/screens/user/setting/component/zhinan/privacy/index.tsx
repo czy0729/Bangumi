@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { useNavigation } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { URL_PRIVACY } from '@constants'
+import { IconLock } from '../../icons'
 import { TEXTS } from '../ds'
 
 import type { Props } from './types'
@@ -23,6 +24,7 @@ function Privacy({ filter, setFalse }: Props) {
   return (
     <ItemSetting
       style={_.mt.xs}
+      icon={<IconLock />}
       arrow
       arrowStyle={_.mr.xxs}
       arrowIcon='md-open-in-new'

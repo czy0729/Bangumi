@@ -15,6 +15,7 @@ import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useBoolean } from '@utils/hooks'
 import { TIMEZONE } from '@constants'
+import { IconGlobe } from '../icons'
 import { getShows } from '../../utils'
 import { COMPONENT, TEXTS } from './ds'
 import { memoStyles } from './styles'
@@ -79,10 +80,17 @@ function Timezone({ filter }: WithFilterProps) {
 
   return (
     <>
-      <ItemSetting hd='时区' arrow highlight filter={filter} onPress={setTrue} />
+      <ItemSetting
+        icon={<IconGlobe />}
+        hd='时区'
+        arrow
+        highlight
+        filter={filter}
+        onPress={setTrue}
+      />
       <ActionSheet show={state} height={filter ? 440 : 640} title='时区' onClose={setFalse}>
         {/* 设置时区 */}
-        <ItemSetting show={shows.timezone} filter={filter} {...TEXTS.timezone}>
+        <ItemSetting icon={<IconGlobe />} show={shows.timezone} filter={filter} {...TEXTS.timezone}>
           <Heatmap id='设置.切换' title='设置时区' />
         </ItemSetting>
         <View style={styles.container}>

@@ -14,6 +14,7 @@ import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { GITHUB_RELEASE, URL_RELEASE, VERSION_GITHUB_RELEASE } from '@constants'
 import { getShows } from '../../utils'
+import { IconGithub, IconTag } from '../icons'
 import { COMPONENT, TEXTS } from './ds'
 
 import type { WithFilterProps } from '../../types'
@@ -35,6 +36,7 @@ function Version({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconTag />}
       hd={TEXTS.version.hd}
       arrow
       arrowStyle={[_.ml.sm, _.mr.xxs]}
@@ -60,16 +62,17 @@ function Version({ filter }: WithFilterProps) {
       extra={
         <IconTouchable
           style={{
-            marginRight: 9
+            marginRight: 9,
+            opacity: _.select(0.5, 0.8)
           }}
-          name='github'
-          size={17}
           onPress={() => {
             open(GITHUB_RELEASE)
 
             t('设置.跳转', { to: 'Github' })
           }}
-        />
+        >
+          <IconGithub size={17} />
+        </IconTouchable>
       }
       onPress={() => {
         open(URL_RELEASE)

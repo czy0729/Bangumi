@@ -11,6 +11,7 @@ import { ItemSetting } from '@_'
 import { useNavigation } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { APP_ID_SAY_DEVELOP } from '@constants'
+import { IconMessage } from '../../icons'
 import { TEXTS } from '../ds'
 
 import type { WithFilterProps } from '../../../types'
@@ -21,6 +22,7 @@ function Feedback({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconMessage />}
       arrow
       filter={filter}
       highlight

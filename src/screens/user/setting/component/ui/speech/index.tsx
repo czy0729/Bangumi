@@ -11,6 +11,7 @@ import { randomSpeech } from '@components/mesume/utils'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { IconSmile } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -24,7 +25,7 @@ function Speech({ filter }: WithFilterProps) {
 
   return (
     <ItemSettingBlock
-      style={_.mt.sm}
+      icon={<IconSmile />}
       filter={filter}
       thumb={getYuqueThumbs([
         '0/2022/png/386799/1661072680253-59856506-ac70-44d7-bba3-fd34fb8ffef3.png'

@@ -33,5 +33,9 @@ export const TEXTS = {
   userCommentsLines: {
     hd: '评论默认展示行数',
     information: '8 行大概是显示最大字数评论的一半'
+  },
+  userAge: {
+    title: '用户站龄',
+    information: '在相关吐槽页面，用户信息后方显示注册年龄（推算）'
   }
 } as const

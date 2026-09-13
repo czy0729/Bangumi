@@ -15,6 +15,7 @@ import { confirm } from '@utils'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { APP_ADVANCE_CDN, MODEL_SETTING_CDN_ORIGIN } from '@constants'
+import { IconBolt } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -33,7 +34,7 @@ function CDNCover({ filter, setFalse }: Props) {
 
   return (
     <ItemSettingBlock
-      style={_.mt.sm}
+      icon={<IconBolt />}
       filter={filter}
       align='start'
       thumb={getYuqueThumbs([

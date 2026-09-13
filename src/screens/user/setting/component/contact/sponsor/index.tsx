@@ -10,6 +10,7 @@ import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
 import { useNavigation } from '@utils/hooks'
 import { t } from '@utils/fetch'
+import { IconHeart } from '../../icons'
 import { TEXTS } from '../ds'
 
 import type { WithFilterProps } from '../../../types'
@@ -20,6 +21,7 @@ function Sponsor({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconHeart />}
       arrow
       highlight
       filter={filter}

@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
+import { IconBell } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { styles } from './styles'
@@ -21,6 +22,7 @@ function Live2DVoice({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconBell />}
       ft={
         <SwitchPro
           style={styles.switch}

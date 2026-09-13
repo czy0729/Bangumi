@@ -7,6 +7,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemSetting } from '@_'
+import { IconReply } from '../../icons'
 import { TEXTS } from '../ds'
 import { getYuqueThumbs } from '../../../utils'
 import BlockItem from './block-item'
@@ -17,6 +18,7 @@ function Topic({ filter, setFalse }: Props) {
   return (
     <>
       <ItemSetting
+        icon={<IconReply />}
         filter={filter}
         thumb={getYuqueThumbs([
           '0/2026/png/386799/1778104894971-d05e8d5b-a3b0-4dcf-8b05-4de95062f053.png',

@@ -12,6 +12,7 @@ import { ItemSettingBlock } from '@_'
 import { _, systemStore } from '@stores'
 import { alert } from '@utils'
 import { useMount } from '@utils/hooks'
+import { IconSwapText } from '../../icons'
 import { styles } from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
@@ -46,7 +47,11 @@ function TranslateEngine({ filter, onScrollIntoViewIfNeeded }: Props) {
 
   return (
     <>
-      <ItemSettingBlock style={_.mt.md} filter={filter} {...TEXTS.engine.setting}>
+      <ItemSettingBlock
+        icon={<IconSwapText />}
+        filter={filter}
+        {...TEXTS.engine.setting}
+      >
         <ItemSettingBlock.Item
           active={value === 'baidu' || value === 'deeplx'}
           filter={filter}
@@ -77,7 +82,6 @@ function TranslateEngine({ filter, onScrollIntoViewIfNeeded }: Props) {
 
       {value === 'baidu' && (
         <ItemSettingBlock
-          style={_.mt.md}
           {...TEXTS.engine.custom}
           url='https://api.fanyi.baidu.com/api/trans/product/desktop'
           sub

@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-08-28 05:38:45
  */
 import React from 'react'
+import { IconCalendar } from '../../icons'
 import { TEXTS } from '../ds'
 import ItemSettingSwitch from '../../item-setting-switch'
 import { THUMB } from './ds'
@@ -15,6 +16,7 @@ import type { WithFilterProps } from '../../../types'
 function ShowAirdayMonth({ filter }: WithFilterProps) {
   return (
     <ItemSettingSwitch
+      icon={<IconCalendar />}
       setting='subjectShowAirdayMonth'
       filter={filter}
       thumb={THUMB}

@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
+import { IconSmile } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { styles } from './styles'
@@ -21,6 +22,7 @@ function Live2D({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconSmile />}
       ft={
         <SwitchPro
           style={styles.switch}

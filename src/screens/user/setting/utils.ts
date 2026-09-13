@@ -64,6 +64,16 @@ export function getShows<T extends Record<string, Readonly<Record<string, unknow
 }
 
 /**
+ * 分组标题命中搜索词时, 组内设置项全部展示
+ *
+ * @param filter 搜索词
+ * @param tip 分组标题
+ */
+export function getGroupFilter(filter: string, tip: string) {
+  return getShow(filter, { tip }) ? '' : filter
+}
+
+/**
  * 语雀图床路径转缩略图列表
  *
  * @param src 语雀图床相对路径数组; false 表示无图

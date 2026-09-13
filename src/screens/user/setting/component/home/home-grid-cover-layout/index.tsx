@@ -10,6 +10,7 @@ import { Heatmap, SegmentedControl } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
 import { MODEL_SETTING_HOME_GRID_COVER_LAYOUT, SETTING_HOME_GRID_COVER_LAYOUT } from '@constants'
+import { IconShape } from '../../icons'
 import styles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
@@ -23,6 +24,7 @@ function HomeGridCoverLayout({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconShape />}
       ft={
         <SegmentedControl
           style={styles.segmentedControl}

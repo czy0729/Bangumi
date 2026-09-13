@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-20 11:42:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 20:17:36
+ * @Last Modified time: 2026-09-13 22:00:00
  */
 import React, { useCallback, useRef } from 'react'
 import { observer } from 'mobx-react'
@@ -11,18 +11,17 @@ import { ItemSetting } from '@_'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
+import { IconLanguages } from '../icons'
 import { getShows } from '../../utils'
-import CnFirst from '../custom/cn-first'
+import CnFirst from '../text/cn-first'
 import AppKatakana from './app-katakana'
-import OriginSetting from './origin-setting'
 import TranslateEngine from './translate-engine'
-import Webhook from './webhook'
 import { COMPONENT, TEXTS } from './ds'
 
 import type { ScrollTo } from '@components'
 import type { WithFilterProps } from '../../types'
 
-/** 其他 (之前是翻译, 已合并大部分功能于此项) */
+/** 翻译 (翻译引擎、片假名终结者) */
 function Katakana({ filter }: WithFilterProps) {
   r(COMPONENT)
 
@@ -48,17 +47,16 @@ function Katakana({ filter }: WithFilterProps) {
 
   return (
     <>
-      <ItemSetting arrow highlight filter={filter} onPress={setTrue} {...TEXTS.other}>
+      <ItemSetting icon={<IconLanguages />} arrow highlight filter={filter} onPress={setTrue} {...TEXTS.other}>
         <Heatmap id='设置.切换' title='片假名终结者' />
       </ItemSetting>
       <ActionSheet
         forwardRef={handleForwardRef}
         show={state}
         title={TEXTS.other.hd}
-        height={filter ? 480 : 760}
+        height={filter ? 400 : 560}
         onClose={setFalse}
       >
-        {shows.origin && <OriginSetting filter={filter} setFalse={setFalse} />}
         {shows.engine && (
           <TranslateEngine
             filter={filter}
@@ -67,7 +65,6 @@ function Katakana({ filter }: WithFilterProps) {
         )}
         {shows.katakana && <AppKatakana filter={filter} />}
         {shows.cnFirst && systemStore.setting.katakana && <CnFirst filter={filter} sub />}
-        {shows.webhook && <Webhook filter={filter} setFalse={setFalse} />}
       </ActionSheet>
     </>
   )

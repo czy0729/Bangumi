@@ -11,6 +11,7 @@ import { Cover, Flex, Heatmap } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { IconLayers } from '../../icons'
 import { height, TEXTS, URL_BOOK, URL_GAME, URL_MUSIC, width } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -26,7 +27,7 @@ function CoverThings({ filter }: WithFilterProps) {
 
   return (
     <ItemSettingBlock
-      style={_.mt.sm}
+      icon={<IconLayers />}
       filter={filter}
       thumb={getYuqueThumbs([
         '0/2022/png/386799/1661071481482-cb9d38b1-1f09-4188-a13d-c10f5b6bbf75.png',

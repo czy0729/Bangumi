@@ -10,6 +10,7 @@ import { Heatmap, SwitchPro, Touchable } from '@components'
 import { ItemSetting } from '@_'
 import { uiStore } from '@stores'
 import { t } from '@utils/fetch'
+import { IconPopover } from '../../icons'
 import commonStyles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
@@ -23,6 +24,7 @@ function TimelinePopable({ filter }: WithFilterProps) {
   return (
     <>
       <ItemSetting
+        icon={<IconPopover />}
         ft={
           <SwitchPro
             style={commonStyles.switch}

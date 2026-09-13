@@ -11,12 +11,14 @@ import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
 import { WEB } from '@constants'
+import { IconUser } from '../icons'
 import { getShows } from '../../utils'
 import UserCommentsFull from './user-comments-full'
 import UserCommentsLines from './user-comments-lines'
 import UserGridNum from './user-grid-num'
 import UserPagination from './user-pagination'
 import UserShowManage from './user-show-manage'
+import UserAge from './user-age'
 import { COMPONENT, TEXTS } from './ds'
 
 import type { WithFilterProps } from '../../types'
@@ -39,13 +41,21 @@ function User({
 
   return (
     <>
-      <ItemSetting hd={hd} arrow highlight filter={filter} onPress={setTrue} />
-      <ActionSheet show={state} title={hd} height={620} onClose={setFalse}>
+      <ItemSetting
+        icon={<IconUser />}
+        hd={hd}
+        arrow
+        highlight
+        filter={filter}
+        onPress={setTrue}
+      />
+      <ActionSheet show={state} title={hd} height={680} onClose={setFalse}>
         {shows.userGridNum && <UserGridNum filter={filter} />}
         {shows.userPagination && <UserPagination filter={filter} />}
         {shows.userShowManage && <UserShowManage filter={filter} />}
         {shows.userCommentsFull && <UserCommentsFull filter={filter} />}
         {shows.userCommentsLines && <UserCommentsLines filter={filter} />}
+        {shows.userAge && <UserAge filter={filter} />}
       </ActionSheet>
     </>
   )

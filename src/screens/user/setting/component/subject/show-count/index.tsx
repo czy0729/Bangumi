@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-08-28 05:39:04
  */
 import React from 'react'
+import { IconUsers } from '../../icons'
 import { LAYOUT_VALUES, TEXTS } from '../ds'
 import ItemSettingSegmented from '../../item-setting-segmented'
 import { THUMB } from './ds'
@@ -15,6 +16,7 @@ import type { WithFilterProps } from '../../../types'
 function ShowCount({ filter }: WithFilterProps) {
   return (
     <ItemSettingSegmented
+      icon={<IconUsers />}
       setting='showCount'
       values={LAYOUT_VALUES}
       filter={filter}

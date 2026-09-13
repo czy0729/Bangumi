@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-04-12 17:28:38
  */
 import React from 'react'
+import { IconExternalLink } from '../../icons'
 import { TEXTS } from '../ds'
 import ItemSettingSwitch from '../../item-setting-switch'
 import { THUMB } from './ds'
@@ -15,6 +16,7 @@ import type { WithFilterProps } from '../../../types'
 function HtmlExpand({ filter }: WithFilterProps) {
   return (
     <ItemSettingSwitch
+      icon={<IconExternalLink />}
       setting='subjectHtmlExpand'
       filter={filter}
       thumb={THUMB}

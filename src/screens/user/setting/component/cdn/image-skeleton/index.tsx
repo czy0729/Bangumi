@@ -11,6 +11,7 @@ import { Flex, Heatmap, Skeleton } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { IconImageOff } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { memoStyles } from './styles'
@@ -42,7 +43,7 @@ function ImageSkeleton({ filter }: WithFilterProps) {
   })
 
   return (
-    <ItemSettingBlock style={_.mt.sm} filter={filter} {...TEXTS.imageSkeleton.setting}>
+    <ItemSettingBlock icon={<IconImageOff />} filter={filter} {...TEXTS.imageSkeleton.setting}>
       <ItemSettingBlock.Item {...genItemProps(true)}>
         <Flex style={styles.container} justify='center'>
           <View style={styles.content}>

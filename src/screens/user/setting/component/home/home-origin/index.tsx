@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Heatmap, SegmentedControl } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
+import { IconMore } from '../../icons'
 import styles from '../../../styles'
 import { TEXTS, VALUES } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
@@ -22,6 +23,7 @@ function HomeOrigin({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconMore />}
       ft={
         <SegmentedControl
           style={styles.segmentedControl}

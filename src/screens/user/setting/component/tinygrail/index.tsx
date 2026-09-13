@@ -12,6 +12,7 @@ import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
 import { WEB } from '@constants'
+import { IconTrophy } from '../icons'
 import { getShows } from '../../utils'
 import HomeCustom from '../home/home-custom'
 import AppTinygrail from './app-tinygrail'
@@ -33,6 +34,7 @@ function Tinygrail({ filter, open = false }: Props) {
   return (
     <>
       <ItemSetting
+        icon={<IconTrophy />}
         hd='小圣杯'
         ft={
           systemStore.setting.tinygrail && (

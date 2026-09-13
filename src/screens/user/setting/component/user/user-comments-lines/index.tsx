@@ -10,6 +10,7 @@ import { Heatmap, SegmentedControl } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
 import { MODEL_USER_COMMENTS_LINES } from '@constants'
+import { IconList } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
 import { DATA } from './ds'
@@ -25,6 +26,7 @@ function UserCommentsLines({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconList />}
       ft={
         <SegmentedControl
           style={styles.segmentedControl}

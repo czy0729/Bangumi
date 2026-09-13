@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { useMount } from '@utils/hooks'
 import { SETTING_FONTSIZE_ADJUST } from '@constants'
+import { IconTextSize } from '../../icons'
 import { TEXTS } from '../ds'
 import { getYuqueThumbs } from '../../../utils'
 import { styles } from './styles'
@@ -42,6 +43,7 @@ function FontSize({ filter }: WithFilterProps) {
   return (
     <ItemSettingBlock
       style={styles.block}
+      icon={<IconTextSize />}
       filter={filter}
       thumb={getYuqueThumbs([
         '0/2022/png/386799/1661073553895-58817e4e-68c6-4236-9d4b-aef6a2d2eb6b.png',

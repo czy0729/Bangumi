@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-12-09 20:13:23
  */
 import React from 'react'
+import { IconWrapText } from '../../icons'
 import { TEXTS } from '../ds'
 import ItemSettingSwitch from '../../item-setting-switch'
 import { THUMB } from './ds'
@@ -15,6 +16,7 @@ import type { WithFilterProps } from '../../../types'
 function HtmlExpand({ filter }: WithFilterProps) {
   return (
     <ItemSettingSwitch
+      icon={<IconWrapText />}
       setting='subjectCommentSplit'
       filter={filter}
       thumb={THUMB}

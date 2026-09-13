@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
+import { IconUser } from '../../icons'
 import commonStyles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
@@ -21,6 +22,7 @@ function CDNAvatar({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconUser />}
       ft={
         <SwitchPro
           style={commonStyles.switch}

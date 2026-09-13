@@ -11,6 +11,7 @@ import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
 import { rakuenStore, userStore } from '@stores'
 import { useBoolean, useNavigation } from '@utils/hooks'
+import { IconBan } from '../icons'
 import RakuenBlocks from '../../../../rakuen/setting/component/blockeds'
 import { getShows } from '../../utils'
 import { COMPONENT, TEXTS } from './ds'
@@ -37,7 +38,14 @@ function Blocks({ filter }: WithFilterProps) {
 
   return (
     <>
-      <ItemSetting arrow highlight filter={filter} onPress={setTrue} {...TEXTS.blocks} />
+      <ItemSetting
+        icon={<IconBan />}
+        arrow
+        highlight
+        filter={filter}
+        onPress={setTrue}
+        {...TEXTS.blocks}
+      />
       <ActionSheet show={state} title={TEXTS.blocks.hd} height={760} onClose={setFalse}>
         <View style={styles.container}>
           <RakuenBlocks

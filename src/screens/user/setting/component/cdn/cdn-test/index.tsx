@@ -11,6 +11,7 @@ import { Cover, ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { CDN_OSS_MAGMA_POSTER } from '@utils/cdn'
 import { ping } from '@utils/fetch'
+import { IconSignal } from '../../icons'
 import commonStyles from '../../../styles'
 import { IMG_HEIGHT, IMG_WIDTH, TEXTS, URL_LAIN } from '../ds'
 import { memoStyles } from './styles'
@@ -37,7 +38,7 @@ function CDNTest({ filter }: WithFilterProps) {
   const styles = memoStyles()
 
   return (
-    <ItemSettingBlock style={_.mt.md} filter={filter} {...TEXTS.test}>
+    <ItemSettingBlock icon={<IconSignal />} filter={filter} {...TEXTS.test}>
       {test ? (
         <Flex style={styles.sub}>
           <Flex direction='column' justify='center'>

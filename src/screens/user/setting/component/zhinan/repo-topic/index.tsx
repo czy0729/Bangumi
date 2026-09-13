@@ -11,6 +11,7 @@ import { ItemSetting } from '@_'
 import { appNavigate } from '@utils'
 import { useNavigation } from '@utils/hooks'
 import { URL_FEEDBACK } from '@constants'
+import { IconLink } from '../../icons'
 import { TEXTS } from '../ds'
 
 import type { Props } from './types'
@@ -21,6 +22,7 @@ function RepoTopic({ filter, setFalse }: Props) {
 
   return (
     <ItemSetting
+      icon={<IconLink />}
       arrow
       highlight
       filter={filter}

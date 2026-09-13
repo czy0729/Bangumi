@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
+import { IconSmartphone } from '../../icons'
 import styles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
@@ -21,6 +22,7 @@ function AutoColorScheme({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconSmartphone />}
       ft={
         <SwitchPro
           style={styles.switch}

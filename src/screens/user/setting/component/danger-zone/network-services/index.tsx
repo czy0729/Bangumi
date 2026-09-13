@@ -10,6 +10,7 @@ import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { HOST } from '@constants'
+import { IconLink } from '../../icons'
 import { TEXTS } from '../ds'
 
 import type { WithFilterProps } from '../../../types'
@@ -19,6 +20,7 @@ function NetworkServices({ filter }: WithFilterProps) {
   return (
     <ItemSetting
       style={_.mt.xs}
+      icon={<IconLink />}
       arrow
       arrowStyle={_.mr.xxs}
       arrowIcon='md-open-in-new'

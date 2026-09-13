@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
+import { IconAnimation } from '../../icons'
 import commonStyles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
@@ -19,6 +20,7 @@ function ImageFadeIn() {
 
   return (
     <ItemSetting
+      icon={<IconAnimation />}
       ft={
         <SwitchPro
           style={commonStyles.switch}

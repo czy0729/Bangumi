@@ -8,6 +8,7 @@ import { useCallback, useRef, useState } from 'react'
 import { systemStore, userStore } from '@stores'
 import { feedback, scrollToView } from '@utils'
 import { useMount, useRunAfter } from '@utils/hooks'
+import { OPEN_GROUP } from './ds'
 
 import type { ScrollView, View } from 'react-native'
 import type { ScrollTo } from '@components'
@@ -38,7 +39,8 @@ export function useSettingPage({ navigation, route }: NavigationProps<Params>) {
     const open = route?.params?.open || ''
     if (!open) return
 
-    const component = 'module'
+    /** 定位到目标设置项所在分组 */
+    const component = OPEN_GROUP[open] || 'module'
     setTimeout(() => {
       scrollToView(blockRefs.current[component], scrollViewRef.current, () => {
         setOpen(open)

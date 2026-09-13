@@ -12,6 +12,7 @@ import { ItemSetting } from '@_'
 import { systemStore } from '@stores'
 import { confirm, feedback } from '@utils'
 import { t } from '@utils/fetch'
+import { IconLayout } from '../../icons'
 import commonStyles from '../../../styles'
 import { DATA, TEXTS, THUMBS, VALUES } from '../ds'
 import { getYuqueThumbs } from '../../../utils'
@@ -61,6 +62,7 @@ function SubjectLayout({ filter }: WithFilterProps) {
 
           return (
             <ItemSetting
+              icon={<IconLayout />}
               key={item}
               hd={title}
               ft={

@@ -5,7 +5,6 @@
  * @Last Modified time: 2026-04-22 23:46:05
  */
 import React, { useMemo } from 'react'
-import Svg, { Path } from 'react-native-svg'
 import { observer } from 'mobx-react'
 import { ActionSheet, Flex, SegmentedControl, SwitchPro, Text, Touchable } from '@components'
 import { BreathingLight, ItemSetting } from '@_'
@@ -16,6 +15,7 @@ import { API_MK_STATUS_HOST, MODEL_SETTING_SERVER_STATUS } from '@constants'
 import commonStyles from '../../styles'
 import { useAsyncSetSetting, useAsyncSwitchSetting } from '../../hooks'
 import { getYuqueThumbs } from '../../utils'
+import { IconActivity, IconBellRing, IconRipple } from '../icons'
 import { DATA } from './ds'
 import { styles } from './styles'
 
@@ -29,31 +29,31 @@ function Status() {
 
   const { status } = systemStore.serverStatus
 
+  /**
+   * 在组件体内读取颜色, 让 observer 订阅主题
+   *  - 图标显式传色后不再自己读主题 (见 icons/base.tsx), 颜色只能靠调用方更新
+   *  - 直接在 useMemo 内读取会只算一次, 元素被 memo 住后颜色停在首次渲染的主题
+   * */
+  const colorDesc = _.colorDesc
+
   const elTouch = useMemo(
     () => (
       <Touchable style={styles.status} onPress={setTrue}>
         <Flex>
-          <Svg width='20' height='20' viewBox='0 0 24 24' fill='none'>
-            <Path
-              d='M2 12h3l3-7 4 14 4-7h6'
-              stroke={_.colorDesc}
-              strokeWidth='2.4'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-            />
-          </Svg>
+          <IconActivity color={colorDesc} size={20} strokeWidth={2.2} />
           {(status === 'degraded' || status === 'down') && (
             <BreathingLight style={_.ml.sm} running={serverStatusBreathing} />
           )}
         </Flex>
       </Touchable>
     ),
-    [serverStatusBreathing, setTrue, status]
+    [colorDesc, serverStatusBreathing, setTrue, status]
   )
 
   const elCurrentStatus = useMemo(
     () => (
       <ItemSetting
+        icon={<IconActivity />}
         hd='当前服务状态'
         information='绿色：正常，橙色：服务降级、延迟很大，红色：服务器崩溃、无法操作，灰色：未知'
         ft={
@@ -85,6 +85,7 @@ function Status() {
   const elServerStatus = useMemo(
     () => (
       <ItemSetting
+        icon={<IconBellRing />}
         hd='提示服务可用性'
         information='定期获取最新服务状态，在顶部 LOGO 旁，显示当前状态的亮点；点击亮点进入详细网页'
         ft={
@@ -116,6 +117,7 @@ function Status() {
   const elServerStatusBreathing = useMemo(
     () => (
       <ItemSetting
+        icon={<IconRipple />}
         hd='呼吸灯效果'
         ft={
           <SwitchPro

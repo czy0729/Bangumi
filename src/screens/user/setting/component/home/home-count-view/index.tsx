@@ -11,6 +11,7 @@ import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { SETTING_HOME_COUNT_VIEW } from '@constants'
+import { IconHash } from '../../icons'
 import { HOME_COUNT_VIEW, TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
 
@@ -21,7 +22,11 @@ function HomeCountView({ filter }: WithFilterProps) {
   const { value, handleSet } = useAsyncSetSetting('homeCountView')
 
   return (
-    <ItemSettingBlock style={_.mt.sm} filter={filter} {...TEXTS.homeCountView}>
+    <ItemSettingBlock
+      icon={<IconHash />}
+      filter={filter}
+      {...TEXTS.homeCountView}
+    >
       {SETTING_HOME_COUNT_VIEW.map((item, index) => (
         <ItemSettingBlock.Item
           style={!!index && _.ml.md}

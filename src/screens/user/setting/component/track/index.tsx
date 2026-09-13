@@ -10,6 +10,7 @@ import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
+import { IconTarget } from '../icons'
 import { getShows } from '../../utils'
 import CollectionTimelines from './collection-timelines'
 import Comment from './comment'
@@ -37,7 +38,14 @@ function Track({
 
   return (
     <>
-      <ItemSetting arrow highlight filter={filter} onPress={setTrue} {...TEXTS.track} />
+      <ItemSetting
+        icon={<IconTarget />}
+        arrow
+        highlight
+        filter={filter}
+        onPress={setTrue}
+        {...TEXTS.track}
+      />
       <ActionSheet
         contentContainerStyle={styles.container}
         show={state}

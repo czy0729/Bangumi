@@ -8,6 +8,7 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemSetting } from '@_'
 import { SUBJECT_TYPE } from '@constants'
+import { IconMessage } from '../../icons'
 import { TEXTS } from '../ds'
 import { getYuqueThumbs } from '../../../utils'
 import BlockItem from './block-item'
@@ -18,6 +19,7 @@ function Comment({ filter, setFalse }: Props) {
   return (
     <>
       <ItemSetting
+        icon={<IconMessage />}
         filter={filter}
         thumb={getYuqueThumbs([
           '0/2026/png/386799/1777986537289-d53aae92-2164-48e1-8195-11a97e4162e8.png',

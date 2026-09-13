@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
+import { IconPagination } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -23,6 +24,7 @@ function UserPagination({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconPagination />}
       ft={
         <SwitchPro
           style={styles.switch}

@@ -27,7 +27,7 @@ export const height = Math.floor(IMG_HEIGHT_SM / 1.7)
 
 export const TEXTS = {
   ui: {
-    hd: '画面'
+    hd: '界面'
     // information: '字体、字号、封面样式、震动'
   },
   font: {

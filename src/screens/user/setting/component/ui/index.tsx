@@ -11,6 +11,7 @@ import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
 import { WEB } from '@constants'
+import { IconSliders } from '../icons'
 import { getShows } from '../../utils'
 import AvatarRound from './avatar-round'
 import CoverThings from './cover-things'
@@ -25,7 +26,7 @@ import Vibration from './vibration'
 import { COMPONENT, TEXTS } from './ds'
 
 import type { WithFilterProps } from '../../types'
-/** 画面 */
+/** 界面 */
 function UI({ filter }: WithFilterProps) {
   r(COMPONENT)
 
@@ -36,7 +37,14 @@ function UI({ filter }: WithFilterProps) {
 
   return (
     <>
-      <ItemSetting arrow highlight filter={filter} onPress={setTrue} {...TEXTS.ui} />
+      <ItemSetting
+        icon={<IconSliders />}
+        arrow
+        highlight
+        filter={filter}
+        onPress={setTrue}
+        {...TEXTS.ui}
+      />
       <ActionSheet show={state} title={TEXTS.ui.hd} height={filter ? 440 : 760} onClose={setFalse}>
         {shows.font && <CustomFontFamily filter={filter} />}
         {shows.coverThings && <CoverThings filter={filter} />}

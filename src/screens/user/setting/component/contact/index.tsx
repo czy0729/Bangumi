@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-22 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 20:15:32
+ * @Last Modified time: 2026-09-13 21:35:00
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -16,7 +16,7 @@ import { COMPONENT, TEXTS } from './ds'
 
 import type { WithFilterProps } from '../../types'
 
-/** 联系 */
+/** 反馈与支持 */
 function Contact({ filter }: WithFilterProps) {
   r(COMPONENT)
 

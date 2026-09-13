@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { ItemSettingBlock } from '@_'
 import { _, userStore } from '@stores'
 import i18n from '@constants/i18n'
+import { IconCloud, IconDownload, IconRefresh, IconUpload } from '../../icons'
 import { useCloud } from '../hooks'
 import { handleDownload, handleRestore, handleUpload } from '../utils'
 
@@ -20,20 +21,13 @@ function SyncSetting({ filter }: WithFilterProps) {
 
   return (
     <ItemSettingBlock
-      style={_.mt.sm}
+      icon={<IconCloud />}
       title={`同步${i18n.setting()}`}
       information={`同步${i18n.setting()}、超展开${i18n.setting()}、自定义放送数据`}
       filter={filter}
     >
       <ItemSettingBlock.Item
-        icon='md-ios-share'
-        iconStyle={{
-          transform: [
-            {
-              rotate: '180deg'
-            }
-          ]
-        }}
+        icon={<IconDownload />}
         title='下载'
         information={
           text || ((!userStore.isLogin || !userStore.userInfo.id) && `需${i18n.login()}`)
@@ -43,7 +37,7 @@ function SyncSetting({ filter }: WithFilterProps) {
       />
       <ItemSettingBlock.Item
         style={_.ml.md}
-        icon='md-ios-share'
+        icon={<IconUpload />}
         title='上传'
         information={(!userStore.isLogin || !userStore.userInfo.id) && `需${i18n.login()}`}
         filter={filter}
@@ -51,7 +45,7 @@ function SyncSetting({ filter }: WithFilterProps) {
       />
       <ItemSettingBlock.Item
         style={_.ml.md}
-        icon='md-refresh'
+        icon={<IconRefresh />}
         title={`恢复${i18n.initial()}`}
         filter={filter}
         onPress={handleRestore}

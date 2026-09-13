@@ -11,6 +11,7 @@ import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
 import { WEB } from '@constants'
+import { IconImage } from '../icons'
 import { getShows } from '../../utils'
 import CDNCover from './cdn-cover'
 import CDNTest from './cdn-test'
@@ -31,7 +32,14 @@ function CDN({ filter }: WithFilterProps) {
 
   return (
     <>
-      <ItemSetting arrow highlight filter={filter} onPress={setTrue} {...TEXTS.cdn} />
+      <ItemSetting
+        icon={<IconImage />}
+        arrow
+        highlight
+        filter={filter}
+        onPress={setTrue}
+        {...TEXTS.cdn}
+      />
       <ActionSheet
         show={state}
         title={TEXTS.cdn.hd}

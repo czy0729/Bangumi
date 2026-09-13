@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import i18n from '@constants/i18n'
+import { IconTimer } from '../../icons'
 import { LAYOUT_VALUES, TEXTS } from '../ds'
 import ItemSettingSegmented from '../../item-setting-segmented'
 import { THUMB } from './ds'
@@ -16,6 +17,7 @@ import type { WithFilterProps } from '../../../types'
 function ShowCustomOnair({ filter }: WithFilterProps) {
   return (
     <ItemSettingSegmented
+      icon={<IconTimer />}
       setting='showCustomOnair'
       values={LAYOUT_VALUES}
       filter={filter}

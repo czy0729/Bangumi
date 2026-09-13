@@ -10,6 +10,7 @@ import { Heatmap, SwitchPro, Text } from '@components'
 import { ItemSetting, ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { IconSwapText } from '../../icons'
 import commonStyles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting, useAsyncSwitchSetting } from '../../../hooks'
@@ -39,6 +40,7 @@ function S2T({ filter }: WithFilterProps) {
             }}
           />
         }
+        icon={<IconSwapText />}
         filter={filter}
         thumb={getYuqueThumbs([
           '0/2022/png/386799/1661132384882-626c4647-44c6-4462-8f6a-6faf757590c0.png',
@@ -49,7 +51,7 @@ function S2T({ filter }: WithFilterProps) {
         <Heatmap id='设置.切换' title='繁体' />
       </ItemSetting>
       {value && (
-        <ItemSettingBlock style={_.mt.sm} title='繁体词典' sub>
+        <ItemSettingBlock title='繁体词典' sub>
           <ItemSettingBlock.Item
             title='Hong Kong'
             active={s2tLocal === 'hk'}

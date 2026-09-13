@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
+import { IconStar } from '../../icons'
 import commonStyles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
@@ -22,6 +23,7 @@ function HideScore({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconStar />}
       ft={
         <SwitchPro
           style={commonStyles.switch}

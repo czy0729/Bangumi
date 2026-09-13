@@ -10,6 +10,7 @@ import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { open } from '@utils'
 import { HOST } from '@constants'
+import { IconUserCog } from '../../icons'
 import { TEXTS } from '../ds'
 
 import type { WithFilterProps } from '../../../types'
@@ -19,6 +20,7 @@ function Settings({ filter }: WithFilterProps) {
   return (
     <ItemSetting
       style={_.mt.sm}
+      icon={<IconUserCog />}
       arrow
       arrowStyle={_.mr.xxs}
       arrowIcon='md-open-in-new'

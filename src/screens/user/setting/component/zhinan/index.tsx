@@ -10,6 +10,7 @@ import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
+import { IconMore } from '../icons'
 import { getShows } from '../../utils'
 import AppZhinan from './app-zhinan'
 import Privacy from './privacy'
@@ -32,7 +33,14 @@ function Zhinan({ filter }: WithFilterProps) {
 
   return (
     <>
-      <ItemSetting hd='更多' arrow highlight filter={filter} onPress={setTrue} />
+      <ItemSetting
+        icon={<IconMore />}
+        hd='更多'
+        arrow
+        highlight
+        filter={filter}
+        onPress={setTrue}
+      />
       <ActionSheet show={state} title='更多' onClose={setFalse}>
         {shows.topic && <RepoTopic filter={filter} setFalse={setFalse} />}
         {shows.tips && <Tips filter={filter} setFalse={setFalse} />}

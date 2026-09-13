@@ -7,5 +7,6 @@
 import type { WithFilterProps } from '../../../types'
 
 export type Props = WithFilterProps<{
-  onScrollIntoViewIfNeeded: () => void
+  /** 传给 Input: 键盘弹出时把内容滚动到可视区 (与 @components Input 保持一致) */
+  onScrollIntoViewIfNeeded: (deltaY: number) => void
 }>

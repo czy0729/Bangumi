@@ -7,13 +7,14 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemSetting } from '@_'
+import { IconFileText } from '../../icons'
 import { TEXTS } from '../ds'
 
 import type { WithFilterProps } from '../../../types'
 
 /** 同步收藏的帖子 */
 function SyncTopic({ filter }: WithFilterProps) {
-  return <ItemSetting filter={filter} {...TEXTS.settingTopic} />
+  return <ItemSetting icon={<IconFileText />} filter={filter} {...TEXTS.settingTopic} />
 }
 
 export default observer(SyncTopic)

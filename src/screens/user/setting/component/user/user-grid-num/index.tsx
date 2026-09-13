@@ -10,6 +10,7 @@ import { Heatmap, SegmentedControl } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
 import { SETTING_USER_GRID_NUM } from '@constants'
+import { IconGrid } from '../../icons'
 import styles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
@@ -23,6 +24,7 @@ function UserGridNum({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconGrid />}
       ft={
         <SegmentedControl
           style={styles.segmentedControl}

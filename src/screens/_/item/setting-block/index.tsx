@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-05-31 09:14:36
  */
 import React from 'react'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component, Flex, Highlight, Iconfont, Touchable } from '@components'
 import { _ } from '@stores'
@@ -22,6 +23,7 @@ const ItemSettingBlock: IItemSettingBlock = observer(
   ({
     style,
     show = true,
+    icon,
     title,
     information,
     informationType = 'sub',
@@ -48,6 +50,7 @@ const ItemSettingBlock: IItemSettingBlock = observer(
       >
         {!!title && (
           <Flex>
+            {!!icon && <View style={_.mr.sm}>{icon}</View>}
             <Highlight type='title' size={size} bold value={filter}>
               {title}
             </Highlight>
@@ -70,7 +73,7 @@ const ItemSettingBlock: IItemSettingBlock = observer(
                   showImageViewer(thumb, 0, true)
                 }}
               >
-                <Iconfont name='md-info-outline' size={16} />
+                <Iconfont name='md-info-outline' size={14} />
               </Touchable>
             )}
             {!!url && (

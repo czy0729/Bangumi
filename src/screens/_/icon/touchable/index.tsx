@@ -41,7 +41,7 @@ export const IconTouchable = observer(
             onPress={onPress}
             onLongPress={onLongPress}
           >
-            <Iconfont name={name} size={size} color={color} shadow={shadow} />
+            {!!name && <Iconfont name={name} size={size} color={color} shadow={shadow} />}
             <Text style={_.ml.xs} type='sub' size={10}>
               {count}
             </Text>
@@ -61,7 +61,7 @@ export const IconTouchable = observer(
           onPress={onPress}
           onLongPress={onLongPress}
         >
-          <Iconfont name={name} size={size} color={color} shadow={shadow} />
+          {!!name && <Iconfont name={name} size={size} color={color} shadow={shadow} />}
           {children}
         </Touchable>
       </Component>

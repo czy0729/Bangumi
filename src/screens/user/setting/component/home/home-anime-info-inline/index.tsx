@@ -10,6 +10,7 @@ import { Heatmap, SegmentedControl } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
 import { SETTING_HOME_ANIME_INFO_INLINE } from '@constants'
+import { IconInfo } from '../../icons'
 import styles from '../../../styles'
 import { HOME_ANIME_INFO_INLINE_VALUES, TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
@@ -43,6 +44,7 @@ function HomeAnimeInfoInline({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconInfo />}
       ft={elFt}
       filter={filter}
       sub

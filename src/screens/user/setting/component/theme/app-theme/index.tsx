@@ -10,6 +10,7 @@ import { Heatmap } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _, systemStore } from '@stores'
 import { WEB } from '@constants'
+import { IconPalette } from '../../icons'
 import { TEXTS } from '../ds'
 import { getYuqueThumbs } from '../../../utils'
 import { handleDark, handleDeepDark, handleLight } from './utils'
@@ -20,7 +21,7 @@ import type { WithFilterProps } from '../../../types'
 function AppTheme({ filter }: WithFilterProps) {
   return (
     <ItemSettingBlock
-      style={_.mt.sm}
+      icon={<IconPalette />}
       filter={filter}
       thumb={getYuqueThumbs([
         '0/2022/png/386799/1661068629567-49cdcbef-26cb-40f4-aff9-059427a8f27e.png',

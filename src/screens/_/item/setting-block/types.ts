@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-21 04:28:30
  */
+import type { ReactNode } from 'react'
 import type { TextType } from '@components'
 import type { ColorValue, IconfontNames, TextStyle, ViewStyle, WithViewStyles } from '@types'
 import type { PropsWithChildren } from 'react'
@@ -13,7 +14,9 @@ export type ItemSettingBlockItemProps = PropsWithChildren<
     itemStyle?: ViewStyle
     show?: boolean
     active?: boolean
-    icon?: IconfontNames
+
+    /** 图标: Iconfont 名称或任意节点 (传节点时 iconColor 无效) */
+    icon?: IconfontNames | ReactNode
     iconStyle?: TextStyle
     iconColor?: ColorValue
     title?: string
@@ -29,6 +32,9 @@ export type ItemSettingBlockItemProps = PropsWithChildren<
 export type ItemSettingBlockProps = PropsWithChildren<
   WithViewStyles<{
     show?: boolean
+
+    /** 标题左侧图标 */
+    icon?: ReactNode
     title?: string
     information?: string
     informationType?: TextType
@@ -43,7 +49,7 @@ export type ItemSettingBlockProps = PropsWithChildren<
       | {
           url: string
           _url?: string
-          headers?: object
+          headers?: Record<string, string>
         }[]
     url?: string
     align?: any

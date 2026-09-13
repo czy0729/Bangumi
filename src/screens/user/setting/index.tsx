@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-24 01:34:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 20:32:52
+ * @Last Modified time: 2026-09-13 21:45:00
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Input, Page, ScrollView } from '@components'
 import { _ } from '@stores'
+import Advanced from './component/advanced'
 import Block from './component/block'
 import Blocks from './component/blocks'
 import CDN from './component/cdn'
@@ -24,27 +25,94 @@ import Route from './component/route'
 import Storage from './component/storage'
 import Subject from './component/subject'
 import System from './component/system'
+import Text from './component/text'
 import Theme from './component/theme'
 import Timeline from './component/timeline'
 import Timezone from './component/timezone'
 import Tinygrail from './component/tinygrail'
-import Tip from './component/tip'
 import Track from './component/track'
 import UI from './component/ui'
 import User from './component/user'
 import Version from './component/version'
 import Worker from './component/worker'
 import Zhinan from './component/zhinan'
+import { GROUPS } from './ds'
 import Header from './header'
 import { useSettingPage } from './hooks'
 import { styles } from './styles'
+import { getGroupFilter } from './utils'
 
+import type { ReactNode } from 'react'
 import type { NavigationProps } from '@types'
+import type { GroupKey } from './ds'
 import type { Params } from './types'
 
 /** 设置 */
 function Setting(props: NavigationProps<Params>) {
   const { filter, setFilter, open, forwardRef, onBlockRef } = useSettingPage(props)
+
+  /**
+   * 分组内的设置项
+   *  - rows 接收 filter: 命中分组标题时整组展示 (传入空字符串)
+   *  - 返回数组而不是 Fragment, 让 Block 能数到真实设置项个数
+   * */
+  const groups: {
+    key: GroupKey
+    rows: (filter: string) => ReactNode[]
+  }[] = [
+    {
+      key: 'appearance',
+      rows: f => [
+        <Theme key='theme' filter={f} />,
+        <UI key='ui' filter={f} />,
+        <CDN key='cdn' filter={f} />
+      ]
+    },
+    {
+      key: 'language',
+      rows: f => [<Text key='text' filter={f} />, <Katakana key='katakana' filter={f} />]
+    },
+    {
+      key: 'filter',
+      rows: f => [
+        <Blocks key='blocks' filter={f} />,
+        <Custom key='custom' filter={f} />,
+        <Track key='track' filter={f} open={open === 'Track'} />
+      ]
+    },
+    {
+      key: 'module',
+      rows: f => [
+        <Discovery key='discovery' filter={f} open={open === 'Discovery'} />,
+        <Timeline key='timeline' filter={f} />,
+        <Home key='home' filter={f} />,
+        <Rakuen key='rakuen' filter={f} />,
+        <User key='user' filter={f} open={open === 'User'} />
+      ]
+    },
+    {
+      key: 'extra',
+      rows: f => [
+        <Route key='route' filter={f} />,
+        <Subject key='subject' filter={f} open={open === 'Subject'} />,
+        <Tinygrail key='tinygrail' filter={f} open={open === 'Tinygrail'} />
+      ]
+    },
+    {
+      key: 'system',
+      rows: f => [
+        <Storage key='storage' filter={f} />,
+        <System key='system' filter={f} />,
+        <Timezone key='timezone' filter={f} />,
+        <Worker key='worker' filter={f} open={open === 'Worker'} />,
+        <Advanced key='advanced' filter={f} />
+      ]
+    },
+    {
+      key: 'about',
+      rows: f => [<Contact key='contact' filter={f} />, <Zhinan key='zhinan' filter={f} />]
+    }
+  ]
 
   return (
     <Component id='screen-setting'>
@@ -65,42 +133,14 @@ function Setting(props: NavigationProps<Params>) {
             <Version filter={filter} />
           </Block>
 
-          <Block>
-            <Tip>基本</Tip>
-            <Theme filter={filter} />
-            <UI filter={filter} />
-            <Custom filter={filter} />
-            <CDN filter={filter} />
-            <Blocks filter={filter} />
-            <Track filter={filter} open={open === 'Track'} />
-            <Katakana filter={filter} />
-          </Block>
+          {groups.map(({ key, rows }) => (
+            <Block key={key} tip={GROUPS[key]} title={key} onBlockRef={onBlockRef}>
+              {rows(getGroupFilter(filter, GROUPS[key]))}
+            </Block>
+          ))}
 
-          <Block title='module' onBlockRef={onBlockRef}>
-            <Tip>模块</Tip>
-            <Route filter={filter} />
-            <Discovery filter={filter} open={open === 'Discovery'} />
-            <Timeline filter={filter} />
-            <Home filter={filter} />
-            <Rakuen filter={filter} />
-            <User filter={filter} open={open === 'User'} />
-            <Tinygrail filter={filter} open={open === 'Tinygrail'} />
-            <Subject filter={filter} open={open === 'Subject'} />
-            {/* {userStore.isLogin && <UserSetting navigation={navigation} filter={filter} />} */}
-          </Block>
-
+          {/* 账户: 独立一张卡片, 固定放最后 */}
           <Block>
-            <Tip>相关</Tip>
-            <Contact filter={filter} />
-            <Zhinan filter={filter} />
-          </Block>
-
-          <Block>
-            <Tip>系统</Tip>
-            <Storage filter={filter} />
-            <System filter={filter} />
-            <Timezone filter={filter} />
-            <Worker filter={filter} open={open === 'Worker'} />
             <DangerZone filter={filter} />
           </Block>
 

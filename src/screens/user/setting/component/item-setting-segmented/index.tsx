@@ -19,6 +19,7 @@ import type { Props } from './types'
 function ItemSettingSegmented<T extends SetSettingKeys>({
   setting,
   values,
+  icon,
   filter = '',
   thumb,
   hd = '',
@@ -57,6 +58,7 @@ function ItemSettingSegmented<T extends SetSettingKeys>({
 
   return (
     <ItemSetting
+      icon={icon}
       hd={hd}
       information={information}
       ft={elFt}

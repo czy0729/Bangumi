@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { useNavigation } from '@utils/hooks'
 import { t } from '@utils/fetch'
 import { URL_ZHINAN } from '@constants'
+import { IconBook } from '../../icons'
 import { TEXTS } from '../ds'
 
 import type { Props } from './types'
@@ -22,6 +23,7 @@ function AppZhinan({ filter, setFalse }: Props) {
 
   return (
     <ItemSetting
+      icon={<IconBook />}
       arrow
       arrowStyle={_.mr.xxs}
       arrowIcon='md-open-in-new'

@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { useMount } from '@utils/hooks'
 import { SETTING_LIVE2D_MODEL } from '@constants'
+import { IconLayers } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
 import { ITEM_WIDTH } from './ds'
@@ -43,6 +44,7 @@ function Live2DModel({ filter }: WithFilterProps) {
   return (
     <ItemSettingBlock
       style={styles.block}
+      icon={<IconLayers />}
       filter={filter}
       sub
       subStyle={styles.sub}

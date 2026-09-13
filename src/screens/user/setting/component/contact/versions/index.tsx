@@ -8,6 +8,7 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemSetting } from '@_'
 import { useNavigation } from '@utils/hooks'
+import { IconFileText } from '../../icons'
 import { TEXTS } from '../ds'
 
 import type { WithFilterProps } from '../../../types'
@@ -18,6 +19,7 @@ function Versions({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconFileText />}
       arrow
       highlight
       filter={filter}

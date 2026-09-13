@@ -11,6 +11,7 @@ import { ItemSetting } from '@_'
 import { uiStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean, useIsFocused } from '@utils/hooks'
+import { IconClock } from '../icons'
 import { getShows } from '../../utils'
 import TimelinePopable from './timeline-popable'
 import { COMPONENT, TEXTS } from './ds'
@@ -37,6 +38,7 @@ function Timeline({ filter }: WithFilterProps) {
   return (
     <>
       <ItemSetting
+        icon={<IconClock />}
         hd='时间胶囊'
         arrow
         highlight

@@ -17,6 +17,7 @@ import { useBoolean, useMount } from '@utils/hooks'
 import { getAllKeys, multiGet } from '@utils/storage/utils'
 import { WEB } from '@constants'
 import i18n from '@constants/i18n'
+import { IconAlertTriangle, IconDatabase, IconImageOff, IconTrash } from '../icons'
 import { getShows } from '../../utils'
 import { COMPONENT, TEXTS } from './ds'
 
@@ -102,10 +103,18 @@ function Storage({ filter }: WithFilterProps) {
 
   return (
     <>
-      <ItemSetting hd='缓存' arrow highlight filter={filter} onPress={setTrue} />
+      <ItemSetting
+        icon={<IconDatabase />}
+        hd='缓存'
+        arrow
+        highlight
+        filter={filter}
+        onPress={setTrue}
+      />
       <ActionSheet show={state} title='缓存' onClose={setFalse}>
         {/* 清除数据缓存 */}
         <ItemSetting
+          icon={<IconTrash />}
           show={shows.clearStorage}
           ft={
             <Text type='sub' size={15}>
@@ -124,6 +133,7 @@ function Storage({ filter }: WithFilterProps) {
 
         {/* 清除图片缓存 */}
         <ItemSetting
+          icon={<IconImageOff />}
           show={shows.clearImages}
           arrow
           highlight
@@ -137,6 +147,7 @@ function Storage({ filter }: WithFilterProps) {
 
         {/* 清除缓存 */}
         <ItemSetting
+          icon={<IconAlertTriangle />}
           show={shows.clearAll}
           arrow
           highlight

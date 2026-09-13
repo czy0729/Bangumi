@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-08-28 02:52:22
  */
 import React from 'react'
+import { IconSignal } from '../../icons'
 import { LAYOUT_VALUES, TEXTS } from '../ds'
 import ItemSettingSegmented from '../../item-setting-segmented'
 import { THUMB } from './ds'
@@ -15,6 +16,7 @@ import type { WithFilterProps } from '../../../types'
 function ShowEpInput({ filter }: WithFilterProps) {
   return (
     <ItemSettingSegmented
+      icon={<IconSignal />}
       setting='showEpInput'
       values={LAYOUT_VALUES}
       filter={filter}

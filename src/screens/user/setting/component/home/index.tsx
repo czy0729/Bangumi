@@ -12,6 +12,7 @@ import { systemStore, userStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
 import { MODEL_SETTING_HOME_LAYOUT, MODEL_SETTING_HOME_SORTING, WEB } from '@constants'
+import { IconStar } from '../icons'
 import { getShows } from '../../utils'
 import HomeAnimeInfoInline from './home-anime-info-inline'
 import HomeCountView from './home-count-view'
@@ -21,6 +22,7 @@ import HomeFilter from './home-filter'
 import HomeGridCoverLayout from './home-grid-cover-layout'
 import HomeGridEpAutoAdjust from './home-grid-ep-auto-adjust'
 import HomeGridTitle from './home-grid-title'
+import HomeHeatMap from './home-heat-map'
 import HomeICS from './home-ics'
 import HomeLayout from './home-layout'
 import HomeListCompact from './home-list-compact'
@@ -47,7 +49,14 @@ function Home({ filter }: WithFilterProps) {
 
   return (
     <>
-      <ItemSetting hd='进度' arrow highlight filter={filter} onPress={setTrue} />
+      <ItemSetting
+        icon={<IconStar />}
+        hd='进度'
+        arrow
+        highlight
+        filter={filter}
+        onPress={setTrue}
+      />
       <ActionSheet show={state} title='进度' height={filter ? 440 : 760} onClose={setFalse}>
         {shows.homeCustom && <HomeCustom filter={filter} />}
         <HomeTabs filter={filter} />
@@ -57,6 +66,7 @@ function Home({ filter }: WithFilterProps) {
         {shows.homeGridCoverLayout && !isList && <HomeGridCoverLayout filter={filter} />}
         {shows.homeGridTitle && !isList && <HomeGridTitle filter={filter} />}
         {shows.homeGridEpAutoAdjust && !isList && <HomeGridEpAutoAdjust filter={filter} />}
+        {shows.homeHeatMap && <HomeHeatMap filter={filter} />}
         {shows.homeListLimit && <HomeListLimit filter={filter} />}
         {shows.homeSorting && <HomeSorting filter={filter} />}
         {shows.homeSortSink &&

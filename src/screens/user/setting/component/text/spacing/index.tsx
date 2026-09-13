@@ -10,6 +10,7 @@ import { Heatmap, Text } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { IconSpacing } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -22,7 +23,7 @@ function Spacing({ filter, sub = false }: Props) {
 
   return (
     <ItemSettingBlock
-      style={_.mt.sm}
+      icon={<IconSpacing />}
       filter={filter}
       thumb={getYuqueThumbs([
         '0/2025/png/386799/1755618055540-8afa8787-625d-42a6-b661-b401ad9a33c2.png',

@@ -10,10 +10,19 @@ import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { systemStore } from '@stores'
 import { t } from '@utils/fetch'
+import { IconBell, IconPanelBottom, IconPanelTop, IconSquare } from '../../icons'
 import styles from '../../../styles'
 import { BLUR_SETTINGS, TEXTS } from '../ds'
 
 import type { Props } from './types'
+
+/** 各毛玻璃位置对应的图标 */
+const ICONS = {
+  blurTopTabs: <IconPanelTop />,
+  blurBottomTabs: <IconPanelBottom />,
+  blurToast: <IconBell />,
+  blurModal: <IconSquare />
+}
 
 /** 毛玻璃可选布局 */
 function AndroidBlurLayout({ shows, filter }: Props) {
@@ -25,6 +34,7 @@ function AndroidBlurLayout({ shows, filter }: Props) {
 
         return (
           <ItemSetting
+            icon={ICONS[item]}
             key={item}
             show={shows[item]}
             ft={

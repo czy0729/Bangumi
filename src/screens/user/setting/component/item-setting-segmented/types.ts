@@ -4,12 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-28 02:59:40
  */
+import type { ReactNode } from 'react'
 import type { Setting } from '@stores/system/types'
 import type { SetSettingKeys } from '../../types'
 
 export type Props<T extends SetSettingKeys = SetSettingKeys> = {
   /** 设置项 */
   setting: T
+
+  /** 设置项标题左侧图标 */
+  icon?: ReactNode
 
   /** Segmented 选项 */
   values: readonly {

@@ -13,6 +13,7 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { useAsyncSetSetting, useMount } from '@utils/hooks'
 import { MODEL_SETTING_SUBJECT_SPLIT_STYLES, SETTING_SUBJECT_SPLIT_STYLES } from '@constants'
+import { IconDivider } from '../../icons'
 import { TEXTS } from '../ds'
 import { ITEM_WIDTH } from './ds'
 import { memoStyles } from './styles'
@@ -79,7 +80,12 @@ function SplitStyles({ filter }: WithFilterProps) {
   )
 
   return (
-    <ItemSettingBlock style={styles.block} filter={filter} {...TEXTS.splitStyles.setting}>
+    <ItemSettingBlock
+      style={styles.block}
+      icon={<IconDivider />}
+      filter={filter}
+      {...TEXTS.splitStyles.setting}
+    >
       <ScrollView
         forwardRef={handleForwardRef}
         contentContainerStyle={styles.scroll}

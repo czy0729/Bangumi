@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Heatmap, SegmentedControl } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
+import { IconGrid } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
 import { styles } from './styles'
@@ -21,6 +22,7 @@ function DiscoveryMenuNum({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconGrid />}
       ft={
         <SegmentedControl
           style={styles.segmentedControl}

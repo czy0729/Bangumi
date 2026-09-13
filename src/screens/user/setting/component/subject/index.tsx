@@ -11,6 +11,7 @@ import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
+import { IconBookOpen } from '../icons'
 import { getShows } from '../../utils'
 import CommentSplit from './comment-split'
 import HtmlExpand from './html-expand'
@@ -36,7 +37,14 @@ function Subject({ filter, open = false }: Props) {
 
   return (
     <>
-      <ItemSetting hd='条目' arrow highlight filter={filter} onPress={setTrue} />
+      <ItemSetting
+        icon={<IconBookOpen />}
+        hd='条目'
+        arrow
+        highlight
+        filter={filter}
+        onPress={setTrue}
+      />
       <ActionSheet show={state} title='条目' height={filter ? 440 : 760} onClose={setFalse}>
         {shows.splitStyles && <SplitStyles filter={filter} />}
         {shows.showAirdayMonth && <ShowAirdayMonth filter={filter} />}

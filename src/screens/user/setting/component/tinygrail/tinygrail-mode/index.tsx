@@ -10,6 +10,7 @@ import { Heatmap, SegmentedControl } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { IconTrendUp } from '../../icons'
 import styles from '../../../styles'
 import { DS, TEXTS } from '../ds'
 import { getYuqueThumbs } from '../../../utils'
@@ -20,6 +21,7 @@ import type { WithFilterProps } from '../../../types'
 function TinygrailMode({ filter }: WithFilterProps) {
   return (
     <ItemSetting
+      icon={<IconTrendUp />}
       ft={
         <SegmentedControl
           style={styles.segmentedControl}

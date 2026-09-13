@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-18 10:03:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 22:29:59
+ * @Last Modified time: 2026-09-13 22:00:00
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -11,8 +11,8 @@ export const COMPONENT = rc(PARENT, 'Katakana')
 
 export const TEXTS = {
   other: {
-    hd: '其他'
-    // information: '源头、翻译等'
+    hd: '翻译',
+    // information: '翻译引擎、片假名终结者'
   },
   engine: {
     setting: {
@@ -48,13 +48,5 @@ export const TEXTS = {
   cnFirst: {
     title: '优先中文',
     information: '若开启片假名终结者，建议还需要日语优先效果才会好'
-  },
-  origin: {
-    hd: '源头',
-    information: '给不同类型的条目，自定义通用跳转'
-  },
-  webhook: {
-    hd: 'Webhook',
-    information: '影响用户时间线的操作，允许通知外部自定义接口'
   }
 } as const

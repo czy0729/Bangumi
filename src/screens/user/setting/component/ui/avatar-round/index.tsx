@@ -12,6 +12,7 @@ import { ItemSettingBlock } from '@_'
 import { _, userStore } from '@stores'
 import { t } from '@utils/fetch'
 import { IMG_DEFAULT_AVATAR } from '@constants'
+import { IconCircle } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -26,7 +27,7 @@ function AvatarRound({ filter }: WithFilterProps) {
 
   return (
     <ItemSettingBlock
-      style={_.mt.sm}
+      icon={<IconCircle />}
       filter={filter}
       thumb={getYuqueThumbs([
         '0/2022/png/386799/1661073314717-f67e17c1-0ae4-4e19-b61a-4fdaf2eb4bdd.png',

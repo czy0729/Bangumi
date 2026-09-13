@@ -9,12 +9,14 @@ import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { PropsWithChildren } from 'react'
 
 function Tip({ children }: PropsWithChildren<{}>) {
   r(COMPONENT)
+
+  const styles = memoStyles()
 
   return (
     <Flex style={styles.tip}>

@@ -11,6 +11,8 @@ import { Flex, Heatmap, Highlight, Text } from '@components'
 import { _, systemStore } from '@stores'
 import { ITEMS, TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
+import { WEB } from '@constants'
+import { IconGrid } from '../../icons'
 import Item from './item'
 import { memoStyles } from './styles'
 
@@ -28,9 +30,14 @@ function HomeRenderTabs({ filter }: WithFilterProps) {
 
   return (
     <View style={styles.blocks}>
-      <Highlight type='title' size={15} bold value={filter}>
-        {TEXTS.blocks.setting}
-      </Highlight>
+      <Flex>
+        <View style={_.mr.sm}>
+          <IconGrid />
+        </View>
+        <Highlight type='title' size={WEB ? 13 : 14} bold value={filter}>
+          {TEXTS.blocks.setting}
+        </Highlight>
+      </Flex>
       <Text style={_.mt.sm} type='sub' size={12}>
         点击切换是否显示，切换后需要重新启动才能生效
       </Text>

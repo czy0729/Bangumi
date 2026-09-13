@@ -11,6 +11,7 @@ import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { MODEL_SETTING_HOME_LAYOUT } from '@constants'
+import { IconLayout } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -25,7 +26,7 @@ function HomeLayout({ filter }: WithFilterProps) {
 
   return (
     <ItemSettingBlock
-      style={_.mt.sm}
+      icon={<IconLayout />}
       filter={filter}
       thumb={getYuqueThumbs([
         '0/2022/png/386799/1661062359544-87e2ab4e-ca1f-4e7e-8efb-ccadf891ccc0.png',

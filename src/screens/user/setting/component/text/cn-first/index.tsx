@@ -10,6 +10,7 @@ import { Heatmap, Text } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { IconChinese } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -22,7 +23,7 @@ function CnFirst({ filter, sub = false }: Props) {
 
   return (
     <ItemSettingBlock
-      style={_.mt.sm}
+      icon={<IconChinese />}
       filter={filter}
       thumb={getYuqueThumbs([
         '0/2022/png/386799/1661129866639-05608a0c-bc41-4065-b3c2-aa53bd63d327.png',

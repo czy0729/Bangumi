@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { useMount } from '@utils/hooks'
 import { SETTING_LETTER_SPACING } from '@constants'
+import { IconSpacing } from '../../icons'
 import { TEXTS } from '../ds'
 import { styles } from './styles'
 
@@ -39,7 +40,12 @@ function LetterSpacing({ filter }: WithFilterProps) {
   })
 
   return (
-    <ItemSettingBlock style={styles.block} filter={filter} {...TEXTS.letterSpacing}>
+    <ItemSettingBlock
+      style={styles.block}
+      icon={<IconSpacing />}
+      filter={filter}
+      {...TEXTS.letterSpacing}
+    >
       <ScrollView
         forwardRef={handleForwardRef}
         contentContainerStyle={styles.scroll}

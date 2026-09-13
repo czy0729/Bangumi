@@ -11,6 +11,7 @@ import { ItemSettingBlock } from '@_'
 import { memoStyles } from '@_/base/user-age/styles'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
+import { IconClock } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting, useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -28,7 +29,7 @@ function UserAge({ filter }: WithFilterProps) {
 
   return (
     <ItemSettingBlock
-      style={_.mt.sm}
+      icon={<IconClock />}
       filter={filter}
       thumb={getYuqueThumbs([
         '0/2025/png/386799/1737887237571-599dbdd5-0f78-4fee-ab88-090651b5b400.png',

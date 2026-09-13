@@ -19,6 +19,7 @@ function ItemSettingSwitch({
   setting,
   filter = '',
   thumb,
+  icon,
   hd = '',
   information = '',
   reverse = false
@@ -42,6 +43,7 @@ function ItemSettingSwitch({
 
   return (
     <ItemSetting
+      icon={icon}
       hd={hd}
       information={information}
       ft={elFt}

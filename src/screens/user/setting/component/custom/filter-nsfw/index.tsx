@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
+import { IconBan } from '../../icons'
 import commonStyles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
@@ -21,6 +22,7 @@ function FilterNSFW({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconBan />}
       hd='屏蔽敏感内容'
       ft={
         <SwitchPro

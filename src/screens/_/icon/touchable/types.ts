@@ -10,7 +10,8 @@ import type { ColorValue, IconfontNames, WithViewStyles } from '@types'
 
 export type Props = PropsWithChildren<
   WithViewStyles<{
-    name: IconfontNames
+    /** 图标名称; 不传时改为渲染 children (可以塞 svg 节点) */
+    name?: IconfontNames
     size?: number
     color?: ColorValue
     shadow?: boolean

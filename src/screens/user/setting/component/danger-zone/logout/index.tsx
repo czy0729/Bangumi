@@ -11,6 +11,7 @@ import { ItemSetting } from '@_'
 import Stores, { _ } from '@stores'
 import { useNavigation } from '@utils/hooks'
 import { t } from '@utils/fetch'
+import { IconLogOut } from '../../icons'
 import { TEXTS } from '../ds'
 
 import type { Props } from './types'
@@ -22,6 +23,7 @@ function Logout({ filter, setFalse }: Props) {
   return (
     <ItemSetting
       style={_.mt.xs}
+      icon={<IconLogOut />}
       arrow
       highlight
       filter={filter}

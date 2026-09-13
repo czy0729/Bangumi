@@ -102,5 +102,9 @@ export const TEXTS = {
   homeAnimeInfoInline: {
     hd: '放送及额外信息',
     information: '显示播送进度、下一集时间、季度颜色徽章'
+  },
+  homeHeatMap: {
+    title: '章节讨论热力图',
+    information: '按钮下方不同透明度橙色条块，可快速了解讨论的激烈程度'
   }
 } as const

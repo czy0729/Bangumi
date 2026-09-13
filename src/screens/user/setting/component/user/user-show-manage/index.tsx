@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
+import { IconEye } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -23,6 +24,7 @@ function UserShowManage({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconEye />}
       ft={
         <SwitchPro
           style={styles.switch}

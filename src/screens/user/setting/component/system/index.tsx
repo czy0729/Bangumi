@@ -11,6 +11,7 @@ import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
 import i18n from '@constants/i18n'
+import { IconCloud } from '../icons'
 import { getShows } from '../../utils'
 import SyncSetting from './sync-setting'
 import { COMPONENT, TEXTS } from './ds'
@@ -28,7 +29,14 @@ function System({ filter }: WithFilterProps) {
 
   return (
     <>
-      <ItemSetting hd={`同步${i18n.setting()}`} arrow highlight filter={filter} onPress={setTrue} />
+      <ItemSetting
+        icon={<IconCloud />}
+        hd={`同步${i18n.setting()}`}
+        arrow
+        highlight
+        filter={filter}
+        onPress={setTrue}
+      />
       <ActionSheet show={state} title='同步' onClose={setFalse}>
         {shows.setting && <SyncSetting filter={filter} />}
         {/* {shows.settingTopic && <SyncTopic filter={filter} />} */}

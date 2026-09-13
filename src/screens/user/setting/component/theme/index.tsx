@@ -12,6 +12,7 @@ import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
 import { IOS, IS_BEFORE_ANDROID_10, WEB } from '@constants'
+import { IconPalette } from '../icons'
 import { getShows } from '../../utils'
 import AndroidBlur from './android-blur'
 import AndroidBlurLayout from './android-blur-layout'
@@ -33,7 +34,14 @@ function Theme({ filter }: WithFilterProps) {
 
   return (
     <>
-      <ItemSetting arrow highlight filter={filter} onPress={setTrue} {...TEXTS.theme} />
+      <ItemSetting
+        icon={<IconPalette />}
+        arrow
+        highlight
+        filter={filter}
+        onPress={setTrue}
+        {...TEXTS.theme}
+      />
       <ActionSheet
         show={state}
         title={TEXTS.theme.hd}

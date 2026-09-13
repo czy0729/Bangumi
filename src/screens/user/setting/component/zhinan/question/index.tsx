@@ -12,6 +12,7 @@ import { _ } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { URL_WENJUAN } from '@constants'
+import { IconQuestion } from '../../icons'
 import { TEXTS } from '../ds'
 
 import type { WithFilterProps } from '../../../types'
@@ -21,6 +22,7 @@ function Question({ filter }: WithFilterProps) {
   return (
     <ItemSetting
       style={_.mt.xs}
+      icon={<IconQuestion />}
       arrow
       arrowStyle={_.mr.xxs}
       arrowIcon='md-open-in-new'

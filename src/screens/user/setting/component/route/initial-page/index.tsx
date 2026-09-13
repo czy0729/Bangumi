@@ -8,7 +8,9 @@ import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Highlight } from '@components'
-import { systemStore } from '@stores'
+import { _, systemStore } from '@stores'
+import { WEB } from '@constants'
+import { IconRocket } from '../../icons'
 import { ITEMS, TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
 import Item from './item'
@@ -28,9 +30,14 @@ function InitialPage({ filter }: WithFilterProps) {
 
   return (
     <View style={styles.blocks}>
-      <Highlight type='title' size={15} bold value={filter}>
-        {TEXTS.initialPage.setting}
-      </Highlight>
+      <Flex>
+        <View style={_.mr.sm}>
+          <IconRocket />
+        </View>
+        <Highlight type='title' size={WEB ? 13 : 14} bold value={filter}>
+          {TEXTS.initialPage.setting}
+        </Highlight>
+      </Flex>
       <Flex style={styles.tabs}>
         {(['discovery', 'timeline', 'home', 'rakuen', 'user'] as const).map(item => (
           <Item key={item} {...passProps} {...ITEMS[item]} active={value === ITEMS[item].label} />

@@ -65,7 +65,7 @@ function Topic() {
 
   const elBigEmojiSize = useMemo(
     () => (
-      <ItemSettingBlock style={_.mt.sm} title='尺寸'>
+      <ItemSettingBlock title='尺寸'>
         {BIG_EMOJI_SIZE.map((item, index) => (
           <ItemSettingBlock.Item
             key={item.label}

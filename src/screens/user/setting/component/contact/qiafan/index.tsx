@@ -9,13 +9,14 @@ import { observer } from 'mobx-react'
 import { Heatmap, Text } from '@components'
 import { ItemSetting } from '@_'
 import { _, systemStore, userStore } from '@stores'
-import { useNavigation } from '@utils/hooks'
 import { t } from '@utils/fetch'
+import { useNavigation } from '@utils/hooks'
 import { TEXT_UPDATE_QIAFAN } from '@constants'
+import { IconGift } from '../../icons'
 
 import type { WithFilterProps } from '../../../types'
 
-/** 投食🍚 */
+/** 投食 */
 function Qiafan({ filter }: WithFilterProps) {
   const navigation = useNavigation()
 
@@ -26,7 +27,8 @@ function Qiafan({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
-      hd={userStore.isLimit ? '关于' : '投食🍚'}
+      icon={<IconGift />}
+      hd={userStore.isLimit ? '关于' : '投食'}
       arrow
       highlight
       information={
@@ -38,11 +40,7 @@ function Qiafan({ filter }: WithFilterProps) {
       }}
       informationType='success'
       filter={filter}
-      ft={
-        <Text type='sub' bold>
-          {TEXT_UPDATE_QIAFAN}
-        </Text>
-      }
+      ft={<Text type='sub'>{TEXT_UPDATE_QIAFAN}</Text>}
       onPress={() => {
         navigation.push('Qiafan')
 

@@ -13,6 +13,7 @@ import { stl } from '@utils'
 import { FROZEN_FN } from '@constants'
 import { memoStyles } from './styles'
 
+import type { IconfontNames } from '@types'
 import type { ItemSettingBlockItemProps } from './types'
 
 const ItemSettingBlockItem = observer(
@@ -48,12 +49,13 @@ const ItemSettingBlockItem = observer(
               align='center'
             >
               {!!icon && (
-                <Iconfont
-                  style={stl(_.mb.sm, iconStyle)}
-                  name={icon}
-                  color={iconColor || _.colorSub}
-                  size={20}
-                />
+                <View style={stl(_.mb.sm, iconStyle)}>
+                  {typeof icon === 'string' ? (
+                    <Iconfont name={icon as IconfontNames} color={iconColor || _.colorSub} size={20} />
+                  ) : (
+                    icon
+                  )}
+                </View>
               )}
               <Highlight size={titleSize} align='center' value={filter}>
                 {title}

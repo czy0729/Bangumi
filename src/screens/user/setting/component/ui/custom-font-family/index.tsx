@@ -11,6 +11,7 @@ import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { loadAppFonts } from '@utils/hooks/useCachedResources'
+import { IconFont } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -24,7 +25,7 @@ function CustomFontFamily({ filter }: WithFilterProps) {
 
   return (
     <ItemSettingBlock
-      style={_.mt.sm}
+      icon={<IconFont />}
       filter={filter}
       thumb={getYuqueThumbs([
         '0/2022/png/386799/1661070600959-cfe3b7a7-696b-4325-a81e-fe3f58f99edf.png',

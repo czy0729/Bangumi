@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
+import { IconCalendar } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { styles } from './styles'
@@ -21,6 +22,7 @@ function DiscoveryTodayOnair({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconCalendar />}
       ft={
         <SwitchPro
           style={styles.switch}

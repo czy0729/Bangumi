@@ -7,6 +7,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemSetting } from '@_'
+import { IconGauge } from '../../icons'
 import { TEXTS } from '../ds'
 import { getYuqueThumbs } from '../../../utils'
 import BlockItem from './block-item'
@@ -17,6 +18,7 @@ function CollectionTimelines({ filter, setFalse }: Props) {
   return (
     <>
       <ItemSetting
+        icon={<IconGauge />}
         filter={filter}
         thumb={getYuqueThumbs([
           '0/2026/png/386799/1778066374857-b8f74eac-0887-4565-9fb7-ddeb787d47e2.png',

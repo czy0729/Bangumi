@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-08-28 05:38:37
  */
 import React from 'react'
+import { IconPin } from '../../icons'
 import { TEXTS } from '../ds'
 import ItemSettingSwitch from '../../item-setting-switch'
 import { THUMB } from './ds'
@@ -15,6 +16,7 @@ import type { WithFilterProps } from '../../../types'
 function PromoteAlias({ filter }: WithFilterProps) {
   return (
     <ItemSettingSwitch
+      icon={<IconPin />}
       setting='subjectPromoteAlias'
       filter={filter}
       thumb={THUMB}

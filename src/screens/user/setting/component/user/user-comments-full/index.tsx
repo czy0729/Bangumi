@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
+import { IconRows } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -23,6 +24,7 @@ function UserCommentsFull({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconRows />}
       ft={
         <SwitchPro
           style={styles.switch}

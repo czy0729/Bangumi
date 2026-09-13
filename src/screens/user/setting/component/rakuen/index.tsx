@@ -10,6 +10,7 @@ import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
+import { IconChat } from '../icons'
 import { getShows } from '../../utils'
 import { COMPONENT, TEXTS } from './ds'
 
@@ -24,6 +25,7 @@ function Rakuen({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
+      icon={<IconChat />}
       arrow
       highlight
       filter={filter}

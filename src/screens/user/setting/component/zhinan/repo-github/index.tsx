@@ -11,6 +11,7 @@ import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { appNavigate } from '@utils'
 import { GITHUB_PROJECT } from '@constants'
+import { IconGithub } from '../../icons'
 import { TEXTS } from '../ds'
 
 import type { WithFilterProps } from '../../../types'
@@ -20,6 +21,7 @@ function RepoGithub({ filter }: WithFilterProps) {
   return (
     <ItemSetting
       style={_.mt.xs}
+      icon={<IconGithub />}
       arrow
       arrowStyle={_.mr.xxs}
       arrowIcon='md-open-in-new'

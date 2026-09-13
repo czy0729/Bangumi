@@ -11,6 +11,7 @@ import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { URL_DEV } from '@constants'
+import { IconMap } from '../../icons'
 import { TEXTS } from '../ds'
 
 import type { Props } from './types'
@@ -20,6 +21,7 @@ function Roadmap({ navigation, filter, setFalse }: Props) {
   return (
     <ItemSetting
       style={_.mt.xs}
+      icon={<IconMap />}
       arrow
       arrowStyle={_.mr.xxs}
       arrowIcon='md-open-in-new'

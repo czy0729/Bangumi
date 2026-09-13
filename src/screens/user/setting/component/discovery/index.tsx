@@ -12,6 +12,7 @@ import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
 import { WEB } from '@constants'
+import { IconHome } from '../icons'
 import { getShows } from '../../utils'
 import DiscoveryMenuNum from './discovery-menu-num'
 import DiscoveryTodayOnair from './discovery-today-onair'
@@ -34,7 +35,14 @@ function Discovery({ filter, open = false }: Props) {
 
   return (
     <>
-      <ItemSetting hd='发现' arrow highlight filter={filter} onPress={setTrue} />
+      <ItemSetting
+        icon={<IconHome />}
+        hd='发现'
+        arrow
+        highlight
+        filter={filter}
+        onPress={setTrue}
+      />
       <ActionSheet show={state} title='发现' height={680} onClose={setFalse}>
         {shows.discoveryMenuNum && <DiscoveryMenuNum filter={filter} />}
         {!WEB && shows.live2DV2 && <Live2D filter={filter} />}

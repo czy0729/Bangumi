@@ -10,6 +10,7 @@ import { observer } from 'mobx-react'
 import { Katakana as KText, Text } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
+import { IconAnnotate } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
@@ -22,7 +23,7 @@ function AppKatakana({ filter }: WithFilterProps) {
 
   return (
     <ItemSettingBlock
-      style={_.mt.sm}
+      icon={<IconAnnotate />}
       filter={filter}
       thumb={getYuqueThumbs([
         '0/2022/png/386799/1661142420758-e002913c-f976-4a42-943b-5e106187fc29.png',

@@ -11,6 +11,7 @@ import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
 import { WEB } from '@constants'
+import { IconPanelBottom } from '../icons'
 import { getShows } from '../../utils'
 import BottomTabLazy from './bottom-tab-lazy'
 import HomeRenderTabs from './home-render-tabs'
@@ -30,7 +31,14 @@ function Route({ filter }: WithFilterProps) {
 
   return (
     <>
-      <ItemSetting hd='底栏' arrow highlight filter={filter} onPress={setTrue} />
+      <ItemSetting
+        icon={<IconPanelBottom />}
+        hd='底栏'
+        arrow
+        highlight
+        filter={filter}
+        onPress={setTrue}
+      />
       <ActionSheet show={state} title='底栏' height={560} onClose={setFalse}>
         {shows.blocks && <HomeRenderTabs filter={filter} />}
         {shows.initialPage && <InitialPage filter={filter} />}

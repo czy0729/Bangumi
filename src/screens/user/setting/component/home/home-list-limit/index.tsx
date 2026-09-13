@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { ItemSetting } from '@_'
 import { _, systemStore } from '@stores'
+import { IconListCount } from '../../icons'
 import { TEXTS } from '../ds'
 
 import type { WithFilterProps } from '../../../types'
@@ -18,6 +19,7 @@ function HomeListLimit({ filter }: WithFilterProps) {
   return (
     <ItemSetting
       style={[_.mt.sm, _.mb.md]}
+      icon={<IconListCount />}
       ft={
         <Text style={_.mt.md} size={13} bold>
           {systemStore.advance ? '当前 300 项' : '当前 100 项'}

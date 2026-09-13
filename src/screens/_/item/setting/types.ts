@@ -12,6 +12,9 @@ export type Props = Override<
   {
     contentStyle?: ViewStyle
     show?: boolean
+
+    /** 标题左侧图标 */
+    icon?: ReactNode
     hd?: ReactNode | string
     hdSize?: number
     ft?: ReactNode | string
@@ -31,7 +34,7 @@ export type Props = Override<
       | readonly {
           url: string
           _url?: string
-          headers?: object
+          headers?: Record<string, string>
         }[]
     extra?: ReactNode
     onInfoPress?: () => void

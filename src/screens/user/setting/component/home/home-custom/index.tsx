@@ -8,6 +8,7 @@ import React, { useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
+import { IconSidebar } from '../../icons'
 import { TEXTS } from '../ds'
 import CustomBtn from '../custom-btn'
 
@@ -18,7 +19,7 @@ function HomeCustom({ filter }: WithFilterProps) {
   const elFt = useMemo(() => <CustomBtn />, [])
 
   return (
-    <ItemSetting ft={elFt} filter={filter} {...TEXTS.homeCustom}>
+    <ItemSetting icon={<IconSidebar />} ft={elFt} filter={filter} {...TEXTS.homeCustom}>
       <Heatmap id='设置.切换' title='两侧功能入口' />
     </ItemSetting>
   )
