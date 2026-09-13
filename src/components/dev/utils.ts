@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-10-19 13:47:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-07 23:36:47
+ * @Last Modified time: 2026-09-13 19:10:13
  */
+import { NativeModules } from 'react-native'
 import { observable, runInAction } from 'mobx'
 import { date, getTimestamp } from '@utils'
 import { syncSystemStore } from '@utils/async'
@@ -50,4 +51,10 @@ export function devLogLimit(...args: unknown[]) {
   _limit += 1
   if (_limit >= 8) return
   devLog(args.join(', '))
+}
+
+/** 调起系统开发者菜单 (iOS 走 RN 自带 DevMenu, 安卓走自定义桥接, 免摇晃) */
+export function showSystemDevMenu() {
+  const DevMenu = NativeModules.DevMenu as { show?: () => void } | undefined
+  DevMenu?.show?.()
 }

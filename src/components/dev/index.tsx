@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-03-30 20:49:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-18 04:47:51
+ * @Last Modified time: 2026-09-13 19:50:00
  */
-import { DevSettings, View } from 'react-native'
+import { Animated, View } from 'react-native'
 import { runInAction } from 'mobx'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
@@ -16,16 +16,22 @@ import { Iconfont } from '../iconfont'
 import { ScrollView } from '../scroll-view'
 import { Text } from '../text'
 import { Touchable } from '../touchable'
-import { devLog, devLogLimit, devLogs, logs } from './utils'
-import { memoStyles } from './styles'
+import { useDevButtonDrag } from './hooks'
+import { devLog, devLogLimit, devLogs, logs, showSystemDevMenu } from './utils'
+import { styles } from './styles'
 
 export { devLog, devLogs, devLogLimit }
 
-/** 主动热更新按钮 (DEV) */
+/** dev 浮层入口 (hooks 隔离在内层, 避免运行时切换 dev 开关导致 hook 数量变化) */
 export const DEV = observer(() => {
   if (!dev && !syncSystemStore().state.dev) return null
 
-  const styles = memoStyles()
+  return <DevFloat />
+})
+
+/** 开发者按钮与日志浮层 */
+const DevFloat = observer(() => {
+  const { pan, panHandlers } = useDevButtonDrag()
 
   return (
     <>
@@ -46,14 +52,22 @@ export const DEV = observer(() => {
         </ScrollView>
       )}
       {!IOS && (
-        <View style={styles.dev}>
+        <Animated.View
+          style={{
+            position: 'absolute',
+            zIndex: 1000,
+            left: pan.x,
+            top: pan.y
+          }}
+          {...panHandlers}
+        >
           <Touchable
             style={stl(flexStyle({ justify: 'center' }), styles.touch, styles.icon)}
-            onPress={() => DevSettings.reload()}
+            onPress={showSystemDevMenu}
           >
-            <Iconfont name='md-refresh' color={_.colorPlain} size={20} />
+            <Iconfont name='icon-setting' color='#fff' size={20} />
           </Touchable>
-        </View>
+        </Animated.View>
       )}
       {!!logs.length && (
         <View style={styles.clear}>

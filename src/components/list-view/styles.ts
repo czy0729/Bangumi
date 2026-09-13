@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-21 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-21 14:30:00
+ * @Last Modified time: 2026-09-13 18:34:19
  */
 import { _ } from '@stores'
 
@@ -14,7 +14,8 @@ export const styles = _.create({
     top: 0,
     right: 8,
     padding: 2,
-    pointerEvents: 'none'
+    pointerEvents: 'none',
+    opacity: 0.64
   },
   devHeader: {
     top: 36

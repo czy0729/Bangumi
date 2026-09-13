@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-21 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-21 13:30:00
+ * @Last Modified time: 2026-09-13 18:35:19
  */
 import { useState } from 'react'
 import { View } from 'react-native'
@@ -40,12 +40,12 @@ function CellRenderer({ setHeight, estimate }: CellRendererFactoryProps) {
             style={[
               styles.dev,
               {
-                backgroundColor: mismatch ? 'rgba(200, 0, 0, 0.6)' : 'rgba(0, 0, 0, 0.5)'
+                backgroundColor: mismatch ? 'rgba(200, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.4)'
               }
             ]}
           >
-            <Text type='__plain__' size={10}>
-              {`默认 ${estimate} · 实测 ${measured ? Math.round(measured) : '…'}`}
+            <Text type='__plain__' size={8}>
+              {`${estimate} (${measured ? Math.round(measured) : '…'})`}
             </Text>
           </View>
         )}

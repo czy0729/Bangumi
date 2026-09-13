@@ -2,19 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-03 16:08:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-08-31 17:26:33
+ * @Last Modified time: 2026-09-13 19:10:10
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
-  dev: {
-    position: 'absolute',
-    zIndex: 1000,
-    right: _._wind,
-    bottom: 196
-  },
+export const styles = _.create({
   touch: {
-    backgroundColor: _.colorTitle,
+    backgroundColor: '#1677ff',
     borderRadius: 20,
     overflow: 'hidden',
     opacity: 0.8
@@ -48,4 +42,4 @@ export const memoStyles = _.memoStyles(() => ({
   container: {
     padding: _.md
   }
-}))
+})

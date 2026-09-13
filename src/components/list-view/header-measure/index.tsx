@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-21 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-21 14:30:00
+ * @Last Modified time: 2026-09-13 18:33:31
  */
 import { useState } from 'react'
 import { View } from 'react-native'
@@ -32,8 +32,8 @@ function HeaderMeasure({ children, onMeasure }: Props) {
     >
       {children}
       {DEV && (
-        <View style={[styles.dev, styles.devHeader, { backgroundColor: 'rgba(0, 0, 0, 0.6)' }]}>
-          <Text type='__plain__' size={10}>
+        <View style={[styles.dev, styles.devHeader, { backgroundColor: 'rgba(0, 0, 0, 0.5)' }]}>
+          <Text type='__plain__' size={8}>
             {`header ${measured ? Math.round(measured) : '…'}`}
           </Text>
         </View>
