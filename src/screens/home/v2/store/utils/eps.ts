@@ -85,6 +85,11 @@ export function hasNewEp(eps: readonly Ep[], userProgress: UserProgress) {
   )
 }
 
+/** 检查是否存在已放送的章节 (只看章节状态, 与用户进度无关) */
+export function hasAiredEp(eps: readonly Ep[]) {
+  return eps.some(item => item.status === 'Air' || item.status === 'Today')
+}
+
 /** 获取可见的章节范围 */
 export function getVisibleEps(eps: Ep[], userProgress: UserProgress, maxLength: number) {
   const { length } = eps

@@ -99,6 +99,7 @@ export default class List extends Air {
       sortOnAir: this.sortOnAir,
       getAir: subjectId => calendarStore.onAir[subjectId]?.air || 0,
       onAirCustom: subjectId => this.onAirCustom(subjectId),
+      hasAiredEp: subjectId => this.hasAiredEp(subjectId),
       hasNewEp: subjectId => this.hasNewEp(subjectId),
       isToday: subjectId => this.isToday(subjectId),
       isNextDay: subjectId => this.isNextDay(subjectId),

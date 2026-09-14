@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 03:49:57
+ * @Last Modified time: 2026-09-15 00:08:16
  */
 import * as Device from 'expo-device'
 import { _, systemStore, userStore } from '@stores'
@@ -10,6 +10,7 @@ import { date, feedback, getTimestamp, info, pick, postTask, sortObject } from '
 import { logger } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { update } from '@utils/kv'
+import { getProxyStrategy } from '@utils/proxy'
 import { get } from '@utils/thirdParty/protobuf'
 import {
   D,
@@ -144,7 +145,7 @@ export default class ScreenHomeV2 extends Action {
     return false
   }
 
-  /** 注册设备名 */
+  /** 注册设备名，构建监测报错信息的环境变量 */
   initUser = () => {
     if (inited) return
 
@@ -172,7 +173,8 @@ export default class ScreenHomeV2 extends Action {
           direct: setting.workerProxyDirect,
           secret: setting.workerSecret.length,
           lainSecret: setting.workerLainSecret.length,
-          ech: setting.echProxyEnabled
+          ech: setting.echProxyEnabled,
+          supporter: getProxyStrategy().supporter
         },
         l: {
           statusBar: STATUS_BAR_HEIGHT,

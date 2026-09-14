@@ -13,6 +13,7 @@ import {
   getLastWatchedSort,
   getOnlineOrigins,
   getWatchedCount,
+  hasAiredEp as checkHasAiredEp,
   hasNewEp as checkHasNewEp,
   isOnairNextDay,
   isOnairToday
@@ -75,6 +76,9 @@ export default class Air extends Subject {
   hasNewEp = computedFn((subjectId: SubjectId) =>
     checkHasNewEp(this.epsNoSp(subjectId), this.userProgress(subjectId))
   )
+
+  /** 是否已有已放送的章节 (只看章节状态, 与用户进度无关) */
+  hasAiredEp = computedFn((subjectId: SubjectId) => checkHasAiredEp(this.epsNoSp(subjectId)))
 
   /** 猜测条目当前看到的集数 */
   countFixed = computedFn((subjectId: SubjectId, epStatus: number | string) => {

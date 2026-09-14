@@ -90,7 +90,8 @@ export const TEXTS = {
   },
   homeSortSink: {
     hd: '条目自动下沉',
-    information: '当条目没有未观看的已放送章节时，自动下沉到分组底部'
+    information:
+      '当条目没有未观看的已放送章节时，自动下沉到分组底部\n完全未播放（一集都没有已放送章节）的条目会沉到所属年份分组最下方'
   },
   showGame: {
     hd: '游戏标签页',

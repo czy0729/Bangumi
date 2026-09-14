@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-08-08 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-10 07:43:12
+ * @Last Modified time: 2026-09-15 00:46:26
  */
-import { getTopMap, sortByIds } from '../utils'
+import { getSeasonKey, getTopMap, sortByIds } from '../utils'
 
 import type { SubjectId } from '@types'
 import type { UserCollectionItem } from '@utils/fetch.v0/types'
@@ -35,6 +35,7 @@ type CtxEntry = {
   air?: number
   onAirCustom?: { weekDay: number; isOnair: boolean }
   hasNewEp?: boolean
+  hasAiredEp?: boolean
   isToday?: boolean
   isNextDay?: boolean
   watchedCount?: number
@@ -50,6 +51,8 @@ function ctxByMap(map: Record<SubjectId, CtxEntry>) {
     getAir: (id: SubjectId) => get(id, 'air', 0) as number,
     onAirCustom: (id: SubjectId) => get(id, 'onAirCustom', { weekDay: 0, isOnair: false }),
     hasNewEp: (id: SubjectId) => get(id, 'hasNewEp', false) as boolean,
+    // 默认视为已有已放送章节, 即不参与「完全未播放」的年份下沉
+    hasAiredEp: (id: SubjectId) => get(id, 'hasAiredEp', true) as boolean,
     isToday: (id: SubjectId) => get(id, 'isToday', false) as boolean,
     isNextDay: (id: SubjectId) => get(id, 'isNextDay', false) as boolean,
     watchedCount: (id: SubjectId) => get(id, 'watchedCount', 0) as number
@@ -180,6 +183,58 @@ describe('sortByIds: 客户端顺序 (默认)', () => {
       topMap: { 502: 5 }
     })
     expect(result.map(item => item.subject_id)).toEqual([502, 501])
+  })
+
+  it('完全未播放: 沉到在播番之后, 但仍高于上一年', () => {
+    ;(global as any).__mockStoreState__.homeSortSink = true
+    const items = [
+      makeItem(701, { air_date: '2026-10', eps_count: 12 }), // 未来季, 一集都没放
+      makeItem(702, { air_date: '2026-07', eps_count: 12 }), // 在播
+      makeItem(703, { air_date: '2025-10', eps_count: 12 }) // 往年
+    ]
+    const result = sortByIds(items, {
+      ...ctxByMap({
+        701: { hasAiredEp: false },
+        702: { hasNewEp: true, air: 3, watchedCount: 1 },
+        703: { hasNewEp: true, air: 8, watchedCount: 2 }
+      }),
+      currentSeasonKey: getSeasonKey('2026-09')
+    })
+    expect(result.map(item => item.subject_id)).toEqual([702, 701, 703])
+  })
+
+  it('[回归] 未来季但有已放送章节 (提前放送) 不下沉, 保持季度优先', () => {
+    ;(global as any).__mockStoreState__.homeSortSink = true
+    const items = [
+      makeItem(801, { air_date: '2026-10', eps_count: 12 }), // 未来季, 但已有 ep 提前放送
+      makeItem(802, { air_date: '2026-07', eps_count: 12 }) // 在播
+    ]
+    const result = sortByIds(items, {
+      ...ctxByMap({
+        801: { hasAiredEp: true, hasNewEp: true, air: 1, watchedCount: 0 },
+        802: { hasAiredEp: true, hasNewEp: true, air: 3, watchedCount: 1 }
+      }),
+      currentSeasonKey: getSeasonKey('2026-09')
+    })
+    expect(result.map(item => item.subject_id)).toEqual([801, 802])
+  })
+
+  it('[回归] 跨年: 未开播的 2027 冬沉到 2027 组底部, 年份仍优先于 2026 全年', () => {
+    ;(global as any).__mockStoreState__.homeSortSink = true
+    const items = [
+      makeItem(901, { air_date: '2027-01', eps_count: 12 }), // 未开播
+      makeItem(902, { air_date: '2026-10', eps_count: 12 }), // 未开播
+      makeItem(903, { air_date: '2026-07', eps_count: 12 }) // 在播
+    ]
+    const result = sortByIds(items, {
+      ...ctxByMap({
+        901: { hasAiredEp: false },
+        902: { hasAiredEp: false },
+        903: { hasNewEp: true, air: 3, watchedCount: 1 }
+      }),
+      currentSeasonKey: getSeasonKey('2026-09')
+    })
+    expect(result.map(item => item.subject_id)).toEqual([901, 903, 902])
   })
 })
 

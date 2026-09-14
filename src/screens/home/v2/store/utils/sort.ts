@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-27 02:30:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 03:54:01
+ * @Last Modified time: 2026-09-15 00:46:12
  */
 import { systemStore } from '@stores'
 import { desc, freeze } from '@utils'
@@ -29,6 +29,35 @@ export function getSeasonKey(airDate: string | undefined): number {
   return year * 4 + quarter
 }
 
+/** 获取当前季度的连续键值（与 getSeasonKey 同口径） */
+export function getCurrentSeasonKey(): number {
+  const now = new Date()
+  const month = `${now.getMonth() + 1}`.padStart(2, '0')
+  return getSeasonKey(`${now.getFullYear()}-${month}`)
+}
+
+/** 所属年份分组的底部键值（年*4+0.5，落在该年最后季度与下一年第一季度之间） */
+export function toYearBottomSeasonKey(seasonKey: number): number {
+  // seasonKey = year*4 + quarter (quarter 为 1-4), 故年份需用 (seasonKey-1)/4 取整
+  return Math.floor((seasonKey - 1) / 4) * 4 + 0.5
+}
+
+/**
+ * 计算参与 seasonBoost 的季度键值
+ * - 完全未播放 (没有任何已放送章节) 且所属季度尚未开始时, 沉到所属年份分组底部
+ * - 其余情况沿用原键值
+ */
+function resolveSeasonKey(
+  seasonKey: number,
+  hasAiredEp: boolean,
+  currentSeasonKey?: number
+): number {
+  if (!systemStore.setting.homeSortSink || hasAiredEp) return seasonKey
+  if (seasonKey <= (currentSeasonKey ?? getCurrentSeasonKey())) return seasonKey
+
+  return toYearBottomSeasonKey(seasonKey)
+}
+
 /** 计算排序权重（放送顺序模式）
  *
  *  层级: 放送中(巨量boost) >>> 非放送中(seasonKey > 未看 > 默认) */
@@ -40,10 +69,22 @@ export function calcSortWeightOnair(options: {
   seasonKey?: number
   air?: number
   epsCount?: number
+  hasAiredEp?: boolean
+  currentSeasonKey?: number
 }) {
-  const { weekDay, isOnair, hasNewEp, seasonKey = 0, air, epsCount } = options
+  const {
+    weekDay,
+    isOnair,
+    hasNewEp,
+    seasonKey = 0,
+    air,
+    epsCount,
+    hasAiredEp = true,
+    currentSeasonKey
+  } = options
 
   // 看完下沉优先: 已沉底的条目不参与放送中排序, 走 APP 逻辑落到同季最下方
+  // (其中完全未播放的条目会进一步沉到所属年份分组最下方)
   if (systemStore.setting.homeSortSink && !hasNewEp)
     return calcSortWeightClient({
       isToday: false,
@@ -52,7 +93,9 @@ export function calcSortWeightOnair(options: {
       watchedCount: 0,
       hasNewEp,
       seasonKey,
-      epsCount
+      epsCount,
+      hasAiredEp,
+      currentSeasonKey
     })
 
   if (isOnair) {
@@ -68,7 +111,7 @@ export function calcSortWeightOnair(options: {
   }
 
   // 非放送中: APP 默认 + 细节
-  const seasonBoost = seasonKey * 10_000_000
+  const seasonBoost = resolveSeasonKey(seasonKey, hasAiredEp, currentSeasonKey) * 10_000_000
   const tierBoost = hasNewEp ? 500_000 : 0
   let cdnWeight = 1
   if (air && (!epsCount || air < epsCount) && hasNewEp) {
@@ -80,7 +123,8 @@ export function calcSortWeightOnair(options: {
 
 /** 计算排序权重（客户端顺序模式）
  *
- *  层级: seasonKey (越近越大) >>> tierBoost (放送中 > 未看 > 默认) > cdnWeight (细节) */
+ *  层级: seasonKey (越近越大) >>> tierBoost (放送中 > 未看 > 默认) > cdnWeight (细节)
+ *  完全未播放的条目季键值降为所属年份分组底部 (见 resolveSeasonKey) */
 export function calcSortWeightClient(options: {
   isToday: boolean
   isNextDay: boolean
@@ -89,10 +133,22 @@ export function calcSortWeightClient(options: {
   hasNewEp: boolean
   seasonKey?: number
   epsCount?: number
+  hasAiredEp?: boolean
+  currentSeasonKey?: number
 }) {
-  const { isToday, isNextDay, air, watchedCount, hasNewEp, seasonKey = 0, epsCount } = options
+  const {
+    isToday,
+    isNextDay,
+    air,
+    watchedCount,
+    hasNewEp,
+    seasonKey = 0,
+    epsCount,
+    hasAiredEp = true,
+    currentSeasonKey
+  } = options
 
-  const seasonBoost = seasonKey * 10_000_000
+  const seasonBoost = resolveSeasonKey(seasonKey, hasAiredEp, currentSeasonKey) * 10_000_000
 
   let tierBoost = 0
   if (isToday && hasNewEp) {
@@ -154,9 +210,11 @@ export function sortByIds(
     getAir: (subjectId: SubjectId) => number
     onAirCustom: (subjectId: SubjectId) => { weekDay: string | number; isOnair: boolean }
     hasNewEp: (subjectId: SubjectId) => boolean
+    hasAiredEp: (subjectId: SubjectId) => boolean
     isToday: (subjectId: SubjectId) => boolean
     isNextDay: (subjectId: SubjectId) => boolean
     watchedCount: (subjectId: SubjectId) => number
+    currentSeasonKey?: number
   }
 ): UserCollectionItem[] {
   const {
@@ -166,10 +224,14 @@ export function sortByIds(
     getAir,
     onAirCustom,
     hasNewEp,
+    hasAiredEp,
     isToday,
     isNextDay,
     watchedCount
   } = options
+
+  // 只计算一次当前季键值, 避免逐条目取时间
+  const currentSeasonKey = options.currentSeasonKey ?? getCurrentSeasonKey()
 
   if (!list?.length) return freeze([]) as UserCollectionItem[]
 
@@ -202,7 +264,9 @@ export function sortByIds(
           hasNewEp: hasNewEp(subjectId),
           seasonKey: getSeasonKey(item.subject?.air_date),
           air,
-          epsCount: item.subject?.eps_count
+          epsCount: item.subject?.eps_count,
+          hasAiredEp: hasAiredEp(subjectId),
+          currentSeasonKey
         })
       })
       return freeze(sortByWeightAndTop(list, weightMap, topMap)) as UserCollectionItem[]
@@ -219,7 +283,9 @@ export function sortByIds(
         watchedCount: watchedCount(subjectId),
         hasNewEp: hasNewEp(subjectId),
         seasonKey: getSeasonKey(item.subject?.air_date),
-        epsCount: item.subject?.eps_count
+        epsCount: item.subject?.eps_count,
+        hasAiredEp: hasAiredEp(subjectId),
+        currentSeasonKey
       })
     })
     return freeze(sortByWeightAndTop(list, weightMap, topMap)) as UserCollectionItem[]

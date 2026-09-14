@@ -16,6 +16,7 @@ import {
   calcSortWeightOnair,
   getSeasonKey,
   getTopMap,
+  hasAiredEp,
   hasNewEp,
   isOnairNextDay,
   isOnairToday,
@@ -89,6 +90,61 @@ describe('calcSortWeightClient', () => {
       watchedCount: 3
     })
     expect(result).toBe(1_100_000)
+  })
+
+  it('完全未播放 (未来季 + 无已放送章节) 季键值降为所属年份底部', () => {
+    ;(global as any).__mockStoreState__.homeSortSink = true
+
+    // 2026 秋 (8108) => 2026 组底部 8104.5; 当前季 2026 夏 (8107)
+    expect(
+      calcSortWeightClient({
+        ...base,
+        hasAiredEp: false,
+        seasonKey: getSeasonKey('2026-10'),
+        currentSeasonKey: getSeasonKey('2026-09')
+      })
+    ).toBe(81_045_000_000 + 1 - 100001)
+  })
+
+  it('未来季但有已放送章节 (提前放送) 时不下沉', () => {
+    ;(global as any).__mockStoreState__.homeSortSink = true
+
+    // 保持 2026 秋 原季键 8108, 未被降级
+    expect(
+      calcSortWeightClient({
+        ...base,
+        hasAiredEp: true,
+        hasNewEp: true,
+        air: 1,
+        seasonKey: getSeasonKey('2026-10'),
+        currentSeasonKey: getSeasonKey('2026-09')
+      })
+    ).toBe(81_080_000_000 + 500_000 + 50_000)
+  })
+
+  it('未开启下沉时不降级未来季', () => {
+    expect(
+      calcSortWeightClient({
+        ...base,
+        hasAiredEp: false,
+        seasonKey: getSeasonKey('2026-10'),
+        currentSeasonKey: getSeasonKey('2026-09')
+      })
+    ).toBe(81_080_000_000 + 1)
+  })
+
+  it('当季无已放送章节不做年份下沉 (仍只走既有下沉惩罚)', () => {
+    ;(global as any).__mockStoreState__.homeSortSink = true
+
+    // seasonKey === currentSeasonKey (2026 夏), 不满足「未来季」条件
+    expect(
+      calcSortWeightClient({
+        ...base,
+        hasAiredEp: false,
+        seasonKey: getSeasonKey('2026-07'),
+        currentSeasonKey: getSeasonKey('2026-09')
+      })
+    ).toBe(81_070_000_000 + 1 - 100001)
   })
 })
 
@@ -320,6 +376,9 @@ describe('真实排序 vs 快照 (2026-07-17 16:00)', () => {
 
   const topMap = getTopMap(topList)
 
+  // 固定为快照同期 (2026-07 与 2026-09 同属 2026 夏季), 避免依赖真实系统时间
+  const currentSeasonKey = getSeasonKey('2026-09')
+
   function loadSnapshot(name: string) {
     return require(`${snapDir}/${name}.json`) as { name: string; _comment: string }[]
   }
@@ -327,9 +386,11 @@ describe('真实排序 vs 快照 (2026-07-17 16:00)', () => {
   function getWatchInfo(item: UserCollectionItem) {
     const id = item.subject_id
     const up = (upJson[id] || {}) as UserProgress
+    const eps = epsJson[id] || []
     const watchedCount = Object.values(up).filter(v => v === '看过').length
-    const hasNewEpResult = hasNewEp(epsJson[id] || [], up)
-    return { watchedCount, hasNewEp: hasNewEpResult }
+    const hasNewEpResult = hasNewEp(eps, up)
+    const hasAiredEpResult = hasAiredEp(eps)
+    return { watchedCount, hasNewEp: hasNewEpResult, hasAiredEp: hasAiredEpResult }
   }
 
   function buildRealClientWeightMap(sink: boolean) {
@@ -338,7 +399,11 @@ describe('真实排序 vs 快照 (2026-07-17 16:00)', () => {
     items.forEach(item => {
       const id = item.subject_id
       const onAir = getOnAir(onAirJson[id] || {}, {})
-      const { watchedCount, hasNewEp: hasNewEpResult } = getWatchInfo(item)
+      const {
+        watchedCount,
+        hasNewEp: hasNewEpResult,
+        hasAiredEp: hasAiredEpResult
+      } = getWatchInfo(item)
       const { air = 0 } = onAirJson[id] || {}
       const epsCount = item.subject?.eps_count
 
@@ -353,7 +418,9 @@ describe('真实排序 vs 快照 (2026-07-17 16:00)', () => {
         watchedCount,
         hasNewEp: hasNewEpResult,
         seasonKey: getSeasonKey(item.subject?.air_date),
-        epsCount
+        epsCount,
+        hasAiredEp: hasAiredEpResult,
+        currentSeasonKey
       })
     })
     return weightMap
@@ -365,7 +432,7 @@ describe('真实排序 vs 快照 (2026-07-17 16:00)', () => {
     items.forEach(item => {
       const id = item.subject_id
       const onAir = getOnAir(onAirJson[id] || {}, {})
-      const { hasNewEp: hasNewEpResult } = getWatchInfo(item)
+      const { hasNewEp: hasNewEpResult, hasAiredEp: hasAiredEpResult } = getWatchInfo(item)
       const { air = 0 } = onAirJson[id] || {}
       const epsCount = item.subject?.eps_count
       const wd = onAir.weekDay
@@ -380,7 +447,9 @@ describe('真实排序 vs 快照 (2026-07-17 16:00)', () => {
         hasNewEp: hasNewEpResult,
         seasonKey: getSeasonKey(item.subject?.air_date),
         air: air || undefined,
-        epsCount
+        epsCount,
+        hasAiredEp: hasAiredEpResult,
+        currentSeasonKey
       })
     })
     return weightMap
