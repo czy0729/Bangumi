@@ -2,5 +2,9 @@ name = "cheerio"
 main = "index.js"
 compatibility_date = "2024-01-01"
 
+# *.workers.dev 国内不可达, 仅使用自定义域名
+workers_dev = false
+preview_urls = false
+
 [observability]
 enabled = false

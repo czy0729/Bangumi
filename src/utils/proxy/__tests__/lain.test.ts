@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2026-08-25 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:31:19
+ * @Last Modified time: 2026-09-14 20:53:05
  */
 import { syncSystemStore } from '@utils/async'
+import { getSupporterConfig } from '@utils/kv/worker'
 import { API_HOST } from '@constants/api'
 import { hmacSHA256 } from '../../thirdParty/crypto'
 import { applyLainProxy } from '../lain'
@@ -19,6 +20,15 @@ jest.mock('@constants/host', () => ({
   HOST_IMAGE: '//lain.bgm.tv'
 }))
 
+jest.mock('@utils/kv/worker', () => ({
+  getSupporterConfig: () => ({
+    host: 'https://supporter.example.com',
+    secret: 'supporter-secret',
+    lainHost: 'https://supporter-lain.example.com',
+    lainSecret: 'supporter-lain-secret'
+  })
+}))
+
 jest.mock('@utils/thirdParty/crypto', () => ({
   // constants/cdn/ds.ts 以命名导入使用 get
   get: (value: string) => value,
@@ -30,8 +40,22 @@ jest.mock('../ech', () => ({
   isEchProxyRunning: jest.fn(() => false)
 }))
 
+/** 内置支持者配置 (与 @utils/kv/worker 的 mock 一致) */
+const SUPPORTER = getSupporterConfig()
+
 const LAIN = 'https://lain.bgm.tv'
 const LAIN_PROXY = 'https://my-lain.example.com'
+
+/** 默认设置 (直连以外, 未配置任何地址) */
+const DEFAULTS = {
+  workerProxyDisabled: false,
+  workerProxy: '',
+  workerSecret: '',
+  workerProxyDirect: false,
+  workerApiProxy: '',
+  workerLainProxy: '',
+  workerLainSecret: ''
+}
 
 /** 统计指定 pathname 的 HMAC 计算次数 */
 function hmacCallsFor(pathnamePart: string): number {
@@ -42,16 +66,15 @@ function hmacCallsFor(pathnamePart: string): number {
 /** 构造可控的 systemStore.setting */
 function setSetting(overrides: Record<string, string | boolean> = {}) {
   ;(syncSystemStore as jest.Mock).mockReturnValue({
-    setting: {
-      workerProxyDisabled: false,
-      workerProxy: '',
-      workerSecret: '',
-      workerProxyDirect: false,
-      workerApiProxy: '',
-      workerLainProxy: '',
-      workerLainSecret: '',
-      ...overrides
-    }
+    setting: { ...DEFAULTS, ...overrides }
+  })
+}
+
+/** 构造支持者节点场景 (高级会员) */
+function setSupporter(overrides: Record<string, string | boolean> = {}) {
+  ;(syncSystemStore as jest.Mock).mockReturnValue({
+    advance: true,
+    setting: { ...DEFAULTS, workerPreset: 'supporter', ...overrides }
   })
 }
 
@@ -172,21 +195,53 @@ describe('applyLainProxy', () => {
   })
 })
 
-describe('[问题] 签名缓存缺陷', () => {
-  it('更换 secret 后同名路径应重新签名, 而非沿用旧缓存', () => {
-    // 预期正确行为: 缓存 key 应包含 secret, 换 secret 后旧签名立即失效
+describe('applyLainProxy - 支持者节点', () => {
+  it('图片走内置图片节点并带 v= 签名', () => {
+    setSupporter()
+
+    const result = applyLainProxy(`${LAIN}/r/400/pic/a.jpg`)
+
+    expect(result.startsWith(`${SUPPORTER.lainHost}/`)).toBe(true)
+    expect(result).toContain('v=')
+  })
+
+  it('api 图片由内置主节点接管, 无需用户填写任何地址', () => {
+    setSupporter()
+
+    expect(applyLainProxy(`${API_HOST}/img/avatar.jpg`)).toBe(`${SUPPORTER.host}/img/avatar.jpg`)
+  })
+
+  it('用户自填的图片地址与密钥在支持者模式下不生效', () => {
+    setSupporter({ workerLainProxy: LAIN_PROXY, workerLainSecret: 'k1' })
+
+    const result = applyLainProxy(`${LAIN}/r/400/pic/a.jpg`)
+
+    expect(result.startsWith(`${SUPPORTER.lainHost}/`)).toBe(true)
+    expect(result).not.toContain(LAIN_PROXY)
+  })
+
+  it('非高级会员时支持者设置不生效', () => {
+    ;(syncSystemStore as jest.Mock).mockReturnValue({
+      advance: false,
+      setting: { ...DEFAULTS, workerPreset: 'supporter' }
+    })
+
+    expect(applyLainProxy(`${LAIN}/r/400/pic/a.jpg`)).toBe(`${LAIN}/r/400/pic/a.jpg`)
+  })
+})
+
+describe('applyLainProxy - 签名缓存', () => {
+  it('更换 secret 后同名路径重新签名, 不沿用旧缓存', () => {
     setSetting({ workerLainProxy: LAIN_PROXY, workerLainSecret: 'k1' })
     const before = applyLainProxy(`${LAIN}/r/400/secret-change/pic.jpg`)
 
     setSetting({ workerLainProxy: LAIN_PROXY, workerLainSecret: 'k2' })
     const after = applyLainProxy(`${LAIN}/r/400/secret-change/pic.jpg`)
 
-    // 当前实现: signCache 仅以 pathname 为 key, 返回相同旧签名, 断言失败
     expect(after).not.toBe(before)
   })
 
-  it('签名缓存应有上限, 淘汰后旧路径需重新计算 HMAC', () => {
-    // 预期正确行为: 缓存有界 (上限 ≤ 1000 条), 灌满后最早条目被淘汰
+  it('缓存有上限, 灌满后最早条目被淘汰并重新计算', () => {
     setSetting({ workerLainProxy: LAIN_PROXY, workerLainSecret: 'evict-secret' })
 
     const first = `${LAIN}/r/400/evict/p0.jpg`
@@ -199,7 +254,6 @@ describe('[问题] 签名缓存缺陷', () => {
     }
     applyLainProxy(first)
 
-    // 当前实现: 缓存无淘汰机制, p0 仍命中, 计算次数保持 1, 断言失败
     expect(hmacCallsFor('/evict/p0.jpg')).toBe(2)
   })
 })

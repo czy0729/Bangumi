@@ -452,6 +452,9 @@ export const INIT_SETTING = {
   /** 全局禁用代理 (开启后即使代理设置有值也不走代理) */
   workerProxyDisabled: true,
 
+  /** 支持者节点 (镜像反代模式下由内置节点接管, 下方所有代理设置不再生效) */
+  workerPreset: '' as '' | 'supporter',
+
   /** Worker 代理地址 (替换 Host) */
   workerProxy: '',
 

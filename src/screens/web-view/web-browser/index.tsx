@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-12-30 20:54:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-21 15:20:44
+ * @Last Modified time: 2026-09-14 23:16:24
  */
 import React, { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { usePreventBack } from '@utils/hooks'
-import { applyProxy } from '@utils/proxy'
+import { applyProxy, restoreNativeUrl } from '@utils/proxy'
 import Notice from './component/notice'
 import WebView from './component/webview'
 import Header from './header'
@@ -24,7 +24,7 @@ function WebBrowser({ route }: Props) {
   const [showDesc, setShowDesc] = useState(show)
 
   const { url: _url, title, desc, injectedViewport, gestureEnabled = true } = route.params
-  const url = applyProxy(_url).url
+  const url = restoreNativeUrl(applyProxy(_url).url)
 
   const handleClose = useCallback(() => {
     setShowDesc(false)

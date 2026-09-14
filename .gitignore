@@ -279,3 +279,9 @@ yarn-error.*
 *.tsbuildinfo
 
 # @end expo-cli
+
+# 本地部署配置 (仅部署时使用, 不影响 app 打包)
+workers/cf/lain.wrangler.toml
+workers/cf/wrangler.local.toml
+workers/PRIVATE.md
+workers/gen-*.js

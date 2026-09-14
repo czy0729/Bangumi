@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-09-14 07:08:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 22:43:51
+ * @Last Modified time: 2026-09-14 23:16:11
  */
 import { computed } from 'mobx'
 import { userStore } from '@stores'
 import { asc } from '@utils'
 import { computedFn } from '@utils/computed-fn'
+import { applyLainProxy, applyProxy, restoreNativeUrl } from '@utils/proxy'
 import { toCsv } from '@utils/thirdParty/csv'
-import { applyLainProxy, applyProxy } from '@utils/proxy'
 import { HOST, MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
 import { CSV_HEADS } from '../ds'
 import State from './state'
@@ -29,8 +29,8 @@ export default class Computed extends State {
     const { subject } = item
     const row: CsvRecord = {
       [CSV_HEADS[0]]: subject.id,
-      [CSV_HEADS[1]]: applyLainProxy(subject.image),
-      [CSV_HEADS[2]]: applyProxy(`${HOST}/subject/${subject.id}`).url,
+      [CSV_HEADS[1]]: restoreNativeUrl(applyLainProxy(subject.image)),
+      [CSV_HEADS[2]]: restoreNativeUrl(applyProxy(`${HOST}/subject/${subject.id}`).url),
       [CSV_HEADS[3]]: MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type),
       [CSV_HEADS[4]]: subject.cn,
       [CSV_HEADS[5]]: subject.jp,

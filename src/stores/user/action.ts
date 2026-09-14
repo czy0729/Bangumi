@@ -8,7 +8,7 @@ import { toJS } from 'mobx'
 import { getFormhash, getTimestamp, info, loading, urlStringify } from '@utils'
 import fetch, { xhr } from '@utils/fetch'
 import { fetchCollectionSingleV0 } from '@utils/fetch.v0'
-import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/proxy'
+import { axiosWithProxy, axiosWithProxyRedirect, parseOAuthCode } from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
 import {
   API_EP_STATUS,
@@ -350,7 +350,7 @@ export default class Action extends Fetch {
       true
     )
 
-    const code = redirectUrl?.split('=').slice(1).join('=')
+    const code = parseOAuthCode(redirectUrl)
     return this.getAccessToken(code)
   }
 

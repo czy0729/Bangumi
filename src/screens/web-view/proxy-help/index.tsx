@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-06-02 06:25:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 20:33:07
+ * @Last Modified time: 2026-09-14 21:20:30
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -45,22 +45,34 @@ function ProxyHelp() {
             <SubTitle>直连</SubTitle>
             <Paragraph>所有请求直连默认服务器，不做任何处理，跟客户端以往一致。</Paragraph>
 
+            <SubTitle style={_.mt.md}>ECH 模式 (Android)</SubTitle>
+            <Paragraph>自动接管 Bangumi 域名请求，无需配置，目前最为稳定（推荐）。</Paragraph>
+            <Paragraph>通过加密 SNI 和 DNS 保护你的隐私，防止连接被识别和干扰。</Paragraph>
+            <Paragraph>
+              若此模式可用，无需再使用「镜像 / 反代」。此模式开启后接管网址的 WebView 依然会受限。
+            </Paragraph>
+
             <SubTitle style={_.mt.md}>镜像 / 反代</SubTitle>
             <Paragraph>
-              通过自建或社区提供的服务访问 Bangumi。需要填写地址，推荐到超展开社区寻找可用服务。
+              通过自建或社区提供的服务访问 Bangumi。需要填写地址，可到超展开社区寻找可用服务。
+            </Paragraph>
+
+            <SubTitle style={_.mt.md}>支持者节点（实验性）</SubTitle>
+            <Paragraph>
+              在「镜像 / 反代」模式下提供的一个内置节点，无需填写任何地址，开启即用。
+            </Paragraph>
+            <Paragraph>
+              ⚠️ 实验性功能：开启后你的请求（含登录凭证）会经过该节点，请自行判断是否使用。
+            </Paragraph>
+            <Paragraph>
+              节点是 Cloudflare Worker 的免费账号，受周期额度限制，用量接近上限时可能不可用，
+              届时可改用自建地址或其他服务。
             </Paragraph>
 
             <SubTitle style={_.mt.md}>自建 Worker 转发</SubTitle>
             <Paragraph>关闭「直接转发」：由节点自行处理转发（如 Nginx 直接覆写域名）。</Paragraph>
             <Paragraph>开启「直接转发」：由 Worker 帮你处理 cookie、重定向等转发细节。</Paragraph>
             <Paragraph>推荐保持关闭，直接使用社区提供的服务即可。</Paragraph>
-
-            <SubTitle style={_.mt.md}>ECH 模式 (Android)</SubTitle>
-            <Paragraph>自动接管 Bangumi 域名请求，无需配置。</Paragraph>
-            <Paragraph>通过加密 SNI 和 DNS 保护你的隐私，防止连接被识别和干扰。</Paragraph>
-            <Paragraph>
-              实验性功能，不一定有效。此模式开启后接管网址的 WebView 依然会受限。
-            </Paragraph>
           </Collapse>
 
           <Collapse title='什么是镜像 / 反代？'>

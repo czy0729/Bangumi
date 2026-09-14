@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2026-08-25 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:30:51
+ * @Last Modified time: 2026-09-14 20:52:58
  */
 import { syncSystemStore } from '@utils/async'
+import { getSupporterConfig } from '@utils/kv/worker'
 import { applyProxyToAxiosConfig, axiosWithProxy, axiosWithProxyRedirect } from '../axios'
 import { clearWorkerLogs, getWorkerLogs } from '../worker-log'
 
@@ -30,21 +31,43 @@ jest.mock('@utils/thirdParty/crypto', () => ({
   hmacSHA256: jest.fn((message: string, secret: string) => `${secret}${message}`)
 }))
 
+jest.mock('@utils/kv/worker', () => ({
+  getSupporterConfig: () => ({
+    host: 'https://supporter.example.com',
+    secret: 'supporter-secret',
+    lainHost: 'https://supporter-lain.example.com',
+    lainSecret: 'supporter-lain-secret'
+  })
+}))
+
+/** 内置支持者配置 (与 @utils/kv/worker 的 mock 一致) */
+const SUPPORTER = getSupporterConfig()
+
 const WORKER = 'https://my-worker.example.com'
+
+/** 默认设置 (未配置任何地址, 非直连) */
+const DEFAULTS = {
+  workerProxyDisabled: false,
+  workerProxy: '',
+  workerSecret: '',
+  workerProxyDirect: false,
+  workerApiProxy: '',
+  workerLainProxy: '',
+  workerLainSecret: ''
+}
 
 /** 构造可控的 systemStore.setting */
 function setSetting(overrides: Record<string, string | boolean> = {}) {
   ;(syncSystemStore as jest.Mock).mockReturnValue({
-    setting: {
-      workerProxyDisabled: false,
-      workerProxy: '',
-      workerSecret: '',
-      workerProxyDirect: false,
-      workerApiProxy: '',
-      workerLainProxy: '',
-      workerLainSecret: '',
-      ...overrides
-    }
+    setting: { ...DEFAULTS, ...overrides }
+  })
+}
+
+/** 构造支持者节点场景 (高级会员, 未填写任何地址) */
+function setSupporter(overrides: Record<string, string | boolean> = {}) {
+  ;(syncSystemStore as jest.Mock).mockReturnValue({
+    advance: true,
+    setting: { ...DEFAULTS, workerPreset: 'supporter', ...overrides }
   })
 }
 
@@ -276,5 +299,53 @@ describe('axiosWithProxyRedirect', () => {
     const logs = getWorkerLogs()
     expect(logs).toHaveLength(1)
     expect(logs[0].level).toBe('success')
+  })
+})
+
+describe('axios - 支持者节点', () => {
+  it('未填任何地址也不会短路, 改写到内置节点并携带密钥', async () => {
+    setSupporter()
+
+    const axiosFn = jest.fn(async config => config)
+    const config = { url: 'https://bgm.tv/x' }
+
+    await axiosWithProxy(axiosFn, config)
+
+    const passed = axiosFn.mock.calls[0][0] as { url: string; headers: Record<string, string> }
+    expect(passed.url).toBe(`${SUPPORTER.host}/x`)
+    expect(passed.headers['x-proxy-key']).toBe(SUPPORTER.secret)
+  })
+
+  it('支持者模式 (即使「直接转发」开启) 注入 x-no-redirect 并改写地址', async () => {
+    setSupporter({ workerProxyDirect: true })
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const axiosFn = jest.fn(async (_config: ProxyRequestConfig) => ({
+      data: '',
+      headers: {},
+      request: {}
+    }))
+    const config: { url: string; headers?: Record<string, string> } = {
+      url: 'https://bgm.tv/page/auth'
+    }
+
+    await axiosWithProxyRedirect(axiosFn, config)
+
+    expect(config.headers?.['x-no-redirect']).toBe('true')
+    expect(config.url).toContain(SUPPORTER.host)
+  })
+
+  it('非高级会员时支持者设置不生效', async () => {
+    ;(syncSystemStore as jest.Mock).mockReturnValue({
+      advance: false,
+      setting: { ...DEFAULTS, workerPreset: 'supporter' }
+    })
+
+    const axiosFn = jest.fn(async config => config)
+    const config = { url: 'https://bgm.tv/x' }
+
+    await axiosWithProxy(axiosFn, config)
+
+    expect((axiosFn.mock.calls[0][0] as { url: string }).url).toBe('https://bgm.tv/x')
   })
 })

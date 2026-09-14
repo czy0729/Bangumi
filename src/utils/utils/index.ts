@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-10 05:30:10
+ * @Last Modified time: 2026-09-14 23:16:41
  */
 import { Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import pLimit from '@utils/thirdParty/p-limit'
 import { B, M, TIMEZONE_IS_GMT8 } from '@constants/data'
 import { IOS } from '@constants/env'
-import { applyProxy } from '../proxy'
+import { applyProxy, restoreNativeUrl } from '../proxy'
 import Base64 from '../thirdParty/base64'
 import { date, getTimestamp } from '../thirdParty/date'
 import { info } from '../ui'
@@ -213,7 +213,7 @@ export function open(url: string, encode: boolean = false): boolean {
   if (encode) url = encodeURI(url)
 
   // 接管 workerProxy 替换
-  url = applyProxy(url).url
+  url = restoreNativeUrl(applyProxy(url).url)
 
   if (IOS && url.indexOf('http') === 0) {
     WebBrowser.openBrowserAsync(url, {

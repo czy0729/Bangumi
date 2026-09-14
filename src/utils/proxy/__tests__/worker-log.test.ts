@@ -2,9 +2,18 @@
  * @Author: czy0729
  * @Date: 2026-08-25 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 10:00:00
+ * @Last Modified time: 2026-09-14 21:07:56
  */
 import { addWorkerLog, clearWorkerLogs, getWorkerLogs } from '../worker-log'
+
+jest.mock('@utils/kv/worker', () => ({
+  getSupporterConfig: () => ({
+    host: 'https://supporter.example.com',
+    secret: 'supporter-secret',
+    lainHost: 'https://supporter-lain.example.com',
+    lainSecret: 'supporter-lain-secret'
+  })
+}))
 
 beforeEach(() => {
   clearWorkerLogs()
@@ -61,5 +70,31 @@ describe('clearWorkerLogs', () => {
     clearWorkerLogs()
 
     expect(getWorkerLogs()).toHaveLength(0)
+  })
+})
+
+describe('addWorkerLog - 内置支持者节点打码', () => {
+  it('主节点域名被隐藏为 ***', () => {
+    addWorkerLog('info', 'https://bgm.tv/x → https://supporter.example.com/x', 'host')
+
+    expect(getWorkerLogs()[0].message).toBe('https://bgm.tv/x → https://***/x')
+  })
+
+  it('图片节点域名同样被打码', () => {
+    addWorkerLog('info', 'https://supporter-lain.example.com/pic/a.jpg', 'lain')
+
+    expect(getWorkerLogs()[0].message).toBe('https://***/pic/a.jpg')
+  })
+
+  it('带端口与裸域名形式一并覆盖, 端口保留', () => {
+    addWorkerLog('info', 'https://supporter.example.com:8080/x supporter.example.com/y')
+
+    expect(getWorkerLogs()[0].message).toBe('https://***:8080/x ***/y')
+  })
+
+  it('用户自填地址与社区节点不受影响', () => {
+    addWorkerLog('info', 'https://my-worker.example.com/x')
+
+    expect(getWorkerLogs()[0].message).toBe('https://my-worker.example.com/x')
   })
 })

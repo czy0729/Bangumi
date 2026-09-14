@@ -19,7 +19,7 @@ import {
 } from '@utils'
 import { t } from '@utils/fetch'
 import { collect, update } from '@utils/kv'
-import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/proxy'
+import { axiosWithProxy, axiosWithProxyRedirect, parseSetCookieItems } from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
 import {
   API_TINYGRAIL_LOGOUT,
@@ -381,15 +381,12 @@ export default class Action extends Fetch {
 
     feedback()
 
-    // 从响应头提取 Set-Cookie
-    const targetHeaders = data?.headers || {}
-    const setCookie =
-      targetHeaders['x-set-cookie'] ||
-      targetHeaders['X-Set-Cookie'] ||
-      targetHeaders['set-cookie']?.[0] ||
-      targetHeaders['Set-Cookie']?.[0]
-    if (setCookie && typeof setCookie === 'string') {
-      tinygrailStore.updateCookie(`${setCookie.split(';')[0]};`)
+    // 从响应头提取 Set-Cookie (反代/节点可能返回多条, 统一取全部)
+    const setCookieItems = parseSetCookieItems(data?.headers)
+    if (setCookieItems.length) {
+      tinygrailStore.updateCookie(
+        setCookieItems.map(({ key, value }) => `${key}=${value}`).join('; ')
+      )
     }
 
     return data

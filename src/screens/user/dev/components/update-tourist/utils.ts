@@ -2,24 +2,25 @@
  * @Author: czy0729
  * @Date: 2022-08-19 02:49:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-05 04:43:18
+ * @Last Modified time: 2026-09-14 09:03:31
  */
 import { getFormhash, getTimestamp, urlStringify } from '@utils'
-import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/proxy'
+import {
+  axiosWithProxy,
+  axiosWithProxyRedirect,
+  parseOAuthCode,
+  parseSetCookieItems
+} from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
 import Base64 from '@utils/thirdParty/base64'
 import { APP_ID, APP_SECRET, HOST, URL_OAUTH_REDIRECT } from '@constants'
 
-function getCookie(setCookie: string = '') {
-  const cookie = {}
+/** 解析出白名单 cookie (反代/节点可能返回多条 Set-Cookie, 统一取全部) */
+function getCookie(headers: Record<string, unknown> = {}) {
   const setCookieKeys = ['__cfduid', 'chii_sid', 'chii_sec_id', 'chii_cookietime', 'chii_auth']
-  setCookieKeys.forEach(item => {
-    const reg = new RegExp(`${item}=(.+?);`)
-    const match = setCookie.match(reg)
-    if (match) cookie[item] = match[1]
-  })
-  return Object.keys(cookie)
-    .map(item => `${item}=${cookie[item]}`)
+  return parseSetCookieItems(headers)
+    .filter(item => setCookieKeys.includes(item.key))
+    .map(item => `${item.key}=${item.value}`)
     .join('; ')
 }
 
@@ -39,7 +40,7 @@ export async function getConfig() {
     },
     true
   )
-  const cookie = getCookie(headers?.['x-set-cookie'] || headers?.['set-cookie']?.[0])
+  const cookie = getCookie(headers)
 
   // get captcha
   const { request } = await axiosWithProxy<any>(
@@ -90,7 +91,7 @@ export async function doLogin({ ua = '', cookie = '', formhash = '' }, captcha) 
   )
 
   // oauth
-  const loginCookie = getCookie(headers?.['x-set-cookie'] || headers?.['set-cookie']?.[0])
+  const loginCookie = getCookie(headers)
   const { data } = await axiosWithProxy<any>(
     axios,
     {
@@ -145,7 +146,7 @@ export async function doLogin({ ua = '', cookie = '', formhash = '' }, captcha) 
           grant_type: 'authorization_code',
           client_id: APP_ID,
           client_secret: APP_SECRET,
-          code: redirectUrl?.split('=').slice(1).join('='),
+          code: parseOAuthCode(redirectUrl),
           redirect_uri: URL_OAUTH_REDIRECT,
           state: getTimestamp()
         })

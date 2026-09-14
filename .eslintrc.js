@@ -17,6 +17,7 @@ module.exports = {
     '/ext',
     '/node_modules',
     '/src/utils/thirdParty/*',
+    '/workers/*',
     'babel.config.js',
     'jsconfig.json'
   ],

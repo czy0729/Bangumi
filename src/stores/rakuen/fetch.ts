@@ -8,6 +8,7 @@ import { getTimestamp, HTMLTrim } from '@utils'
 import { getBucketId } from '@utils/bucket'
 import { fetchHTML, xhr, xhrCustom } from '@utils/fetch'
 import { get, groupTopics } from '@utils/kv'
+import { normalizeSetCookie } from '@utils/proxy'
 import {
   CDN_RAKUEN,
   FROZEN_FN,
@@ -287,7 +288,8 @@ export default class Fetch extends Computed {
         raw: true
       })
 
-      data.setCookie = res?.headers?.map?.['set-cookie'] || ''
+      // 只保留 chii_* 键值对: 整行 Set-Cookie (含 Path / Domain / 逗号拼接) 不能直接进请求 Cookie 头
+      data.setCookie = normalizeSetCookie(res?.headers?.map?.['set-cookie'])
       data.html = HTMLTrim(await res.text()) || ''
       data.list = analysis ? cheerioNotify(data.html) : list
 

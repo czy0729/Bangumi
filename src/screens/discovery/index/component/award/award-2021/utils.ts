@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-12-11 04:01:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 04:02:25
+ * @Last Modified time: 2026-09-14 23:15:23
  */
-import { applyProxy } from '@utils/proxy'
+import { applyProxy, restoreNativeUrl } from '@utils/proxy'
 import { HOST, URL_PKG_JQUERY } from '@constants'
 
 export function getHtml(width: number, height: number) {
@@ -105,7 +105,9 @@ export function getHtml(width: number, height: number) {
       </div>
     </div>
     <script src="${URL_PKG_JQUERY}"></script>
-    <script src="${applyProxy(`${HOST}/js/jquery_blockrain.js?r351`).url}"></script>
+    <script src="${restoreNativeUrl(
+      applyProxy(`${HOST}/js/jquery_blockrain.js?r351`).url
+    )}"></script>
     <script>
       window.addEventListener('DOMContentLoaded', function () {
         $('.screen_game').blockrain({

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-30 08:02:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-30 08:04:16
+ * @Last Modified time: 2026-09-14 20:53:09
  */
 
 /** 允许的上游域名白名单 */
@@ -98,6 +98,9 @@ export default {
         redirectHeaders.set('x-redirect-url', redirectLocation)
       }
 
+      // 本分支自行构造响应头, 上游 30x 上的 cookie (如登录的 chii_auth) 需手动透传
+      setCookieHeaders(redirectHeaders, response)
+
       return new Response(JSON.stringify({ location: redirectLocation }), {
         status: 200,
         headers: redirectHeaders
@@ -137,15 +140,9 @@ export default {
     respHeaders.delete('content-security-policy-report-only')
     respHeaders.delete('clear-site-data')
 
-    // Set-Cookie 透传
-    const setCookies = response.headers.getSetCookie?.()
-    if (setCookies?.length) {
-      for (const cookie of setCookies) {
-        respHeaders.append('Set-Cookie', cookie)
-      }
-    } else if (response.headers.has('Set-Cookie')) {
-      respHeaders.set('Set-Cookie', response.headers.get('Set-Cookie'))
-    }
+    // Set-Cookie 透传 (先删再写, 否则 new Headers 拷贝的合并值会与本处重复)
+    respHeaders.delete('Set-Cookie')
+    setCookieHeaders(respHeaders, response)
 
     return new Response(body, {
       status: response.status,
@@ -155,14 +152,45 @@ export default {
   }
 }
 
-/** CORS 响应头 */
+/**
+ * 透传上游 Set-Cookie
+ * - 逐条写入 Set-Cookie (客户端按数组读取)
+ * - 额外写入合并头 x-set-cookie: 客户端若只读第一条 set-cookie 会丢 cookie (如 chii_sec_id), 合并头可避免
+ */
+function setCookieHeaders(target, response) {
+  const setCookies = response.headers.getSetCookie?.()
+  if (setCookies?.length) {
+    for (const cookie of setCookies) {
+      target.append('Set-Cookie', cookie)
+    }
+    target.set('x-set-cookie', setCookies.join(', '))
+    return
+  }
+
+  const cookie = response.headers.get('Set-Cookie')
+  if (cookie) {
+    target.set('Set-Cookie', cookie)
+    target.set('x-set-cookie', cookie)
+  }
+}
+
+/**
+ * CORS 响应头
+ *
+ * 已知取舍 (自用节点, 有意保留, 勿盲目收紧):
+ * - Allow-Origin 回显请求方 Origin 且 Allow-Credentials 为 true, Expose-Headers 又暴露了
+ *   x-set-cookie (合并后的登录凭证), 理论上任意来源的浏览器脚本都能读到
+ * - 实际门槛: 需要知道节点地址; 节点设置 WORKER_SECRET 时还必须通过 x-proxy-key 校验
+ * - 如将来需要收紧: 通过密钥校验后再单独追加 Expose-Headers, 或把 Origin 收成白名单
+ *   (RN 客户端不受 CORS 约束, 收紧不影响 App)
+ */
 function corsHeaders(origin) {
   return {
     'Access-Control-Allow-Origin': origin || '*',
     'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': '*',
     'Access-Control-Allow-Credentials': 'true',
-    'Access-Control-Expose-Headers': 'Set-Cookie, Location, x-redirect-url',
+    'Access-Control-Expose-Headers': 'Set-Cookie, Location, x-redirect-url, x-set-cookie',
     Vary: 'Origin'
   }
 }

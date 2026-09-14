@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-10 12:00:00
+ * @Last Modified time: 2026-09-14 23:15:58
  */
 import { systemStore } from '@stores'
 import {
@@ -25,7 +25,7 @@ import { calendarEventsSaveGameReleaseDate } from '@utils/calendar'
 import { CDN_OSS_SUBJECT } from '@utils/cdn'
 import { baiduTranslate, t } from '@utils/fetch'
 import { download, lx, lxCache, temp } from '@utils/kv'
-import { applyLainProxy, applyProxy } from '@utils/proxy'
+import { applyLainProxy, applyProxy, restoreNativeUrl } from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
 import { HOST, HOST_CDN, URL_SPA } from '@constants'
 import Menus from './menus'
@@ -135,7 +135,7 @@ export default class Share extends Menus {
       targetEps.forEach(item => {
         const { DTSTART, DTEND } = genICSCalenderEventDate(item, onAir)
 
-        let desc = `${applyProxy(`${HOST}/ep/${item.id}`).url}`
+        let desc = `${restoreNativeUrl(applyProxy(`${HOST}/ep/${item.id}`).url)}`
         if (item.name_cn || item.name) desc += ` (${item.name_cn || item.name})`
 
         ics.push(
@@ -185,7 +185,7 @@ export default class Share extends Menus {
         setTimeout(async () => {
           try {
             const title = cnjp(this.cn, this.jp)
-            const url = applyProxy(`${HOST}/subject/${this.subjectId}`).url
+            const url = restoreNativeUrl(applyProxy(`${HOST}/subject/${this.subjectId}`).url)
 
             const cb = async () => {
               const calendarId = await calendarEventsSaveGameReleaseDate(

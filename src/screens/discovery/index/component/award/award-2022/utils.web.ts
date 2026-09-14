@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-12-10 22:53:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-10 22:53:52
+ * @Last Modified time: 2026-09-14 23:15:30
  */
-import { applyProxy } from '@utils/proxy'
+import { applyProxy, restoreNativeUrl } from '@utils/proxy'
 import { HOST } from '@constants'
 
 export function getHtml(width: number, height: number) {
@@ -38,7 +38,7 @@ export function getHtml(width: number, height: number) {
       text-indent: -9999px;
       font-size: 0;
       line-height: 100%;
-      background: url(${applyProxy(`${HOST}/img/event/2022/title.png`).url});
+      background: url(${restoreNativeUrl(applyProxy(`${HOST}/img/event/2022/title.png`).url)});
       width: 80%;
       max-width: 860px;
       max-height: 120px;
@@ -52,7 +52,9 @@ export function getHtml(width: number, height: number) {
       position: absolute;
       width: 168px;
       height: 85px;
-      background-image: url(${applyProxy(`${HOST}/img/event/2022/heroes_s.png`).url});
+      background-image: url(${restoreNativeUrl(
+        applyProxy(`${HOST}/img/event/2022/heroes_s.png`).url
+      )});
       background-size: 100% 100%;
       background-repeat: no-repeat;
       bottom: 0;

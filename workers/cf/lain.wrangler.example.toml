@@ -1,0 +1,13 @@
+name = "bgm-lain"
+main = "lain.js"
+compatibility_date = "2024-01-01"
+
+# *.workers.dev 国内不可达, 图片代理绑定独立子域名 (换成你的自定义域名)
+workers_dev = false
+preview_urls = false
+routes = [
+  { pattern = "lain.your-domain.com", custom_domain = true }
+]
+
+[observability]
+enabled = false

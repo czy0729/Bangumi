@@ -25,55 +25,57 @@ export function useProxyMode() {
     ? 'disabled'
     : 'worker'
 
-  /** 切换代理模式 */
-  const setProxyMode = useCallback(async (mode: ProxyMode) => {
-    feedback(true)
-
-    if (mode === 'ech') {
-      // 先启用 ECH, 成功后再取消全局禁用, 避免中间状态闪烁
-      if (!systemStore.setting.echProxyEnabled) {
-        try {
-          const port = await enableEchProxy()
-          if (port > 0) {
-            logger.log(COMPONENT, 'setProxyMode ech running', port)
-            setEchPort(port)
-            systemStore.switchSetting('echProxyEnabled')
-          } else {
-            logger.warn(COMPONENT, 'setProxyMode ech failed: port=0')
-          }
-        } catch (e) {
-          logger.warn(COMPONENT, 'setProxyMode ech error', e)
-        }
-      }
-      if (systemStore.setting.workerProxyDisabled) {
-        systemStore.switchSetting('workerProxyDisabled')
-      }
-    } else if (mode === 'worker') {
-      // 启用 Worker, 关闭 ECH, 取消全局禁用
-      if (systemStore.setting.echProxyEnabled) {
-        try {
-          await disableEchProxy()
-        } catch {}
-        setEchPort(0)
-        systemStore.switchSetting('echProxyEnabled')
-      }
-      if (systemStore.setting.workerProxyDisabled) {
-        systemStore.switchSetting('workerProxyDisabled')
-      }
-    } else {
-      // 禁用代理, 关闭 ECH
-      if (systemStore.setting.echProxyEnabled) {
-        try {
-          await disableEchProxy()
-        } catch {}
-        setEchPort(0)
-        systemStore.switchSetting('echProxyEnabled')
-      }
-      if (!systemStore.setting.workerProxyDisabled) {
-        systemStore.switchSetting('workerProxyDisabled')
-      }
+  /** 关闭 ECH ( worker / disabled 共用 ) */
+  const closeEch = useCallback(async () => {
+    if (systemStore.setting.echProxyEnabled) {
+      try {
+        await disableEchProxy()
+      } catch {}
+      setEchPort(0)
+      systemStore.switchSetting('echProxyEnabled')
     }
   }, [])
+
+  /** 切换代理模式 */
+  const setProxyMode = useCallback(
+    async (mode: ProxyMode) => {
+      feedback(true)
+
+      if (mode === 'ech') {
+        // 先启用 ECH, 成功后再取消全局禁用, 避免中间状态闪烁
+        if (!systemStore.setting.echProxyEnabled) {
+          try {
+            const port = await enableEchProxy()
+            if (port > 0) {
+              logger.log(COMPONENT, 'setProxyMode ech running', port)
+              setEchPort(port)
+              systemStore.switchSetting('echProxyEnabled')
+            } else {
+              logger.warn(COMPONENT, 'setProxyMode ech failed: port=0')
+            }
+          } catch (e) {
+            logger.warn(COMPONENT, 'setProxyMode ech error', e)
+          }
+        }
+        if (systemStore.setting.workerProxyDisabled) {
+          systemStore.switchSetting('workerProxyDisabled')
+        }
+      } else if (mode === 'worker') {
+        // 启用 Worker, 关闭 ECH, 取消全局禁用
+        await closeEch()
+        if (systemStore.setting.workerProxyDisabled) {
+          systemStore.switchSetting('workerProxyDisabled')
+        }
+      } else {
+        // 禁用代理, 关闭 ECH
+        await closeEch()
+        if (!systemStore.setting.workerProxyDisabled) {
+          systemStore.switchSetting('workerProxyDisabled')
+        }
+      }
+    },
+    [closeEch]
+  )
 
   return {
     proxyMode,

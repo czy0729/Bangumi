@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-06 20:19:58
+ * @Last Modified time: 2026-09-14 07:21:39
  */
 import { Image as RNImage } from 'react-native'
 import { _ } from '@stores'
 import { ensureCacheLimit, getCover400, getStorage, setStorage, showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
+import { getProxyImageHeaders } from '@utils/proxy'
 import hash from '@utils/thirdParty/hash'
 import { HOST_BGM_STATIC, HOST_CDN, HOST_IMAGE, IOS, WEB } from '@constants'
 import { getSkeletonColor } from '../skeleton/utils'
@@ -102,20 +103,21 @@ export function checkBgmEmoji(src: Props['src']): boolean {
   return src.includes(OSS_BGM_EMOJI_PREFIX)
 }
 
-/** 计算请求头：lain 域名自动加 Referer */
+/** 计算请求头：lain 域名自动加 Referer, 被节点改写的图片补充鉴权头 */
 export function computeHeaders(
   src: Props['src'],
   headers?: Record<string, string>
 ): Record<string, string> {
   const isLain = typeof src === 'string' && src.includes('lain.')
+  const proxyHeaders = typeof src === 'string' ? getProxyImageHeaders(src) : {}
 
   if (headers) {
-    if (isLain) return { ...DEFAULT_HEADERS, ...(headers || {}) }
-    return { ...headers }
+    if (isLain) return { ...DEFAULT_HEADERS, ...proxyHeaders, ...(headers || {}) }
+    return { ...proxyHeaders, ...headers }
   }
 
-  if (isLain) return DEFAULT_HEADERS
-  return {}
+  if (isLain) return { ...DEFAULT_HEADERS, ...proxyHeaders }
+  return proxyHeaders
 }
 
 /** 开发调试样式 */

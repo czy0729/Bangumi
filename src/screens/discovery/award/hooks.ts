@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-04-30 00:10:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-30 00:28:51
+ * @Last Modified time: 2026-09-14 23:15:09
  */
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { systemStore } from '@stores'
@@ -17,7 +17,7 @@ import {
   setStorage
 } from '@utils'
 import { fetchHTML, t } from '@utils/fetch'
-import { applyProxy } from '@utils/proxy'
+import { applyProxy, restoreNativeUrl } from '@utils/proxy'
 import { HOST, WEB } from '@constants'
 import { getAwardUrl, getAwardYear, transformAwardHTML } from './utils'
 import { NAMESPACE } from './ds'
@@ -34,7 +34,7 @@ export function useAwardPage({ navigation, route }: NavigationProps<Params>) {
 
   const uri = route?.params?.uri || ''
   const year = useMemo(() => getAwardYear(uri), [uri])
-  const proxyBaseUrl = useMemo(() => applyProxy(HOST).url, [])
+  const proxyBaseUrl = useMemo(() => restoreNativeUrl(applyProxy(HOST).url), [])
   const source = useMemo(
     () => ({
       html,

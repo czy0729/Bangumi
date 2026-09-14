@@ -9,6 +9,7 @@ import { WEB } from '@constants/device'
 import { syncSystemStore, syncUserStore } from '../async'
 import { logger } from '../dev'
 import { isDevtoolsOpen } from '../dom'
+import { normalizeSetCookie } from '../proxy/set-cookie'
 import { urlStringify } from '../utils'
 
 const TAG = '@utils/fetch'
@@ -79,9 +80,12 @@ export function buildCookieHeaders(
   if (url.startsWith('!')) return {}
 
   const { cookie: userCookie, setCookie, userAgent } = syncUserStore().userCookie
+
+  // setCookie 可能是历史脏数据 (整行 Set-Cookie / 数组串含 Path | Domain), 先规范成键值对
+  const safeSetCookie = normalizeSetCookie(setCookie)
   const cookieValue = cookie
-    ? `${userCookie} ${cookie} ${setCookie}`
-    : `; ${userCookie}; ${setCookie}`
+    ? `${userCookie} ${cookie} ${safeSetCookie}`
+    : `; ${userCookie}; ${safeSetCookie}`
 
   return {
     'User-Agent': userAgent,

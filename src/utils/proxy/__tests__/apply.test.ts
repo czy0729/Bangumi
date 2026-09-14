@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2026-08-25 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:30:48
+ * @Last Modified time: 2026-09-14 20:52:55
  */
 import { syncSystemStore } from '@utils/async'
+import { getSupporterConfig } from '@utils/kv/worker'
 import { API_HOST, API_HOST_BACKUP, API_P1 } from '@constants/api'
 import { HOST_PROXY } from '@src/config'
 import { applyProxy } from '../apply'
+import { getProxyImageHeaders } from '../image-headers'
 import { clearWorkerLogs, getWorkerLogs } from '../worker-log'
 
 jest.mock('@utils/async', () => ({
@@ -34,22 +36,44 @@ jest.mock('@utils/thirdParty/crypto', () => ({
   hmacSHA256: jest.fn((message: string, secret: string) => `${secret}${message}`)
 }))
 
+jest.mock('@utils/kv/worker', () => ({
+  getSupporterConfig: () => ({
+    host: 'https://supporter.example.com',
+    secret: 'supporter-secret',
+    lainHost: 'https://supporter-lain.example.com',
+    lainSecret: 'supporter-lain-secret'
+  })
+}))
+
+/** 内置支持者配置 (与 @utils/kv/worker 的 mock 一致) */
+const SUPPORTER = getSupporterConfig()
+
 const WORKER = 'https://my-worker.example.com'
 const API_PROXY = 'https://my-api.example.com'
+
+/** 默认设置 (未配置任何地址, 非直连) */
+const DEFAULTS = {
+  workerProxyDisabled: false,
+  workerProxy: '',
+  workerSecret: '',
+  workerProxyDirect: false,
+  workerApiProxy: '',
+  workerLainProxy: '',
+  workerLainSecret: ''
+}
 
 /** 构造可控的 systemStore.setting */
 function setSetting(overrides: Record<string, string | boolean> = {}) {
   ;(syncSystemStore as jest.Mock).mockReturnValue({
-    setting: {
-      workerProxyDisabled: false,
-      workerProxy: '',
-      workerSecret: '',
-      workerProxyDirect: false,
-      workerApiProxy: '',
-      workerLainProxy: '',
-      workerLainSecret: '',
-      ...overrides
-    }
+    setting: { ...DEFAULTS, ...overrides }
+  })
+}
+
+/** 构造支持者节点场景 (高级会员) */
+function setSupporter(overrides: Record<string, string | boolean> = {}) {
+  ;(syncSystemStore as jest.Mock).mockReturnValue({
+    advance: true,
+    setting: { ...DEFAULTS, workerPreset: 'supporter', ...overrides }
   })
 }
 
@@ -245,5 +269,91 @@ describe('applyProxy', () => {
     applyProxy('https://bgm.tv/x', headers)
 
     expect(headers).toEqual({ Cookie: 'sid=1', host: 'bgm.tv' })
+  })
+})
+
+describe('applyProxy - 支持者节点', () => {
+  it('忽略「直接转发」设置, 始终改写请求头并携带密钥', () => {
+    setSupporter({ workerProxyDirect: true })
+
+    const result = applyProxy('https://bgm.tv/subject/1', {}, true)
+
+    expect(result.url).toBe(`${SUPPORTER.host}/subject/1`)
+    expect(result.proxyType).toBe('worker')
+    expect(result.headers['x-upstream']).toBe('bgm.tv')
+    expect(result.headers['x-proxy-key']).toBe(SUPPORTER.secret)
+  })
+
+  it('接管 API 与 next 域名, 无需用户填写地址', () => {
+    setSupporter()
+
+    expect(applyProxy(`${API_HOST}/v0/me`).url).toBe(`${SUPPORTER.host}/v0/me`)
+    expect(applyProxy(`${API_HOST}/v0/me`).headers['x-upstream']).toBe('api.bgm.tv')
+    expect(applyProxy(`${API_P1}/timeline`).headers['x-upstream']).toBe('next.bgm.tv')
+  })
+
+  it('Cookie 与 User-Agent 改名为节点要求的转发头', () => {
+    setSupporter()
+
+    const result = applyProxy(`${API_HOST}/v0/me`, {
+      Cookie: 'sid=1',
+      'User-Agent': 'ua'
+    })
+
+    expect(result.headers['X-Cookie']).toBe('sid=1')
+    expect(result.headers['x-user-agent']).toBe('ua')
+    expect(result.headers.Cookie).toBeUndefined()
+    expect(result.headers['User-Agent']).toBeUndefined()
+  })
+
+  it('非高级会员时支持者设置不生效', () => {
+    ;(syncSystemStore as jest.Mock).mockReturnValue({
+      advance: false,
+      setting: { ...DEFAULTS, workerPreset: 'supporter' }
+    })
+
+    expect(applyProxy('https://bgm.tv/x').proxyType).toBe('')
+  })
+})
+
+describe('getProxyImageHeaders', () => {
+  it('支持者模式下被主节点接管的 api 图片补充鉴权头', () => {
+    setSupporter()
+
+    expect(getProxyImageHeaders(`${API_HOST}/img/avatar.jpg`)).toEqual({
+      'x-upstream': 'api.bgm.tv',
+      'x-proxy-key': SUPPORTER.secret
+    })
+  })
+
+  it('图片节点接管的图片无需请求头', () => {
+    setSupporter()
+
+    expect(getProxyImageHeaders('https://lain.bgm.tv/pic/a.jpg')).toEqual({})
+  })
+
+  it('直连时不携带请求头', () => {
+    setSetting({ workerProxyDisabled: true })
+
+    expect(getProxyImageHeaders(`${API_HOST}/img/avatar.jpg`)).toEqual({})
+  })
+
+  it('ECH 运行时不携带请求头', () => {
+    setSupporter()
+    getEchMock().mockReturnValue(true)
+
+    expect(getProxyImageHeaders(`${API_HOST}/img/avatar.jpg`)).toEqual({})
+  })
+
+  it('普通反代 (仅替换地址) 不携带请求头', () => {
+    setSetting({ workerProxy: WORKER, workerProxyDirect: true })
+
+    expect(getProxyImageHeaders(`${API_HOST}/img/avatar.jpg`)).toEqual({})
+  })
+
+  it('自建 Worker 场景保持原有行为, 不注入内置鉴权头', () => {
+    setSetting({ workerProxy: WORKER, workerSecret: 's1' })
+
+    expect(getProxyImageHeaders(`${API_HOST}/img/avatar.jpg`)).toEqual({})
   })
 })

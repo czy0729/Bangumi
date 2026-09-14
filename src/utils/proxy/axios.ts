@@ -2,19 +2,17 @@
  * @Author: czy0729
  * @Date: 2026-08-25 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 10:00:00
+ * @Last Modified time: 2026-09-14 12:00:00
  */
-import { syncSystemStore } from '../async'
 import { applyProxy } from './apply'
+import { getRedirectFromBody, getRedirectFromHeaders } from './redirect'
+import { getProxyStrategy } from './strategy'
 import { addWorkerLog } from './worker-log'
 
 import type { ProxyAxiosFn, ProxyAxiosResponse, ProxyRequestConfig } from './types'
 
-/** 对 axios config 应用 proxy 转换 */
+/** 对 axios config 应用 proxy 转换 (是否需要改写由策略决定) */
 export function applyProxyToAxiosConfig(config: ProxyRequestConfig, isHtml: boolean = false): void {
-  const { workerProxy } = syncSystemStore().setting
-  if (!workerProxy) return
-
   const result = applyProxy(config.url, config.headers || {}, isHtml)
   config.url = result.url
   config.headers = result.headers
@@ -26,32 +24,10 @@ export async function axiosWithProxy<T = unknown>(
   config: ProxyRequestConfig,
   isHtml: boolean = false
 ): Promise<T> {
-  if (syncSystemStore().setting.workerProxy) applyProxyToAxiosConfig(config, isHtml)
+  if (getProxyStrategy().enabled) applyProxyToAxiosConfig(config, isHtml)
 
   const request = axiosFn as (config: ProxyRequestConfig) => Promise<T>
   return request(config)
-}
-
-/** 从响应头中提取重定向 URL */
-function getRedirectFromHeaders(headers: Record<string, string> = {}): string {
-  return (
-    headers['x-redirect-url'] ||
-    headers['X-Redirect-Url'] ||
-    headers['location'] ||
-    headers['Location'] ||
-    ''
-  )
-}
-
-/** 从 Worker JSON body 中提取重定向 URL */
-function getRedirectFromBody(data: unknown): string {
-  if (typeof data !== 'string' || !data.includes('"location"')) return ''
-  try {
-    const parsed = JSON.parse(data) as { location?: unknown } | null
-    return typeof parsed?.location === 'string' ? parsed.location : ''
-  } catch {
-    return ''
-  }
 }
 
 /** 带 proxy 的 authorize 重定向请求，自动提取重定向 URL */
@@ -60,9 +36,13 @@ export async function axiosWithProxyRedirect(
   config: ProxyRequestConfig,
   isHtml: boolean = false
 ): Promise<{ response: ProxyAxiosResponse; redirectUrl: string }> {
-  const { workerProxyDisabled, workerProxy, workerProxyDirect } = syncSystemStore().setting
-  if (!workerProxyDisabled && workerProxy) {
-    if (!workerProxyDirect) {
+  const strategy = getProxyStrategy()
+
+  // 改写前保存原始地址, 日志展示原始上游域名而非节点域名
+  const originalUrl = config.url
+  if (strategy.enabled) {
+    // Worker 式由节点代为处理重定向, 用 x-no-redirect 让节点以 200 返回重定向地址
+    if (strategy.rewriteHeaders) {
       if (!config.headers) config.headers = {}
       config.headers['x-no-redirect'] = 'true'
     }
@@ -75,8 +55,8 @@ export async function axiosWithProxyRedirect(
     validateStatus: () => true
   }
 
-  // 提取请求域名
-  const reqHost = config.url?.match(/^https?:\/\/([^/]+)/)?.[1] || ''
+  // 提取请求域名 (用改写前的地址, 改写后已是节点域名)
+  const reqHost = originalUrl?.match(/^https?:\/\/([^/]+)/)?.[1] || ''
 
   const request = axiosFn as (config: ProxyRequestConfig) => Promise<ProxyAxiosResponse>
 

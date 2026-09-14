@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-27 02:45:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 03:52:45
+ * @Last Modified time: 2026-09-14 23:16:04
  */
 import {
   cnjp,
@@ -20,7 +20,7 @@ import {
 import { calendarEventsRequestPermissions, calendarGetEventsAsync } from '@utils/calendar'
 import { t } from '@utils/fetch'
 import { download, temp } from '@utils/kv'
-import { applyProxy } from '@utils/proxy'
+import { applyProxy, restoreNativeUrl } from '@utils/proxy'
 import { HOST, IOS } from '@constants'
 import Progress from './progress'
 
@@ -117,7 +117,7 @@ export default class Calendar extends Progress {
       eps.forEach(item => {
         const { DTSTART, DTEND } = genICSCalenderEventDate(item, onAir)
 
-        let desc = applyProxy(`${HOST}/ep/${item.id}`).url
+        let desc = restoreNativeUrl(applyProxy(`${HOST}/ep/${item.id}`).url)
         if (item.name_cn || item.name) desc += ` (${item.name_cn || item.name})`
 
         ics.push(

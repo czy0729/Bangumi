@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-17 04:42:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-10 00:15:00
+ * @Last Modified time: 2026-09-14 07:21:18
  */
 const path = require('path')
 
@@ -167,7 +167,29 @@ jest.mock(
     applyProxyToAxiosConfig: jest.fn(config => config),
     axiosWithProxy: jest.fn(),
     axiosWithProxyRedirect: jest.fn(),
-    applyLainProxy: jest.fn(url => url)
+    applyLainProxy: jest.fn(url => url),
+    restoreNativeUrl: jest.fn(url => url),
+    parseSetCookieHeader: jest.fn(() => ''),
+    parseSetCookieItems: jest.fn(() => []),
+    normalizeSetCookie: jest.fn(value => (typeof value === 'string' ? value : '')),
+    parseOAuthCode: jest.fn(() => ''),
+    getRedirectFromHeaders: jest.fn(() => ''),
+    getRedirectFromBody: jest.fn(() => ''),
+    getRedirectFromXhr: jest.fn(() => ''),
+    getProxyImageHeaders: jest.fn(() => ({})),
+    // 默认直连: 组件测试下不做任何改写
+    getProxyStrategy: jest.fn(() => ({
+      disabled: true,
+      ech: false,
+      enabled: false,
+      supporter: false,
+      host: '',
+      apiHost: '',
+      lainHost: '',
+      secret: '',
+      lainSecret: '',
+      rewriteHeaders: false
+    }))
   }),
   { virtual: true }
 )
