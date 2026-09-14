@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-06-30 15:48:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-05 04:42:56
+ * @Last Modified time: 2026-09-14 09:02:48
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -25,7 +25,13 @@ import {
 import { logger } from '@utils/dev'
 import { hm, queue, t } from '@utils/fetch'
 import { get } from '@utils/kv'
-import { axiosWithProxy, axiosWithProxyRedirect } from '@utils/proxy'
+import {
+  axiosWithProxy,
+  axiosWithProxyRedirect,
+  getRedirectFromHeaders,
+  parseOAuthCode,
+  parseSetCookieHeader
+} from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
 import { APP_ID, APP_SECRET, HOST, URL_OAUTH_REDIRECT, WEB } from '@constants'
 import i18n from '@constants/i18n'
@@ -38,12 +44,14 @@ import Notify from './component/notify'
 import Preview from './component/preview'
 import { AUTH_RETRY_COUNT, NAMESPACE, UA_EKIBUN_BANGUMI_APP } from './ds'
 
+import type { InputInstance } from '@components'
 import type { AccessToken } from '@stores/user/types'
 import type { NavigationProps } from '@types'
+import type { ChangeField, LoginResponse, LoginState } from './ds'
 
 /** 账号密码登录 */
 class LoginV2 extends React.Component<NavigationProps> {
-  state = {
+  state: LoginState = {
     host: WEB ? HOST_PROXY : HOST,
     clicked: false,
     email: '',
@@ -69,7 +77,7 @@ class LoginV2 extends React.Component<NavigationProps> {
   private _code = ''
   private _accessToken: AccessToken = INIT_ACCESS_TOKEN
   private _retryCount = 0
-  private _codeRef = null
+  private _codeRef: InputInstance | null = null
 
   componentDidMount() {
     this.getLocalSetting()
@@ -107,7 +115,7 @@ class LoginV2 extends React.Component<NavigationProps> {
   getFormHash = async () => {
     const { host } = this.state
 
-    const { data, headers } = await axiosWithProxy<any>(
+    const { data, headers } = await axiosWithProxy<LoginResponse>(
       axios,
       {
         method: 'get',
@@ -132,7 +140,7 @@ class LoginV2 extends React.Component<NavigationProps> {
 
     const { host } = this.state
 
-    const { request, headers } = await axiosWithProxy<any>(
+    const { request, headers } = await axiosWithProxy<LoginResponse>(
       axios,
       {
         method: 'get',
@@ -147,8 +155,8 @@ class LoginV2 extends React.Component<NavigationProps> {
     this.getCookies(headers)
 
     const base64: string = WEB
-      ? window.btoa(String.fromCharCode(...new Uint8Array(request.response)))
-      : request._response
+      ? window.btoa(String.fromCharCode(...new Uint8Array(request?.response as ArrayBuffer)))
+      : (request?._response as string)
     this.setState({
       base64: `data:image/gif;base64,${base64}`,
       captcha: ''
@@ -166,8 +174,10 @@ class LoginV2 extends React.Component<NavigationProps> {
 
     const { host, email, password, captcha } = this.state
 
-    const postLogin = async () => {
-      return axiosWithProxy<any>(
+    // 注: 当前依赖节点跟随跳转 (实测 bgm 直接返回 200 + Set-Cookie);
+    // 若将来出现 302 上携带 Set-Cookie, 需改为 x-no-redirect 并读取重定向地址
+    const postLogin = async (): Promise<LoginResponse> => {
+      return axiosWithProxy<LoginResponse>(
         axios,
         {
           method: 'post',
@@ -189,12 +199,15 @@ class LoginV2 extends React.Component<NavigationProps> {
 
     let { data, headers } = await postLogin()
 
-    // 用户已有有效 session，服务端直接返回已登录页面而非登录结果
-    // 需要先主动登出清除 session，再重新请求登录
-    if (data.includes('class="logout"')) {
+    // 先吸收本次响应的 cookie: 登录成功的页面同样含登出入口, 不能只看页面判断
+    this.getCookies(headers)
+
+    // 本机已有有效 session: 服务端直接返回已登录页面, 本次不会下发新的 chii_auth
+    // 需要先主动登出清除 session, 再重新请求登录
+    if (!this._cookie.chii_auth && data.includes('class="logout"')) {
       const logoutMatch = data.match(/href="([^"]*\/logout\/[^"]*)"/)
       if (logoutMatch) {
-        await axiosWithProxy<any>(
+        await axiosWithProxy<LoginResponse>(
           axios,
           {
             method: 'get',
@@ -211,12 +224,13 @@ class LoginV2 extends React.Component<NavigationProps> {
       const retry = await postLogin()
       data = retry.data
       headers = retry.headers
+
+      // 重试结果同样先吸收
+      this.getCookies(headers)
     }
 
     if (data.includes('分钟内您将不能登录本站')) {
       info(`累计 5 次错误尝试，15 分钟内您将不能${i18n.login()}本站。`)
-    } else {
-      this.getCookies(headers)
     }
 
     return true
@@ -230,7 +244,7 @@ class LoginV2 extends React.Component<NavigationProps> {
 
     const { host } = this.state
 
-    const { data } = await axiosWithProxy<any>(
+    const { data } = await axiosWithProxy<LoginResponse>(
       axios,
       {
         method: 'get',
@@ -273,23 +287,16 @@ class LoginV2 extends React.Component<NavigationProps> {
       )
 
       // 从重定向 URL 提取 code
-      const codeMatch = redirectUrl?.match(/[?&]code=([^&]+)/)
-      this._code = codeMatch ? codeMatch[1] : ''
+      this._code = parseOAuthCode(redirectUrl)
 
       if (!this._code) {
         throw new Error('授权失败: 无法从重定向 URL 提取 code')
       }
-    } catch (error: any) {
+    } catch (error) {
       // 降级：尝试从错误响应中提取
       if (!this._code) {
-        const errResp = error?.response
-        const fallbackUrl =
-          errResp?.headers?.['x-redirect-url'] ||
-          errResp?.headers?.['X-Redirect-Url'] ||
-          errResp?.headers?.['location'] ||
-          errResp?.headers?.['Location']
-        const codeMatch = fallbackUrl?.match(/[?&]code=([^&]+)/)
-        this._code = codeMatch ? codeMatch[1] : ''
+        const errResp = (error as { response?: LoginResponse })?.response
+        this._code = parseOAuthCode(getRedirectFromHeaders(errResp?.headers))
       }
 
       if (!this._code) {
@@ -308,7 +315,7 @@ class LoginV2 extends React.Component<NavigationProps> {
 
     const { host } = this.state
 
-    const { status, data } = await axiosWithProxy<any>(
+    const { status, data } = await axiosWithProxy<LoginResponse<AccessToken>>(
       axios,
       {
         method: 'post',
@@ -327,7 +334,7 @@ class LoginV2 extends React.Component<NavigationProps> {
       },
       true
     )
-    if (status !== 200) throw new TypeError(status)
+    if (status !== 200) throw new TypeError(String(status))
 
     this._accessToken = data
 
@@ -344,13 +351,13 @@ class LoginV2 extends React.Component<NavigationProps> {
     return headers
   }
 
-  /** 获取 cookie */
-  getCookies = (headers = {}) => {
-    this.updateCookie(headers?.['x-set-cookie'] || headers?.['set-cookie']?.[0])
+  /** 获取 cookie (反代/节点可能返回多条 Set-Cookie, 统一取全部) */
+  getCookies = (headers: Record<string, unknown> = {}) => {
+    this.updateCookie(parseSetCookieHeader(headers))
   }
 
   /** 更新 set-cookie */
-  updateCookie = (setCookie = '') => {
+  updateCookie = (setCookie: string = '') => {
     if (!setCookie) return
 
     const cookies = setCookie.split(/,\s*/)
@@ -367,7 +374,7 @@ class LoginV2 extends React.Component<NavigationProps> {
           'chii_theme'
         ].includes(key)
       ) {
-        if (value === 'delete') {
+        if (value === 'delete' || value === 'deleted') {
           delete this._cookie[key]
         } else {
           this._cookie[key] = value
@@ -489,7 +496,10 @@ class LoginV2 extends React.Component<NavigationProps> {
     try {
       info('正在从 github 获取游客 cookie...')
 
-      const { accessToken, userCookie } = await get('tourist')
+      const { accessToken, userCookie } = await get<{
+        accessToken: AccessToken
+        userCookie: { cookie: string; userAgent: string }
+      }>('tourist')
       userStore.updateAccessToken(accessToken)
       userStore.updateUserCookie({
         cookie: userCookie.cookie,
@@ -545,13 +555,13 @@ class LoginV2 extends React.Component<NavigationProps> {
   }
 
   /** 输入框变化 */
-  onChange = (evt: { nativeEvent: any }, type: any) => {
+  onChange = (evt: { nativeEvent: { text: string } }, type: ChangeField) => {
     let { text } = evt.nativeEvent
     if (type === 'captcha') text = text.replace(/ /g, '')
-    this.setState({
-      [type]: text,
-      info: ''
-    })
+
+    const next: Partial<LoginState> = { info: '' }
+    next[type] = text
+    this.setState(next)
   }
 
   /** 切换登录域名 */

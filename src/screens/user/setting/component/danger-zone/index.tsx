@@ -57,13 +57,15 @@ function DangerZone({ filter }: WithFilterProps) {
         height={filter ? 480 : 720}
         onClose={setFalse}
       >
-        {shows.logout && <Logout filter={filter} setFalse={setFalse} />}
         {shows.settings && <Settings filter={filter} />}
         {shows.networdServices && <NetworkServices filter={filter} />}
         {shows.showNSFWSubject && <ShowNSFWSubject filter={filter} />}
         {shows.privacy && <Privacy filter={filter} />}
         {shows.password && <Password filter={filter} />}
         {shows.email && <Email filter={filter} />}
+
+        {/* 危险操作固定放最下方 */}
+        {shows.logout && <Logout filter={filter} setFalse={setFalse} />}
       </ActionSheet>
     </>
   )

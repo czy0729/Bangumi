@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-21 16:00:09
+ * @Last Modified time: 2026-09-14 07:50:56
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -27,6 +27,7 @@ import i18n from '@constants/i18n'
 import InputPassword from '../input-password'
 import { memoStyles } from './styles'
 
+import type { InputInstance } from '@components'
 import type { Props } from './types'
 
 class Form extends React.Component<Props> {
@@ -47,8 +48,8 @@ class Form extends React.Component<Props> {
     focusPassword: false
   }
 
-  private _passwordRef: any
-  private _codeRef: any
+  private _passwordRef: InputInstance | null = null
+  private _codeRef: InputInstance | null = null
 
   componentDidMount() {
     const { email, password, captcha, networkFailed } = this.props

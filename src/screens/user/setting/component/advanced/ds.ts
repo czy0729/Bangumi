@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-09-13 21:50:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-13 21:50:00
+ * @Last Modified time: 2026-09-14 12:00:00
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
@@ -12,12 +12,16 @@ export const COMPONENT = rc(PARENT, 'Advanced')
 export const TEXTS = {
   advanced: {
     hd: '高级',
-    information: '源头跳转、Webhook、外部浏览器等进阶集成'
+    information: '时区、Webhook、外部浏览器等进阶设置'
   },
-  origin: {
-    hd: '自定义源头',
-    information: '给不同类型的条目，自定义通用跳转',
-    search: '源头 跳转'
+  /**
+   * 时区实际渲染在面板内 (component/timezone)
+   * 这里保留一份搜索关键词, 否则页内搜索「时区 / 时间」时高级卡片会被整体过滤掉
+   */
+  timezone: {
+    hd: '设置时区',
+    information: '影响帖子楼层时间、条目评论时间等的显示',
+    search: '时区 时间'
   },
   webhook: {
     hd: 'Webhook',

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-24 17:47:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-05 04:42:38
+ * @Last Modified time: 2026-09-14 09:02:29
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import {
   Button,
   Component,
-  Header,
+  HeaderV2,
   Heatmap,
   Input,
   KeyboardSpacer,
@@ -21,6 +21,7 @@ import {
 import { _, userStore } from '@stores'
 import { copy, feedback, getFormhash, getTimestamp, info } from '@utils'
 import { t, xhrCustom } from '@utils/fetch'
+import { getProxyStrategy, getRedirectFromXhr, parseOAuthCode } from '@utils/proxy'
 import { APP_ID, APP_SECRET, HOST, URL_OAUTH_REDIRECT } from '@constants'
 import i18n from '@constants/i18n'
 import { memoStyles } from './styles'
@@ -198,7 +199,9 @@ class LoginAssist extends React.Component<NavigationProps> {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           Cookie: `; chii_cookietime=2592000; chii_sid=${this.cookie.chiiSid}; chii_auth=${this.cookie.chiiAuth};`,
-          'User-Agent': this.userAgent
+          'User-Agent': this.userAgent,
+          // Worker 式由节点代为处理重定向, 用 x-no-redirect 让节点以 200 返回重定向地址
+          ...(getProxyStrategy().rewriteHeaders ? { 'x-no-redirect': 'true' } : {})
         },
         data: {
           formhash: this.formhash,
@@ -208,9 +211,8 @@ class LoginAssist extends React.Component<NavigationProps> {
         }
       })
 
-      // @ts-expect-error
-      const { responseURL } = await res
-      this.code = responseURL.split('=').slice(1).join('=')
+      // 兼容各模式: 节点响应头 / 响应体 location / 直连场景的最终地址
+      this.code = parseOAuthCode(getRedirectFromXhr(await res))
       return res
     } catch (error) {
       this.setState({
@@ -282,7 +284,7 @@ class LoginAssist extends React.Component<NavigationProps> {
     const { loading, info } = this.state
     return (
       <Component id='screen-login-assist'>
-        <Header
+        <HeaderV2
           title={`电脑辅助${i18n.login()}`}
           alias={`辅助${i18n.login()}`}
           hm={['login/assist', 'LoginAssist']}

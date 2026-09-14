@@ -1,23 +1,30 @@
 /*
  * @Author: czy0729
- * @Date: 2024-04-23 05:16:43
+ * @Date: 2026-09-14 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-13 21:50:00
+ * @Last Modified time: 2026-09-14 12:00:00
  */
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
+import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
-import { TEXTS } from '../ds'
-import { IconTvPlay } from '../../icons'
+import { IconTvPlay } from '../icons'
+import { getShows } from '../../utils'
+import { COMPONENT, TEXTS } from './ds'
 
-import type { Props } from './types'
+import type { WithFilterProps } from '../../types'
 
 /** 自定义源头 */
-function OriginSetting({ filter, setFalse }: Props) {
+function Origin({ filter }: WithFilterProps) {
+  r(COMPONENT)
+
   const navigation = useNavigation()
+  const shows = getShows(filter, TEXTS)
+
+  if (!shows) return null
 
   return (
     <ItemSetting
@@ -26,7 +33,6 @@ function OriginSetting({ filter, setFalse }: Props) {
       highlight
       filter={filter}
       onPress={() => {
-        setFalse()
         setTimeout(() => {
           navigation.push('OriginSetting')
         }, 80)
@@ -43,4 +49,4 @@ function OriginSetting({ filter, setFalse }: Props) {
   )
 }
 
-export default observer(OriginSetting)
+export default observer(Origin)

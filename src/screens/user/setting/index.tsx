@@ -20,6 +20,7 @@ import Discovery from './component/discovery'
 import Home from './component/home'
 import Katakana from './component/katakana'
 import Lasttime from './component/lasttime'
+import Origin from './component/origin'
 import Rakuen from './component/rakuen'
 import Route from './component/route'
 import Storage from './component/storage'
@@ -28,7 +29,6 @@ import System from './component/system'
 import Text from './component/text'
 import Theme from './component/theme'
 import Timeline from './component/timeline'
-import Timezone from './component/timezone'
 import Tinygrail from './component/tinygrail'
 import Track from './component/track'
 import UI from './component/ui'
@@ -102,8 +102,7 @@ function Setting(props: NavigationProps<Params>) {
       key: 'system',
       rows: f => [
         <Storage key='storage' filter={f} />,
-        <System key='system' filter={f} />,
-        <Timezone key='timezone' filter={f} />,
+        <Origin key='origin' filter={f} />,
         <Worker key='worker' filter={f} open={open === 'Worker'} />,
         <Advanced key='advanced' filter={f} />
       ]
@@ -139,8 +138,9 @@ function Setting(props: NavigationProps<Params>) {
             </Block>
           ))}
 
-          {/* 账户: 独立一张卡片, 固定放最后 */}
-          <Block>
+          {/* 同步设置 + 账户: 同一张卡片, 固定放最后 */}
+          <Block tip='同步与账户'>
+            <System filter={filter} />
             <DangerZone filter={filter} />
           </Block>
 

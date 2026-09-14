@@ -13,7 +13,17 @@ import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function InputPassword({ forwardRef, style, value, onFocus, onBlur, onChange, onSubmitEditing }) {
+import type { Props } from './types'
+
+function InputPassword({
+  forwardRef,
+  style,
+  value,
+  onFocus,
+  onBlur,
+  onChange,
+  onSubmitEditing
+}: Props) {
   r(COMPONENT)
 
   const [visible, setVisible] = useState(false)
