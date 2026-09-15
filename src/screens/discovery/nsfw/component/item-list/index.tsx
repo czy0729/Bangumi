@@ -33,6 +33,17 @@ function ItemList({ pickIndex }: Props) {
   const subjectId = otaStore.nsfwSubjectId(pickIndex)
   const anime = otaStore.nsfw(subjectId)
 
+  /**
+   * 必须放在 `if (!anime?.id)` 之前
+   *  - 数据未就绪时首次渲染会走 loading 分支, 若把 hook 写在提前 return 之后,
+   *    后续渲染就会报 Rendered more hooks than during the previous render
+   * */
+  /** 稳定 style 引用, 避免每次渲染生成新数组击穿子组件 memo */
+  const itemStyle = useMemo(
+    () => stl(flexStyle({ align: 'start' }), styles.container, styles.wrap),
+    [styles]
+  )
+
   if (!anime?.id) {
     return (
       <Flex style={styles.loading} justify='center'>
@@ -71,12 +82,6 @@ function ItemList({ pickIndex }: Props) {
       '找NSFW'
     )
   }
-
-  /** 稳定 style 引用, 避免每次渲染生成新数组击穿子组件 memo */
-  const itemStyle = useMemo(
-    () => stl(flexStyle({ align: 'start' }), styles.container, styles.wrap),
-    [styles]
-  )
 
   return (
     <Touchable style={itemStyle} onPress={handlePress}>

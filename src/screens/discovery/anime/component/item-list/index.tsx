@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-12 03:22:48
+ * @Last Modified time: 2026-09-16 04:08:55
  */
 import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -31,11 +31,9 @@ function ItemList({ index, pickIndex }: Props) {
 
   const styles = memoStyles()
 
-  // --- Data Logic ---
   const subjectId = otaStore.animeSubjectId(pickIndex)
   const anime = otaStore.anime(subjectId)
 
-  // --- Handlers ---
   const handlePress = useCallback(() => {
     if (!anime) return
 
@@ -68,7 +66,12 @@ function ItemList({ index, pickIndex }: Props) {
     )
   }, [anime])
 
-  // --- Render ---
+  /** 稳定 style 引用, 避免每次渲染生成新数组击穿子组件 memo */
+  const itemStyle = useMemo(
+    () => stl(flexStyle({ align: 'start' }), styles.container, styles.wrap),
+    [styles]
+  )
+
   if (!anime?.id) {
     return (
       <Flex style={styles.loading} justify='center'>
@@ -112,12 +115,6 @@ function ItemList({ index, pickIndex }: Props) {
     .sort((a, b) => desc(tags.includes(a) ? 1 : 0, tags.includes(b) ? 1 : 0))
 
   const collection = collectionStore.collect(id)
-
-  /** 稳定 style 引用, 避免每次渲染生成新数组击穿子组件 memo */
-  const itemStyle = useMemo(
-    () => stl(flexStyle({ align: 'start' }), styles.container, styles.wrap),
-    [styles]
-  )
 
   return (
     <>

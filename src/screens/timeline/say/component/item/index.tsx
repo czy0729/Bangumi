@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-17 11:17:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:25:03
+ * @Last Modified time: 2026-09-16 04:34:22
  */
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -21,11 +21,12 @@ function Item({ item, index }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const { id, name } = item
-  if (!id) return null
 
-  const { list } = $.say
-  const prevItem: Partial<SayItem> = list[index - 1] || {}
-
+  /**
+   * 必须放在 `if (!id) return null` 之前
+   *  - 否则首次渲染会跳过 useCallback, 后续渲染再调用就会报
+   *    Rendered more hooks than during the previous render
+   * */
   const showTinygrailAt =
     systemStore.setting.tinygrail && systemStore.setting.avatarAlertTinygrailAssets
   const handleLongPress = useCallback(() => {
@@ -42,6 +43,11 @@ function Item({ item, index }: Props) {
       $.at(id)
     }
   }, [$, id, name, showTinygrailAt])
+
+  if (!id) return null
+
+  const { list } = $.say
+  const prevItem: Partial<SayItem> = list[index - 1] || {}
 
   return (
     <>

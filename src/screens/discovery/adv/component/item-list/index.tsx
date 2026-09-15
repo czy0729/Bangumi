@@ -45,7 +45,7 @@ function Item({ index, pickIndex }: Props) {
 
   const subjectId = otaStore.advSubjectId(pickIndex)
   const adv = otaStore.adv(subjectId)
-  const { id } = adv
+  const { id, title, cover, date, score, rank, total, length, dev, time, cn } = adv
 
   const handlePress = useCallback(() => {
     const { title, cover } = adv
@@ -76,6 +76,21 @@ function Item({ index, pickIndex }: Props) {
     )
   }, [adv, id])
 
+  /**
+   * 下面两个 useMemo 必须在 `if (!id)` 之前
+   *  - 数据未就绪时 otaStore.adv() 返回的是 {}, id 为 undefined, 会走 loading 分支
+   *  - 若把它们写在提前 return 之后, 首次渲染会少调用这两个 hook,
+   *    数据回来后再渲染就会报 Rendered more hooks than during the previous render
+   * */
+  const thumbs = useMemo(() => (id ? getThumbs(id, length) : []), [id, length])
+  const thumbsData = useMemo(() => thumbs.slice(0, 3).map((image, id) => ({ id, image })), [thumbs])
+
+  /** 稳定 style 引用, 避免每次渲染生成新数组击穿子组件 memo */
+  const itemStyle = useMemo(
+    () => stl(flexStyle({ align: 'start' }), styles.container, styles.wrap),
+    [styles]
+  )
+
   if (!id) {
     return (
       <Flex style={styles.loading} justify='center'>
@@ -84,19 +99,10 @@ function Item({ index, pickIndex }: Props) {
     )
   }
 
-  const { title, cover, date, score, rank, total, length, dev, time, cn } = adv
   const titleText = HTMLDecode(title)
   const size = titleText.length >= 20 ? 13 : titleText.length >= 14 ? 14 : 15
   const image = cover ? `${HOST_BGM_STATIC}/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
-  const thumbs = getThumbs(id, length)
   const thumbs2 = getThumbs(id, length, false)
-
-  /** 稳定 style 引用, 避免每次渲染生成新数组击穿子组件 memo */
-  const itemStyle = useMemo(
-    () => stl(flexStyle({ align: 'start' }), styles.container, styles.wrap),
-    [styles]
-  )
-  const thumbsData = useMemo(() => thumbs.slice(0, 3).map((image, id) => ({ id, image })), [thumbs])
 
   const tipStr = [date, dev, formatPlaytime(time), cn ? '汉化' : '']
     .filter(item => !!item)
