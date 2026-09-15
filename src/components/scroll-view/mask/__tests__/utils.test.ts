@@ -1,11 +1,11 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-18 10:00:00
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-18 10:00:00
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-16 00:46:45
  */
 import { DEFAULT_MASK_WIDTH } from '../ds'
-import { getMaskWidthValue } from '../utils'
+import { getMaskColors, getMaskWidthValue } from '../utils'
 
 const base = {
   isPad: false,
@@ -51,5 +51,23 @@ describe('getMaskWidthValue', () => {
       isIOS: false
     })
     expect(r).toBe(DEFAULT_MASK_WIDTH + (40 - 16) * 2 + 24)
+  })
+})
+
+describe('getMaskColors', () => {
+  it('按 RGB 原始值构造 3 色渐变 (实 → 过渡 → 全透明)', () => {
+    expect(getMaskColors('255, 255, 255')).toEqual([
+      'rgba(255, 255, 255, 1)',
+      'rgba(255, 255, 255, 0.06)',
+      'rgba(255, 255, 255, 0)'
+    ])
+  })
+
+  it('不同主题色产出不同颜色 (主题切换能重算的前提)', () => {
+    expect(getMaskColors('36, 36, 36')[0]).not.toBe(getMaskColors('255, 255, 255')[0])
+  })
+
+  it('相同入参产出相同结果 (可供 useMemo 稳定引用)', () => {
+    expect(getMaskColors('255, 255, 255')).toEqual(getMaskColors('255, 255, 255'))
   })
 })

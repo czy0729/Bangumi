@@ -26,6 +26,7 @@ import com.czy0729.bangumi.daynight.DayNightPackage;
 import com.czy0729.bangumi.devmenu.DevMenuPackage;
 import com.czy0729.bangumi.doh.EchProxyPackage;
 import com.czy0729.bangumi.doh.BangumiOkHttpClientFactory;
+import com.czy0729.bangumi.squircle.SquirclePackage;
 import com.facebook.react.modules.network.OkHttpClientProvider;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -46,6 +47,7 @@ public class MainApplication extends Application implements ReactApplication {
         packages.add(new TextSharePackage());
         packages.add(new EchProxyPackage());
         packages.add(new DevMenuPackage());
+        packages.add(new SquirclePackage());
         return packages;
       }
 

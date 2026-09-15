@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-09 14:31:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-25 03:01:58
+ * @Last Modified time: 2026-09-16 01:20:20
  *
  * https://github.com/pie6k/react-ios-corners/blob/master/src/index.tsx
  */
@@ -10,7 +10,7 @@ import { _ } from '@stores'
 import { ensureCacheLimit } from '@utils/cache'
 import { WEB } from '@constants'
 
-import type { getMaskPathInput } from './types'
+import type { getMaskPathInput, SquircleShape, SquircleShapeInput } from './types'
 
 /** 圆角轨迹 / 半径缓存上限 (key 含具体尺寸, 不加界会随不同尺寸组合增长) */
 const CACHE_LIMIT = 500
@@ -84,27 +84,35 @@ export function getSquirclePath(
   return path
 }
 
+/**
+ * 按尺寸取档位基础圆角
+ *  - 这段阈值原本在 getRadius 与 radius 组件的降级实现里各写了一份, 收敛到这里
+ *  - 小于 40 时返回调用方给的 small: getRadius 传 MIN_RADIUS, Radius 降级实现传 _.radiusXs,
+ *    两边取值与拆分前一致, 视觉不变
+ * */
+export function getTierRadius(size: number, small: number): number {
+  if (size >= 80) return _.radiusMd
+  if (size >= 40) return _.radiusSm
+  return small
+}
+
 /** 自动计算适合比例的圆角大小 */
 export function getRadius(size: number, radius?: number | boolean): number {
   const id = `getRadius|${size}|${radius}`
   if (radiusCache.has(id)) return radiusCache.get(id)!
 
   // 若长和高一样, radius 大于等于长和高, 认为是圆
+  // Number(): radius 可能是 true, 这里必须转成数值再返回, 否则布尔值会一路传到原生的 float 属性
   if (size && radius && Number(radius) >= size) {
-    radiusCache.set(id, radius as number)
+    const borderRadius = Number(radius)
+    radiusCache.set(id, borderRadius)
     ensureCacheLimit(radiusCache, CACHE_LIMIT)
-    return radius as number
+    return borderRadius
   }
 
   let value: number
   if (!radius || typeof radius === 'boolean') {
-    if (size >= 80) {
-      value = _.radiusMd
-    } else if (size >= 40) {
-      value = _.radiusSm
-    } else {
-      value = MIN_RADIUS
-    }
+    value = getTierRadius(size, MIN_RADIUS)
   } else {
     value = radius
   }
@@ -144,4 +152,19 @@ export function getRoundness(size: number, radius?: number | boolean) {
   if (size && radius && Number(radius) >= size) return ROUND_ROUNDNESS
 
   return DEFAULT_ROUNDNESS
+}
+
+/**
+ * 超椭圆形状参数 (宽高入参 + 圆角档位 → 圆形尺寸 / 圆角 / 圆润度)
+ *  - 供两个平台入口共用, 保证 iOS 的 SVG 遮罩与安卓的原生视图是同一条曲线
+ *  - size 取宽高里有效的一个, 顺带统一了此前 iOS 用 width、安卓用 width || height 的不一致
+ * */
+export function getSquircleShape({ width, height, radius }: SquircleShapeInput): SquircleShape {
+  const size = width || height
+
+  return {
+    size,
+    radius: getRadius(size, radius),
+    roundness: getRoundness(size, radius)
+  }
 }

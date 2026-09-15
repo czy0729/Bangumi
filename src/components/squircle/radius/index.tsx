@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-12-12 04:53:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 03:00:00
+ * @Last Modified time: 2026-09-16 01:20:36
  */
-import React from 'react'
 import { _ } from '@stores'
 import { Component } from '../../component'
 import { Flex } from '../../flex'
+import { getTierRadius } from '../utils'
 
 import type { Props as SquircleProps } from '../types'
 
@@ -15,14 +15,8 @@ function Radius({ style, width, height, radius, children }: SquircleProps) {
   let borderRadius: number
 
   if (radius === true || !radius) {
-    const size = Math.max(width, height)
-    if (size >= 80) {
-      borderRadius = _.radiusMd
-    } else if (size >= 40) {
-      borderRadius = _.radiusSm
-    } else {
-      borderRadius = _.radiusXs
-    }
+    // 档位阈值与 getRadius 共用一处实现, 这里的小值取 _.radiusXs
+    borderRadius = getTierRadius(Math.max(width, height), _.radiusXs)
   } else {
     borderRadius = radius
   }

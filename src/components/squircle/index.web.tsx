@@ -2,10 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-12-09 13:53:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-03 04:01:27
+ * @Last Modified time: 2026-09-16 01:19:02
  */
-import React from 'react'
-// @ts-ignore
 import { Squircle as SquircleComp } from 'react-ios-corners'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
@@ -20,9 +18,9 @@ import type { Props as SquircleProps } from './types'
 export type { SquircleProps }
 
 /**
- * 仿 iOS 平滑圆角的实现
- *  - iOS 只使用 View 渲染默认圆角
- *  - android 使用 masked-view 配合 svg 做遮罩效果
+ * 仿 iOS 平滑圆角的实现 (Web)
+ *  - iOS 用 masked-view 配合 svg 遮罩出超椭圆轨迹 (见 ./index.tsx)
+ *  - android 走原生 outline 裁剪 (见 ./index.android.tsx)
  *  - web 使用 react-ios-corners 实现
  * */
 export const Squircle = observer(
