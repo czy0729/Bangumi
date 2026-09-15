@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-05-02 16:25:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-25 00:52:50
+ * @Last Modified time: 2026-09-15 06:26:05
  */
-import React, { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
@@ -17,7 +17,8 @@ import type { Props } from './types'
 function LevelFilter({ source, value, sortType, onSelect, onToggleSort }: Props) {
   const memoMap = useMemo(() => {
     const { list } = source
-    const data = {}
+    /** 等级 -> 数量统计 */
+    const data: Record<string, number> = {}
 
     try {
       ;(list || []).forEach(item => {
@@ -68,7 +69,7 @@ function LevelFilter({ source, value, sortType, onSelect, onToggleSort }: Props)
   const isActive = !!activeValue || !!sortType
 
   return (
-    <Popover.Old data={memoData} hitSlop={HIT_SLOP} onSelect={handleSelect}>
+    <Popover data={memoData} hitSlop={HIT_SLOP} onSelect={handleSelect}>
       <Flex justify='center'>
         <Iconfont
           name={sortType ? 'md-sort' : 'md-filter-list'}
@@ -80,7 +81,7 @@ function LevelFilter({ source, value, sortType, onSelect, onToggleSort }: Props)
           {memoMap[activeValue] ? ` (${memoMap[activeValue]})` : ''}
         </Text>
       </Flex>
-    </Popover.Old>
+    </Popover>
   )
 }
 

@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2026-08-09 07:26:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-10 05:05:20
+ * @Last Modified time: 2026-09-15 06:49:40
  */
 import { memo } from 'react'
 import { View } from 'react-native'
-import Backdrop from '../backdrop'
 import { MenuContext, MenuParamsContext, MenuShowContext } from '../context'
-import Menu from '../menu'
+import MenuLayer from './menu-layer'
 import { useMenuController } from './useMenuController'
 import { styles } from './styles'
 
@@ -24,8 +23,7 @@ function ProviderComponent({ children, theme, paddingBottom }: Props) {
         <MenuShowContext.Provider value={show}>
           <View style={styles.flex}>
             {children}
-            <Backdrop />
-            <Menu />
+            <MenuLayer />
           </View>
         </MenuShowContext.Provider>
       </MenuParamsContext.Provider>

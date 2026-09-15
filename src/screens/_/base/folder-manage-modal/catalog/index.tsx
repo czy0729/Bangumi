@@ -2,17 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-03-07 16:06:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 16:49:04
+ * @Last Modified time: 2026-09-15 06:20:03
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Input, Text, TextareaItem, Touchable } from '@components'
 import { _ } from '@stores'
-import { decodeContent } from '../utils'
 import { CONTROL_DS } from '../ds'
 import { IconTouchable } from '../../../icon'
 import { Popover } from '../../popover'
+import { decodeContent } from '../utils'
 import { memoStyles } from './styles'
 
 import type { Props } from './types'
@@ -96,7 +95,7 @@ function Catalog({
                 onPress={() => onToggle(item, detail, isIn)}
               />
             )}
-            <Popover.Old
+            <Popover
               style={styles.popover}
               data={CONTROL_DS.root}
               onSelect={title => onControl(title, item)}
@@ -104,7 +103,7 @@ function Catalog({
               <Flex style={styles.touch} justify='center'>
                 <Iconfont name='md-menu' size={18} />
               </Flex>
-            </Popover.Old>
+            </Popover>
           </>
         )}
         {item.id == create && (

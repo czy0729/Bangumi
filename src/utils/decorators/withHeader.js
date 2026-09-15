@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-18 00:32:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:29:00
+ * @Last Modified time: 2026-09-15 06:24:31
  */
 import React from 'react'
-import { Flex, Heatmap, Iconfont, Menu, Popover } from '@components'
+import { Flex, Heatmap, Iconfont, Popover } from '@components'
 import { _, systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { hm as utilsHM } from '@utils/fetch'
@@ -44,20 +44,16 @@ const withHeader =
           const heatmap = navigation.getParam('heatmap')
           const extra = navigation.getParam('extra')
           if (popover.data.length) {
-            const popoverProps = IOS
-              ? {
-                  overlay: (
-                    <Menu title={popover.title} data={popover.data} onSelect={popover.onSelect} />
-                  )
-                }
-              : {
-                  data: popover.data,
-                  onSelect: popover.onSelect
-                }
             headerRight = (
               <Flex>
                 {extra}
-                <Popover style={styles.popover} placement='bottom' {...popoverProps}>
+                <Popover
+                  style={styles.popover}
+                  placement='bottom'
+                  title={popover.title}
+                  data={popover.data}
+                  onSelect={popover.onSelect}
+                >
                   {element}
                   {!!heatmap && <Heatmap id={heatmap} />}
                 </Popover>

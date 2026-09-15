@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2026-08-09 07:10:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-10 12:00:00
+ * @Last Modified time: 2026-09-15 06:58:39
  */
 import { memo } from 'react'
 import { GestureDetector } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
 import { Portal } from '@components/portal'
+import { MENU_PORTAL_PRIORITY_HOLD_ITEM } from '../ds'
 import { useHoldMenu } from '../context'
 import { useItemAnimation } from './useItemAnimation'
 import { useItemGesture } from './useItemGesture'
@@ -72,7 +73,7 @@ function HoldItemComponent({
         </Animated.View>
       </GestureDetector>
 
-      <Portal>
+      <Portal priority={MENU_PORTAL_PRIORITY_HOLD_ITEM}>
         <Animated.View
           style={[styles.holdItem, animatedPortalStyle]}
           animatedProps={animatedPortalProps}

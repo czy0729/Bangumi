@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-12-04 15:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-19 17:24:48
+ * @Last Modified time: 2026-09-15 05:57:06
  */
 import type { PropsWithChildren } from 'react'
-import type { IconfontNames, Override, ViewStyle, WithViewStyles } from '@types'
+import type { IconfontNames, Override, WithViewStyles } from '@types'
 import type { PopoverData } from '../../popover'
 import type { Props as ComponentProps } from '../types'
 
@@ -22,9 +22,6 @@ export type Props<Data extends PopoverData> = PropsWithChildren<
 
         /** Popover data */
         data?: Data
-
-        /** 菜单样式 */
-        menuStyle?: ViewStyle
 
         /** Popover onSelect */
         onSelect?: (title?: Data[number], index?: number) => void

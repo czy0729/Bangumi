@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2025-03-19 22:20:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 16:50:07
+ * @Last Modified time: 2026-09-15 06:20:16
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Cover, Flex, Iconfont, Input, Text, TextareaItem } from '@components'
@@ -115,7 +114,7 @@ function Subject({
             />
           )}
           {!edit && !create && (
-            <Popover.Old
+            <Popover
               style={styles.popover}
               data={data}
               onSelect={(title: string) => onSubjectControl(title, item, pItem)}
@@ -123,7 +122,7 @@ function Subject({
               <Flex style={styles.touch} justify='center'>
                 <Iconfont name='md-menu' size={18} />
               </Flex>
-            </Popover.Old>
+            </Popover>
           )}
         </View>
       </Flex>

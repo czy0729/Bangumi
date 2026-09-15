@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-10 17:23:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-06 18:27:53
+ * @Last Modified time: 2026-09-15 05:56:00
  */
 
 // 与 RN StyleSheet.flatten 语义一致: falsy 返回 undefined, 对象原样返回, 数组递归展开后后者覆盖前者
@@ -44,6 +44,9 @@ module.exports = {
     alert: jest.fn()
   },
   NativeModules: {},
+  UIManager: {},
+  // 与真实 RN 一致: 返回原生节点句柄, 测试环境给固定值
+  findNodeHandle: () => 1,
   NativeEventEmitter: class NativeEventEmitter {
     addListener() {
       return { remove: jest.fn() }

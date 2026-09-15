@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2022-05-05 19:38:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-02 23:26:09
+ * @Last Modified time: 2026-09-15 06:19:31
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
@@ -12,7 +11,7 @@ import { memoStyles } from '../styles'
 import { Flex } from '../../flex'
 import { Heatmap } from '../../heatmap'
 import { Iconfont } from '../../iconfont'
-import { Popover } from '../../popover/comp'
+import { Popover } from '../../popover'
 import { Text } from '../../text'
 import { styles as opacityStyles } from './styles'
 

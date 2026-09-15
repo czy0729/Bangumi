@@ -2,16 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-03-12 04:56:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-27 09:20:10
+ * @Last Modified time: 2026-09-15 05:56:59
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { FROZEN_FN, IOS } from '@constants'
+import { FROZEN_FN } from '@constants'
 import { Flex } from '../../flex'
 import { Iconfont } from '../../iconfont'
-import { Menu } from '../../menu'
 import { Popover as PopoverComp } from '../../popover'
 import { styles } from './styles'
 
@@ -24,38 +22,18 @@ function Popover<Data extends PopoverData>({
   size,
   color,
   data,
-  menuStyle,
   onSelect = FROZEN_FN,
   children,
   ...other
 }: Props<Data>) {
-  const commonProps = {
-    style: stl(styles.touch, style),
-    placement: 'bottom',
-    ...other
-  } as const
-
-  const overlayProps = IOS
-    ? ({
-        overlay: (
-          <Menu
-            style={menuStyle}
-            data={data}
-            onSelect={(title: Data[number], index: number) => {
-              setTimeout(() => {
-                onSelect(title, index)
-              }, 0)
-            }}
-          />
-        )
-      } as const)
-    : ({
-        data,
-        onSelect
-      } as const)
-
   return (
-    <PopoverComp {...commonProps} {...overlayProps}>
+    <PopoverComp
+      style={stl(styles.touch, style)}
+      placement='bottom'
+      data={data}
+      onSelect={onSelect}
+      {...other}
+    >
       {name ? (
         <Flex style={styles.icon} justify='center'>
           <Iconfont size={size} name={name} color={color || _.colorTitle} />

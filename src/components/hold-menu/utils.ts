@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2026-08-09 07:28:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-10 10:30:00
+ * @Last Modified time: 2026-09-15 06:34:38
  */
 import { _ } from '@stores'
 import {
   MENU_GAP,
   MENU_ITEM_PADDING_VERTICAL,
+  MENU_ITEM_TEXT_SIZE,
+  MENU_ITEM_TITLE_SIZE,
   MENU_MARGIN,
   MENU_MAX_HEIGHT_RATIO,
   MENU_MAX_WIDTH,
@@ -17,9 +19,9 @@ import {
 
 import type { HapticFeedbackStyle, MenuItemProps, MenuOpenParams } from './types'
 
-/** 菜单项高度, 与 Text 组件实际行高保持一致 */
-export const getMenuItemHeight = () => {
-  const lineHeight = Math.floor((16 + _.fontSizeAdjust) * _.lineHeightRatio)
+/** 单个菜单项高度, 与 Text 组件实际行高保持一致 (标题项字号更小) */
+export const getMenuItemHeight = (size: number = MENU_ITEM_TEXT_SIZE) => {
+  const lineHeight = Math.floor((size + _.fontSizeAdjust) * _.lineHeightRatio)
   return lineHeight + _.r(MENU_ITEM_PADDING_VERTICAL) * 2
 }
 
@@ -37,8 +39,15 @@ export const getMenuHeight = (items: MenuItemProps[]) => {
  */
 export function getMenuContentHeight(items: MenuItemProps[]) {
   const separatorCount = items.filter(item => item.withSeparator).length
+  // 逐项累加: 标题项字号 14, 其余 16, 避免统一按 16 估算导致高度偏大留出底部空隙
+  const itemsHeight = items.reduce(
+    (total, item) =>
+      total + getMenuItemHeight(item.isTitle ? MENU_ITEM_TITLE_SIZE : MENU_ITEM_TEXT_SIZE),
+    0
+  )
+
   return (
-    getMenuItemHeight() * items.length +
+    itemsHeight +
     Math.max(items.length - 1, 0) * _.hairlineWidth +
     separatorCount * MENU_SEPARATOR_HEIGHT
   )

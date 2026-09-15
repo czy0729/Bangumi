@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-17 04:42:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-14 07:21:18
+ * @Last Modified time: 2026-09-15 05:55:35
  */
 const path = require('path')
 
@@ -212,8 +212,8 @@ jest.mock('@assets/json', () => ({ loadJSON: jest.fn() }))
 jest.mock(
   '@stores',
   () => {
-    // mutable cell for dynamic homeSortSink / uiStore.isScrolling
-    const state = { homeSortSink: false, isScrolling: false }
+    // mutable cell for dynamic homeSortSink / uiStore.isScrolling / systemStore.setting.s2t
+    const state = { homeSortSink: false, isScrolling: false, s2t: false }
     global.__mockStoreState__ = state
     return {
       systemStore: {
@@ -221,6 +221,9 @@ jest.mock(
           homeSorting: '',
           get homeSortSink() {
             return global.__mockStoreState__.homeSortSink
+          },
+          get s2t() {
+            return global.__mockStoreState__.s2t
           }
         }
       },

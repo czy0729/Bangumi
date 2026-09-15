@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2026-08-09 07:22:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-10 10:00:00
+ * @Last Modified time: 2026-09-15 07:05:57
  */
-import React, { memo } from 'react'
+import { memo } from 'react'
+import { GestureDetector } from 'react-native-gesture-handler'
 import Animated, {
   scrollTo,
   useAnimatedReaction,
   useAnimatedScrollHandler
 } from 'react-native-reanimated'
-import { GestureDetector } from 'react-native-gesture-handler'
 import { BlurView } from 'expo-blur'
 import { MENU_BLUR_LIGHT_BACKGROUND_COLOR, MENU_SCROLL_THRESHOLD } from '../ds'
 import { useHoldMenu, useHoldMenuParams } from '../context'

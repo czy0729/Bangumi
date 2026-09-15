@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-03 17:28:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-25 18:53:07
+ * @Last Modified time: 2026-09-15 06:19:42
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Button as ButtonComp, Menu, Popover } from '@components'
+import { Button as ButtonComp, Popover } from '@components'
 import { _, systemStore } from '@stores'
-import { IOS, WSA } from '@constants'
+import { WSA } from '@constants'
 import FlipButton from '../flip-button'
 import { getPopoverData, getType } from './utils'
 import { memoStyles } from './styles'
@@ -60,22 +60,13 @@ function Button({ props, item, epStatus = '', isSp = false, num = 0 }: Props) {
     [item, isSp, canPlay, login, advance, userProgress, epStatus]
   )
 
-  // 弹出层属性
-  const popoverProps = IOS
-    ? {
-        overlay: (
-          <Menu
-            title={[[`ep${item.sort}`, item.airdate || item.duration].filter(i => !!i).join(' · ')]}
-            data={memoPopoverData}
-            onSelect={value => onSelect(value, item)}
-          />
-        )
-      }
-    : {
-        data: memoPopoverData,
-        date: item.airdate || item.duration,
-        onSelect: (value: string) => onSelect(value, item, subjectId)
-      }
+  // 弹出层属性 (菜单渲染方式由 Popover 内部按平台处理)
+  const popoverProps = {
+    title: [`ep${item.sort}`, item.airdate || item.duration].filter(i => !!i).join(' · '),
+    desc: item.airdate || item.duration,
+    data: memoPopoverData,
+    onSelect: (value: string) => onSelect(value, item, subjectId)
+  }
 
   const elHeatMap = useMemo(() => {
     if (!heatMap) return null

@@ -1,9 +1,21 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-11 10:00:00
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-11 10:00:00
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-15 07:28:26
  */
+// 静态 add 走 DeviceEventEmitter 广播, 这里替换为可断言的 mock
+jest.mock('react-native', () => ({
+  DeviceEventEmitter: {
+    emit: jest.fn(),
+    addListener: jest.fn(() => ({ remove: jest.fn() }))
+  },
+  NativeEventEmitter: class {}
+}))
+
+import { DeviceEventEmitter } from 'react-native'
+import { ADD_PORTAL_TYPE } from '../ds'
+import { portal } from '../api'
 import {
   allocateKey,
   applyQueue,
@@ -18,10 +30,12 @@ import type { Manager, QueueAction } from '../types'
 function createMockManager() {
   const calls: string[] = []
   const mounted: Map<number, unknown> = new Map()
+  const priorities: Map<number, number | undefined> = new Map()
   const manager: Manager = {
-    mount: (key, children) => {
+    mount: (key, children, priority) => {
       calls.push(`mount:${key}`)
       mounted.set(key, children)
+      priorities.set(key, priority)
     },
     update: (key, children) => {
       calls.push(`update:${key}`)
@@ -32,7 +46,7 @@ function createMockManager() {
       mounted.delete(key)
     }
   }
-  return { manager, calls, mounted }
+  return { manager, calls, mounted, priorities }
 }
 
 describe('allocateKey', () => {
@@ -53,6 +67,12 @@ describe('mountPortal', () => {
     expect(calls).toEqual([`mount:${key}`])
     expect(typeof key).toBe('number')
     expect(mounted.get(key)).toBe('node')
+  })
+
+  it('透传绘制层级 priority', () => {
+    const { manager, priorities } = createMockManager()
+    const key = mountPortal(manager, 'node', 2)
+    expect(priorities.get(key)).toBe(2)
   })
 })
 
@@ -137,5 +157,18 @@ describe('applyQueue', () => {
     const { manager, calls } = createMockManager()
     applyQueue([{ type: 'mount', children: null } as any, null as any], manager)
     expect(calls).toHaveLength(0)
+  })
+
+  it('mount 操作透传绘制层级 priority', () => {
+    const { manager, priorities } = createMockManager()
+    applyQueue([{ type: 'mount', key: 1, children: 'node', priority: 2 }], manager)
+    expect(priorities.get(1)).toBe(2)
+  })
+})
+
+describe('portal.add', () => {
+  it('把绘制层级随事件一起发出', () => {
+    const key = portal.add('node', 2)
+    expect(DeviceEventEmitter.emit).toHaveBeenCalledWith(ADD_PORTAL_TYPE, 'node', key, 2)
   })
 })

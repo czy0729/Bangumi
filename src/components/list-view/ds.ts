@@ -62,10 +62,12 @@ export const DEFAULT_UPDATE_CELLS_BATCHING_PERIOD = 40
 /**
  * FlatList 虚拟化窗口大小，决定屏幕外保留多少屏的渲染内容
  * - 值为视口高度的倍数, 上下各约一半; 过大时屏幕外的视图与已解码图片会持续占内存
- * - iOS Expo Go 内存吃紧, 由 9 下调到 5 (屏幕外上下各约 2 屏)
- * - 快速滑动白屏明显时可回调到 7
+ * - 曾经由 9 下调到 5 (屏幕外上下各约 2 屏) 换取内存, 但缓冲变薄后列表滑动到下方
+ *   会出现滚动位置跳动, 故回退到 9 (屏幕外上下各约 4 屏)
+ * - 如需再次下调, 请先处理 getItemLayout 未补偿 contentContainerStyle.paddingTop
+ *   导致的坐标偏差, 否则跳动会复发
  */
-export const DEFAULT_WINDOW_SIZE = 5
+export const DEFAULT_WINDOW_SIZE = 9
 
 /** 滑动距离超过此阈值（像素）才锁定滚动状态，防止轻微触碰误触发 */
 export const SCROLL_THRESHOLD = 16

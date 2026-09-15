@@ -1,9 +1,10 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-09 07:27:23
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-09 07:27:23
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-15 06:58:23
  */
+
 /** 菜单打开/关闭动画时长 (ms) */
 export const MENU_ANIMATION_DURATION = 120
 
@@ -41,10 +42,10 @@ export const MENU_MARGIN = 12
 export const MENU_RADIUS = 12
 
 /** 菜单宽占屏比例 */
-export const MENU_WIDTH_RATIO = 0.6
+export const MENU_WIDTH_RATIO = 0.618
 
 /** 菜单最大宽度 */
-export const MENU_MAX_WIDTH = 228
+export const MENU_MAX_WIDTH = 240
 
 /** 菜单高度占屏比例上限 */
 export const MENU_MAX_HEIGHT_RATIO = 9 / 16
@@ -52,8 +53,23 @@ export const MENU_MAX_HEIGHT_RATIO = 9 / 16
 /** 菜单项过多时启用滚动的数量 */
 export const MENU_SCROLL_THRESHOLD = 6
 
+/**
+ * 菜单体系的门户绘制层级 (Portal priority, 越大越上层)
+ *  - 普通门户 (页面内容 / Modal) 为 0, 三者都需要盖过 Modal
+ *  - 顺序必须为 遮罩 < 按钮镜像 < 菜单: 遮罩不能盖住被按下的按钮, 菜单在最上层
+ * */
+export const MENU_PORTAL_PRIORITY_BACKDROP = 1
+export const MENU_PORTAL_PRIORITY_HOLD_ITEM = 2
+export const MENU_PORTAL_PRIORITY_MENU = 3
+
 /** 菜单项垂直内边距 */
 export const MENU_ITEM_PADDING_VERTICAL = 10
+
+/** 菜单项文字大小 */
+export const MENU_ITEM_TEXT_SIZE = 16
+
+/** 菜单标题项文字大小 */
+export const MENU_ITEM_TITLE_SIZE = 14
 
 /** 分隔线高度 */
 export const MENU_SEPARATOR_HEIGHT = 8

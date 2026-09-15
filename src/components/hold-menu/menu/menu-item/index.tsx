@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-09 07:19:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-10 11:00:00
+ * @Last Modified time: 2026-09-15 06:34:36
  */
 import { memo } from 'react'
 import { View } from 'react-native'
@@ -10,6 +10,7 @@ import Animated, { useAnimatedStyle } from 'react-native-reanimated'
 import { Text } from '@components/text'
 import { Touchable } from '@components/touchable'
 import { stl } from '@utils'
+import { MENU_ITEM_TEXT_SIZE, MENU_ITEM_TITLE_SIZE } from '../../ds'
 import { useHoldMenu } from '../../context'
 import { memoStyles } from './styles'
 
@@ -46,7 +47,7 @@ function MenuItemComponent({ item, index, isLast, actionParams }: Props) {
             style={
               item.isTitle ? styles.title : item.isDestructive ? styles.destructive : styles.text
             }
-            size={item.isTitle ? 14 : 16}
+            size={item.isTitle ? MENU_ITEM_TITLE_SIZE : MENU_ITEM_TEXT_SIZE}
             align={item.isTitle ? 'center' : 'left'}
             numberOfLines={item.isTitle ? undefined : 1}
             ellipsizeMode='middle'

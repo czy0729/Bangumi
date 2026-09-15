@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-11 10:00:00
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-11 10:00:00
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-15 06:59:46
  */
 import type { ReactNode } from 'react'
 
@@ -18,9 +18,9 @@ export function allocateKey(): number {
 /**
  * 挂载一个门户并返回其 key
  */
-export function mountPortal(manager: Manager, children: ReactNode): number {
+export function mountPortal(manager: Manager, children: ReactNode, priority?: number): number {
   const key = allocateKey()
-  manager.mount(key, children)
+  manager.mount(key, children, priority)
   return key
 }
 
@@ -67,7 +67,7 @@ export function applyQueue(queue: QueueAction[], manager: Manager): void {
     if (!action || action.key === undefined) return
     switch (action.type) {
       case 'mount':
-        manager.mount(action.key, action.children as ReactNode)
+        manager.mount(action.key, action.children as ReactNode, action.priority)
         break
       case 'update':
         manager.update(action.key, action.children as ReactNode)
