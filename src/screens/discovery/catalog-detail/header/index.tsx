@@ -2,12 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-03-11 23:02:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 06:42:16
+ * @Last Modified time: 2026-09-16 04:11:57
  */
 import { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, HeaderV2 as HeaderComp, HeaderV2Popover, Image, Text, UserStatus } from '@components'
+import {
+  Flex,
+  HeaderV2 as HeaderComp,
+  HeaderV2Popover,
+  Image,
+  Squircle,
+  Text,
+  UserStatus
+} from '@components'
 import { _, useStore } from '@stores'
 import { getCoverLarge, getSPAParams, getVisualLength, open } from '@utils'
 import { t } from '@utils/fetch'
@@ -31,12 +39,9 @@ function Header() {
         {!!avatar && (
           <View style={_.mr.sm}>
             <UserStatus userId={userId} mini>
-              <Image
-                src={getCoverLarge(avatar)}
-                size={28}
-                radius={_.radiusXs}
-                placeholder={false}
-              />
+              <Squircle width={28} height={28} radius={_.radiusXs}>
+                <Image src={getCoverLarge(avatar)} size={28} radius={0} placeholder={false} />
+              </Squircle>
             </UserStatus>
           </View>
         )}

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-01-10 11:19:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 06:11:22
+ * @Last Modified time: 2026-09-16 04:09:29
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Heatmap, Image, ScrollView, Text, Touchable } from '@components'
+import { Heatmap, Image, ScrollView, Squircle, Text, Touchable } from '@components'
 import { InView } from '@_'
-import { _, useStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { open } from '@utils'
 import { hm, t } from '@utils/fetch'
 import { TITLE } from '../../ds'
@@ -24,10 +24,8 @@ function List() {
 
   const styles = memoStyles()
 
-  // --- Data Logic ---
   const { useWebView } = $.state
 
-  // --- Handlers ---
   const handlePress = useCallback(
     (item: NewsItem) => {
       if (useWebView) {
@@ -49,7 +47,6 @@ function List() {
     [navigation, useWebView]
   )
 
-  // --- Render ---
   return (
     <ScrollView keyboardDismissMode='on-drag' onScroll={$.onScroll}>
       {$.state.show && (
@@ -59,14 +56,20 @@ function List() {
               <Text align='right'>© {[item.author, item.origin].filter(i => !!i).join(' / ')}</Text>
 
               <InView style={_.mt.md} y={InView.y(index, 280)}>
-                <Image
-                  src={item.cover.url}
-                  headers={item.cover.headers}
+                <Squircle
                   width={styles.cover.width}
                   height={styles.cover.height}
-                  radius
-                  errorToHide
-                />
+                  radius={systemStore.coverRadius}
+                >
+                  <Image
+                    src={item.cover.url}
+                    headers={item.cover.headers}
+                    width={styles.cover.width}
+                    height={styles.cover.height}
+                    radius={0}
+                    errorToHide
+                  />
+                </Squircle>
               </InView>
 
               <View style={styles.info}>

@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-16 07:59:16
+ * @Last Modified time: 2026-09-16 04:12:29
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Image, Katakana, Touchable } from '@components'
+import { Image, Katakana, Squircle, Touchable } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode, stl } from '@utils'
 import { t } from '@utils/fetch'
@@ -49,9 +48,11 @@ function Item({ index, id, avatar, name }: Props) {
           })
         }}
       >
-        <View style={styles.cover}>
-          <Image {...imageProps} />
-        </View>
+        <Squircle width={styles.cover.width} height={styles.cover.height} radius={_.radiusSm}>
+          <View style={styles.cover}>
+            <Image {...imageProps} />
+          </View>
+        </Squircle>
         <View style={_.mt.sm}>
           <Katakana.Provider firstLineStyle={_.mt.xs} size={11} numberOfLines={2} align='center'>
             <Katakana size={11} numberOfLines={2} align='center' bold>

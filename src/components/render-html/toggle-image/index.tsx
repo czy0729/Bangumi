@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 03:05:44
+ * @Last Modified time: 2026-09-16 01:41:13
  */
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { View } from 'react-native'
@@ -200,6 +200,11 @@ function ToggleImage(props: Props) {
 
         {show && (
           <View style={styles.remote}>
+            {/**
+             * 这里刻意不接 Squircle: autoSize 模式下高度由图片加载完成后运行时测量,
+             * 渲染期拿不到确定尺寸, 而 iOS 的 Squircle 要按尺寸算遮罩轨迹, 传错高度会把曲线拉变形
+             * (安卓走原生 outline 裁剪、取视图实际尺寸, 不受影响)
+             */}
             <Image
               {...props}
               autoSize={autoSize}

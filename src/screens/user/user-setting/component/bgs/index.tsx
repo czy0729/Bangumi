@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2024-01-22 09:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-16 07:32:12
+ * @Last Modified time: 2026-09-16 04:36:22
  */
-import React from 'react'
 import { observer } from 'mobx-react'
-import { Flex, Image, Text, Touchable } from '@components'
+import { Flex, Image, Squircle, Text, Touchable } from '@components'
 import { computeInViewY, InView } from '@_'
-import { _, useStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import { stl } from '@utils'
 import { fixedRemote } from '@utils/user-setting'
 import { IOS } from '@constants'
@@ -29,17 +28,23 @@ function Bgs({ avatar, more, onViewOrigin, onMore }) {
     <>
       <Flex wrap='wrap'>
         <Touchable style={styles.bg} animate onPress={() => $.onSelectBg('')}>
-          <Image
-            key={avatar}
-            src={fixedRemote(avatar)}
-            headers={getHeaders(avatar)}
+          <Squircle
             width={styles.image.width}
             height={styles.image.height}
-            radius
-            blurRadius={IOS ? ($.state.avatar ? 64 : 16) : 8}
-            fallback
-            errorToHide
-          />
+            radius={systemStore.coverRadius}
+          >
+            <Image
+              key={avatar}
+              src={fixedRemote(avatar)}
+              headers={getHeaders(avatar)}
+              width={styles.image.width}
+              height={styles.image.height}
+              radius={0}
+              blurRadius={IOS ? ($.state.avatar ? 64 : 16) : 8}
+              fallback
+              errorToHide
+            />
+          </Squircle>
           <Text style={styles.blurText} type='__plain__' bold align='center' shadow>
             头像毛玻璃
           </Text>
@@ -54,15 +59,21 @@ function Bgs({ avatar, more, onViewOrigin, onMore }) {
             onLongPress={() => onViewOrigin(item, index)}
           >
             <InView y={computeInViewY(index, styles.bg.height, _.window.contentWidth * 0.72, 2)}>
-              <Image
-                key={item}
-                src={fixedRemote(item)}
+              <Squircle
                 width={styles.image.width}
                 height={styles.image.height}
-                headers={getHeaders(item)}
-                radius
-                errorToHide
-              />
+                radius={systemStore.coverRadius}
+              >
+                <Image
+                  key={item}
+                  src={fixedRemote(item)}
+                  width={styles.image.width}
+                  height={styles.image.height}
+                  headers={getHeaders(item)}
+                  radius={0}
+                  errorToHide
+                />
+              </Squircle>
             </InView>
           </Touchable>
         ))}

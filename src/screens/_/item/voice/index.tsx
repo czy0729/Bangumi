@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-04-28 12:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 22:35:22
+ * @Last Modified time: 2026-09-16 01:41:39
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Component, Cover, Expand, Flex, Image, Text, Touchable } from '@components'
+import { Component, Cover, Expand, Flex, Image, Squircle, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _, collectionStore } from '@stores'
 import { cnjp, getMonoCoverSmall, x18 } from '@utils'
@@ -171,11 +170,13 @@ export const ItemVoice = observer(
             >
               <Flex align='start'>
                 <InView style={styles.inViewAvatar} y={y}>
-                  <Image
-                    size={AVATAR_SIZE}
-                    src={getMonoCoverSmall(cover) || IMG_INFO_ONLY}
-                    radius={_.radiusSm}
-                  />
+                  <Squircle width={AVATAR_SIZE} height={AVATAR_SIZE} radius={_.radiusSm}>
+                    <Image
+                      size={AVATAR_SIZE}
+                      src={getMonoCoverSmall(cover) || IMG_INFO_ONLY}
+                      radius={0}
+                    />
+                  </Squircle>
                 </InView>
                 <Flex.Item style={_.ml.sm}>
                   <Text style={_.mt.xxs} size={12} bold>

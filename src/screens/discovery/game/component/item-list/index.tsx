@@ -2,14 +2,23 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-12 03:45:25
+ * @Last Modified time: 2026-09-16 04:17:27
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Heatmap, HorizontalList, Image, Loading, Text, Touchable } from '@components'
+import {
+  Flex,
+  Heatmap,
+  HorizontalList,
+  Image,
+  Loading,
+  Squircle,
+  Text,
+  Touchable
+} from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { Cover, Manage, Rank, Stars, Tags } from '@_'
-import { _, collectionStore, otaStore, uiStore } from '@stores'
+import { _, collectionStore, otaStore, systemStore, uiStore } from '@stores'
 import { HTMLDecode, showImageViewer, stl, x18 } from '@utils'
 import { withT } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
@@ -158,23 +167,29 @@ function ItemList({ index, pickIndex }) {
               <HorizontalList
                 data={thumbsData}
                 renderItem={(item, index) => (
-                  <Image
+                  <Squircle
                     key={item.id}
                     style={stl(!!index && _.ml.sm, index === thumbsData.length - 1 && _.mr.md)}
-                    src={item.image}
-                    size={THUMB_WIDTH}
+                    width={THUMB_WIDTH}
                     height={THUMB_HEIGHT}
-                    radius
-                    errorToHide
-                    onPress={() => {
-                      showImageViewer(
-                        thumbs2.map(item => ({
-                          url: item
-                        })),
-                        index
-                      )
-                    }}
-                  />
+                    radius={systemStore.coverRadius}
+                  >
+                    <Image
+                      src={item.image}
+                      size={THUMB_WIDTH}
+                      height={THUMB_HEIGHT}
+                      radius={0}
+                      errorToHide
+                      onPress={() => {
+                        showImageViewer(
+                          thumbs2.map(item => ({
+                            url: item
+                          })),
+                          index
+                        )
+                      }}
+                    />
+                  </Squircle>
                 )}
                 renderNums={
                   thumbs2.length > 2 &&

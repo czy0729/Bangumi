@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2026-03-09 22:04:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 00:26:34
+ * @Last Modified time: 2026-09-16 04:36:10
  */
-import React, { useCallback, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { observer } from 'mobx-react'
-import { Flex, Heatmap, Image, ScrollView } from '@components'
+import { Flex, Heatmap, Image, ScrollView, Squircle } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { useMount } from '@utils/hooks'
 import { SETTING_LIVE2D_MODEL } from '@constants'
-import { IconLayers } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
+import { IconLayers } from '../../icons'
 import { ITEM_WIDTH } from './ds'
 import { styles } from './styles'
 
@@ -82,7 +82,9 @@ function Live2DModel({ filter }: WithFilterProps) {
               {...TEXTS.live2DModel[item.value]}
             >
               <Flex style={_.mt.sm}>
-                <Image size={44} src={src} radius={_.radiusSm} />
+                <Squircle width={44} height={44} radius={_.radiusSm}>
+                  <Image size={44} src={src} radius={0} />
+                </Squircle>
               </Flex>
             </ItemSettingBlock.Item>
           )

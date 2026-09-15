@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-10-11 05:10:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 21:05:14
+ * @Last Modified time: 2026-09-16 04:34:01
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, getCoverSrc, Image, Text, Touchable } from '@components'
+import { Flex, getCoverSrc, Image, Squircle, Text, Touchable } from '@components'
 import { Stars } from '@_'
 import { _, useStore } from '@stores'
 import { getVisualLength, stl } from '@utils'
@@ -51,13 +50,40 @@ function Item({ item, index }: Props) {
   }
 
   const width = Math.floor(_.window.contentWidth / (numColumns + 0.2 * numColumns))
+  const coverHeight = $.state.subjectType === 'music' ? width : Math.floor(width * 1.34)
   const imageProps: Partial<ImageProps> = {}
   if ($.state.autoHeight) {
     imageProps.autoSize = width
   } else {
     imageProps.width = width
-    imageProps.height = $.state.subjectType === 'music' ? width : Math.floor(width * 1.34)
+    imageProps.height = coverHeight
   }
+
+  /** 封面圆角: 跟随「封面圆角」开关 */
+  const coverRadius = $.state.radius ? _.radiusXs : 0
+
+  /**
+   * autoHeight 时高度由 Image 按图片比例运行时测量, 这里拿不到具体尺寸,
+   * 而 iOS 的 Squircle 要按尺寸算遮罩轨迹, 尺寸对不上会把曲线拉变形, 故该分支保持原状
+   * */
+  const useSquircle = !!coverRadius && !$.state.autoHeight
+
+  const elImage = (
+    <Image
+      key={String($.state.autoHeight)}
+      src={
+        item.cover === '/img/no_icon_subject.png'
+          ? IMG_SUBJECT_ONLY
+          : getCoverSrc(item.cover, width, false, true)
+      }
+      radius={useSquircle ? 0 : coverRadius}
+      skeleton={false}
+      placeholder={false}
+      border={_.select('rgba(0, 0, 0, 0.08)', 'rgba(255, 255, 255, 0.16)')}
+      priority={index < 10 ? 'high' : index < 24 ? 'normal' : 'low'}
+      {...imageProps}
+    />
+  )
 
   /** 渲染第二行 / 第三行的文本与评分星星 */
   const renderSub = (mode: SubTitle, text: string) => (
@@ -121,20 +147,13 @@ function Item({ item, index }: Props) {
             justify='center'
           >
             <View style={styles.image}>
-              <Image
-                key={String($.state.autoHeight)}
-                src={
-                  item.cover === '/img/no_icon_subject.png'
-                    ? IMG_SUBJECT_ONLY
-                    : getCoverSrc(item.cover, width, false, true)
-                }
-                radius={$.state.radius ? _.radiusXs : 0}
-                skeleton={false}
-                placeholder={false}
-                border={_.select('rgba(0, 0, 0, 0.08)', 'rgba(255, 255, 255, 0.16)')}
-                priority={index < 10 ? 'high' : index < 24 ? 'normal' : 'low'}
-                {...imageProps}
-              />
+              {useSquircle ? (
+                <Squircle width={width} height={coverHeight} radius={coverRadius}>
+                  {elImage}
+                </Squircle>
+              ) : (
+                elImage
+              )}
             </View>
           </Flex>
           {!!title && (

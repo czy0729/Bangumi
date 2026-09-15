@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-08-13 11:42:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-07 20:45:12
+ * @Last Modified time: 2026-09-16 04:30:02
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
-import { Image, ScrollView } from '@components'
+import { Image, ScrollView, Squircle } from '@components'
 import { _, useStore } from '@stores'
 import { showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
@@ -38,27 +38,33 @@ function Thumbs() {
       {thumbs
         .filter((_item, index) => index <= (scrolled ? 12 : 4))
         .map((item, index) => (
-          <Image
+          <Squircle
             key={item}
             style={index ? styles.image : styles.side}
-            src={item}
-            size={THUMB_WIDTH}
+            width={THUMB_WIDTH}
             height={THUMB_HEIGHT}
             radius={_.radiusSm}
-            errorToHide
-            onPress={() => {
-              const previews = getThumbs($.subjectId, $.gameInfo?.isADV, false).map(item => ({
-                url: item
-              }))
-              if (!previews.length) return
+          >
+            <Image
+              src={item}
+              size={THUMB_WIDTH}
+              height={THUMB_HEIGHT}
+              radius={0}
+              errorToHide
+              onPress={() => {
+                const previews = getThumbs($.subjectId, $.gameInfo?.isADV, false).map(item => ({
+                  url: item
+                }))
+                if (!previews.length) return
 
-              showImageViewer(previews, index)
+                showImageViewer(previews, index)
 
-              t('条目.游戏截图', {
-                subjectId: $.subjectId
-              })
-            }}
-          />
+                t('条目.游戏截图', {
+                  subjectId: $.subjectId
+                })
+              }}
+            />
+          </Squircle>
         ))}
     </ScrollView>
   )

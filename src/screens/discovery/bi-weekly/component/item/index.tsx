@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-05-14 05:00:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-30 04:40:16
+ * @Last Modified time: 2026-09-16 04:11:10
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
-import { Flex, Image, Text, Touchable } from '@components'
+import { Flex, Image, Squircle, Text, Touchable } from '@components'
 import { InView } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
@@ -47,13 +47,14 @@ function Item({ item, index }: RenderItem<DataItem>) {
     <Touchable style={styles.item} withoutFeedback onPress={handlePress}>
       <Flex justify='center'>
         <InView y={InView.y(index - 1, height + styles.item.marginBottom + descSize + titleSize)}>
-          <Image
+          <Squircle
             style={styles.cover}
             width={width}
             height={height}
-            src={item.cover}
             radius={isCatalog ? _.radiusMd : 0}
-          />
+          >
+            <Image width={width} height={height} src={item.cover} radius={0} />
+          </Squircle>
         </InView>
       </Flex>
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-12 03:22:41
+ * @Last Modified time: 2026-09-16 04:02:42
  */
 import { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -14,6 +14,7 @@ import {
   HorizontalList,
   Image,
   Loading,
+  Squircle,
   Text,
   Touchable
 } from '@components'
@@ -105,10 +106,7 @@ function Item({ index, pickIndex }: Props) {
   const y = InView.y(index, IMG_HEIGHT_LG, _.window.height * 0.4)
 
   return (
-    <Touchable
-      style={itemStyle}
-      onPress={handlePress}
-    >
+    <Touchable style={itemStyle} onPress={handlePress}>
       <InView style={styles.inView} y={y}>
         <Cover
           src={image}
@@ -153,21 +151,27 @@ function Item({ index, pickIndex }: Props) {
             <HorizontalList
               data={thumbsData}
               renderItem={(item, idx) => (
-                <Image
+                <Squircle
                   key={item.id}
                   style={stl(!!idx && _.ml.sm, idx === thumbsData.length - 1 && _.mr.md)}
-                  src={item.image}
-                  size={THUMB_WIDTH}
+                  width={THUMB_WIDTH}
                   height={THUMB_HEIGHT}
                   radius={_.radiusSm}
-                  errorToHide
-                  onPress={() => {
-                    showImageViewer(
-                      thumbs2.map(t => ({ url: t })),
-                      idx
-                    )
-                  }}
-                />
+                >
+                  <Image
+                    src={item.image}
+                    size={THUMB_WIDTH}
+                    height={THUMB_HEIGHT}
+                    radius={0}
+                    errorToHide
+                    onPress={() => {
+                      showImageViewer(
+                        thumbs2.map(t => ({ url: t })),
+                        idx
+                      )
+                    }}
+                  />
+                </Squircle>
               )}
               renderNums={
                 thumbs2.length > 3 &&

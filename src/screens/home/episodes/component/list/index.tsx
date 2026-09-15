@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-27 06:28:25
+ * @Last Modified time: 2026-09-16 04:18:41
  */
 import { View } from 'react-native'
 import { toJS } from 'mobx'
 import { observer } from 'mobx-react'
-import { Flex, Heatmap, Image, ScrollView, Text, Touchable } from '@components'
+import { Flex, Heatmap, Image, ScrollView, Squircle, Text, Touchable } from '@components'
 import { InView } from '@_'
 import { _, useStore } from '@stores'
 import { cnjp, desc, HTMLDecode, showImageViewer, stl } from '@utils'
@@ -77,22 +77,24 @@ function List() {
             </Flex.Item>
             {!WEB && !!epsThumbs?.[index + filterEps] && (
               <InView style={styles.inView} y={IMAGE_HEIGHT * (index + 1)}>
-                <Image
-                  src={epsThumbs[index]}
-                  size={IMAGE_WIDTH}
-                  height={IMAGE_HEIGHT}
-                  radius={_.radiusSm}
-                  headers={epsThumbsHeader}
-                  onPress={() => {
-                    showImageViewer(
-                      epsThumbs.map(item => ({
-                        url: item.split('@')?.[0] || '',
-                        headers: epsThumbsHeader
-                      })),
-                      index
-                    )
-                  }}
-                />
+                <Squircle width={IMAGE_WIDTH} height={IMAGE_HEIGHT} radius={_.radiusSm}>
+                  <Image
+                    src={epsThumbs[index]}
+                    size={IMAGE_WIDTH}
+                    height={IMAGE_HEIGHT}
+                    radius={0}
+                    headers={epsThumbsHeader}
+                    onPress={() => {
+                      showImageViewer(
+                        epsThumbs.map(item => ({
+                          url: item.split('@')?.[0] || '',
+                          headers: epsThumbsHeader
+                        })),
+                        index
+                      )
+                    }}
+                  />
+                </Squircle>
               </InView>
             )}
           </Flex>
