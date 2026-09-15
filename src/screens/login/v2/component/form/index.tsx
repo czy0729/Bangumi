@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-14 07:50:56
+ * @Last Modified time: 2026-09-15 20:55:47
  */
 import React from 'react'
-import { View } from 'react-native'
+import { Image as RNImage, View } from 'react-native'
 import { observer } from 'mobx-react'
 import {
   ActivityIndicator,
@@ -15,7 +15,6 @@ import {
   Iconfont,
   Input,
   Mesume,
-  RNImage,
   Text,
   Touchable
 } from '@components'

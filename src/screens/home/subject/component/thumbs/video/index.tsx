@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-03 22:03:41
+ * @Last Modified time: 2026-09-15 18:10:51
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text, Touchable } from '@components'
 import { _, systemStore } from '@stores'
-import { getVisualLength, open } from '@utils'
+import { getVisualLength, HTMLDecode, open } from '@utils'
 import { r } from '@utils/dev'
 import { THUMB_HEIGHT, THUMB_WIDTH } from '../ds'
 import { COMPONENT } from './ds'
@@ -40,7 +39,7 @@ function Video({ item, epsThumbsHeader, showTitle = true }: Props) {
           <View style={styles.touch}>
             <Flex style={styles.touch} justify='center'>
               <Text style={styles.icon} type='__plain__'>
-                ▶
+                {'\u25B6\uFE0E'}
               </Text>
             </Flex>
           </View>
@@ -55,7 +54,7 @@ function Video({ item, epsThumbsHeader, showTitle = true }: Props) {
             align='center'
             ellipsizeMode='middle'
           >
-            {item.title}
+            {HTMLDecode(item.title)}
           </Text>
         )}
       </Touchable>

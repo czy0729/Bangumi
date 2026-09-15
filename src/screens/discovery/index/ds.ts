@@ -49,9 +49,3 @@ export function getMenus(discoveryMenu: MenuItem['key'][] = []) {
 
   return menus
 }
-
-export const linearColor = [
-  'rgba(0, 0, 0, 0)',
-  'rgba(0, 0, 0, 0.64)',
-  'rgba(0, 0, 0, 0.84)'
-] as const

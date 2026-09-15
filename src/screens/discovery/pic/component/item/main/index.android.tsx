@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2025-06-18 03:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-15 06:26:14
+ * @Last Modified time: 2026-09-15 20:55:42
  */
 import { useCallback, useRef } from 'react'
-import { findNodeHandle, UIManager, View } from 'react-native'
+import { findNodeHandle, Image as RNImage, UIManager, View } from 'react-native'
 import { observer } from 'mobx-react'
-import { RNImage, Touchable } from '@components'
+import { Touchable } from '@components'
 import { systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { FROZEN_FN } from '@constants'

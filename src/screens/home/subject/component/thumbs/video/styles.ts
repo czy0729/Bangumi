@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:50:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-12-11 19:38:16
+ * @Last Modified time: 2026-09-15 18:11:56
  */
 import { _ } from '@stores'
 import { IMAGE_HEIGHT, THUMB_WIDTH } from '../ds'
@@ -26,7 +26,8 @@ export const styles = _.create({
   },
   icon: {
     fontSize: 40,
-    lineHeight: _.ios(52, 56)
+    lineHeight: _.ios(52, 56),
+    opacity: 0.68
   },
   title: {
     padding: _.sm,

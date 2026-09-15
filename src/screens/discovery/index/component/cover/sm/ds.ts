@@ -8,3 +8,6 @@ import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Sm')
+
+/** 文字遮罩 / 无图兜底渐变高度 (沿用历史值) */
+export const SCRIM_HEIGHT = 96

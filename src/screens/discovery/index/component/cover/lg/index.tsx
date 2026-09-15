@@ -2,24 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:35:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-16 07:42:57
+ * @Last Modified time: 2026-09-15 20:55:15
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { LinearGradient } from 'expo-linear-gradient'
-import { Katakana, Squircle, Text, Touchable } from '@components'
+import { Katakana, Squircle, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Cover } from '@_'
+import { Cover, CoverBlur, TouchableScale } from '@_'
 import { _, subjectStore, systemStore } from '@stores'
 import { cnjp, getCoverLarge, HTMLDecode, matchCoverUrl } from '@utils'
 import { withT } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
-import { linearColor } from '../../../ds'
-import { COMPONENT } from './ds'
+import { COMPONENT, SCRIM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props } from './types'
+
 function CoverLg({ title, src, cn, data }: Props) {
   const navigation = useNavigation(COMPONENT)
 
@@ -33,11 +31,11 @@ function CoverLg({ title, src, cn, data }: Props) {
   const height = isMusic ? width : h
 
   const isUseCDN = systemStore.setting.cdnOrigin === 'magma'
+  const coverSrc = isUseCDN ? matchCoverUrl(src, false) : getCoverLarge(src)
 
   return (
-    <Touchable
+    <TouchableScale
       style={styles.item}
-      animate
       onPress={withT(
         () => {
           navigation.push('Subject', {
@@ -57,13 +55,14 @@ function CoverLg({ title, src, cn, data }: Props) {
       )}
     >
       <Squircle width={width} height={height} radius={systemStore.coverRadius}>
-        <Cover
-          src={isUseCDN ? matchCoverUrl(src, false) : getCoverLarge(src)}
-          size={width}
-          height={height}
+        <Cover src={coverSrc} size={width} height={height} cdn={isUseCDN} />
+        <CoverBlur
+          src={src}
           cdn={isUseCDN}
+          width={width}
+          height={height}
+          scrimHeight={SCRIM_HEIGHT}
         />
-        <LinearGradient style={styles.linear} colors={linearColor} pointerEvents='none' />
         <View style={styles.desc} pointerEvents='none'>
           <Text type={_.select('plain', 'desc')} bold>
             {data.info}
@@ -83,7 +82,7 @@ function CoverLg({ title, src, cn, data }: Props) {
           </View>
         </View>
       </Squircle>
-    </Touchable>
+    </TouchableScale>
   )
 }
 

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-02-27 12:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:57:46
+ * @Last Modified time: 2026-09-15 20:55:49
  */
 import { useCallback, useEffect, useState } from 'react'
+import { Image as RNImage } from 'react-native'
 import { observer } from 'mobx-react'
-import { ActivityIndicator, Flex, Iconfont, Input, RNImage, Text, Touchable } from '@components'
+import { ActivityIndicator, Flex, Iconfont, Input, Text, Touchable } from '@components'
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { info } from '@utils'

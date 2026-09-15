@@ -2,21 +2,18 @@
  * @Author: czy0729
  * @Date: 2021-07-16 00:14:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-16 07:44:03
+ * @Last Modified time: 2026-09-15 20:55:30
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { LinearGradient } from 'expo-linear-gradient'
-import { Katakana, Squircle, Text, Touchable } from '@components'
+import { Katakana, Squircle, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Cover } from '@_'
+import { Cover, CoverBlur, TouchableScale } from '@_'
 import { _, systemStore } from '@stores'
 import { cnjp, getCoverMedium, HTMLDecode, x18 } from '@utils'
 import { withT } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
-import { linearColor } from '../../../ds'
-import { COMPONENT, WEEKDAY_CN } from './ds'
+import { COMPONENT, SCRIM_HEIGHT_RATIO, WEEKDAY_CN } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props } from './types'
@@ -28,11 +25,12 @@ function CoverToday({ data }: Props) {
 
   const { width, height } = styles.cover
   const subjectId = data.id
+  const isUseCDN = !x18(subjectId)
+  const coverSrc = getCoverMedium(data?.images?.common)
 
   return (
-    <Touchable
+    <TouchableScale
       style={styles.item}
-      animate
       onPress={withT(
         () => {
           navigation.push('Subject', {
@@ -51,13 +49,14 @@ function CoverToday({ data }: Props) {
       )}
     >
       <Squircle width={width} height={height} radius={systemStore.coverRadius}>
-        <Cover
-          src={getCoverMedium(data?.images?.common)}
+        <Cover src={coverSrc} width={width} height={height} cdn={isUseCDN} />
+        <CoverBlur
+          src={data?.images?.common}
+          cdn={isUseCDN}
           width={width}
           height={height}
-          cdn={!x18(subjectId)}
+          scrimHeight={Math.round(height * SCRIM_HEIGHT_RATIO)}
         />
-        <LinearGradient style={styles.linear} colors={linearColor} pointerEvents='none' />
         <View style={styles.info} pointerEvents='none'>
           <Text
             type='__plain__'
@@ -83,7 +82,7 @@ function CoverToday({ data }: Props) {
           </View>
         </View>
       </Squircle>
-    </Touchable>
+    </TouchableScale>
   )
 }
 

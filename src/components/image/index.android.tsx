@@ -11,7 +11,6 @@
  * iOS 入口 (index.ios.tsx) 已迁移 expo-image, 与本文件互不影响
  */
 import { useMemo } from 'react'
-import { Image as RNImage } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { omit } from '@utils'
@@ -31,9 +30,6 @@ import ImageTouchable from './touchable'
 import { computeImageStyles, imageViewerCallback, withDefaults } from './utils'
 import { COMPONENT, OMIT_KEYS } from './ds'
 import { memoStyles } from './styles'
-
-// 项目中若需要使用原本的 RN Image Component, 也需在这里引入以便统一管理
-export { RNImage }
 
 import type { Props as ImageProps, State } from './types'
 export type { ImageProps }

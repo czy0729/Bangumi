@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2025-06-18 02:28:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 22:19:35
+ * @Last Modified time: 2026-09-15 20:55:44
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
+import { Image as RNImage } from 'react-native'
 import { observer } from 'mobx-react'
-import { RNImage, Touchable } from '@components'
+import { Touchable } from '@components'
 import { Popover } from '@_'
 import { getURI } from '../../../utils'
 import { styles } from './styles'

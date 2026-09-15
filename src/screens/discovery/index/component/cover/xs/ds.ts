@@ -13,6 +13,9 @@ export const COMPONENT = rc(PARENT, 'Xs')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
 
+/** 文字遮罩 / 无图兜底渐变高度 (沿用历史值) */
+export const SCRIM_HEIGHT = 64
+
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
   imageWidth: 0 as number,

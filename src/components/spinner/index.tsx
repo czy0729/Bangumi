@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-17 20:30:17
  */
-import React, { useCallback, useEffect } from 'react'
-import { View } from 'react-native'
+import { useCallback, useEffect } from 'react'
+import { Image as RNImage, View } from 'react-native'
 import Animated, {
   cancelAnimation,
   Easing,
@@ -18,7 +18,6 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { Flex } from '../flex'
-import { RNImage } from '../image'
 import { COMPONENT, HALF_CIRCLE } from './ds'
 import { memoStyles } from './styles'
 

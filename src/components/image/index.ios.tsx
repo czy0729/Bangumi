@@ -19,7 +19,6 @@
  * - 调试壳 + 触摸 + ImageViewer: touchable
  */
 import { useCallback, useMemo } from 'react'
-import { Image as RNImage } from 'react-native'
 import { observer } from 'mobx-react'
 import { Image as ExpoImage } from 'expo-image'
 import { _, systemStore } from '@stores'
@@ -38,9 +37,6 @@ import ImageTouchable from './touchable'
 import { computeImageStyles, imageViewerCallback, withDefaults } from './utils'
 import { COMPONENT, IMAGE_FADE_DURATION } from './ds'
 import { memoStyles } from './styles'
-
-// 项目中若需要使用原本的 RN Image Component, 也需在这里引入以便统一管理
-export { RNImage }
 
 import type { ImageErrorEvent } from 'react-native'
 import type { ImageSource as ExpoImageSource } from 'expo-image'
@@ -250,6 +246,7 @@ export const Image = observer(function Image(baseProps: ImageProps) {
             cachePolicy={cachePolicy || defaultCachePolicy}
             // expo-image priority 取值 ('low' | 'normal' | 'high') 与旧 prop 一致
             priority={props.priority}
+            blurRadius={props.blurRadius}
             tintColor={tintColor as string}
             transition={transition}
             // 列表复用时按 src 回收, 降低大列表内存峰值
@@ -267,6 +264,7 @@ export const Image = observer(function Image(baseProps: ImageProps) {
         style={finalImageStyle}
         source={src as ExpoImageSource | number}
         contentFit={contentFit}
+        blurRadius={props.blurRadius}
         tintColor={tintColor as string}
         transition={transition}
         recyclingKey={uriKey || undefined}

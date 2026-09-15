@@ -2,20 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-09-10 06:52:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-24 04:21:35
+ * @Last Modified time: 2026-09-15 20:55:35
  */
-import React from 'react'
 import { View } from 'react-native'
-import { LinearGradient } from 'expo-linear-gradient'
-import { Squircle, Text, Touchable, UserStatus } from '@components'
+import { Squircle, Text, UserStatus } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Avatar, Cover } from '@_'
+import { Avatar, Cover, CoverBlur, TouchableScale } from '@_'
 import { _ } from '@stores'
 import { getCoverMedium, stl, x18 } from '@utils'
 import { memo } from '@utils/decorators'
 import { withT } from '@utils/fetch'
-import { linearColor } from '../../../ds'
-import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
+import { COMPONENT_MAIN, DEFAULT_PROPS, SCRIM_HEIGHT } from './ds'
 import { AVATAR_SIZE, styles } from './styles'
 
 import type { SubjectTypeCn } from '@types'
@@ -38,12 +35,13 @@ const CoverXs = memo(
     const isMusic = title === '音乐'
     const width = imageWidth
     const height = isMusic ? width : width * 1.38
+    const isUseCDN = !x18(subjectId)
+    const coverSrc = getCoverMedium(cover)
 
     return (
       <View>
-        <Touchable
+        <TouchableScale
           style={styles.item}
-          animate
           onPress={withT(
             () => {
               navigation.push('Subject', {
@@ -63,16 +61,13 @@ const CoverXs = memo(
           )}
         >
           <Squircle width={width} height={height} radius={_.radiusSm}>
-            <Cover
-              src={getCoverMedium(cover)}
+            <Cover src={coverSrc} width={width} height={height} cdn={isUseCDN} />
+            <CoverBlur
+              src={cover}
+              cdn={isUseCDN}
               width={width}
               height={height}
-              cdn={!x18(subjectId)}
-            />
-            <LinearGradient
-              style={stl(styles.linear, isMusic && styles.linearMusic)}
-              colors={linearColor}
-              pointerEvents='none'
+              scrimHeight={SCRIM_HEIGHT}
             />
             <Text
               style={stl(styles.desc, avatar && styles.withAvatar)}
@@ -86,7 +81,7 @@ const CoverXs = memo(
               {name}
             </Text>
           </Squircle>
-        </Touchable>
+        </TouchableScale>
         {!!avatar && (
           <View style={styles.fixed}>
             <UserStatus userId={userId} mini>

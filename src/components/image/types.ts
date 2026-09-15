@@ -92,6 +92,13 @@ export type Props = Override<
     /** 图片同一时间有复数加载时的优先级 */
     priority?: 'low' | 'normal' | 'high'
 
+    /**
+     * 模糊半径
+     *  - iOS 走 expo-image 的 blurRadius (其内部半径为传入值的一半)
+     *  - 安卓引擎是 FastImage, 不支持模糊; 需要安卓模糊只能用 RN 核心 Image
+     * */
+    blurRadius?: number
+
     /** 是否退回使用 rn 的 Image (安卓 only) */
     fallback?: boolean
 

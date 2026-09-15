@@ -9,6 +9,9 @@ import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Today')
 
+/** 文字遮罩 / 无图兜底渐变高度比例 (沿用历史值的下半部分) */
+export const SCRIM_HEIGHT_RATIO = 0.5
+
 export const WEEKDAY_CN = {
   0: '日',
   1: '一',

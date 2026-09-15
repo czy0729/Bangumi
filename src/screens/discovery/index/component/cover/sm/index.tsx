@@ -2,21 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-11-19 10:44:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-16 07:42:21
+ * @Last Modified time: 2026-09-15 20:55:22
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { LinearGradient } from 'expo-linear-gradient'
-import { Katakana, Squircle, Text, Touchable } from '@components'
+import { Katakana, Squircle, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Cover } from '@_'
+import { Cover, CoverBlur, TouchableScale } from '@_'
 import { _, subjectStore, systemStore } from '@stores'
-import { cnjp, getCoverMedium, HTMLDecode, stl, x18 } from '@utils'
+import { cnjp, getCoverMedium, HTMLDecode, x18 } from '@utils'
 import { withT } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
-import { linearColor } from '../../../ds'
-import { COMPONENT } from './ds'
+import { COMPONENT, SCRIM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Props } from './types'
@@ -32,11 +29,12 @@ function CoverSm({ title, src, cn, data }: Props) {
   const isMusic = title === '音乐'
   const { width, height: h } = styles.cover
   const height = isMusic ? width : h
+  const isUseCDN = !x18(subjectId)
+  const coverSrc = getCoverMedium(src)
 
   return (
-    <Touchable
+    <TouchableScale
       style={styles.item}
-      animate
       onPress={withT(
         () => {
           navigation.push('Subject', {
@@ -56,11 +54,13 @@ function CoverSm({ title, src, cn, data }: Props) {
       )}
     >
       <Squircle width={width} height={height} radius={systemStore.coverRadius}>
-        <Cover src={getCoverMedium(src)} size={width} height={height} cdn={!x18(subjectId)} />
-        <LinearGradient
-          style={stl(styles.linear, isMusic && styles.linearMusic)}
-          colors={linearColor}
-          pointerEvents='none'
+        <Cover src={coverSrc} size={width} height={height} cdn={isUseCDN} />
+        <CoverBlur
+          src={src}
+          cdn={isUseCDN}
+          width={width}
+          height={height}
+          scrimHeight={SCRIM_HEIGHT}
         />
         <View style={styles.desc} pointerEvents='none'>
           <Text type='__plain__' size={10} numberOfLines={1} bold>
@@ -81,7 +81,7 @@ function CoverSm({ title, src, cn, data }: Props) {
           </View>
         </View>
       </Squircle>
-    </Touchable>
+    </TouchableScale>
   )
 }
 
