@@ -6,6 +6,7 @@
  */
 import { getTimestamp } from '@utils'
 import { fetchUsersV0 } from '@utils/fetch.v0'
+import { normalizeLainImageUrl } from '@utils/proxy'
 import { D3 } from '@constants'
 import userStore from '../user'
 import Fetch from './fetch'
@@ -146,7 +147,8 @@ export default class Actions extends Fetch {
     })
     if (users?.username && users?.avatar && users?.nickname) {
       this.updateUsersInfo({
-        avatar: users.avatar.large,
+        // v0 响应经代理返回, 图片域名可能是"当时代理节点", 归一化后再落库
+        avatar: normalizeLainImageUrl(users.avatar.large),
         userId: users.username,
         userName: users.nickname
       })

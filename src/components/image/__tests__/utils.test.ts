@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-24 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 15:38:38
+ * @Last Modified time: 2026-09-16 05:39:49
  */
 jest.mock('@stores', () => {
   const colors = {
@@ -52,8 +52,20 @@ jest.mock('@utils/fetch', () => ({
   t: jest.fn()
 }))
 
+// 覆盖 jest/setup.js 的 @utils/proxy 全局 mock: 归一化需真实实现才能验证两处判定同源
+jest.mock('@utils/proxy', () => {
+  const { normalizeLainImageUrl } = jest.requireActual('@utils/proxy/normalize')
+  return {
+    applyLainProxy: (url: string) => url,
+    isTrustedImageDomain: () => false,
+    normalizeLainImageUrl,
+    getProxyImageHeaders: jest.fn(() => ({}))
+  }
+})
+
 import { showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
+import { getProxyImageHeaders } from '@utils/proxy'
 import {
   checkBgmEmoji,
   checkError404,
@@ -245,6 +257,26 @@ describe('computeHeaders', () => {
 
   it('无 headers 且非 lain 域名返回空对象', () => {
     expect(computeHeaders('https://other.com/x.jpg')).toEqual({})
+  })
+
+  it('旧代理域名的 lain 图片: 归一化后仍补齐 Referer', () => {
+    expect(computeHeaders('https://bgm-workers.cc.cd/pic/user/l/1.jpg')).toEqual({
+      Referer: 'https://bgm.tv/'
+    })
+  })
+
+  it('非 lain 路径的旧代理域名不补 Referer', () => {
+    expect(computeHeaders('https://bgm-workers.cc.cd/img/x.jpg')).toEqual({})
+  })
+
+  it('鉴权头判定与 Referer 判定同源: getProxyImageHeaders 收到归一化后的地址', () => {
+    const mockGetProxyImageHeaders = getProxyImageHeaders as jest.Mock
+    mockGetProxyImageHeaders.mockClear()
+
+    computeHeaders('https://bgm-workers.cc.cd/pic/user/l/1.jpg')
+
+    // https 协议保真: 输入是 https, 归一化结果同样带 https 前缀
+    expect(mockGetProxyImageHeaders).toHaveBeenCalledWith('https://lain.bgm.tv/pic/user/l/1.jpg')
   })
 
   it('非字符串 src 返回空对象', () => {
@@ -568,10 +600,7 @@ describe('withDefaults', () => {
   it('显式传 undefined 不覆盖默认值 (对齐旧版 defaultProps)', () => {
     // 回归用例: CoverImage 会把未传的 size 以 undefined 显式透传,
     // 对象展开默认值会被覆盖导致图片丢失宽高
-    const res = withDefaults<ImageProps>(
-      { size: undefined, width: 219, height: 306 },
-      DEFAULTS
-    )
+    const res = withDefaults<ImageProps>({ size: undefined, width: 219, height: 306 }, DEFAULTS)
     expect(res.size).toBe(40)
     expect(res.width).toBe(219)
     expect(res.height).toBe(306)

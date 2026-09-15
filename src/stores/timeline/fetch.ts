@@ -8,6 +8,7 @@ import { getTimestamp, queue } from '@utils'
 import { fetchHTML } from '@utils/fetch'
 import { fetchUserActive } from '@utils/fetch.p1'
 import { fetchCollectionV0, fetchUsersV0 } from '@utils/fetch.v0'
+import { normalizeLainImageUrl } from '@utils/proxy'
 import { H1, HOST, HTML_SAY, HTML_TIMELINE, LIST_EMPTY, MODEL_TIMELINE_SCOPE } from '@constants'
 import systemStore from '../system'
 import userStore from '../user'
@@ -320,7 +321,8 @@ export default class Fetch extends Computed {
       })
       if (users?.username && users?.avatar && users?.nickname) {
         data.userId = users.username
-        data.avatar = users.avatar.large
+        // v0 响应经代理返回, 图片域名可能是"当时代理节点", 归一化后再落库
+        data.avatar = normalizeLainImageUrl(users.avatar.large)
         data.name = users.nickname
 
         const promises = [

@@ -2,11 +2,12 @@
  * @Author: czy0729
  * @Date: 2026-08-25 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-14 12:00:00
+ * @Last Modified time: 2026-09-16 05:26:11
  */
 import { API_HOST, API_HOST_BACKUP } from '@constants/api'
 import { HOST_IMAGE } from '@constants/host'
 import { hmacSHA256 } from '../thirdParty/crypto'
+import { normalizeLainImageUrl } from './normalize'
 import { getProxyStrategy } from './strategy'
 import { addWorkerLog } from './worker-log'
 
@@ -37,27 +38,31 @@ function getSign(pathname: string, secret: string) {
 export function applyLainProxy(url: string) {
   const { disabled, ech, supporter, host, apiHost, lainHost, lainSecret } = getProxyStrategy()
 
+  // 历史存量数据归一化: 把旧代理域名下的 lain 图片还原为官方 //lain.bgm.tv, 再按当前生效节点改写
+  // 必须早于 disabled / ech 判定: 直连与 ECH 同样解析不了早已失效的旧代理域名
+  const normalizedUrl = normalizeLainImageUrl(url)
+
   // DoH DNS (BangumiOkHttpClientFactory) 已注入 OkHttpClient 单例,
   // FastImage/Glide 共享同一实例, 图片域名自动走 DoH 解析, 无需改写 URL
-  if (ech) return url
+  if (ech) return normalizedUrl
 
   // 全局禁用代理时直接返回原始 URL
-  if (disabled) return url
+  if (disabled) return normalizedUrl
 
   // 无效入参直接返回 (调用链存在 bg/avatar 全空的取值路径)
-  if (!url) return url
+  if (!normalizedUrl) return normalizedUrl
 
   // api.bgm.tv 的 redirect 图片 (如 avatar): 支持者节点由内置主节点一并接管
   // 历史兼容分支: 官方 API 现在已直接返回 lain.bgm.tv 地址, 此处仅兜底老缓存/老接口数据
   const apiProxy = supporter ? host : apiHost
-  if (apiProxy && (url.includes(API_HOST) || url.includes(API_HOST_BACKUP))) {
+  if (apiProxy && (normalizedUrl.includes(API_HOST) || normalizedUrl.includes(API_HOST_BACKUP))) {
     const replacement = apiProxy.replace(/\/$/, '')
-    return url.replace(API_HOST, replacement).replace(API_HOST_BACKUP, replacement)
+    return normalizedUrl.replace(API_HOST, replacement).replace(API_HOST_BACKUP, replacement)
   }
 
-  if (!lainHost || !url.includes(HOST_IMAGE)) return url
+  if (!lainHost || !normalizedUrl.includes(HOST_IMAGE)) return normalizedUrl
 
-  const proxyUrl = url.split(HOST_IMAGE).join(lainHost.replace(/^https?:/, ''))
+  const proxyUrl = normalizedUrl.split(HOST_IMAGE).join(lainHost.replace(/^https?:/, ''))
 
   // 记录图片代理日志
   addWorkerLog('info', proxyUrl, 'lain')

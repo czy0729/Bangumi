@@ -2,48 +2,16 @@
  * @Author: czy0729
  * @Date: 2026-09-14 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-14 23:14:10
+ * @Last Modified time: 2026-09-16 05:25:53
  *
  * 还原为 bgm 原生地址: 命中内置节点域名时替换域名, 用于无法携带密钥的出口
  */
 import { getSupporterConfig } from '@utils/kv/worker'
 import { HOST, HOST_IMAGE } from '@constants/host'
+import { getDomain, removeSign, replaceDomain } from './url-utils'
 
 /** 图片域 (补全协议) */
 const HOST_IMAGE_URL = `https:${HOST_IMAGE}`
-
-/** 取出地址里的域名 (不含 scheme / 端口 / 路径) */
-function getDomain(url: string): string {
-  const host = String(url || '').match(/^(?:https?:)?\/\/([^/?#]+)/)?.[1] || ''
-
-  return host.split(':')[0]
-}
-
-/** 把开头的 scheme + 域名 + 可选端口整体替换为目标域 */
-function replaceDomain(url: string, domain: string, target: string): string {
-  const escaped = domain.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  const reg = new RegExp(`^(?:https?:)?\\/\\/${escaped}(?::\\d+)?(?=\\/|\\?|#|$)`, 'i')
-
-  return url.replace(reg, target)
-}
-
-/** 移除节点专用的签名参数 */
-function removeSign(url: string): string {
-  const hashIndex = url.indexOf('#')
-  const hash = hashIndex === -1 ? '' : url.slice(hashIndex)
-  const rest = hashIndex === -1 ? url : url.slice(0, hashIndex)
-
-  const queryIndex = rest.indexOf('?')
-  if (queryIndex === -1) return url
-
-  const base = rest.slice(0, queryIndex)
-  const kept = rest
-    .slice(queryIndex + 1)
-    .split('&')
-    .filter(item => item && !/^v=/i.test(item))
-
-  return kept.length ? `${base}?${kept.join('&')}${hash}` : `${base}${hash}`
-}
 
 /**
  * 还原为 bgm 原生地址 (命中内置节点域名时替换为 bgm.tv / lain.bgm.tv)

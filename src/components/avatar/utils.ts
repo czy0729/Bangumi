@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-05-14 07:14:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-18 07:40:43
+ * @Last Modified time: 2026-09-16 05:27:20
  */
 import { _, systemStore, usersStore, userStore } from '@stores'
 import { getCover400, getCoverMedium, getTimestamp, navigationReference } from '@utils'
 import { syncUserStore } from '@utils/async'
 import { t } from '@utils/fetch'
-import { axiosWithProxyRedirect } from '@utils/proxy'
+import { axiosWithProxyRedirect, normalizeLainImageUrl } from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
 import {
   HOST_CDN_AVATAR,
@@ -168,9 +168,10 @@ export function getOnPress(
 
 /** 强制使用 /l/ */
 function fixedLarge<T>(src: T): T | string {
-  return typeof src !== 'string'
-    ? src
-    : src.replace(/\/\/lain.bgm.tv\/pic\/user\/(m|s)\//g, USER_LARGE)
+  if (typeof src !== 'string') return src
+
+  // 旧代理域名先归一化: 否则 /s/ /m/ 提升与后续 CDN / hd 判定都会因域名不匹配而整体失效
+  return normalizeLainImageUrl(src).replace(/\/\/lain.bgm.tv\/pic\/user\/(m|s)\//g, USER_LARGE)
 }
 
 /**

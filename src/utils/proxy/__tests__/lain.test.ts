@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-25 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-14 20:53:05
+ * @Last Modified time: 2026-09-16 05:40:00
  */
 import { syncSystemStore } from '@utils/async'
 import { getSupporterConfig } from '@utils/kv/worker'
@@ -17,7 +17,19 @@ jest.mock('@utils/async', () => ({
 
 jest.mock('@constants/host', () => ({
   HOST: 'https://bgm.tv',
-  HOST_IMAGE: '//lain.bgm.tv'
+  HOST_NAME: 'bgm.tv',
+  HOST_2: 'https://bangumi.tv',
+  HOST_3: 'https://chii.in',
+  HOST_IMAGE: '//lain.bgm.tv',
+  HOST_CDN: 'https://cdn.jsdelivr.net',
+  HOST_IMAGE_UPLOAD: 'https://p.sda1.dev',
+  HOST_IMAGE_UPLOAD_RYMK: 'https://lsky.ry.mk',
+  HOST_NETABA: 'https://netaba.re'
+}))
+
+jest.mock('@constants/cdn/ds', () => ({
+  HOST_CDN_AVATAR: 'https://cdn-avatar.example.com',
+  HOST_DOGE: 'https://doge.example.com'
 }))
 
 jest.mock('@utils/kv/worker', () => ({
@@ -127,6 +139,32 @@ describe('applyLainProxy', () => {
     setSetting({ workerLainProxy: LAIN_PROXY })
 
     expect(applyLainProxy('https://example.com/pic.jpg')).toBe('https://example.com/pic.jpg')
+  })
+
+  it('旧代理域名的存量地址: 归一化后按当前节点改写, 业务参数保留且重新签名', () => {
+    setSetting({ workerLainProxy: LAIN_PROXY, workerLainSecret: 'k1' })
+
+    const result = applyLainProxy(
+      'https://lain.bangumi.pro/pic/user/l/000/83/30/833068.jpg?r=1754799711&hd=1&v=old'
+    )
+
+    expect(result).toBe(`${LAIN_PROXY}/pic/user/l/000/83/30/833068.jpg?r=1754799711&hd=1&v=k1/p`)
+  })
+
+  it('全局禁用代理时: 旧代理域名仍归一化为官方域, 不再请求已失效节点', () => {
+    setSetting({ workerProxyDisabled: true })
+
+    expect(applyLainProxy('https://lain.bangumi.pro/pic/user/l/1.jpg')).toBe(
+      'https://lain.bgm.tv/pic/user/l/1.jpg'
+    )
+  })
+
+  it('ECH 运行时: 旧代理域名同样归一化', () => {
+    getEchMock().mockReturnValue(true)
+
+    expect(applyLainProxy('//lain.bangumi.pro/pic/user/l/1.jpg?v=old')).toBe(
+      '//lain.bgm.tv/pic/user/l/1.jpg'
+    )
   })
 
   it('替换 lain 域名为代理域名', () => {

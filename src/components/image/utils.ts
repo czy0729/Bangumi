@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-14 07:21:39
+ * @Last Modified time: 2026-09-16 05:39:41
  */
 import { Image as RNImage } from 'react-native'
 import { _ } from '@stores'
 import { ensureCacheLimit, getCover400, getStorage, setStorage, showImageViewer } from '@utils'
 import { t } from '@utils/fetch'
-import { getProxyImageHeaders } from '@utils/proxy'
+import { getProxyImageHeaders, normalizeLainImageUrl } from '@utils/proxy'
 import hash from '@utils/thirdParty/hash'
 import { HOST_BGM_STATIC, HOST_CDN, HOST_IMAGE, IOS, WEB } from '@constants'
 import { getSkeletonColor } from '../skeleton/utils'
@@ -108,8 +108,11 @@ export function computeHeaders(
   src: Props['src'],
   headers?: Record<string, string>
 ): Record<string, string> {
-  const isLain = typeof src === 'string' && src.includes('lain.')
-  const proxyHeaders = typeof src === 'string' ? getProxyImageHeaders(src) : {}
+  // 归一化后再判定: 旧代理域名 (含已失效节点) 会回到 lain.bgm.tv;
+  // Referer 与鉴权头统一以归一化结果为输入, 避免两处判定不同源造成语义分叉
+  const normalizedSrc = typeof src === 'string' ? normalizeLainImageUrl(src) : src
+  const isLain = typeof normalizedSrc === 'string' && normalizedSrc.includes('lain.')
+  const proxyHeaders = typeof normalizedSrc === 'string' ? getProxyImageHeaders(normalizedSrc) : {}
 
   if (headers) {
     if (isLain) return { ...DEFAULT_HEADERS, ...proxyHeaders, ...(headers || {}) }

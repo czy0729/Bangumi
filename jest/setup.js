@@ -168,6 +168,12 @@ jest.mock(
     axiosWithProxy: jest.fn(),
     axiosWithProxyRedirect: jest.fn(),
     applyLainProxy: jest.fn(url => url),
+    // 归一化默认 identity (语义等价于"直连不改写"), 并非真实实现:
+    // 需要验证真实归一化行为的用例, 请在测试文件内局部覆盖 @utils/proxy 并配合
+    // jest.requireActual('@utils/proxy/normalize') 取真实实现 (参考
+    // src/components/image/__tests__/utils.test.ts), 否则会出现"测试通过但实际未归一化"
+    normalizeLainImageUrl: jest.fn(url => url),
+    isTrustedImageDomain: jest.fn(() => false),
     restoreNativeUrl: jest.fn(url => url),
     parseSetCookieHeader: jest.fn(() => ''),
     parseSetCookieItems: jest.fn(() => []),

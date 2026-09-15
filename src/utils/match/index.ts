@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-08-08 11:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-05 17:29:59
+ * @Last Modified time: 2026-09-16 05:26:22
  */
 import { ensureCacheLimit } from '../cache'
+import { normalizeLainImageUrl } from '../proxy/normalize'
 import { pad } from '../utils/base'
 
 import type { UserId } from '@types'
@@ -59,7 +60,12 @@ export function matchAvatar(str: string = ''): string {
     match(
       str,
       str =>
-        str.match(/background-image:\s*url\('(.+?)'\)/)?.[1] || '//lain.bgm.tv/pic/user/s/icon.jpg',
+        // 代理反代页面里的内联样式携带的是"当时代理节点"的图片域名,
+        // 归一化后再落库, 避免代理域名被固化进本地持久化数据
+        normalizeLainImageUrl(
+          str.match(/background-image:\s*url\('(.+?)'\)/)?.[1] ||
+            '//lain.bgm.tv/pic/user/s/icon.jpg'
+        ),
       'matchAvatar'
     ) || ''
   )
@@ -90,7 +96,8 @@ export function matchCover(str: string = ''): string {
     str,
     str => {
       if (str === "background-image:url('/img/no_icon_subject.png')") return ''
-      return str.substring(22, str.length - 2)
+      // 同 matchAvatar: 反代页面里的封面域名同样需要归一化后再落库
+      return normalizeLainImageUrl(str.substring(22, str.length - 2))
     },
     'matchCover'
   )

@@ -10,6 +10,7 @@ export { getProxyImageHeaders } from './image-headers'
 export { applyLainProxy } from './lain'
 export { logProxy } from './log'
 export { restoreNativeUrl } from './native-url'
+export { isTrustedImageDomain, normalizeLainImageUrl } from './normalize'
 export {
   getRedirectFromBody,
   getRedirectFromHeaders,
