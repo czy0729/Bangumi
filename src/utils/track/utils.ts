@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:01:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:32:28
+ * @Last Modified time: 2026-09-16 06:20:30
  */
 import { Platform } from 'react-native'
 import Constants from 'expo-constants'
@@ -47,6 +47,21 @@ export function xhr(si: string, u: string) {
 }
 
 let userAgent = ''
+let lastIdentifyId = ''
+
+export function getDistinctId() {
+  try {
+    const u = _u()
+    return String(u.myUserId || '')
+  } catch {
+    return ''
+  }
+}
+
+function payloadDistinctId() {
+  const distinctId = getDistinctId()
+  return distinctId ? { id: distinctId } : {}
+}
 
 export async function umami(
   url: string = '',
@@ -61,6 +76,7 @@ export async function umami(
     const url = _url.split('?')?.[0]
     window.umami.track((props: Record<string, unknown>) => ({
       ...props,
+      ...payloadDistinctId(),
       website: website || (url.includes('tinygrail') ? WEBSITE_TINGRAIL : WEBSITE),
       url,
       title,
@@ -91,6 +107,7 @@ export async function umamiEvent(
     const url = _url.split('?')?.[0]
     window.umami.track((props: Record<string, unknown>) => ({
       ...props,
+      ...payloadDistinctId(),
       website: url.includes('tinygrail') ? WEBSITE_TINGRAIL : WEBSITE,
       url,
       title,
@@ -119,20 +136,12 @@ async function umamiXhr(payload: {
 }) {
   if (payload.name === '其他.启动') return
 
-  if (!userAgent) userAgent = await Constants.getWebViewUserAgentAsync()
-
-  const request = new XMLHttpRequest()
-  request.open('POST', API_UMAMI)
-  request.setRequestHeader('Content-Type', 'application/json')
-  request.setRequestHeader('User-Agent', userAgent)
-  request.timeout = TIMEOUT
-  request.withCredentials = false
-
   let website = payload.website || (payload.url.includes('tinygrail') ? WEBSITE_TINGRAIL : WEBSITE)
   if (payload.name === '其他.崩溃') website = WEBSITE_FATAL_ERROR
 
   const data = {
     ...payload,
+    ...payloadDistinctId(),
     website,
     hostname: 'bgm.tv',
     screen: SCREEN,
@@ -147,12 +156,55 @@ async function umamiXhr(payload: {
     delete data.data
   }
 
-  request.send(
-    JSON.stringify({
-      payload: data,
-      type: 'event'
-    })
-  )
+  sendUmami(data, 'event')
+}
+
+/** umami 统一请求出口, 失败静默不重试, 不等待响应 */
+async function sendUmami(data: Record<string, unknown>, type: 'event' | 'identify') {
+  try {
+    if (!userAgent) userAgent = await Constants.getWebViewUserAgentAsync()
+
+    const request = new XMLHttpRequest()
+    request.open('POST', API_UMAMI)
+    request.setRequestHeader('Content-Type', 'application/json')
+    request.setRequestHeader('User-Agent', userAgent)
+    request.timeout = TIMEOUT
+    request.withCredentials = false
+    request.send(
+      JSON.stringify({
+        payload: data,
+        type
+      })
+    )
+  } catch {}
+}
+
+/** 静默绑定当前会话到用户数字 id, 同一 ID 只尝试一次, 失败不重试 */
+export function umamiIdentify(distinctId: string = getDistinctId()) {
+  if (!distinctId || distinctId === lastIdentifyId) return
+
+  lastIdentifyId = distinctId
+  if (WEB) {
+    // 官方脚本较旧时 identify 不存在, 静默跳过
+    try {
+      if (typeof window.umami?.identify === 'function') window.umami.identify(distinctId)
+    } catch {}
+    return
+  }
+
+  try {
+    sendUmami(
+      {
+        website: WEBSITE,
+        hostname: 'bgm.tv',
+        screen: SCREEN,
+        language: 'zh-CN',
+        referrer: getReferer(String(_u().myId || 0)),
+        id: distinctId
+      },
+      'identify'
+    )
+  } catch {}
 }
 
 export function getReferer(beforeKey?: string) {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-13 00:32:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:32:14
+ * @Last Modified time: 2026-09-16 06:10:19
  */
 import { EVENTS as events } from '@constants'
 import { WEB } from '@constants/device'
@@ -13,7 +13,7 @@ import { syncSystemStore as _s, syncThemeStore as _, syncUserStore as _u } from 
 import { isDevtoolsOpen } from '../dom'
 import { postTask } from '../scheduler'
 import { urlStringify } from '../utils'
-import { getReferer, log, umami, umamiEvent, xhr } from './utils'
+import { getDistinctId, getReferer, log, umami, umamiEvent, umamiIdentify, xhr } from './utils'
 import { SI_UV, WEBSITE_UV } from './ds'
 
 import type { EventKeys } from '@constants'
@@ -45,7 +45,12 @@ export function hm(url?: string, screen?: string, title?: string) {
       const fullUrl = String(url).indexOf('http') === -1 ? `${HOST}/${url}` : url
       const queryStr = urlStringify(query)
       const u = `${fullUrl}${fullUrl.includes('?') ? '&' : '?'}${queryStr}`
-      if (!isDevtoolsOpen()) umami(u, title)
+      if (!isDevtoolsOpen()) {
+        umami(u, title)
+
+        // 登录后或用户 ID 变化时绑定当前会话 (内部按 ID 去重)
+        umamiIdentify()
+      }
 
       lastQuery = currentQuery
       currentQuery = queryStr
@@ -64,6 +69,7 @@ export function ua() {
       const u = _u()
       xhr(SI_UV, `${u.url}?v=${VERSION_GITHUB_RELEASE}`)
       umami(u.url, u.userInfo.nickname, WEBSITE_UV, getReferer())
+      umamiIdentify(getDistinctId())
     } catch {}
   })
 }

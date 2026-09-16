@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-25 17:33:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 06:47:48
+ * @Last Modified time: 2026-09-16 05:51:26
  */
 
 /** 以下类型仅按需补充以规避类型错误，非完整类型声明 (仅为防止 RN 编译报错) */
@@ -160,6 +160,7 @@ declare global {
     /** Umami 统计 */
     umami: {
       track: (callback: (props: Record<string, unknown>) => Record<string, unknown>) => void
+      identify?: (id: string, data?: Record<string, unknown>) => void
     }
 
     /** 图片构造器 */
