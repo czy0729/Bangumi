@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-01-12 06:39:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-07 20:35:32
+ * @Last Modified time: 2026-09-17 00:12:01
  */
 import React, { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -15,6 +15,7 @@ import { useHorizontalLazy } from '@utils/hooks'
 import { FROZEN_FN } from '@constants'
 import { TITLE_ANITABI } from '../../ds'
 import IconHidden from '../icon/hidden'
+import { fixAnitabiImageUrl } from './utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 
 import type { AnitabiData } from '../../types'
@@ -32,10 +33,20 @@ const Anitabi = memo(
     } as AnitabiData,
     onSwitchBlock = FROZEN_FN
   }) => {
-    const { city, pointsLength, imagesLength, litePoints } = data
+    // DEFAULT_PROPS 的 data 为 {}, litePoints 运行期可能为 undefined, 需要默认值兜底
+    const { city, pointsLength, imagesLength, litePoints = [] } = data
+
+    /**
+     * 接口返回的点位图片地址缺 query 分隔符 (如 .../x.webp&plan=h160, 服务端 520), 统一纠正后再下发
+     * 缩略图与「查看大图」列表 (h160 → h360) 共用同一份地址
+     */
+    const points = useMemo(
+      () => litePoints.map(item => ({ ...item, image: fixAnitabiImageUrl(item.image) })),
+      [litePoints]
+    )
 
     const { list, onScroll } = useHorizontalLazy(
-      litePoints,
+      points,
       Math.floor(_.window.contentWidth / THUMB_WIDTH) + 1
     )
 
