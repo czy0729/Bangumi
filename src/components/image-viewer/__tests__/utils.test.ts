@@ -8,6 +8,8 @@ import { applyLainProxy } from '@utils/proxy'
 import { getCurrentUrl, getProxyImageUrls } from '../utils'
 
 jest.mock('@utils/proxy', () => ({
+  // resolveImageUri 内部还会用 normalizeLainImageUrl 归一化历史代理域名, 用真实实现
+  ...jest.requireActual('@utils/proxy/normalize'),
   applyLainProxy: jest.fn(url => `p:${url}`)
 }))
 

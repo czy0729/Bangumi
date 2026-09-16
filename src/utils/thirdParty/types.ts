@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-07-26 15:12:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-26 09:43:52
+ * @Last Modified time: 2026-09-16 20:30:00
  */
 type AxiosRequest = {
   /** XMLHttpRequest 原始响应字符串 */
@@ -24,8 +24,8 @@ type AxiosResponse<T> = {
 }
 
 type AxiosFunction = <T = any>(config: {
-  /** 请求方法 */
-  method?: 'get' | 'post'
+  /** 请求方法 (head 由打包的 axios 原生支持, 用于只取响应头) */
+  method?: 'get' | 'post' | 'head'
 
   /** 请求地址 */
   url: string
@@ -43,6 +43,12 @@ type AxiosFunction = <T = any>(config: {
 
     /** 来源地址 */
     Referer?: string
+
+    /** 被节点改写的图片鉴权头 (见 utils/proxy/image-headers) */
+    'x-upstream'?: string
+
+    /** 节点密钥 */
+    'x-proxy-key'?: string
   }
 
   /** 请求体, 对象或原始字符串 */
@@ -50,19 +56,9 @@ type AxiosFunction = <T = any>(config: {
 
   /** 响应类型, 仅支持二进制数组 */
   responseType?: 'arraybuffer'
+
+  /** 超时时间 (毫秒), 打包的 axios 支持该配置 */
+  timeout?: number
 }) => Promise<AxiosResponse<T>>
 
-type AxiosExtensions = {
-  defaults: {
-    /** 是否携带跨域凭证 */
-    withCredentials?: boolean
-
-    /** 请求超时时间 (毫秒) */
-    timeout?: number
-  }
-
-  /** 仅发起 HEAD 请求, 返回状态码与响应头 */
-  head: (url: string) => Promise<{ status: number; headers: Record<string, string> }>
-}
-
-export type CustomAxios = AxiosFunction & AxiosExtensions
+export type CustomAxios = AxiosFunction

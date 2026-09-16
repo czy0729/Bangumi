@@ -15,7 +15,7 @@ import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { omit } from '@utils'
 import { r } from '@utils/dev'
-import { applyLainProxy } from '@utils/proxy'
+import { resolveImageUri } from '@utils/image'
 import { EVENT } from '@constants'
 import { TEXT_ONLY } from '@src/config'
 import { devLog } from '../dev'
@@ -171,7 +171,7 @@ export const Image = observer(function Image(baseProps: ImageProps) {
           return <Placeholder style={finalImageStyle} />
         }
 
-        const finalUri = applyLainProxy(uri)
+        const finalUri = resolveImageUri(uri)
         return (
           <Remote
             {...passProps}

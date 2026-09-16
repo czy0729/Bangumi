@@ -15,7 +15,7 @@
  */
 import { Image as RNImage } from 'react-native'
 import { computeHeaders } from '@components/image/utils'
-import { applyLainProxy } from '@utils/proxy'
+import { resolveImageUri } from '@utils/image'
 import { BLUR_SCALE, getBlurSrc } from './ds'
 import { styles } from './styles'
 
@@ -25,7 +25,7 @@ import type { BlurImageProps } from './types'
 export const BlurImage = ({ src, cdn, width, height, blurRadius, onError }: BlurImageProps) => (
   <RNImage
     style={[styles.blurImage, { width, height, transform: [{ scale: BLUR_SCALE }] }]}
-    source={{ uri: applyLainProxy(getBlurSrc(src, cdn)), headers: computeHeaders(src) }}
+    source={{ uri: resolveImageUri(getBlurSrc(src, cdn)), headers: computeHeaders(src) }}
     resizeMode='cover'
     blurRadius={blurRadius}
     fadeDuration={0}

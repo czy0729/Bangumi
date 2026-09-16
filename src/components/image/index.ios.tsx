@@ -24,7 +24,7 @@ import { Image as ExpoImage } from 'expo-image'
 import { _, systemStore } from '@stores'
 import { ensureCacheLimit } from '@utils/cache'
 import { r } from '@utils/dev'
-import { applyLainProxy } from '@utils/proxy'
+import { resolveImageUri } from '@utils/image'
 import { DOGE_CDN_IMG_DEFAULT, EVENT } from '@constants'
 import { TEXT_ONLY } from '@src/config'
 import { devLog } from '../dev'
@@ -230,7 +230,7 @@ export const Image = observer(function Image(baseProps: ImageProps) {
       if (!uri) return <Placeholder style={finalImageStyle} />
 
       if (typeof uri === 'string') {
-        const finalUri = applyLainProxy(uri)
+        const finalUri = resolveImageUri(uri)
         return (
           <ExpoImage
             style={finalImageStyle}

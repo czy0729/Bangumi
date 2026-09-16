@@ -28,8 +28,11 @@ jest.mock('@utils/cdn', () => ({
 
 jest.mock('@constants/host', () => ({
   HOST: 'https://bgm.tv',
+  HOST_NAME: 'bgm.tv',
   HOST_2: 'https://bangumi.tv',
   HOST_3: 'https://chii.in',
+  // cover.ts 的图片质量处理以 HOST_IMAGE 判定, 缺失会让 src.includes(undefined) 恒 false 而提前返回
+  HOST_IMAGE: '//lain.bgm.tv',
   HOST_BGM_STATIC: 'https://lain.bgm.tv',
   IMG_DEFAULT: 'https://lain.bgm.tv/img/default_cover.jpg',
   EVENT: { id: 'test', data: {} }

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2026-08-24 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 15:38:23
+ * @Last Modified time: 2026-09-16 18:25:42
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Image as RNImage } from 'react-native'
 import { getTimestamp } from '@utils'
 import { logger } from '@utils/dev'
-import { applyLainProxy } from '@utils/proxy'
+import { fixImageProtocol, resolveImageUri } from '@utils/image'
 import { invalidate } from '@utils/thirdParty/image-cache-manager'
 import { IOS, WEB } from '@constants'
 import {
@@ -88,7 +88,8 @@ export function useImageAutoSize(options: UseImageAutoSizeOptions) {
     // autoSize 为 boolean true 且 autoHeight 无数值配值时无法计算目标宽度, 跳过
     if (typeof autoSize !== 'number' && !autoHeight) return
 
-    const finalUri = uri || src
+    // 必须与渲染地址走同一解析 (补协议 + 图片代理), 否则代理开启后测量会请求原始地址而失败
+    const finalUri = resolveImageUri(uri || src)
     if (typeof finalUri !== 'string') return
     if (sizedUriRef.current === finalUri) return
 
@@ -196,7 +197,8 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
   const preGetLocalCache = useCallback(() => {
     const { src } = propsRef.current
     if (typeof src === 'string') {
-      const result = getLocalCacheStatic(src)
+      // 登记处 (cacheWithSystemStrategy) 用的是补协议后的地址, 读取必须同源才有命中可能
+      const result = getLocalCacheStatic(fixImageProtocol(src))
       if (result) {
         sizeRef.current = result.size || 0
         setUri(result.path)
@@ -311,9 +313,10 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
       // 本地文件损坏: 移除内存命中记录与磁盘索引, 回退远端地址重新下载
       if (errorInfo.includes('The file')) {
         if (typeof src === 'string') {
-          const fixedSrc = applyLainProxy(fixedRemoteImageUrl(src))
-          removeLocalCache(fixedSrc)
-          invalidate(fixedSrc)
+          // 两个缓存的键空间不同: memoLocal 用补协议后的地址 (与登记处一致),
+          // 引擎缓存 (expo-image / FastImage) 用真正请求过的代理地址
+          removeLocalCache(fixImageProtocol(src))
+          invalidate(resolveImageUri(src))
         }
         setUri(fixedRemoteImageUrl(propsRef.current.src))
       } else {
@@ -337,13 +340,12 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
         }
       }
 
+      // 仅补协议 (协议相对补 https, lain 的 http 升级), 本地 / 相对地址原样保留
       let uri: ImageProps['src'] = src || ''
-      if (typeof uri === 'string' && !uri.startsWith('./') && !/^https?:/.test(uri)) {
-        uri = `https:${uri}`
-      }
+      if (typeof uri === 'string') uri = fixImageProtocol(uri)
 
       // 空地址不作处理
-      if (uri === 'https:') return false
+      if (!uri) return false
 
       if (uri) {
         // 仅安卓: 登记内存命中记录, 供 preGetLocalCache 短路复用 (iOS 由 expo-image 自管, 不再登记)
