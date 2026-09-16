@@ -651,8 +651,8 @@ describe('getCoverLarge', () => {
 
 describe('randomizeImgHost', () => {
   it('替换 img 主机号', () => {
-    const result = randomizeImgHost('https://img3.doubanio.com/test.jpg')
-    expect(result).toMatch(/img[129]\.doubanio\.com/)
+    const result = randomizeImgHost('https://img3.example.com/test.jpg')
+    expect(result).toMatch(/img[129]\.example\.com/)
   })
 
   it('非字符串返回原值', () => {

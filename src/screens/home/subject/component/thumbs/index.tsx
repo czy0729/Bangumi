@@ -2,11 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-10-12 12:19:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-15 18:09:29
+ * @Last Modified time: 2026-09-17 04:30:35
  */
 import { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
-import { Component, Flex, Heatmap, Iconfont, ScrollViewHorizontal, Text } from '@components'
+import {
+  Component,
+  Flex,
+  flexStyle,
+  Heatmap,
+  Iconfont,
+  ScrollViewHorizontal,
+  Text,
+  Touchable
+} from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { findSubjectCn, open, stl } from '@utils'
@@ -16,6 +25,7 @@ import BlockAnchor from '../block-anchor'
 import IconHidden from '../icon/hidden'
 import IconPic from '../icon/pic'
 import IconPreview from '../icon/preview'
+import IconThumbsRefresh from '../icon/refresh'
 import Split from '../split'
 import Preview from './preview'
 import { prioritizeByKeywords } from './utils'
@@ -115,27 +125,34 @@ function Thumbs({ onBlockRef }: Props) {
           </ScrollViewHorizontal>
         )}
 
-        {showThumbs && !!thumbsReference && (
+        {showThumbs && (
           <Flex style={stl(_.container.wind, _.mt.sm)}>
             <Flex.Item>
               <IconPic />
             </Flex.Item>
-            <Text
-              type={_.select('sub', 'icon')}
-              size={10}
-              lineHeight={12}
-              align='right'
-              onPress={() => open(epsThumbsHeader?.Referer)}
-            >
-              数据来源自 {thumbsReference}
-            </Text>
-            <Iconfont
-              style={_.ml.xs}
-              name='md-open-in-new'
-              size={10}
-              lineHeight={12}
-              color={_.colorIcon}
-            />
+            <IconThumbsRefresh />
+            {!!thumbsReference && (
+              <Touchable
+                style={[
+                  flexStyle(),
+                  {
+                    marginTop: -2
+                  }
+                ]}
+                onPress={() => open(epsThumbsHeader?.Referer)}
+              >
+                <Text type={_.select('sub', 'icon')} size={10} lineHeight={12} align='right'>
+                  来源自 {thumbsReference}
+                </Text>
+                <Iconfont
+                  style={_.ml.xs}
+                  name='md-open-in-new'
+                  size={12}
+                  lineHeight={12}
+                  color={_.colorIcon}
+                />
+              </Touchable>
+            )}
           </Flex>
         )}
 

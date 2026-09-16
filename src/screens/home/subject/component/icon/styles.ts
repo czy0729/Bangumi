@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-07 12:22:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-05 21:45:47
+ * @Last Modified time: 2026-09-17 04:31:07
  */
 import { _ } from '@stores'
 
@@ -77,6 +77,12 @@ export const styles = _.create({
     paddingVertical: 0,
     marginRight: -_.sm,
     marginLeft: 4
+  },
+  refresh: {
+    paddingVertical: 0,
+    paddingHorizontal: _.xs,
+    marginRight: 6,
+    marginLeft: 0
   },
   actions: {
     marginRight: 4,

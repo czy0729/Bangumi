@@ -9,7 +9,7 @@ import { err, hm, t, ua, withT } from '../track'
 import { baiduTranslate } from './baidu'
 import { fetchAPI, fetchHTML } from './fetch'
 import { queue, safe } from './utils'
-import { ping, xhr, xhrCustom } from './xhr'
+import { ping, xhr, xhrCustom, xhrTimeout } from './xhr'
 
 export {
   baiduTranslate,
@@ -24,7 +24,8 @@ export {
   ua,
   withT,
   xhr,
-  xhrCustom
+  xhrCustom,
+  xhrTimeout
 }
 
 export default fetchAPI

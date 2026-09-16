@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:29:23
+ * @Last Modified time: 2026-09-17 06:18:03
  *
  * 使用 new XMLHttpRequest 的请求
  */
@@ -138,6 +138,27 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{ _response: string }> {
 
     if (showLog) log('xhrCustom', { requestUrl })
   })
+}
+
+/** 带超时兜底的请求默认超时 (毫秒) */
+const XHR_TIMEOUT = 8000
+
+/**
+ * 带超时兜底的请求: xhrCustom 对 403 等状态码会永久挂起, 超时与失败同义 (不要改成重试)
+ * */
+export function xhrTimeout(
+  url: string,
+  timeout: number = XHR_TIMEOUT,
+  headers?: Record<string, string>
+) {
+  let timer: ReturnType<typeof setTimeout> | undefined
+
+  return Promise.race([
+    xhrCustom({ url, headers }),
+    new Promise<never>((_resolve, reject) => {
+      timer = setTimeout(() => reject(new Error('xhr timeout')), timeout)
+    })
+  ]).finally(() => clearTimeout(timer))
 }
 
 /** 请求收到返回数据马上结束 */

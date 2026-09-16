@@ -53,6 +53,8 @@ export const COMPONENT_SEARCH_DISC = rc(COMPONENT, 'SearchDisc')
 
 export const COMPONENT_STAFF = rc(COMPONENT, 'Staff')
 
+export const COMPONENT_THUMBS_REFRESH = rc(COMPONENT, 'ThumbsRefresh')
+
 export const COMPONENT_TOPIC = rc(COMPONENT, 'Topic')
 
 export const COMPONENT_TRANSLATE = rc(COMPONENT, 'Translate')

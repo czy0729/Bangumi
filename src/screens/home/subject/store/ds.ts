@@ -34,7 +34,10 @@ export const RESET_STATE = {
   focused: false,
 
   /** 当前页面实例是否操作过 (用于进入页面时不显示过多看不见的模块) */
-  scrolled: false
+  scrolled: false,
+
+  /** 预览截图是否正在手动刷新 (仅手动刷新期间为 true, 不落本地缓存) */
+  thumbsRefreshing: false
 }
 
 /** 页面首次初始化后需要还原的状态 */

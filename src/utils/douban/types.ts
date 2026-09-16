@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-05-17 05:36:07
  */
 
-/** 豆瓣条目 ID */
+/** 外部条目 ID */
 export type DoubanId = string | false
 
 /** 分类 1002 电影, 3114 游戏 */
@@ -21,6 +21,9 @@ export type SearchItem = {
   name?: string
   desc?: string
   year?: string
+
+  /** 搜索接口的原始顺序 (0 开始), 用于还原接口的相关性排序 */
+  index?: number
 }
 
 /** 预告片结果 */
