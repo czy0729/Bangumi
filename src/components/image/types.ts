@@ -114,16 +114,51 @@ export type Props = Override<
     /** 骨架屏渐变颜色风格 */
     skeletonType?: SkeletonProps['type']
 
+    /**
+     * 失败后的退避重试次数上限
+     *  - 不传 / 非有限数 / 负数 = 不限制 (保持默认的无限指数退避)
+     *  - 传 0 = 失败后不重试
+     *  - 只影响「失败后的重试次数」, 不影响首屏加载与错误 UI
+     * */
+    retryLimit?: number
+
     /** 图片点击回调 */
     onPress?: TouchableHandlePress
 
     /** 图片长按回调 */
     onLongPress?: TouchableWithoutFeedbackProps['onLongPress']
 
-    /** 图片加载失败回调 */
-    onError?: (evt?: ImageErrorEvent) => void
+    /**
+     * 图片加载失败回调
+     *  - `retry.willRetry` 透出「是否还会自动重试」, 消费侧据此决定失败指示器去留,
+     *    不需要自己复刻重试计数 (计数在 hook 内, 且成功时会自清零)
+     *  - 参数均可选, 只声明第一个参数的旧消费方不受影响
+     * */
+    onError?: (evt?: ImageErrorEvent, retry?: ImageRetryInfo) => void
+
+    /**
+     * 下载进度回调 (仅远端图片, 且仅引擎真实回调时才有)
+     *  - 统一形态: iOS (expo-image) 与 Android (FastImage) 的事件结构差异由入口层解包
+     *  - 命中缓存 / 服务端无 content-length 时不会回调, 消费方需自备不确定态
+     * */
+    onProgress?: (event: ImageProgressEvent) => void
   }
 >
+
+/** 图片确定失败后的重试信息 (onError 的第二个参数) */
+export type ImageRetryInfo = {
+  /** 是否还会自动重试 (false = 重试次数已耗尽, 不会再发起请求) */
+  willRetry: boolean
+}
+
+/** 统一的图片下载进度事件 */
+export type ImageProgressEvent = {
+  /** 已下载字节数 */
+  loaded: number
+
+  /** 总字节数, 服务端未提供 content-length 时为 0 */
+  total: number
+}
 
 export type State = {
   /** 加载是否已经失败 */

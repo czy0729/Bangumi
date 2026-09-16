@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2026-09-16 20:30:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 20:30:00
+ * @Last Modified time: 2026-09-16 23:15:55
  */
 import { computeHeaders } from '@components/image/utils'
 import { axios } from '@utils/thirdParty'
-import { getSize } from '../utils'
+import { getSize, stepPercent } from '../utils'
 
 // 全局 jest/setup 把 @utils/thirdParty mock 成 { axios: jest.fn() } (既没有返回结构也没有 head),
 // 这里必须覆盖成可控实现, 否则断言不到请求参数与响应结构
@@ -29,6 +29,36 @@ const mockComputeHeaders = computeHeaders as unknown as jest.Mock
 
 /** 每个用例用独立地址: CACHE 是模块级状态, 同址会命中缓存影响断言 */
 const url = (name: string) => `https://lain.bgm.tv/pic/${name}.jpg`
+
+describe('stepPercent', () => {
+  it('默认按 5% 向下吸附 (避免提前显示 100%)', () => {
+    expect(stepPercent(5)).toBe(5)
+    expect(stepPercent(9)).toBe(5)
+    expect(stepPercent(99)).toBe(95)
+    expect(stepPercent(100)).toBe(100)
+  })
+
+  it('吸附到 0 的 1%-4% 退不确定态 (0% 会变成静止空弧)', () => {
+    expect(stepPercent(1)).toBeNull()
+    expect(stepPercent(4)).toBeNull()
+    // 0 同样不显示
+    expect(stepPercent(0)).toBeNull()
+  })
+
+  it('null / 非有限数透传为 null', () => {
+    expect(stepPercent(null)).toBeNull()
+    expect(stepPercent(NaN)).toBeNull()
+    expect(stepPercent(Infinity)).toBeNull()
+  })
+
+  it('自定义 step 与非法 step', () => {
+    expect(stepPercent(7, 1)).toBe(7)
+    expect(stepPercent(37, 10)).toBe(30)
+    // 非法步进不吸附, 原样返回
+    expect(stepPercent(37, 0)).toBe(37)
+    expect(stepPercent(37, -5)).toBe(37)
+  })
+})
 
 describe('getSize', () => {
   beforeEach(() => {

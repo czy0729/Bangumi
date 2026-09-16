@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-11 12:07:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-06 20:20:51
+ * @Last Modified time: 2026-09-16 23:15:41
  */
 import { rc } from '@utils/dev'
 import { HOST } from '@constants'
@@ -72,6 +72,9 @@ export const OMIT_KEYS: (keyof ImageProps)[] = [
   'skeletonType',
   'textOnly',
   'priority',
+  'retryLimit',
+  // onProgress 是对外的统一形态回调, 由入口层解包 nativeEvent 后显式传给引擎 (见 index.android.tsx)
+  'onProgress',
   'onPress',
   'onLongPress',
   'onError'

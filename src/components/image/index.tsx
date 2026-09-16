@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2026-09-06 19:14:12
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-09-06 19:14:12
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-16 23:33:07
  *
  * Image 组件入口解析锚点 (兜底)
  *
@@ -14,4 +14,5 @@
  * Metro 按平台解析对应入口文件; TS 类型解析与非三平台环境回落到本文件 (对齐安卓实现)
  */
 export { Image, default } from './index.android'
-export type { Props as ImageProps } from './types'
+
+export type { ImageRetryInfo, Props as ImageProps } from './types'

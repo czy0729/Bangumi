@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-24 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 18:25:42
+ * @Last Modified time: 2026-09-16 23:31:29
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Image as RNImage } from 'react-native'
@@ -20,6 +20,7 @@ import {
   getLocalCacheStatic,
   getNextRetryDelay,
   getRecoveryBgmCover,
+  isRetryExhausted,
   probeMagmaCdn,
   removeLocalCache,
   setError404,
@@ -378,14 +379,11 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
 
   // ==================== 指数退避重试 ====================
 
+  /** 仅负责排下一次重试; 「是否还有重试机会」由调用方 (错误副作用) 单点判定 */
   const scheduleRetry = useCallback(() => {
+    const { src } = propsRef.current
     const delay = getNextRetryDelay(retryAttemptRef.current)
-    logger.warn(
-      COMPONENT,
-      'retry',
-      propsRef.current.src,
-      `attempt=${retryAttemptRef.current} delay=${delay}`
-    )
+    logger.warn(COMPONENT, 'retry', src, `attempt=${retryAttemptRef.current} delay=${delay}`)
     retryAttemptRef.current += 1
 
     pushTimer(
@@ -407,10 +405,20 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
   useEffect(() => {
     if (!state.error) return
 
-    const { onError } = propsRef.current
-    if (typeof onError === 'function') onError()
+    const { src, retryLimit, onError } = propsRef.current
 
-    scheduleRetry()
+    // 单一决策点: 消费侧可限制重试次数 (如帖子里的第三方图床), 到限即停, 不重置 error/uri,
+    // 否则会立刻再发起一次请求, 等于换个方式继续重试
+    const willRetry = !isRetryExhausted(retryLimit, retryAttemptRef.current)
+    if (willRetry) {
+      onError?.(undefined, { willRetry })
+
+      scheduleRetry()
+      return
+    }
+
+    logger.warn(COMPONENT, 'retry', src, `stopped after ${retryAttemptRef.current} attempts`)
+    onError?.(undefined, { willRetry })
   }, [state.error, scheduleRetry])
 
   // ==================== 加载完成 ====================

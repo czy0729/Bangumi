@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-24 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 05:39:49
+ * @Last Modified time: 2026-09-16 22:23:44
  */
 jest.mock('@stores', () => {
   const colors = {
@@ -81,6 +81,7 @@ import {
   getNextRetryDelay,
   getRecoveryBgmCover,
   imageViewerCallback,
+  isRetryExhausted,
   parseCdnProbeError,
   setError404,
   setError451,
@@ -295,6 +296,32 @@ describe('getNextRetryDelay', () => {
   it('上限封顶 1 小时', () => {
     expect(getNextRetryDelay(12)).toBe(3600000)
     expect(getNextRetryDelay(20)).toBe(3600000)
+  })
+})
+
+describe('isRetryExhausted', () => {
+  it('未传 / 非有限数 / 负数 视为不限制', () => {
+    expect(isRetryExhausted(undefined, 0)).toBe(false)
+    expect(isRetryExhausted(undefined, 100)).toBe(false)
+    expect(isRetryExhausted(NaN, 100)).toBe(false)
+    expect(isRetryExhausted(Infinity, 100)).toBe(false)
+    expect(isRetryExhausted(-1, 100)).toBe(false)
+  })
+
+  it('达到上限即停止 (limit=2 时最多排 2 次重试)', () => {
+    expect(isRetryExhausted(2, 0)).toBe(false)
+    expect(isRetryExhausted(2, 1)).toBe(false)
+    expect(isRetryExhausted(2, 2)).toBe(true)
+    expect(isRetryExhausted(2, 3)).toBe(true)
+  })
+
+  it('limit=0 表示失败后不重试', () => {
+    expect(isRetryExhausted(0, 0)).toBe(true)
+  })
+
+  it('小数上限按「已达到」处理', () => {
+    expect(isRetryExhausted(1.5, 1)).toBe(false)
+    expect(isRetryExhausted(1.5, 2)).toBe(true)
   })
 })
 

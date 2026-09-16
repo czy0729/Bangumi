@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:15:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 01:41:13
+ * @Last Modified time: 2026-09-16 23:16:15
  */
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { View } from 'react-native'
@@ -10,23 +10,40 @@ import { observer } from 'mobx-react'
 import { _, rakuenStore } from '@stores'
 import { fixedRemoteImageUrl, getStorage, open, setStorage, stl } from '@utils'
 import hash from '@utils/thirdParty/hash'
-import { ActivityIndicator } from '../../activity-indicator'
+import { CircularProgress } from '../../circular-progress'
+import { getProgressPercent } from '../../circular-progress/utils'
 import { Flex, flexStyle } from '../../flex'
 import { Iconfont } from '../../iconfont'
 import { Image } from '../../image'
 import { Text } from '../../text'
 import { Touchable } from '../../touchable'
-import { getSize } from './utils'
+import { getSize, stepPercent } from './utils'
 import { memoStyles } from './styles'
 
+import type { ImageRetryInfo } from '../../image'
 import type { Props, ToggleImageCache } from './types'
+
+/** 失败后的最大重试次数 (只作为传给 Image 的 retryLimit, 是否耗尽由 Image 的 onError 透出) */
+const RETRY_LIMIT = 2
 
 function ToggleImage(props: Props) {
   const { show: defaultShow, src: propSrc, autoSize: propAutoSize } = props
 
   const [show, setShow] = useState(Boolean(defaultShow))
+
+  /** 体积是否已知 (由 getSize 的 HEAD 探测结果置位, 只服务于占位尺寸与 kb 文案) */
   const [loaded, setLoaded] = useState(false)
   const [size, setSize] = useState<number | string>('')
+
+  /**
+   * 图片本体是否已完成加载或已失败 (由 Image 的 onLoadEnd / onError 置位)
+   * 注意不要用 loaded 控制圆环: loaded 只表示「体积已知」, HEAD 成功的地址 (如第三方图床)
+   * 在展开瞬间就会被置 true, 用它当条件会导致圆环从头到尾不挂载
+   * */
+  const [imageLoaded, setImageLoaded] = useState(false)
+
+  /** 下载进度 (null = 拿不到精确进度, 圆环走不确定态) */
+  const [percent, setPercent] = useState<number | null>(null)
 
   const [touched, setTouched] = useState(false)
   const [hydrated, setHydrated] = useState(false)
@@ -96,6 +113,25 @@ function ToggleImage(props: Props) {
 
   const handleLoadEnd = useCallback(() => {
     setLoaded(true)
+    setImageLoaded(true)
+  }, [])
+
+  /**
+   * 图片加载失败: 用 Image 透出的「是否还会重试」决定圆环去留 (不再自己复刻重试计数)
+   *  - 失败即把进度清回不确定态, 否则圆环会静止在失败前的旧百分比 (空弧/半环更迷惑)
+   *  - 仍有重试机会时保留圆环 (退避期间其下是 Image 既有的错误图标, 圆环在其上继续转)
+   *  - 重试耗尽才卸载, 让错误图标稳定显示
+   * */
+  const handleError = useCallback((_evt?: unknown, retry?: ImageRetryInfo) => {
+    setLoaded(true)
+    setPercent(null)
+    if (!retry?.willRetry) setImageLoaded(true)
+  }, [])
+
+  /** 图片引擎的下载进度: 整数节流 + 步进吸附, 相同百分比不触发重渲染 */
+  const handleProgress = useCallback((event: { loaded: number; total: number }) => {
+    const next = stepPercent(getProgressPercent(event.loaded, event.total))
+    setPercent(prev => (prev === next ? prev : next))
   }, [])
 
   const handleLongPress = useCallback(() => {
@@ -154,6 +190,15 @@ function ToggleImage(props: Props) {
     }
   }, [propSrc, hydrated, touched])
 
+  /**
+   * 换图 / 收起后重新展开时重置: 清掉上一次的百分比与「已完成」标记
+   * (Image 会重新挂载并重新加载, 不重置会导致圆环不再出现或沿用旧进度)
+   * */
+  useEffect(() => {
+    setPercent(null)
+    setImageLoaded(false)
+  }, [src, show])
+
   const styles = memoStyles()
 
   if (!isIcon && !show) {
@@ -194,9 +239,23 @@ function ToggleImage(props: Props) {
       })}
     >
       <Flex style={stl(!loaded && styles.isLoad)}>
-        <Flex style={styles.loading} justify='center'>
-          <ActivityIndicator size='small' color={_.colorIcon} />
-        </Flex>
+        {/**
+         * 图片加载完成/失败后整体卸载: 圆环在持续旋转 (且层级已高于图片), 留着等于白跑动画, 圆角处也可能透出
+         * 条件必须带上 show: 表情图 (isIcon) 不会走上面的收起分支, 收起后 Image 不挂载, 否则会留下永久空转的环
+         */}
+        {show && !imageLoaded && (
+          // 层级在图片之上 (styles.loading), 故用 pointerEvents='none' 保证不拦截图片的点击/长按/查看大图
+          <Flex style={styles.loading} justify='center' pointerEvents='none'>
+            {/* 尺寸按帖子图片位收小 (组件默认 40 偏大); 拿不到引擎进度时自动进入空环旋转态 */}
+            <CircularProgress
+              percent={percent}
+              color={_.colorSub}
+              size={30}
+              strokeWidth={2}
+              textSize={9}
+            />
+          </Flex>
+        )}
 
         {show && (
           <View style={styles.remote}>
@@ -213,8 +272,11 @@ function ToggleImage(props: Props) {
               imageViewer={typeof src === 'string'}
               imageViewerSrc={typeof src === 'string' ? fixedRemoteImageUrl(src) : undefined}
               onLoadEnd={handleLoadEnd}
-              onError={handleLoadEnd}
+              onError={handleError}
+              onProgress={handleProgress}
               onLongPress={handleLongPress}
+              // 帖子图片多为第三方图床 (失效/防盗链时无限退避只会白耗流量), 失败最多重试 RETRY_LIMIT 次
+              retryLimit={RETRY_LIMIT}
             />
           </View>
         )}

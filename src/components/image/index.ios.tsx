@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-09-06 19:14:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 15:55:32
+ * @Last Modified time: 2026-09-16 23:32:24
  *
  * Image 组件 iOS 入口 (完全基于 expo-image)
  *
@@ -40,8 +40,8 @@ import { memoStyles } from './styles'
 
 import type { ImageErrorEvent } from 'react-native'
 import type { ImageSource as ExpoImageSource } from 'expo-image'
-import type { Props as ImageProps, State } from './types'
-export type { ImageProps }
+import type { ImageProgressEvent, ImageRetryInfo, Props as ImageProps, State } from './types'
+export type { ImageProps, ImageRetryInfo }
 
 /** RN Image resizeMode → expo-image contentFit 映射 (两端默认值一致, 均为 cover) */
 const CONTENT_FIT: Record<string, 'cover' | 'contain' | 'fill' | 'none' | 'scale-down'> = {
@@ -101,7 +101,8 @@ export const Image = observer(function Image(baseProps: ImageProps) {
     onLongPress,
     errorToHide,
     fadeDuration,
-    cachePolicy
+    cachePolicy,
+    onProgress
   } = props
 
   const headers = useImageHeaders(src, props.headers)
@@ -201,6 +202,14 @@ export const Image = observer(function Image(baseProps: ImageProps) {
     [onLoaderError]
   )
 
+  /** 下载进度透出: expo-image 的事件体与统一形态一致, 只需透传 */
+  const handleProgress = useCallback(
+    (event: ImageProgressEvent) => {
+      onProgress?.(event)
+    },
+    [onProgress]
+  )
+
   /** resizeMode 透传转 contentFit, 未传时用两端一致的默认值 cover */
   const contentFit =
     (typeof props.resizeMode === 'string' && CONTENT_FIT[props.resizeMode]) || 'cover'
@@ -253,6 +262,7 @@ export const Image = observer(function Image(baseProps: ImageProps) {
             recyclingKey={uriKey || undefined}
             onLoadEnd={handleLoadEnd}
             onError={handleError}
+            onProgress={onProgress ? handleProgress : undefined}
           />
         )
       }

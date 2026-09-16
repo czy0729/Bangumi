@@ -31,7 +31,9 @@ export const memoStyles = _.memoStyles(() => ({
   },
   loading: {
     position: 'absolute',
-    zIndex: 1,
+    // 必须高于 remote (见下): 图片容器在加载期 (placeholder && !animFinished) 会被刷上不透明骨架底色,
+    // 低于图片层时圆环会被整块盖住 (表现为「加载中看不见, 只有加载失败后才透出来」)
+    zIndex: 3,
     top: 0,
     right: 0,
     bottom: 0,

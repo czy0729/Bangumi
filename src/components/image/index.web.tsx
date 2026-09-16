@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-09-06 19:14:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-06 19:20:15
+ * @Last Modified time: 2026-09-16 23:15:51
  *
  * Image 组件 Web 入口 (与迁移前 Web 行为保持一致)
  *
@@ -30,8 +30,8 @@ import { computeImageStyles, imageViewerCallback, withDefaults } from './utils'
 import { COMPONENT, OMIT_KEYS } from './ds'
 import { memoStyles } from './styles'
 
-import type { Props as ImageProps, State } from './types'
-export type { ImageProps }
+import type { ImageRetryInfo, Props as ImageProps, State } from './types'
+export type { ImageProps, ImageRetryInfo }
 
 /** 图片组件, 支持本地/远端图片、缓存、自动宽高、错误重试 (Web: DOM / RN Web 引擎) */
 export const Image = observer(function Image(baseProps: ImageProps) {
@@ -113,6 +113,7 @@ export const Image = observer(function Image(baseProps: ImageProps) {
   const { container: containerStyle, image: finalImageStyle } = computedStyle
 
   // omit 结果缓存, src 不变时复用 (与旧实现一致)
+  // Web 图片引擎没有下载进度, onProgress 已在 OMIT_KEYS 中, 不会透传到 DOM
   const passProps = useMemo(
     () => omit(props, OMIT_KEYS),
     // eslint-disable-next-line react-hooks/exhaustive-deps

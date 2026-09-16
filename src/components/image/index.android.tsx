@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-09-06 19:14:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-06 19:19:52
+ * @Last Modified time: 2026-09-16 23:31:33
  *
  * Image 组件安卓入口 (FastImage 引擎, 与迁移前安卓行为保持一致)
  *
@@ -10,7 +10,7 @@
  * 缓存由 FastImage 自带磁盘 + 内存缓存承担, hooks 里的 getLocalCache 仅登记内存命中记录
  * iOS 入口 (index.ios.tsx) 已迁移 expo-image, 与本文件互不影响
  */
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { omit } from '@utils'
@@ -31,8 +31,8 @@ import { computeImageStyles, imageViewerCallback, withDefaults } from './utils'
 import { COMPONENT, OMIT_KEYS } from './ds'
 import { memoStyles } from './styles'
 
-import type { Props as ImageProps, State } from './types'
-export type { ImageProps }
+import type { ImageRetryInfo, Props as ImageProps, State } from './types'
+export type { ImageProps, ImageRetryInfo }
 
 /** 图片组件, 支持本地/远端图片、缓存、自动宽高、错误重试 (安卓: FastImage 引擎) */
 export const Image = observer(function Image(baseProps: ImageProps) {
@@ -74,11 +74,23 @@ export const Image = observer(function Image(baseProps: ImageProps) {
     onPress,
     onLongPress,
     errorToHide,
-    fadeDuration
+    fadeDuration,
+    onProgress
   } = props
 
   const headers = useImageHeaders(src, props.headers)
   const ctrl = useImageLoader(props, headers)
+
+  /** 下载进度透出: FastImage 的事件体是 { nativeEvent: { loaded, total } }, 解包成统一形态 */
+  const handleProgress = useCallback(
+    (event: { nativeEvent?: { loaded?: number; total?: number } }) => {
+      onProgress?.({
+        loaded: event?.nativeEvent?.loaded || 0,
+        total: event?.nativeEvent?.total || 0
+      })
+    },
+    [onProgress]
+  )
 
   useImageAutoSize({
     uri: ctrl.uri,
@@ -116,6 +128,8 @@ export const Image = observer(function Image(baseProps: ImageProps) {
   const { container: containerStyle, image: finalImageStyle } = computedStyle
 
   // omit 结果缓存, src 不变时复用 (与旧实现一致)
+  // 注意: 缓存的是「首次渲染时的 props 快照」, 因此需要随渲染变化的 prop 必须在下方分支里显式传递
+  // (onProgress 等对外回调已在 OMIT_KEYS 中, 引擎用的解包适配器在远端分支显式传入)
   const passProps = useMemo(
     () => omit(props, OMIT_KEYS),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -185,6 +199,7 @@ export const Image = observer(function Image(baseProps: ImageProps) {
             priority={props.priority}
             onError={ctrl.handleError}
             onLoadEnd={ctrl.handleLoadEnd}
+            onProgress={onProgress ? handleProgress : undefined}
           />
         )
       }

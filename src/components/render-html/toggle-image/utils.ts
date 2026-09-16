@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-27 16:47:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 20:30:00
+ * @Last Modified time: 2026-09-16 23:16:11
  */
 import { computeHeaders } from '@components/image/utils'
 import { ensureCacheLimit } from '@utils/cache'
@@ -179,4 +179,29 @@ export function getSize(url: string): Promise<number> | number {
   }
 
   return pending
+}
+
+/**
+ * 发到 UI 的百分比步进
+ *  - 引擎 (FastImage) 按 0.5% 派发进度, 若逐 1% 更新, 单张图会重渲染外层组件约 100 次
+ *  - 放宽到 5% 后约 20 次; 30px 圆环上 5% 仅约 4px 弧长, 观感几乎无差
+ * */
+export const PROGRESS_STEP = 5
+
+/**
+ * 把百分比吸附到步进倍数 (向下取整, 避免尚未完成就提前显示 100%)
+ *  - null / 非有限数 透传 (交由圆环走不确定态)
+ *  - step 非法时不吸附, 原样返回
+ *  - 吸附结果为 0 (即 1%–4%) 也返回 null: 显示 0% 会得到一个静止的空弧,
+ *    与 getProgressPercent「不足 1% 不显示」的意图一致, 宁可不退不确定态
+ *
+ * @param percent 0-100 的整数百分比
+ * @param step 步进 (默认 PROGRESS_STEP)
+ * */
+export function stepPercent(percent: number | null, step: number = PROGRESS_STEP): number | null {
+  if (typeof percent !== 'number' || !Number.isFinite(percent)) return null
+  if (!Number.isFinite(step) || step <= 0) return percent
+
+  const stepped = Math.floor(percent / step) * step
+  return stepped > 0 ? stepped : null
 }

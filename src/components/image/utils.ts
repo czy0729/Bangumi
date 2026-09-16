@@ -285,6 +285,22 @@ export function getNextRetryDelay(attempt: number) {
 }
 
 /**
+ * 是否已到达退避重试上限
+ *  - retryLimit 未传 / 非有限数 / 负数 一律视为不限制 (保持无限退避)
+ *  - retryLimit 为 0 表示失败后不重试
+ *
+ * @param retryLimit 失败后的最大重试次数
+ * @param attempt 已排过的重试次数
+ * */
+export function isRetryExhausted(retryLimit: number | undefined, attempt: number): boolean {
+  if (typeof retryLimit !== 'number' || !Number.isFinite(retryLimit)) return false
+  // 负数与未传同义 (不限制), 避免上游误传负值时把退避彻底关掉
+  if (retryLimit < 0) return false
+
+  return attempt >= retryLimit
+}
+
+/**
  * 合并默认值, 仅当属性值为 undefined 时使用默认值
  * 与 React defaultProps 语义一致; 不能用对象展开默认值代替,
  * 上游可能显式传 undefined (如 Cover 的 size), 展开会覆盖默认值导致图片丢失宽高
