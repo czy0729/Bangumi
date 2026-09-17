@@ -6,8 +6,6 @@
  */
 export const COMPONENT = 'Backup'
 
-export const HOST_API = 'https://api.bgm.tv'
-
 export const LIMIT = 100
 
 export const CSV_HEADS = [

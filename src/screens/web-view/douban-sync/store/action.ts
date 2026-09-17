@@ -7,7 +7,7 @@
 import { feedback } from '@utils'
 import { t } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
-import { HOST_API } from '../ds'
+import { API_COLLECTION_ACTION, API_SUBJECT_UPDATE_WATCHED } from '@constants'
 import Fetch from './fetch'
 
 import type { Id, SubjectId } from '@types'
@@ -61,14 +61,14 @@ export default class Action extends Fetch {
 
     if (Object.keys(collectionData).length) {
       const { privacy } = this.state
-      await request(`${HOST_API}/collection/${subjectId}/update`, {
+      await request(API_COLLECTION_ACTION(subjectId), {
         ...collectionData,
         privacy: privacy ? 1 : 0
       })
     }
 
     if (Object.keys(epData).length) {
-      await request(`${HOST_API}/subject/${subjectId}/update/watched_eps`, {
+      await request(API_SUBJECT_UPDATE_WATCHED(subjectId), {
         watched_eps: epData.ep || 0
       })
     }

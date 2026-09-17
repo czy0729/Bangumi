@@ -8,9 +8,9 @@ import { desc, feedback, getTimestamp, info, sleep } from '@utils'
 import { queue, t, xhrCustom } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { decode } from '@utils/thirdParty/protobuf'
-import { HOST_DB_M } from '@constants'
+import { API_COLLECTION, API_V0, HOST_DB_M } from '@constants'
 import i18n from '@constants/i18n'
-import { HOST_API, LOADED, LOADED_TOTAL_EPS } from '../ds'
+import { LOADED, LOADED_TOTAL_EPS } from '../ds'
 import Computed from './computed'
 import { EXCLUDE_STATE } from './ds'
 
@@ -108,7 +108,7 @@ export default class Fetch extends Computed {
 
   fetchCollection = async (subjectId: SubjectId) => {
     const collections = {}
-    const data: any = await request(`${HOST_API}/collection/${subjectId}`)
+    const data: any = await request(API_COLLECTION(subjectId))
     if (data?.status) {
       collections[subjectId] = {
         status: data.status.type,
@@ -142,7 +142,7 @@ export default class Fetch extends Computed {
 
       LOADED[subjectId] = true
       fetchs.push(async () => {
-        const data: any = await request(`${HOST_API}/collection/${subjectId}`)
+        const data: any = await request(API_COLLECTION(subjectId))
         if (data?.status) {
           collections[subjectId] = {
             status: data.status.type,
@@ -180,7 +180,7 @@ export default class Fetch extends Computed {
       fetchs.push(async () => {
         try {
           const data: any = await request(
-            `${HOST_API}/v0/subjects/${subjectId}?responseGroup=small`
+            `${API_V0}/subjects/${subjectId}?responseGroup=small`
           )
           if (data?.total_episodes || data?.eps) {
             totalEps[subjectId] = data?.total_episodes || data?.eps || 0

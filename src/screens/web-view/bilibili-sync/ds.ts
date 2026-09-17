@@ -6,8 +6,6 @@
  */
 export const COMPONENT = 'BilibiliSync'
 
-export const HOST_API = 'https://api.bgm.tv'
-
 /** 存放请求缓存 */
 export const LOADED = {}
 

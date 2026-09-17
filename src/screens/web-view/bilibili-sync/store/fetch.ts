@@ -8,8 +8,9 @@ import { getTimestamp, info } from '@utils'
 import { queue } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { decode } from '@utils/thirdParty/protobuf'
+import { API_COLLECTION } from '@constants'
 import i18n from '@constants/i18n'
-import { HOST_API, LOADED } from '../ds'
+import { LOADED } from '../ds'
 import Computed from './computed'
 
 import type { SubjectId } from '@types'
@@ -27,7 +28,7 @@ export default class Fetch extends Computed {
 
   fetchCollection = async (subjectId: SubjectId) => {
     const collections = {}
-    const data: any = await request(`${HOST_API}/collection/${subjectId}`)
+    const data: any = await request(API_COLLECTION(subjectId))
     if (data?.status) {
       collections[subjectId] = {
         status: data.status.type,
@@ -61,7 +62,7 @@ export default class Fetch extends Computed {
 
       LOADED[subjectId] = true
       fetchs.push(async () => {
-        const data: any = await request(`${HOST_API}/collection/${subjectId}`)
+        const data: any = await request(API_COLLECTION(subjectId))
         if (data?.status) {
           collections[subjectId] = {
             status: data.status.type,

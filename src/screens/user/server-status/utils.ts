@@ -7,6 +7,8 @@
 import { subjectStore } from '@stores'
 import {
   API_CALENDAR,
+  API_HOST,
+  API_HOST_TINYGRAIL,
   GITHUB_RELEASE_REPOS,
   HOST,
   HOST_AC,
@@ -56,16 +58,16 @@ export function getSitesList() {
         loading: false
       },
       {
-        title: 'https://api.bgm.tv',
+        title: API_HOST,
         desc: '主站 API (必要)',
         url: API_CALENDAR(),
         msg: [],
         loading: false
       },
       {
-        title: 'https://tinygrail.com',
+        title: API_HOST_TINYGRAIL,
         desc: '小圣杯 API',
-        url: 'https://tinygrail.com',
+        url: API_HOST_TINYGRAIL,
         msg: [],
         loading: false
       },

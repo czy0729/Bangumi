@@ -5,12 +5,11 @@
  * @Last Modified time: 2026-09-01 21:20:00
  */
 import { date, feedback, getTimestamp, info, open } from '@utils'
-import { parseCsv } from '@utils/thirdParty/csv'
 import { t } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { download, temp } from '@utils/kv'
-import { MODEL_SUBJECT_TYPE } from '@constants'
-import { HOST_API } from '../ds'
+import { parseCsv } from '@utils/thirdParty/csv'
+import { API_COLLECTION_ACTION, API_SUBJECT_UPDATE_WATCHED, MODEL_SUBJECT_TYPE } from '@constants'
 import { exportLocal } from '../export'
 import Fetch from './fetch'
 
@@ -104,14 +103,14 @@ export default class Action extends Fetch {
     if (!subjectId) return false
 
     if (Object.keys(collectionData).length) {
-      await request(`${HOST_API}/collection/${subjectId}/update`, {
+      await request(API_COLLECTION_ACTION(subjectId), {
         ...collectionData,
         privacy: collectionData.privacy ? 1 : 0
       })
     }
 
     if (Object.keys(epData).length) {
-      await request(`${HOST_API}/subject/${subjectId}/update/watched_eps`, {
+      await request(API_SUBJECT_UPDATE_WATCHED(subjectId), {
         watched_eps: epData.ep || 0
       })
     }
