@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 07:29:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-29 07:28:45
+ * @Last Modified time: 2026-09-17 22:40:59
  */
 import type {
   Collection as BaseCollection,
@@ -25,12 +25,15 @@ export type Config = {
     'Content-Type'?: 'application/x-www-form-urlencoded'
   }
   data?: string
+
+  /** 请求超时 (毫秒), 透传给 axios; 缺省时 axios 为永不超时 */
+  timeout?: number
 }
 
 export type RequestConfig = {
   timeout?: number
   auth?: boolean
-  onError?: (ex: Error) => any
+  onError?: (ex: Error) => void
 }
 
 type Subject = {
@@ -46,7 +49,7 @@ type Subject = {
     name: string
     count: number
   }[]
-  infobox: any[]
+  infobox: unknown[]
   rating: Rating
   total_episodes: number
   collection: BaseCollection
@@ -79,6 +82,41 @@ export type Collection = {
   offset: number
 }
 
+/** v0 条目详情响应的最小类型 (仅声明用到的字段, 全部可选: 请求失败时响应体为空对象) */
+export type V0Subject = {
+  id?: SubjectId
+  type?: CollectionStatusValue
+  name?: string
+  name_cn?: string
+  summary?: string
+  eps?: number
+  date?: string
+  rating?: Rating
+  images?: Images
+  collection?: Collection
+}
+
+export type V0Episodes = {
+  data?: unknown[]
+}
+
+/** v0 条目角色 / 职员响应元素的最小类型 */
+export type V0SubjectRelation = {
+  id?: SubjectId
+  images?: Images
+  name?: string
+  name_cn?: string
+  relation?: string
+}
+
+export type V0RelationItem = {
+  id?: SubjectId
+  images?: Images
+  name?: string
+  name_cn?: string
+  role_name?: string
+}
+
 export type UserCollectionItem = {
   name: string
   subject_id: SubjectId
@@ -89,7 +127,10 @@ export type UserCollectionItem = {
   subject: BaseSubject
 }
 
-export type UserCollection = ListEmpty<UserCollectionItem>
+export type UserCollection = ListEmpty<UserCollectionItem> & {
+  /** 本次请求是否拿到有效响应 (空数组也算成功), 用于区分「确实没有在看收藏」与「请求失败 / 授权过期」 */
+  _ok?: boolean
+}
 
 export type Users = {
   avatar: {

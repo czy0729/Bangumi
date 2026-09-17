@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-30 22:14:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-04 19:20:26
+ * @Last Modified time: 2026-09-17 22:40:56
  *
  * API v0 接口
  *  - https://bangumi.github.io/api
@@ -30,7 +30,11 @@ import type {
   RequestConfig,
   UserCollection,
   UserCollectionItem,
-  Users
+  Users,
+  V0Episodes,
+  V0RelationItem,
+  V0Subject,
+  V0SubjectRelation
 } from './types'
 
 /**
@@ -39,8 +43,8 @@ import type {
  * */
 export async function fetchSubjectV0(config: { url: string }) {
   const subjectId = Number(config.url.split('/subject/')[1])
-  const subject = await request<any>(`${API_V0}/subjects/${subjectId}`)
-  const eps = await request<any>(`${API_V0}/episodes?subject_id=${subjectId}`)
+  const subject = await request<V0Subject>(`${API_V0}/subjects/${subjectId}`)
+  const eps = await request<V0Episodes>(`${API_V0}/episodes?subject_id=${subjectId}`)
   const data = {
     id: subjectId,
     url: `${HOST}/subject/${subjectId}` as const,
@@ -58,10 +62,10 @@ export async function fetchSubjectV0(config: { url: string }) {
     collection: subject?.collection,
 
     /** 角色可以从 v0 接口里面获取 */
-    crt: [],
+    crt: [] as V0RelationItem[],
 
     /** 职员可以从 v0 接口里面获取 */
-    staff: [],
+    staff: [] as V0RelationItem[],
 
     /** 评论属于用户相关信息, v0 接口不再提供, 需要根据 v0 表示自行从别的地方获取 */
     blog: [],
@@ -74,8 +78,8 @@ export async function fetchSubjectV0(config: { url: string }) {
   }
 
   try {
-    const crt = await request<any[]>(`${API_V0}/subjects/${subjectId}/characters`)
-    const staff = await request<any[]>(`${API_V0}/subjects/${subjectId}/persons`)
+    const crt = await request<V0SubjectRelation[]>(`${API_V0}/subjects/${subjectId}/characters`)
+    const staff = await request<V0SubjectRelation[]>(`${API_V0}/subjects/${subjectId}/persons`)
     data.crt = (crt || []).map(item => ({
       ...item,
       id: item.id,
@@ -103,27 +107,40 @@ async function fetchCollectionAll(
   includeTypes: SubjectType[] = ['anime', 'book', 'real'],
   type: CollectionStatusValue = '3',
   config?: RequestConfig
-) {
+): Promise<{ all: Collection['data']; ok: boolean }> {
   const all: Collection['data'] = []
+
+  // 是否至少有一个请求拿到了有效数组响应 (空数组也算成功)
+  // 用于区分「请求失败 / 授权过期」与「用户确实没有在看收藏」, 二者不能再被上层混为一谈
+  let ok = false
 
   let temp: Collection
 
   // 动画请求最多 3 页
   if (includeTypes.includes('anime')) {
     temp = await request<Collection>(API_COLLECTIONS(userId, '2', 1, 100, type), null, config)
-    if (Array.isArray(temp?.data)) all.push(...temp.data)
+    if (Array.isArray(temp?.data)) {
+      ok = true
+      all.push(...temp.data)
+    }
 
     // 高级会员才开放 3 页
     const systemStore = syncSystemStore()
     if (systemStore.advance) {
       if (temp?.total > 100) {
         temp = await request<Collection>(API_COLLECTIONS(userId, '2', 2, 100, type), null, config)
-        if (Array.isArray(temp?.data)) all.push(...temp.data)
+        if (Array.isArray(temp?.data)) {
+          ok = true
+          all.push(...temp.data)
+        }
       }
 
       if (temp?.total > 200) {
         temp = await request<Collection>(API_COLLECTIONS(userId, '2', 3, 100, type), null, config)
-        if (Array.isArray(temp?.data)) all.push(...temp.data)
+        if (Array.isArray(temp?.data)) {
+          ok = true
+          all.push(...temp.data)
+        }
       }
     }
   }
@@ -131,16 +148,25 @@ async function fetchCollectionAll(
   // 书籍 1 页
   if (includeTypes.includes('book')) {
     temp = await request<Collection>(API_COLLECTIONS(userId, '1', 1, 100, type), null, config)
-    if (Array.isArray(temp?.data)) all.push(...temp.data)
+    if (Array.isArray(temp?.data)) {
+      ok = true
+      all.push(...temp.data)
+    }
   }
 
   // 三次元 1 页
   if (includeTypes.includes('real')) {
     temp = await request<Collection>(API_COLLECTIONS(userId, '6', 1, 100, type), null, config)
-    if (Array.isArray(temp?.data)) all.push(...temp.data)
+    if (Array.isArray(temp?.data)) {
+      ok = true
+      all.push(...temp.data)
+    }
   }
 
-  return all
+  return {
+    all,
+    ok
+  }
 }
 
 /** 获取用户 [在看] 收藏 */
@@ -156,11 +182,20 @@ export async function fetchCollectionV0(
       page: 1,
       pageTotal: 1
     },
+    // 默认 false, 出现意外抛错时也不会被当成有效响应
+    _ok: false,
+
+    // _loaded 语义保持不变 (始终是本次请求时间戳), 「本次响应是否有效」由独立的 _ok 承载
     _loaded: getTimestamp()
   }
 
   try {
-    const all = await fetchCollectionAll(userId, includeTypes, type, config)
+    const { all, ok } = await fetchCollectionAll(userId, includeTypes, type, config)
+
+    // 本次是否拿到有效响应 (空数组也算成功): 用于区分「用户确实没有在看收藏」与「请求失败 / 授权过期」
+    // 不能改写 _loaded 来承载这个信息, 它同时是缓存新鲜度, 被持久化后会影响 6 天全量刷新的判定
+    data._ok = ok
+
     if (all.length) {
       all.forEach((_item, index) => {
         const cItem = all[index]
@@ -181,6 +216,7 @@ export async function fetchCollectionV0(
         data.list.push({
           name: subject.name_cn || subject.name,
           subject_id: subject.id,
+          type: cItem.type,
           ep_status: cItem.ep_status,
           vol_status: cItem.vol_status,
           lasttouch: dayjs(cItem.updated_at).valueOf() / 1000,

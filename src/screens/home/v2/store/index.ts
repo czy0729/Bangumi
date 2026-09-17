@@ -138,8 +138,14 @@ export default class ScreenHomeV2 extends Action {
   /** 初始化进度和条目等数据 */
   initQueue = async (count?: number) => {
     const data = await Promise.all([userStore.fetchCollection()])
-    if (data?.[0]?.list?.length) {
-      return this.fetchSubjectsQueue(data[0].list, count)
+    const collection = data?.[0]
+
+    // 本次请求确实成功 (拿到过有效响应), 只是在看收藏为空: 用户是真的 0 在看, 授权正常, 不能当成过期
+    // (_ok 缺失表示旧缓存或请求失败, 落回原有分支)
+    if (collection?._ok && !collection.list.length) return true
+
+    if (collection?.list?.length) {
+      return this.fetchSubjectsQueue(collection.list, count)
     }
 
     return false

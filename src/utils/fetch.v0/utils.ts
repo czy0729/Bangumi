@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-07-16 07:33:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-30 06:41:38
+ * @Last Modified time: 2026-09-17 22:47:51
  */
 import { applyProxy, logProxy } from '@utils/proxy'
 import { WEB } from '@constants'
-import { UA } from '@constants/env'
 import { APP_ID } from '@constants/app'
+import { UA } from '@constants/env'
 import { syncUserStore } from '../async'
 import { safe } from '../fetch'
 import { checkDenied } from '../fetch/utils'
@@ -37,7 +37,10 @@ export async function request<T>(
     const requestConfig: Config = {
       method: !!data && typeof data === 'object' ? 'post' : 'get',
       url,
-      headers: {}
+      headers: {},
+
+      // timeout 此前声明但从未透传, axios 默认永不超时, 网络挂起时请求会永久悬挂
+      timeout: config.timeout
     }
 
     if (!WEB) {
@@ -53,7 +56,8 @@ export async function request<T>(
 
     if (requestConfig.method === 'post') {
       requestConfig.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-      requestConfig.data = urlStringify(data)
+      // POST 数据实际为键值字符串对象, urlStringify 要求索引签名, object 需显式收窄
+      requestConfig.data = urlStringify(data as Record<string, string | number | boolean>)
     }
 
     const proxyResult = applyProxy(requestConfig.url, requestConfig.headers)
@@ -61,10 +65,12 @@ export async function request<T>(
     requestConfig.headers = proxyResult.headers
     logProxy('fetch.v0', proxyResult.proxyType, url, requestConfig.url)
 
-    const { data: responseData } = await axios(requestConfig)
+    const { data: responseData } = (await axios(requestConfig)) as {
+      data: Record<string, unknown>
+    }
     return safe(responseData) as T
   } catch (ex) {
-    if (typeof config?.onError === 'function') config.onError(ex)
+    if (typeof config?.onError === 'function') config.onError(ex as Error)
     return {} as T
   }
 }

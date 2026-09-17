@@ -2,10 +2,8 @@
  * @Author: czy0729
  * @Date: 2026-08-24 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-24 18:47:31
- */
-
-/*
+ * @Last Modified time: 2026-09-17 20:39:37
+ *
  * 验证 fetchSubjectsQueue 的 progress 复位保障:
  * 任一请求 reject 时不能让 progress.fetching 卡在 true,
  * 否则后续下拉刷新会被 initFetch 入口拦截 ("正在刷新条目信息")
