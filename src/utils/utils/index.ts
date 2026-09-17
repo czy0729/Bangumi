@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-14 23:16:41
+ * @Last Modified time: 2026-09-17 07:33:35
  */
 import { Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -226,6 +226,56 @@ export function open(url: string, encode: boolean = false): boolean {
 
   log('open', url)
   return true
+}
+
+/** 视频页地址中的资源标识 */
+const VIDEO_ID_REG = /\/video\/(BV[0-9A-Za-z]+)/
+
+/** 视频客户端协议前缀 (真机验证后如需调整只改这一行) */
+const VIDEO_APP_SCHEME = 'bilibili://video/'
+
+/**
+ * 优先唤起对应客户端播放, 失败回退网页
+ *  - 未安装客户端 / 系统拒绝时 openURL 会抛错, 直接回退, 行为与改动前一致
+ * */
+export async function openVideo(url: string): Promise<boolean> {
+  const videoId = typeof url === 'string' ? url.match(VIDEO_ID_REG)?.[1] : ''
+
+  if (videoId) {
+    try {
+      const scheme = `${VIDEO_APP_SCHEME}${videoId}`
+      await Linking.openURL(scheme)
+      log('openVideo', scheme)
+      return true
+    } catch {}
+  }
+
+  return open(url)
+}
+
+/** 搜索页地址中的查询词 */
+const KEYWORD_REG = /[?&]keyword=([^&]+)/
+
+/** 搜索客户端协议前缀 (真机验证后如需调整只改这一行) */
+const SEARCH_APP_SCHEME = 'bilibili://search?keyword='
+
+/**
+ * 优先唤起对应客户端的搜索页, 失败回退网页
+ *  - 地址里没有查询词时直接走 open, 与改动前一致
+ *  - 未安装客户端 / 系统拒绝时 openURL 会抛错, 直接回退
+ * */
+export async function openSearch(url: string): Promise<boolean> {
+  const keyword = typeof url === 'string' ? url.match(KEYWORD_REG)?.[1] : ''
+
+  if (keyword) {
+    try {
+      await Linking.openURL(`${SEARCH_APP_SCHEME}${keyword}`)
+      log('openSearch', url)
+      return true
+    } catch {}
+  }
+
+  return open(url)
 }
 
 /** url 字符串化 */

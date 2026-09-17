@@ -18,7 +18,7 @@ import {
 } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _, systemStore, useStore } from '@stores'
-import { findSubjectCn, open, stl } from '@utils'
+import { findSubjectCn, openSearch, stl } from '@utils'
 import { HOST_DB_REFERER } from '@constants'
 import { TITLE_THUMBS } from '../../ds'
 import BlockAnchor from '../block-anchor'
@@ -58,7 +58,7 @@ function Thumbs({ onBlockRef }: Props) {
 
   const { showThumbs } = systemStore.setting
   const { epsThumbsHeader, videos = [] } = $.state
-  const { thumbsData, thumbsList, thumbsReference, thumbsTitle } = $
+  const { thumbsData, thumbsList, thumbsReference, thumbsReferenceUrl, thumbsTitle } = $
 
   // 右侧按钮
   let elRight: ReactNode
@@ -139,7 +139,7 @@ function Thumbs({ onBlockRef }: Props) {
                     marginTop: -2
                   }
                 ]}
-                onPress={() => open(epsThumbsHeader?.Referer)}
+                onPress={() => openSearch(thumbsReferenceUrl)}
               >
                 <Text type={_.select('sub', 'icon')} size={10} lineHeight={12} align='right'>
                   来源自 {thumbsReference}

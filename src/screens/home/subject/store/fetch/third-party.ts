@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-17 06:17:02
+ * @Last Modified time: 2026-09-17 07:24:33
  */
 import { getBangumiUrl, HTMLDecode, HTMLTrim, postTask, unzipBangumiData } from '@utils'
-import { search as searchMV } from '@utils/bilibili'
+import { MAX_RESULTS, search as searchMV } from '@utils/bilibili'
 import { logger } from '@utils/dev'
 import {
   getManualDoubanId,
@@ -25,7 +25,7 @@ import type { Sites, DeepPartial } from '@types'
 import type { Cat, DoubanId, SearchItem } from '@utils/douban/types'
 
 /** 一次启动内第三方请求频率限制 */
-const GLOBAL_FETCH_LIMIT = DEV ? 1 : 8
+const GLOBAL_FETCH_LIMIT = DEV ? 4 : 8
 let globalFetchThirdPartyCount = 0
 
 /** 未走到平台匹配的原因 */
@@ -37,7 +37,7 @@ export type ThumbsRefreshResult = 'updated' | 'empty' | 'timeout'
 /** 手动刷新整体超时阈值 (保证 loading 一定复位) */
 const REFRESH_THUMBS_TIMEOUT = 30000
 
-/** 第三方内容源 (bangumi-data / douban / bilibili) */
+/** 第三方内容源 (条目数据 / 剧照平台 / 视频平台) */
 export default class ThirdParty extends Oss {
   /** 平台匹配诊断日志 (单行 JSON, 仅 DEV): candidates 按实际传入顺序输出, 不重排 */
   private logDoubanMatch = ({
@@ -162,9 +162,19 @@ export default class ThirdParty extends Oss {
         }, 0)
       }
 
-      // 若没有匹配到, 在 donban 查找
-      if ((!item && this.type === '动画') || this.type === '三次元') {
+      // 若没有匹配到, 在剧照平台 / 视频平台 查找
+      if (!item && this.type === '动画') {
         this.fetchMovieFromDouban(this.cn, this.jp)
+      } else if (this.type === '三次元') {
+        /** 剧照平台优先, 视频条数不足返回上限时再从视频平台补齐 */
+        this.fetchMovieFromDouban(this.cn, this.jp).then(updated => {
+          if (!updated && this.state.videos.length < MAX_RESULTS) {
+            this.fetchVideoFromBilibili(this.cn, this.jp)
+          }
+        })
+      } else if (this.type === '书籍') {
+        /** 书籍不请求视频 (暂时关闭) */
+        // this.fetchVideoFromBilibili('', this.jp)
       } else if (this.type === '游戏') {
         this.fetchGameFromDouban(this.cn, this.jp)
       } else if (this.type === '音乐') {
@@ -245,8 +255,16 @@ export default class ThirdParty extends Oss {
 
     if (unzipItem) await this.fetchEpsThumbs(unzipItem, true)
 
-    if ((!item && this.type === '动画') || this.type === '三次元') {
+    /** 分发与自动流程 (fetchThirdParty) 保持一致, 避免两边漂移 */
+    if (!item && this.type === '动画') {
       await this.fetchMovieFromDouban(this.cn, this.jp)
+    } else if (this.type === '三次元') {
+      /** 剧照平台优先; 手动刷新不判条数, 总是重搜一次以应用最新的排序与补齐 */
+      await this.fetchMovieFromDouban(this.cn, this.jp)
+      await this.fetchVideoFromBilibili(this.cn, this.jp)
+    } else if (this.type === '书籍') {
+      /** 书籍不请求视频 (暂时关闭) */
+      // await this.fetchVideoFromBilibili('', this.jp)
     } else if (this.type === '游戏') {
       await this.fetchGameFromDouban(this.cn, this.jp)
     } else if (this.type === '音乐') {
@@ -267,13 +285,13 @@ export default class ThirdParty extends Oss {
     if (!force && this.state.epsThumbs.length >= 12) return false
 
     try {
-      // 尝试从 douban 找
+      // 尝试从剧照平台找
       const cn = bangumiData?.titleTranslate?.['zh-Hans']?.[0]
       const jp = bangumiData.title
       const doubanUpdated = await this.fetchMovieFromDouban(cn, jp)
 
       /**
-       * douban 已有结果则不再请求平台
+       * 剧照平台已有结果则不再请求视频平台
        * @note epsThumbsHeader 只有一个 Referer, 多平台图片混用必裂图, 只取第一个命中的平台
        * @note 手动刷新时改判本轮原站是否真的抓到数据, 未命中才会真正重抓平台截图
        */
@@ -282,7 +300,7 @@ export default class ThirdParty extends Oss {
       const allThumbs: string[] = []
       let thumbsHeader: Record<string, string> = {}
 
-      // bilibili
+      // 视频平台
       if (!allThumbs.length && this.bilibiliSite.id) {
         try {
           const url = getBangumiUrl(this.bilibiliSite)
@@ -375,7 +393,7 @@ export default class ThirdParty extends Oss {
   }
 
   /**
-   * 从 donban 匹配条目, 并获取官方剧照信息
+   * 从剧照平台匹配条目, 并获取官方剧照信息
    * @returns 本轮是否抓取到数据
    * */
   fetchMovieFromDouban = async (cn: string, jp: string) => {
@@ -452,7 +470,7 @@ export default class ThirdParty extends Oss {
     return false
   }
 
-  /** 从 donban 匹配条目, 并获取预告视频 */
+  /** 从剧照平台匹配条目, 并获取预告视频 */
   fetchGameFromDouban = async (cn: string, jp: string) => {
     if (WEB || this.nsfw) {
       this.logDoubanMatch({
@@ -491,6 +509,9 @@ export default class ThirdParty extends Oss {
         if (videos.data.length) {
           updates.videos = videos.data
           updates.epsThumbsHeader = { Referer: videos.referer }
+        } else {
+          /** 剧照平台没有视频, 回落到视频平台搜索 (该方法自行落库, 游戏带类型后缀) */
+          await this.fetchVideoFromBilibili(q, '', this.gameInfo?.isADV ? 'OP' : 'PV')
         }
         if (previews.data.length) {
           updates.epsThumbs = previews.data
@@ -517,7 +538,51 @@ export default class ThirdParty extends Oss {
     }
   }
 
-  /** 从 bilibili 匹配音乐 MV */
+  /**
+   * 从视频平台按标题搜索
+   *  - 剧照平台没有数据 / 不适用剧照平台的类型 (三次元 / 书籍) 统一走这里
+   *  - cn 传空字符串表示只用原名搜索 (书籍的中文译名与视频标题对不上)
+   *  - suffix 是类型后缀, 只有游戏允许传 OP / PV; 传了才做收窄重搜, 过滤基准仍是原标题
+   * */
+  fetchVideoFromBilibili = async (
+    cn: string,
+    jp: string,
+    suffix: 'OP' | 'PV' | '' = ''
+  ): Promise<boolean> => {
+    if (WEB || this.nsfw) return false
+
+    const q = cn || jp
+    if (!q) return false
+
+    try {
+      let videos = await searchMV(q, '')
+      if (!videos.length && suffix) {
+        videos = await searchMV(`${q} ${suffix}`, '', q)
+      }
+      if (!videos.length) return false
+
+      this.setState({
+        videos: videos.map(item => ({
+          cover: item.cover,
+          title: item.title,
+          href: item.href,
+          src: ''
+        })),
+        epsThumbsHeader: { Referer: HOST_AC_M }
+      })
+
+      this.save()
+      this.updateThirdParty()
+      return true
+    } catch (error) {
+      /** 抓取异常不外抛 */
+      logger.error(this.namespace, 'fetchVideoFromBilibili', error)
+    }
+
+    return false
+  }
+
+  /** 从视频平台匹配音乐 MV */
   fetchMVFromBilibili = async (cn: string, jp: string, artist: string) => {
     if (WEB) return false
 

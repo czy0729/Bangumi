@@ -7,6 +7,7 @@
 import { computed } from 'mobx'
 import { systemStore, userStore } from '@stores'
 import { freeze, randomizeImgHost } from '@utils'
+import { getVideoSearchUrl } from '@utils/bilibili'
 import { HOST_AC_REFERER, HOST_DB_REFERER } from '@constants'
 import {
   TITLE_ANITABI,
@@ -56,9 +57,31 @@ export default class Show extends Relations {
     return ''
   }
 
-  /** 预览标题 */
+  /**
+   * 预览来源跳转地址
+   *  - 剧照来源: 直接打开该条目页 (Referer 本身就是条目地址)
+   *  - 视频来源: 打开「标题 + 类型后缀」的搜索页, 视频是搜来的多条, 没有单一详情页可回
+   * */
+  @computed get thumbsReferenceUrl() {
+    const referer = this.state.epsThumbsHeader?.Referer
+    if (referer?.includes?.(HOST_DB_REFERER)) return referer
+    if (referer?.includes?.(HOST_AC_REFERER)) {
+      /** 书籍只用原名搜索, 跳转关键词与抓取时保持一致 */
+      const title = this.type === '书籍' ? this.jp : this.cn || this.jp
+      return getVideoSearchUrl(title, this.gameInfo?.isADV)
+    }
+
+    return ''
+  }
+
+  /**
+   * 预览标题
+   *  - 视频来源展示的是搜来的多条视频, 各类型统一
+   *  - 其余按类型区分: 三次元为图片, 音乐为 MV
+   * */
   @computed get thumbsTitle() {
     if (this.type === '音乐') return 'MV'
+    if (this.thumbsReference === HOST_AC_REFERER) return '视频'
     if (this.type === '三次元') return '剧照'
     return '预览'
   }

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-06-21 20:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-15 18:10:51
+ * @Last Modified time: 2026-09-17 07:33:38
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text, Touchable } from '@components'
 import { _, systemStore } from '@stores'
-import { getVisualLength, HTMLDecode, open } from '@utils'
+import { getVisualLength, HTMLDecode, openVideo } from '@utils'
 import { r } from '@utils/dev'
 import { THUMB_HEIGHT, THUMB_WIDTH } from '../ds'
 import { COMPONENT } from './ds'
@@ -19,14 +19,14 @@ import type { Props } from './types'
 function Video({ item, epsThumbsHeader, showTitle = true }: Props) {
   r(COMPONENT)
 
-  if (!systemStore.setting.showCharacter) return null
+  if (!systemStore.setting.showThumbs) return null
 
   const visualLength = getVisualLength(item.title)
   const size = visualLength >= 32 ? 9 : visualLength >= 24 ? 10 : 11
 
   return (
     <View style={styles.video}>
-      <Touchable animate withoutFeedback onPress={() => open(item.src || item.href)}>
+      <Touchable withoutFeedback onPress={() => openVideo(item.src || item.href)}>
         <Image
           src={item.cover}
           size={THUMB_WIDTH}

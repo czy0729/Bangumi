@@ -6,7 +6,6 @@
  */
 import { otaStore } from '@stores'
 import { formatPlaytime } from '@utils'
-import { HOST_AC_SEARCH } from '@constants'
 
 import type { SubjectId } from '@types'
 
@@ -52,10 +51,4 @@ export function getPublishers(publish: string | string[]) {
     .concat(publish || [])
     .map(s => String(s).trim())
     .filter(Boolean)
-}
-
-export function getVideoSearchUrl(title: string, isADV: boolean) {
-  return `${HOST_AC_SEARCH}/all?keyword=${encodeURIComponent(title)}%20${
-    isADV ? 'OP' : 'PV'
-  }&order=totalrank&duration=1&tids_1=4`
 }

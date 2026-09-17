@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-26 21:35:33
+ * @Last Modified time: 2026-09-17 07:24:36
  */
 import { monoStore, otaStore, subjectStore, systemStore, userStore } from '@stores'
 import { getStorage, getTimestamp, optimize, postTask, queue, setStorage } from '@utils'
@@ -16,7 +16,7 @@ import type { Vib } from '@stores/subject/types'
 import type { AnitabiData } from '../../types'
 
 /** 一次启动内第三方请求频率限制 */
-const GLOBAL_FETCH_LIMIT = DEV ? 1 : 8
+const GLOBAL_FETCH_LIMIT = DEV ? 4 : 8
 let globalFetchVIBCount = 0
 let globalFetchAnitabiCount = 0
 
