@@ -18,7 +18,9 @@
     "test:watch": "jest --watch",
     "build:rust": "bash android/rust/build-android.sh",
     "lint:styles": "npx eslint 'src/**/styles.ts'",
-    "lint:imports": "npx eslint 'src/**/*.{ts,tsx}' --quiet --config eslint-rules/.eslintrc.check-imports.js"
+    "lint:imports": "npx eslint 'src/**/*.{ts,tsx}' --quiet --config eslint-rules/.eslintrc.check-imports.js",
+    "lint:hooks": "node scripts/lint-hooks.cjs",
+    "fixed:chown": "sudo chown -R $(whoami):staff node_modules metro-cache dist android ios"
   },
   "resolutions": {
     "define-properties": "1.2.1",
