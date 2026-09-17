@@ -29,6 +29,13 @@ export type Props = {
   /** 中心数字字号 */
   textSize?: number
 
+  /**
+   * 是否显示中心百分比数字, 默认 true
+   * 传 false 时确定态也只画进度弧 (不确定态本来就不显示数字), 适合只想要进度感、不需要具体数值的场景
+   * 注意: Web 端为 ActivityIndicator 降级, 该属性无意义
+   * */
+  showText?: boolean
+
   /** 容器样式 */
   style?: ViewStyle
 }

@@ -40,7 +40,6 @@ export const EXCLUDE_STATE = {
     fetching: false,
     fetchingSubjectId1: 0 as SubjectId,
     fetchingSubjectId2: 0 as SubjectId,
-    message: '',
     current: 0,
     total: 0
   },

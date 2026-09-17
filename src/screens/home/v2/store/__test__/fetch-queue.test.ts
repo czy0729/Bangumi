@@ -87,6 +87,55 @@ describe('fetchSubjectsQueue', () => {
     expect($.state.progress.fetchingSubjectId2).toBe(0)
   })
 
+  it('队列过程中写入真实 current/total', async () => {
+    const $ = createContext()
+    const totals: number[] = []
+    const advances: number[] = []
+    const setState = $.setState
+    $.setState = jest.fn((partial: { progress?: Record<string, any> }) => {
+      const result = setState(partial)
+      if (typeof partial?.progress?.current === 'number') advances.push(partial.progress.current)
+      return result
+    })
+
+    // 乱序完成 (真实 pLimit 并发下完成顺序不保证): 1 最慢, 3 最快
+    const delays: Record<number, number> = { 1: 30, 2: 20, 3: 0 }
+    $.fetchSubject.mockImplementation(async (subjectId: number) => {
+      await new Promise(resolve => setTimeout(resolve, delays[subjectId]))
+      // 任务执行期间读到的进度快照
+      totals.push($.state.progress.total)
+      return true
+    })
+
+    const list = [makeItem(1), makeItem(2), makeItem(3)]
+    await expect($.fetchSubjectsQueue(list)).resolves.toBe(true)
+
+    // total 为本次入队条目数
+    expect(totals).toEqual([3, 3, 3])
+    // 忽略首尾复位写入的 0 后, 推进值必须恰好是 1..total:
+    // 出现重复值说明累加被覆盖 (例如任务开始时读 state 再回写), 缺失说明有条目没计入
+    expect(advances.filter(value => value > 0).sort((a, b) => a - b)).toEqual([1, 2, 3])
+
+    // 结束后整体复位
+    expect($.state.progress.current).toBe(0)
+    expect($.state.progress.total).toBe(0)
+  })
+
+  it('count 截断时 total 为实际入队条目数', async () => {
+    const $ = createContext()
+    const seen: number[] = []
+    $.fetchSubject.mockImplementation(async () => {
+      seen.push($.state.progress.total)
+      return true
+    })
+
+    const list = [makeItem(1), makeItem(2), makeItem(3)]
+    await expect($.fetchSubjectsQueue(list, 2)).resolves.toBe(true)
+
+    expect($.fetchSubject).toHaveBeenCalledTimes(2)
+    expect(seen).toEqual([2, 2])
+  })
+
   it('progress.fetching 中拒绝新队列', async () => {
     const $ = createContext()
     $.state.progress.fetching = true

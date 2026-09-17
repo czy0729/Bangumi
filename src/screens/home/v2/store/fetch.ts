@@ -79,19 +79,36 @@ export default class Fetch extends Computed {
 
     const sortedList = this.sortList(list)
     const limitedList = typeof count === 'number' && count ? sortedList.slice(0, count) : sortedList
-    const fetchs = limitedList.map(
-      ({ subject_id }, index) =>
-        () =>
-          this.fetchSubject(subject_id, index, true)
-    )
 
-    if (fetchs.length) {
-      this.setState({
-        progress: {
-          fetching: true
-        }
-      })
-    }
+    // 进度总数取本次实际入队条目数 (由 sortList + count 截断逻辑决定), 与筛选栏显示的收藏总数无关
+    const total = limitedList.length
+
+    // 空列表不进 fetching, 也不写 progress, 避免无谓的状态变更
+    if (!total) return true
+
+    // 用局部计数而不是读 state 自增: 并发任务 (queue 内部 pLimit) 同时完成时读改写会丢增量
+    let done = 0
+    const fetchs = limitedList.map(({ subject_id }, index) => async () => {
+      try {
+        return await this.fetchSubject(subject_id, index, true)
+      } finally {
+        // 每个条目结束都累加, 最终 current 等于本次入队条目数
+        done += 1
+        this.setState({
+          progress: {
+            current: done
+          }
+        })
+      }
+    })
+
+    this.setState({
+      progress: {
+        fetching: true,
+        current: 0,
+        total
+      }
+    })
 
     try {
       await queue(fetchs, 2)

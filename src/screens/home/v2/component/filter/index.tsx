@@ -7,7 +7,7 @@
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Iconfont, Input, Loading, Text } from '@components'
+import { CircularProgress, Flex, Iconfont, Input, Text } from '@components'
 import { _, useStore } from '@stores'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -28,6 +28,12 @@ function Filter({ title, length }: Props) {
   const filter = $.filterValue(title)
   const showPlaceholder = !focus && !filter
 
+  // 刷新进度 (total 为本次实际入队条目数, 非中间的收藏总数)
+  const { fetching, current, total } = $.state.progress
+
+  // current 为 0 时传 undefined 而非 0: 走不确定态旋转, 避免刚开始时画出一个静止空弧
+  const percent = current > 0 && total > 0 ? (current / total) * 100 : undefined
+
   return (
     <View style={styles.filter}>
       <Input
@@ -41,10 +47,15 @@ function Filter({ title, length }: Props) {
 
       {showPlaceholder && (
         <Flex style={styles.icon} justify='center' pointerEvents='none'>
-          {$.state.progress.fetching && (
-            <View style={styles.loading}>
-              <Loading.Medium color={_.colorIcon} />
-            </View>
+          {fetching && (
+            <CircularProgress
+              style={styles.loading}
+              size={16}
+              strokeWidth={1.5}
+              showText={false}
+              color={_.colorIcon}
+              percent={percent}
+            />
           )}
           {length ? (
             <Text type={_.select('sub', 'icon')} bold size={15}>

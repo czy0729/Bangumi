@@ -12,7 +12,6 @@ import Extra from './component/extra'
 import Modal from './component/modal'
 import Page from './component/page'
 import Tab from './component/tab'
-import Tips from './component/tips'
 import Header from './header'
 import { useHomePage } from './hooks'
 
@@ -30,7 +29,6 @@ function Home(props: NavigationProps) {
             <>
               <Tab keys={$.tabs.map(item => item.key)} />
               <Header />
-              <Tips />
               <Modal />
             </>
           ) : (
