@@ -89,6 +89,9 @@ export type CollectionStatusValue = ModelValueOf<typeof COLLECTION_STATUS, 'titl
 /** 收藏排序方式 */
 export type CollectionsOrder = ModelValueOf<typeof COLLECTIONS_ORDERBY>
 
+/** 收藏排序方式中文名称 */
+export type CollectionsOrderCn = ModelValueOf<typeof COLLECTIONS_ORDERBY, 'label'>
+
 /** 章节类型 */
 export type EpType = ModelValueOf<typeof EP_TYPE>
 

@@ -94,7 +94,7 @@ export type Props = Override<
 
     /**
      * 模糊半径
-     *  - iOS 走 expo-image 的 blurRadius (其内部半径为传入值的一半)
+     *  - iOS 走 expo-image 的 blurRadius, 单位是 point (逻辑单位), 不随源图分辨率缩放
      *  - 安卓引擎是 FastImage, 不支持模糊; 需要安卓模糊只能用 RN 核心 Image
      * */
     blurRadius?: number

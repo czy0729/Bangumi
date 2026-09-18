@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-06-28 09:19:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:49:51
+ * @Last Modified time: 2026-09-18 06:00:00
  */
-import React from 'react'
 import { Animated } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { SensorParallaxCard } from '@_'
+import { ParallaxBgImage, SensorParallaxCard } from '@_'
 import { systemStore, useStore } from '@stores'
-import { getBlurRadius, stl } from '@utils'
+import { stl } from '@utils'
 import { memoStyles } from './styles'
 
 import type { WithViewStyles } from '@types'
@@ -22,10 +21,10 @@ function Bg({ style }: WithViewStyles) {
   const styles = memoStyles()
 
   const elImage = (
-    <Animated.Image
-      style={styles.parallaxImage}
-      source={$.imageSource}
-      blurRadius={getBlurRadius($.imageSource.uri, $.bg, $.usersInfo.avatar?.large)}
+    <ParallaxBgImage
+      src={$.imageSource.uri}
+      fallbackSrc={$.usersInfo.avatar?.large}
+      blurRadius={$.blurRadius}
     />
   )
 

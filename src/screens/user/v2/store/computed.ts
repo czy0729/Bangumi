@@ -9,7 +9,7 @@ import { fixedHD } from '@components/avatar/utils'
 import { _, collectionStore, systemStore, usersStore, userStore } from '@stores'
 import { getBlurRadius, getPinYinFilterValue, HTMLDecode, t2s, x18 } from '@utils'
 import { computedFn } from '@utils/computed-fn'
-import { applyLainProxy } from '@utils/proxy'
+import { resolveImageUri } from '@utils/image'
 import { fixedRemote } from '@utils/user-setting'
 import { MODEL_COLLECTION_STATUS, MODEL_COLLECTIONS_ORDERBY, MODEL_SUBJECT_TYPE } from '@constants'
 import { H_HEADER, TABS } from '../ds'
@@ -210,7 +210,7 @@ export default class Computed extends State {
   /** 自定义背景 */
   @computed get imageSource() {
     return {
-      uri: applyLainProxy(fixedHD(this.bg || this.avatar || this.usersInfo.avatar?.large))
+      uri: resolveImageUri(fixedHD(this.bg || this.avatar || this.usersInfo.avatar?.large))
     }
   }
 

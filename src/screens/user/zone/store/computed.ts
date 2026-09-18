@@ -20,7 +20,7 @@ import { USER_STATS_TYPES } from '@stores/users/ds'
 import { INIT_USER_STATS } from '@stores/users/init'
 import { getBlurRadius, HTMLDecode } from '@utils'
 import { logger } from '@utils/dev'
-import { applyLainProxy } from '@utils/proxy'
+import { resolveImageUri } from '@utils/image'
 import { fixedRemote } from '@utils/user-setting'
 import { IMG_EMPTY_DARK, TEXT_ONLY } from '@constants'
 import { COLLECTION_TYPES, H_HEADER, TABS, TABS_WITH_TINYGRAIL } from '../ds'
@@ -199,7 +199,7 @@ export default class Computed extends State {
       source = IMG_EMPTY_DARK
     } else {
       if (typeof _image === 'string' && !!_image) source.uri = _image
-      source.uri = applyLainProxy(fixedHD(this.bg || this.avatar || source.uri))
+      source.uri = resolveImageUri(fixedHD(this.bg || this.avatar || source.uri))
     }
 
     return source
