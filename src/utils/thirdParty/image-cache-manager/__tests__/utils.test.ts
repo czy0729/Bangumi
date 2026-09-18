@@ -15,24 +15,22 @@ jest.mock('../ds', () => ({
   TMP_TTL: 24 * 60 * 60 * 1000
 }))
 
-jest.mock('../../file-system', () => ({
-  FileSystem: {
-    documentDirectory: '/cache/',
-    makeDirectoryAsync: jest.fn(),
-    readDirectoryAsync: jest.fn(),
-    downloadAsync: jest.fn(),
-    moveAsync: jest.fn(),
-    getInfoAsync: jest.fn(),
-    deleteAsync: jest.fn()
-  }
+jest.mock('expo-file-system/legacy', () => ({
+  documentDirectory: '/cache/',
+  makeDirectoryAsync: jest.fn(),
+  readDirectoryAsync: jest.fn(),
+  downloadAsync: jest.fn(),
+  moveAsync: jest.fn(),
+  getInfoAsync: jest.fn(),
+  deleteAsync: jest.fn()
 }))
 
 // jest/setup.js 全局 mock 了 crypto (只提供 get / set), 这里需要真实 SHA1
 jest.unmock('@utils/thirdParty/crypto')
 
-import { SHA1 } from '../../crypto'
+import * as FileSystem from 'expo-file-system/legacy'
 import { logger } from '@utils/dev'
-import { FileSystem } from '../../file-system'
+import { SHA1 } from '../../crypto'
 import {
   classifyEntries,
   cleanupCache,
@@ -266,9 +264,9 @@ describe('cleanupCache', () => {
     expect(fs.getInfoAsync).not.toHaveBeenCalled()
     expect(fs.deleteAsync).not.toHaveBeenCalled()
     expect(logger.warn).toHaveBeenCalledWith(
-      'ImageCache',
-      expect.stringContaining('hits='),
-      'cleanup none'
+      '@utils/image-cache',
+      'counters',
+      { hits: 0, writes: 0, failures: 0 }
     )
   })
 

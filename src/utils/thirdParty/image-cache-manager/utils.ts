@@ -4,10 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-30 05:46:01
  */
-import { SHA1 } from '../crypto'
 import { logger } from '@utils/dev'
 import { TaskQueue } from '../../scheduler/task-queue'
-import { FileSystem } from '../file-system'
+import { SHA1 } from '../crypto'
+import {
+  deleteAsync,
+  downloadAsync,
+  getInfoAsync,
+  makeDirectoryAsync,
+  moveAsync,
+  readDirectoryAsync
+} from '../file-system'
 import { BASE_DIR, LEGACY_BASE_DIR, MAX_CACHE_FILES, MAX_CACHE_SIZE, TMP_TTL } from './ds'
 
 import type { CacheFile, DownloadOptions } from './type'
@@ -105,7 +112,7 @@ export class CacheEntry {
       const tmpPath = `${BASE_DIR}${name}.tmp`
 
       try {
-        const result = await FileSystem.downloadAsync(this.uri, tmpPath, this.options)
+        const result = await downloadAsync(this.uri, tmpPath, this.options)
 
         if (!result || result.status !== 200) {
           counters.failures += 1
@@ -117,7 +124,7 @@ export class CacheEntry {
           return undefined
         }
 
-        await FileSystem.moveAsync({
+        await moveAsync({
           from: tmpPath,
           to: path
         })
@@ -252,12 +259,12 @@ function buildIndex(): Promise<Set<string>> {
   // 一次性迁移清理: 移除旧 cacheDirectory 下的孤儿缓存 (幂等, 目录不存在即无操作)
   if (!legacyCleaned) {
     legacyCleaned = true
-    FileSystem.deleteAsync(LEGACY_BASE_DIR, { idempotent: true }).catch(() => {})
+    deleteAsync(LEGACY_BASE_DIR, { idempotent: true }).catch(() => {})
   }
 
-  return FileSystem.makeDirectoryAsync(BASE_DIR)
+  return makeDirectoryAsync(BASE_DIR)
     .catch(() => {})
-    .then(() => FileSystem.readDirectoryAsync(BASE_DIR))
+    .then(() => readDirectoryAsync(BASE_DIR))
     .then(names => {
       const { files, tmps } = classifyEntries(names)
       sessionTmps = tmps
@@ -292,7 +299,7 @@ async function statFiles(names: string[]): Promise<CacheFile[]> {
     const results = await Promise.all(
       names.slice(i, i + IO_BATCH_SIZE).map(async name => {
         try {
-          const info = (await FileSystem.getInfoAsync(`${BASE_DIR}${name}`)) as {
+          const info = (await getInfoAsync(`${BASE_DIR}${name}`)) as {
             exists: boolean
             modificationTime?: number
             size?: number
@@ -325,7 +332,7 @@ async function deleteFiles(uris: string[]) {
     await Promise.all(
       uris
         .slice(i, i + IO_BATCH_SIZE)
-        .map(uri => FileSystem.deleteAsync(uri, { idempotent: true }).catch(() => {}))
+        .map(uri => deleteAsync(uri, { idempotent: true }).catch(() => {}))
     )
   }
 }
@@ -352,7 +359,7 @@ export async function cleanupCache() {
         const infos = await Promise.all(
           batch.map(async name => {
             try {
-              const info = (await FileSystem.getInfoAsync(`${BASE_DIR}${name}`)) as {
+              const info = (await getInfoAsync(`${BASE_DIR}${name}`)) as {
                 exists: boolean
                 modificationTime?: number
               }

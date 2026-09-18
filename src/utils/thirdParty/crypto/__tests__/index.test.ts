@@ -9,6 +9,7 @@ import SHA1Ref from 'crypto-js/sha1'
 import SHA256Ref from 'crypto-js/sha256'
 import { decrypt, encrypt } from '../aes'
 import { hmacSHA256 } from '../hmac-sha256'
+import { MD5, md5 } from '../md5'
 import { SHA1 } from '../sha1'
 import { SHA256 } from '../sha256'
 
@@ -183,5 +184,97 @@ describe('hmacSHA256', () => {
     const h3 = hmacSHA256('key2', 'msg1')
     expect(h1).not.toBe(h2)
     expect(h1).not.toBe(h3)
+  })
+})
+
+/** 确定性伪随机, 保证对拍样本可复现 */
+let md5Seed = 42
+function md5Rand() {
+  md5Seed = (md5Seed * 1103515245 + 12345) & 0x7fffffff
+  return md5Seed / 0x7fffffff
+}
+
+describe('MD5 (字节级, aes.ts Evp_BytesToKey 依赖)', () => {
+  it('RFC 1321 标准向量', () => {
+    expect(MD5('')).toBe('d41d8cd98f00b204e9800998ecf8427e')
+    expect(MD5('a')).toBe('0cc175b9c0f1b6a831c399e269772661')
+    expect(MD5('abc')).toBe('900150983cd24fb0d6963f7d28e17f72')
+    expect(MD5('message digest')).toBe('f96b697d7cb7938d525a2f31aaf161d0')
+    expect(MD5('abcdefghijklmnopqrstuvwxyz')).toBe('c3fcd3d76192e4007dfb496cca67e13b')
+    expect(MD5('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')).toBe(
+      'd174ab98d277d9f5a5611c2c9f419d9f'
+    )
+    expect(
+      MD5('12345678901234567890123456789012345678901234567890123456789012345678901234567890')
+    ).toBe('57edf4a22be3c955ac49da2e2107b67a')
+  })
+
+  it('与 crypto-js Latin1 字节语义一致 (含 128-255 字节)', () => {
+    const ascii = 'ascii'
+    const extended = String.fromCharCode(...Array.from({ length: 256 }, (_, i) => i))
+    ;[ascii, extended, 'a'.repeat(1000)].forEach(input => {
+      const expected = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(input)).toString()
+      expect(MD5(input)).toBe(expected)
+    })
+  })
+})
+
+describe('md5 (UTF-8 字符串级, 对外出口)', () => {
+  it('RFC 1321 标准向量', () => {
+    expect(md5('')).toBe('d41d8cd98f00b204e9800998ecf8427e')
+    expect(md5('a')).toBe('0cc175b9c0f1b6a831c399e269772661')
+    expect(md5('abc')).toBe('900150983cd24fb0d6963f7d28e17f72')
+    expect(md5('message digest')).toBe('f96b697d7cb7938d525a2f31aaf161d0')
+    expect(md5('abcdefghijklmnopqrstuvwxyz')).toBe('c3fcd3d76192e4007dfb496cca67e13b')
+    expect(md5('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')).toBe(
+      'd174ab98d277d9f5a5611c2c9f419d9f'
+    )
+    expect(
+      md5('12345678901234567890123456789012345678901234567890123456789012345678901234567890')
+    ).toBe('57edf4a22be3c955ac49da2e2107b67a')
+  })
+
+  it('与 crypto-js 结果一致 (含中文/emoji/CRLF)', () => {
+    const inputs = [
+      '',
+      'abc',
+      'hello world',
+      '机核GCORES',
+      '动漫星空 🎉 😀',
+      'line1\r\nline2\r\nline3',
+      'a'.repeat(1000)
+    ]
+    inputs.forEach(input => {
+      expect(md5(input)).toBe(CryptoJS.MD5(input).toString())
+    })
+  })
+
+  it('0-130 长度逐一对拍 (覆盖 MD5 填充分块边界)', () => {
+    for (let len = 0; len <= 130; len++) {
+      const input = 'x'.repeat(len)
+      expect(md5(input)).toBe(CryptoJS.MD5(input).toString())
+    }
+  })
+
+  it('长输入与 crypto-js 结果一致', () => {
+    const inputs = ['a'.repeat(10000), '机核GCORES 动漫星空 '.repeat(500), 'あ'.repeat(43)]
+    inputs.forEach(input => {
+      expect(md5(input)).toBe(CryptoJS.MD5(input).toString())
+    })
+  })
+
+  it('确定性随机 ASCII 样本与 crypto-js 结果一致', () => {
+    for (let i = 0; i < 100; i++) {
+      const len = Math.floor(md5Rand() * 300)
+      let input = ''
+      for (let j = 0; j < len; j++) {
+        input += String.fromCharCode(32 + Math.floor(md5Rand() * 95))
+      }
+      expect(md5(input)).toBe(CryptoJS.MD5(input).toString())
+    }
+  })
+
+  it('孤立代理对不抛错', () => {
+    expect(() => md5('a\ud800b\udfff')).not.toThrow()
   })
 })

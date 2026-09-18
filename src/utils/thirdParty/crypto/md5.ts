@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2026-09-01 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 00:00:00
+ * @Last Modified time: 2026-09-19 00:00:00
  *
  * RFC 1321 MD5 (Joseph Myers, public domain)
- * 仅用于 Evp_BytesToKey 密钥派生
+ *  - MD5: 字节级 (每 char 一字节), 仅用于 aes.ts 的 Evp_BytesToKey 密钥派生
+ *  - md5: 字符串级 (UTF-8 编码), 对外出口
  */
+import { utf8Encode } from './utf8'
 
 /** 32 位无溢出加法 */
 function add32(a: number, b: number): number {
@@ -173,4 +175,22 @@ export function MD5(string: string): string {
 
   const hash = md51(string)
   return hash.map(v => rhex(v)).join('')
+}
+
+/**
+ * 字符串 MD5 (输入按 UTF-8 编码, 与 crypto-js / node crypto 一致), 返回 32 字符小写十六进制字符串
+ *
+ * 与字节级 MD5 的区别: MD5 按单个 char 处理输入 (aes.ts 的 Evp_BytesToKey 依赖该语义),
+ * 本函数先把字符串按 UTF-8 编码成字节序列, 供签名等标准场景使用
+ */
+export function md5(string: string): string {
+  const bytes = utf8Encode(string)
+
+  // 转成每字节一个 char 的单字节字符串给字节级 MD5, 分块 apply 避免大输入 (整图 base64) 栈溢出
+  let binary = ''
+  for (let i = 0; i < bytes.length; i += 0x8000) {
+    binary += String.fromCharCode.apply(null, Array.from(bytes.subarray(i, i + 0x8000)))
+  }
+
+  return MD5(binary)
 }

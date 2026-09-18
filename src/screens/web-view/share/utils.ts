@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-08-24 21:55:00
  */
 import { Share } from 'react-native'
-import { FileSystem } from '@utils/thirdParty/file-system'
+import { cacheDirectory, EncodingType, writeAsStringAsync } from '@utils/thirdParty/file-system'
 import { FROZEN_FN } from '@constants/init'
 
 import type { OnFail, OnSuccess } from './types'
@@ -31,9 +31,9 @@ export async function saveBase64ImageToShareSheet(
 ) {
   try {
     const base64Data = dataUrl.replace(/^data:image\/\w+;base64,/, '')
-    const fileUri = `${FileSystem.cacheDirectory}share_${Date.now()}.png`
-    await FileSystem.writeAsStringAsync(fileUri, base64Data, {
-      encoding: FileSystem.EncodingType.Base64
+    const fileUri = `${cacheDirectory}share_${Date.now()}.png`
+    await writeAsStringAsync(fileUri, base64Data, {
+      encoding: EncodingType.Base64
     })
 
     const result = await Share.share({

@@ -16,7 +16,7 @@ import {
   loading
 } from '@utils'
 import { xhrCustom } from '@utils/fetch'
-import md5 from '@utils/thirdParty/md5'
+import { md5 } from '@utils/thirdParty/crypto'
 import {
   API_CHARA_TEMPLE_COVER,
   API_TINYGRAIL_ASK,

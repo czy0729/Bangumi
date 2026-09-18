@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-25 15:39:38
  */
-import { FileSystem } from '../file-system'
+import { deleteAsync, getInfoAsync, makeDirectoryAsync } from '../file-system'
 import { cleanupCache, getEntry, resetSession } from './utils'
 import { BASE_DIR } from './ds'
 
@@ -19,13 +19,13 @@ export default class CacheManager {
   }
 
   static async clearCache(): Promise<void> {
-    await FileSystem.deleteAsync(BASE_DIR, { idempotent: true })
-    await FileSystem.makeDirectoryAsync(BASE_DIR)
+    await deleteAsync(BASE_DIR, { idempotent: true })
+    await makeDirectoryAsync(BASE_DIR)
     resetSession()
   }
 
   static async getCacheSize(): Promise<number> {
-    const result = await FileSystem.getInfoAsync(BASE_DIR)
+    const result = await getInfoAsync(BASE_DIR)
     if (!result.exists) throw new Error(`${BASE_DIR} not found`)
     return result.size
   }

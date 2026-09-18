@@ -9,7 +9,7 @@
 import { Asset } from 'expo-asset'
 import { toByteArray } from '@utils/thirdParty/base64'
 import { logger } from '../../dev'
-import { FileSystem } from '../file-system'
+import { EncodingType, readAsStringAsync } from '../file-system'
 
 import type { DataAssets } from './types'
 
@@ -38,8 +38,8 @@ export async function loadBinBytes(name: DataAssets): Promise<Uint8Array> {
 
     if (!asset.localUri) await asset.downloadAsync()
 
-    const base64String = await FileSystem.readAsStringAsync(asset.localUri, {
-      encoding: FileSystem.EncodingType.Base64
+    const base64String = await readAsStringAsync(asset.localUri, {
+      encoding: EncodingType.Base64
     })
     return new Uint8Array(toByteArray(base64String))
   } catch (error) {

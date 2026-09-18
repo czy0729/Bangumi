@@ -6,11 +6,10 @@
  */
 import { WEB } from '@constants/device'
 import { syncSystemStore } from '../async'
-import Crypto from '../thirdParty/crypto'
 import { logger } from '../dev'
 import { get, update } from '../kv'
+import Crypto, { md5 } from '../thirdParty/crypto'
 import hash from '../thirdParty/hash'
-import md5 from '../thirdParty/md5'
 import { urlStringify } from '../utils'
 import { xhrCustom } from './xhr'
 

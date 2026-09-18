@@ -5,8 +5,8 @@
  * @Last Modified time: 2026-07-02 10:00:00
  */
 import { Share } from 'react-native'
-import { FileSystem } from '@utils/thirdParty/file-system'
 import { info } from '@utils'
+import { documentDirectory, EncodingType, writeAsStringAsync } from '@utils/thirdParty/file-system'
 
 /**
  * 打开系统 Download 目录 (iOS 无此需求，空实现)
@@ -20,9 +20,9 @@ export async function openDownloadDir() {}
  */
 export async function exportLocal(fileName: string, content: string) {
   try {
-    const fileUri = `${FileSystem.documentDirectory}${fileName}`
-    await FileSystem.writeAsStringAsync(fileUri, content, {
-      encoding: FileSystem.EncodingType.UTF8
+    const fileUri = `${documentDirectory}${fileName}`
+    await writeAsStringAsync(fileUri, content, {
+      encoding: EncodingType.UTF8
     })
 
     const result = await Share.share(
