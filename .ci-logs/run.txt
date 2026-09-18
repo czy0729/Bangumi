@@ -1,0 +1,6 @@
+run_id=35347746475
+run_url=https://github.com/czy0729/Bangumi/actions/runs/35347746475
+branch=ci-ipa-57
+sha=065e61f7d8c1ff57b9f519e290af6506082a8f15
+version=8.40.2
+collected_at=2026-09-18T13:15:25Z
