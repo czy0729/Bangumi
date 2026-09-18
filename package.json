@@ -34,7 +34,7 @@
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
     "@react-native-async-storage/async-storage": "2.2.0",
-    "@react-native-community/blur": "4.2.0",
+    "@react-native-community/blur": "4.4.1",
     "@react-native-community/cameraroll": "4.0.4",
     "@react-native-community/slider": "5.2.0",
     "@react-native-masked-view/masked-view": "0.3.2",
@@ -116,5 +116,15 @@
     "prettier": "^2.6.2",
     "protobufjs": "^8.8.0",
     "typescript": "^6.0.3"
+  },
+  "expo": {
+    "autolinking": {
+      "ios": {
+        "exclude": [
+          "react-native-realtimeblurview",
+          "@sdcx/nested-scroll"
+        ]
+      }
+    }
   }
 }

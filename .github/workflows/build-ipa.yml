@@ -1,0 +1,291 @@
+name: Build unsigned IPA
+
+# 未签名 IPA 流水线 (移植自 ci-ipa 分支的 build-ipa.yml, 面向当前 master 代码)
+#
+# 已停用: 推送不再自动打包, 需要打包时按下面两步手动开启
+#   1) 删掉 jobs.build 里的 `if: false`
+#   2) 需要随推送自动触发时, 再补回 push 触发器 (branches: [ci-ipa-57])
+#
+# 与 ci-ipa 版的刻意差异:
+#   1) 产物改为 actions/upload-artifact 上传, 不创建 GitHub Release, 也不回写 master 的 alt_store.json
+#   2) 失败时把 pod-install / xcodebuild 日志回写到独立的 ci-logs 分支, 便于本地 git fetch 取完整日志排错
+#
+# 产物下载: 运行页底部 Artifacts 区 (GitHub 要求登录后下载)
+# 未签名 IPA 需自行使用 AltStore / Sideloadly / TrollStore 侧载
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'App version to build (defaults to expo.version in app.json), for example 8.40.2'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: build-ipa-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build unsigned IPA
+    # 已停用: 需要打包时删掉这一行 (并补回 push 触发器)
+    if: false
+    runs-on: macos-26
+    timeout-minutes: 180
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+
+      - name: Resolve version
+        run: |
+          set -euo pipefail
+          app_version="$(node -p "require('./app.json').expo.version")"
+          version="${{ github.event.inputs.version || '' }}"
+          if [ -z "$version" ]; then
+            version="$app_version"
+          fi
+
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+          echo "TAG=v$version" >> "$GITHUB_ENV"
+          echo "App version: $version (app.json: $app_version)"
+
+      - name: Install JavaScript dependencies
+        run: |
+          set -euo pipefail
+
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
+          yarn --version
+
+          if [ -f yarn.lock ]; then
+            yarn install --frozen-lockfile --ignore-engines --ignore-scripts --network-timeout 600000
+          else
+            yarn install --ignore-engines --ignore-scripts --network-timeout 600000
+          fi
+
+          ./node_modules/.bin/patch-package
+
+      - name: Install CocoaPods dependencies
+        run: |
+          set -euo pipefail
+
+          node_binary="$(command -v node)"
+          {
+            printf 'export NODE_BINARY='
+            printf '%q' "$node_binary"
+            printf '\n'
+          } > ios/.xcode.env.local
+          echo "NODE_BINARY=$node_binary" >> "$GITHUB_ENV"
+
+          command -v pod || {
+            echo "CocoaPods not found on runner image, installing..."
+            sudo gem install cocoapods --no-document
+          }
+
+          cd ios
+          if pod install 2>&1 | tee "$RUNNER_TEMP/pod-install.log"; then
+            echo "pod install OK"
+          else
+            {
+              echo "### pod install log (last 150 lines)"
+              echo '```'
+              tail -n 150 "$RUNNER_TEMP/pod-install.log"
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+
+            echo "::error::pod install failed, log tail follows as base64 chunks"
+            tail -n 150 "$RUNNER_TEMP/pod-install.log" | base64 | fold -w 3000 | head -n 8 | while IFS= read -r chunk; do
+              echo "::error::LOGCHUNK:$chunk"
+            done
+            exit 1
+          fi
+
+          fmt_base_h="Pods/fmt/include/fmt/base.h"
+          if [ -f "$fmt_base_h" ]; then
+            ruby -0777 -pi -e 'gsub("defined(__apple_build_version__) && __apple_build_version__ < 14000029L", "defined(__apple_build_version__)")' "$fmt_base_h"
+            echo "Patched fmt for Xcode clang compatibility"
+          fi
+
+      - name: Upload pod install log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pod-install-log
+          path: /Users/runner/work/_temp/pod-install.log
+          if-no-files-found: ignore
+
+      - name: Build Release app
+        env:
+          NODE_ENV: production
+          ENTRY_FILE: index.js
+        run: |
+          set -euo pipefail
+          cd ios
+
+          if xcodebuild \
+            -workspace Bangumi.xcworkspace \
+            -scheme Bangumi \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination generic/platform=iOS \
+            CODE_SIGN_IDENTITY= \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            -derivedDataPath build \
+            GCC_WARN_INHIBIT_ALL_WARNINGS=YES \
+            CLANG_WARN_DOCUMENTATION_COMMENTS=NO \
+            SWIFT_SUPPRESS_WARNINGS=YES \
+            COMPILER_INDEX_STORE_ENABLE=NO \
+            2>&1 | tee "$RUNNER_TEMP/xcodebuild.log"; then
+            echo "xcodebuild OK"
+          else
+            {
+              echo "### xcodebuild errors"
+              echo '```'
+              grep -E ' error: ' "$RUNNER_TEMP/xcodebuild.log" | sort -u | head -n 40 || true
+              echo '```'
+              echo "### last 60 lines"
+              echo '```'
+              tail -n 60 "$RUNNER_TEMP/xcodebuild.log"
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+
+            err_b64="$(grep -E ' error: ' "$RUNNER_TEMP/xcodebuild.log" | sort -u | head -n 20 | base64 | tr -d '\n')"
+            echo "::error::XCODEERR:${err_b64:0:3900}"
+            tail_b64="$(tail -n 30 "$RUNNER_TEMP/xcodebuild.log" | base64 | tr -d '\n')"
+            echo "::error::XCODETAIL:${tail_b64:0:3900}"
+            exit 1
+          fi
+
+      - name: Upload xcodebuild log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcodebuild-log
+          path: /Users/runner/work/_temp/xcodebuild.log
+          if-no-files-found: ignore
+
+      - name: Package IPA
+        run: |
+          set -euo pipefail
+
+          app_path="ios/build/Build/Products/Release-iphoneos/Bangumi.app"
+          if [ ! -d "$app_path" ]; then
+            echo "::error::Expected .app not found: $app_path"
+            exit 1
+          fi
+
+          payload_root="$RUNNER_TEMP/ipa-payload"
+          rm -rf "$payload_root"
+          mkdir -p "$payload_root/Payload"
+          cp -R "$app_path" "$payload_root/Payload/"
+
+          asset_name="bangumi_v${{ env.VERSION }}.ipa"
+          target_ipa="$GITHUB_WORKSPACE/$asset_name"
+          (cd "$payload_root" && zip -qr "$target_ipa" Payload)
+
+          cd "$GITHUB_WORKSPACE"
+          shasum -a 256 "$asset_name" > "$asset_name.sha256"
+
+          echo "ASSET_NAME=$asset_name" >> "$GITHUB_ENV"
+          echo "IPA_PATH=$target_ipa" >> "$GITHUB_ENV"
+          echo "SHA_PATH=$target_ipa.sha256" >> "$GITHUB_ENV"
+
+      - name: Validate IPA
+        run: |
+          set -euo pipefail
+
+          unzip -t "$IPA_PATH"
+
+          info_plist="$RUNNER_TEMP/Bangumi-Info.plist"
+          unzip -p "$IPA_PATH" "Payload/Bangumi.app/Info.plist" > "$info_plist"
+
+          bundle_version="$(plutil -extract CFBundleShortVersionString raw -o - "$info_plist")"
+          if [ "$bundle_version" != "${{ env.VERSION }}" ]; then
+            echo "::error::Bundle version $bundle_version does not match expected version ${{ env.VERSION }}."
+            exit 1
+          fi
+
+          app_path="ios/build/Build/Products/Release-iphoneos/Bangumi.app"
+          set +e
+          codesign_output="$(codesign -dv "$app_path" 2>&1)"
+          codesign_status="$?"
+          set -e
+
+          echo "$codesign_output"
+
+          if [ "$codesign_status" -eq 0 ]; then
+            echo "::error::Expected unsigned app, but codesign reported a valid signature."
+            exit 1
+          fi
+
+          if [[ "$codesign_output" != *"code object is not signed at all"* ]]; then
+            echo "::error::codesign did not report the expected unsigned-app message."
+            exit 1
+          fi
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bangumi-unsigned-ipa-v${{ env.VERSION }}
+          path: |
+            ${{ env.IPA_PATH }}
+            ${{ env.SHA_PATH }}
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish failure logs to ci-logs branch
+        if: failure()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          export_dir="$RUNNER_TEMP/ci-logs-export"
+          rm -rf "$export_dir"
+          mkdir -p "$export_dir"
+
+          if [ -f "$RUNNER_TEMP/xcodebuild.log" ]; then
+            grep -E ' error: ' "$RUNNER_TEMP/xcodebuild.log" | sort -u | head -n 200 > "$export_dir/xcodebuild-errors.log" || true
+            tail -n 3000 "$RUNNER_TEMP/xcodebuild.log" > "$export_dir/xcodebuild-tail.log"
+          fi
+          if [ -f "$RUNNER_TEMP/pod-install.log" ]; then
+            tail -n 800 "$RUNNER_TEMP/pod-install.log" > "$export_dir/pod-install-tail.log"
+          fi
+
+          {
+            echo "run_id=$GITHUB_RUN_ID"
+            echo "run_url=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            echo "branch=$GITHUB_REF_NAME"
+            echo "sha=$GITHUB_SHA"
+            echo "version=${VERSION:-unknown}"
+            echo "collected_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          } > "$export_dir/run.txt"
+
+          ls -la "$export_dir"
+
+          # 用一次性仓库把日志推到 ci-logs 分支 (该分支不在 push 触发列表中, 不会引起递归构建)
+          logs_repo="$RUNNER_TEMP/ci-logs-repo"
+          rm -rf "$logs_repo"
+          mkdir -p "$logs_repo/.ci-logs"
+          cp -R "$export_dir/." "$logs_repo/.ci-logs/"
+
+          git -c init.defaultBranch=ci-logs init -q "$logs_repo"
+          cd "$logs_repo"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .ci-logs
+          git commit -qm "ci: failure logs for run ${GITHUB_RUN_ID} [skip ci]"
+          git push -q -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:ci-logs
+          echo "Failure logs published to ci-logs branch"

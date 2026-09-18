@@ -45,6 +45,7 @@
     "orientation": "default",
     "ios": {
       "bundleIdentifier": "tv.bangumi.czy0729",
+      "deploymentTarget": "16.4",
       "supportsTablet": true,
       "requireFullScreen": true,
       "infoPlist": {
