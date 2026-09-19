@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2026-08-25 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 05:26:11
+ * @Last Modified time: 2026-09-19 09:07:48
  */
 import { API_HOST, API_HOST_BACKUP } from '@constants/api'
 import { HOST_IMAGE } from '@constants/host'
 import { hmacSHA256 } from '../thirdParty/crypto'
 import { normalizeLainImageUrl } from './normalize'
-import { getProxyStrategy } from './strategy'
+import { getApiProxyTarget, getProxyStrategy } from './strategy'
 import { addWorkerLog } from './worker-log'
 
 /** 签名缓存 (key 含密钥维度, 换密钥后旧签名立即失效) */
@@ -54,7 +54,7 @@ export function applyLainProxy(url: string) {
 
   // api.bgm.tv 的 redirect 图片 (如 avatar): 支持者节点由内置主节点一并接管
   // 历史兼容分支: 官方 API 现在已直接返回 lain.bgm.tv 地址, 此处仅兜底老缓存/老接口数据
-  const apiProxy = supporter ? host : apiHost
+  const apiProxy = getApiProxyTarget({ supporter, host, apiHost })
   if (apiProxy && (normalizedUrl.includes(API_HOST) || normalizedUrl.includes(API_HOST_BACKUP))) {
     const replacement = apiProxy.replace(/\/$/, '')
     return normalizedUrl.replace(API_HOST, replacement).replace(API_HOST_BACKUP, replacement)

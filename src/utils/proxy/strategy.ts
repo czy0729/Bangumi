@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-09-14 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-14 20:52:38
+ * @Last Modified time: 2026-09-19 09:08:16
  *
  * 代理策略单一真源: 请求链路 / 接口链路 / 图片链路 / 图片请求头 统一从这里取
  */
@@ -47,6 +47,16 @@ export interface ProxyStrategy {
 
   /** true = Worker 式 (改写请求头); false = 仅替换地址 */
   rewriteHeaders: boolean
+}
+
+/**
+ * api.bgm.tv redirect 图片 (如头像) 的改写目标
+ * - 支持者节点由内置主节点一并接管 (此时 apiHost 为空)
+ * - 自建 Worker 用用户自填的 API 域名
+ * - 单一出口: lain.ts 的地址改写与 image-headers.ts 的请求头计算共用, 避免两处各写一遍
+ */
+export function getApiProxyTarget(config: Pick<ProxyStrategy, 'supporter' | 'host' | 'apiHost'>) {
+  return config.supporter ? config.host : config.apiHost
 }
 
 /** 获取当前生效的代理策略 */

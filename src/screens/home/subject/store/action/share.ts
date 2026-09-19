@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-14 23:15:58
+ * @Last Modified time: 2026-09-19 09:07:10
  */
 import { systemStore } from '@stores'
 import {
@@ -24,8 +24,9 @@ import {
 import { calendarEventsSaveGameReleaseDate } from '@utils/calendar'
 import { CDN_OSS_SUBJECT } from '@utils/cdn'
 import { baiduTranslate, t } from '@utils/fetch'
+import { resolveImageUri } from '@utils/image'
 import { download, lx, lxCache, temp } from '@utils/kv'
-import { applyLainProxy, applyProxy, restoreNativeUrl } from '@utils/proxy'
+import { applyProxy, restoreNativeUrl } from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
 import { HOST, HOST_CDN, URL_SPA } from '@constants'
 import Menus from './menus'
@@ -48,7 +49,8 @@ export default class Share extends Menus {
     try {
       const { request } = await axios({
         method: 'get',
-        url: applyLainProxy(src.replace('http://', 'https://')),
+        // resolveImageUri = 归一化历史代理域 + 补协议 + applyLainProxy, 替代原先手写的 http→https
+        url: resolveImageUri(src),
         responseType: 'arraybuffer'
       })
       cover = `data:image/jpg;base64,${request._response}`

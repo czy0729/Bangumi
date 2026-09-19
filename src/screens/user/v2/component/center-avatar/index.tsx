@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-09-07 20:44:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 00:22:57
+ * @Last Modified time: 2026-09-19 09:06:13
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Iconfont, Image, Touchable } from '@components'
 import { getCDNAvatar } from '@components/avatar/utils'
-import { fixedRemoteImageUrl } from '@components/image/utils'
 import { _, systemStore, useStore } from '@stores'
+import { fixImageProtocol } from '@utils/image'
 import { handleAvatarPress, handleOnlinePress } from './utils'
 import { AVATAR_SIZE, COMPONENT, HIT_SLOP } from './ds'
 import { styles } from './styles'
@@ -21,7 +21,7 @@ function CenterAvatar() {
 
   const { onlineStatus } = systemStore.setting
   const { avatar } = $.usersInfo
-  const src = fixedRemoteImageUrl(getCDNAvatar($.avatar || avatar?.large, 'bgm_poster_200'))
+  const src = fixImageProtocol(getCDNAvatar($.avatar || avatar?.large, 'bgm_poster_200'))
   const fallback = typeof src === 'string' && !src.includes('//lain.bgm.tv/pic/user/l/')
 
   return (

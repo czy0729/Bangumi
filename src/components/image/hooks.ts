@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-24 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 23:31:29
+ * @Last Modified time: 2026-09-19 09:06:06
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Image as RNImage } from 'react-native'
@@ -14,7 +14,6 @@ import { IOS, WEB } from '@constants'
 import {
   checkLocalError,
   computeHeaders,
-  fixedRemoteImageUrl,
   getAutoSize,
   getLocalCache,
   getLocalCacheStatic,
@@ -127,7 +126,7 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
   const { src, priority } = props
 
   const [state, setState] = useState<State>(() => ({
-    uri: WEB ? fixedRemoteImageUrl(src) : undefined,
+    uri: WEB ? fixImageProtocol(src) : undefined,
     width: 0,
     height: 0,
     loaded: false,
@@ -217,7 +216,7 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
 
     recoveriedRef.current = true
     if (fallbackSrc) {
-      setUri(fixedRemoteImageUrl(fallbackSrc))
+      setUri(fixImageProtocol(fallbackSrc))
       return
     }
 
@@ -305,7 +304,7 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
 
       if (fallbackSrc && uriRef.current !== fallbackSrc && !fallbackedRef.current) {
         fallbackedRef.current = true
-        setUri(fixedRemoteImageUrl(fallbackSrc))
+        setUri(fixImageProtocol(fallbackSrc))
         return
       }
 
@@ -319,7 +318,7 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
           removeLocalCache(fixImageProtocol(src))
           invalidate(resolveImageUri(src))
         }
-        setUri(fixedRemoteImageUrl(propsRef.current.src))
+        setUri(fixImageProtocol(propsRef.current.src))
       } else {
         commitError(`error: onError [${errorInfo}]`)
       }
@@ -471,7 +470,7 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
 
       // 不缓存 / WEB 环境: 直接用远端地址
       if (!props.cache || WEB) {
-        setUri(fixedRemoteImageUrl(src))
+        setUri(fixImageProtocol(src))
         return
       }
 
@@ -521,7 +520,7 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
     }))
 
     if (WEB) {
-      setUri(fixedRemoteImageUrl(src))
+      setUri(fixImageProtocol(src))
       return
     }
 

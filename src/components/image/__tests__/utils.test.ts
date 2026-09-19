@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-24 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 22:23:44
+ * @Last Modified time: 2026-09-19 09:06:10
  */
 jest.mock('@stores', () => {
   const colors = {
@@ -73,7 +73,6 @@ import {
   checkLocalError,
   computeHeaders,
   computeImageStyles,
-  fixedRemoteImageUrl,
   getAutoSize,
   getDevStyles,
   getLocalCache,
@@ -138,30 +137,6 @@ function mkOptions(overrides: Record<string, unknown> = {}) {
     ...overrides
   }
 }
-
-describe('fixedRemoteImageUrl', () => {
-  it('协议相对地址补全 https:', () => {
-    expect(fixedRemoteImageUrl('//lain.bgm.tv/pic/x.jpg')).toBe('https://lain.bgm.tv/pic/x.jpg')
-  })
-
-  it('./ 开头的本地地址原样返回', () => {
-    expect(fixedRemoteImageUrl('./local.png')).toBe('./local.png')
-  })
-
-  it('http 的 HOST_IMAGE 地址升级为 https', () => {
-    expect(fixedRemoteImageUrl('http://lain.bgm.tv/pic/x.jpg')).toBe(
-      'https://lain.bgm.tv/pic/x.jpg'
-    )
-  })
-
-  it('其他 http 地址不升级', () => {
-    expect(fixedRemoteImageUrl('http://other.com/x.jpg')).toBe('http://other.com/x.jpg')
-  })
-
-  it('非字符串原样返回', () => {
-    expect(fixedRemoteImageUrl(123 as any)).toBe(123)
-  })
-})
 
 describe('getAutoSize', () => {
   it('autoSize 等比缩放并向下取整', () => {

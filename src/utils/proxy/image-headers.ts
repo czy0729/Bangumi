@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2026-09-14 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-14 12:00:00
+ * @Last Modified time: 2026-09-19 09:07:46
  *
  * 图片请求头: 被改写到主站节点的图片需额外携带鉴权头
  */
 import { API_HOST, API_HOST_BACKUP } from '@constants/api'
-import { getProxyStrategy } from './strategy'
+import { getApiProxyTarget, getProxyStrategy } from './strategy'
 
 /**
  * 依据原始图片地址返回内置换写后所需的请求头
@@ -25,7 +25,7 @@ export function getProxyImageHeaders(src: string): Record<string, string> {
   if (disabled || ech || !rewriteHeaders) return {}
 
   // 与 lain.ts 的改写目标一致 (支持者由内置主节点接管, apiHost 为空)
-  const apiTarget = supporter ? host : apiHost
+  const apiTarget = getApiProxyTarget({ supporter, host, apiHost })
   if (!apiTarget) return {}
   if (!src.includes(API_HOST) && !src.includes(API_HOST_BACKUP)) return {}
 

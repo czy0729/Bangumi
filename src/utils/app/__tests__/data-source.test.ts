@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-09-03 23:27:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:27:12
+ * @Last Modified time: 2026-09-19 09:05:59
  *
  * data-source.ts 单元测试
  */
@@ -271,6 +271,14 @@ describe('fixedRemoteImageUrl', () => {
 
   it('空字符串返回空字符串', () => {
     expect(fixedRemoteImageUrl('')).toBe('')
+  })
+
+  it('非远程地址原样返回 (不拼接 https: 前缀)', () => {
+    // 旧实现对一切非空字符串都会处理: data:/file:/相对路径会被拼成 https:data:... 一类坏地址
+    expect(fixedRemoteImageUrl('data:image/png;base64,xxx')).toBe('data:image/png;base64,xxx')
+    expect(fixedRemoteImageUrl('file:///storage/x.jpg')).toBe('file:///storage/x.jpg')
+    expect(fixedRemoteImageUrl('blob:https://a/b')).toBe('blob:https://a/b')
+    expect(fixedRemoteImageUrl('img/local.png')).toBe('img/local.png')
   })
 })
 

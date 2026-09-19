@@ -150,6 +150,10 @@ export function fixedRemoteImageUrl<T>(url: T): T
 export function fixedRemoteImageUrl(url: unknown) {
   if (typeof url !== 'string' || !url) return url
 
+  // 非远程地址 (file:// data: blob: 相对路径) 原样返回, 避免被拼成 https:data:... 一类的坏地址
+  // 判定语义与 @utils/image 的 isRemoteImageUrl 一致, 内联正则是为避免 utils/app ←→ utils/image 的循环依赖
+  if (!/^(?:https?:)?\/\//i.test(url)) return url
+
   let value: string = url.replace(/http:\/\//g, 'https://')
 
   // 协议

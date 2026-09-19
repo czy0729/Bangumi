@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 02:06:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 05:39:41
+ * @Last Modified time: 2026-09-19 09:06:09
  */
 import { Image as RNImage } from 'react-native'
 import { _ } from '@stores'
@@ -10,7 +10,7 @@ import { ensureCacheLimit, getCover400, getStorage, setStorage, showImageViewer 
 import { t } from '@utils/fetch'
 import { getProxyImageHeaders, normalizeLainImageUrl } from '@utils/proxy'
 import hash from '@utils/thirdParty/hash'
-import { HOST_BGM_STATIC, HOST_CDN, HOST_IMAGE, IOS, WEB } from '@constants'
+import { HOST_BGM_STATIC, HOST_CDN, IOS, WEB } from '@constants'
 import { getSkeletonColor } from '../skeleton/utils'
 import {
   CACHE_KEY_404,
@@ -234,21 +234,6 @@ export function imageViewerCallback({
       ...event?.data
     })
   }
-}
-
-/** 修复远程图片地址 */
-export function fixedRemoteImageUrl(url: string): string
-export function fixedRemoteImageUrl(url: Props['src']): Props['src']
-export function fixedRemoteImageUrl(url: Props['src']): Props['src'] {
-  if (typeof url !== 'string' || url.startsWith('./')) return url
-
-  if (!url.startsWith('http')) return `https:${url}`
-
-  if (url.startsWith(`http:${HOST_IMAGE}`)) {
-    url = url.replace('http://', 'https://')
-  }
-
-  return url
 }
 
 /**
