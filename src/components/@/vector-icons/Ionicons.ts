@@ -1,13 +1,13 @@
 /*
- * 精简过的 vector-icons@10.0.0 Ionicons
- * @Doc: https://icons.expo.fyi
  * @Author: czy0729
  * @Date: 2021-03-20 18:03:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-10-14 16:52:22
+ * @Last Modified time: 2026-09-19 07:21:37
+ *
+ * 精简过的 vector-icons@10.0.0 Ionicons
  */
-import createIconSet from '@expo/vector-icons/createIconSet'
+import createIconSet from './vendor/createIconSet'
 import font from './vendor/react-native-vector-icons/Fonts/Ionicons.ttf'
 import glyphMap from './vendor/react-native-vector-icons/glyphmaps/Ionicons.json'
 
-export default createIconSet(glyphMap, 'ionicons', font)
+export default createIconSet(glyphMap as Record<string, number>, 'ionicons', font)
