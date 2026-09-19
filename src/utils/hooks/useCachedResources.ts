@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-07 15:18:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-22 05:08:24
+ * @Last Modified time: 2026-09-20 00:49:12
  */
 import { useState } from 'react'
 import { loadAsync } from 'expo-font'
@@ -10,9 +10,9 @@ import * as SplashScreen from 'expo-splash-screen'
 import { devLog } from '@components/dev/utils'
 import { setComponentsDefaultProps } from '@components/text/utils'
 import Stores, { systemStore } from '@stores'
-import { postTask } from '@utils/scheduler'
 import { logger } from '@utils/dev'
 import { restoreEchProxy, setupEchLifecycle } from '@utils/proxy/ech'
+import { postTask } from '@utils/scheduler'
 import { bootApp } from '../app'
 import useMount from './useMount'
 
@@ -48,6 +48,35 @@ export async function loadAppFonts(): Promise<boolean> {
   return true
 }
 
+/**
+ * 图标字体预加载, 延迟求值避免 glyphmap / ttf 进入启动链
+ *
+ * 失败只告警, 不阻断启动 (图标组件内部仍会自行加载字体)
+ */
+async function preloadIconFonts(): Promise<void> {
+  try {
+    return await (async () => {
+      // 让出一帧, 避免与 bootApp 同 tick 同步求值三个图标模块
+      await Promise.resolve()
+
+      // require 参数必须为字面量, Metro 才能静态解析
+      const Icons = (
+        require('@components/@/vector-icons/AntDesign') as typeof import('@components/@/vector-icons/AntDesign')
+      ).default
+      const Ionicons = (
+        require('@components/@/vector-icons/Ionicons') as typeof import('@components/@/vector-icons/Ionicons')
+      ).default
+      const MaterialIcons = (
+        require('@components/@/vector-icons/MaterialIcons') as typeof import('@components/@/vector-icons/MaterialIcons')
+      ).default
+
+      await Promise.all([Icons.loadFont(), Ionicons.loadFont(), MaterialIcons.loadFont()])
+    })()
+  } catch (e) {
+    logger.warn('useCachedResources', 'preloadIconFonts failed:', e)
+  }
+}
+
 type LoadingResult = 0 | 1 | 2 | 3 | 99
 
 /**
@@ -65,6 +94,9 @@ export default function useCachedResources(): LoadingResult {
       try {
         // App 初始化
         bootApp()
+
+        // 图标字体预加载, 与 Stores 初始化并行
+        const iconFonts = preloadIconFonts()
 
         // Stores 初始化
         const settings = await Stores.init()
@@ -84,10 +116,13 @@ export default function useCachedResources(): LoadingResult {
         })
         setState(2)
 
-        // 加载字体
-        if (typeof settings === 'object' && !settings.customFontFamily) {
-          await loadAppFonts()
-        }
+        // 加载字体 (与图标字体预加载并行汇合, 避免额外串行等待)
+        await Promise.all([
+          iconFonts,
+          typeof settings === 'object' && !settings.customFontFamily
+            ? loadAppFonts()
+            : Promise.resolve(true)
+        ])
         setState(3)
 
         postTask(() => {

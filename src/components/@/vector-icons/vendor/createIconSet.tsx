@@ -2,17 +2,22 @@
  * @Author: czy0729
  * @Date: 2026-09-19 07:22:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-19 08:01:42
+ * @Last Modified time: 2026-09-20 00:47:41
  *
  * Vendored from @expo/vector-icons@15.0.2 build/createIconSet.js (2026-09-19)
- * 唯一改动: 相对 import 随目录层级平移到 vendor/react-native-vector-icons/lib/ 并补齐 TS 类型;
- * static Button 因 TS 下类表达式自引用不便, 改为类定义后挂载 (行为不变)
+ * 改动: 相对 import 随目录层级平移到 vendor/react-native-vector-icons/lib/ 并补齐 TS 类型;
+ * static Button 因 TS 下类表达式自引用不便, 改为类定义后挂载 (行为不变);
+ * 字体未加载时的占位补最小尺寸 (minWidth / minHeight), 并对齐真实渲染的 allowFontScaling / selectable;
+ * 外层类由 Component 改为 PureComponent, 同 props 时跳过重渲染
  * 依赖闭包仅 react / react-native / expo-font, 不再依赖 @expo/vector-icons 包本体
  */
-import { Component } from 'react'
+import { PureComponent } from 'react'
 import { PixelRatio, Text } from 'react-native'
 import * as Font from 'expo-font'
-import createRNVIconSet from './react-native-vector-icons/lib/create-icon-set'
+import createRNVIconSet, {
+  DEFAULT_ICON_COLOR,
+  DEFAULT_ICON_SIZE
+} from './react-native-vector-icons/lib/create-icon-set'
 import createIconButtonComponent from './react-native-vector-icons/lib/icon-button'
 
 import type { ComponentClass, ComponentRef } from 'react'
@@ -23,10 +28,7 @@ import type {
   IconComponentProps
 } from './react-native-vector-icons/lib/icon-button'
 
-export {
-  DEFAULT_ICON_COLOR,
-  DEFAULT_ICON_SIZE
-} from './react-native-vector-icons/lib/create-icon-set'
+export { DEFAULT_ICON_COLOR, DEFAULT_ICON_SIZE }
 
 /** 图标组件 props */
 export interface IconProps<G extends string> extends TextProps {
@@ -68,7 +70,7 @@ export default function createIconSet<G extends string, FN extends string>(
   const RNVIconComponent = createRNVIconSet(glyphMap, fontName, null, fontStyle)
   let didWarn = false
 
-  const Icon = class extends Component<IconProps<G>, IconState> {
+  const Icon = class extends PureComponent<IconProps<G>, IconState> {
     static defaultProps = RNVIconComponent.defaultProps
     static glyphMap = glyphMap
     static getRawGlyphMap = () => glyphMap
@@ -152,7 +154,18 @@ export default function createIconSet<G extends string, FN extends string>(
         console.warn(`"${this.props.name}" is not a valid icon name for family "${fontName}"`)
       }
       if (!this.state.fontIsLoaded) {
-        return <Text />
+        const size = this.props.size ?? DEFAULT_ICON_SIZE
+
+        // 只给尺寸下限, 不固定宽高, 避免约束真实字形
+        return (
+          <Text
+            style={[{ minWidth: size, minHeight: size }, this.props.style]}
+            selectable={false}
+            allowFontScaling={false}
+          >
+            {this.props.children}
+          </Text>
+        )
       }
       return (
         <RNVIconComponent

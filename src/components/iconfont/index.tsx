@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-05-07 14:28:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-19 07:38:29
+ * @Last Modified time: 2026-09-20 00:13:02
  */
-import React from 'react'
+import { memo, useMemo } from 'react'
 import { observer } from 'mobx-react'
-import { Icons } from '@components/@'
+import Icons from '@components/@/vector-icons/AntDesign'
+import Ionicons from '@components/@/vector-icons/Ionicons'
+import Material from '@components/@/vector-icons/MaterialIcons'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
-import Ionicons from './ionicons'
-import Material from './material'
 import { getAppIconName, getIconFamily } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -27,13 +27,34 @@ import type {
 // export type { IconfontProps }
 
 /** 自定义项目图标 */
-export const Iconfont = observer(
-  ({ style, name = '', size = 22, lineHeight, color, shadow, ...other }: IconfontProps) => {
+export const Iconfont = memo(
+  observer(function Iconfont({
+    style,
+    name = '',
+    size = 22,
+    lineHeight,
+    color,
+    shadow,
+    ...other
+  }: IconfontProps) {
     r(COMPONENT)
 
     const sizeValue = size + _.fontSizeAdjust + _.device(0, _.padIncrease)
     const lineHeightValue = lineHeight + _.fontSizeAdjust
-    const shadowStyle = shadow && styles.shadow
+
+    /** 引用稳定, 未变更时内层 PureComponent 可以跳过重渲染 */
+    const iconStyle = useMemo(
+      () =>
+        stl(
+          {
+            height: sizeValue,
+            lineHeight: lineHeight ? lineHeightValue : sizeValue
+          },
+          shadow && styles.shadow,
+          style
+        ),
+      [sizeValue, lineHeight, lineHeightValue, shadow, style]
+    )
 
     // 公共属性
     const commonProps = {
@@ -47,40 +68,19 @@ export const Iconfont = observer(
     if (family === 'material') {
       return (
         <Material
-          style={stl(shadowStyle, style)}
+          style={iconStyle}
           name={name.replace('md-', '') as MaterialIconsNames}
-          lineHeight={lineHeightValue}
           {...commonProps}
         />
       )
     }
 
     if (family === 'ionicons') {
-      return (
-        <Ionicons
-          style={stl(shadowStyle, style)}
-          name={name as IoniconsIconsNames}
-          lineHeight={lineHeightValue}
-          {...commonProps}
-        />
-      )
+      return <Ionicons style={iconStyle} name={name as IoniconsIconsNames} {...commonProps} />
     }
 
-    return (
-      <Icons
-        style={stl(
-          {
-            height: sizeValue,
-            lineHeight: lineHeight ? lineHeightValue : sizeValue
-          },
-          shadowStyle,
-          style
-        )}
-        name={getAppIconName(name) as AppIconsNames}
-        {...commonProps}
-      />
-    )
-  }
+    return <Icons style={iconStyle} name={getAppIconName(name) as AppIconsNames} {...commonProps} />
+  })
 )
 
 export default Iconfont
