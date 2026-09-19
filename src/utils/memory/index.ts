@@ -14,7 +14,7 @@ import {
   NSFW_CACHE_MAP,
   X18S_CACHE_MAP
 } from '../app/ds'
-import CacheManager from '../cache-manager'
+import { cacheManager } from '../cache'
 import { logger } from '../dev'
 import { clearMatchCache } from '../match'
 
@@ -45,7 +45,7 @@ export function logRuntimeCacheSizes(tag: string) {
 export function clearRuntimeCaches() {
   logRuntimeCacheSizes('release')
 
-  CacheManager.clear()
+  cacheManager.clear()
   clearMatchCache()
 
   FIND_SUBJECT_CN_CACHE_MAP.clear()

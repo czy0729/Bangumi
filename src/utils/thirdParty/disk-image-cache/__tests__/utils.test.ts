@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-25 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 00:00:00
+ * @Last Modified time: 2026-09-19 08:20:39
  */
 
 /** 缩小上限常量以便在单测中触发数量超限淘汰 */
@@ -263,11 +263,11 @@ describe('cleanupCache', () => {
 
     expect(fs.getInfoAsync).not.toHaveBeenCalled()
     expect(fs.deleteAsync).not.toHaveBeenCalled()
-    expect(logger.warn).toHaveBeenCalledWith(
-      '@utils/image-cache',
-      'counters',
-      { hits: 0, writes: 0, failures: 0 }
-    )
+    expect(logger.warn).toHaveBeenCalledWith('@utils/image-cache', 'counters', {
+      hits: 0,
+      writes: 0,
+      failures: 0
+    })
   })
 
   it('回收超过 TTL 的 tmp 残留', async () => {

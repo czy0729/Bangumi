@@ -6,7 +6,7 @@
  */
 import { computed } from 'mobx'
 import { _, discoveryStore, systemStore, userStore } from '@stores'
-import CacheManager from '@utils/cache-manager'
+import { cacheManager } from '@utils/cache'
 import { enrichListWithScore, sortByScore, sortByTimestamp, sortByTotal } from './utils'
 import State from './state'
 import { NAMESPACE } from './ds'
@@ -41,7 +41,7 @@ export default class Computed extends State {
   @computed get list() {
     const key = `${NAMESPACE}|${this.catalogId}`
     if (this.state.progress.fetching) {
-      const data = CacheManager.get<List>(key)
+      const data = cacheManager.get<List>(key)
       if (data) return data
     }
 
@@ -65,14 +65,14 @@ export default class Computed extends State {
 
     // 排序
     if (String(sort) === '1') {
-      return CacheManager.set(key, sortByTimestamp(list))
+      return cacheManager.set(key, sortByTimestamp(list))
     } else if (String(sort) === '2') {
-      return CacheManager.set(key, sortByScore(list))
+      return cacheManager.set(key, sortByScore(list))
     } else if (String(sort) === '3') {
-      return CacheManager.set(key, sortByTotal(list))
+      return cacheManager.set(key, sortByTotal(list))
     }
 
-    return CacheManager.set(key, list)
+    return cacheManager.set(key, list)
   }
 
   /** 目录列表拥有的类型 */

@@ -7,7 +7,7 @@
  * iOS 图片引擎: expo-image
  *
  * expo-image 已内建磁盘 + 内存缓存 (cachePolicy)、加载过渡 (transition)、优先级、
- * 列表回收 (recyclingKey) 等能力, 替代 react-native Image + 自研 image-cache-manager 方案;
+ * 列表回收 (recyclingKey) 等能力, 替代 react-native Image + 自研 disk-image-cache 方案;
  * 本文件仅作 re-export, 渲染入口见 ../index.ios.tsx
  */
 import { Image as ExpoImage } from 'expo-image'

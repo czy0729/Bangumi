@@ -7,7 +7,7 @@
 import { useCallback, useState } from 'react'
 import { systemStore, tinygrailStore } from '@stores'
 import { navigationReference } from '@utils'
-import CacheManager from '@utils/cache-manager'
+import { cacheManager } from '@utils/cache'
 import { useMount } from '@utils/hooks'
 import { API_V0 } from '@constants'
 import { getOnPress, head } from './utils'
@@ -26,7 +26,7 @@ export function useAvatar(src: Props['src'], userId: Props['userId']) {
   const [url, setUrl] = useState(() => {
     let initUrl: string | ImageSourcePropType
     if (typeof src === 'string' && src.includes(API_V0)) {
-      initUrl = CacheManager.get(key) || src
+      initUrl = cacheManager.get(key) || src
     } else {
       initUrl = src
     }
@@ -39,8 +39,8 @@ export function useAvatar(src: Props['src'], userId: Props['userId']) {
   useMount(() => {
     if (!isFromApi) return
 
-    if (CacheManager.has(key)) {
-      setUrl(CacheManager.get(key))
+    if (cacheManager.has(key)) {
+      setUrl(cacheManager.get(key))
       return
     }
 
@@ -49,7 +49,7 @@ export function useAvatar(src: Props['src'], userId: Props['userId']) {
         let responseURL = await head(url)
         if (typeof responseURL !== 'string') responseURL = url
 
-        setUrl(CacheManager.set(key, responseURL))
+        setUrl(cacheManager.set(key, responseURL))
       })()
     }, 0)
   })

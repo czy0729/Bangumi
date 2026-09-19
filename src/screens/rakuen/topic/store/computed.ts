@@ -7,7 +7,7 @@
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, systemStore, usersStore, userStore } from '@stores'
 import { asc, freeze, getGroupThumbStatic, HTMLDecode } from '@utils'
-import CacheManager from '@utils/cache-manager'
+import { cacheManager } from '@utils/cache'
 import { CDN_OSS_MAGMA_PIC, CDN_OSS_MAGMA_POSTER } from '@utils/cdn'
 import { computedFn } from '@utils/computed-fn'
 import { HOST, HOST_IMAGE, URL_DEFAULT_AVATAR } from '@constants'
@@ -238,7 +238,7 @@ export default class Computed extends State {
   @computed get directItems() {
     return freeze(() => {
       const key = `directItems|${this.topicId}|${this.comments._loaded}`
-      const cache = CacheManager.get<DirectItems>(key)
+      const cache = cacheManager.get<DirectItems>(key)
       if (cache) return cache
 
       const data: DirectItems = []
@@ -263,7 +263,7 @@ export default class Computed extends State {
       })
       data.sort((a, b) => asc(a.id, b.id))
 
-      return CacheManager.set(key, data)
+      return cacheManager.set(key, data)
     })
   }
 

@@ -17,7 +17,7 @@ import {
   updateVisibleBottom
 } from '@utils'
 import { ensureArrayLimit } from '@utils/cache'
-import CacheManager from '@utils/cache-manager'
+import { cacheManager } from '@utils/cache'
 import { baiduTranslate, t } from '@utils/fetch'
 import { generate, get, lx, lxCache, update } from '@utils/kv'
 import { MUSUME_EP_PROMPT, MUSUME_PROMPT, MUSUME_TOPIC_PROMPT } from '@utils/kv/ds'
@@ -40,11 +40,11 @@ export default class Action extends Fetch {
     const { list } = this.comments
     list.forEach(item => {
       const key = `avatar|${item.userId}`
-      if (!CacheManager.has(key)) CacheManager.set(key, item.avatar)
+      if (!cacheManager.has(key)) cacheManager.set(key, item.avatar)
 
       item.sub.forEach(i => {
         const key = `avatar|${i.userId}`
-        if (!CacheManager.has(key)) CacheManager.set(i.userId, i.avatar)
+        if (!cacheManager.has(key)) cacheManager.set(key, i.avatar)
       })
     })
   }

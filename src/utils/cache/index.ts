@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-06-26 07:27:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-07 23:47:38
+ * @Last Modified time: 2026-09-19 08:21:55
  */
+import { toJS } from 'mobx'
 
 /**
  * 确保 Map / Set 缓存不超过指定大小，超出时淘汰最早的条目（FIFO）
@@ -58,4 +59,41 @@ export function ensureArrayLimit<T>(
     else list.splice(maxLength)
   }
   return list
+}
+
+/** 内存缓存上限（条目数） */
+const CACHE_MAX = 500
+
+/**
+ * 应用级内存缓存单例（原 utils/cache-manager）
+ * - toJS 深拷贝后入库, 单条可能是整份列表, 必须为有界集合
+ * - FIFO 上限 500 条, 切后台等时机可 clear 释放可重建缓存
+ */
+const cacheMap = new Map<string, unknown>()
+
+export const cacheManager = {
+  /** 主动缓存 */
+  set<T>(key: string | number, data: T) {
+    if (!key) return data
+
+    cacheMap.set(String(key), toJS(data))
+    ensureCacheLimit(cacheMap, CACHE_MAX)
+
+    return data
+  },
+
+  /** 取缓存 */
+  get<T>(key: string | number) {
+    return cacheMap.get(String(key)) as T
+  },
+
+  /** 是否存在 */
+  has(key: string | number) {
+    return cacheMap.has(String(key))
+  },
+
+  /** 清空（切后台等时机释放可重建缓存） */
+  clear() {
+    cacheMap.clear()
+  }
 }

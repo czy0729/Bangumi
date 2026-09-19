@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-10-30 04:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-25 12:51:21
+ * @Last Modified time: 2026-09-19 08:22:20
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActionSheet, Avatar, BgmText, Component, Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { desc, HTMLDecode, navigationReference } from '@utils'
-import CacheManager from '@utils/cache-manager'
+import { cacheManager } from '@utils/cache'
 import { r } from '@utils/dev'
 import { Name } from '../name'
 import { COMPONENT } from './ds'
@@ -45,12 +45,12 @@ export const LikesUsers = observer(({ show, list, emoji, onClose }) => {
             .slice()
             .sort((a: { username: any }, b: { username: any }) =>
               desc(
-                CacheManager.has(`avatar|${a.username}`),
-                CacheManager.has(`avatar|${b.username}`)
+                cacheManager.has(`avatar|${a.username}`),
+                cacheManager.has(`avatar|${b.username}`)
               )
             )
             .map(item => {
-              const avatar = CacheManager.get(`avatar|${item.username}`)
+              const avatar = cacheManager.get(`avatar|${item.username}`)
 
               return (
                 <Touchable

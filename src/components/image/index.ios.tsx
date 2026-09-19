@@ -7,7 +7,7 @@
  * Image 组件 iOS 入口 (完全基于 expo-image)
  *
  * expo-image 已内建、直接使用的能力 (旧实现对应的自研逻辑均已移除):
- * - 磁盘 + 内存缓存 (cachePolicy): 替代 image-cache-manager 的下载队列 / sha1 落盘 / LRU 清理 /
+ * - 磁盘 + 内存缓存 (cachePolicy): 替代 disk-image-cache 的下载队列 / sha1 落盘 / LRU 清理 /
  *   memoLocal 命中表 / 下载超时竞速, URI 恒为远端地址
  * - 加载过渡动画 (transition): 替代 remote 层的 reanimated fade
  * - priority / recyclingKey / source.headers: 对应旧的 priority / 列表回收 / 防盗链请求头

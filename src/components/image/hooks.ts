@@ -9,7 +9,7 @@ import { Image as RNImage } from 'react-native'
 import { getTimestamp } from '@utils'
 import { logger } from '@utils/dev'
 import { fixImageProtocol, resolveImageUri } from '@utils/image'
-import { invalidate } from '@utils/thirdParty/image-cache-manager'
+import { invalidate } from '@utils/thirdParty/disk-image-cache'
 import { IOS, WEB } from '@constants'
 import {
   checkLocalError,
@@ -365,7 +365,7 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
    * 缓存图片: 统一走系统策略, 缓存交由引擎自管
    * - iOS: expo-image 内建磁盘 + 内存缓存 (cachePolicy)
    * - 安卓: FastImage 自带磁盘 + 内存缓存 (getLocalCache 仅登记内存命中记录, 供 preGetLocalCache 短路复用)
-   * 旧 iOS 自研下载缓存 (image-cache-manager 竞速下载到本地 path) 已随 iOS 引擎迁移 expo-image 移除
+   * 旧 iOS 自研下载缓存 (disk-image-cache 竞速下载到本地 path) 已随 iOS 引擎迁移 expo-image 移除
    */
   const cache = useCallback(
     (src: ImageProps['src']) => cacheWithSystemStrategy(src),

@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-04-17 17:21:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 15:39:46
+ * @Last Modified time: 2026-09-19 08:21:11
  */
+
 /** 图片下载附加选项 */
 export type DownloadOptions = {
   md5?: boolean
