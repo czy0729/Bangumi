@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-11-26 09:00:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 22:34:16
+ * @Last Modified time: 2026-09-19 20:21:51
  */
 import { _ } from '@stores'
+import { MASK_COLOR } from '@constants'
 
 export const memoStyles = _.memoStyles(() => ({
   mask: {
@@ -14,7 +15,7 @@ export const memoStyles = _.memoStyles(() => ({
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.64)'
+    backgroundColor: MASK_COLOR
   },
   fixed: {
     position: 'absolute',

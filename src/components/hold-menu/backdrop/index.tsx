@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2026-08-09 05:48:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-10 05:21:32
+ * @Last Modified time: 2026-09-19 10:24:38
  */
 import { memo, useContext } from 'react'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
 import { stl } from '@utils'
+import { MASK_COLOR_LIGHT } from '@constants'
 import { MENU_ANIMATION_DURATION } from '../ds'
 import { useMask } from '../../mask'
 import { MenuShowContext, useHoldMenu } from '../context'
@@ -35,7 +36,7 @@ function BackdropComponent() {
           maskStyle,
           show ? styles.backdropShown : styles.backdropHidden,
           {
-            backgroundColor: theme === 'dark' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.1)'
+            backgroundColor: theme === 'dark' ? MASK_COLOR_LIGHT : 'rgba(0, 0, 0, 0.1)'
           }
         )}
         accessible={false}

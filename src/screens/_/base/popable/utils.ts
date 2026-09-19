@@ -7,7 +7,7 @@
 import { _ } from '@stores'
 import { memoStyles } from './styles'
 
-type Position = 'bottom' | 'left' | 'right' | 'top'
+type Position = 'bottom' | 'top'
 
 type Style = {
   top?: number

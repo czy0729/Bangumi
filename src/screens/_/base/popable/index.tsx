@@ -2,13 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-08-13 04:56:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 17:52:50
+ * @Last Modified time: 2026-09-19 10:29:00
  */
-import React from 'react'
 import { View } from 'react-native'
-import { Popover as RNPopable } from 'react-native-popable'
 import { observer } from 'mobx-react'
-import { Component, Cover, Flex, Portal, Skeleton, Text, Touchable } from '@components'
+import {
+  Component,
+  Cover,
+  Flex,
+  PopoverContent,
+  Portal,
+  Skeleton,
+  Text,
+  Touchable
+} from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _, subjectStore, systemStore, uiStore } from '@stores'
 import { cnjp, navigationReference } from '@utils'
@@ -46,12 +53,10 @@ export const Popable = observer(({ subjectId, visible, portalKey, x, y }: Popabl
   return (
     <Component id='base-popable'>
       <Portal key={String(portalKey)}>
-        <RNPopable
+        <PopoverContent
           style={[styles.subject, position.style]}
           position={position.position}
           visible={visible}
-          caret={false}
-          backgroundColor='transparent'
         >
           {!!subjectId && (
             <BlurView style={styles.container} intensity={_.select(64, 80)}>
@@ -129,7 +134,7 @@ export const Popable = observer(({ subjectId, visible, portalKey, x, y }: Popabl
               )}
             </BlurView>
           )}
-        </RNPopable>
+        </PopoverContent>
       </Portal>
     </Component>
   )

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2026-06-17 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 07:06:46
+ * @Last Modified time: 2026-09-19 11:29:56
  */
 import { NativeModules, Platform } from 'react-native'
 
 import type { EchProxyConfig, EchProxyStatus, EchProxyLog, EchProxyModuleType } from './types'
 
 const LINKING_ERROR =
-  `The package 'bangumi-ech-proxy' doesn't seem to be linked. Make sure:\n\n` +
+  `ech proxy doesn't seem to be linked. Make sure:\n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n'

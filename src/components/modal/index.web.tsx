@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-11-06 06:27:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 01:56:44
+ * @Last Modified time: 2026-09-19 10:25:13
  */
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
+import { DURATION_MODAL } from '@constants'
 import { Component } from '../component'
 import { ScrollView } from '../scroll-view'
 import { Text } from '../text'
@@ -29,7 +30,7 @@ export const Modal = observer(
 
     const animatedStyle = useAnimatedStyle(() => ({
       opacity: withTiming(activeRef.value, {
-        duration: 80
+        duration: DURATION_MODAL
       })
     }))
 

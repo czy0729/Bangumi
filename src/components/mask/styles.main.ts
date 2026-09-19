@@ -5,12 +5,13 @@
  * @Last Modified time: 2026-07-26 05:54:40
  */
 import { _ } from '@stores'
+import { MASK_COLOR } from '@constants'
 
 export const styles = _.create({
   mask: {
     flex: 1,
     height: _.web('100%', undefined),
-    backgroundColor: 'rgba(0, 0, 0, 0.64)'
+    backgroundColor: MASK_COLOR
   },
   linear: {
     position: 'absolute',

@@ -10,6 +10,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-na
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
+import { DURATION_MODAL } from '@constants'
 import { Component } from '../../component'
 import { Flex } from '../../flex'
 import { Mask, useMask } from '../../mask'
@@ -29,7 +30,7 @@ export const ModalFixed = observer(
 
     const animatedStyle = useAnimatedStyle(() => ({
       opacity: withTiming(activeRef.value, {
-        duration: 80
+        duration: DURATION_MODAL
       })
     }))
 

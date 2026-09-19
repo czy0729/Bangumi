@@ -2,12 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-03-31 12:57:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 17:06:41
+ * @Last Modified time: 2026-09-19 10:29:17
  */
-import React from 'react'
-import { Popover as Popable } from 'react-native-popable'
 import { observer } from 'mobx-react'
-import { Component, Portal } from '@components'
+import { Component, PopoverContent, Portal } from '@components'
 import { _, rakuenStore } from '@stores'
 import { r } from '@utils/dev'
 import { LIKE_TYPE_TIMELINE } from '@constants'
@@ -33,17 +31,15 @@ export const LikesGrid = observer(
 
     // 应用偏移值
     if (offsets?.x && position.style.left) position.style.left += offsets.x
-    if (offsets?.y && position.style.top) position.style.left += offsets.y
+    if (offsets?.y && position.style.top) position.style.top += offsets.y
 
     return (
       <Component id='base-likes-grid'>
         <Portal key={String(portalKey)}>
-          <Popable
+          <PopoverContent
             style={[styles.subject, position.style]}
             position={position.position}
             visible={visible}
-            caret={false}
-            backgroundColor='transparent'
           >
             {!!topicId && (
               <BlurView
@@ -65,7 +61,7 @@ export const LikesGrid = observer(
                 />
               </BlurView>
             )}
-          </Popable>
+          </PopoverContent>
         </Portal>
       </Component>
     )

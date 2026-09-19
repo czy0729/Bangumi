@@ -5,6 +5,7 @@
  * @Last Modified time: 2023-12-25 13:22:48
  */
 import { _ } from '@stores'
+import { MASK_COLOR } from '@constants'
 
 export const styles = _.create({
   mask: {
@@ -14,7 +15,7 @@ export const styles = _.create({
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.64)'
+    backgroundColor: MASK_COLOR
   },
   modal: {
     position: 'absolute',

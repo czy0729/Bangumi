@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-08-14 22:05:36
  */
 import { StyleSheet } from 'react-native'
+import { MASK_COLOR_LIGHT } from '@constants'
 
 export const styles = StyleSheet.create({
   wrap: {
@@ -14,7 +15,7 @@ export const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
   mask: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    backgroundColor: MASK_COLOR_LIGHT
   },
   absolute: {
     position: 'absolute',

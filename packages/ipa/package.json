@@ -65,7 +65,6 @@
     "react-native-fs": "2.18.0",
     "react-native-gesture-handler": "2.21.2",
     "react-native-pager-view": "6.5.0",
-    "react-native-popable": "^0.4.3",
     "react-native-reanimated": "3.16.1",
     "react-native-render-html": "4.1.1",
     "react-native-restart": "0.0.14",

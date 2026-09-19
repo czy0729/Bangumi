@@ -20,6 +20,7 @@ export * from './init'
 export * from './model'
 export * from './site'
 export * from './text'
+export * from './theme'
 
 export { default as EVENTS } from './events'
 export type { EventKeys } from './events'
