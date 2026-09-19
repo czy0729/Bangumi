@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-16 07:29:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-17 22:40:59
+ * @Last Modified time: 2026-09-19 09:42:06
  */
 import type {
   Collection as BaseCollection,
@@ -16,25 +16,7 @@ import type {
   UserId
 } from '@types'
 
-export type Config = {
-  method: 'get' | 'post'
-  url: string
-  headers: {
-    Authorization?: string
-    'User-Agent'?: string
-    'Content-Type'?: 'application/x-www-form-urlencoded'
-  }
-  data?: string
-
-  /** 请求超时 (毫秒), 透传给 axios; 缺省时 axios 为永不超时 */
-  timeout?: number
-}
-
-export type RequestConfig = {
-  timeout?: number
-  auth?: boolean
-  onError?: (ex: Error) => void
-}
+export type { RequestConfig } from '../request/types'
 
 type Subject = {
   date: string

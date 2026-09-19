@@ -2,58 +2,31 @@
  * @Author: czy0729
  * @Date: 2026-01-20 08:06:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:29:29
+ * @Last Modified time: 2026-09-19 09:32:58
+ *
+ * p1 接口请求 (API_P1): 不拼 app_id / state, 不带 Authorization, timeout 透传
+ *  - API_P1 为 next.bgm.tv, 不属 HOST, isHtml 恒为 false
  */
-import { urlStringify } from '@utils'
-import { applyProxy, logProxy } from '@utils/proxy'
-import { WEB } from '@constants'
-import { UA } from '@constants/env'
-import { HOST } from '@constants/host'
-import { safe } from '../fetch'
-import { checkDenied } from '../fetch/utils'
-import { axios } from '../thirdParty'
+import { DEFAULT_TIMEOUT, request as requestCore } from '../request'
 
-import type { Config } from './types'
+import type { RequestConfig } from '../request/types'
 
 export async function request<T>(
   url: string,
   data?: object,
-  config: {
-    timeout?: number
-    onError?: (ex: Error) => any
-  } = {
-    timeout: 8000,
+  config: RequestConfig = {
+    timeout: DEFAULT_TIMEOUT,
     onError: () => {}
   }
 ): Promise<T> {
-  checkDenied(url, true)
-
-  try {
-    const requestConfig: Config = {
-      method: typeof data === 'object' ? 'post' : 'get',
-      url,
-      headers: {}
+  return requestCore<T>(
+    url,
+    data,
+    { ...config, auth: false },
+    {
+      tag: 'fetch.p1',
+      state: false,
+      html: false
     }
-
-    if (!WEB) {
-      requestConfig.headers['User-Agent'] = UA
-    }
-
-    if (requestConfig.method === 'post') {
-      requestConfig.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-      requestConfig.data = urlStringify(data)
-    }
-
-    const isHtml = requestConfig.url.includes(HOST) && !requestConfig.url.includes('api.')
-    const proxyResult = applyProxy(requestConfig.url, requestConfig.headers, isHtml)
-    requestConfig.url = proxyResult.url
-    requestConfig.headers = proxyResult.headers
-    logProxy('fetch.p1', proxyResult.proxyType, url, requestConfig.url)
-
-    const { data: responseData } = await axios(requestConfig)
-    return safe(responseData) as T
-  } catch (ex) {
-    if (typeof config?.onError === 'function') config.onError(ex)
-    return {} as T
-  }
+  )
 }
