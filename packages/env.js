@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-10-04 19:53:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-02 19:59:16
+ * @Last Modified time: 2026-09-20 04:17:40
  *
  * 开发环境切换脚本
  *
@@ -12,7 +12,7 @@
  * - 不同平台使用不同的依赖和配置，通过此脚本统一管理
  *
  * 使用方法：
- *   yarn env [ios | android | ipa | web]
+ *   yarn env [ios | android | web]
  *
  * 工作原理：
  * 1. 将当前环境的 package.json 和 node_modules 备份到 packages/{env}/ 目录
@@ -30,7 +30,7 @@ const path = require('path')
 // ==================== 常量定义 ====================
 
 /** 支持的环境列表 */
-const SUPPORTED_ENVS = ['android', 'ios', 'web', 'ipa']
+const SUPPORTED_ENVS = ['android', 'ios', 'web']
 
 /** 根目录配置文件路径 */
 const ROOT_PATHS = {

@@ -1,3 +1,5 @@
 battery-baseline/
 engine-battery.test.ts
 engine-benchmark.test.ts
+engine-decode.test.ts
+engine-usage.test.ts

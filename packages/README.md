@@ -1,6 +1,6 @@
 # packages 多环境管理
 
-本项目通过 `yarn env [ios | android | ipa | web]` 在多个开发环境之间切换，脚本见 `packages/env.js`。提交代码前请切回 ios 环境。
+本项目通过 `yarn env [ios | android | web]` 在多个开发环境之间切换，脚本见 `packages/env.js`。提交代码前请切回 ios 环境。
 
 ## 目录结构
 
@@ -10,30 +10,28 @@ packages/
 ├── patches/        # ★ 统一补丁管理目录（唯一实体补丁文件）
 ├── ios/            # iOS 环境（提交基准）
 ├── android/        # Android 环境
-├── ipa/            # IPA 构建环境（见 ipa/README.MD）
 ├── web/            # Web 环境
 └── README.md       # 本文件
 ```
 
 每个环境目录独立维护以下内容：
 
-| 内容 | 说明 |
-|---|---|
-| `package.json` | 该环境专属依赖版本 |
-| `node_modules/` | 该环境安装的完整依赖 |
-| `patches/` | 指向 `packages/patches/` 的补丁**符号链接**（该环境的补丁子集） |
+| 内容            | 说明                                                            |
+| --------------- | --------------------------------------------------------------- |
+| `package.json`  | 该环境专属依赖版本                                              |
+| `node_modules/` | 该环境安装的完整依赖                                            |
+| `patches/`      | 指向 `packages/patches/` 的补丁**符号链接**（该环境的补丁子集） |
 
 ## 补丁统一管理
 
 所有补丁的**实体文件**统一存放在 `packages/patches/`，各环境目录与根目录 `patches/` 里只有指向它的符号链接，按各环境需要的补丁子集决定包含哪些符号链接：
 
-| 目录 | 补丁子集 |
-|---|---|
-| 根 `patches/` | 当前环境的补丁集合 |
-| `packages/android/patches/` | 共享 3 + `pager-view`/`smb`/`cameraroll`/`android-widget` |
-| `packages/ios/patches/` | 共享 3（`realtimeblurview`/`render-html`/`tab-view`） |
-| `packages/ipa/patches/` | 共享 3 |
-| `packages/web/patches/` | `realtimeblurview`/`render-html` + `@storybook/preview-web` |
+| 目录                        | 补丁子集                                                    |
+| --------------------------- | ----------------------------------------------------------- |
+| 根 `patches/`               | 当前环境的补丁集合                                          |
+| `packages/android/patches/` | 共享 3 + `pager-view`/`smb`/`cameraroll`/`android-widget`   |
+| `packages/ios/patches/`     | 共享 3（`realtimeblurview`/`render-html`/`tab-view`）       |
+| `packages/web/patches/`     | `realtimeblurview`/`render-html` + `@storybook/preview-web` |
 
 > 补丁只维护一份，修改 `packages/patches/` 下文件即对所有环境生效，无需逐份复制。
 

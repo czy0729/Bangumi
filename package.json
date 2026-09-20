@@ -42,7 +42,6 @@
     "@react-navigation/native-stack": "6.9.13",
     "@sdcx/nested-scroll": "^0.14.0",
     "@types/react": "~19.2.2",
-    "cheerio": "1.0.0",
     "expo": "~57.0.21",
     "expo-asset": "~57.0.16",
     "expo-blur": "~57.0.2",
@@ -82,8 +81,7 @@
     "react-native-tab-view": "3.5.2",
     "react-native-webview": "13.16.1",
     "react-native-worklets": "0.10.1",
-    "rn-fetch-blob": "^0.12.0",
-    "stream-browserify": "^3.0.0"
+    "rn-fetch-blob": "^0.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -96,6 +94,7 @@
     "@typescript-eslint/eslint-plugin": "^8.59.0",
     "@typescript-eslint/parser": "^8.59.0",
     "babel-plugin-module-resolver": "^5.0.2",
+    "cheerio": "1.0.0",
     "cheerio-without-node-native": "0.20.2",
     "crypto-js": "^4.2.0",
     "dayjs": "1.10.8",
@@ -110,6 +109,7 @@
     "jest-expo": "57.0.5",
     "prettier": "^2.6.2",
     "protobufjs": "^8.8.0",
+    "stream-browserify": "^3.0.0",
     "typescript": "^6.0.3"
   },
   "expo": {
