@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-09-03 23:27:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-19 09:05:59
+ * @Last Modified time: 2026-09-21 06:08:05
  *
  * data-source.ts 单元测试
  */
@@ -22,8 +22,7 @@ jest.mock(
 
 jest.mock('@utils/cdn', () => ({
   CDN_OSS_MAGMA_MONO: (src: string) => src,
-  CDN_OSS_MAGMA_POSTER: (src: string) => src,
-  CDN_OSS_SUBJECT: (src: string) => src
+  CDN_OSS_MAGMA_POSTER: (src: string) => src
 }))
 
 jest.mock('@constants/host', () => ({

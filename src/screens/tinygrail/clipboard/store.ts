@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-11-30 16:16:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 09:34:18
+ * @Last Modified time: 2026-09-21 06:35:48
  */
 import { Clipboard } from 'react-native'
 import { computed, observable } from 'mobx'
@@ -11,7 +11,7 @@ import { copy, feedback, getTimestamp, info } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { HOST } from '@constants'
-import { relation, throttleInfo } from '../_/utils'
+import { throttleInfo } from '../_/utils'
 
 import type { MonoId, Navigation } from '@types'
 import type { EXCLUDE_STATE } from './ds'
@@ -55,14 +55,14 @@ export default class ScreenTinygrailClipboard extends store<typeof EXCLUDE_STATE
   // -------------------- get --------------------
   @computed get list() {
     const { ids } = this.state
-    return relation({
+    return {
       list: ids.map(id => tinygrailStore.characters(id)).filter(item => item.id !== 0),
       pagination: {
         page: 1,
         pageTotal: 1
       },
       _loaded: getTimestamp()
-    })
+    }
   }
 
   // -------------------- page --------------------

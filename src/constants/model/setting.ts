@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-09-03 23:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:16:00
+ * @Last Modified time: 2026-09-21 06:08:05
  *
  * 字典 - 设置 / 时区
  */
@@ -295,18 +295,6 @@ export const MODEL_SETTING_SUBJECT_SPLIT_STYLES = new Model(
 /** [设置] CDN 源头 */
 
 export const SETTING_CDN_ORIGIN = [
-  {
-    label: 'fastly',
-    value: 'fastly'
-  },
-  {
-    label: 'jsDelivr',
-    value: 'jsDelivr'
-  },
-  {
-    label: 'OneDrive',
-    value: 'OneDrive'
-  },
   {
     label: 'magma',
     value: 'magma'

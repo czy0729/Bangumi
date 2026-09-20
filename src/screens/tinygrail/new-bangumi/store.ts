@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-25 19:40:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 15:32:02
+ * @Last Modified time: 2026-09-21 06:08:05
  */
 import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -10,7 +10,7 @@ import { getTimestamp } from '@utils'
 import { computedFn } from '@utils/computed-fn'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
-import { levelList, relation, sortList } from '@tinygrail/_/utils'
+import { levelList, sortList } from '@tinygrail/_/utils'
 import { NAMESPACE, STATE, TABS } from './ds'
 
 import type { ListKey } from '@stores/tinygrail/types'
@@ -57,7 +57,7 @@ export default class ScreenTinygrailNew extends store<typeof STATE> {
   }
 
   list = computedFn((key: ListKey = 'recent') => {
-    return relation(tinygrailStore.list(key))
+    return tinygrailStore.list(key)
   })
 
   computedList = computedFn((key: ListKey) => {

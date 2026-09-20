@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-10-29 20:49:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 15:48:10
+ * @Last Modified time: 2026-09-21 06:36:19
  */
 import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
@@ -11,7 +11,6 @@ import { t } from '@utils/fetch'
 import store from '@utils/store'
 import { LIST_EMPTY } from '@constants'
 import {
-  relation,
   SORT_DJ,
   SORT_DQJ,
   SORT_DQZD,
@@ -24,7 +23,8 @@ import {
   SORT_XFJL
 } from '../_/utils'
 import { STATE } from './ds'
-import { Params } from './types'
+
+import type { Params } from './types'
 
 export const SORT_DS = [
   SORT_SC,
@@ -70,14 +70,14 @@ export default class ScreenTinygrailRelation extends store<typeof STATE> {
     if (!_loaded) return LIST_EMPTY
 
     const { ids } = this.params
-    return relation({
+    return {
       list: ids.map(id => tinygrailStore.characters(id)),
       pagination: {
         page: 1,
         pageTotal: 1
       },
       _loaded: getTimestamp()
-    })
+    }
   }
 
   // -------------------- page --------------------

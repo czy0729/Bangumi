@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2019-09-10 20:58:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-07 11:12:56
+ * @Last Modified time: 2026-09-21 06:35:57
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Avatar, Flex, Text } from '@components'
@@ -44,8 +43,6 @@ function Header() {
   } else {
     fluctuationStyle.push(styles.plain)
   }
-
-  const { subject, r } = $.relation
 
   return (
     <>
@@ -158,18 +155,6 @@ function Header() {
               })
             }}
           />
-          {!!subject && (
-            <IconTouchable
-              name='md-compare-arrows'
-              color={_.colorTinygrailPlain}
-              onPress={() => {
-                navigation.push('TinygrailRelation', {
-                  ids: r,
-                  name: `${subject} (${r.length})`
-                })
-              }}
-            />
-          )}
         </Flex>
       </Flex>
     </>

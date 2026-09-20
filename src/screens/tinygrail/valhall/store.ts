@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-11-29 21:58:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-20 11:31:13
+ * @Last Modified time: 2026-09-21 06:08:05
  */
 import { computed, observable } from 'mobx'
 import { tinygrailStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
 import store from '@utils/store'
-import { levelList, relation, sortList } from '@tinygrail/_/utils'
+import { levelList, sortList } from '@tinygrail/_/utils'
 import { NAMESPACE, STATE } from './ds'
 
 export default class ScreenTinygrailValhall extends store<typeof STATE> {
@@ -39,7 +39,7 @@ export default class ScreenTinygrailValhall extends store<typeof STATE> {
   // -------------------- get --------------------
   /** 英灵殿 */
   @computed get valhallList() {
-    return relation(tinygrailStore.valhallList)
+    return tinygrailStore.valhallList
   }
 
   @computed get computedList() {

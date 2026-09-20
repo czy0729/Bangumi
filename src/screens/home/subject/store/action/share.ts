@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-19 09:07:10
+ * @Last Modified time: 2026-09-21 06:08:05
  */
 import { systemStore } from '@stores'
 import {
@@ -22,7 +22,6 @@ import {
   showActionSheet
 } from '@utils'
 import { calendarEventsSaveGameReleaseDate } from '@utils/calendar'
-import { CDN_OSS_SUBJECT } from '@utils/cdn'
 import { baiduTranslate, t } from '@utils/fetch'
 import { resolveImageUri } from '@utils/image'
 import { download, lx, lxCache, temp } from '@utils/kv'
@@ -40,7 +39,7 @@ export default class Share extends Menus {
     if (!navigation) return
 
     const { images } = this.subject
-    let src = CDN_OSS_SUBJECT(getCoverMedium(images?.common))
+    let src = getCoverMedium(images?.common)
     if (!src.includes?.(HOST_CDN)) src = getCoverLarge(images?.common)
 
     const hide = loading('下载封面中...')

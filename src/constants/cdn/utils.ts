@@ -2,15 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-23 05:04:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 03:58:59
+ * @Last Modified time: 2026-09-21 06:08:05
  */
 import { syncSystemStore } from '@utils/async'
-import _hash from '@utils/thirdParty/hash'
 
 import type { SubjectId } from '@types'
-
-/** 对图片完整地址进行哈希计算 */
-export const hash = _hash
 
 /** 云端设置数据 (OTA, 键为 VERSION_* / SITE_* 等配置项, 值为版本号或地址字符串) */
 export type OTAData = Record<string, string>

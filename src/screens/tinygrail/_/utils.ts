@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-04 13:51:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-02 16:02:06
+ * @Last Modified time: 2026-09-21 06:08:05
  */
 import { ToastAndroid } from 'react-native'
 import { _, tinygrailStore } from '@stores'
@@ -117,28 +117,6 @@ export function calculateRefineCost(refine: number = 0) {
 /** 小圣杯用最近时间 */
 export function tinygrailLastDate(time: string) {
   return lastDate(getTimestamp(tinygrailFixedTime(time)))
-}
-
-/** @deprecated 获取角色关联条目信息 */
-export function relation(data: any) {
-  return data
-
-  // const XSBRelationData = getXsbRelationOTA()
-  // return {
-  //   ...data,
-  //   list: data.list.map(item => {
-  //     const i = {
-  //       ...item
-  //     }
-  //     const { s, r = [] } = XSBRelationData.data[item.monoId || item.id] || {}
-  //     if (s) {
-  //       i._subject = XSBRelationData.name[s]
-  //       i._subjectId = s
-  //     }
-  //     if (r) i._relation = r
-  //     return i
-  //   })
-  // }
 }
 
 /** 角色星之力 (所有用户转化总星之力) */

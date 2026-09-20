@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-23 04:40:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-10-04 16:59:37
+ * @Last Modified time: 2026-09-21 06:08:05
  */
 import { get } from '@utils/thirdParty/crypto'
 
@@ -69,12 +69,6 @@ export const HOST_DB_M = get(
 export const VERSION_RAKUEN = '20241004'
 
 /** ==================== @deprecated ==================== */
-/** @deprecated cdn | fastly | gcore | originfastly */
-export const HOST_CDN_FASTLY = 'https://fastly.jsdelivr.net'
-
-/** @deprecated OneDrive */
-export const HOST_CDN_ONEDRIVE = 'https://bangumi.stdcdn.com'
-
 /** @deprecated OneDrive Static File */
 export const HOST_CDN_STATIC = 'https://bangumi-static.stdcdn.com'
 
@@ -83,9 +77,6 @@ export const VERSION_STATIC = '20220624'
 
 /** @deprecated https://github.com/czy0729/Bangumi-OSS/tree/master/data/avatar/m */
 export const VERSION_AVATAR = '20220102'
-
-/** @deprecated https://github.com/czy0729/Bangumi-OSS/tree/master/data/subject/c */
-export const VERSION_OSS = '20220103'
 
 /** @deprecated https://github.com/czy0729/Bangumi-Subject */
 export const VERSION_SUBJECT = '20220414'

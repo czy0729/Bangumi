@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2026-06-20 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-14 21:07:52
+ * @Last Modified time: 2026-09-21 06:08:05
  */
 import { getSupporterConfig } from '@utils/kv/worker'
+import { getDomain } from './url-utils'
 
 export type LogType = 'host' | 'api' | 'lain'
 
@@ -20,12 +21,6 @@ const logs: WorkerLog[] = []
 
 /** 打码占位符 */
 const MASK = '***'
-
-/** 取出地址里的域名 (不含 scheme / 端口 / 路径) */
-function getDomain(url: string): string {
-  const host = String(url || '').match(/^(?:https?:)?\/\/([^/?#]+)/)?.[1] || ''
-  return host.split(':')[0]
-}
 
 /**
  * 隐藏内置支持者节点的真实域名

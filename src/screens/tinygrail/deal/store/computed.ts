@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-12-28 05:27:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-07 11:10:54
+ * @Last Modified time: 2026-09-21 06:08:05
  */
 import { computed } from 'mobx'
 import { systemStore, tinygrailStore } from '@stores'
-import { getXsbRelationOTA } from '@utils/cdn'
 import State from './state'
 
 import type { MonoId } from '@types'
@@ -59,14 +58,4 @@ export default class Computed extends State {
     return tinygrailStore.issuePrice(this.monoId)
   }
 
-  /** 关联角色 */
-  @computed get relation() {
-    const XSBRelationData = getXsbRelationOTA()
-    const { s, r = [] } = XSBRelationData.data[this.monoId] || {}
-    return {
-      s,
-      subject: s ? XSBRelationData.name[s] : '',
-      r: [Number(this.monoId), ...r]
-    }
-  }
 }

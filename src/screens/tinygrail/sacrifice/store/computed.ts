@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-05-19 08:09:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:22:43
+ * @Last Modified time: 2026-09-21 06:08:05
  */
 import { computed } from 'mobx'
 import { subjectStore, systemStore, tinygrailStore } from '@stores'
 import { asc, formatNumber, toFixed } from '@utils'
-import { getXsbRelationOTA } from '@utils/cdn'
 import { logger } from '@utils/dev'
 import { HOST } from '@constants'
 import { calculateRate, decimal } from '@tinygrail/_/utils'
@@ -191,17 +190,6 @@ export default class Computed extends State {
     const { amount } = this.userLogs
     if (sacrifices >= 500) return 1
     return amount >= 100 ? 100 : amount
-  }
-
-  /** 关联角色数据 */
-  @computed get relation() {
-    const XSBRelationData = getXsbRelationOTA()
-    const { s, r = [] } = XSBRelationData.data[this.monoId] || {}
-    return {
-      s,
-      subject: s ? XSBRelationData.name[s] : '',
-      r: [Number(this.monoId), ...r]
-    }
   }
 
   /** 计算通天塔各分段等级需要的星之力在 slider 上面的位置 */
