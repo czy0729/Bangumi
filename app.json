@@ -49,10 +49,22 @@
       "supportsTablet": true,
       "requireFullScreen": true,
       "infoPlist": {
+        "CFBundleLocalizations": [
+          "zh-Hans",
+          "zh-Hant",
+          "en"
+        ],
         "NSCalendarsUsageDescription": "The app needs to access your calendar.",
         "NSRemindersUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders",
         "NSCalendarsFullAccessUsageDescription": "The app needs to access your calendar.",
-        "NSRemindersFullAccessUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders"
+        "NSRemindersFullAccessUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders",
+        "NSLocalNetworkUsageDescription": "需要访问本地网络，用于连接局域网内的 SMB / webDAV 设备",
+        "ITSAppUsesNonExemptEncryption": false,
+        "LSApplicationQueriesSchemes": [
+          "smb",
+          "http",
+          "https"
+        ]
       }
     },
     "androidStatusBar": {
