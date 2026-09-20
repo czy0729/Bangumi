@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2026-09-20 04:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-20 08:16:00
+ * @Last Modified time: 2026-09-21 00:08:01
  *
- * HTML 实体解码 (自研 cheerio 替换引擎的解析辅助)
+ * HTML 实体解码 (自研 cheerio 替换引擎的解析辅助, 仅解析层使用)
+ * - 非法数字实体输出 U+FFFD; 业务文本解码见 ../../decode-loose
  * - 对齐 htmlparser2 v9 (entities 库 EntityDecoder) 语义:
  *   - 数字实体 (十进制/十六进制) 带/不带分号均解码; 前缀以 x/X 区分进制
  *   - 解不出合法码点 (0 / 越界 / 代理项区间) 输出 U+FFFD 替换符, 与 htmlparser2 一致
@@ -12,7 +13,7 @@
  *   - 命名实体不带分号: 仅 legacy 集合; 属性值中若紧跟 "=" 或字母数字则不解码
  *     (防止 ?a=1&amp=2 被误解码)
  */
-import { LEGACY_ENTITIES, NAMED_ENTITIES } from './entities'
+import { LEGACY_ENTITIES, NAMED_ENTITIES } from '../../entities'
 
 const NUMERIC_RE = /^#([xX][0-9a-fA-F]+|[0-9]+);?/
 const NAMED_RE = /^[a-zA-Z][a-zA-Z0-9]*;/

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-21 05:20:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-07 23:51:14
+ * @Last Modified time: 2026-09-21 00:07:23
  */
 import { toJS } from 'mobx'
 import { getHeaderFixed } from '@components/header-v2/utils'
@@ -12,7 +12,7 @@ import { ensureArrayLimit } from '@utils/cache'
 import { t } from '@utils/fetch'
 import { generate, get, update } from '@utils/kv'
 import { MUSUME_BLOG_PROMPT, MUSUME_PROMPT } from '@utils/kv/ds'
-import decoder from '@utils/thirdParty/html-entities-decoder'
+import { decodeHTMLEntities } from '@utils/thirdParty/html'
 import { HOST, IOS } from '@constants'
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
@@ -268,7 +268,10 @@ export default class Action extends Fetch {
     const [, blogId, related, , subReplyUid, postUid] = replySub.split(',')
     let _content = content
     if (message) {
-      const _message = decoder(message).replace(/<div class="quote"><q>[\s\S]*?<\/q><\/div>/, '')
+      const _message = decodeHTMLEntities(message).replace(
+        /<div class="quote"><q>[\s\S]*?<\/q><\/div>/,
+        ''
+      )
       _content = `[quote][b]${placeholder}[/b] 说: ${removeHTMLTag(_message)}[/quote]\n${content}`
     }
     rakuenStore.doReplyBlog(

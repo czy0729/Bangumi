@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2026-09-07 03:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-07 03:00:00
+ * @Last Modified time: 2026-09-21 00:07:20
  *
  * html 修正: 清理不支持的标签与转义, 修正引用块, 匹配媒体链接与 AC 搜索词条
  */
 import { rakuenStore, systemStore } from '@stores'
 import { HTMLDecode } from '@utils'
 import { acSearch, getSubStrings } from '@utils/ac-search'
-import decoder from '@utils/thirdParty/html-entities-decoder'
+import { decodeHTMLEntities } from '@utils/thirdParty/html'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { IOS, URL_FEEDBACK } from '@constants'
 import { REGS } from '../ds'
@@ -98,7 +98,7 @@ function removeSomeTags(html: string) {
 /** 简转繁 */
 function htmlS2T(html: string) {
   const { s2t: _s2t } = systemStore.setting
-  if (_s2t) html = s2t(decoder(html))
+  if (_s2t) html = s2t(decodeHTMLEntities(html))
   return html
 }
 

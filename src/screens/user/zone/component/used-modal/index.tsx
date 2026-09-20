@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-07-09 16:54:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-08 08:22:28
+ * @Last Modified time: 2026-09-21 00:07:30
  */
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Modal } from '@components'
 import { timelineStore, useStore } from '@stores'
 import { lastDate } from '@utils'
 import { avatarHistory, avatarImageUrl } from '@utils/kv'
-import decoder from '@utils/thirdParty/html-entities-decoder'
+import { decodeHTMLEntities } from '@utils/thirdParty/html'
 import { MODEL_TIMELINE_TYPE } from '@constants'
 import Avatars from './avatars'
 import Names from './names'
@@ -61,7 +61,7 @@ function UsedModal({ defaultAvatar, visible }: Props) {
         .usersTimeline(userId)
         .list.map(item => ({
           date: item.date,
-          content: decoder(String(item?.reply?.content || ''))
+          content: decodeHTMLEntities(String(item?.reply?.content || ''))
         }))
         .filter(item => item.content.includes('改名为')),
       _loaded: 1

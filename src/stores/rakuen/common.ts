@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:59:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-05 17:29:26
+ * @Last Modified time: 2026-09-21 00:07:40
  */
 import {
   cData,
@@ -24,7 +24,7 @@ import {
   trim
 } from '@utils'
 import Crypto from '@utils/thirdParty/crypto'
-import decoder from '@utils/thirdParty/html-entities-decoder'
+import { decodeHTMLEntities } from '@utils/thirdParty/html'
 import { LIKE_TYPE_RAKUEN } from '@constants'
 import { INIT_BLOG, INIT_COMMENTS_ITEM, INIT_TOPIC } from './init'
 import { getBlogItemTime, getBlogTime } from './utils'
@@ -100,7 +100,7 @@ export function cheerioComments(html: string, reverse?: boolean) {
             userName: cText($name),
             userSign: cText($row.find('span.sign')),
             replySub: cData($row.find('a.icon[onclick]'), 'onclick'),
-            message: decoder(cHtml($row.find('.reply_content > .message'))),
+            message: decodeHTMLEntities(cHtml($row.find('.reply_content > .message'))),
             sub:
               $row
                 .find('.sub_reply_bgclearit')
@@ -117,7 +117,7 @@ export function cheerioComments(html: string, reverse?: boolean) {
                     userName: cText($name),
                     userSign: '',
                     replySub: cData($row.find('a.icon[onclick]'), 'onclick'),
-                    message: decoder(cHtml($row.find('.cmt_sub_content')))
+                    message: decodeHTMLEntities(cHtml($row.find('.cmt_sub_content')))
                   }
                 })
                 .get() || []
@@ -284,7 +284,7 @@ export function cheerioTopic(html: string) {
             id: $row.attr('id').substring(5),
             avatar: getCoverSmall(matchAvatar($avatar.find('span.avatarNeue').attr('style'))),
             floor,
-            message: decoder(HTMLTrim($floor.find('> div.message').html())),
+            message: decodeHTMLEntities(HTMLTrim($floor.find('> div.message').html())),
             replySub: $info.find('> div.action a.icon').attr('onclick'),
             time,
             userId: matchUserId($avatar.attr('href')),
@@ -305,7 +305,7 @@ export function cheerioTopic(html: string) {
                     avatar: getCoverSmall(matchAvatar($row.find('span.avatarNeue').attr('style'))),
                     floor,
                     id: $row.attr('id').substring(5),
-                    message: decoder(HTMLTrim($row.find('div.cmt_sub_content').html())),
+                    message: decodeHTMLEntities(HTMLTrim($row.find('div.cmt_sub_content').html())),
                     replySub: $row.find('a.icon').attr('onclick'),
                     time: trim(time),
                     userId: matchUserId($row.find('a.avatar').attr('href')),

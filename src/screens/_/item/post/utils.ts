@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2021-11-26 04:08:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-04 05:00:00
+ * @Last Modified time: 2026-09-21 00:07:21
  *
  * 楼层渲染工具: 高度记录 / 屏蔽用户 / decode 与屏蔽词命中缓存
  */
 import { rakuenStore } from '@stores'
 import { ensureCacheLimit, getIsBlocked, getTimestamp } from '@utils'
-import decoder from '@utils/thirdParty/html-entities-decoder'
+import { decodeHTMLEntities } from '@utils/thirdParty/html'
 
 import type { UserId } from '@types'
 
@@ -34,7 +34,7 @@ const decodeCache = new Map<string, string>()
 export function decodeMessage(message: string) {
   let result = decodeCache.get(message)
   if (result === undefined) {
-    result = decoder(message)
+    result = decodeHTMLEntities(message)
     decodeCache.set(message, result)
     ensureCacheLimit(decodeCache, CACHE_MAX)
   }

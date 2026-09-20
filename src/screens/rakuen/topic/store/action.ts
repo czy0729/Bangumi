@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:09:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-07 23:51:00
+ * @Last Modified time: 2026-09-21 00:07:27
  */
 import { toJS } from 'mobx'
 import { getHeaderFixed } from '@components/header-v2/utils'
@@ -16,12 +16,10 @@ import {
   removeHTMLTag,
   updateVisibleBottom
 } from '@utils'
-import { ensureArrayLimit } from '@utils/cache'
-import { cacheManager } from '@utils/cache'
+import { cacheManager, ensureArrayLimit } from '@utils/cache'
 import { baiduTranslate, t } from '@utils/fetch'
 import { generate, get, lx, lxCache, update } from '@utils/kv'
 import { MUSUME_EP_PROMPT, MUSUME_PROMPT, MUSUME_TOPIC_PROMPT } from '@utils/kv/ds'
-import decoder from '@utils/thirdParty/html-entities-decoder'
 import { HOST, IOS } from '@constants'
 import i18n from '@constants/i18n'
 import { getTopicMainFloorRawText } from '../utils'
@@ -145,7 +143,10 @@ export default class Action extends Fetch {
     let placeholder = '回复'
     if (username) placeholder += ` ${username}`
     if (message) {
-      const _message = decoder(message).replace(/<div class="quote"><q>[\s\S]*?<\/q><\/div>/, '')
+      const _message = decodeHTMLEntities(message).replace(
+        /<div class="quote"><q>[\s\S]*?<\/q><\/div>/,
+        ''
+      )
       let comment = decodeHTMLEntities(removeHTMLTag(_message, false))
       if (comment.length >= 64) comment = `${comment.slice(0, 64)}...`
       if (comment) placeholder += ` 说：${comment}`
@@ -505,7 +506,10 @@ export default class Action extends Fetch {
     const [, topicId, related, , subReplyUid, postUid] = replySub.split(',')
     let _content = content
     if (message) {
-      const _message = decoder(message).replace(/<div class="quote"><q>[\s\S]*?<\/q><\/div>/, '')
+      const _message = decodeHTMLEntities(message).replace(
+        /<div class="quote"><q>[\s\S]*?<\/q><\/div>/,
+        ''
+      )
       _content = `[quote][b]${replyUsername}[/b] 说: ${removeHTMLTag(
         _message,
         false

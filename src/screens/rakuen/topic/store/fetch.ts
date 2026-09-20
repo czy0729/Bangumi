@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-03-31 02:05:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-15 23:02:46
+ * @Last Modified time: 2026-09-21 00:07:27
  */
 import { rakuenStore, subjectStore } from '@stores'
 import { feedback, getTimestamp, info, omit } from '@utils'
 import { get, recommendTopics, update } from '@utils/kv'
-import decoder from '@utils/thirdParty/html-entities-decoder'
+import { decodeHTMLEntities } from '@utils/thirdParty/html'
 import { H } from '@constants'
 import Computed from './computed'
 
@@ -131,12 +131,12 @@ export default class Fetch extends Computed {
               .filter((_item, index) => index < 16)
               .map(item => ({
                 ...omit(item, ['replySub', 'erase', 'message', 'sub']),
-                message: decoder(item.message),
+                message: decodeHTMLEntities(item.message),
                 sub: item.sub
                   .filter((_i, idx: number) => idx < 8)
                   .map(i => ({
                     ...omit(i, ['replySub', 'erase', 'message']),
-                    message: decoder(i.message)
+                    message: decodeHTMLEntities(i.message)
                   }))
               }))
           }

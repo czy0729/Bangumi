@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-11-20 16:14:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 21:45:36
+ * @Last Modified time: 2026-09-21 00:07:43
  */
 import { getJSON } from '@assets/json'
+import { cleanFilename } from './aniep/clean'
 import { get } from './protobuf'
 
 import type { SubjectId } from '@types'
@@ -184,28 +185,7 @@ export function findJA(input: string) {
  * */
 export function cleaned(input: string) {
   return (
-    input
-      .toLocaleLowerCase()
-
-      /** https://github.com/soruly/aniep/blob/master/src/index.js#L3 */
-      .replace(/[\r\n]$/, '') // remove extra newlines from end of string
-      .replace(/((?:\.mp4|\.mkv)+)$/, '') // remove file extension
-      .replace(/(v\d)$/i, '') // remove v2, v3 suffix
-      .replace(/(\d)v[0-5]/i, '$1') // remove v2 from 13v2
-      .replace(/(x|h)26(4|5)/i, '') // remove x264 and x265
-      .replace(/\bmp4\b/i, ' ') // remove x264 and x265
-      .replace(/(8|10)-?bit/i, '') // remove 10bit and 10-bit
-      .replace(/(\[[0-9a-fA-F]{6,8}])/, '[]') // remove checksum like [c3cafe11]
-      .replace(/(\[\d{5,}])/, '') // remove dates like [20190301]
-      .replace(/\d\d\d\d-\d\d-\d\d/, ' ') // remove dates like yyyy-mm-dd
-      .replace(/\d{3,4}\s*(?:x|×)\s*\d{3,4}p?/i, ' ') // remove resolutions like 1280x720
-      .replace(/(?:2160|1080|720|480)(?:p|i)/i, ' ') // remove resolutions like 720p or 1080i
-      .replace(/(?:3840|1920|1280)[-_](?:2160|1080|720)/, ' ') // remove resolutions like 1280x720
-      .replace(/2k|4k/i, ' ') // remove resolutions 2k or 4k
-      .replace(/((19|20)\d\d)/, '') // remove years like 1999 or 2019
-      .replace(/\(BD\)/, '') // remove resolution like (BD)
-      .replace(/\(DVD\)/, '') // remove format like (DVD)
-
+    cleanFilename(input.toLocaleLowerCase())
       /** 自己的 */
       .replace(
         /(^\d+\.)|\+sp|mp4|mkv|bdrip|avc|chs|hevc|flac|hdr|aac|ac3|x[1-9]|简(体|日)|繁(体|日)|中日|中英|日英|外挂|压制|全集|特典|映像|双语|1$|s1$|\[(bd|dvd|bd&dvd|sub|gb|gb_jp)\]/gi,

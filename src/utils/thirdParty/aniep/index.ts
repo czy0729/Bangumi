@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-09-02 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-02 12:10:12
+ * @Last Modified time: 2026-09-21 00:07:47
  */
+import { cleanFilename } from './clean'
 
 /**
  * 从动漫文件名解析集数 (自研, 逐行对齐上游 soruly/aniep@0.6.0)
@@ -12,23 +13,7 @@
  */
 export default function aniep(filename: string): number | number[] | string | null {
   let num: RegExpMatchArray | null
-  filename = filename.replace(/[\r\n]$/, '') // remove extra newlines from end of string
-  filename = filename.replace(/((?:\.mp4|\.mkv)+)$/, '') // remove file extension
-  filename = filename.replace(/(v\d)$/i, '') // remove v2, v3 suffix
-  filename = filename.replace(/(\d)v[0-5]/i, '$1') // remove v2 from 13v2
-  filename = filename.replace(/(x|h)26(4|5)/i, '') // remove x264 and x265
-  filename = filename.replace(/\bmp4\b/i, ' ') // remove x264 and x265
-  filename = filename.replace(/(8|10)-?bit/i, '') // remove 10bit and 10-bit
-  filename = filename.replace(/(\[[0-9a-fA-F]{6,8}])/, '[]') // remove checksum like [c3cafe11]
-  filename = filename.replace(/(\[\d{5,}])/, '') // remove dates like [20190301]
-  filename = filename.replace(/\d\d\d\d-\d\d-\d\d/, ' ') // remove dates like yyyy-mm-dd
-  filename = filename.replace(/\d{3,4}\s*(?:x|×)\s*\d{3,4}p?/i, ' ') // remove resolutions like 1280x720
-  filename = filename.replace(/(?:2160|1080|720|480)(?:p|i)/i, ' ') // remove resolutions like 720p or 1080i
-  filename = filename.replace(/(?:3840|1920|1280)[-_](?:2160|1080|720)/, ' ') // remove resolutions like 1280x720
-  filename = filename.replace(/2k|4k/i, ' ') // remove resolutions 2k or 4k
-  filename = filename.replace(/((19|20)\d\d)/, '') // remove years like 1999 or 2019
-  filename = filename.replace(/\(BD\)/, '') // remove resolution like (BD)
-  filename = filename.replace(/\(DVD\)/, '') // remove format like (DVD)
+  filename = cleanFilename(filename)
 
   num = filename.match(/^(\d{1,4})(?:-|~)(\d{1,4})$/) // 13.mp4
   if (num !== null) {

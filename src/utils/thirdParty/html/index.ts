@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2019-04-23 11:18:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-05 16:07:01
+ * @Last Modified time: 2026-09-21 00:07:54
  */
 import { DEV } from '@src/config'
 import { logger } from '../../dev'
 import { safeObject } from '../../utils'
-import HTMLParser from '../html-parser'
+import { decodeEntitiesLoose } from './decode-loose'
 import { htmlMatch } from './match'
-import { cheerio, cText, HTMLDecode } from './parse'
+import { cheerio, cText } from './parse'
 import { HTMLTrim as htmlTrim } from './tag'
 
 export { cEach, cPagination, cText, cheerio, HTMLDecode, removeCF } from './parse'
@@ -21,37 +21,18 @@ import type { CheerioSelection } from './types'
 
 const TAG = '@utils/thirdParty/html'
 
-/** 解码十进制或十六进制数字 HTML 实体（如 emoji） */
-export function decodeNumericHTMLEntity(match: string, value: string, radix: number): string {
-  const codePoint = Number.parseInt(value, radix)
-
-  if (!Number.isFinite(codePoint)) return match
-
-  // 越界与代理项区间: fromCodePoint 对代理项不抛错, 会产出孤立代理项字符,
-  // 该字符无法被 JSON 序列化, 会让后续持久化直接失败, 这里统一回退为原文
-  if (codePoint > 0x10ffff || (codePoint >= 0xd800 && codePoint <= 0xdfff)) {
-    return match
-  }
-
-  try {
-    return String.fromCodePoint(codePoint)
-  } catch {
-    return match
-  }
-}
-
-/** 含十进制或十六进制数字 HTML 实体（如 emoji）的 HTML 反转义 */
+/**
+ * HTML 反转义 (宽松口径, 实现在 ./decode-loose)
+ *  - 匹配粒度 `&[^;]{2,};?`: 只有 `&` 后紧跟至少 2 个非 `;` 字符的候选才参与解码,
+ *    故 `&amp x` 这类不带分号的残串保持原文
+ *  - 命名实体取 HTML5 全表 (区分大小写); 数字实体十进制/十六进制均可, 分号可选
+ *  - 超出 BMP 的码点按码点解码 (如 `&#x1F600;` 得到 emoji)
+ *  - 非法数字实体 (0 / 越界 / 代理项 / 负数) 保留原文
+ *  - 经 @utils / @utils/thirdParty/html 取用该函数的全部使用方共用此口径
+ *  - 口径比 HTMLDecode (仅 6 个基础命名实体) 宽得多, 勿按严格 HTML5 解码理解
+ */
 export function decodeHTMLEntities(str: string = ''): string {
-  if (str.length === 0) return ''
-
-  // 命名实体复用 parse 的实现, 保持与 HTMLDecode 完全一致 (含多次编码只解一次的行为)
-  return HTMLDecode(str)
-    .replace(/&#x([0-9a-fA-F]+);/g, (match, hex) => {
-      return decodeNumericHTMLEntity(match, hex, 16)
-    })
-    .replace(/&#(\d+);/g, (match, dec) => {
-      return decodeNumericHTMLEntity(match, dec, 10)
-    })
+  return decodeEntitiesLoose(str)
 }
 
 const ENCODE_SPECIAL_CHARS = {
@@ -68,134 +49,6 @@ export function HTMLEncode(str: string = ''): string {
   if (str.length === 0) return ''
 
   return str.replace(/[&<>"' ]/g, match => ENCODE_SPECIAL_CHARS[match])
-}
-
-/**
- * @deprecated html 字符串转对象
- * @param {*} html
- * @param {*} cmd  是否生成 cmd 字符串(开发用)
- */
-export function HTMLToTree(html: string, cmd = true) {
-  const tree: any = {
-    tag: 'root',
-    attrs: {},
-    text: [],
-    children: []
-  }
-  if (cmd) tree.cmd = 'root'
-
-  let ref = tree
-  HTMLParser(html, {
-    start: (tag, attrs, unary) => {
-      const attrsMap = {}
-      attrs.forEach(({ name, value, escaped }) => {
-        // @issue 190507
-        // 带有 cookie 的请求经过 cloudflare 返回的 html 部分 attr 的属性被加上了 data-cf 前缀 ??? 醉了
-        const _name = name.replace('data-cf', '')
-        return (attrsMap[_name] = escaped || value)
-      })
-      const item: any = {
-        tag,
-        attrs: attrsMap
-      }
-      if (cmd) {
-        item.cmd = `${ref.cmd} > ${tag}`
-      }
-      if (!unary) {
-        item.parent = ref
-        item.text = []
-        item.children = []
-      }
-      ref.children.push(item)
-
-      if (!unary) {
-        ref = item
-      }
-    },
-    chars: text => {
-      ref.text.push(text)
-    },
-    end: () => {
-      const _ref = ref.parent
-      delete ref.parent
-      ref = _ref
-    }
-  })
-
-  return tree
-}
-
-/**
- * @deprecated tree 查找
- * ul > li > a|title
- * ul > li > a|title=123
- * ul > li > a|title=123&class=article
- * ul > li > a|text&title=123&class=article
- * @param {*} children
- * @param {*} cmd
- * @return {Array}
- */
-export function findTreeNode(children: any, cmd: string = '', defaultValue?) {
-  if (!cmd) return children
-
-  // children 可能不是数组 (脏数据或节点没有子节点), 直接 filter 会抛错
-  if (!Array.isArray(children)) return defaultValue
-
-  const split = ' > '
-  const tags = cmd.split(split)
-  const tag = tags.shift()
-  const find = children.filter(item => {
-    let temp = tag.split('|')
-    const _tag = temp[0]
-    const attr = temp[1] || ''
-
-    if (attr) {
-      const attrs = attr.split('&')
-      let match = true
-      attrs.forEach(attr => {
-        if (attr.indexOf('~') !== -1) {
-          // ~
-          temp = attr.split('~')
-          const _attr = temp[0]
-          const _value = temp[1]
-          if (_value) {
-            match =
-              match &&
-              item.tag === _tag &&
-              item.attrs[_attr] &&
-              item.attrs[_attr].indexOf(_value) !== -1
-          } else if (_attr) {
-            match = match && item.tag === _tag && item.attrs[_attr] !== undefined
-          }
-        } else {
-          // =
-          temp = attr.split('=')
-          const _attr = temp[0]
-          const _value = temp[1]
-          if (_value) {
-            match = match && item.tag === _tag && item.attrs[_attr] == _value
-          } else if (_attr) {
-            if (_attr === 'text') {
-              match = match && item.tag === _tag && item.text.length !== 0
-            } else {
-              match = match && item.tag === _tag && item.attrs[_attr] !== undefined
-            }
-          }
-        }
-      })
-      return match
-    }
-    return item.tag === _tag
-  })
-  if (!find.length) return defaultValue
-  if (!tags.length) return find
-
-  const _find = []
-  find.forEach(item => {
-    _find.push(...(findTreeNode(item.children, tags.join(split)) || []))
-  })
-  if (!_find.length) return defaultValue
-  return _find
 }
 
 /**

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-17 04:42:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-15 05:55:35
+ * @Last Modified time: 2026-09-21 00:07:16
  */
 const path = require('path')
 
@@ -49,6 +49,9 @@ jest.doMock(mockRootDir + '/src/utils/dev', () => ({
   }
 }))
 
+// 注意: 本替身的 cheerio 与 src/utils/thirdParty/html/parse.ts 不同参 (不传 removeCF / decodeEntities),
+// 断言 cHtml、文本实体这类结果时会与生产不一致; 需要生产口径的用例可局部覆盖 @utils 并接回真实门面
+// (写法参考 src/stores/calendar/__tests__/common.test.ts)
 jest.mock(
   '@utils',
   () => {
@@ -64,6 +67,7 @@ jest.mock(
     const { getFormhash } = require(mockRootDir + '/src/utils/thirdParty/html/formhash')
     const { cEach, cPagination, cText, HTMLDecode } = require(mockRootDir +
       '/src/utils/thirdParty/html/parse')
+    const { decodeEntitiesLoose } = require(mockRootDir + '/src/utils/thirdParty/html/decode-loose')
     const { removeHTMLTag, HTMLTrim } = require(mockRootDir + '/src/utils/thirdParty/html/tag')
     const { asc, desc } = require(mockRootDir + '/src/utils/utils/sort')
     const { safeObject, titleCase, trim } = require(mockRootDir + '/src/utils/utils/base')
@@ -123,10 +127,10 @@ jest.mock(
       getTimestamp: () => 1000000,
       navigationReference: jest.fn(),
       HTMLDecode,
+      decodeHTMLEntities: decodeEntitiesLoose,
       removeHTMLTag,
       cnjp: (cn, jp) => cn || jp || '',
       t2s,
-      HTMLToTree: () => ({ children: [] }),
       HTMLTrim,
       matchAvatar,
       matchUserId,
@@ -269,10 +273,6 @@ jest.mock(
   }),
   { virtual: true }
 )
-
-jest.mock('@utils/thirdParty/html-entities-decoder', () => ({ default: (str = '') => str }), {
-  virtual: true
-})
 
 jest.mock(
   '@constants',

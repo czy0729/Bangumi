@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2026-09-05 16:19:12
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-09-05 16:19:12
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-09-21 00:07:58
  */
 jest.mock('../../../utils', () => ({
   safeObject: (obj: any) => obj
@@ -21,11 +21,9 @@ import {
   cMap,
   cPagination,
   cText,
-  findTreeNode,
   HTMLDecode,
   HTMLEncode,
   htmlMatch,
-  HTMLToTree,
   HTMLTrim,
   removeCF,
   removeHTMLTag,
@@ -251,85 +249,6 @@ describe('removeURLs', () => {
 
   it('无参数返回空字符串', () => {
     expect(removeURLs()).toBe('')
-  })
-})
-
-describe('HTMLToTree', () => {
-  it('解析简单 HTML 为树结构', () => {
-    const tree = HTMLToTree('<p>Hello</p>')
-    expect(tree.tag).toBe('root')
-    expect(tree.children.length).toBe(1)
-    expect(tree.children[0].tag).toBe('p')
-    expect(tree.children[0].text).toContain('Hello')
-  })
-
-  it('解析嵌套结构', () => {
-    const tree = HTMLToTree('<div><span>Inner</span></div>')
-    expect(tree.children[0].tag).toBe('div')
-    expect(tree.children[0].children[0].tag).toBe('span')
-  })
-
-  it('cmd=true 生成 cmd 字符串', () => {
-    const tree = HTMLToTree('<p>Text</p>', true)
-    expect(tree.cmd).toBe('root')
-    expect(tree.children[0].cmd).toBe('root > p')
-  })
-
-  it('cmd=false 不生成 cmd', () => {
-    const tree = HTMLToTree('<p>Text</p>', false)
-    expect(tree.cmd).toBeUndefined()
-    expect(tree.children[0].cmd).toBeUndefined()
-  })
-
-  it('处理属性', () => {
-    const tree = HTMLToTree('<a href="url" class="link">Link</a>')
-    expect(tree.children[0].attrs.href).toBe('url')
-    expect(tree.children[0].attrs.class).toBe('link')
-  })
-
-  it('处理自闭合标签', () => {
-    const tree = HTMLToTree('<br><p>Text</p>')
-    expect(tree.children.length).toBe(2)
-    expect(tree.children[0].tag).toBe('br')
-  })
-})
-
-describe('findTreeNode', () => {
-  const tree = HTMLToTree('<ul><li><a href="url">Link</a></li></ul>')
-
-  it('空 cmd 返回原 children', () => {
-    expect(findTreeNode(tree.children, '')).toBe(tree.children)
-  })
-
-  it('查找指定标签', () => {
-    const result = findTreeNode(tree.children, 'ul')
-    expect(result.length).toBe(1)
-    expect(result[0].tag).toBe('ul')
-  })
-
-  it('查找嵌套标签', () => {
-    const result = findTreeNode(tree.children, 'ul > li > a')
-    expect(result.length).toBe(1)
-    expect(result[0].tag).toBe('a')
-  })
-
-  it('按属性查找', () => {
-    const result = findTreeNode(tree.children, 'ul > li > a|href=url')
-    expect(result.length).toBe(1)
-  })
-
-  it('按 text 属性查找', () => {
-    const result = findTreeNode(tree.children, 'ul > li > a|text')
-    expect(result.length).toBe(1)
-  })
-
-  it('无匹配返回 defaultValue', () => {
-    expect(findTreeNode(tree.children, 'div', 'default')).toBe('default')
-  })
-
-  it('模糊匹配属性值', () => {
-    const result = findTreeNode(tree.children, 'ul > li > a|href~ur')
-    expect(result.length).toBe(1)
   })
 })
 
@@ -625,16 +544,6 @@ describe('异常被静默吞掉', () => {
       )
     ).not.toThrow()
   })
-})
-
-describe('[问题] findTreeNode 模糊匹配边界', () => {
-  // const tree = HTMLToTree('<ul><li><a href="">Empty</a></li></ul>')
-  // it('href~ 空值匹配应返回空结果，实际返回 1 个', () => {
-  //   // href~ 匹配 href 属性包含空字符串的元素，空字符串包含空字符串为 true
-  //   // 这导致无法区分"属性存在但为空"和"属性不存在"的情况
-  //   const result = findTreeNode(tree.children, 'ul > li > a|href~')
-  //   expect(result.length).toBe(0)
-  // })
 })
 
 describe('[问题] htmlMatch 正则特殊字符', () => {

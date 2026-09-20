@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:05:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:34:02
+ * @Last Modified time: 2026-09-21 00:07:37
  */
-import { findTreeNode, getTimestamp, HTMLToTree, HTMLTrim } from '@utils'
+import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
-import { API_CALENDAR, CDN_DISCOVERY_HOME, CDN_ONAIR, HOST, HOST_BGM_STATIC } from '@constants'
-import { cheerioRaw, cheerioToday } from './common'
+import { API_CALENDAR, CDN_DISCOVERY_HOME, CDN_ONAIR, HOST } from '@constants'
+import { cheerioFeaturedItems, cheerioRaw, cheerioToday } from './common'
 import Computed from './computed'
 import { INIT_HOME, NAMESPACE } from './init'
 import { fixedOnAir } from './utils'
@@ -36,43 +36,8 @@ export default class Fetch extends Computed {
 
       const itemsHTML = html.match(/<ul id="featuredItems" class="featuredItems">(.+?)<\/ul>/)
       if (itemsHTML) {
-        const type = ['anime', 'game', 'book', 'music', 'real']
-
         try {
-          let node: any
-          const tree = HTMLToTree(itemsHTML[1])
-          tree.children.forEach((item, index) => {
-            const list = []
-
-            item.children.forEach(({ children }, idx) => {
-              // 第一个是标签栏, 排除掉
-              if (idx === 0) return
-
-              node =
-                findTreeNode(children, 'a > div|style~background') ||
-                findTreeNode(children, 'a|style~background')
-
-              // @update 2022/12/30
-              let cover = node?.[0]?.attrs?.style.match(/\/cover\/.+?\/(.+?).jpg/)?.[1] || ''
-              if (cover) cover = `${HOST_BGM_STATIC}/pic/cover/l/${cover}.jpg`
-
-              node = findTreeNode(children, 'a|href&title')
-              const title = node ? node[0].attrs.title : ''
-              const subjectId = node ? node[0].attrs.href.replace('/subject/', '') : ''
-
-              node = findTreeNode(children, 'p > small') || findTreeNode(children, 'div > small')
-              const info = node ? node[0].text[0] : ''
-
-              list.push({
-                cover,
-                title,
-                subjectId,
-                info
-              })
-            })
-
-            data[type[index]] = list
-          })
+          Object.assign(data, cheerioFeaturedItems(itemsHTML[1]))
         } catch {}
       }
 
