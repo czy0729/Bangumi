@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:18:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 07:57:38
+ * @Last Modified time: 2026-09-22 06:34:36
  */
 import { confirm, info, titleCase } from '@utils'
 import { get, update } from '@utils/kv'
@@ -24,6 +24,7 @@ import UserStore from '../user'
 import Fetch from './fetch'
 import { INIT_IMAGE_VIEWER, INIT_SETTING, INIT_SUBJECT_LAYOUT } from './init'
 
+import type { ResultData } from '@utils/kv/type'
 import type {
   SettingCDNOrigin,
   SettingHomeCountView,
@@ -262,7 +263,7 @@ export default class Actions extends Fetch {
     let setting: typeof this.setting
 
     try {
-      const data = await get(`setting_${id}`)
+      const data = await get<ResultData<typeof this.setting>>(`setting_${id}`)
       if (data) {
         setting = data
       } else {

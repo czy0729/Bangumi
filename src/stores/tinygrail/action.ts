@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:40:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-14 08:35:43
+ * @Last Modified time: 2026-09-22 06:42:16
  */
 import { toJS } from 'mobx'
 import {
@@ -98,7 +98,6 @@ export default class Action extends Fetch {
       const { name } = temple.list[index]
       info(`${name} 已耗尽`)
 
-      // @ts-expect-error
       temple.list.splice(index, 1)
     } else {
       temple.list[index].sacrifices = sacrifices
@@ -179,7 +178,6 @@ export default class Action extends Fetch {
             const { name } = temple.list[index]
             info(`${name} 已耗尽`)
 
-            // @ts-expect-error
             temple.list.splice(index, 1)
           } else {
             temple.list[index].cover = find.cover

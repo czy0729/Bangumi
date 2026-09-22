@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-08 09:30:00
  */
-import type { Id, ListEmpty, SubjectType } from '@types'
+import type { Id, ListEmpty, SubjectType, UserId } from '@types'
 
 export type SearchItem = {
   /** 条目 ID（href） */
@@ -43,3 +43,15 @@ export type SearchItem = {
 
 /** 搜索 */
 export type Search = ListEmpty<SearchItem>
+
+/** 帖子搜索项 */
+export type RakuenSearchItem = {
+  id: number
+  title: string
+  message: string
+  avatar: string
+  userId: UserId
+  userName: string
+  time: string
+  group: string
+}

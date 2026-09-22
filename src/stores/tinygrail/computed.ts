@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:35:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-14 08:34:05
+ * @Last Modified time: 2026-09-22 06:42:29
  */
 import { computed } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -22,7 +22,15 @@ import { defaultKey, defaultSort, paginationOnePage } from './ds'
 
 import type { Id, ListEmpty, MonoId, StoreConstructor, UserId } from '@types'
 import type { STATE } from './init'
-import type { Characters, ListKey, MyTemple, TinygrailRedPacketLogItem } from './types'
+import type {
+  Characters,
+  ListKey,
+  MyTemple,
+  RichSort,
+  TinygrailItem,
+  TinygrailRedPacketLogItem,
+  TinygrailRichItem
+} from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   // -------------------- 纯计算 (直接 computedFn) --------------------
@@ -111,7 +119,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 番市首富 */
   private _rich = computedFn((sort = defaultSort) => {
-    return (this.state.rich[sort] || LIST_EMPTY) as ListEmpty
+    return this.state.rich[sort as RichSort] || (LIST_EMPTY as ListEmpty<TinygrailRichItem>)
   })
 
   /** K 线 */
@@ -141,12 +149,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   /** 用户圣殿 */
   private _temple = computedFn((hash: UserId = this.hash) => {
-    return (this.state.temple[hash] || LIST_EMPTY) as ListEmpty
+    return (this.state.temple[hash] || LIST_EMPTY) as ListEmpty<TinygrailItem>
   })
 
   /** 用户所有角色信息 */
   private _charaAll = computedFn((hash: UserId = this.hash) => {
-    return (this.state.charaAll[hash] || LIST_EMPTY) as ListEmpty
+    return (this.state.charaAll[hash] || LIST_EMPTY) as ListEmpty<TinygrailItem>
   })
 
   /** 我的某角色圣殿 */
@@ -399,7 +407,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   @computed get mergeList() {
     const { chara } = this.myCharaAssets
     const temple = this.temple()
-    const map = {}
+    const map: Record<string, unknown> = {}
     chara.list.forEach(item => (map[item.id] = item))
     temple.list.forEach(item => {
       if (!map[item.id]) {
@@ -419,7 +427,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
         }
       } else {
         map[item.id] = {
-          ...map[item.id],
+          ...(map[item.id] as TinygrailItem),
           rank: item.rank,
           sacrifices: item.sacrifices,
           assets: item.assets
@@ -428,7 +436,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
     })
 
     return {
-      list: Object.values(map),
+      list: Object.values(map) as TinygrailItem[],
       pagination: paginationOnePage,
       _loaded: getTimestamp()
     }

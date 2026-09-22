@@ -2,13 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:48:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-06 06:21:12
+ * @Last Modified time: 2026-09-22 07:09:59
  */
 import { pick } from '@utils'
 import { gets } from '@utils/kv'
 import Computed from './computed'
 
 import type { SubjectId } from '@types'
+import type { ResultData } from '@utils/kv/type'
+import type { UnzipItem as NSFWItem } from '@utils/subject/nsfw/types'
+import type { ADVItem, AnimeItem, GameItem, HentaiItem, MangaItem, WenkuItem } from './types'
 
 export default class Fetch extends Computed {
   fetchAnime = async (subjectId: SubjectId) => {
@@ -17,10 +20,10 @@ export default class Fetch extends Computed {
     const key = `age_${subjectId}`
     if (!subjectId || key in this.state.anime) return
 
-    const datas = await gets([key])
+    const datas = await gets<ResultData<AnimeItem>>([key])
     if (datas) {
       const key = 'anime'
-      const data = {}
+      const data: Record<string, Partial<AnimeItem>> = {}
       Object.keys(datas).forEach(key => {
         const item = datas[key]
         if (item && typeof item === 'object') {
@@ -39,7 +42,7 @@ export default class Fetch extends Computed {
   onAnimePage = async (list: number[]) => {
     if (!list.length) return
 
-    const keys = []
+    const keys: string[] = []
     list.forEach(index => {
       const subjectId = this.animeSubjectId(index)
       const key = `age_${subjectId}`
@@ -48,10 +51,10 @@ export default class Fetch extends Computed {
     })
     if (!keys.length) return
 
-    const datas = await gets(keys)
+    const datas = await gets<ResultData<AnimeItem>>(keys)
     if (datas) {
       const key = 'anime'
-      const data = {}
+      const data: Record<string, Partial<AnimeItem>> = {}
       Object.keys(datas).forEach(key => {
         const item = datas[key]
         if (item && typeof item === 'object') {
@@ -89,10 +92,10 @@ export default class Fetch extends Computed {
     const key = `game_${subjectId}`
     if (!subjectId || key in this.state.game) return
 
-    const datas = await gets([key])
+    const datas = await gets<ResultData<GameItem>>([key])
     if (datas) {
       const key = 'game'
-      const data = {}
+      const data: Record<string, Partial<GameItem>> = {}
       Object.keys(datas).forEach(key => {
         const item = datas[key]
         if (item && typeof item === 'object') {
@@ -111,7 +114,7 @@ export default class Fetch extends Computed {
   onGamePage = async (list: number[]) => {
     if (!list.length) return
 
-    const keys = []
+    const keys: string[] = []
     list.forEach(index => {
       const subjectId = this.gameSubjectId(index)
       const key = `game_${subjectId}`
@@ -120,10 +123,10 @@ export default class Fetch extends Computed {
     })
     if (!keys.length) return
 
-    const datas = await gets(keys)
+    const datas = await gets<ResultData<GameItem>>(keys)
     if (datas) {
       const key = 'game'
-      const data = {}
+      const data: Record<string, Partial<GameItem>> = {}
       Object.keys(datas).forEach(key => {
         const item = datas[key]
         if (item && typeof item === 'object') {
@@ -142,7 +145,7 @@ export default class Fetch extends Computed {
   onADVPage = async (list: number[]) => {
     if (!list.length) return
 
-    const keys = []
+    const keys: string[] = []
     list.forEach(index => {
       const subjectId = this.advSubjectId(index)
       const key = `adv_${subjectId}`
@@ -151,10 +154,10 @@ export default class Fetch extends Computed {
     })
     if (!keys.length) return
 
-    const datas = await gets(keys)
+    const datas = await gets<ResultData<ADVItem>>(keys)
     if (datas) {
       const key = 'adv'
-      const data = {}
+      const data: Record<string, Partial<ADVItem>> = {}
       Object.keys(datas).forEach(key => {
         const item = datas[key]
         if (item && typeof item === 'object') {
@@ -173,7 +176,7 @@ export default class Fetch extends Computed {
   onMangaPage = async (list: number[]) => {
     if (!list.length) return
 
-    const keys = []
+    const keys: string[] = []
     list.forEach(index => {
       const subjectId = this.mangaSubjectId(index)
       const key = `mox_${subjectId}`
@@ -182,10 +185,10 @@ export default class Fetch extends Computed {
     })
     if (!keys.length) return
 
-    const datas = await gets(keys)
+    const datas = await gets<ResultData<MangaItem>>(keys)
     if (datas) {
       const key = 'manga'
-      const data = {}
+      const data: Record<string, Partial<MangaItem>> = {}
       Object.keys(datas).forEach(key => {
         const item = datas[key]
         if (item && typeof item === 'object') {
@@ -220,7 +223,7 @@ export default class Fetch extends Computed {
   onWenkuPage = async (list: number[]) => {
     if (!list.length) return
 
-    const keys = []
+    const keys: string[] = []
     list.forEach(index => {
       const subjectId = this.wenkuSubjectId(index)
       const key = `wk8_${subjectId}`
@@ -229,10 +232,10 @@ export default class Fetch extends Computed {
     })
     if (!keys.length) return
 
-    const datas = await gets(keys)
+    const datas = await gets<ResultData<WenkuItem>>(keys)
     if (datas) {
       const key = 'wenku'
-      const data = {}
+      const data: Record<string, Partial<WenkuItem>> = {}
       Object.keys(datas).forEach(key => {
         const item = datas[key]
         if (item && typeof item === 'object') {
@@ -251,7 +254,7 @@ export default class Fetch extends Computed {
   onHentaiPage = async (list: number[]) => {
     if (!list.length) return
 
-    const keys = []
+    const keys: string[] = []
     list.forEach(index => {
       const subjectId = this.hentaiSubjectId(index)
       const key = `hentai_${subjectId}`
@@ -260,10 +263,10 @@ export default class Fetch extends Computed {
     })
     if (!keys.length) return
 
-    const datas = await gets(keys)
+    const datas = await gets<ResultData<HentaiItem>>(keys)
     if (datas) {
       const key = 'hentai'
-      const data = {}
+      const data: Record<string, Partial<HentaiItem>> = {}
       Object.keys(datas).forEach(key => {
         const item = datas[key]
         if (item && typeof item === 'object') {
@@ -282,7 +285,7 @@ export default class Fetch extends Computed {
   onNSFWPage = async (list: number[]) => {
     if (!list.length) return
 
-    const keys = []
+    const keys: string[] = []
     list.forEach(index => {
       const subjectId = this.nsfwSubjectId(index)
       const key = `nsfw_${subjectId}`
@@ -291,10 +294,10 @@ export default class Fetch extends Computed {
     })
     if (!keys.length) return
 
-    const datas = await gets(keys)
+    const datas = await gets<ResultData<NSFWItem>>(keys)
     if (datas) {
       const key = 'nsfw'
-      const data = {}
+      const data: Record<string, Partial<NSFWItem>> = {}
       Object.keys(datas).forEach(key => {
         const item = datas[key]
         if (item && typeof item === 'object') {

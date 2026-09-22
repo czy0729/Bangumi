@@ -24,9 +24,9 @@ export function getMemoStyles(): MemoStylesItem {
   return {
     _id: _memoStylesId,
     _styles: '',
-    _mode: '' as any,
+    _mode: '',
     _deepDark: false,
-    _orientation: '' as any,
+    _orientation: '',
     _customFontFamily: false,
     _wsaLayoutChanged: -1
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-03 15:24:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-05 15:53:28
+ * @Last Modified time: 2026-09-22 05:35:25
  */
 import {
   cData,
@@ -20,6 +20,7 @@ import {
 } from '@utils'
 import { getBlogItemTime } from './utils'
 
+import type { CheerioNode } from '@utils/thirdParty/html/types'
 import type { SubjectTypeCn } from '@types'
 import type {
   BlogItem,
@@ -35,20 +36,21 @@ import type {
   ChannelDiscussItem,
   ChannelFriendsItem,
   ChannelRankItem,
-  DollarsItem
+  DollarsItem,
+  WikiItem
 } from './types'
 
 /** 标签 */
 export function cheerioTags(html: string) {
   const $ = cheerio(htmlMatch(html, '<div id="tagList">', '<hr class="board"'))
   const tags = $('#tagList a.l')
-    .map((_index: number, element: any) => {
+    .map((_index: number, element: CheerioNode) => {
       const $li = cheerio(element)
       return $li.text().trim() || ''
     })
     .get()
   const nums = $('#tagList small.grey')
-    .map((_index: number, element: any) => {
+    .map((_index: number, element: CheerioNode) => {
       const $li = cheerio(element)
       return ($li.text().trim() || '').replace(/\(|\)/g, '')
     })
@@ -312,10 +314,10 @@ export function cheerioChannel(html: string): Channel {
 /** 维基人 */
 export function cheerioWiki(html: string) {
   const $ = cheerio(htmlMatch(html, '<div id="columnA"', '<div id="columnB"'))
-  const getList = (selector: any) =>
+  const getList = (selector: string): WikiItem[] =>
     (
       $(selector)
-        .map((_index: number, element: any) => {
+        .map((_index: number, element: CheerioNode): WikiItem => {
           const $li = $(element)
           const $a = $li.find('> a')
           const $small = $li.find('small')
@@ -334,12 +336,12 @@ export function cheerioWiki(html: string) {
           }
         })
         .get() || []
-    ).filter((_item: any, index: number) => index < 50)
+    ).filter((_item: WikiItem, index: number) => index < 50)
 
   return {
     counts:
       $('.wikiStats .num')
-        .map((_index: number, element: any) => $(element).text())
+        .map((_index: number, element: CheerioNode) => $(element).text())
         .get() || [],
     timeline: {
       all: getList('#wiki_act-all li'),

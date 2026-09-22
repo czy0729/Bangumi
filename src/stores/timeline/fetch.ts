@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 16:29:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-09 06:19:13
+ * @Last Modified time: 2026-09-22 06:41:59
  */
 import { getTimestamp, queue } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -17,6 +17,7 @@ import Computed from './computed'
 import { DEFAULT_SCOPE, DEFAULT_TYPE } from './init'
 
 import type { Id, SubjectId, TimeLineScope, TimeLineScopeCn, UserId } from '@types'
+import type { INIT_USER_INFO } from '../user/init'
 import type {
   CollectionTimelines,
   FetchTimelineArgs,
@@ -69,10 +70,10 @@ export default class Fetch extends Computed {
     args: FetchTimelineArgs = {},
     refresh?: boolean,
     prevTimeline?: Timeline,
-    userInfo?: any
+    userInfo?: typeof INIT_USER_INFO
   ): Promise<FetchTimelineHTMLReturn> => {
     const { scope, type, userId } = args || {}
-    const oldData = prevTimeline || LIST_EMPTY
+    const oldData = (prevTimeline || LIST_EMPTY) as Timeline
     const page = refresh ? 1 : oldData?.pagination.page + 1
     const scopeCn = MODEL_TIMELINE_SCOPE.getLabel<TimeLineScopeCn>(scope)
 

@@ -15,7 +15,7 @@ export default class State extends Store<typeof STATE> {
 
   state = observable(STATE)
 
-  log = (...arg: any) => {
+  log = (...arg: unknown[]) => {
     logger.log(`${titleCase(this._namespace)}Store`, ...arg)
   }
 }

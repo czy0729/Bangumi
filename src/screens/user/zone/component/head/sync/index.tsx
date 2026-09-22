@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-22 06:41:08
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { useStore } from '@stores'
@@ -19,7 +18,7 @@ function Sync({ style }: WithViewStyles) {
 
   return (
     <Text style={style} type='__plain__' size={11} bold shadow noWrap>
-      同步率 {isNaN(percent) ? '-' : percent}% ({hobby})
+      同步率 {isNaN(Number(percent)) ? '-' : percent}% ({hobby})
     </Text>
   )
 }

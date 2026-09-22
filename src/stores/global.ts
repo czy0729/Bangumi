@@ -6,6 +6,7 @@
  */
 import { StatusBar } from 'react-native'
 import { confirm, queue } from '@utils'
+import { getBucketId } from '@utils/bucket'
 import { clear } from '@utils/storage/utils'
 import { DEV, WEB } from '@constants'
 import i18n from '@constants/i18n'
@@ -14,7 +15,6 @@ import collectionStore from './collection'
 import rakuenStore from './rakuen'
 import smbStore from './smb'
 import subjectStore from './subject'
-import { getBucketId } from '@utils/bucket'
 import systemStore from './system'
 import themeStore from './theme'
 import tinygrailStore from './tinygrail'
@@ -107,13 +107,13 @@ class GlobalStores {
 
   /** ==================== methods ==================== */
   /** 添加页面 Store */
-  add(key: string, store: any) {
+  add(key: string, store: unknown) {
     if (!this[key] || DEV) this[key] = store
   }
 
   /** 获取页面 Store */
-  get(key: string) {
-    return this[key]
+  get<T = unknown>(key: string): T {
+    return this[key] as T
   }
 
   /** 清除缓存 */

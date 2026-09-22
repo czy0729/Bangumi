@@ -2,23 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-11-14 06:16:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-16 22:05:29
+ * @Last Modified time: 2026-09-22 05:22:30
  */
 import { createContext, useContext } from 'react'
 import { r } from '@utils/dev'
 import { urlStringify } from '@utils/utils'
 import Stores from './global'
 
-import type { Navigation, NavigationProps, Override } from '@types'
-
-type Context<T> = {
-  id: string
-  $: T
-  navigation: Navigation
-}
+import type { NavigationProps } from '@types'
+import type { Context, StoreContextValue } from './types'
 
 /** 初始化页面的状态机 */
-export function useInitStore<T>(props: NavigationProps, Store: any) {
+export function useInitStore<T>(props: NavigationProps, Store: new () => T) {
   const { navigation, route } = props
   const id = getScreenKey(props.route)
 
@@ -30,11 +25,9 @@ export function useInitStore<T>(props: NavigationProps, Store: any) {
       navigation
     }
 
-    // @ts-ignore
     context.$.params = route.params || {}
     Stores.add(id, context)
   } else {
-    // @ts-ignore
     context.$.params = route.params || {}
   }
 
@@ -45,22 +38,18 @@ export function useInitStore<T>(props: NavigationProps, Store: any) {
 export const StoreContext = createContext('')
 
 /** 获取页面的状态机 */
-export function useStore<T>(componentUniqueKey?: string): Override<
-  T,
-  {
-    id: string
-  }
-> {
+export function useStore<T>(componentUniqueKey?: string): StoreContextValue<T> {
   if (componentUniqueKey) r(componentUniqueKey)
 
   const id = useContext(StoreContext)
 
   return (
-    Stores.get(id) || {
+    Stores.get<StoreContextValue<T>>(id) ||
+    ({
       id: '',
       $: {},
       navigation: {}
-    }
+    } as unknown as StoreContextValue<T>)
   )
 }
 

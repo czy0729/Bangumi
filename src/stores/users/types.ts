@@ -86,7 +86,7 @@ export type Users = {
   sign: HTMLText
   join: string
   hobby: '0'
-  percent: any
+  percent: string | number
   recent: string
   doing: string | number
   collect: string | number

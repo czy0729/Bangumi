@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-11-30 10:30:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 14:47:48
+ * @Last Modified time: 2026-09-22 06:43:47
  */
 import { Appearance } from 'react-native'
 import { WEB } from '@constants/device'
@@ -14,7 +14,13 @@ class ThemeStore extends Action {
   init = async () => {
     // 遗漏问题, 版本前有部分用户安卓 9 启用了跟随系统设置, 需要排除掉
     if (this.autoColorScheme) {
-      this.toggleMode(Appearance.getColorScheme())
+      const colorScheme = Appearance.getColorScheme()
+      if (colorScheme === 'light' || colorScheme === 'dark') {
+        this.toggleMode(colorScheme)
+      } else {
+        // 系统主题未知时按无参调用处理
+        this.toggleMode()
+      }
     } else {
       const mode = WEB ? DEFAULT_MODE : await this.getStorage('mode', NAMESPACE, DEFAULT_MODE)
       this.toggleMode(mode)
@@ -33,7 +39,11 @@ class ThemeStore extends Action {
 
     // 监听系统颜色方案变化, 跟随系统主题时自动切换
     Appearance.addChangeListener(({ colorScheme }) => {
-      if (this.autoColorScheme && colorScheme && colorScheme !== this.mode) {
+      if (
+        this.autoColorScheme &&
+        (colorScheme === 'light' || colorScheme === 'dark') &&
+        colorScheme !== this.mode
+      ) {
         this.toggleMode(colorScheme)
       }
     })

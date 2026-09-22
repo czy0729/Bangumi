@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:16:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-15 20:35:03
+ * @Last Modified time: 2026-09-22 06:29:40
  */
 import { getTimestamp } from '@utils'
 import { fetchHTML } from '@utils/fetch'
@@ -12,6 +12,7 @@ import { HTML_SUBJECT_CHARACTERS, HTML_SUBJECT_PERSONS } from '@constants'
 import { cheerioCharacters, cheerioPersons } from './common'
 import Computed from './computed'
 
+import type { ResultData } from '@utils/kv/type'
 import type { SubjectId } from '@types'
 
 export default class Fetch extends Computed {
@@ -106,7 +107,7 @@ export default class Fetch extends Computed {
     try {
       const prefix = 'pic_total_'
       const keys = filters.map(name => `${prefix}${name}`)
-      const values = await gets(keys)
+      const values = await gets<ResultData<number>>(keys)
       Object.entries(values).forEach(([name, value]) => {
         if (value) {
           const key = name.split(prefix)?.[1]

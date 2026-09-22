@@ -14,7 +14,7 @@ export default class Computed extends State {
   @computed get mine() {
     return {
       ...rakuenStore.mine,
-      list: rakuenStore.mine.list.slice().sort((a, b) => desc(a, b, item => item.num))
+      list: rakuenStore.mine.list.slice().sort((a, b) => desc(a, b, item => Number(item.num)))
     }
   }
 }

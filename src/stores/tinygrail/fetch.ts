@@ -55,9 +55,9 @@ import { INIT_ASSETS, INIT_AUCTION_STATUS, INIT_USER_LOGS } from './init'
 import { calculateRate, mapItems, throttleInfo, toCharacter } from './utils'
 import { defaultKey, defaultSort, paginationOnePage } from './ds'
 
-import type { Id, MonoId, UserId } from '@types'
+import type { Id, ListEmpty, MonoId, UserId } from '@types'
 import type { CHARA_ITEM, REFINE_TEMPLE_ITEM } from './mock'
-import type { ListKey } from './types'
+import type { ListKey, TinygrailItem } from './types'
 
 export default class Fetch extends Computed {
   /** 更新人物头像缓存 */
@@ -1673,7 +1673,7 @@ export default class Fetch extends Computed {
   /** 买一推荐 (从自己持仓中查找) */
   fetchAdvanceBidList = async () => {
     await this.fetchMyCharaAssets()
-    const { chara = LIST_EMPTY } = this.myCharaAssets
+    const { chara = LIST_EMPTY as ListEmpty<TinygrailItem> } = this.myCharaAssets
 
     let data: any = {
       ...LIST_EMPTY
@@ -1719,9 +1719,9 @@ export default class Fetch extends Computed {
                 firstBids: bids[0].price,
                 firstAmount: bids[0].amount,
                 mark: toFixed(bids[0].price / (markRate || 1), 1),
-                rate: toFixed(item.Rate, 2),
-                rank: item.Rank || 0,
-                stars: item.Stars || 0
+                rate: toFixed(item.rate, 2),
+                rank: item.rank || 0,
+                stars: item.stars || 0
               }
             })
             .filter(item => !!item)
@@ -1837,16 +1837,16 @@ export default class Fetch extends Computed {
   /** 献祭推荐 (从自己持仓中查找) */
   fetchAdvanceSacrificeList = async () => {
     await this.fetchMyCharaAssets()
-    const { chara = LIST_EMPTY } = this.myCharaAssets
+    const { chara = LIST_EMPTY as ListEmpty<TinygrailItem> } = this.myCharaAssets
     const data = {
       list: chara.list
         .filter(item => {
-          const templeRate = parseFloat(item.rate) * (item.level + 1) * 0.3
+          const templeRate = parseFloat(String(item.rate)) * (item.level + 1) * 0.3
           return templeRate > item.rate
         })
         .map(item => ({
           ...item,
-          mark: toFixed(parseFloat(item.rate) * (item.level + 1) * 0.3 - item.rate, 1)
+          mark: toFixed(parseFloat(String(item.rate)) * (item.level + 1) * 0.3 - item.rate, 1)
         }))
         .sort((a, b) => parseFloat(b.mark) - parseFloat(a.mark)),
       pagination: paginationOnePage,

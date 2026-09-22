@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 11:11:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-07 08:05:16
+ * @Last Modified time: 2026-09-22 06:41:49
  */
 import {
   cData,
@@ -20,6 +20,7 @@ import {
 } from '@utils'
 import { LIKE_TYPE_TIMELINE } from '@constants'
 
+import type { CheerioNode, CheerioSelection } from '@utils/thirdParty/html/types'
 import type { TimeLineScopeCn, TopicId } from '@types'
 import type { Likes } from '../rakuen/types'
 import type { TimelineItem } from './types'
@@ -81,7 +82,7 @@ export function cheerioTimeline(
 
 /** 解析单条时间胶囊 */
 function cheerioTimelineItem(
-  $row: any,
+  $row: CheerioSelection,
   { date, page, isSelf }: { date: string; page: number; isSelf: boolean }
 ): TimelineItem {
   const $info = cFind($row, '.info, .info_full')
@@ -94,7 +95,7 @@ function cheerioTimelineItem(
   })
   const $card = cFind($info, '.card')
   const $reply = cFind($info, 'a.tml_comment')
-  let $p1: any
+  let $p1: CheerioSelection
 
   // 个人主页中的时间胶囊不存在位置 1
   if (!isSelf) {
@@ -234,7 +235,7 @@ export function cheerioSay(html: string) {
   })
 
   const sub = $('ul.subReply > li.reply_item')
-    .map((_index: number, element: any) => {
+    .map((_index: number, element: CheerioNode) => {
       const $tr = cheerio(element)
       const $a = $tr.find('a.cmt_reply')
       const subId = cText($a).replace('@', '')

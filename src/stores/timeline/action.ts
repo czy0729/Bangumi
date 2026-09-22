@@ -17,6 +17,7 @@ import Fetch from './fetch'
 import { parseRelativeTimeToTs } from './utils'
 
 import type { Id, TimeLineScope, TimeLineType, UserId } from '@types'
+import type { LikesItem } from '../rakuen/types'
 
 export default class Action extends Fetch {
   /** 更新隐藏某人动态的截止时间 */
@@ -218,7 +219,10 @@ export default class Action extends Fetch {
         const rawData = this.likes(idKey) || {}
 
         // 如果 rawData 已经包含 idKey，就取里面的，否则取它自己
-        const currentReactions = plainClone(rawData[idKey] || rawData)
+        const currentReactions = plainClone(rawData[idKey] || rawData) as Record<
+          string | number,
+          LikesItem
+        >
 
         // 查找当前是否已经有选中的 value (互斥逻辑)
         let prevSelectedValue = null
@@ -237,7 +241,7 @@ export default class Action extends Fetch {
           reaction.total = Math.max(0, (Number(reaction.total) || 1) - 1)
           reaction.selected = false
           reaction.users = (reaction.users || []).filter(
-            (u: any) => u.username !== userInfo.username
+            (u) => u.username !== userInfo.username
           )
 
           if (reaction.total === 0) {
@@ -251,7 +255,7 @@ export default class Action extends Fetch {
             prevReaction.total = Math.max(0, (Number(prevReaction.total) || 1) - 1)
             prevReaction.selected = false
             prevReaction.users = (prevReaction.users || []).filter(
-              (u: any) => u.username !== userInfo.username
+              (u) => u.username !== userInfo.username
             )
             if (prevReaction.total === 0) delete currentReactions[prevSelectedValue]
           }

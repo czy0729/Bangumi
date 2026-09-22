@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2019-08-24 23:20:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-14 08:35:17
+ * @Last Modified time: 2026-09-22 06:43:23
  */
 import { LIST_EMPTY } from '@constants'
 
 import type { Id, ListEmpty, Loaded, MonoId, UserId } from '@types'
 import type {
+  TinygrailItem,
   TinygrailItemsItem,
   TinygrailRedPacketLogItem,
+  TinygrailRichItem,
   TinygrailStarLogsItem,
   TinygrailTopWeekHistoryItem,
   TinygrailTopWeekItem
@@ -122,9 +124,9 @@ export const INIT_CHARACTERS_ITEM = {
 } as const
 
 export const INIT_RICH = {
-  '1/50': LIST_EMPTY, // INIT_RICH_ITEM
-  '2/50': LIST_EMPTY,
-  '1/100': LIST_EMPTY
+  '1/50': LIST_EMPTY as ListEmpty<TinygrailRichItem>, // INIT_RICH_ITEM
+  '2/50': LIST_EMPTY as ListEmpty<TinygrailRichItem>,
+  '1/100': LIST_EMPTY as ListEmpty<TinygrailRichItem>
 }
 
 export const INIT_RICH_ITEM = {
@@ -208,8 +210,8 @@ export const INIT_USER_LOGS_ITEM = {
 }
 
 export const INIT_MY_CHARA_ASSETS = {
-  chara: LIST_EMPTY,
-  ico: LIST_EMPTY,
+  chara: LIST_EMPTY as ListEmpty<TinygrailItem>,
+  ico: LIST_EMPTY as ListEmpty<TinygrailItem>,
   _loaded: 0
 }
 
@@ -313,13 +315,13 @@ export const STATE = {
   userLogs: {},
 
   /** 我的买单 */
-  bid: LIST_EMPTY,
+  bid: LIST_EMPTY as ListEmpty<TinygrailItem>,
 
   /** 我的买单映射 <人物 ID, index> */
   bidMap: {} as Record<Id, number>,
 
   /** 我的卖单 */
-  asks: LIST_EMPTY,
+  asks: LIST_EMPTY as ListEmpty<TinygrailItem>,
 
   /** 我的卖单映射 <人物 ID, index> */
   asksMap: {} as Record<Id, number>,
@@ -343,10 +345,10 @@ export const STATE = {
   charaPool: {},
 
   /** 用户圣殿 */
-  temple: {},
+  temple: {} as Record<UserId, ListEmpty<TinygrailItem>>,
 
   /** 用户所有角色信息 */
-  charaAll: {},
+  charaAll: {} as Record<UserId, ListEmpty<TinygrailItem>>,
 
   /** 我的圣殿 */
   myTemple: {},
@@ -361,13 +363,13 @@ export const STATE = {
   auctionList: {},
 
   /** 英灵殿 */
-  valhallList: LIST_EMPTY,
+  valhallList: LIST_EMPTY as ListEmpty<TinygrailItem>,
 
   /** 我的道具 */
   items: LIST_EMPTY as ListEmpty<TinygrailItemsItem>,
 
   /** 我的拍卖 */
-  auction: LIST_EMPTY,
+  auction: LIST_EMPTY as ListEmpty<TinygrailItem>,
 
   /** 我的拍卖映射 <人物 ID, index> */
   auctionMap: {} as Record<Id, number>,

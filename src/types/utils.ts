@@ -99,7 +99,7 @@ export type Fn = (...args: unknown[]) => unknown
 export type IfAny<T, Y, N> = 0 extends 1 & T ? Y : N
 
 /** 选择函数 */
-export type SelectFn = <T, K = T>(arg1: T, arg2: K) => IfAny<T, K, IfAny<K, T, T | K>>
+export type SelectFn = <T, K = T>(arg1: T, arg2: K) => T | K
 
 /** 获取本地 state 的类型 */
 export type LocalState<T extends object, K extends object> = Expand<Omit<T, keyof K>>

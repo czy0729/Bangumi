@@ -67,11 +67,11 @@ export default class State extends Store<typeof STATE> {
     this.save(STATE_KEY)
   }
 
-  log = (...arg: any) => {
+  log = (...arg: unknown[]) => {
     logger.log(`${titleCase(this._namespace)}Store`, ...arg)
   }
 
-  error = (...arg: any) => {
+  error = (...arg: unknown[]) => {
     logger.error(`${titleCase(this._namespace)}Store`, ...arg)
   }
 }

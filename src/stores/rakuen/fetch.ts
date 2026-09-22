@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-31 05:34:27
+ * @Last Modified time: 2026-09-22 06:32:09
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { getBucketId } from '@utils/bucket'
@@ -45,6 +45,7 @@ import {
 import Computed from './computed'
 import { DEFAULT_SCOPE, DEFAULT_TYPE, INIT_TOPIC } from './init'
 
+import type { ResultData } from '@utils/kv/type'
 import type {
   Id,
   RakuenScope,
@@ -56,7 +57,7 @@ import type {
   TopicType,
   UserId
 } from '@types'
-import type { NotifyItem, NotifyMeta } from './types'
+import type { Comments, NotifyItem, NotifyMeta, Topic } from './types'
 
 export default class Fetch extends Computed {
   /** 获取超展开聚合列表 */
@@ -178,7 +179,12 @@ export default class Fetch extends Computed {
     }
 
     try {
-      const data = await get(`topic_${topicId.replace('/', '_')}`)
+      const data = await get<
+        ResultData<{
+          topic?: Topic
+          comments?: Comments
+        }>
+      >(`topic_${topicId.replace('/', '_')}`)
       if (!data) return false
 
       const { ts, topic, comments } = data
@@ -289,7 +295,9 @@ export default class Fetch extends Computed {
       })
 
       // 只保留 chii_* 键值对: 整行 Set-Cookie (含 Path / Domain / 逗号拼接) 不能直接进请求 Cookie 头
-      data.setCookie = normalizeSetCookie(res?.headers?.map?.['set-cookie'])
+      data.setCookie = normalizeSetCookie(
+        (res?.headers as { map?: Record<string, string> } | undefined)?.map?.['set-cookie']
+      )
       data.html = HTMLTrim(await res.text()) || ''
       data.list = analysis ? cheerioNotify(data.html) : list
 

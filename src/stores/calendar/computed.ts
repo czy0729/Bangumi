@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:02:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-26 15:07:29
+ * @Last Modified time: 2026-09-22 05:32:35
  */
 import { computed } from 'mobx'
 import { deepClone, getTimestamp, toLocal } from '@utils'
@@ -13,7 +13,7 @@ import State from './state'
 
 import type { StoreConstructor, SubjectId } from '@types'
 import type { STATE } from './init'
-import type { CalendarItemFlat, OnAirUser } from './types'
+import type { CalendarItemFlat, OnAirItem, OnAirUser } from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   /** 发现页信息聚合 */
@@ -77,7 +77,8 @@ export default class Computed extends State implements StoreConstructor<typeof S
       ...item,
       items: item.items
         .map(i => {
-          const { air = 0, timeCN, timeJP } = this.onAir[i.id] || ON_AIR[i.id] || ({} as any)
+          const onAir: Partial<OnAirItem> = this.onAir[i.id] || ON_AIR[i.id] || {}
+          const { air = 0, timeCN, timeJP } = onAir
           return {
             ...i,
             air,

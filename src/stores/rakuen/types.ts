@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-01 04:41:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-31 05:23:47
+ * @Last Modified time: 2026-09-22 06:32:53
  */
 import type {
   CoverGroup,
@@ -197,21 +197,24 @@ export type CommentsItemWithSub = Override<
 /** 帖子回复 */
 export type Comments = ListEmpty<CommentsItemWithSub>
 
+/** 帖子回复表情项 */
+export type LikesItem = {
+  emoji?: string
+  main_id: string | number
+  total: string | number
+  type: string | number
+  value: string
+  selected?: boolean
+
+  /** 点赞用户, 本地点赞后追加 */
+  users?: {
+    username: string
+    nickname: string
+  }[]
+}
+
 /** 帖子回复表情 */
-export type Likes = Record<
-  string | number,
-  Record<
-    string | number,
-    {
-      emoji: string
-      main_id: number
-      total: string
-      type: number
-      value: string
-      selected?: boolean
-    }
-  >
->
+export type Likes = Record<string | number, Record<string | number, LikesItem>>
 
 /** 电波提醒元信息接口（/json/notify） */
 export type NotifyMeta = {
@@ -231,7 +234,7 @@ export type NotifyMeta = {
   pm_ignore_url: string
 
   /** 最近短信列表 */
-  pm_list: any[]
+  pm_list: unknown[]
 
   /** 短信收件箱链接 */
   pm_url: string
@@ -314,7 +317,7 @@ export type Mine = ListEmpty<
     id: Id
     cover: CoverGroup<'l'>
     name: string
-    num: number
+    num: string
   }>
 >
 

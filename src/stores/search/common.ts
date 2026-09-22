@@ -6,6 +6,7 @@
  */
 import { cData, cFind, cHas, cheerio, cMap, cPagination, cParse, cText, HTMLDecode } from '@utils'
 
+import type { CheerioNode } from '@utils/thirdParty/html/types'
 import type { SearchItem } from './types'
 
 /** 条目搜索结果 */
@@ -63,7 +64,7 @@ export function cheerioSearchRakuen(html: string) {
   const $ = cheerio(html)
   const list =
     $('#hits-list .item')
-      .map((_index: number, element: any) => {
+      .map((_index: number, element: CheerioNode) => {
         const $item = cheerio(element)
         const splits = $item.find('a.path').text().trim().split('/')
         return {

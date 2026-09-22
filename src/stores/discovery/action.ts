@@ -40,7 +40,7 @@ export default class Action extends Fetch {
       title: string
       desc: string
     },
-    success?: (response?: any, request?: any) => any
+    success?: (responseText?: string, request?: XMLHttpRequest) => any
   ) => {
     const { formhash, title, desc } = args || {}
     xhr(

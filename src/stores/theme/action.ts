@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 14:27:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:25:41
+ * @Last Modified time: 2026-09-22 06:35:07
  */
 import { Appearance, StatusBar, StyleSheet } from 'react-native'
 import { androidDayNightToggle, feedback, info } from '@utils/ui'
@@ -40,7 +40,7 @@ export default class Action extends Computed {
   }
 
   /** 目前支持的所有平台选择 */
-  platforms = (ios: any, ios_5678: any, android: any, wsa: any, web?: any) => {
+  platforms = <T>(ios: T, ios_5678: T, android: T, wsa: T, web?: T): T => {
     if (WEB && web !== undefined) return web
 
     if (IOS) {
@@ -238,7 +238,7 @@ export default class Action extends Computed {
    *  - 所有需要动态切换的样式都应通过此函数包裹样式后导出到组件里面使用
    */
   memoStyles = <T extends Styles<T>>(
-    styles: (currentThemeStore?: any) => T,
+    styles: (currentThemeStore?: this) => T,
     dev: boolean = false
   ) => {
     const item = getMemoStyles()

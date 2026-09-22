@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:38:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 19:12:02
+ * @Last Modified time: 2026-09-22 06:33:46
  */
 import { getBucketId } from '@utils/bucket'
 import { get, update } from '@utils/kv'
@@ -12,6 +12,7 @@ import UserStore from '../user'
 import Fetch from './fetch'
 import { getSubjectSnapshot } from './utils'
 
+import type { ResultData } from '@utils/kv/type'
 import type { Actions, Origin, SubjectId, SubjectType, UserId } from '@types'
 import type { SubjectSnapshot } from './types'
 
@@ -108,7 +109,7 @@ export default class Action extends Fetch {
     let content: string
 
     try {
-      const data = await get(`origin_${id}`)
+      const data = await get<ResultData<{ content?: string }>>(`origin_${id}`)
       if (typeof data?.content === 'string') {
         content = data.content
       }

@@ -25,11 +25,11 @@ import type {
   CollectionStatus,
   CollectionStatusCn,
   CollectionStatusValue,
-  RatingStatus,
   SubjectId,
   SubjectType,
   UserId
 } from '@types'
+import type { UpdateCollectionPrivacy, UpdateCollectionStatus } from './types'
 
 export default class Action extends Fetch {
   /** 用户收藏按网站评分本地排序后入库 */
@@ -149,11 +149,11 @@ export default class Action extends Fetch {
   /** 条目管理 */
   doUpdateCollection = (args: {
     subjectId: SubjectId
-    status?: RatingStatus | ''
+    status?: UpdateCollectionStatus
     tags?: string
     comment?: string
     rating?: string | number
-    privacy?: any // 0 | 1
+    privacy?: UpdateCollectionPrivacy
     noConsole?: boolean
   }) => {
     const { subjectId, status, tags, comment, rating, privacy, noConsole = false } = args || {}

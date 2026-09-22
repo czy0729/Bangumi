@@ -374,7 +374,7 @@ export type SubjectSnapshot = {
 export type Vib = {
   total: number
   avg: number
-  mal: number
+  mal: string | number
   malTotal: number
   anidb: number
   anidbTotal: number

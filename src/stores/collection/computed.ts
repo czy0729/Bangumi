@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 02:59:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-26 22:50:15
+ * @Last Modified time: 2026-09-22 05:33:48
  */
 import { computed } from 'mobx'
 import { computedFn } from '@utils/computed-fn'
@@ -34,7 +34,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   // -------------------- 纯计算 (直接 computedFn) --------------------
   /** @deprecated 获取指定条目收藏状态名 */
   statusName = computedFn((subjectId: SubjectId) => {
-    const collection = this.collection(subjectId) as any
+    const collection = this.collection(subjectId)
     return collection?.status?.name || ''
   })
 

@@ -15,7 +15,7 @@ import type { UserId } from '@types'
 
 export default class Actions extends Fetch {
   autoUpdateAvatars = async (
-    list: any[],
+    list: Record<string, unknown>[],
     userIdKey: string = 'userId',
     avatarIdKey: string = 'avatar'
   ) => {
@@ -26,8 +26,8 @@ export default class Actions extends Fetch {
 
     const data: Record<UserId, string> = {}
     list.forEach(item => {
-      const userId = item?.[userIdKey]
-      const avatar = item?.[avatarIdKey]
+      const userId = item?.[userIdKey] as UserId
+      const avatar = item?.[avatarIdKey] as string
       if (userId && avatar) {
         const lMatch = avatar.match(/\/l\/(.+)$/)
         if (lMatch) data[userId] = lMatch[1]

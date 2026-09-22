@@ -30,6 +30,7 @@ import {
 } from '@utils'
 import { HOST } from '@constants'
 
+import type { CheerioNode, CheerioSelection } from '@utils/thirdParty/html/types'
 import type { Cover, Id, MonoId, Override, SubjectId, SubjectTypeValue, UserId } from '@types'
 import type { Likes } from '../rakuen/types'
 import type {
@@ -219,7 +220,7 @@ export function cheerioSubjectComments(html: string): Override<
       pageTotal
     },
     list: ($('#comment_box .item')
-      .map((index: number, element: any) => {
+      .map((index: number, element: CheerioNode) => {
         const $row = cheerio(element)
         const $subject = $row.find('.thumbTip')
 
@@ -335,7 +336,7 @@ export function cheerioRating(html: string): Rating {
     dropped: 0
   }
   $('ul.secTab li')
-    .map((_index: number, element: any) => {
+    .map((_index: number, element: CheerioNode) => {
       const text = cheerio(element).text()
       const count = parseInt((text.match(/\d+/g) || [])[0]) || 0
       if (text.includes('想')) {
@@ -355,7 +356,7 @@ export function cheerioRating(html: string): Rating {
 
   const list =
     $('#memberUserList li')
-      .map((_index: number, element: any) => {
+      .map((_index: number, element: CheerioNode) => {
         const $li = cheerio(element)
         const $user = $li.find('a.avatar')
         const avatar = matchAvatar($li.find('.avatarNeue').attr('style'))
@@ -406,7 +407,7 @@ export function cheerioWikiEdits(html: string): Wiki['edits'] {
   const $ = cheerio(htmlMatch(html, '<div id="columnInSubjectA', '<div id="columnInSubjectB"'))
   return (
     $('#pagehistory li')
-      .map((index: number, element: any) => {
+      .map((index: number, element: CheerioNode) => {
         const $li = cheerio(element)
         const $a = $li.find('a')
         const $time = $a.eq(0)
@@ -429,7 +430,7 @@ export function cheerioWikiCovers(html: string): Wiki['covers'] {
   const $ = cheerio(htmlMatch(html, '<div id="columnInSubjectA', '<div id="columnInSubjectB"'))
   return (
     $('.photoList li')
-      .map((index: number, element: any) => {
+      .map((index: number, element: CheerioNode) => {
         const $li = cheerio(element)
         const $user = $li.find('.tip_j a.l')
         return safeObject({
@@ -555,7 +556,7 @@ export function cheerioMonoComments(html: string) {
   return cheerioComments(trimHtml).reverse() as MonoCommentsItem[]
 }
 
-function mapJobs($row: any) {
+function mapJobs($row: CheerioSelection) {
   const $name = cFind($row, '.innerLeftItem h3 a')
 
   const $li = cFind($row, '.innerRightList li')
@@ -597,7 +598,7 @@ function mapJobs($row: any) {
   }
 }
 
-function mapVoice($row: any) {
+function mapVoice($row: CheerioSelection) {
   const $name = cFind($row, '.innerLeftItem h3 a')
   const $subject = cFind($row, '.innerRightList li')
   const $a = cFind($subject, 'h3 a.l')
@@ -614,7 +615,7 @@ function mapVoice($row: any) {
   }
 }
 
-function mapWorks($row: any) {
+function mapWorks($row: CheerioSelection) {
   const $name = cFind($row, 'h3 a.l')
   return {
     cover: fixedCover(cData(cFind($row, '.innerLeftItem img'), 'src')),
@@ -625,7 +626,7 @@ function mapWorks($row: any) {
   }
 }
 
-function mapCollabs($row: any) {
+function mapCollabs($row: CheerioSelection) {
   return {
     href: cData(cFind($row, 'a.avatar'), 'href'),
     name: cText(cFind($row, 'a.l')),
@@ -637,7 +638,7 @@ function mapCollabs($row: any) {
   }
 }
 
-function mapCollected($row: any) {
+function mapCollected($row: CheerioSelection) {
   const $a = cFind($row, '.innerWithAvatar .avatar')
   return {
     avatar: fixedCover(matchAvatar(cData(cFind($row, 'span.avatarSize32'), 'style'))),

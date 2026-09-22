@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:47:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-31 05:21:30
+ * @Last Modified time: 2026-09-22 07:10:02
  */
 import { cheerio, feedback, getTimestamp } from '@utils'
 import { getBucketId } from '@utils/bucket'
@@ -31,8 +31,10 @@ import {
 import Computed from './computed'
 import { DEFAULT_TYPE, INIT_CATALOG_ITEM } from './init'
 
+import type { CheerioNode } from '@utils/thirdParty/html/types'
 import type { Id, SubjectType } from '@types'
 import type { CatalogDetailFromOSS, CatalogType, FetchBlogArgs } from './types'
+import type { ResultData } from '@utils/kv/type'
 
 export default class Fetch extends Computed {
   fetchGCTimeline = async (page: number = 1) => {
@@ -100,7 +102,7 @@ export default class Fetch extends Computed {
         [STATE_KEY]: {
           [ITEM_KEY]: {
             list: $('.multi-postlist .post-archive')
-              .map((_index: number, element: any) => {
+              .map((_index: number, element: CheerioNode) => {
                 const $li = cheerio(element)
                 const $a = $li.find('.post-meta-box a')
                 const url = $a.attr('href')
@@ -155,7 +157,7 @@ export default class Fetch extends Computed {
         [STATE_KEY]: {
           [ITEM_KEY]: {
             list: $('.ptxt')
-              .map((_index: number, element: any) => {
+              .map((_index: number, element: CheerioNode) => {
                 const $li = cheerio(element)
                 const $a = $li.find('.tit a')
                 const url = $a.attr('href')
@@ -284,7 +286,7 @@ export default class Fetch extends Computed {
     const ITEM_KEY = id
 
     try {
-      const data = await get(`catalog_${id}`)
+      const data = await get<ResultData<CatalogDetailFromOSS>>(`catalog_${id}`)
       if (!data) return false
 
       this.setState({
@@ -311,7 +313,7 @@ export default class Fetch extends Computed {
     const ITEM_KEYS = ids.map(id => `catalog_${id}` as const)
 
     try {
-      const data = await gets<CatalogDetailFromOSS>(ITEM_KEYS)
+      const data = await gets<ResultData<CatalogDetailFromOSS>>(ITEM_KEYS)
       if (!data) return
 
       const update: Record<Id, CatalogDetailFromOSS> = {}

@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:31:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 05:20:14
+ * @Last Modified time: 2026-09-22 06:31:32
  */
 import { confirm, getTimestamp, info } from '@utils'
 import { syncSystemStore, syncUserStore } from '@utils/async'
+import { getBucketId } from '@utils/bucket'
 import { fetchHTML, xhr } from '@utils/fetch'
 import { collect, collectList, get, is, update } from '@utils/kv'
-import { getBucketId } from '@utils/bucket'
 import { plainClone } from '@utils/store/utils'
 import {
   API_TOPIC_COMMENT_LIKE,
@@ -66,9 +66,9 @@ export default class Action extends Fetch {
       type?: RakuenReplyType
       content?: string
       formhash?: string
-      related?: any
-      sub_reply_uid?: any
-      post_uid?: any
+      related?: string | number
+      sub_reply_uid?: string | number
+      post_uid?: string | number
     },
     success?: (responseText?: string, request?: XMLHttpRequest) => unknown
   ) => {
@@ -177,9 +177,7 @@ export default class Action extends Fetch {
           const reaction = currentReactions[targetValue]
           reaction.total = Math.max(0, (Number(reaction.total) || 1) - 1)
           reaction.selected = false
-          reaction.users = (reaction.users || []).filter(
-            (u: any) => u.username !== userInfo.username
-          )
+          reaction.users = (reaction.users || []).filter(u => u.username !== userInfo.username)
           if (reaction.total === 0) delete currentReactions[targetValue]
         } else {
           // 切换/新增逻辑
@@ -189,7 +187,7 @@ export default class Action extends Fetch {
             prevReaction.total = Math.max(0, (Number(prevReaction.total) || 1) - 1)
             prevReaction.selected = false
             prevReaction.users = (prevReaction.users || []).filter(
-              (u: any) => u.username !== userInfo.username
+              u => u.username !== userInfo.username
             )
             if (prevReaction.total === 0) delete currentReactions[prevSelectedValue]
           }
@@ -231,7 +229,7 @@ export default class Action extends Fetch {
           if (data?.status === 'ok') {
             // 如果没走乐观更新，或者发生了错误，走原有的更新逻辑
             if (!isOptimisticUpdated) {
-              let state: any
+              let state: Record<string, unknown>
               if (data?.data) {
                 state = {
                   ...this.likes(ITEM_KEY),
@@ -266,11 +264,11 @@ export default class Action extends Fetch {
       blogId: TopicId
       content?: string
       formhash?: string
-      related?: any
-      sub_reply_uid?: any
-      post_uid?: any
+      related?: string | number
+      sub_reply_uid?: string | number
+      post_uid?: string | number
     },
-    success?: (responseText?: string, request?: any) => any
+    success?: (responseText?: string, request?: XMLHttpRequest) => unknown
   ) => {
     const { blogId, ...other } = args || {}
     xhr(
@@ -584,7 +582,7 @@ export default class Action extends Fetch {
           [topicId]: isFavor
         },
         favorCount: {
-          [topicId]: result?.data?.total || 0
+          [topicId]: (result?.data as { total?: number } | undefined)?.total || 0
         }
       })
       this.save('favorV2')
@@ -603,10 +601,11 @@ export default class Action extends Fetch {
 
     const result = await is(myUserId, topicId)
     if (result?.code === 200) {
-      if (result?.data?.total) {
+      const data = result?.data as { total?: number } | undefined
+      if (data?.total) {
         this.setState({
           favorCount: {
-            [topicId]: result.data.total || 0
+            [topicId]: data.total || 0
           }
         })
         this.save('favorCount')
@@ -630,7 +629,7 @@ export default class Action extends Fetch {
 
     const key = 'setting'
     try {
-      const setting = await get(`rakuen_setting_${id}`)
+      const setting = await get<typeof this.setting>(`rakuen_setting_${id}`)
       if (setting) {
         const { blockKeywords, blockGroups, blockUserIds } = setting
         this.setting.blockKeywords.forEach(item => {

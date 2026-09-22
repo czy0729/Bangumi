@@ -38,19 +38,19 @@ export default class State extends Store<typeof STATE> {
     return this._loaded[key]
   }
 
-  save = (key: CacheKey, data?: any) => {
+  save = (key: CacheKey, data?: unknown) => {
     return this.setStorage(key, data, NAMESPACE)
   }
 
-  log = (...arg: any) => {
+  log = (...arg: unknown[]) => {
     logger.log(`${titleCase(this._namespace)}Store`, ...arg)
   }
 
-  warn = (...arg: any) => {
+  warn = (...arg: unknown[]) => {
     logger.warn(`${titleCase(this._namespace)}Store`, ...arg)
   }
 
-  error = (...arg: any) => {
+  error = (...arg: unknown[]) => {
     logger.error(`${titleCase(this._namespace)}Store`, ...arg)
   }
 }

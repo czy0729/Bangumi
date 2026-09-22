@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 05:33:32
+ * @Last Modified time: 2026-09-22 06:44:52
  */
 import Constants from 'expo-constants'
 import { WEB } from '@constants/device'
@@ -310,7 +310,10 @@ export function download(downloadKey: string) {
 }
 
 /** 搜索 */
-export async function search(q: string, withMessage: boolean = false): Promise<Result | null> {
+export async function search<T = unknown>(
+  q: string,
+  withMessage: boolean = false
+): Promise<Result<T> | null> {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   try {
@@ -324,7 +327,7 @@ export async function search(q: string, withMessage: boolean = false): Promise<R
       }
     })
 
-    return Crypto.get<Result>(data)
+    return Crypto.get<Result<T>>(data)
   } catch (error) {
     err('search', error)
   }

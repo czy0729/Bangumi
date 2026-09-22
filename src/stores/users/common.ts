@@ -8,6 +8,7 @@ import { cData, cFind, cheerio, cHtml, cMap, cText, htmlMatch, matchAvatar } fro
 import { getBlogItemTime } from '../discovery/utils'
 import { USER_STATS_TYPES } from './ds'
 
+import type { CheerioDoc, CheerioSelection } from '@utils/thirdParty/html/types'
 import type { MonoId, SubjectTypeValue } from '@types'
 import type {
   BlogsItem,
@@ -43,7 +44,7 @@ function emptyUserStats(): UserStats {
   }
 }
 
-function cheerioUserStats($: any, $scope?: any): UserStats {
+function cheerioUserStats($: CheerioDoc, $scope?: CheerioSelection): UserStats {
   const gridNums = cMap($scope ? $scope.find('.gridStats .item') : $('.gridStats .item'), $row =>
     cText(cFind($row, '.num'))
   )

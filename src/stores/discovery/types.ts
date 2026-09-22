@@ -368,8 +368,9 @@ export type Channel = {
   _loaded?: number
 }
 
-type WikiItem = {
-  id: `/subject/${SubjectId}`
+export type WikiItem = {
+  /** 条目链接, 交由 appNavigate 解析 */
+  id: string
   name: string
   userId: UserId
   userName: string

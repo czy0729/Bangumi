@@ -19,6 +19,7 @@ import {
   safeObject
 } from '@utils'
 
+import type { CheerioNode } from '@utils/thirdParty/html/types'
 import type { PmDetail, PmDetailItem, PmItem } from './types'
 
 /** @deprecated 收(发) 件箱 */
@@ -26,7 +27,7 @@ export function cheerioPM(html: string) {
   const $ = cheerio(htmlMatch(html, '<div id="pm_main', '<div id="pm_sidebar'))
   return (
     $('table.topic_list > tbody > tr')
-      .map((_index: number, element: any) => {
+      .map((_index: number, element: CheerioNode) => {
         const $row = cheerio(element)
         const $a = $row.find('a.avatar')
         const id = $a.attr('href')
@@ -45,7 +46,7 @@ export function cheerioPM(html: string) {
         })
       })
       .get() || []
-  ).filter((item: { id: any }) => !!item.id)
+  ).filter((item: { id?: string }) => !!item.id)
 }
 
 /** 收(发)件箱 */
@@ -219,7 +220,7 @@ export function cheerioTags(html: string): string[] {
     const $ = cheerio(html)
     return (
       $('a.btnGray')
-        .map((_index: number, element: any) => {
+        .map((_index: number, element: CheerioNode) => {
           return cheerio(element).text().trim()
         })
         .get() || []

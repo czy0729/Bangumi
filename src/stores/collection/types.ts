@@ -12,11 +12,18 @@ import type {
   ImagesAvatar,
   ListEmpty,
   Loaded,
+  RatingStatus,
   SubjectId,
   SubjectType,
   UrlUser,
   UserId
 } from '@types'
+
+/** 条目管理提交的收藏状态 */
+export type UpdateCollectionStatus = RatingStatus | CollectionStatus | ''
+
+/** 条目管理提交的隐私设置 */
+export type UpdateCollectionPrivacy = 0 | 1 | '0' | '1'
 
 /** 条目收藏信息 */
 export type Collection = {

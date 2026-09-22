@@ -13,6 +13,7 @@ import Computed from './computed'
 import { DEFAULT_CAT } from './init'
 
 import type { SearchCat } from '@types'
+import type { RakuenSearchItem } from './types'
 
 export default class Fetch extends Computed {
   /** 搜索 */
@@ -67,13 +68,13 @@ export default class Fetch extends Computed {
 
   /** 搜索帖子 */
   fetchRakuenSearch = async (q: string, withMessage: boolean = false) => {
-    const data = await search(q, withMessage)
+    const data = await search<RakuenSearchItem[]>(q, withMessage)
     if (data?.code === 200) {
       const list = data?.data || []
       this.setState({
         rakuenSearch: {
           [`${q}|${withMessage}`]: {
-            list: list.sort((a: any, b: any) => b.id - a.id),
+            list: list.sort((a, b) => b.id - a.id),
             pagination: {
               page: 1,
               pageTotal: 1
