@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:42:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-28 16:15:20
+ * @Last Modified time: 2026-09-23 08:30:12
  */
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Animated, Platform } from 'react-native'
 import { USE_NATIVE_DRIVER } from '@constants'
 
@@ -25,6 +25,12 @@ export function usePagerView({
   const pagerRef = useRef<PagerView>(null)
   const [activePage, setActivePage] = useState(initialPage)
   const [isIdle, setIdle] = useState(true)
+
+  // 滚动中视野覆盖的页码区间 [左页, 右页]; 仅在跨页时更新, 停稳后清回当前页
+  const [scrollRange, setScrollRange] = useState<readonly [number, number]>([
+    initialPage,
+    initialPage
+  ])
 
   const setPage = useCallback((page: number, animated = true) => {
     if (animated) {
@@ -50,6 +56,14 @@ export function usePagerView({
           }
         ],
         {
+          // position 为最左可见页, offset 为其右偏比例; 视野覆盖 [position, position+1]
+          listener: ({ nativeEvent }) => {
+            const { offset, position } = nativeEvent
+            const from = position
+            const to = offset > 0 ? position + 1 : position
+
+            setScrollRange(prev => (prev[0] === from && prev[1] === to ? prev : [from, to]))
+          },
           useNativeDriver: USE_NATIVE_DRIVER
         }
       ),
@@ -74,11 +88,21 @@ export function usePagerView({
     []
   )
 
+  // 停稳后把保活锚点收回当前页, 滚动中由 onPageScroll 的 listener 实时扩展
+  useEffect(() => {
+    if (isIdle) {
+      setScrollRange(prev =>
+        prev[0] === activePage && prev[1] === activePage ? prev : [activePage, activePage]
+      )
+    }
+  }, [isIdle, activePage])
+
   return {
     pagerRef,
     setPage,
     page: activePage,
     isIdle,
+    scrollRange,
     position,
     offset,
     onPageScroll,

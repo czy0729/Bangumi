@@ -4,7 +4,7 @@
  * @Author: czy0729
  * @Date: 2024-01-16 18:26:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-17 21:30:00
+ * @Last Modified time: 2026-09-23 08:00:00
  */
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
@@ -61,6 +61,9 @@ export type Props<T extends Route> = PagerCommonProps & {
   /** @add */
   renderContentHeaderComponent?: React.ReactNode
   renderBackground?: React.ReactNode
+
+  /** 相邻场景保活距离 (默认 Infinity: 全部保活) */
+  keepDistance?: number
 }
 
 type State = {
@@ -85,7 +88,8 @@ class TabView<T extends Route> extends React.Component<Props<T>, State> {
     renderPager: (props: ChildProps<any>) => <Pager {...props} />,
 
     /** @add */
-    renderBackground: null
+    renderBackground: null,
+    keepDistance: Infinity
   }
 
   state = {
@@ -151,7 +155,8 @@ class TabView<T extends Route> extends React.Component<Props<T>, State> {
 
       /** @add */
       renderContentHeaderComponent,
-      renderBackground
+      renderBackground,
+      keepDistance
     } = this.props
     const { layout } = this.state
 
@@ -209,7 +214,9 @@ class TabView<T extends Route> extends React.Component<Props<T>, State> {
                     >
                       {({ loading }) => (
                         <>
-                          {loading
+                          {Math.abs(i - navigationState.index) > keepDistance
+                            ? null
+                            : loading
                             ? renderLazyPlaceholder({ route })
                             : renderScene({
                                 ...sceneRendererProps,

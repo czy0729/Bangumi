@@ -2,21 +2,16 @@
  * @Author: czy0729
  * @Date: 2026-03-10 07:47:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 20:26:24
+ * @Last Modified time: 2026-09-22 10:00:00
  */
-import React, { useEffect } from 'react'
-import Animated, {
-  clamp,
-  Easing,
-  SensorType,
-  useAnimatedReaction,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming
-} from 'react-native-reanimated'
+import Animated from 'react-native-reanimated'
 import { observer } from 'mobx-react'
 import { stl } from '@utils'
-import { useAnimatedSensor, useAppState, useIsFocused } from '@utils/hooks'
+import { r } from '@utils/dev'
+import { useActive } from '@utils/hooks'
+import { useParallax } from './hooks'
+import SensorDriver from './sensor-driver'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { Props as SensorParallaxCardProps } from './types'
@@ -32,74 +27,11 @@ export const SensorParallaxCard = observer(
     enableRotate = true,
     children
   }: SensorParallaxCardProps) => {
-    const isFoucs = useIsFocused()
-    const isActive = useAppState()
+    r(COMPONENT)
 
-    const sensor = useAnimatedSensor(SensorType.GYROSCOPE, {
-      interval: 'auto',
-      adjustToInterfaceOrientation: true
-    })
-    const translateX = useSharedValue(0)
-    const translateY = useSharedValue(0)
-    const rotateX = useSharedValue(0)
-    const rotateY = useSharedValue(0)
-    const rotateEnabled = useSharedValue(enableRotate)
+    const active = useActive()
 
-    useEffect(() => {
-      rotateEnabled.value = enableRotate
-    }, [enableRotate, rotateEnabled])
-
-    const RESTORING_FORCE = 0.005
-    const ROTATE_FACTOR = 0.2
-
-    useAnimatedReaction(
-      () => sensor.sensor.value,
-      data => {
-        if (!(isFoucs && isActive)) return
-
-        if (enabled) {
-          const direction = reverse ? -1 : 1
-
-          translateX.value -= data.y * sensitivity * direction
-          translateY.value += data.x * sensitivity * direction
-
-          if (rotateEnabled.value) {
-            rotateX.value += data.x * ROTATE_FACTOR
-            rotateY.value += data.y * ROTATE_FACTOR
-          } else {
-            rotateX.value = withTiming(0, { duration: 300 })
-            rotateY.value = withTiming(0, { duration: 300 })
-          }
-
-          translateX.value -= translateX.value * RESTORING_FORCE
-          translateY.value -= translateY.value * RESTORING_FORCE
-          rotateX.value -= rotateX.value * RESTORING_FORCE
-          rotateY.value -= rotateY.value * RESTORING_FORCE
-        } else {
-          translateX.value = withTiming(0, { duration: 300, easing: Easing.out(Easing.exp) })
-          translateY.value = withTiming(0, { duration: 300, easing: Easing.out(Easing.exp) })
-          rotateX.value = withTiming(0, { duration: 300, easing: Easing.out(Easing.exp) })
-          rotateY.value = withTiming(0, { duration: 300, easing: Easing.out(Easing.exp) })
-        }
-      }
-    )
-
-    const animatedStyle = useAnimatedStyle(() => {
-      const tX = clamp(translateX.value, -50, 50)
-      const tY = clamp(translateY.value, -50, 50)
-      const rX = clamp(rotateX.value, -6, 6)
-      const rY = clamp(rotateY.value, -6, 6)
-
-      return {
-        transform: [
-          { perspective: rotateEnabled.value ? 600 : 3000 },
-          { rotateX: `${rX}deg` },
-          { rotateY: `${rY}deg` },
-          { translateX: tX },
-          { translateY: tY }
-        ]
-      } as const
-    })
+    const { values, animatedStyle } = useParallax({ active, enabled, enableRotate })
 
     return (
       <Animated.View
@@ -107,6 +39,9 @@ export const SensorParallaxCard = observer(
         renderToHardwareTextureAndroid
       >
         {children}
+        {active && enabled && (
+          <SensorDriver sensitivity={sensitivity} reverse={reverse} {...values} />
+        )}
       </Animated.View>
     )
   }

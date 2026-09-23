@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-17 21:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 02:50:57
+ * @Last Modified time: 2026-09-23 07:08:25
  */
 import type { ReactNode } from 'react'
 import type { Animated, StyleProp, ViewStyle } from 'react-native'
@@ -70,7 +70,22 @@ export type Props<T extends Route> = PagerProps & {
 
   /** @add 背景组件 */
   renderBackground?: ReactNode
+
+  /** 相邻场景保活距离 (默认 Infinity: 全部保活) */
+  keepDistance?: number
 }
 
 /** 滑动状态 hook 参数 */
 export type UseTabViewSwipeOptions = Pick<Props<Route>, 'onSwipeStart' | 'onSwipeEnd'>
+
+/** 场景保活 hook 参数 */
+export type UseTabViewKeepOptions = {
+  /** 当前页码 */
+  index: number
+
+  /** 路由列表 */
+  routes: readonly Route[]
+
+  /** 相邻场景保活距离 */
+  keepDistance: number
+}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-27 15:25:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 02:04:54
+ * @Last Modified time: 2026-09-23 08:30:28
  */
 import React, { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
@@ -16,7 +16,9 @@ import AnimatedNavbar from '../animated-navbar'
 import Background from '../background'
 import { useAnimatedNavbar } from '../hooks/useAnimatedNavbar'
 import { useAnimateScrollView } from '../hooks/useAnimatedScrollView'
+import { usePagerKeep } from '../hooks/usePagerKeep'
 import { usePagerView } from '../hooks/usePagerView'
+import { LazyLoadView } from '../lazy-load-view'
 import ParallaxHeader from '../parallax-header'
 import TabBar from '../tab-bar'
 import { COMPONENT } from './ds'
@@ -35,6 +37,7 @@ export const NestedScrollParallaxHeader = observer(
     imageHeight = _.parallaxImageHeight,
     imageSource,
     blurRadius,
+    lazyDistance = Infinity,
     stickyHeight = TABS_HEADER_HEIGHT,
     spacing,
     tabStyle,
@@ -63,6 +66,7 @@ export const NestedScrollParallaxHeader = observer(
       position,
       offset,
       isIdle,
+      scrollRange,
       onPageScroll,
       onPageSelected,
       onPageScrollStateChanged
@@ -70,6 +74,8 @@ export const NestedScrollParallaxHeader = observer(
       initialPage,
       onIndexChange
     })
+
+    const keepRange = usePagerKeep({ page, isIdle, scrollRange, distance: lazyDistance })
 
     const [headerOpacity, overflowHeaderOpacity] = useAnimatedNavbar(
       scroll,
@@ -178,10 +184,20 @@ export const NestedScrollParallaxHeader = observer(
           onPageSelected={onPageSelected}
           onPageScrollStateChanged={onPageScrollStateChanged}
         >
-          {children}
+          {React.Children.map(children, (child, index) => (
+            // PagerView 的子节点数量必须恒定, 未激活的页用占位 View 保号
+            <LazyLoadView
+              current={page}
+              index={index}
+              range={keepRange}
+              placeholder={<View style={styles.fill} />}
+            >
+              {child}
+            </LazyLoadView>
+          ))}
         </AnimatedPagerView>
       ),
-      [children, onPageScroll, onPageScrollStateChanged, onPageSelected, page, pagerRef]
+      [children, keepRange, onPageScroll, onPageScrollStateChanged, onPageSelected, page, pagerRef]
     )
 
     const elBackground = useMemo(

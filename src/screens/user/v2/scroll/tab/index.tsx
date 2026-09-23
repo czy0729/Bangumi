@@ -90,6 +90,7 @@ function Tab({ page, scrollY, onIndexChange, onScroll, onSwipeStart, onRefreshOf
         key={_.orientation}
         lazy
         lazyPreloadDistance={0}
+        keepDistance={1}
         navigationState={navigationState}
         renderTabBar={renderTabBar}
         renderScene={renderScene.current}

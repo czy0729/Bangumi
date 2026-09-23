@@ -17,6 +17,7 @@ import Animated, {
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { r } from '@utils/dev'
+import { useActive } from '@utils/hooks'
 import { Flex } from '../flex'
 import { COMPONENT, HALF_CIRCLE } from './ds'
 import { memoStyles } from './styles'
@@ -27,6 +28,8 @@ export type { SpinnerProps }
 /** Loading 指示器 (新) */
 export const Spinner = observer(({ style, backgroundColor = 'transparent' }: SpinnerProps) => {
   r(COMPONENT)
+
+  const active = useActive()
 
   const rotation = useSharedValue(0)
 
@@ -46,12 +49,17 @@ export const Spinner = observer(({ style, backgroundColor = 'transparent' }: Spi
   }, [rotation])
 
   useEffect(() => {
+    if (!active) {
+      cancelAnimation(rotation)
+      return
+    }
+
     startAnimation()
 
     return () => {
       cancelAnimation(rotation)
     }
-  }, [rotation, startAnimation])
+  }, [active, rotation, startAnimation])
 
   const animatedStyle = useAnimatedStyle(
     () =>

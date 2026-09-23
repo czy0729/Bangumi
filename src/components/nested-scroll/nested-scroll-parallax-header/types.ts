@@ -25,6 +25,9 @@ export type Props = PropsWithChildren<{
   /** 高斯模糊半径 */
   blurRadius?: number
 
+  /** 相邻页保活距离 (默认 Infinity: 全部挂载) */
+  lazyDistance?: number
+
   /** 吸顶高度 */
   stickyHeight?: number
 

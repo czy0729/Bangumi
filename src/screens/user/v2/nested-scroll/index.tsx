@@ -54,6 +54,7 @@ function NestedScroll() {
       <NestedScrollParallaxHeader
         pages={TABS}
         initialPage={$.state.page}
+        lazyDistance={1}
         tabBarLocalKey='UserV2|NestedScroll'
         HeaderComponent={elHeader}
         TopNavbarComponent={elTopNavbar}

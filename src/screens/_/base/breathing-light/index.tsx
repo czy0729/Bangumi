@@ -18,6 +18,7 @@ import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
+import { useActive } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -26,11 +27,13 @@ import type { Props as BreathingLightProps } from './types'
 export const BreathingLight = observer(({ style, color, running = true }: BreathingLightProps) => {
   r(COMPONENT)
 
+  const active = useActive()
+
   const opacity = useSharedValue(0.6)
   const scale = useSharedValue(1)
 
   useEffect(() => {
-    if (running) {
+    if (running && active) {
       // 启动动画
       opacity.value = withRepeat(
         withTiming(1, { duration: 1800, easing: Easing.inOut(Easing.ease) }),
@@ -54,7 +57,7 @@ export const BreathingLight = observer(({ style, color, running = true }: Breath
       cancelAnimation(opacity)
       cancelAnimation(scale)
     }
-  }, [opacity, running, scale])
+  }, [active, opacity, running, scale])
 
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,

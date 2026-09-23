@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2026-08-17 21:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 02:50:54
+ * @Last Modified time: 2026-09-23 08:00:00
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { uiStore } from '@stores'
+import { JUMP_SETTLE_DURATION } from './ds'
 
 import type { LayoutChangeEvent } from 'react-native'
 import type { Layout } from 'react-native-tab-view/src/types'
-import type { UseTabViewSwipeOptions } from './types'
+import type { UseTabViewKeepOptions, UseTabViewSwipeOptions } from './types'
 
 /** 页面布局测量 */
 export function useTabViewLayout(initialLayout?: Partial<Layout>) {
@@ -102,4 +103,64 @@ export function useTabViewSwipe({ onSwipeStart, onSwipeEnd }: UseTabViewSwipeOpt
   }, [onSwipeEnd])
 
   return { isSwiping, handleSwipeStart, handleSwipeSettle, handleSwipeEnd }
+}
+
+/**
+ * 场景保活范围
+ *
+ * 页码变更后只保活相邻场景; 跨级跳转时 Pager 的翻页动画会滚过中间页,
+ * 故额外把 [当前页, 目标页] 区间纳入保活, 停稳后收缩
+ */
+export function useTabViewKeep({ index, keepDistance, routes }: UseTabViewKeepOptions) {
+  const [targetIndex, setTargetIndex] = useState<number>()
+  const pagerJumpToRef = useRef<(key: string) => void>(undefined)
+  const targetTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined)
+  const stateRef = useRef({ index, keepDistance, routes })
+
+  // 延后到渲染完成再同步, 保证点击跳转时读到的是最新页码与配置
+  useEffect(() => {
+    stateRef.current = { index, keepDistance, routes }
+  })
+
+  // 页码到达目标页即 jump 动画结束, 此时才收缩; 动画未结束时收缩会卸载仍在视口内的中间页
+  useEffect(() => {
+    if (targetIndex === undefined || index !== targetIndex) return
+
+    clearTimeout(targetTimerRef.current)
+    targetTimerRef.current = undefined
+    setTargetIndex(undefined)
+  }, [index, targetIndex])
+
+  useEffect(
+    () => () => {
+      clearTimeout(targetTimerRef.current)
+    },
+    []
+  )
+
+  /** 记录 Pager 的 jumpTo, 供包装后的 jumpTo 调用 */
+  const registerJumpTo = useCallback((jumpTo: (key: string) => void) => {
+    pagerJumpToRef.current = jumpTo
+  }, [])
+
+  const jumpTo = useCallback((key: string) => {
+    const { index, keepDistance, routes } = stateRef.current
+    const next = routes.findIndex(route => route.key === key)
+
+    if (next >= 0 && Math.abs(next - index) > keepDistance) {
+      setTargetIndex(next)
+
+      clearTimeout(targetTimerRef.current)
+      targetTimerRef.current = setTimeout(() => setTargetIndex(undefined), JUMP_SETTLE_DURATION)
+    }
+
+    pagerJumpToRef.current?.(key)
+  }, [])
+
+  return {
+    keepFrom: Math.min(index, targetIndex ?? index) - keepDistance,
+    keepTo: Math.max(index, targetIndex ?? index) + keepDistance,
+    jumpTo,
+    registerJumpTo
+  }
 }

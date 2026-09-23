@@ -33,6 +33,7 @@ function Tab() {
         key={_.orientation}
         lazy
         lazyPreloadDistance={0}
+        keepDistance={1}
         navigationState={$.navigationState}
         renderTabBar={renderTabBar}
         renderBackground={elBackground}

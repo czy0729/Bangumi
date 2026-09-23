@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2026-09-16 22:40:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 22:40:00
+ * @Last Modified time: 2026-09-23 06:46:57
  *
  * 圆环进度专属 hooks: 不确定态的匀速旋转 (RN 核心 Animated, 原生驱动)
  */
 import { useEffect, useRef } from 'react'
 import { Animated, Easing } from 'react-native'
+import { useActive } from '@utils/hooks'
 import { SPIN_DURATION } from './ds'
 
 import type { SpinInterpolation } from './types'
@@ -20,10 +21,12 @@ import type { SpinInterpolation } from './types'
  * @param active 是否处于不确定态 (拿不到精确进度)
  */
 export function useSpin(active: boolean): SpinInterpolation {
+  const isActive = useActive()
+
   const rotate = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
-    if (!active) return
+    if (!active || !isActive) return
 
     const animation = Animated.loop(
       Animated.timing(rotate, {
@@ -39,7 +42,7 @@ export function useSpin(active: boolean): SpinInterpolation {
       animation.stop()
       rotate.setValue(0)
     }
-  }, [active, rotate])
+  }, [active, isActive, rotate])
 
   return rotate.interpolate({
     inputRange: [0, 1],

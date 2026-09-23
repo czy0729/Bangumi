@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { Squircle, Touchable } from '@components'
 import { systemStore } from '@stores'
 import { withT } from '@utils/fetch'
-import { useIsFocused, useNavigation } from '@utils/hooks'
+import { useActive, useNavigation } from '@utils/hooks'
 import { HOST, TEXT_ONLY } from '@constants'
 import { getHtml } from './utils'
 import { COMPONENT } from './ds'
@@ -22,7 +22,7 @@ import type { Props } from './types'
 function Award2022({ width, height }: Props) {
   const navigation = useNavigation(COMPONENT)
 
-  const show = useIsFocused()
+  const active = useActive()
 
   const w = width || styles.item2022.width
   const h = height || styles.item2022.height
@@ -72,7 +72,7 @@ function Award2022({ width, height }: Props) {
               ]}
               pointerEvents='none'
             >
-              {show && (
+              {active && (
                 <WebView
                   style={[
                     styles.body,

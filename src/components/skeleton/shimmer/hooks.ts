@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-10 23:51:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-11 05:23:53
+ * @Last Modified time: 2026-09-23 08:00:00
  */
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AccessibilityInfo, Animated, Platform } from 'react-native'
@@ -14,6 +14,7 @@ import {
   withRepeat,
   withTiming
 } from 'react-native-reanimated'
+import { useActive } from '@utils/hooks'
 
 /**
  * 骨架屏扫光动画 hook (RN Animated 原生驱动)
@@ -23,6 +24,7 @@ import {
  */
 export const useShimmerAnimation = (width: number | undefined, duration: number) => {
   const [reduceMotion, setReduceMotion] = useState(false)
+  const isActive = useActive()
   const progress = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
@@ -32,7 +34,7 @@ export const useShimmerAnimation = (width: number | undefined, duration: number)
   }, [])
 
   useEffect(() => {
-    if (reduceMotion || typeof width !== 'number') return
+    if (!isActive || reduceMotion || typeof width !== 'number') return
     const animation = Animated.loop(
       Animated.timing(progress, {
         toValue: 1,
@@ -43,8 +45,9 @@ export const useShimmerAnimation = (width: number | undefined, duration: number)
     animation.start()
     return () => {
       animation.stop()
+      progress.setValue(0)
     }
-  }, [progress, duration, width, reduceMotion])
+  }, [isActive, progress, duration, width, reduceMotion])
 
   const translateX = useMemo(
     () =>
@@ -68,15 +71,16 @@ export const useShimmerAnimation = (width: number | undefined, duration: number)
  */
 export const useShimmerAnimationReanimated = (width: number | undefined, duration: number) => {
   const reduceMotion = useReducedMotion()
+  const isActive = useActive()
   const progress = useSharedValue(0)
 
   useEffect(() => {
-    if (reduceMotion || typeof width !== 'number') return
+    if (!isActive || reduceMotion || typeof width !== 'number') return
     progress.value = withRepeat(withTiming(1, { duration }), -1, false)
     return () => {
       progress.value = 0
     }
-  }, [reduceMotion, width, duration, progress])
+  }, [isActive, reduceMotion, width, duration, progress])
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [

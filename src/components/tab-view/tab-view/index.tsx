@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-11-15 14:30:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-17 22:00:00
+ * @Last Modified time: 2026-09-23 08:00:00
  */
-import { useCallback } from 'react'
+import { useCallback, useContext } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { SceneView } from 'react-native-tab-view/src/SceneView'
+import { SceneActiveContext } from '@utils/context'
 import { stl } from '@utils/utils'
 import { IOS } from '@constants/env'
-import { useTabViewIndexChange, useTabViewLayout, useTabViewSwipe } from './hooks'
-import { styles } from './styles'
+import { useTabViewIndexChange, useTabViewKeep, useTabViewLayout, useTabViewSwipe } from './hooks'
 import { defaultRenderLazyPlaceholder, defaultRenderTabBar, MemoPager } from './utils'
+import { styles } from './styles'
 
 import type { Route } from 'react-native-tab-view/src/types'
 import type { PagerChildrenProps, Props } from './types'
@@ -26,6 +27,7 @@ export default function TabView<T extends Route>({
   keyboardDismissMode = 'auto',
   lazy = false,
   lazyPreloadDistance = 0,
+  keepDistance = Infinity,
   navigationState,
   overScrollMode,
   swipeEnabled = true,
@@ -45,10 +47,18 @@ export default function TabView<T extends Route>({
     onSwipeStart,
     onSwipeEnd
   })
+  const { keepFrom, keepTo, jumpTo, registerJumpTo } = useTabViewKeep({
+    index: navigationState.index,
+    routes: navigationState.routes,
+    keepDistance
+  })
+  const parentSceneActive = useContext(SceneActiveContext)
 
   // 子场景渲染函数，仅在依赖变化时重建
   const renderPagerChildren = useCallback(
-    ({ position, render, addEnterListener, jumpTo }: PagerChildrenProps) => {
+    ({ position, render, addEnterListener, jumpTo: pagerJumpTo }: PagerChildrenProps) => {
+      registerJumpTo(pagerJumpTo)
+
       const sceneRendererProps = {
         position,
         layout,
@@ -77,14 +87,21 @@ export default function TabView<T extends Route>({
                 navigationState={navigationState}
                 addEnterListener={addEnterListener}
               >
-                {({ loading }) =>
-                  loading
-                    ? renderLazyPlaceholder({ route })
-                    : renderScene({
-                        ...sceneRendererProps,
-                        route
-                      })
-                }
+                {({ loading }) => (
+                  <SceneActiveContext.Provider
+                    value={parentSceneActive && i === navigationState.index}
+                  >
+                    {/* 超出保活范围的场景只卸载内容, 页容器由 SceneView 保留 */}
+                    {i < keepFrom || i > keepTo
+                      ? null
+                      : loading
+                      ? renderLazyPlaceholder({ route })
+                      : renderScene({
+                          ...sceneRendererProps,
+                          route
+                        })}
+                  </SceneActiveContext.Provider>
+                )}
               </SceneView>
             ))
           )}
@@ -108,7 +125,11 @@ export default function TabView<T extends Route>({
       lazyPreloadDistance,
       sceneContainerStyle,
       renderContentHeaderComponent,
-      renderBackground
+      renderBackground,
+      keepFrom,
+      keepTo,
+      jumpTo,
+      registerJumpTo
     ]
   )
 

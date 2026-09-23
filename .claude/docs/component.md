@@ -39,6 +39,16 @@ component-name/
 - `memo` 浅比较对字符串/数字按**值**比较（稳定生效），对对象按**引用**比较——传内联对象会让任何 memo 失效，样式应传 `styles.xxx` 稳定引用
 - 若组件未来可能直接读 store，直接先用 `observer` 亦无性能代价
 
+## 失焦门控（Tab 保活下的常驻副作用）
+
+底栏 tab 与页面内二级 Tab 都会保活，组件不能只靠卸载来停止副作用：
+
+- 需要「页面聚焦 && 应用在前台 && 所在 Pager 场景聚焦」时用 `useActive()`（`@utils/hooks`）：blur 时同步置 false，能在 `freezeOnBlur` 冻结前完成最后一次渲染；不要改用 `useIsFocused`（blur 延迟到切页动画后，冻结的树内 setState 不生效）
+- 无限循环动画：`useEffect` 内以 `active` 为条件启停（停时 `cancelAnimation` 再归位），不能只依赖卸载清理
+- 轮询 / 定时器：以 `active` 作为启动条件；多实例共享的全局定时器沿用引用计数清理
+- 页面内 TabView 传 `keepDistance={1}`：`|i - index| <= 1` 的场景保活，更远的场景卸载内容（外层页容器必须保留，Pager 子节点数量恒定）；跨级跳转期间区间自动扩展到目标页
+- Android 的 `nested-scroll` 页面给 `NestedScrollParallaxHeader` 传 `lazyDistance={1}`，未激活页用占位 View 保号（`lazy-load-view` 的 `placeholder`）
+
 ## observer 组件内不要用 useMemo 缓存 store 派生数据
 
 两个机制的冲突：
@@ -108,6 +118,7 @@ hold-menu/
 - **共享类型别名抽到最上层**：跨层复用的字面量类型抽具名别名（如 `MaskColors = readonly [string, string, string]`）放根 `types.ts`，逐层 `import type` 复用，不重复字面量
 - 每个类型字段带 `/** ... */` 注释，回调字段放 type 末尾
 - 示例：
+
   ```typescript
   // types.ts
   import type { PropsWithChildren } from 'react'
@@ -139,6 +150,7 @@ hold-menu/
 - 组件内部样式放在组件目录下的 `styles.ts` 中
 - 共享样式放在上层目录的 `styles.ts` 中
 - 样式数组必须用 `stl()` 包裹：
+
   ```tsx
   // ❌ 错误
   <Text style={[_.mt.sm, style]}>

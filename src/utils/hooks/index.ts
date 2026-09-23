@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-02 00:15:39
  */
+export { default as useActive } from './useActive'
 export { default as useAnimatedSensor } from './useAnimatedSensor'
 export { default as useAppState } from './useAppState'
 export { default as useBackHandler } from './useBackHandler'

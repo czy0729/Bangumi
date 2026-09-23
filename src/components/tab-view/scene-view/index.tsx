@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2026-01-16 16:04:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 02:50:21
+ * @Last Modified time: 2026-09-23 08:00:00
  */
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
+import { SceneActiveContext } from '@utils/context'
 import { stl } from '@utils/utils'
 
 import type { Route } from 'react-native-tab-view/src/types'
@@ -53,6 +54,7 @@ export default function SceneView<T extends Route>({
   }, [addEnterListener, lazy, loading, handleEnter])
 
   const focused = navigationState.index === index
+  const parentSceneActive = useContext(SceneActiveContext)
 
   return (
     <View
@@ -63,7 +65,9 @@ export default function SceneView<T extends Route>({
         style
       )}
     >
-      {focused || layout.width ? children({ loading }) : null}
+      <SceneActiveContext.Provider value={parentSceneActive && focused}>
+        {focused || layout.width ? children({ loading }) : null}
+      </SceneActiveContext.Provider>
     </View>
   )
 }

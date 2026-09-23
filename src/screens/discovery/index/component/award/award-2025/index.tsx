@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-16 22:23:15
  */
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Animated, StyleSheet, View } from 'react-native'
 import Svg, { Circle, Defs, Pattern, Rect } from 'react-native-svg'
 import { observer } from 'mobx-react'
@@ -12,7 +12,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Flex, Text, Touchable } from '@components'
 import { userStore } from '@stores'
 import { open } from '@utils'
-import { useFocusEffect, useNavigation } from '@utils/hooks'
+import { useActive, useNavigation } from '@utils/hooks'
 import { HOST } from '@constants'
 import { COMPONENT, URI } from './ds'
 import { styles } from './styles'
@@ -32,6 +32,8 @@ const messages = [
 function Award2025() {
   const navigation = useNavigation(COMPONENT)
 
+  const active = useActive()
+
   const [displayText, setDisplayText] = useState('')
   const textRef = useRef('')
   const idxRef = useRef(0)
@@ -43,7 +45,9 @@ function Award2025() {
 
   // cursor blink
   useEffect(() => {
-    Animated.loop(
+    if (!active) return
+
+    const animation = Animated.loop(
       Animated.sequence([
         Animated.timing(cursorOpacity, {
           toValue: 0,
@@ -56,8 +60,11 @@ function Award2025() {
           useNativeDriver: true
         })
       ])
-    ).start()
-  }, [cursorOpacity])
+    )
+    animation.start()
+
+    return () => animation.stop()
+  }, [active, cursorOpacity])
 
   function nextText() {
     let candidate = messages[Math.floor(Math.random() * messages.length)]
@@ -92,26 +99,26 @@ function Award2025() {
     timerRef.current = setTimeout(tick, 220)
   }
 
-  useFocusEffect(
-    useCallback(() => {
-      // 页面聚焦时启动动画
-      nextText()
-      tick()
+  useEffect(() => {
+    if (!active) return
 
-      return () => {
-        // 页面离开时停止定时器
-        if (timerRef.current) {
-          clearTimeout(timerRef.current)
-          timerRef.current = null
-        }
-        // 重置状态
-        idxRef.current = 0
-        holdRef.current = 0
-        setDisplayText('')
+    // 页面聚焦时启动动画
+    nextText()
+    tick()
+
+    return () => {
+      // 页面离开时停止定时器
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+        timerRef.current = null
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-  )
+      // 重置状态
+      idxRef.current = 0
+      holdRef.current = 0
+      setDisplayText('')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active])
 
   return (
     <View style={styles.container}>

@@ -8,13 +8,13 @@ import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { rakuenStore } from '@stores'
 import { info } from '@utils'
-import { useIsFocused } from '@utils/hooks'
+import { useActive } from '@utils/hooks'
 import { BGM_MAP_CATFISH_DESC, BgmText } from '../../bgm-text'
 
 import type { BgmTextProps } from '../../bgm-text'
 
 function EmojiText({ style, index, children, ...other }: BgmTextProps) {
-  const isFocus = useIsFocused()
+  const active = useActive()
 
   const value = Number(index)
 
@@ -26,7 +26,7 @@ function EmojiText({ style, index, children, ...other }: BgmTextProps) {
     <BgmText
       style={style}
       index={index}
-      animated={rakuenStore.setting.bigEmojiAnimated && isFocus}
+      animated={rakuenStore.setting.bigEmojiAnimated && active}
       {...other}
       onLongPress={value >= 600 ? handleLongPress : undefined}
     />

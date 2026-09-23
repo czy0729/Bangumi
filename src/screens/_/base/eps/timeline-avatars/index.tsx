@@ -19,7 +19,7 @@ import { observer } from 'mobx-react'
 import { Avatar, flexStyle, Popover, Text } from '@components'
 import { systemStore, timelineStore } from '@stores'
 import { lastDate, stl } from '@utils'
-import { useNavigation } from '@utils/hooks'
+import { useActive, useNavigation } from '@utils/hooks'
 import { TEXT_MENU_MANAGE_TRACK, withSplit } from '@constants'
 import { ClientTrack } from '../../client-track'
 import { ANIM_DURATION_PER_AVATAR, AVATAR_SIZE, MOVE_DISTANCE, PAUSE_RATIO } from './ds'
@@ -29,6 +29,8 @@ import type { Props } from './types'
 
 function TimelineAvatars({ subjectId, index, sort, isSide }: Props) {
   const navigation = useNavigation()
+
+  const active = useActive()
 
   const styles = memoStyles()
 
@@ -51,7 +53,8 @@ function TimelineAvatars({ subjectId, index, sort, isSide }: Props) {
     // 重置进度
     progress.value = 0
 
-    if (count <= 1) return
+    // 失焦页面不跑循环动画
+    if (!active || count <= 1) return
 
     // 启动循环
     progress.value = withRepeat(
@@ -64,8 +67,9 @@ function TimelineAvatars({ subjectId, index, sort, isSide }: Props) {
     )
 
     return () => cancelAnimation(progress)
+    // 注意：progress 不要放进依赖，防止重复触发
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [count, subjectId, sort]) // 注意：progress 不要放进依赖，防止重复触发
+  }, [active, count, subjectId, sort])
 
   // 阶梯插值样式
   const animatedStyle = useAnimatedStyle(() => {
