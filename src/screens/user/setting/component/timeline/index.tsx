@@ -4,15 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 21:11:34
  */
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { observer } from 'mobx-react'
 import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
 import { uiStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean, useIsFocused } from '@utils/hooks'
-import { IconClock } from '../icons'
 import { getShows } from '../../utils'
+import { IconClock } from '../icons'
 import TimelinePopable from './timeline-popable'
 import { COMPONENT, TEXTS } from './ds'
 

@@ -4,14 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 17:28:25
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { IconSmile } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
+import { IconSmile } from '../../icons'
 import { styles } from './styles'
 
 import type { WithFilterProps } from '../../../types'

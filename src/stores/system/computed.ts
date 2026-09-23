@@ -192,4 +192,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
     return this.setting.androidBlur && this.setting.blurModal
   }
+
+  /** 分页保活距离: 0 表示不限制 */
+  @computed get keepDistance() {
+    // 旧本地缓存没有此键时回退到默认值
+    const { keepDistance = 2 } = this.setting
+    return keepDistance || Infinity
+  }
 }

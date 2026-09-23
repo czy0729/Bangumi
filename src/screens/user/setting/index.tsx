@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-13 21:45:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Input, Page, ScrollView } from '@components'
 import { _ } from '@stores'
@@ -36,11 +35,11 @@ import User from './component/user'
 import Version from './component/version'
 import Worker from './component/worker'
 import Zhinan from './component/zhinan'
-import { GROUPS } from './ds'
 import Header from './header'
 import { useSettingPage } from './hooks'
-import { styles } from './styles'
 import { getGroupFilter } from './utils'
+import { GROUPS } from './ds'
+import commonStyles from './styles'
 
 import type { ReactNode } from 'react'
 import type { NavigationProps } from '@types'
@@ -64,8 +63,8 @@ function Setting(props: NavigationProps<Params>) {
       key: 'appearance',
       rows: f => [
         <Theme key='theme' filter={f} />,
-        <UI key='ui' filter={f} />,
-        <CDN key='cdn' filter={f} />
+        <CDN key='cdn' filter={f} />,
+        <UI key='ui' filter={f} />
       ]
     },
     {
@@ -118,10 +117,10 @@ function Setting(props: NavigationProps<Params>) {
       <Page style={_.select(_.container.bg, _.container.plain)}>
         <HeaderPlaceholder />
 
-        <ScrollView forwardRef={forwardRef} contentContainerStyle={styles.container}>
+        <ScrollView forwardRef={forwardRef} contentContainerStyle={commonStyles.container}>
           <Block>
             <Input
-              style={styles.input}
+              style={commonStyles.input}
               placeholder='搜索'
               defaultValue={filter}
               onChangeText={setFilter}

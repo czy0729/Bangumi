@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-04-21 16:57:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:24:51
+ * @Last Modified time: 2026-09-23 09:04:47
  */
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Highlight, Text } from '@components'
 import { Cover, ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { CDN_OSS_MAGMA_POSTER } from '@utils/cdn'
 import { ping } from '@utils/fetch'
-import { IconSignal } from '../../icons'
 import commonStyles from '../../../styles'
 import { IMG_HEIGHT, IMG_WIDTH, TEXTS, URL_LAIN } from '../ds'
-import { memoStyles } from './styles'
+import { IconSignal } from '../../icons'
 
 import type { Pings } from '../types'
 import type { WithFilterProps } from '../../../types'
@@ -35,12 +34,10 @@ function CDNTest({ filter }: WithFilterProps) {
     }
   }, [pings, test])
 
-  const styles = memoStyles()
-
   return (
-    <ItemSettingBlock icon={<IconSignal />} filter={filter} {...TEXTS.test}>
+    <ItemSettingBlock icon={<IconSignal />} filter={filter} sub {...TEXTS.test}>
       {test ? (
-        <Flex style={styles.sub}>
+        <Flex>
           <Flex direction='column' justify='center'>
             <Cover size={IMG_WIDTH} height={IMG_HEIGHT} src={URL_LAIN} cdn={false} radius />
             <Highlight style={_.mt.sm} type='sub' size={10} align='center' value={filter}>

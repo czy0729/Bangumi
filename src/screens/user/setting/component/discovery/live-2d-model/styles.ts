@@ -12,9 +12,6 @@ export const styles = _.create({
     marginTop: _.sm,
     marginRight: -_._wind
   },
-  sub: {
-    marginLeft: 36
-  },
   scroll: {
     paddingRight: _._wind
   },

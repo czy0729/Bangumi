@@ -4,9 +4,11 @@ import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
-import { IconType } from '../icons'
 import { getShows } from '../../utils'
-import CnFirst from './cn-first'
+import { IconType } from '../icons'
+import CustomFontFamily from './custom-font-family'
+import FontSize from './font-size'
+import LetterSpacing from './letter-spacing'
 import S2T from './s2t'
 import Spacing from './spacing'
 import { COMPONENT, TEXTS } from './ds'
@@ -35,11 +37,13 @@ function Text({ filter }: WithFilterProps) {
       <ActionSheet
         show={state}
         title={TEXTS.text.hd}
-        height={filter ? 440 : 640}
+        height={filter ? 440 : 760}
         onClose={setFalse}
       >
-        {shows.cnFirst && <CnFirst filter={filter} />}
+        {shows.font && <CustomFontFamily filter={filter} />}
         {shows.s2t && <S2T filter={filter} />}
+        {shows.fontSize && <FontSize filter={filter} />}
+        {shows.letterSpacing && <LetterSpacing filter={filter} />}
         {shows.spacing && <Spacing filter={filter} />}
       </ActionSheet>
     </>

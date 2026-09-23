@@ -485,6 +485,9 @@ export const INIT_SETTING = {
   /** 水平方向容器左右两侧是否显示遮罩 (平板设备默认开启) */
   horizontalShowMask: !!PAD,
 
+  /** 分页保活距离: 0 为不限制 */
+  keepDistance: 2 as 0 | 1 | 2,
+
   /** 条目页面布局 */
   ...INIT_SUBJECT_LAYOUT
 }

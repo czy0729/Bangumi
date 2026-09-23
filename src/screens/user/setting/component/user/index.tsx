@@ -4,21 +4,20 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-25 22:17:05
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
 import { WEB } from '@constants'
-import { IconUser } from '../icons'
 import { getShows } from '../../utils'
+import { IconUser } from '../icons'
+import UserAge from './user-age'
 import UserCommentsFull from './user-comments-full'
 import UserCommentsLines from './user-comments-lines'
 import UserGridNum from './user-grid-num'
 import UserPagination from './user-pagination'
 import UserShowManage from './user-show-manage'
-import UserAge from './user-age'
 import { COMPONENT, TEXTS } from './ds'
 
 import type { WithFilterProps } from '../../types'
@@ -41,15 +40,8 @@ function User({
 
   return (
     <>
-      <ItemSetting
-        icon={<IconUser />}
-        hd={hd}
-        arrow
-        highlight
-        filter={filter}
-        onPress={setTrue}
-      />
-      <ActionSheet show={state} title={hd} height={680} onClose={setFalse}>
+      <ItemSetting icon={<IconUser />} hd={hd} arrow highlight filter={filter} onPress={setTrue} />
+      <ActionSheet show={state} title={hd} height={720} onClose={setFalse}>
         {shows.userGridNum && <UserGridNum filter={filter} />}
         {shows.userPagination && <UserPagination filter={filter} />}
         {shows.userShowManage && <UserShowManage filter={filter} />}

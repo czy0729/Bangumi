@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-03-09 22:04:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 04:36:10
+ * @Last Modified time: 2026-09-23 12:00:00
  */
 import { useCallback, useRef } from 'react'
 import { observer } from 'mobx-react'
@@ -11,9 +11,11 @@ import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { useMount } from '@utils/hooks'
+import { applyProxy } from '@utils/proxy'
 import { SETTING_LIVE2D_MODEL } from '@constants'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
+import commonStyles from '../../../styles'
 import { IconLayers } from '../../icons'
 import { ITEM_WIDTH } from './ds'
 import { styles } from './styles'
@@ -47,7 +49,7 @@ function Live2DModel({ filter }: WithFilterProps) {
       icon={<IconLayers />}
       filter={filter}
       sub
-      subStyle={styles.sub}
+      subStyle={commonStyles.sub}
       {...TEXTS.live2DModel.setting}
     >
       <ScrollView
@@ -58,6 +60,9 @@ function Live2DModel({ filter }: WithFilterProps) {
       >
         {SETTING_LIVE2D_MODEL.map((item, index) => {
           const { title, information, src } = TEXTS.live2DModel[item.value]
+
+          // 主站静态图需走代理, isHtml=true 让 worker 的 x-upstream 指向 bgm.tv
+          const { url, headers } = applyProxy(src, {}, true)
 
           return (
             <ItemSettingBlock.Item
@@ -83,7 +88,7 @@ function Live2DModel({ filter }: WithFilterProps) {
             >
               <Flex style={_.mt.sm}>
                 <Squircle width={44} height={44} radius={_.radiusSm}>
-                  <Image size={44} src={src} radius={0} />
+                  <Image size={44} src={url} headers={headers} radius={0} />
                 </Squircle>
               </Flex>
             </ItemSettingBlock.Item>

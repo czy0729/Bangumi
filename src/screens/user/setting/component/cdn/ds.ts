@@ -2,12 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-18 08:31:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:24:47
+ * @Last Modified time: 2026-09-23 12:00:00
  */
-import { _ } from '@stores'
 import { CDN_MAGMA } from '@utils/cdn'
 import { rc } from '@utils/dev'
-import { HOST_BGM_STATIC } from '@constants'
+import { HOST_BGM_STATIC, IMG_HEIGHT_SM, IMG_WIDTH_SM } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'CDN')
@@ -19,13 +18,40 @@ export const URL_JSDELIVR =
 export const URL_FASTLY = URL_JSDELIVR.replace('cdn', 'fastly')
 export const URL_ONEDRIVE = 'https://bangumi.stdcdn.com/subject/c/t/TfOdAB.jpg'
 
-export const IMG_WIDTH = Math.floor((_.window.contentWidth - 2 * _.sm) / 3)
-export const IMG_HEIGHT = Math.floor(IMG_WIDTH * 1.44)
+export const URL_BOOK = `${HOST_BGM_STATIC}/r/400/pic/cover/l/a7/d8/571438_JmBRt.jpg`
+export const URL_MUSIC = `${HOST_BGM_STATIC}/r/400/pic/cover/l/0e/d1/620834_444lw.jpg`
+export const URL_GAME = `${HOST_BGM_STATIC}/r/400/pic/cover/l/13/03/548128_13Vl9.jpg`
+
+export const IMG_WIDTH = IMG_WIDTH_SM
+export const IMG_HEIGHT = IMG_HEIGHT_SM
+
+/** 封面拟物预览图的尺寸 */
+export const width = Math.floor(IMG_WIDTH_SM / 1.7)
+export const height = Math.floor(IMG_HEIGHT_SM / 1.7)
 
 export const TEXTS = {
   cdn: {
     hd: '图片'
-    // information: '图片加速、渐出动画'
+    // information: '图片加速、封面拟物、渐出动画'
+  },
+  coverThings: {
+    title: '封面拟物',
+    information: '能识别到类型的条目，封面会自动采用拟物风格，提升视觉区分度'
+  },
+  avatarRound: {
+    setting: {
+      title: '头像'
+    },
+    round: {
+      title: '圆形'
+    },
+    square: {
+      title: '方形'
+    }
+  },
+  squircle: {
+    title: '圆角过渡',
+    information: '在图片上采用特殊曲率算法统一安卓/iOS圆角效果'
   },
   cover: {
     setting: {

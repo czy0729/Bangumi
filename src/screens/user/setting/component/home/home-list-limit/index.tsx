@@ -4,13 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-18 23:32:13
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { ItemSetting } from '@_'
 import { _, systemStore } from '@stores'
-import { IconListCount } from '../../icons'
 import { TEXTS } from '../ds'
+import { IconListCount } from '../../icons'
 
 import type { WithFilterProps } from '../../../types'
 
@@ -27,7 +26,6 @@ function HomeListLimit({ filter }: WithFilterProps) {
       }
       information={systemStore.advance ? '普通用户 100，网页版 25' : '高级用户 300，网页版 25'}
       filter={filter}
-      sub
       {...TEXTS.homeListLimit}
     />
   )

@@ -4,14 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-10 01:21:05
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap, SegmentedControl } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { IconResize } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
+import { IconResize } from '../../icons'
 import { DATA } from './ds'
 import { styles } from './styles'
 

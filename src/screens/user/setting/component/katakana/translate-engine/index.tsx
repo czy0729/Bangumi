@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 18:19:05
  */
-import React, { useCallback, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Input } from '@components'
@@ -12,10 +12,10 @@ import { ItemSettingBlock } from '@_'
 import { _, systemStore } from '@stores'
 import { alert } from '@utils'
 import { useMount } from '@utils/hooks'
-import { IconSwapText } from '../../icons'
-import { styles } from '../../../styles'
+import commonStyles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
+import { IconSwapText } from '../../icons'
 
 import type { Props } from './types'
 
@@ -47,11 +47,7 @@ function TranslateEngine({ filter, onScrollIntoViewIfNeeded }: Props) {
 
   return (
     <>
-      <ItemSettingBlock
-        icon={<IconSwapText />}
-        filter={filter}
-        {...TEXTS.engine.setting}
-      >
+      <ItemSettingBlock icon={<IconSwapText />} filter={filter} {...TEXTS.engine.setting}>
         <ItemSettingBlock.Item
           active={value === 'baidu' || value === 'deeplx'}
           filter={filter}
@@ -88,7 +84,7 @@ function TranslateEngine({ filter, onScrollIntoViewIfNeeded }: Props) {
         >
           <View style={_.container.block}>
             <Input
-              style={styles.input2}
+              style={commonStyles.input2}
               defaultValue={appId.current}
               placeholder='APP ID'
               showClear
@@ -96,7 +92,7 @@ function TranslateEngine({ filter, onScrollIntoViewIfNeeded }: Props) {
               onChangeText={handleChangeAppId}
             />
             <Input
-              style={[styles.input2, _.mt.md]}
+              style={[commonStyles.input2, _.mt.md]}
               defaultValue={appKey.current}
               placeholder='密钥'
               showClear

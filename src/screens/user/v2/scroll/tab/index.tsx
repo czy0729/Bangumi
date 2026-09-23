@@ -4,11 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-14 21:46:07
  */
-import React, { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 import { Animated } from 'react-native'
 import { observer } from 'mobx-react'
 import { SceneMap, TabView } from '@components'
-import { _ } from '@stores'
+import { _, systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { useInsets } from '@utils/hooks'
 import TabBarLeft from '../../component/tab-bar-left'
@@ -90,7 +90,7 @@ function Tab({ page, scrollY, onIndexChange, onScroll, onSwipeStart, onRefreshOf
         key={_.orientation}
         lazy
         lazyPreloadDistance={0}
-        keepDistance={1}
+        keepDistance={systemStore.keepDistance}
         navigationState={navigationState}
         renderTabBar={renderTabBar}
         renderScene={renderScene.current}

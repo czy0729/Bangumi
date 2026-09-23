@@ -24,7 +24,7 @@ export const memoStyles = _.memoStyles(() => ({
   sub: {
     paddingTop: 8,
     paddingLeft: 20,
-    marginLeft: 20,
+    marginLeft: 8,
     marginBottom: 12,
     borderLeftWidth: 2,
     borderLeftColor: _.colorBorder

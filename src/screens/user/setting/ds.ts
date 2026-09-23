@@ -30,7 +30,7 @@ export const OPEN_GROUP: Record<string, GroupKey> = {
   // 内容偏好
   Track: 'filter',
 
-  // 页面模块 (底栏的 Tab 页面)
+  // 页面模块 (页面导航的 Tab 页面)
   Discovery: 'module',
   Timeline: 'module',
   Home: 'module',

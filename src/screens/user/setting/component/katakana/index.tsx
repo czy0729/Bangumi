@@ -4,16 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-13 22:00:00
  */
-import React, { useCallback, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { observer } from 'mobx-react'
 import { ActionSheet, Heatmap } from '@components'
 import { ItemSetting } from '@_'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
-import { IconLanguages } from '../icons'
 import { getShows } from '../../utils'
-import CnFirst from '../text/cn-first'
+import { IconLanguages } from '../icons'
+import CnFirst from '../ui/cn-first'
 import AppKatakana from './app-katakana'
 import TranslateEngine from './translate-engine'
 import { COMPONENT, TEXTS } from './ds'
@@ -47,14 +47,21 @@ function Katakana({ filter }: WithFilterProps) {
 
   return (
     <>
-      <ItemSetting icon={<IconLanguages />} arrow highlight filter={filter} onPress={setTrue} {...TEXTS.other}>
+      <ItemSetting
+        icon={<IconLanguages />}
+        arrow
+        highlight
+        filter={filter}
+        onPress={setTrue}
+        {...TEXTS.other}
+      >
         <Heatmap id='设置.切换' title='片假名终结者' />
       </ItemSetting>
       <ActionSheet
         forwardRef={handleForwardRef}
         show={state}
         title={TEXTS.other.hd}
-        height={filter ? 400 : 560}
+        height={filter ? 560 : 720}
         onClose={setFalse}
       >
         {shows.engine && (

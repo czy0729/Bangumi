@@ -18,6 +18,22 @@ const COMMON = {
   tinygrail: '小圣杯'
 } as const
 
+/** 分页保活距离选项 */
+export const KEEP_DISTANCE = [
+  {
+    label: '无限制',
+    value: 0
+  },
+  {
+    label: '1',
+    value: 1
+  },
+  {
+    label: '2',
+    value: 2
+  }
+] as const
+
 export const TEXTS = {
   blocks: {
     setting: '功能块',
@@ -31,6 +47,12 @@ export const TEXTS = {
     hd: '底栏页面懒加载',
     information:
       '默认开启底栏懒加载以加快启动速度（点击对应页面才加载），关闭可加速页面切换但会增加启动时间。'
+  },
+  keepDistance: {
+    hd: '标签页分页保活',
+    information:
+      '左右翻页时，除当前页外额外保留多少页不被销毁；保留越多来回切换越不容易白屏，同时占用内存越多',
+    search: KEEP_DISTANCE.map(item => item.label).join()
   }
 } as const
 

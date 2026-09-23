@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 17:31:26
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
@@ -12,8 +11,8 @@ import { systemStore, userStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
 import { MODEL_SETTING_HOME_LAYOUT, MODEL_SETTING_HOME_SORTING, WEB } from '@constants'
-import { IconStar } from '../icons'
 import { getShows } from '../../utils'
+import { IconStar } from '../icons'
 import HomeAnimeInfoInline from './home-anime-info-inline'
 import HomeCountView from './home-count-view'
 import HomeCustom from './home-custom'
@@ -60,6 +59,7 @@ function Home({ filter }: WithFilterProps) {
       <ActionSheet show={state} title='进度' height={filter ? 440 : 760} onClose={setFalse}>
         {shows.homeCustom && <HomeCustom filter={filter} />}
         <HomeTabs filter={filter} />
+        {shows.homeListLimit && <HomeListLimit filter={filter} />}
         {shows.homeLayout && <HomeLayout filter={filter} />}
         {shows.homeAnimeInfoInline && isList && <HomeAnimeInfoInline filter={filter} />}
         {shows.homeListCompact && isList && <HomeListCompact filter={filter} />}
@@ -67,7 +67,6 @@ function Home({ filter }: WithFilterProps) {
         {shows.homeGridTitle && !isList && <HomeGridTitle filter={filter} />}
         {shows.homeGridEpAutoAdjust && !isList && <HomeGridEpAutoAdjust filter={filter} />}
         {shows.homeHeatMap && <HomeHeatMap filter={filter} />}
-        {shows.homeListLimit && <HomeListLimit filter={filter} />}
         {shows.homeSorting && <HomeSorting filter={filter} />}
         {shows.homeSortSink &&
           systemStore.setting.homeSorting !== MODEL_SETTING_HOME_SORTING.getValue('网页') && (

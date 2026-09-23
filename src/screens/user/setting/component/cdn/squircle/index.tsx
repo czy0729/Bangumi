@@ -4,16 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-01-15 13:00:01
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
-import { IconRadius } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
+import { IconRadius } from '../../icons'
 
 import type { WithFilterProps } from '../../../types'
 

@@ -4,14 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-29 21:21:22
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
-import { IconMore } from '../icons'
 import { getShows } from '../../utils'
+import { IconMore } from '../icons'
 import AppZhinan from './app-zhinan'
 import Privacy from './privacy'
 import RepoGithub from './repo-github'
@@ -41,7 +40,7 @@ function Zhinan({ filter }: WithFilterProps) {
         filter={filter}
         onPress={setTrue}
       />
-      <ActionSheet show={state} title='更多' onClose={setFalse}>
+      <ActionSheet show={state} title='更多' height={580} onClose={setFalse}>
         {shows.topic && <RepoTopic filter={filter} setFalse={setFalse} />}
         {shows.tips && <Tips filter={filter} setFalse={setFalse} />}
         {shows.serverStatus && <ServerStatus filter={filter} />}

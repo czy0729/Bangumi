@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 17:27:37
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
@@ -12,8 +11,8 @@ import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
 import { WEB } from '@constants'
-import { IconHome } from '../icons'
 import { getShows } from '../../utils'
+import { IconHome } from '../icons'
 import DiscoveryMenuNum from './discovery-menu-num'
 import DiscoveryTodayOnair from './discovery-today-onair'
 import Live2D from './live-2d'
@@ -43,7 +42,7 @@ function Discovery({ filter, open = false }: Props) {
         filter={filter}
         onPress={setTrue}
       />
-      <ActionSheet show={state} title='发现' height={680} onClose={setFalse}>
+      <ActionSheet show={state} title='发现' height={640} onClose={setFalse}>
         {shows.discoveryMenuNum && <DiscoveryMenuNum filter={filter} />}
         {!WEB && shows.live2DV2 && <Live2D filter={filter} />}
         {!WEB && shows.live2DModel && systemStore.setting.live2DV2 && (

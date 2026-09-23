@@ -615,3 +615,28 @@ export function IconAutoSize(props: IconProps) {
     </IconBase>
   )
 }
+
+/** 底栏页面懒加载 */
+export function IconTabLazy(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <Rect x='3' y='4' width='18' height='16' rx='2' ry='2' />
+      <Line x1='3' y1='15' x2='21' y2='15' />
+      <Circle cx='12' cy='9.5' r='3' />
+      <Polyline points='12 8 12 9.5 13.2 10.4' />
+    </IconBase>
+  )
+}
+
+/** 标签页分页保活 */
+export function IconTabKeep(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <Rect x='3' y='8' width='18' height='12' rx='2' ry='2' />
+      <Path d='M6 8V6a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v2' />
+      <Path d='M13 8V5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3' />
+      <Line x1='7' y1='13' x2='17' y2='13' />
+      <Line x1='7' y1='16' x2='13' y2='16' />
+    </IconBase>
+  )
+}

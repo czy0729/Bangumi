@@ -31,10 +31,11 @@ export default _.create({
   closePopablePlaceholder: {
     width: '100%',
     height: 160
-  }
-})
+  },
+  sub: {
+    marginLeft: 24
+  },
 
-export const styles = _.create({
   /**
    * 页面内容容器
    *  - 顶部与头部留空
@@ -44,6 +45,7 @@ export const styles = _.create({
     paddingTop: _.sm,
     paddingBottom: _.bottom
   },
+
   /** 与单行 ITEM (如版本) 对齐: 高度 = 上下 padding 12 × 2 + 行图标高 17, 文字同 ITEM 标题字号 */
   input: {
     height: 41,

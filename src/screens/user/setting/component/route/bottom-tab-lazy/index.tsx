@@ -4,15 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 18:25:43
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
 import { t } from '@utils/fetch'
-import { IconPanelBottom } from '../../icons'
 import commonStyles from '../../../styles'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
+import { IconTabLazy } from '../../icons'
 
 import type { WithFilterProps } from '../../../types'
 
@@ -22,7 +21,7 @@ function BottomTabLazy({ filter }: WithFilterProps) {
 
   return (
     <ItemSetting
-      icon={<IconPanelBottom />}
+      icon={<IconTabLazy />}
       ft={
         <SwitchPro
           style={commonStyles.switch}

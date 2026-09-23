@@ -1,4 +1,5 @@
 import { rc } from '@utils/dev'
+import { SETTING_FONTSIZE_ADJUST, SETTING_LETTER_SPACING } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Text')
@@ -6,11 +7,19 @@ export const COMPONENT = rc(PARENT, 'Text')
 export const TEXTS = {
   text: {
     hd: '文本处理'
-    // information: '中文优先、繁体、盘古之白'
+    // information: '字体、字号、字间距、繁体、盘古之白'
   },
-  cnFirst: {
-    title: '优先中文',
-    information: '客户端会智能匹配本地历史番剧数据，尽可能使用中文条目名称'
+  font: {
+    title: '字体',
+    information: '开启后，系统将强制使用「思源幼圆」字体，以确保不同设备上的 UI 设计统一'
+  },
+  fontSize: {
+    title: '字号',
+    search: SETTING_FONTSIZE_ADJUST.map(item => item.label).join()
+  },
+  letterSpacing: {
+    title: '字间距',
+    search: SETTING_LETTER_SPACING.map(item => item.label).join()
   },
   s2t: {
     hd: '繁体',

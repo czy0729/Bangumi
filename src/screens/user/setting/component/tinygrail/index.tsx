@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 21:12:53
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ActionSheet, Text } from '@components'
 import { ItemSetting } from '@_'
@@ -12,9 +11,9 @@ import { systemStore } from '@stores'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
 import { WEB } from '@constants'
-import { IconTrophy } from '../icons'
 import { getShows } from '../../utils'
 import HomeCustom from '../home/home-custom'
+import { IconTrophy } from '../icons'
 import AppTinygrail from './app-tinygrail'
 import AvatarAlertTinygrailAssets from './avatar-alert-tinygrail-assets'
 import TinygrailMode from './tinygrail-mode'
@@ -48,7 +47,7 @@ function Tinygrail({ filter, open = false }: Props) {
         filter={filter}
         onPress={setTrue}
       />
-      <ActionSheet show={state} title='小圣杯' height={520} onClose={setFalse}>
+      <ActionSheet show={state} title='小圣杯' height={580} onClose={setFalse}>
         {shows.tinygrail && <AppTinygrail filter={filter} />}
         {shows.tinygrailMode && <TinygrailMode filter={filter} />}
         {shows.homeCustom && <HomeCustom filter={filter} />}
