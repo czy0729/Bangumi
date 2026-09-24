@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-27 06:37:04
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, Divider, HeaderPlaceholder, HeaderV2, ScrollView } from '@components'
 import { _, userStore } from '@stores'

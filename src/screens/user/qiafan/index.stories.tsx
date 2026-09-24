@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-06 03:26:24
  */
-import React from 'react'
 import { StorybookList, StorybookSPA } from '@components'
 import { Qiafan as Component } from '@screens'
 
