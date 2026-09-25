@@ -10,7 +10,7 @@ import { usePageLifecycle } from '@utils/hooks'
 import store from './store'
 
 import type { ScrollTo } from '@components'
-import type { NavigationProps } from '@types'
+import type { NavigationProps, ScrollEvent } from '@types'
 import type { Ctx } from './types'
 
 /** 自定义源头页面逻辑 */
@@ -30,7 +30,7 @@ export function useOriginSettingPage(props: NavigationProps) {
   }, [])
 
   /** 供 ScrollView 绑定的 onScroll */
-  const handleOnScroll = useCallback((evt: any) => {
+  const handleOnScroll = useCallback((evt: ScrollEvent) => {
     scrollYRef.current = evt?.nativeEvent?.contentOffset?.y || 0
   }, [])
 
@@ -62,8 +62,14 @@ export function useOriginSettingPage(props: NavigationProps) {
 
   return {
     ...context,
+
+    /** 供 ScrollView 绑定的 forwardRef */
     handleForwardRef,
+
+    /** 供 ScrollView 绑定的 onScroll */
     handleOnScroll,
+
+    /** 把输入框上报的相对滚动量转换成绝对位置滚动 */
     handleScrollIntoViewIfNeeded
   }
 }

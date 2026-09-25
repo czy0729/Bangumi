@@ -35,6 +35,8 @@ screen-name/
 
 ## types.ts
 
+页面内跨文件复用的类型（数据模型、定位参数、编辑表单项等）统一放页面 `types.ts`，store 与组件从各自目录 `import type` 引用，不要内联在 `store/action.ts` 等使用处。
+
 ```ts
 import { GetRouteParams, WithNavigation } from '@types'
 import Store from './store'
@@ -165,6 +167,25 @@ export type Props = Pick<ListProps, 'title'> & {
   length: number
 }
 ```
+
+上级没有独立 Props 类型时，最常见的场景是**接收上级展平的数据模型条目**（List 里 `{...item}` 透传），此时从共享数据模型 `Omit` / `Pick` 派生，不手写一份字段相同的镜像类型；回调签名优先复用组件库已有的 prop 类型：
+
+```ts
+// item/types.ts —— 上级 List 直接展开 OriginItem 条目
+import type { InputProps } from '@components'
+import type { Keys, OriginItem } from '../../types'
+
+export type Props = Omit<OriginItem, 'desc'> & {
+  /** 源头类型 */
+  type?: Keys
+
+  /** 输入框聚焦时滚动到可视区 */
+  onScrollIntoViewIfNeeded?: InputProps['onScrollIntoViewIfNeeded']
+}
+```
+
+- 数据模型缺失实际数据携带的字段时（如 `iconSquare`），把字段补进数据模型，而不是在子组件 Props 里凭空手写
+- 上级自身没有可 Pick 的类型（页面无 props、上级 Props 只有一个回调字段）时，才按第 2 条手写
 
 ### 2. 不能 Pick 则保留手写，key 必须有字段注释
 

@@ -4,10 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-23 19:33:25
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Component, HeaderPlaceholder, Page, ScrollView, Text } from '@components'
+import { Component, Flex, HeaderPlaceholder, Page, ScrollView, Text } from '@components'
 import { Notice } from '@_'
 import { _, StoreContext } from '@stores'
 import Cloud from './component/cloud'
@@ -45,9 +44,13 @@ function OriginSetting(props: NavigationProps) {
               />
               <List onScrollIntoViewIfNeeded={handleScrollIntoViewIfNeeded} />
             </View>
-            <Text style={styles.ft} type={_.select('sub', 'icon')} size={11} align='center'>
-              - 预设数据均来源自互联网 -
-            </Text>
+            <Flex style={styles.ft} align='center'>
+              <View style={styles.ftLine} />
+              <Text type={_.select('sub', 'icon')} size={10} lineHeight={12}>
+                预设数据均来源自互联网
+              </Text>
+              <View style={styles.ftLine} />
+            </Flex>
           </ScrollView>
         </Page>
         <Header />

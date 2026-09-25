@@ -15,12 +15,27 @@ export const memoStyles = _.memoStyles(() => ({
   item: {
     height: 88,
     paddingHorizontal: 4,
+    backgroundColor: _.select(_.colorPlain, _.colorBg),
     borderWidth: 1,
     borderColor: _.colorBorder,
-    borderRadius: _.radiusMd
+    borderRadius: _.radiusSm
   },
   itemActive: {
     borderColor: _.colorSuccess
+  },
+  itemDisable: {
+    opacity: 0.5
+  },
+  dot: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 6,
+    right: 6,
+    width: 6,
+    height: 6,
+    backgroundColor: _.colorSuccess,
+    borderRadius: 6,
+    overflow: 'hidden'
   },
   icon: {
     width: 28,
@@ -33,7 +48,7 @@ export const memoStyles = _.memoStyles(() => ({
   badge: {
     width: 28,
     height: 28,
-    backgroundColor: _.select(_.colorBg, _.colorDarkModeLevel2),
+    backgroundColor: _.select(_.colorBg, _.colorDarkModeLevel1),
     borderRadius: 28,
     overflow: 'hidden'
   }

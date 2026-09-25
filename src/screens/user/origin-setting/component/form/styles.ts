@@ -11,11 +11,11 @@ export const memoStyles = _.memoStyles(() => ({
     paddingVertical: 16,
     paddingRight: 8,
     paddingLeft: 16,
-    marginBottom: 64,
+    marginBottom: _.sm,
     backgroundColor: _.colorBg,
     borderColor: _.colorBorder,
     borderWidth: 1,
-    borderRadius: _.radiusMd,
+    borderRadius: _.radiusSm,
     overflow: 'hidden'
   },
   params: {

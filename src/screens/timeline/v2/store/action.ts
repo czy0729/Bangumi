@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-27 00:00:00
  */
-import type { ScrollToIndex } from '@components'
 import { timelineStore, uiStore } from '@stores'
 import { feedback, updateVisibleBottom } from '@utils'
 import { logger } from '@utils/dev'
@@ -14,6 +13,7 @@ import { TABS } from '../ds'
 import Fetch from './fetch'
 import { HIDDEN_DAYS, NAMESPACE } from './ds'
 
+import type { ScrollToIndex } from '@components'
 import type { TimeLineScope, UserId } from '@types'
 
 export default class Action extends Fetch {

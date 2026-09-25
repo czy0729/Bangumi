@@ -1,15 +1,15 @@
 /*
+ * @Author: czy0729
+ * @Date: 2022-03-22 17:49:04
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-08-26 12:06:47
+ *
  * 构造自定义播放源头数据
  * 包括APP自维护数据 + 用户自定义数据
  *
  * [CN] | [JP] => encodeURIComponent(this.cn || this.jp)
  * [CN_S2T] | [JP_S2T] => encodeURIComponent(s2t(this.cn || this.jp)
  * [TIMESTAMP] => getTimestamp()
- *
- * @Author: czy0729
- * @Date: 2022-03-22 17:49:04
- * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-26 12:06:47
  */
 import { toJS } from 'mobx'
 import { desc, getTimestamp } from '@utils'
@@ -26,18 +26,10 @@ import {
 } from './ds'
 
 import type { ImageSource, Origin, SubjectId } from '@types'
-import type { Keys } from './types'
+import type { Keys, OriginItem } from './types'
 
-export type OriginItem = {
-  uuid?: string
-  id: string
-  name: string
-  url: string
-  sort: number
-  icon?: string | ImageSource
-  active: number
-  desc?: string
-}
+/** 类型定义在 types.ts, 兼容外部多处从 utils 导入的旧引用 */
+export type { OriginItem }
 
 /** 获取APP自维护设置数据 */
 export function getBaseOriginConfig(): Record<Keys, OriginItem[]> {
@@ -101,7 +93,8 @@ export function getOriginConfig(
   Object.keys(mergeConfig).forEach(type => {
     if (typeof pickType !== 'undefined' && pickType !== type) return
 
-    const self = mergeConfig[type as Keys]
+    // 拷贝一份再合并, 避免原地修改 getBaseOriginConfig 里共享的模块级常量对象
+    const self = mergeConfig[type as Keys].map(item => ({ ...item }))
 
     // 先合并用户对自维护数据的自定义
     self.forEach(item => {

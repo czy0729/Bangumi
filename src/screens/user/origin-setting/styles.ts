@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-13 00:02:54
  */
+import { StyleSheet } from 'react-native'
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
@@ -16,6 +17,13 @@ export const memoStyles = _.memoStyles(() => ({
     paddingBottom: _.window.height / 3
   },
   ft: {
-    marginVertical: _.lg
+    marginTop: _.lg,
+    paddingHorizontal: _.wind
+  },
+  ftLine: {
+    flex: 1,
+    height: StyleSheet.hairlineWidth,
+    marginHorizontal: _.md,
+    backgroundColor: _.colorBorder
   }
 }))

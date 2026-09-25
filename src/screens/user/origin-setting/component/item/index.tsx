@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-01 04:14:52
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text } from '@components'
@@ -15,8 +14,8 @@ import Form from '../form'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { ImageSourcePropType } from 'react-native'
 import type { Ctx } from '../../types'
+import type { Props } from './types'
 
 function Item({
   type,
@@ -29,23 +28,12 @@ function Item({
   url,
   sort,
   onScrollIntoViewIfNeeded
-}: {
-  type?: string
-  id?: number | string
-  uuid?: string
-  active?: number | boolean
-  icon?: string | ImageSourcePropType
-  iconSquare?: boolean
-  name?: string
-  url?: string
-  sort?: number
-  onScrollIntoViewIfNeeded?: (deltaY: number) => void
-}) {
+}: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const styles = memoStyles()
 
-  const actions = []
+  const actions: string[] = []
   const isBase = !!id
   const isActive = !!active
   actions.push(isActive ? '停用' : '启用', isBase ? '编辑排序' : '编辑')
@@ -125,10 +113,11 @@ function Item({
           }}
         >
           <Flex
-            style={stl(styles.item, isActive && styles.itemActive)}
+            style={stl(styles.item, isActive && styles.itemActive, !isActive && styles.itemDisable)}
             direction='column'
             justify='center'
           >
+            {!!isActive && <View style={styles.dot} />}
             {icon ? (
               <Flex style={stl(styles.icon, !iconSquare && styles.iconRound)} justify='center'>
                 <Image

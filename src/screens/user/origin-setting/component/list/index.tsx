@@ -4,31 +4,32 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-23 19:46:22
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Divider, Flex } from '@components'
+import { Flex } from '@components'
 import { useStore } from '@stores'
 import { TYPES_DS } from '../../ds'
 import Create from '../create'
 import Item from '../item'
 import Title from '../title'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-function List({ onScrollIntoViewIfNeeded }) {
+function List({ onScrollIntoViewIfNeeded }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
+
+  const styles = memoStyles()
 
   return (
     <>
-      {TYPES_DS.map((item, index) => {
+      {TYPES_DS.map(item => {
         const data = $.data[item.type]
 
         return (
-          <View key={item.type}>
-            {!!index && <Divider />}
+          <View key={item.type} style={styles.section}>
             <Title type={item.type} name={item.name} />
             <Flex style={styles.list} align='start' wrap='wrap'>
               {data
@@ -41,12 +42,12 @@ function List({ onScrollIntoViewIfNeeded }) {
                     onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
                   />
                 ))}
+              <Create
+                type={item.type}
+                name={item.name}
+                onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
+              />
             </Flex>
-            <Create
-              type={item.type}
-              name={item.name}
-              onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
-            />
           </View>
         )
       })}

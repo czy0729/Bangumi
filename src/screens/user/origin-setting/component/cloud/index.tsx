@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-23 19:36:56
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Divider, SwitchPro } from '@components'
 import { ItemSetting, ItemSettingBlock } from '@_'
@@ -16,10 +15,14 @@ import i18n from '@constants/i18n'
 import { getYuqueThumbs } from '../../utils'
 import { useCloud } from './hooks'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
-function Cloud({ isLogin, active, onToggle, onDownloaded }) {
+import type { Props } from './types'
+
+function Cloud({ isLogin, active, onToggle, onDownloaded }: Props) {
   r(COMPONENT)
+
+  const styles = memoStyles()
 
   const text = useCloud()
 
@@ -107,7 +110,7 @@ function Cloud({ isLogin, active, onToggle, onDownloaded }) {
         ])}
       />
 
-      {/** 显示正版播放源 */}
+      {/* 显示正版播放源 */}
       <ItemSetting
         style={styles.item}
         contentStyle={styles.content}
@@ -134,7 +137,14 @@ function Cloud({ isLogin, active, onToggle, onDownloaded }) {
         style={styles.item}
         contentStyle={styles.content}
         hd='显示所有项'
-        ft={<SwitchPro key={active} style={styles.switch} value={active} onSyncPress={onToggle} />}
+        ft={
+          <SwitchPro
+            key={String(active)}
+            style={styles.switch}
+            value={active}
+            onSyncPress={onToggle}
+          />
+        }
       />
       <Divider />
     </>

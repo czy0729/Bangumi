@@ -7,8 +7,19 @@
 import { COMPONENT } from '../ds'
 
 import type { Loaded, Origin } from '@types'
+import type { EditItem, Keys } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
+
+/** 空的编辑表单项 */
+export const EMPTY_EDIT_ITEM: EditItem = {
+  id: '',
+  uuid: '',
+  name: '',
+  url: '',
+  sort: 0,
+  active: 1
+}
 
 export const EXCLUDE_STATE = {
   data: {
@@ -29,15 +40,11 @@ export const EXCLUDE_STATE = {
 
   /** 编辑表单 */
   edit: {
-    type: '',
-    item: {
-      id: '',
-      uuid: '',
-      name: '',
-      url: '',
-      sort: 0,
-      active: 1
-    }
+    /** 当前编辑的分类, '' 为表单关闭 */
+    type: '' as '' | Keys,
+
+    /** 当前编辑的条目 */
+    item: { ...EMPTY_EDIT_ITEM }
   }
 }
 

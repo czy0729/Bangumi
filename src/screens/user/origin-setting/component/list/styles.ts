@@ -6,9 +6,16 @@
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
+  section: {
+    padding: _.select(0, _.md),
+    marginBottom: _.md,
+    backgroundColor: _.select('transparent', _.colorDarkModeLevel1),
+    borderRadius: _.radiusMd
+  },
   list: {
     minHeight: 80,
-    marginTop: _.md
+    marginTop: _.md,
+    marginHorizontal: _.select(0, -4)
   }
-})
+}))

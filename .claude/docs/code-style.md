@@ -74,8 +74,60 @@
   }, [])
   ```
 
-# 模块级缓存规范
+- **页面底色是 `colorPlain`（浅色为纯白），不是 `colorBg`**：`Page` 在 iOS 用 `_.container.plain`，浅色页面即白底。因此浅色下卡内分隔靠「描边 + 白底」，不要在白底上挖 `colorBg` 大灰井或叠白卡片 + 阴影（两者都不可见）；暗色相反，靠「level1 卡片 + `colorBg` 深井」分层，阴影无效可省略
+- **覆盖组件默认样式必须用同名具体键，不要用简写**：RN 样式数组按下标合并，`padding` 简写与组件内部的 `paddingHorizontal` / `paddingVertical` 是不同 key，且 Yoga 中具体边优先于简写——`padding: 0` 压不住自带的 `paddingHorizontal: _.wind`。要覆盖就写同名键（如 `paddingHorizontal: 0`）
+- **样式对象内属性按「布局 → 尺寸 → 间距 → 文字 → 填充 → 修饰」从上到下书写**，即先写决定盒子如何被放置与占位的属性，再写内容（文字），然后是容器的视觉填充，最后写裁切阴影等修饰，一组内固定先后：
 
+  1. 布局参与：`flex` / `alignItems` / `justifyContent`
+  2. 定位：`position` → `zIndex` → `top` / `right` / `bottom` / `left`（偏移仅 absolute 时出现，紧跟定位）
+  3. 尺寸：`width` → `height`
+  4. 间距：`padding`（全 → 轴向 → 单边）→ `margin`（全 → 轴向 → 单边）
+  5. 文字排版：`fontFamily` → `fontSize` → `lineHeight` → `color` → `textAlign`（内容在前，容器 paint 在后）
+  6. 背景：`backgroundColor`
+  7. 边框与圆角：`borderWidth` → `borderColor` → `borderStyle` → `borderRadius`
+  8. 修饰收尾：`overflow` → `transform` → `..._.shadow`
+
+  ```typescript
+  export const memoStyles = _.memoStyles(() => ({
+    dot: {
+      position: 'absolute',   // 定位
+      zIndex: 1,
+      top: 6,
+      right: 6,
+      width: 6,               // 尺寸
+      height: 6,
+      backgroundColor: _.colorSuccess,  // 填充
+      borderRadius: 6,        // 圆角
+      overflow: 'hidden'      // 修饰收尾
+    },
+    form: {
+      paddingVertical: 16,    // 间距: 先 padding 后 margin
+      paddingRight: 8,
+      paddingLeft: 16,
+      marginBottom: _.sm,
+      backgroundColor: _.colorBg,
+      borderWidth: 1,
+      borderColor: _.colorBorder,
+      borderRadius: _.radiusSm,
+      overflow: 'hidden'
+    },
+    input: {
+      width: '100%',          // 尺寸
+      paddingVertical: 8,     // 间距
+      paddingHorizontal: 12,
+      fontFamily: _.fontBoldFamily,  // 文字在背景前
+      color: _.colorDesc,
+      ..._.fontSize14,
+      backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel2),  // 背景
+      borderWidth: _.select(1, 0),
+      borderColor: _.colorBorder,
+      borderRadius: _.radiusXs,
+      overflow: 'hidden'
+    }
+  }))
+  ```
+
+# 模块级缓存规范
 - **Map / Set 缓存需要上限时，统一使用 `@utils/cache` 的 `ensureCacheLimit(cache, maxSize)`**，在每次 `set` / `add` 之后调用即可（FIFO 淘汰最早条目，单次只淘汰 1 条）；禁止自建「超过上限就删除」的私有工具函数或 LRU 类
 - **数组缓存需要上限时，统一使用 `@utils/cache` 的 `ensureArrayLimit(list, maxLength)`**，原地 `splice` 从尾部裁剪并返回同一引用；MobX observable 数组需在 `runInAction` 内调用
 - decode / 映射 / 去重等纯函数级缓存优先做成「模块级 Map + `ensureCacheLimit`」，缓存 key 要包含会影响结果的全部输入（如屏蔽词列表需加入内容指纹，修改后缓存自动失效）
