@@ -4,33 +4,21 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-21 15:10:22
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { PaginationList } from '@_'
 import { useStore } from '@stores'
-// import { TEXT_UPDATE_SPONSOR } from '@constants'
-import { LIST } from '../../ds'
+import { LIST, LIST_LIMIT } from '../../ds'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-// import { memoStyles } from './styles'
-
 import type { Ctx } from '../../types'
 
+/** 支持者列表 */
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const styles = memoStyles()
-
-  // const elListHeaderComponent = useMemo(
-  //   () => (
-  //     <Notice style={styles.notice}>
-  //       截止至 {TEXT_UPDATE_SPONSOR} 共 {LIST.length} 人投食了，感谢你们的支持！
-  //     </Notice>
-  //   ),
-  //   [styles]
-  // )
 
   return (
     <PaginationList
@@ -38,8 +26,7 @@ function List() {
       contentContainerStyle={styles.container}
       data={LIST}
       numColumns={2}
-      limit={40}
-      // ListHeaderComponent={elListHeaderComponent}
+      limit={LIST_LIMIT}
       renderItem={renderItem}
       onScroll={$.onScroll}
     />

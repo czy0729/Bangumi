@@ -10,25 +10,23 @@ import { Avatar, InView } from '@_'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
 import { useNavigation } from '@utils/hooks'
-import { HOST_BGM_STATIC, IMG_DEFAULT_AVATAR } from '@constants'
-import { USERS_MAP } from '../../ds'
+import { LEVELS, USERS_MAP } from '../../ds'
+import { getLevelIndex, getSponsorAvatar } from '../../utils'
+import LevelIcon from '../level-icon'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function ListItem({ item, index }) {
+import type { Props } from './types'
+
+/** 两列列表项 */
+function ListItem({ item, index }: Props) {
   const navigation = useNavigation(COMPONENT)
 
   const data = USERS_MAP[item.data]
   const userId = item.data
 
-  let level = ''
-  if (item.weight >= 100) {
-    level = '\u{1F947}'
-  } else if (item.weight >= 50) {
-    level = '\u{1F948}'
-  } else if (item.weight >= 20) {
-    level = '\u{1F949}'
-  }
+  const levelIndex = getLevelIndex(item.weight)
+  const icon = levelIndex >= 0 ? LEVELS[levelIndex].icon : ''
 
   return (
     <Flex style={styles.item}>
@@ -36,7 +34,7 @@ function ListItem({ item, index }) {
         <UserStatus userId={userId}>
           <Avatar
             navigation={navigation}
-            src={data?.a ? `${HOST_BGM_STATIC}/pic/user/l/000/${data?.a}.jpg` : IMG_DEFAULT_AVATAR}
+            src={getSponsorAvatar(userId)}
             name={data?.n}
             userId={userId}
             size={32}
@@ -53,9 +51,11 @@ function ListItem({ item, index }) {
               @{userId}
             </Text>
           </Flex.Item>
-          <Text style={styles.level} size={16}>
-            {level}
-          </Text>
+          {!!icon && (
+            <Flex style={styles.level} justify='center'>
+              <LevelIcon type={icon} />
+            </Flex>
+          )}
         </Flex>
       </Flex.Item>
     </Flex>

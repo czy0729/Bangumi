@@ -25,6 +25,7 @@ function AvatarImage({
   border,
   borderWidth,
   placeholder,
+  errorToHide,
   style
 }: Props) {
   const key = typeof src === 'string' ? src : 'avatar'
@@ -37,7 +38,8 @@ function AvatarImage({
     size,
     border,
     borderWidth,
-    placeholder
+    placeholder,
+    errorToHide
   }
 
   if (radius) {

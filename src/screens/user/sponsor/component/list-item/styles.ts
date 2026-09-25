@@ -17,7 +17,6 @@ export const styles = _.create({
     minHeight: 32
   },
   level: {
-    marginRight: -2,
-    opacity: 0.8
+    marginRight: -2
   }
 })

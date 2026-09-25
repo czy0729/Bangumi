@@ -4,13 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-11 22:45:14
  */
-import React from 'react'
 import ListItem from '../list-item'
 
-export function keyExtractor(item: any) {
+import type { ListItemType } from '../../types'
+
+export function keyExtractor(item: ListItemType) {
   return String(item.data)
 }
 
-export function renderItem({ item, index }) {
+export function renderItem({ item, index }: { item: ListItemType; index: number }) {
   return <ListItem item={item} index={index} />
 }

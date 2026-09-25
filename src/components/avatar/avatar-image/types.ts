@@ -8,7 +8,14 @@ import type { Props as AvatarProps } from '../types'
 
 export type Props = Pick<
   AvatarProps,
-  'src' | 'fallbackSrc' | 'priority' | 'skeleton' | 'skeletonType' | 'borderWidth' | 'placeholder'
+  | 'src'
+  | 'fallbackSrc'
+  | 'priority'
+  | 'skeleton'
+  | 'skeletonType'
+  | 'borderWidth'
+  | 'placeholder'
+  | 'errorToHide'
 > & {
   /** 大小 */
   size: number

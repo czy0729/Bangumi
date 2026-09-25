@@ -10,8 +10,7 @@ import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { t } from '@utils/fetch'
-import { timeDiff } from '../utils'
-import { COMPONENT, HM } from './ds'
+import { COMPONENT, HM, getInfoTexts } from './ds'
 
 import type { Ctx } from '../types'
 
@@ -35,15 +34,7 @@ function Header() {
           onPress={() => {
             navigation.push('Information', {
               title: '支持者',
-              message: [
-                `生存情况：已存活 ${timeDiff()}`,
-                '图表根据支持额按比例划分',
-                '点击方格隐藏 1 格，若你为支持者长按可进入空间',
-                '除此外还有 50 多个支持者没有留名',
-                '@senken 提供的 100 刀 iOS 开发账号',
-                '@magma 提供的服务器和 OSS 服务',
-                '数据不定期更新，感谢各位的支持！'
-              ]
+              message: getInfoTexts()
             })
 
             t('赞助者.提示')
@@ -51,7 +42,7 @@ function Header() {
         />
       </>
     ),
-    [list]
+    [list, navigation, $]
   )
 
   return <HeaderV2 title='支持者' hm={HM} headerRight={handleHeaderRight} />

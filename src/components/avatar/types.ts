@@ -27,6 +27,7 @@ type ZoneParams = NavigationPushType extends (path: 'Zone', params?: infer Param
  *  - priority: 图片同一时间有复数加载时的优先级
  *  - skeleton: 是否显示骨架屏动画
  *  - skeletonType: 骨架屏渐变颜色风格
+ *  - errorToHide: 确定加载失败后隐藏组件
  */
 export type Props = WithViewStyles<
   WithNavigation<
@@ -42,6 +43,7 @@ export type Props = WithViewStyles<
       | 'priority'
       | 'skeleton'
       | 'skeletonType'
+      | 'errorToHide'
     > & {
       /** 用户 ID, 存在则允许点击进入用户空间 */
       userId?: UserId

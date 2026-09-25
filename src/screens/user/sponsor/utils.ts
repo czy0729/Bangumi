@@ -4,19 +4,29 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-04 19:16:51
  */
-import { useCallback, useState } from 'react'
-import { _, usersStore } from '@stores'
-import { queue, toFixed } from '@utils'
-import { logger } from '@utils/dev'
-import { update } from '@utils/kv'
+import { toFixed } from '@utils'
 import dayjs from '@utils/thirdParty/dayjs'
-import treemap from '@utils/thirdParty/treemap'
-import { DEV, IOS } from '@constants'
-import advanceJSON from '@assets/json/advance.json'
-import { HEADER_HEIGHT } from '@styles'
-import { FILTER_RATE, LIST } from './ds'
+import treemapRaw from '@utils/thirdParty/treemap'
+import { HOST_BGM_STATIC, IMG_DEFAULT_AVATAR } from '@constants'
+import { FILTER_RATE, LEVELS, LIST, MAX_NODES, USERS_MAP } from './ds'
 
-import type { UserId } from '@types'
+import type { Node, TreemapNode } from './types'
+
+/** 第三方库没有类型声明, 按用到的调用签名断言 */
+const treemap = treemapRaw as unknown as {
+  squarify: (
+    options: {
+      frame: {
+        x: number
+        y: number
+        width: number
+        height: number
+      }
+      nodes: Node[]
+    },
+    callback: (x: number, y: number, w: number, h: number, node: Node) => void
+  ) => void
+}
 
 export function timeDiff() {
   const start = dayjs('2019-03-30')
@@ -44,96 +54,87 @@ export function timeDiff() {
   return `${y}年${m}月${d}日${h}时${i}分${s}秒`
 }
 
-let memo: UserId[] = []
+/**
+ * 自己在支持者名单里的下标, 未上榜返回 -1
+ *  - 名单的键可能是改过的 userId, 也可能是数字 id, 所以两种都要比对
+ * */
+export function getMyIndex(myUserId: string, myId: string) {
+  if (!myUserId && !myId) return -1
 
-/** treemap 加权计算 */
-export function useTreemapSquarify() {
-  const [filterUserIds, setFilterUserIds] = useState([...memo])
+  return LIST.findIndex(item => {
+    if (item.data === myId) return true
+    if (item.data === myUserId) return true
 
-  /** 过滤一个用户 */
-  const handleFilter = useCallback(
-    (id: UserId) => {
-      setFilterUserIds([...filterUserIds, id])
-      memo = [...filterUserIds, id]
-    },
-    [filterUserIds, setFilterUserIds]
-  )
+    const id = USERS_MAP[item.data]?.i
+    return !!id && String(id) === myUserId
+  })
+}
 
-  /** 过滤一组用户 */
-  const handleBatchFilter = useCallback(
-    (range: 10 | 20 | 50 | 200) => {
-      const filterUserIds = Object.entries(advanceJSON)
-        .filter(([, value]) => {
-          let amount: number = 0
-          if (value === 1) {
-            amount = 10
-          } else if (typeof value === 'string') {
-            const [, temp] = value.split('|')
-            amount = Number(temp)
-          }
+/**
+ * 支持者头像地址
+ *  - USERS_MAP.a 只存了后三级目录 (00/71/7132), 第一级是 id 补零到 9 位的前 3 位, 即 100 万前为 000, 之后为 001
+ * */
+export function getSponsorAvatar(data: string) {
+  const { a } = USERS_MAP[data] || {}
+  if (!a) return IMG_DEFAULT_AVATAR
 
-          if (!amount) return true
-          if (range === 200) return !(amount >= 200)
-          if (range === 50) return !(amount < 200 && amount >= 50)
-          if (range === 20) return !(amount < 50 && amount >= 20)
-          if (range === 10) return !(amount < 20 && amount >= 10)
-          return true
-        })
-        .map(([key]) => key)
+  const id = a.split('/').pop()!.split('_')[0]
+  const dir = id.padStart(9, '0').slice(0, 3)
+  return `${HOST_BGM_STATIC}/pic/user/l/${dir}/${a}.jpg`
+}
 
-      setFilterUserIds([...filterUserIds])
-    },
-    [setFilterUserIds]
-  )
+/** 支持额所在档位下标, 低于最低档返回 -1 */
+export function getLevelIndex(price: number) {
+  return LEVELS.findIndex(item => price >= item.min)
+}
 
-  /** 重置过滤 */
-  const handleResetFilter = useCallback(() => {
-    setFilterUserIds([])
-    memo = []
-  }, [setFilterUserIds])
+/** 只显示某一档时, 其余支持者的 id 列表 */
+export function getRangeFilterIds(levelIndex: number) {
+  const { min } = LEVELS[levelIndex]
+  const max = levelIndex === 0 ? Infinity : LEVELS[levelIndex - 1].min
 
+  return LIST.filter(item => !(item.weight >= min && item.weight < max)).map(item => item.data)
+}
+
+/** 去掉隐藏项后, 再按占比与格子上限截断出参与排布的节点 */
+export function buildNodes(filterUserIds: string[]) {
   const filterUserIdsSet = new Set(filterUserIds)
-  let list = LIST.filter(item => !filterUserIdsSet.has(item.data))
+  const list = LIST.filter(item => !filterUserIdsSet.has(item.data))
   const total = calculateTotal(list)
 
-  /** 过滤的个数 */
-  let filterCount = 0
+  /** 面积占比过小或超出格子上限的都不排布 */
+  const nodes = list.filter(
+    (item, index) => item.weight / total >= FILTER_RATE && index < MAX_NODES
+  )
+  const currentTotal = calculateTotal(nodes)
 
-  /** 过滤的总值 */
-  let filterTotal = 0
+  return {
+    nodes: nodes.map(item => ({
+      data: item.data,
+      weight: item.weight,
+      price: item.weight,
+      percent: item.weight / currentTotal
+    })),
+    hiddenCount: list.length - nodes.length
+  }
+}
 
-  list = list.filter((item, index) => {
-    // 面积除以当前总面积小于过滤比例, 需要隐藏区域
-    if (item.weight / total < FILTER_RATE || index >= 40) {
-      filterCount += 1
-      filterTotal += item.weight
-      return false
-    }
-    return true
-  })
+/** treemap 排布 */
+export function squarifyNodes(nodes: Node[], width: number, height: number) {
+  const data: TreemapNode[] = []
 
-  const currentTotal = calculateTotal(list)
-  const nodes = list.map(item => ({
-    data: item.data,
-    weight: item.weight,
-    price: item.weight,
-    percent: item.weight / currentTotal
-  }))
-
-  const data = []
   try {
-    // @ts-expect-error
     treemap.squarify(
       {
         frame: {
           x: 0,
           y: 0,
-          width: _.window.width,
-          height: _.window.height - HEADER_HEIGHT - 64 - (IOS ? 28 : 0)
+          width,
+          height
         },
         nodes
       },
-      (x: number, y: number, w: number, h: number, node: Record<string, any>) =>
+      (x, y, w, h, node) =>
         data.push({
           data: node.data,
           price: node.price,
@@ -146,80 +147,11 @@ export function useTreemapSquarify() {
     )
   } catch {}
 
-  return {
-    data,
-    filterLength: filterUserIds.length,
-    filterCount,
-    filterTotal,
-    handleFilter,
-    handleBatchFilter,
-    handleResetFilter
-  }
+  return data
 }
 
-function calculateTotal(nodes: any[]) {
+function calculateTotal(nodes: { weight: number }[]) {
   let total = 0
   nodes.forEach(item => (total += item.weight || 0))
   return total
-}
-
-export async function devGetUsersInfo() {
-  if (!DEV) return
-
-  const USERS_MAP = {}
-  const items = Object.keys(advanceJSON)
-  await queue(
-    items.map((userId, index) => async () => {
-      try {
-        const data = await usersStore.fetchUsers(userId)
-        logger.info('devGetUsersInfo', `${index} / ${items.length}`)
-
-        USERS_MAP[userId] = {
-          n: data.userName
-        }
-        if (data.avatar) {
-          USERS_MAP[userId].a = data.avatar
-            .split('?')[0]
-            .split(/\/00(0|1)\//)[2]
-            .replace('.jpg', '')
-        }
-        if (data.userId !== userId) USERS_MAP[userId].i = data.userId
-      } catch {}
-
-      return true
-    })
-  )
-  logger.info(JSON.stringify(USERS_MAP))
-
-  update('sponsor_users_map', USERS_MAP)
-
-  logger.info('devGetUsersInfo done')
-}
-
-export async function devLocalUsersInfo() {
-  if (!DEV) return
-
-  await usersStore.init('users')
-  const USERS_MAP = {}
-  Object.keys(advanceJSON).forEach(userId => {
-    try {
-      const data = usersStore.users(userId)
-      USERS_MAP[userId] = {
-        n: data.userName
-      }
-      if (data.avatar) {
-        USERS_MAP[userId].a = data.avatar
-          .split('?')[0]
-          .split(/\/00(0|1)\//)[2]
-          .replace('.jpg', '')
-      }
-      if (data.userId !== userId) USERS_MAP[userId].i = data.userId
-    } catch (error) {
-      logger.error(usersStore.users(userId).avatar)
-    }
-  })
-
-  update('sponsor_users_map', USERS_MAP)
-
-  logger.info('done')
 }

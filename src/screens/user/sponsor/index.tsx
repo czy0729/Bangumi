@@ -14,7 +14,7 @@ import { useSponsorPage } from './hooks'
 
 import type { NavigationProps } from '@types'
 
-/** 赞助者 */
+/** 支持者 */
 function Sponsor(props: NavigationProps) {
   const { id, $ } = useSponsorPage(props)
 

@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-08-21 19:06:32
  */
 import { _ } from '@stores'
+import { levelStyles } from '../../levels'
 
 export const memoStyles = _.memoStyles(() => ({
   item: {
@@ -27,16 +28,9 @@ export const memoStyles = _.memoStyles(() => ({
   content: {
     width: '92%'
   },
-  l1: {
-    backgroundColor: _.select('rgb(210, 210, 210)', 'rgb(12, 12, 12)')
+  /** 自己的格子: 橙色底, 覆盖档位色阶 */
+  mine: {
+    backgroundColor: _.colorDepthAsk
   },
-  l2: {
-    backgroundColor: _.select('rgb(222, 222, 222)', 'rgb(20, 20, 20)')
-  },
-  l3: {
-    backgroundColor: _.select('rgb(238, 238, 238)', 'rgb(36, 36, 36)')
-  },
-  l4: {
-    backgroundColor: _.select('rgb(255, 255, 255)', 'rgb(52, 52, 52)')
-  }
+  ...levelStyles()
 }))

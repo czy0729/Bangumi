@@ -6,35 +6,8 @@
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
-  filter: {
-    paddingVertical: 12
-  },
-  container: {
-    flex: 1,
-    backgroundColor: _.colorPlain
-  },
-  refresh: {
-    marginRight: -24
-  },
-  touch: {
-    paddingVertical: 4,
-    paddingHorizontal: 6,
-    marginHorizontal: 2
-  },
-  block: {
-    width: '80%',
-    marginTop: _.sm
-  },
-  l: {
-    width: 18,
-    height: 18,
-    marginRight: 6,
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: _.colorBorder,
-    overflow: 'hidden'
-  },
+/** 支持额四档色阶, 图表色块与图例共用 */
+export const levelStyles = _.memoStyles(() => ({
   l1: {
     backgroundColor: _.select('rgb(210, 210, 210)', 'rgb(12, 12, 12)')
   },

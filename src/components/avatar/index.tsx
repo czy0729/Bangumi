@@ -39,6 +39,7 @@ export const Avatar = observer(
     priority,
     skeleton,
     skeletonType,
+    errorToHide,
     event = FROZEN_OBJECT,
     params = FROZEN_OBJECT,
     onPress,
@@ -86,6 +87,7 @@ export const Avatar = observer(
         border={borderColor}
         borderWidth={borderWidth}
         placeholder={placeholder}
+        errorToHide={errorToHide}
         style={mergeStyle}
       />
     )
