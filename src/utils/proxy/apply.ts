@@ -78,9 +78,8 @@ export function applyProxy(
       proxyUrl = url
         .replace(API_HOST, host)
         .replace(API_HOST_BACKUP, host)
-        // 注意: API_P1 含 /p1, 替换后该前缀会丢失, next 私有接口会拿到网页而非 JSON
-        // 该接口使用极少, 属已知取舍
-        .replace(API_P1, host)
+        // 保留 /p1 前缀, 节点按 x-upstream: next.bgm.tv 路由到 next.bgm.tv/p1
+        .replace(API_P1, `${host}/p1`)
         .replace(HOST, host)
 
       // Worker 模式: 添加 x-upstream 等 header

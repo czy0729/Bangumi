@@ -78,6 +78,7 @@ export function usePopoverItems<Data extends PopoverData>({
 export function usePopoverPress<Data extends PopoverData>({
   data,
   onSelect = FROZEN_FN,
+  onPress,
   onLongPress = FROZEN_FN,
   activateOn = 'tap'
 }: UsePopoverPressOptions<Data>): UsePopoverPressResult {
@@ -111,6 +112,7 @@ export function usePopoverPress<Data extends PopoverData>({
   if (activateOn === 'hold') {
     return {
       anchorRef,
+      onPress,
       onLongPress: handlePopover
     }
   }

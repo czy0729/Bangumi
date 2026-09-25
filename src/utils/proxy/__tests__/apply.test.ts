@@ -159,13 +159,15 @@ describe('applyProxy', () => {
     expect(result.proxyType).toBe('worker')
   })
 
-  it('worker 模式 x-upstream 按 api 与 next 目标区分', () => {
+  it('worker 模式 x-upstream 按 api 与 next 目标区分, p1 保留 /p1 前缀', () => {
     setSetting({ workerProxy: WORKER })
 
     const apiResult = applyProxy(`${API_HOST}/v0/me`)
     const nextResult = applyProxy(`${API_P1}/timeline`)
 
+    expect(apiResult.url).toBe(`${WORKER}/v0/me`)
     expect(apiResult.headers['x-upstream']).toBe('api.bgm.tv')
+    expect(nextResult.url).toBe(`${WORKER}/p1/timeline`)
     expect(nextResult.headers['x-upstream']).toBe('next.bgm.tv')
   })
 
@@ -289,6 +291,7 @@ describe('applyProxy - 支持者节点', () => {
 
     expect(applyProxy(`${API_HOST}/v0/me`).url).toBe(`${SUPPORTER.host}/v0/me`)
     expect(applyProxy(`${API_HOST}/v0/me`).headers['x-upstream']).toBe('api.bgm.tv')
+    expect(applyProxy(`${API_P1}/timeline`).url).toBe(`${SUPPORTER.host}/p1/timeline`)
     expect(applyProxy(`${API_P1}/timeline`).headers['x-upstream']).toBe('next.bgm.tv')
   })
 

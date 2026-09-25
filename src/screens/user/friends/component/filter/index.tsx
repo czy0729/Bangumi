@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-01-21 10:54:37
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Input, Loading, Text } from '@components'
@@ -37,7 +36,7 @@ function Filter() {
               {percent}
             </Text>
           )}
-          <Loading.Medium color={_.colorSub} size={16} />
+          <Loading.Medium color={_.colorSub} />
         </Flex>
       )}
     </View>

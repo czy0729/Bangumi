@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
 import { IOS } from '@constants'
 import { HoldItem } from '../hold-menu'
+import { Touchable } from '../touchable'
 import { usePopoverItems } from './hooks'
 import { COMPONENT } from './ds'
 
@@ -22,6 +23,7 @@ function Popover<Data extends PopoverData>({
   style,
   activateOn,
   onSelect,
+  onPress,
   onLongPress,
   children
 }: PopoverProps<Data>) {
@@ -44,7 +46,14 @@ function Popover<Data extends PopoverData>({
         closeOnTap
         hapticFeedback={IOS ? 'Light' : 'None'}
       >
-        {children}
+        {/** 仅 hold 模式下点击归外部回调, 由 Popover 统一包一层 Touchable; tap / tap-hold 模式下点击用于激活菜单, 包装会抢占手势 */}
+        {popoverActivateOn === 'hold' && onPress ? (
+          <Touchable withoutFeedback onPress={onPress}>
+            {children}
+          </Touchable>
+        ) : (
+          children
+        )}
       </HoldItem>
     </View>
   )

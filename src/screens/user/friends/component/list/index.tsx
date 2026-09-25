@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-01-21 11:26:55
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { PaginationList } from '@_'
 import { useStore } from '@stores'

@@ -7,5 +7,6 @@
 import type { PropsWithChildren } from 'react'
 
 export type Props = PropsWithChildren<{
+  /** 列表中的索引, 用于计算懒加载行号 */
   index: number
 }>

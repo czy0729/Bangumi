@@ -68,6 +68,9 @@ export type PopoverImplProps<Data extends PopoverData = PopoverData> = {
   /** 菜单选择 (回传未做简繁转换的原始数据) */
   onSelect?: PopoverOnSelect<Data>
 
+  /** 点击 (hold 模式下透传给 Touchable, 用于点击跳转与长按菜单共存) */
+  onPress?: TouchableHandlePress
+
   /** 长按 (Android tap 模式下透传给 Touchable, iOS 下长按语义归调用方) */
   onLongPress?: TouchableWithoutFeedbackProps['onLongPress']
 
@@ -126,6 +129,9 @@ export type UsePopoverPressOptions<Data extends PopoverData = PopoverData> = {
   /** 菜单选择 */
   onSelect?: PopoverOnSelect<Data>
 
+  /** 点击 (hold 模式下透传给 Touchable) */
+  onPress?: TouchableHandlePress
+
   /** 长按回调 (tap 模式下透传给 Touchable) */
   onLongPress?: TouchableWithoutFeedbackProps['onLongPress']
 
@@ -141,7 +147,7 @@ export type UsePopoverPressResult = {
   /** 按压延迟 (tap 模式下与长按区分) */
   delayPressIn?: number
 
-  /** 点击 (tap 模式下打开菜单) */
+  /** 点击 (tap 模式下打开菜单, hold 模式下透传外部回调) */
   onPress?: TouchableHandlePress
 
   /** 长按 (hold 模式下打开菜单, tap 模式下透传外部回调) */

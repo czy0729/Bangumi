@@ -22,6 +22,7 @@ function Popover<Data extends PopoverData>({
   hitSlop,
   activateOn = 'tap',
   onSelect,
+  onPress,
   onLongPress,
   children
 }: PopoverProps<Data>) {
@@ -30,11 +31,12 @@ function Popover<Data extends PopoverData>({
   const {
     anchorRef,
     delayPressIn,
-    onPress,
+    onPress: handlePress,
     onLongPress: handleLongPress
   } = usePopoverPress({
     data,
     onSelect,
+    onPress,
     onLongPress,
     activateOn
   })
@@ -46,7 +48,7 @@ function Popover<Data extends PopoverData>({
         style={style}
         hitSlop={hitSlop}
         delayPressIn={delayPressIn}
-        onPress={onPress}
+        onPress={handlePress}
         onLongPress={handleLongPress}
       >
         {children}

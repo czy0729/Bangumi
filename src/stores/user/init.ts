@@ -41,6 +41,9 @@ export const INIT_USER_INFO = {
   username: ''
 }
 
+/** 某用户信息 */
+export type UserInfo = typeof INIT_USER_INFO
+
 export const INIT_USER_COOKIE: {
   cookie: string
   userAgent: string

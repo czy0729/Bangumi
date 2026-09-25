@@ -48,6 +48,7 @@ import type {
   SubjectType,
   UserId
 } from '@types'
+import type { UserInfo } from './init'
 import type { PmType, UserProgress } from './types'
 
 export default class Fetch extends Computed {
@@ -275,7 +276,7 @@ export default class Fetch extends Computed {
   }
 
   /** 获取某用户信息 */
-  fetchUsersInfo = (userId: UserId = this.myUserId) => {
+  fetchUsersInfo = (userId: UserId = this.myUserId): Promise<UserInfo> => {
     return this.fetch(
       {
         url: API_USER_INFO(userId),

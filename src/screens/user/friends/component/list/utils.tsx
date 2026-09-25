@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-01-21 11:52:58
  */
-import React from 'react'
 import Item from '../item'
 import Section from '../section'
 

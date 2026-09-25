@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-21 02:00:58
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Avatar, Flex, Highlight, UserStatus } from '@components'
 import { Name } from '@_'
@@ -31,7 +30,6 @@ function Content({ userId, avatar, name, filter }: Props) {
       <UserStatus userId={userId}>
         <Avatar size={styles.item.width} src={avatar} radius />
       </UserStatus>
-
       <Flex>
         {filter ? (
           <Highlight {...textProps} value={filter}>
@@ -43,7 +41,6 @@ function Content({ userId, avatar, name, filter }: Props) {
           </Name>
         )}
       </Flex>
-
       <Highlight style={_.mt.xs} type='sub' size={9} bold numberOfLines={1} value={filter}>
         {userId}
       </Highlight>

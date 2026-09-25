@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-01-21 10:11:44
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Heatmap, Page } from '@components'
 import { _, StoreContext } from '@stores'
