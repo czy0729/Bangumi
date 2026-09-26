@@ -2,21 +2,30 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-11 05:26:30
+ * @Last Modified time: 2026-09-26 23:22:08
+ *
+ * 目录条目: 封面 / 标题描述 / 编纂者信息
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, Flex, Link } from '@components'
-import { discoveryStore } from '@stores'
-import { HTMLDecode, removeHTMLTag } from '@utils'
 import { r } from '@utils/dev'
-import { DATA_CATALOG_TYPE_MAP, EVENT } from '@constants'
+import { EVENT } from '@constants'
 import { InView, PreventTouchPlaceholder } from '../../base'
 import Covers from './covers'
 import Desc from './desc'
+import { useCatalogData } from './hooks'
 import Title from './title'
-import { COMPONENT, ITEM_HEIGHT } from './ds'
+import {
+  getCatalogCount,
+  getCatalogDesc,
+  getCatalogName,
+  getCatalogTitle,
+  isBadCatalog
+} from './utils'
+import { COMPONENT, ITEM_CATALOG_HEIGHT } from './ds'
 import { memoStyles } from './styles'
+
+export { ITEM_CATALOG_HEIGHT }
 
 import type { Props as ItemCatalogProps } from './types'
 export type { ItemCatalogProps }
@@ -41,49 +50,34 @@ export const ItemCatalog = observer(
   }: ItemCatalogProps) => {
     r(COMPONENT)
 
+    const { data, detailValue, oss, selfIds } = useCatalogData(id, detail)
+    const { total, typeCn } = getCatalogCount(typeProps)
+
     // 过滤是否全为 0
-    const total = Object.keys(DATA_CATALOG_TYPE_MAP).reduce((sum, key) => {
-      const v = (typeProps as any)[key] || 0
-      return sum + v
-    }, 0)
     if (!isUser && total === 0) return null
 
     const styles = memoStyles()
 
-    // 求最大
-    let maxKey: keyof typeof DATA_CATALOG_TYPE_MAP | null = null
-    let maxValue = -Infinity
-    for (const key in DATA_CATALOG_TYPE_MAP) {
-      const v = (typeProps as any)[key] || 0
-      if (v > maxValue) {
-        maxValue = v
-        maxKey = key as keyof typeof DATA_CATALOG_TYPE_MAP
-      }
-    }
-    const typeCn = maxKey ? DATA_CATALOG_TYPE_MAP[maxKey] : undefined
-
-    const detailValue = detail || discoveryStore.catalogDetail(id)
-    const oss = discoveryStore.catalogDetailFromOSS(id)
-    let data: any
-    if (detailValue._loaded && detailValue.list.length) {
-      data = detailValue
-    } else if (oss._loaded) {
-      data = oss
-    } else {
-      data = detailValue
-    }
-
     const { list, collect, content, avatar, userId, time: detailTime } = data
-    const avatarValue = avatar || data?.avatar
-    const userIdValue = userId || data?.userId
-    const nameValue = HTMLDecode(name || userName || data?.nickname)
-    const collectValue = collect || data?.collect
-    const titleValue = HTMLDecode(title || data?.title)
-    let desc = HTMLDecode(removeHTMLTag(info || content || data?.desc || oss?.info, false)).replace(
-      /\n/g,
-      ' '
-    )
-    if (desc === 'undefined') desc = ''
+
+    // 坏目录: 别人创建且详情与云快照都确认没有任何条目 (显示为 +0), 不渲染; 自己创建的不受影响
+    if (
+      isBadCatalog({
+        isUser,
+        userId,
+        selfIds,
+        listLength: list.length,
+        ossTotal: oss?.total,
+        detailLoaded: !!detailValue._loaded,
+        ossLoaded: !!oss?._loaded
+      })
+    ) {
+      return null
+    }
+
+    const nameValue = getCatalogName(name, userName, data.nickname)
+    const titleValue = getCatalogTitle(title, data.title)
+    const desc = getCatalogDesc(info, content, oss?.info)
 
     return (
       <Component id='item-catalog' data-key={id}>
@@ -103,13 +97,13 @@ export const ItemCatalog = observer(
           })}
         >
           <Flex style={styles.wrap} align='start'>
-            <InView style={styles.inView} y={InView.y(index - 1, ITEM_HEIGHT)}>
+            <InView style={styles.inView} y={InView.y(index - 1, ITEM_CATALOG_HEIGHT)}>
               <Covers
                 title={titleValue}
                 list={list
-                  .filter((item: { image: any }) => !!item.image)
+                  .filter(item => !!item.image)
                   .slice(0, 3)
-                  .map((item: { id: any; image: any }) => ({
+                  .map(item => ({
                     id: item.id,
                     image: item.image
                   }))}
@@ -123,14 +117,14 @@ export const ItemCatalog = observer(
                 <Title
                   title={titleValue}
                   typeCn={typeCn}
-                  desc={desc.replace(/\r/g, '')}
-                  collect={collectValue}
+                  desc={desc}
+                  collect={collect}
                   filter={filter}
                 />
                 <Desc
                   index={index}
-                  userId={userIdValue}
-                  avatar={avatarValue}
+                  userId={userId}
+                  avatar={avatar}
                   name={nameValue}
                   date={last || time || detailTime}
                   event={event}

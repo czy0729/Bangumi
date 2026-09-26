@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-04-05 01:44:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 05:13:22
+ * @Last Modified time: 2026-09-26 21:42:02
  */
-import React from 'react'
 import { Flex, StorybookList, StorybookPage } from '@components'
 import { ItemCatalog as Component } from './index'
 import { list } from './index.mock'

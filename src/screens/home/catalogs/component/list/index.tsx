@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-09-01 09:20:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-27 06:25:08
+ * @Last Modified time: 2026-09-26 19:09:17
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ListView } from '@components'
+import { ITEM_CATALOG_HEIGHT } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { renderItem } from './utils'
@@ -21,6 +21,7 @@ function List() {
     <ListView
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}
+      estimatedItemHeight={ITEM_CATALOG_HEIGHT}
       data={$.list}
       renderItem={renderItem}
       onScroll={$.onScroll}

@@ -16,6 +16,7 @@
 .opencode/
 .workbuddy/
 .zcode/
+.zcodeignore
 \[auth\]/
 \[deprecated\]/
 android.zip

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-17 04:42:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-21 00:07:16
+ * @Last Modified time: 2026-09-26 23:21:26
  */
 const path = require('path')
 
@@ -223,7 +223,15 @@ jest.mock(
   '@stores',
   () => {
     // mutable cell for dynamic homeSortSink / uiStore.isScrolling / systemStore.setting.s2t
-    const state = { homeSortSink: false, isScrolling: false, s2t: false }
+    const state = {
+      homeSortSink: false,
+      isScrolling: false,
+      s2t: false,
+      myUserId: undefined,
+      myId: undefined,
+      catalogDetail: { _loaded: false, list: [] },
+      catalogDetailFromOSS: { _loaded: false, total: 0, list: [] }
+    }
     global.__mockStoreState__ = state
     return {
       systemStore: {
@@ -244,7 +252,17 @@ jest.mock(
         setScrolling: jest.fn()
       },
       userStore: {
-        userProgress: () => ({})
+        userProgress: () => ({}),
+        get myUserId() {
+          return global.__mockStoreState__.myUserId
+        },
+        get myId() {
+          return global.__mockStoreState__.myId
+        }
+      },
+      discoveryStore: {
+        catalogDetail: () => global.__mockStoreState__.catalogDetail,
+        catalogDetailFromOSS: () => global.__mockStoreState__.catalogDetailFromOSS
       },
       _: {
         r: v => v,
@@ -315,6 +333,20 @@ jest.mock(
       D: 86400,
       D3: 259200,
       D7: 604800,
+
+      // 目录条目类型计数表 (item/catalog 的类型统计与埋点用)
+      DATA_CATALOG_TYPE_MAP: {
+        anime: '动画',
+        book: '书籍',
+        music: '音乐',
+        game: '游戏',
+        real: '三次元',
+        character: '角色',
+        person: '人物',
+        topic: '小组',
+        blog: '日志',
+        ep: '章节'
+      },
 
       // barrel 导出的埋点事件表; 消费方 (web-view log detail 等) 会在模块顶层
       // 对它做 Object.entries, 缺失会得到 undefined 并抛错, 故提供空对象兜底

@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-08-21 18:35:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-12 02:15:24
+ * @Last Modified time: 2026-09-26 21:42:02
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Highlight, Text } from '@components'
 import { _ } from '@stores'
 import { Tag } from '../../../base'
 
-function Title({ title, typeCn, desc, collect, filter }) {
+import type { Props } from './types'
+
+/** 目录标题与描述 */
+function Title({ title, typeCn, desc, collect, filter }: Props) {
   return (
     <View style={_.container.block}>
       <Highlight

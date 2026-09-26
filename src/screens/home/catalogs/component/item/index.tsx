@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2022-03-15 00:51:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-04 20:16:16
+ * @Last Modified time: 2026-09-26 19:09:17
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemCatalog } from '@_'
 import { r } from '@utils/dev'

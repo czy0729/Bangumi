@@ -1,23 +1,25 @@
 /*
  * @Author: czy0729
- * @Date: 2024-08-21 18:41:02
+ * @Date: 2024-08-21 18:41:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-11 05:28:36
+ * @Last Modified time: 2026-09-26 21:42:02
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Avatar, Flex, Text, UserStatus } from '@components'
 import { InView } from '@_/base'
 import { _ } from '@stores'
 import { useNavigation } from '@utils/hooks'
-import { AVATAR_WIDTH, ITEM_HEIGHT } from '../ds'
+import { AVATAR_WIDTH, ITEM_CATALOG_HEIGHT } from '../ds'
 
-function Desc({ index, userId, avatar, name, date, event }) {
+import type { Props } from './types'
+
+/** 目录编纂者信息 */
+function Desc({ index, userId, avatar, name, date, event }: Props) {
   const navigation = useNavigation()
 
   return (
     <Flex style={_.mt.md}>
-      <InView style={_.mr.sm} y={InView.y(index - 1, ITEM_HEIGHT, ITEM_HEIGHT / 2)}>
+      <InView style={_.mr.sm} y={InView.y(index - 1, ITEM_CATALOG_HEIGHT, ITEM_CATALOG_HEIGHT / 2)}>
         <UserStatus userId={userId} mini>
           <Avatar
             key={avatar}

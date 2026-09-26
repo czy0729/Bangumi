@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-11-09 06:39:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-31 05:16:58
+ * @Last Modified time: 2026-09-26 19:09:17
+ *
+ * 条目目录数据: 页面目录列表 + 目录详情预数据抓取 + 云快照读取与上传
  */
 import { discoveryStore, subjectStore } from '@stores'
 import { getTimestamp, HTMLDecode, removeHTMLTag } from '@utils'
@@ -13,14 +15,20 @@ import { D7 } from '@constants'
 import Computed from './computed'
 
 import type { CatalogDetail } from '@stores/discovery/types'
+import type { SubjectCatalogs } from '@stores/subject/types'
 import type { Id, Override } from '@types'
+import type { ResultData } from '@utils/kv/type'
 import type { SnapshotId } from '../types'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED: SnapshotId[] = []
 
 export default class Fetch extends Computed {
-  /** 包含条目的目录 */
+  /**
+   * 包含条目的目录
+   *
+   * @param refresh 是否下拉刷新
+   */
   fetchSubjectCatalogs = async (refresh: boolean = false) => {
     if (refresh) this.fetchThirdParty()
 
@@ -40,7 +48,11 @@ export default class Fetch extends Computed {
     return true
   }
 
-  /** 目录详情 */
+  /**
+   * 目录详情
+   *
+   * @param id 目录 Id
+   */
   fetchCatalogDetail = async (id: Id) => {
     // 桶可能尚未读回, 先同步 init 再判 _loaded, 避免守卫失效重复抓取
     await discoveryStore.init(`catalogDetail${getBucketId(id, 2)}`)
@@ -67,7 +79,7 @@ export default class Fetch extends Computed {
   /** 获取云快照 */
   fetchThirdParty = async () => {
     if (!this.ota && !this.list._loaded) {
-      const data = await get(this.thirdPartyKey)
+      const data = await get<ResultData<Partial<SubjectCatalogs>>>(this.thirdPartyKey)
       if (!data) {
         // 就算没有数据也插入 key, 用于判断是否需要更新云数据
         this.setState({
@@ -92,7 +104,11 @@ export default class Fetch extends Computed {
     }
   }
 
-  /** 上传预数据 */
+  /**
+   * 上传预数据
+   *
+   * 同一次会话中每个目录只上传一次
+   */
   updateThirdParty = async () => {
     if (THIRD_PARTY_UPDATED.includes(this.thirdPartyKey)) return
 
@@ -104,14 +120,17 @@ export default class Fetch extends Computed {
     }, 0)
   }
 
-  /** 上传目录详情 */
+  /**
+   * 上传目录详情
+   *
+   * @param data 目录详情数据
+   */
   updateCatalogDetail = (
     data: Override<
       CatalogDetail,
       {
         id: Id
         info?: string
-        _loaded?: any
       }
     >
   ) => {
@@ -130,7 +149,7 @@ export default class Fetch extends Computed {
         time,
         collect,
         list: list
-          .filter((_item, index: number) => index < 3)
+          .slice(0, 3)
           .map(item => ({
             id: item.id,
             image: item.image,
