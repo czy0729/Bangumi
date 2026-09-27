@@ -11,6 +11,7 @@ import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
 import Extra from './component/extra'
 import List from './component/list'
+import ToolBar from './component/tool-bar'
 import Header from './header'
 import { useCharactersPage } from './hooks'
 
@@ -25,6 +26,7 @@ function Characters(props: NavigationProps) {
       <StoreContext.Provider value={id}>
         <Page loaded={$.characters._loaded}>
           <HeaderPlaceholder />
+          <ToolBar />
           <List />
         </Page>
         <Header />

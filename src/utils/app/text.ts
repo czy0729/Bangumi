@@ -72,3 +72,17 @@ export function sliceByVisualLength(str: string, maxLen: number, ellipsis: strin
 
   return result.length < str.length ? result + ellipsis : result
 }
+
+/**
+ * 居中头部标题的自适应字号: 视觉长度越长字号越小, 以显示更多文字
+ *  - 16 为默认字号, 超长仍有 middle 省略兜底
+ *
+ * @param title 标题文本
+ */
+export function getHeaderTitleSize(title: string = '') {
+  const visualLength = getVisualLength(title)
+  if (visualLength >= 16) return 13
+  if (visualLength >= 14) return 14
+  if (visualLength >= 11) return 15
+  return 16
+}

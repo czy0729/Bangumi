@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-05-21 17:08:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-11 23:44:58
+ * @Last Modified time: 2026-09-27 09:12:58
  *
  * 角色/人物列表条目: 封面 + 文字信息 + 声优列表
  */
@@ -17,10 +17,10 @@ import { InView } from '../../base'
 import Actors from './actors'
 import Content from './content'
 import More from './more'
-import { COMPONENT, IMG_WIDTH, ITEM_CHARACTER_HEIGHT } from './ds'
+import { COMPONENT, IMG_WIDTH, ITEM_CHARACTER_HEIGHT, ITEM_PERSON_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 
-export { ITEM_CHARACTER_HEIGHT }
+export { ITEM_CHARACTER_HEIGHT, ITEM_PERSON_HEIGHT }
 
 import type { CoverProps, LinkProps } from '@components'
 import type { MonoId } from '@types'
@@ -70,7 +70,7 @@ export const ItemCharacter = observer(
       }),
       [monoId, cn, jp, cover, replies, event.id]
     )
-    const y = InView.y(index, ITEM_CHARACTER_HEIGHT)
+    const y = InView.y(index, type === 'person' ? ITEM_PERSON_HEIGHT : ITEM_CHARACTER_HEIGHT)
 
     const coverProps: CoverProps = {
       src: cover

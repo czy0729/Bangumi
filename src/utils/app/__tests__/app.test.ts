@@ -46,7 +46,9 @@ jest.mock('@src/config', () => ({
 }))
 
 jest.mock('../../async', () => ({
-  syncS2T: (s: string) => s
+  syncS2T: (s: string) => s,
+  syncUIStore: () => ({ isScrolling: false }),
+  syncSystemStore: () => ({ setting: {} })
 }))
 
 jest.mock('../../fetch', () => ({
@@ -477,7 +479,7 @@ describe('appNavigate', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    // 每次递增一个足够大的值，确保冷却时间已过
+    // 使用固定步进的时间值, 保证各用例间时间推进一致
     fakeTime = (fakeTime || Date.now()) + 10000
     jest.useFakeTimers()
     jest.setSystemTime(fakeTime)
@@ -534,7 +536,7 @@ describe('appNavigate', () => {
     expect(open).toHaveBeenCalledWith('https://example.com/test')
   })
 
-  it('400ms 内重复调用被阻止', () => {
+  it('连续调用均正常跳转（导航冷却已禁用）', () => {
     const { matchBgmLink } = require('../data-source')
     matchBgmLink.mockReturnValue({ route: 'Subject', params: { subjectId: '12345' } })
 
@@ -542,23 +544,10 @@ describe('appNavigate', () => {
     expect(result1).toBe(true)
     expect(mockNavigation.push).toHaveBeenCalledTimes(1)
 
-    // 100ms 内再次调用
+    // 100ms 内再次调用, 不受冷却限制
     jest.advanceTimersByTime(100)
     const result2 = appNavigate('https://bgm.tv/subject/12345', mockNavigation, {}, mockEvent)
-    expect(result2).toBe(false)
-    expect(mockNavigation.push).toHaveBeenCalledTimes(1)
-  })
-
-  it('400ms 后可以再次调用', () => {
-    const { matchBgmLink } = require('../data-source')
-    matchBgmLink.mockReturnValue({ route: 'Subject', params: { subjectId: '12345' } })
-
-    appNavigate('https://bgm.tv/subject/12345', mockNavigation, {}, mockEvent)
-    expect(mockNavigation.push).toHaveBeenCalledTimes(1)
-
-    // 400ms 后再次调用
-    jest.advanceTimersByTime(400)
-    appNavigate('https://bgm.tv/subject/12345', mockNavigation, {}, mockEvent)
+    expect(result2).toBe(true)
     expect(mockNavigation.push).toHaveBeenCalledTimes(2)
   })
 
@@ -613,7 +602,7 @@ describe('bootApp', () => {
 })
 
 describe('navigationReference', () => {
-  // 使用固定的大时间值，避免与 appNavigate 测试的冷却状态冲突
+  // 使用固定的大时间值，避免与 appNavigate 测试的时间状态相互影响
   const BASE_TIME = 9999999999999
 
   afterEach(() => {
@@ -635,7 +624,7 @@ describe('navigationReference', () => {
     expect(result).toBeDefined()
   })
 
-  it('400ms 内重复 push 被阻止', () => {
+  it('连续 push 均透传给原始 push（导航冷却已禁用）', () => {
     jest.useFakeTimers()
     jest.setSystemTime(BASE_TIME)
     const originalPush = jest.fn()
@@ -647,22 +636,6 @@ describe('navigationReference', () => {
     expect(originalPush).toHaveBeenCalledTimes(1)
 
     jest.advanceTimersByTime(100)
-    nav.push!('LoginV2')
-    expect(originalPush).toHaveBeenCalledTimes(1)
-  })
-
-  it('400ms 后可以再次 push', () => {
-    jest.useFakeTimers()
-    jest.setSystemTime(BASE_TIME + 5000)
-    const originalPush = jest.fn()
-    const mockNav = { push: originalPush, navigate: jest.fn() } as any
-    navigationReference(mockNav)
-    const nav = navigationReference()!
-
-    nav.push!('LoginV2')
-    expect(originalPush).toHaveBeenCalledTimes(1)
-
-    jest.advanceTimersByTime(400)
     nav.push!('LoginV2')
     expect(originalPush).toHaveBeenCalledTimes(2)
   })

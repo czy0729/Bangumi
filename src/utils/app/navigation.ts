@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-09-08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-08
+ * @Last Modified time: 2026-09-27 05:16:46
  *
  * 导航处理（navigationReference 引用管理、appNavigate 链接路由跳转, 拆分自 app.ts）
  */
@@ -17,21 +17,7 @@ import { fixedBgmUrl, matchBgmLink } from './data-source'
 
 import type { EventType, Navigation, Paths } from '@types'
 
-const NAVIGATION_COOLDOWN = 400
-let __lastNavigationTime = 0
 let __navigationReference: Navigation | undefined
-
-function isNavigationAllowed(): boolean {
-  return true
-
-  const now = Date.now()
-  if (__lastNavigationTime && now - __lastNavigationTime < NAVIGATION_COOLDOWN) {
-    return false
-  }
-
-  __lastNavigationTime = now
-  return true
-}
 
 /** 保存 navigation 引用 */
 export function navigationReference(navigation?: Navigation | undefined) {
@@ -45,21 +31,6 @@ export function navigationReference(navigation?: Navigation | undefined) {
     if (!__navigationReference.push) {
       __navigationReference.push = __navigationReference.navigate
     }
-
-    // NavigationPushType 为多签名交叉类型, 统一收窄为 (path, params) 调用形态
-    const originalPush = __navigationReference.push as (path: Paths, params?: unknown) => void
-    const originalNavigate = __navigationReference.navigate as (
-      path: Paths,
-      params?: unknown
-    ) => void
-    __navigationReference.push = ((path: Paths, params?: unknown) => {
-      if (!isNavigationAllowed()) return
-      return originalPush(path, params)
-    }) as Navigation['push']
-    __navigationReference.navigate = ((path: Paths, params?: unknown) => {
-      if (!isNavigationAllowed()) return
-      return originalNavigate(path, params)
-    }) as Navigation['push']
   }
 
   return __navigationReference

@@ -130,6 +130,7 @@ import {
   getCoverLarge,
   getCoverMedium,
   getCoverSmall,
+  getHeaderTitleSize,
   getMonoCoverSmall,
   getRating,
   getSubjectCoverCommon,
@@ -190,6 +191,20 @@ describe('getVisualLength', () => {
 
   it('感叹号等半角符号', () => {
     expect(getVisualLength('!@#')).toBe(1.5)
+  })
+})
+
+describe('getHeaderTitleSize', () => {
+  it('短标题用默认字号 16', () => {
+    expect(getHeaderTitleSize('')).toBe(16)
+    expect(getHeaderTitleSize('条目目录')).toBe(16)
+    expect(getHeaderTitleSize('abc12345678')).toBe(16)
+  })
+
+  it('按视觉长度分档递减', () => {
+    expect(getHeaderTitleSize('包含超长条目名称的目录合集')).toBe(15)
+    expect(getHeaderTitleSize('包含很长很长条目名称的目录合集')).toBe(14)
+    expect(getHeaderTitleSize('包含特别长特别长条目名称的目录合集')).toBe(13)
   })
 })
 

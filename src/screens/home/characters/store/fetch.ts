@@ -3,6 +3,8 @@
  * @Date: 2024-08-24 11:25:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-14 19:50:31
+ *
+ * 更多角色数据: 角色分页列表抓取 + 云快照读取与上传
  */
 import { monoStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -65,7 +67,10 @@ export default class Fetch extends Computed {
     }
   }
 
-  /** 上传预数据 */
+  /** 上传预数据
+   *
+   * 同一次会话中每个条目只上传一次
+   */
   updateThirdParty = async () => {
     if (THIRD_PARTY_UPDATED.has(this.thirdPartyKey)) return
 

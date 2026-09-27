@@ -6,7 +6,6 @@
  *
  * 更多角色分页列表
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ITEM_CHARACTER_HEIGHT, PaginationList } from '@_'
 import { _, useStore } from '@stores'
@@ -23,7 +22,7 @@ function List() {
     <PaginationList
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}
-      data={$.characters.list}
+      data={$.list}
       estimatedItemHeight={ITEM_CHARACTER_HEIGHT}
       limit={8}
       renderItem={renderItem}

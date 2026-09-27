@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-09-06 19:14:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 23:32:24
+ * @Last Modified time: 2026-09-27 08:20:58
  *
  * Image 组件 iOS 入口 (完全基于 expo-image)
  *
@@ -239,6 +239,11 @@ export const Image = observer(function Image(baseProps: ImageProps) {
       if (!uri) return <Placeholder style={finalImageStyle} />
 
       if (typeof uri === 'string') {
+        // iOS 同安卓: autoSize 场景宽高未测得前显示占位, 避免先按兜底尺寸渲染再跳变到实测尺寸
+        if ((autoSize && !ctrl.width) || (autoHeight && !ctrl.height)) {
+          return <Placeholder style={finalImageStyle} />
+        }
+
         const finalUri = resolveImageUri(uri)
         return (
           <ExpoImage

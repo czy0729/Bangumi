@@ -8,7 +8,7 @@ import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
-import { getVisualLength, open } from '@utils'
+import { getHeaderTitleSize, open } from '@utils'
 import { t } from '@utils/fetch'
 import { TEXT_MENU_BROWSER } from '@constants'
 import { COMPONENT, DATA } from './ds'
@@ -37,14 +37,11 @@ function Header() {
   )
 
   const title = $.params?.name ? `包含${$.params.name}的目录` : '条目目录'
-  const visualLength = getVisualLength(title)
 
   return (
     <HeaderV2
       title={title}
-      headerTitleSize={
-        visualLength >= 16 ? 13 : visualLength >= 14 ? 14 : visualLength >= 11 ? 15 : 16
-      }
+      headerTitleSize={getHeaderTitleSize(title)}
       alias='条目目录'
       hm={$.hm}
       headerRight={handleHeaderRight}

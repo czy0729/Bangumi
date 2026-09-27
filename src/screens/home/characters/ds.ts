@@ -5,3 +5,6 @@
  * @Last Modified time: 2024-08-24 11:30:26
  */
 export const COMPONENT = 'Characters'
+
+/** 筛选全部 */
+export const LABEL_ALL = '全部角色'

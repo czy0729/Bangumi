@@ -11,7 +11,11 @@ export const COMPONENT = rc(PARENT, 'ItemCharacter')
 
 export const IMG_WIDTH = 72
 
-export const ITEM_CHARACTER_HEIGHT = 104
+/** 角色条目估算高度 (虚拟角色, 含自适应封面与声优行) */
+export const ITEM_CHARACTER_HEIGHT = 170
+
+/** 真人条目估算高度 (无声优行) */
+export const ITEM_PERSON_HEIGHT = 104
 
 export const HIGHLIGHT_POSITION = [
   '原作',
