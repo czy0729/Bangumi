@@ -3,10 +3,12 @@
  * @Date: 2024-11-08 04:47:38
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-08 06:30:53
+ *
+ * 条目详情页面状态声明
  */
 import { COMPONENT } from '../ds'
 
-import type { GetRouteParams, Loaded, RouteSubjectInfo } from '@types'
+import type { Loaded, TranslateResult } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -15,7 +17,7 @@ export const EXCLUDE_STATE = {
   type: '简介' as '简介' | '详情',
 
   /** 翻译缓存 */
-  translateResult: []
+  translateResult: [] as TranslateResult
 }
 
 export const STATE = {
@@ -24,5 +26,3 @@ export const STATE = {
   /** 页面初始化完成 */
   _loaded: false as Loaded
 }
-
-export type Params = GetRouteParams<RouteSubjectInfo>

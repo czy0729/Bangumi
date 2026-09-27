@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-11-08 06:51:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-07 05:17:58
+ * @Last Modified time: 2026-09-27 10:30:11
  */
 import { systemStore } from '@stores'
 import { info, loading } from '@utils'
 import { baiduTranslate } from '@utils/fetch'
 import { lx, lxCache } from '@utils/kv'
 import Computed from './computed'
+
+import type { TranslateResult } from '@types'
 
 export default class Action extends Computed {
   /** 翻译简介 */
@@ -48,7 +50,9 @@ export default class Action extends Computed {
       const response = await baiduTranslate(this.summary)
       hide()
 
-      const { trans_result: translateResult } = JSON.parse(response)
+      const { trans_result: translateResult } = JSON.parse(response) as {
+        trans_result?: TranslateResult
+      }
       if (Array.isArray(translateResult)) {
         this.setState({
           translateResult

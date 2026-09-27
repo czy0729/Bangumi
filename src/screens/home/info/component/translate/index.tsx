@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-05 22:00:09
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { IconTouchable } from '@_'
@@ -14,7 +13,7 @@ import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
-function Translate({ content = '' }) {
+function Translate({ content = '' }: { content?: string }) {
   const { $ } = useStore<Ctx>()
 
   if (
