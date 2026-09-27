@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 04:18:41
+ * @Last Modified time: 2026-09-27 10:03:37
  */
 import { View } from 'react-native'
 import { toJS } from 'mobx'
@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { Flex, Heatmap, Image, ScrollView, Squircle, Text, Touchable } from '@components'
 import { InView } from '@_'
 import { _, useStore } from '@stores'
-import { cnjp, desc, HTMLDecode, showImageViewer, stl } from '@utils'
+import { cnjp, HTMLDecode, showImageViewer, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { WEB } from '@constants'
 import { COMPONENT, IMAGE_HEIGHT, IMAGE_WIDTH } from './ds'
@@ -23,19 +23,15 @@ function List() {
 
   const styles = memoStyles()
 
-  // sp 排在正常章节后面, 已播放优先
-  const eps = $.eps
-    .slice()
-    .sort((a, b) => desc(a, b, item => (item.status === 'NA' ? 0 : item.type || 10)))
+  const eps = $.list
   const epsThumbs = toJS($.params.epsThumbs || [])
-  const { filterEps = 0, epsThumbsHeader = {} } = $.params
+  const { epsThumbsHeader = {} } = $.params
 
   return (
     <ScrollView contentContainerStyle={_.container.bottom} onScroll={$.onScroll}>
       {eps.map((item, index) => (
         <Touchable
           key={item.id}
-          animate
           onPress={() => {
             navigation.push('Topic', {
               topicId: `ep/${item.id}`,
@@ -75,8 +71,9 @@ function List() {
                 </Flex.Item>
               </Flex>
             </Flex.Item>
-            {!WEB && !!epsThumbs?.[index + filterEps] && (
-              <InView style={styles.inView} y={IMAGE_HEIGHT * (index + 1)}>
+            {/* 缩略图有多少显示多少, 从上到下按行平铺 */}
+            {!WEB && !!epsThumbs?.[index] && (
+              <InView style={styles.inView} y={InView.y(index, IMAGE_HEIGHT)}>
                 <Squircle width={IMAGE_WIDTH} height={IMAGE_HEIGHT} radius={_.radiusSm}>
                   <Image
                     src={epsThumbs[index]}

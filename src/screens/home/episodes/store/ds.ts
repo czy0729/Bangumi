@@ -3,9 +3,12 @@
  * @Date: 2024-12-05 15:17:01
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-05 15:17:21
+ *
+ * 章节页面状态声明
  */
 import { _ } from '@stores'
-import { Loaded } from '@types'
+
+import type { Loaded } from '@types'
 
 export const RESET_STATE = {
   /** 可视范围底部 y */

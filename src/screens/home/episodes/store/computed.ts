@@ -7,6 +7,7 @@
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
 import { HOST } from '@constants'
+import { desc } from '@utils'
 import State from './state'
 
 export default class Computed extends State {
@@ -14,11 +15,12 @@ export default class Computed extends State {
     return this.params.subjectId
   }
 
+  /** 条目 */
   @computed get subject() {
     return subjectStore.subject(this.subjectId)
   }
 
-  /** 条目章节 */
+  /** 条目章节 (按章节筛选起点截断) */
   @computed get eps() {
     if (this.subject._loaded) {
       const { filterEps = 0 } = this.params
@@ -28,6 +30,13 @@ export default class Computed extends State {
     }
 
     return []
+  }
+
+  /** 章节列表: sp 排在正常章节后面, 已播放优先 */
+  @computed get list() {
+    return this.eps.slice().sort((a, b) =>
+      desc(a, b, item => (item.status === 'NA' ? 0 : item.type || 10))
+    )
   }
 
   @computed get url() {
