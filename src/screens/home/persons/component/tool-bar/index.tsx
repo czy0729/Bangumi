@@ -6,10 +6,10 @@
  *
  * 制作人员筛选工具条: 职位过滤 Popover
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ToolBar as ToolBarComp } from '@components'
 import { useStore } from '@stores'
+import { LABEL_ALL } from '../../ds'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../types'
@@ -17,20 +17,17 @@ import type { Ctx } from '../../types'
 function ToolBar() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  if (!$.filters.length) return null
+  if (!$.persons.list.length) return null
 
-  let text = $.state.position
-  if (!text) {
-    const item = $.filters[0]
-    text = `${item.title} (${item.value})`
-  }
+  // 选中项计数从 filters 实时解析, 数据刷新后计数与文案保持最新
+  const item = $.filters.find(item => item.title === $.state.position) || $.filters[0]
 
   return (
     <ToolBarComp>
       <ToolBarComp.Popover
         data={$.filters.map(item => `${item.title} (${item.value})`)}
-        text={text}
-        onSelect={$.onFilterSelect}
+        text={`${item.title} (${item.value})`}
+        onSelect={(_, index) => $.onFilterSelect($.filters[index]?.title ?? LABEL_ALL)}
       />
     </ToolBarComp>
   )

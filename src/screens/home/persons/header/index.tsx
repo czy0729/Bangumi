@@ -6,11 +6,11 @@
  *
  * 制作人员页头部: 标题 + 右上角浏览器打开菜单
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
-import { open } from '@utils'
+import { getHeaderTitleSize, open } from '@utils'
 import { t } from '@utils/fetch'
 import { TEXT_MENU_BROWSER } from '@constants'
 import { COMPONENT, DATA } from './ds'
@@ -38,9 +38,12 @@ function Header() {
     [$]
   )
 
+  const title = $.params?.name ? `${$.params.name}的制作人员` : '更多制作人员'
+
   return (
     <HeaderV2
-      title={$.params?.name ? `${$.params.name}的制作人员` : '更多制作人员'}
+      title={title}
+      headerTitleSize={getHeaderTitleSize(title)}
       alias='制作人员'
       hm={$.hm}
       headerRight={handleHeaderRight}

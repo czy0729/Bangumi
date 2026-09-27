@@ -6,7 +6,6 @@
  *
  * 更多制作人员页: 条目制作人员分页列表
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'

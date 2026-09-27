@@ -82,10 +82,10 @@ export default class Computed extends State {
 
     let result = list
 
-    if (position) {
-      const value = position.split(' (')?.[0] || ''
-      if (value !== LABEL_ALL) {
-        result = list.filter(item => item.positions.includes(value))
+    if (position && position !== LABEL_ALL) {
+      // 数据刷新后原职位可能已不存在, 回退显示全部, 与工具条回退到首项的文案保持一致
+      if (list.some(item => item.positions.includes(position))) {
+        result = list.filter(item => item.positions.includes(position))
       }
     }
 

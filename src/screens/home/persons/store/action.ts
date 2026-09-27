@@ -8,10 +8,10 @@ import { updateVisibleBottom } from '@utils'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
-  /** 筛选职位 */
-  onFilterSelect = (position: string) => {
+  /** 筛选职位 (存职位标题, 计数由 filters 实时计算) */
+  onFilterSelect = (title: string) => {
     this.setState({
-      position
+      position: title
     })
   }
 

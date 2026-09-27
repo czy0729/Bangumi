@@ -3,6 +3,8 @@
  * @Date: 2024-08-27 10:17:34
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-19 16:56:42
+ *
+ * 更多制作人员数据: 制作人员分页列表抓取 + 云快照读取与上传
  */
 import { monoStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -10,9 +12,7 @@ import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
 import Computed from './computed'
 
-import type { Persons } from '@stores/mono/types'
-import type { ResultData } from '@utils/kv/type'
-import type { SnapshotId } from '../types'
+import type { SnapshotId, Snapshot } from '../types'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = new Map<SnapshotId, true>()
@@ -34,7 +34,7 @@ export default class Fetch extends Computed {
   fetchThirdParty = async () => {
     if (this.ota || this.persons._loaded) return
 
-    const data = await get<ResultData<Persons>>(this.thirdPartyKey)
+    const data = await get<Snapshot>(this.thirdPartyKey)
 
     // 即使没有数据，也要占位，用于后续判断是否需要回写
     this.setState({
@@ -49,7 +49,10 @@ export default class Fetch extends Computed {
     })
   }
 
-  /** 上传预数据 */
+  /** 上传预数据
+   *
+   * 同一次会话中每个条目只上传一次
+   */
   updateThirdParty = async () => {
     if (THIRD_PARTY_UPDATED.has(this.thirdPartyKey)) return
 

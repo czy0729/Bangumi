@@ -6,7 +6,6 @@
  *
  * 制作人员页底部埋点组件
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'
