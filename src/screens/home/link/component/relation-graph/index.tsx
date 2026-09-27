@@ -2,189 +2,71 @@
  * @Author: czy0729
  * @Date: 2025-12-15 20:25:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-17 01:16:32
+ * @Last Modified time: 2026-09-27 15:32:00
+ *
+ * 关系图: 布局与渲染逻辑见 ./hooks
  */
-import React, { useEffect, useRef, useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
+import { useRelationGraph } from './hooks'
 import Lines from './lines'
 import Node from './node'
 import OmittedHint from './omitted-hint'
 import YearSection from './year-section'
-import {
-  COMPONENT,
-  EXPAND_STEP,
-  FOCUS_WINDOW_RADIUS,
-  HEAD_KEEP_COUNT,
-  NODES_FOR_SPLIT,
-  SCREEN_HEIGHT,
-  START_FROM_RIGHT,
-  TAIL_KEEP_COUNT
-} from './ds'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-import type { NodeLayout, RelationEdge, RelationGraphProps } from './types'
+import type { RelationGraphProps } from './types'
 import type { NodeItem } from '../../types'
 
-function RelationGraph({
-  data,
-  focusId: initialFocusId,
-  maxRelations = 10,
-  hideRelates = [],
-  onScroll
-}: RelationGraphProps) {
+function RelationGraph(props: RelationGraphProps) {
   r(COMPONENT)
 
-  const { node, relate } = data
+  const {
+    focusId,
+    setFocusId,
+    activeRelation,
+    setActiveRelation,
+    setLayout,
+    layoutsRef,
+    scrollViewRef,
+    focusRelations,
+    headNodes,
+    tailNodes,
+    renderMiddleNodes,
+    omittedTopCount,
+    omittedBottomCount,
+    nodesByYear,
+    years,
+    leftRelations,
+    rightRelations,
+    handleExpandTop,
+    handleExpandBottom,
+    handleRelationPress
+  } = useRelationGraph(props)
 
-  const [focusId, setFocusId] = useState(initialFocusId)
-  const [activeRelation, setActiveRelation] = useState<RelationEdge | null>(null)
-  const [, forceUpdate] = useState(0)
-  const [focusLayoutReady, setFocusLayoutReady] = useState(false)
-
-  const windowRef = useRef<{ start: number; end: number } | null>(null)
-  const layoutsRef = useRef<Map<number, NodeLayout>>(new Map())
-  const scrollViewRef = useRef<ScrollView>(null)
-
-  const setLayout = (id: number, x: number, y: number, width: number, height: number) => {
-    layoutsRef.current.set(id, {
-      left: x,
-      right: x + width,
-      centerY: y + height / 2,
-      height
-    })
-    forceUpdate(n => n + 1)
-    if (Number(id) === Number(initialFocusId)) {
-      setFocusLayoutReady(true)
-    }
-  }
-
-  const sortedNodes = [...node].sort((a, b) => {
-    const da = a.date ? new Date(a.date).getTime() : Infinity
-    const db = b.date ? new Date(b.date).getTime() : Infinity
-    return da - db
-  })
-
-  const total = sortedNodes.length
-  let headNodes: NodeItem[] = []
-  let tailNodes: NodeItem[] = []
-  let middleNodes = sortedNodes
-  if (total > NODES_FOR_SPLIT) {
-    const headCount = Math.min(HEAD_KEEP_COUNT, total)
-    const tailCount = Math.min(TAIL_KEEP_COUNT, Math.max(0, total - headCount))
-    headNodes = sortedNodes.slice(0, headCount)
-    tailNodes = tailCount > 0 ? sortedNodes.slice(total - tailCount) : []
-    middleNodes = sortedNodes.slice(headCount, total - tailCount)
-  }
-
-  // 只有当需要分割（即 total > NODES_FOR_SPLIT）时才初始化窗口
-  if (!windowRef.current && total > NODES_FOR_SPLIT) {
-    let focusIndex = middleNodes.findIndex(n => Number(n.id) === Number(focusId))
-    if (focusIndex === -1) focusIndex = 0
-
-    // 默认窗口大小
-    let start = Math.max(0, focusIndex - FOCUS_WINDOW_RADIUS)
-    let end = Math.min(middleNodes.length, focusIndex + FOCUS_WINDOW_RADIUS + 1)
-
-    // 如果窗口节点数不够 FOCUS_WINDOW_RADIUS*2 + 1，向前或向后扩展
-    const desiredWindowSize = FOCUS_WINDOW_RADIUS * 2 + 1
-    const currentSize = end - start
-    if (currentSize < desiredWindowSize) {
-      const extra = desiredWindowSize - currentSize
-      start = Math.max(0, start - Math.floor(extra / 2))
-      end = Math.min(middleNodes.length, end + Math.ceil(extra / 2))
-    }
-
-    windowRef.current = { start, end }
-  }
-
-  // 根据是否分割来决定渲染哪些中间节点
-  let renderMiddleNodes: NodeItem[] = []
-  let omittedTopCount = 0
-  let omittedBottomCount = 0
-
-  if (total > NODES_FOR_SPLIT && windowRef.current) {
-    const { start, end } = windowRef.current
-    renderMiddleNodes = middleNodes.slice(start, end)
-    omittedTopCount = start
-    omittedBottomCount = middleNodes.length - end
-  } else {
-    // 不分割时，显示所有中间节点（即全部节点）
-    renderMiddleNodes = middleNodes // 这里 middleNodes = sortedNodes
-    omittedTopCount = 0
-    omittedBottomCount = 0
-  }
-
-  const handleExpandTop = () => {
-    if (!windowRef.current) return
-    windowRef.current.start = Math.max(0, windowRef.current.start - EXPAND_STEP)
-    forceUpdate(n => n + 1)
-  }
-
-  const handleExpandBottom = () => {
-    if (!windowRef.current) return
-    windowRef.current.end = Math.min(middleNodes.length, windowRef.current.end + EXPAND_STEP)
-    forceUpdate(n => n + 1)
-  }
-
-  // 年份背景覆盖所有节点
-  const nodesByYear: Record<string, typeof node> = {}
-  sortedNodes.forEach(n => {
-    const year = n.date ? new Date(n.date).getFullYear().toString() : '未知'
-    if (!nodesByYear[year]) nodesByYear[year] = []
-    nodesByYear[year].push(n)
-  })
-  const years = Object.keys(nodesByYear).sort((a, b) => Number(a) - Number(b))
-
-  let focusRelations: RelationEdge[] = []
-  if (focusId) {
-    focusRelations = relate.filter(r => r.src === focusId)
-    if (hideRelates.length > 0) {
-      const hideRelatesSet = new Set(hideRelates)
-      focusRelations = focusRelations.filter(r => !hideRelatesSet.has(r.relate))
-    }
-    focusRelations = focusRelations.slice(0, maxRelations)
-  }
-
-  const leftRelations = focusRelations.filter((_, i) =>
-    START_FROM_RIGHT ? i % 2 === 1 : i % 2 === 0
+  const node = (item: NodeItem) => (
+    <Node
+      key={item.id}
+      item={item}
+      focusId={focusId}
+      activeRelation={activeRelation}
+      layoutsRef={layoutsRef}
+      setLayout={setLayout}
+      setFocusId={setFocusId}
+      setActiveRelation={setActiveRelation}
+      scrollViewRef={scrollViewRef}
+      focusRelations={focusRelations}
+    />
   )
-  const rightRelations = focusRelations.filter((_, i) =>
-    START_FROM_RIGHT ? i % 2 === 0 : i % 2 === 1
-  )
-
-  const handleRelationPress = (r: RelationEdge) => {
-    setActiveRelation(r)
-    const targetLayout = layoutsRef.current.get(Number(r.dst))
-    if (targetLayout && scrollViewRef.current) {
-      const offset = targetLayout.centerY - SCREEN_HEIGHT / 2 + 80
-      scrollViewRef.current.scrollTo({
-        y: Math.max(offset, 0),
-        animated: true
-      })
-    }
-  }
-
-  useEffect(() => {
-    if (!initialFocusId || !focusLayoutReady || !scrollViewRef.current) return
-    requestAnimationFrame(() => {
-      const layout = layoutsRef.current.get(Number(initialFocusId))
-      if (!layout) return
-      const offset = layout.centerY - SCREEN_HEIGHT / 2 + 80
-      scrollViewRef.current?.scrollTo({
-        y: Math.max(offset, 0),
-        animated: true
-      })
-    })
-  }, [focusLayoutReady, initialFocusId])
 
   return (
     <ScrollView
       ref={scrollViewRef}
       contentContainerStyle={styles.container}
-      onScroll={onScroll}
+      onScroll={props.onScroll}
       {...SCROLL_VIEW_RESET_PROPS}
     >
       <View style={styles.stage}>
@@ -200,20 +82,7 @@ function RelationGraph({
         ))}
 
         {/* 顶部固定节点 */}
-        {headNodes.map(item => (
-          <Node
-            key={item.id}
-            item={item}
-            focusId={focusId}
-            activeRelation={activeRelation}
-            layoutsRef={layoutsRef}
-            setLayout={setLayout}
-            setFocusId={setFocusId}
-            setActiveRelation={setActiveRelation}
-            scrollViewRef={scrollViewRef}
-            focusRelations={focusRelations}
-          />
-        ))}
+        {headNodes.map(node)}
 
         {/* 中间窗口顶部省略 */}
         {omittedTopCount > 0 && (
@@ -221,20 +90,7 @@ function RelationGraph({
         )}
 
         {/* 中间窗口节点 */}
-        {renderMiddleNodes.map(item => (
-          <Node
-            key={item.id}
-            item={item}
-            focusId={focusId}
-            activeRelation={activeRelation}
-            layoutsRef={layoutsRef}
-            setLayout={setLayout}
-            setFocusId={setFocusId}
-            setActiveRelation={setActiveRelation}
-            scrollViewRef={scrollViewRef}
-            focusRelations={focusRelations}
-          />
-        ))}
+        {renderMiddleNodes.map(node)}
 
         {/* 中间窗口底部省略 */}
         {omittedBottomCount > 0 && (
@@ -242,20 +98,7 @@ function RelationGraph({
         )}
 
         {/* 底部固定节点 */}
-        {tailNodes.map(item => (
-          <Node
-            key={item.id}
-            item={item}
-            focusId={focusId}
-            activeRelation={activeRelation}
-            layoutsRef={layoutsRef}
-            setLayout={setLayout}
-            setFocusId={setFocusId}
-            setActiveRelation={setActiveRelation}
-            scrollViewRef={scrollViewRef}
-            focusRelations={focusRelations}
-          />
-        ))}
+        {tailNodes.map(node)}
 
         <Lines
           side='left'

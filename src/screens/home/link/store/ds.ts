@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-10 22:39:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-17 23:23:04
+ * @Last Modified time: 2026-09-27 19:20:28
  */
 import { _ } from '@stores'
 import { COMPONENT } from '../ds'
@@ -46,8 +46,8 @@ export const STATE = {
     relate: []
   } as RelateMap,
 
-  /** 隐藏的条目类型 */
-  hideTypes: [] as string[],
+  /** 隐藏的条目类型 (数据源为数字) */
+  hideTypes: [] as number[],
 
   /** 隐藏的条目平台 */
   hidePlatforms: [] as string[],

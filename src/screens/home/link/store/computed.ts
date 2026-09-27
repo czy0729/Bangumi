@@ -18,7 +18,7 @@ export default class Computed extends State {
   }
 
   /** 开发调试 */
-  log(...arg: any) {
+  log(...arg: unknown[]) {
     logger.info(this.namespace, ...arg)
   }
 
@@ -99,8 +99,9 @@ export default class Computed extends State {
       finalNode = filteredNodeByType.filter(item => connectedIds.has(item.id))
 
       // 再次确保关联的两端节点都存在
+      const finalNodeIds = new Set(finalNode.map(item => item.id))
       filteredRelate = filteredRelate.filter(
-        r => finalNode.some(n => n.id === r.src) && finalNode.some(n => n.id === r.dst)
+        r => finalNodeIds.has(r.src) && finalNodeIds.has(r.dst)
       )
     } else {
       finalNode = filteredNodeByType

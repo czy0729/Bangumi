@@ -2,16 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-12-10 22:43:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-16 21:57:08
+ * @Last Modified time: 2026-09-27 19:19:46
  */
-import type {
-  GetRouteParams,
-  Loaded,
-  RouteSubjectLink,
-  SubjectId,
-  SubjectTypeValue,
-  WithNavigation
-} from '@types'
+import type { GetRouteParams, Loaded, RouteSubjectLink, SubjectId, WithNavigation } from '@types'
 import type Store from './store'
 
 export type Ctx = WithNavigation<{
@@ -27,7 +20,9 @@ export type NodeItem = {
   nameCN: string
   nsfw: boolean
   platform: string
-  type: SubjectTypeValue
+
+  /** 条目类型 (bangumi-link 数据源为数字, MODEL 的 getTitle 宽松比较兼容) */
+  type: number
 }
 
 export type RelateMap = {

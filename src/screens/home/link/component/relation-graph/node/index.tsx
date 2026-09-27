@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-25 20:39:04
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Pressable, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, getCoverSrc, Text } from '@components'

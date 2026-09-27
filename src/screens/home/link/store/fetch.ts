@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-12-10 22:49:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-13 06:47:23
+ * @Last Modified time: 2026-09-27 15:50:50
  */
 import { collectionStore, subjectStore, systemStore } from '@stores'
 import { getTimestamp, queue } from '@utils'
@@ -119,7 +119,7 @@ export default class Fetch extends Computed {
     if (!this.nodeId) return false
 
     try {
-      const trend = await get(this.trendId)
+      const trend = await get<{ value?: number }>(this.trendId)
       if (typeof trend?.value === 'number') {
         this.setState({
           trend: Number(trend.value + 1) || 1

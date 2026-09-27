@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-25 05:19:10
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, Empty, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'

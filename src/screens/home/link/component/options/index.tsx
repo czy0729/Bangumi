@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-23 07:25:46
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActionSheet, Divider, Flex, Iconfont, SwitchPro, Text, Touchable } from '@components'
@@ -24,8 +23,8 @@ function Options() {
 
   const { hideTypes, hidePlatforms, hideRelates, trend } = $.state
 
-  // types
-  const typeCountMap = new Map<string, number>()
+  // types (条目类型为数字)
+  const typeCountMap = new Map<number, number>()
   $.map.node.forEach(item => {
     const type = item.type
     typeCountMap.set(type, (typeCountMap.get(type) || 0) + 1)
@@ -57,10 +56,10 @@ function Options() {
   const renderFilterSection = (
     title: string,
     tip: string,
-    items: { label: string; count: number }[],
-    hiddenItems: string[],
+    items: { label: string | number; count: number }[],
+    hiddenItems: (string | number)[],
     type: 'hideTypes' | 'hidePlatforms' | 'hideRelates',
-    getLabelText?: (label: string) => string
+    getLabelText?: (label: string | number) => string
   ) => (
     <View style={styles.container}>
       <Text size={16} bold>

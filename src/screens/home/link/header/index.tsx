@@ -4,12 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-17 22:44:57
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { cnjp } from '@utils'
+import { cnjp, getHeaderTitleSize } from '@utils'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../types'
@@ -41,7 +41,14 @@ function Header() {
     [$]
   )
 
-  return <HeaderV2 title={text} hm={$.hm} headerRight={handleHeaderRight} />
+  return (
+    <HeaderV2
+      title={text}
+      headerTitleSize={getHeaderTitleSize(text)}
+      hm={$.hm}
+      headerRight={handleHeaderRight}
+    />
+  )
 }
 
 export default observer(Header)
