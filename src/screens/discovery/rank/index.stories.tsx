@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-06 03:10:40
  */
-import React from 'react'
 import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
 import { Rank as Component } from '@screens'
 

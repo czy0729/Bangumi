@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-09 01:06:59
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemCollectionsGrid, ItemSearch } from '@_'
 import { _, collectionStore, useStore } from '@stores'

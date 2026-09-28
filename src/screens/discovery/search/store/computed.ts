@@ -3,6 +3,8 @@
  * @Date: 2024-06-03 11:42:17
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-03 20:37:51
+ *
+ * 搜索页派生: 搜索结果过滤 / 目标网址与类型判断
  */
 import { computed } from 'mobx'
 import { searchStore, subjectStore, userStore } from '@stores'
@@ -57,6 +59,7 @@ export default class Computed extends State {
     return subjectStore.subject(subjectId)
   })
 
+  /** HM 埋点参数 */
   @computed get hm() {
     return [this.url, 'Search'] as const
   }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-22 14:46:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-23 14:53:48
+ * @Last Modified time: 2026-09-29 06:19:01
  */
 import { _ } from '@stores'
 import {
@@ -32,6 +32,7 @@ import type {
   Target,
   Theme
 } from '@types'
+import type { OtaSnapshot, SnapshotId } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -47,7 +48,7 @@ export const EXCLUDE_STATE = {
   show: true,
 
   /** 云快照 */
-  ota: {}
+  ota: {} as Record<SnapshotId, OtaSnapshot>
 }
 
 export const STATE = {

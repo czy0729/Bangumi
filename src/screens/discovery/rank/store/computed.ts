@@ -3,6 +3,8 @@
  * @Date: 2024-05-24 10:09:25
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-29 23:32:54
+ *
+ * 排行榜派生: 筛选参数聚合 / 列表数据过滤与工具栏菜单
  */
 import { computed } from 'mobx'
 import { tagStore, userStore } from '@stores'
@@ -66,7 +68,7 @@ export default class Computed extends State {
     return source === '全部' ? '' : source
   }
 
-  /** 来源 */
+  /** 公共标签 */
   @computed get tag() {
     const { tag } = this.state
     return tag === '全部' ? '' : tag
@@ -127,7 +129,8 @@ export default class Computed extends State {
 
   /** 过滤数据 */
   @computed get list(): ComputedRank {
-    if (!this.rank._loaded) return this.ota || LIST_EMPTY
+    // 云快照与空列表壳作为未加载时的占位数据
+    if (!this.rank._loaded) return this.ota || (LIST_EMPTY as ComputedRank)
 
     if (this.state.collected) return this.rank
 
@@ -222,6 +225,7 @@ export default class Computed extends State {
     return find?.cover || ''
   }
 
+  /** 是否加载中 */
   @computed get loading() {
     return !this.list._loaded
   }

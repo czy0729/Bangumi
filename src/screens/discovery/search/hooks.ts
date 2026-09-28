@@ -42,7 +42,11 @@ export function useSearchPage(props: NavigationProps) {
 
   return {
     ...context,
+
+    /** 搜索框实例引用 (用于类型切换后重新聚焦) */
     iptRef,
+
+    /** 聚焦搜索框回调 */
     handleFocus
   }
 }

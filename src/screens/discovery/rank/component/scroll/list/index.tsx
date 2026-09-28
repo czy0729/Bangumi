@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-29 23:16:34
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Empty, Heatmap } from '@components'
 import { FilterText } from '@_'

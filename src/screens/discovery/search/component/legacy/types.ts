@@ -5,5 +5,6 @@
  * @Last Modified time: 2025-12-31 02:51:05
  */
 export type Props = {
+  /** 点击细分类型后聚焦搜索框 */
   onFocus: () => void
 }

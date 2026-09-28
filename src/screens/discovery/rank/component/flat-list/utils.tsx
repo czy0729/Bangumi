@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-29 23:06:49
  */
-import React from 'react'
 import Item from '../item'
 
 import type { TagItem } from '@stores/tag/types'

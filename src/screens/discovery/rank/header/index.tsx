@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-23 15:24:48
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
@@ -29,10 +29,10 @@ function Header() {
         onSelect={(title: string) => {
           if (title === TEXT_MENU_SPLIT) return
 
-          const actions = {
+          const actions: Partial<Record<string, () => void>> = {
             [TEXT_MENU_BROWSER]: () => open(url),
             [TEXT_MENU_SPA]: () => open(`${URL_SPA}/${getSPAParams('Rank')}`)
-          } as const
+          }
 
           actions[title]?.() ?? $.onToolBar(title)
 

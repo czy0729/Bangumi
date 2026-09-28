@@ -3,6 +3,8 @@
  * @Date: 2024-01-09 04:22:41
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-30 21:43:27
+ *
+ * 搜索联想索引: 静态词条加载 / 分片构建搜索索引与关键词匹配 hooks
  */
 import { useEffect, useRef, useState } from 'react'
 import { SEARCH_SUBSTRINGS } from '@stores/calendar/onair'
@@ -180,7 +182,10 @@ export function useResult(cat: SearchCat, value: string, enabled: boolean) {
   }, [cat, value, isReady, enabled])
 
   return {
+    /** 命中的联想词条列表 */
     result,
+
+    /** 词条 → 条目 Id 映射 (点击联想项时取 Id) */
     substrings
   }
 }

@@ -153,7 +153,9 @@ export type ListEmpty<T = unknown> = Expand<{
   }
   _list?: T[] | readonly T[]
   _loaded?: Loaded
-  _filter?: string
+
+  /** 被过滤条目说明 (x18 等过滤时为数量, 其余为文案) */
+  _filter?: string | number
 }>
 
 /**

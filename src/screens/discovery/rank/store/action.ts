@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-05-24 10:14:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-30 00:05:00
+ * @Last Modified time: 2026-09-29 06:18:42
+ *
+ * 排行榜操作: 筛选选择 / 翻页 / 工具栏与布局切换
  */
 import { feedback, info, updateVisibleBottom } from '@utils'
 import { scrollToTop } from '@utils/dom'
@@ -20,6 +22,7 @@ import {
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
 
+
 import type { ScrollTo } from '@components'
 import type {
   Airtime,
@@ -36,7 +39,7 @@ import type {
   Target,
   Theme
 } from '@types'
-import type { ToolBarKeys } from '../types'
+import type { ToolBarKeys, FilterEvent, FilterKey, RankType } from '../types'
 
 export default class Action extends Fetch {
   /** ScrollView.scrollTo */
@@ -70,6 +73,35 @@ export default class Action extends Fetch {
         scrollToTop(0, false)
       }
     }, 0)
+  }
+
+  /** 更新某类型页码 */
+  setPage = (type: RankType, value: number) => {
+    const { currentPage, ipt } = this.state
+    this.setState({
+      visibleBottom: EXCLUDE_STATE.visibleBottom,
+      currentPage: {
+        ...currentPage,
+        [type]: value
+      },
+      ipt: {
+        ...ipt,
+        [type]: String(value)
+      }
+    })
+  }
+
+  /** 更新单项筛选, 重置页码并刷新 */
+  onSelectFilter = (key: FilterKey, value: string, event: FilterEvent) => {
+    this.setState({
+      [key]: value
+    })
+    this.onResetPage()
+    this.refresh(true)
+
+    t(event, {
+      [key]: value
+    })
   }
 
   /** 类型选择 */
@@ -143,18 +175,8 @@ export default class Action extends Fetch {
 
   /** 返回第一页 */
   onResetPage = () => {
-    const { type, currentPage, ipt } = this.state
-    this.setState({
-      visibleBottom: EXCLUDE_STATE.visibleBottom,
-      currentPage: {
-        ...currentPage,
-        [type]: 1
-      },
-      ipt: {
-        ...ipt,
-        [type]: '1'
-      }
-    })
+    const { type } = this.state
+    this.setPage(type, 1)
   }
 
   /** 年选择 */
@@ -191,82 +213,23 @@ export default class Action extends Fetch {
   }
 
   /** 来源选择 */
-  onSourceSelect = (source: Source) => {
-    this.setState({
-      source
-    })
-    this.onResetPage()
-    this.refresh(true)
-
-    t('排行榜.来源选择', {
-      source
-    })
-  }
+  onSourceSelect = (source: Source) => this.onSelectFilter('source', source, '排行榜.来源选择')
 
   /** 公共标签选择 */
-  onTagSelect = (tag: Tag) => {
-    this.setState({
-      tag
-    })
-    this.onResetPage()
-    this.refresh(true)
-
-    t('排行榜.公共标签选择', {
-      tag
-    })
-  }
+  onTagSelect = (tag: Tag) => this.onSelectFilter('tag', tag, '排行榜.公共标签选择')
 
   /** 地区选择 */
-  onAreaSelect = (area: Area) => {
-    this.setState({
-      area
-    })
-    this.onResetPage()
-    this.refresh(true)
-
-    t('排行榜.地区选择', {
-      area
-    })
-  }
+  onAreaSelect = (area: Area) => this.onSelectFilter('area', area, '排行榜.地区选择')
 
   /** 受众选择 */
-  onTargetSelect = (target: Target) => {
-    this.setState({
-      target
-    })
-    this.onResetPage()
-    this.refresh(true)
-
-    t('排行榜.受众选择', {
-      target
-    })
-  }
+  onTargetSelect = (target: Target) => this.onSelectFilter('target', target, '排行榜.受众选择')
 
   /** 分级选择 */
-  onClassificationSelect = (classification: Classification) => {
-    this.setState({
-      classification
-    })
-    this.onResetPage()
-    this.refresh(true)
-
-    t('排行榜.分级选择', {
-      classification
-    })
-  }
+  onClassificationSelect = (classification: Classification) =>
+    this.onSelectFilter('classification', classification, '排行榜.分级选择')
 
   /** 题材选择 */
-  onThemeSelect = (theme: Theme) => {
-    this.setState({
-      theme
-    })
-    this.onResetPage()
-    this.refresh(true)
-
-    t('排行榜.题材选择', {
-      theme
-    })
-  }
+  onThemeSelect = (theme: Theme) => this.onSelectFilter('theme', theme, '排行榜.题材选择')
 
   /** 切换布局 */
   onToggleList = () => {
@@ -314,22 +277,11 @@ export default class Action extends Fetch {
 
   /** 上一页 */
   onPrev = () => {
-    const { currentPage, type, ipt } = this.state
-    const page = currentPage[type]
+    const { currentPage, type } = this.state
     if (currentPage[type] === 1) return
 
-    const value = page - 1
-    this.setState({
-      visibleBottom: EXCLUDE_STATE.visibleBottom,
-      currentPage: {
-        ...currentPage,
-        [type]: value
-      },
-      ipt: {
-        ...ipt,
-        [type]: String(value)
-      }
-    })
+    const value = currentPage[type] - 1
+    this.setPage(type, value)
     this.refresh(true)
 
     t('排行榜.上一页', {
@@ -340,21 +292,9 @@ export default class Action extends Fetch {
 
   /** 下一页 */
   onNext = () => {
-    const { currentPage, type, ipt } = this.state
-    const page = currentPage[type]
-
-    const value = page + 1
-    this.setState({
-      visibleBottom: EXCLUDE_STATE.visibleBottom,
-      currentPage: {
-        ...currentPage,
-        [type]: value
-      },
-      ipt: {
-        ...ipt,
-        [type]: String(value)
-      }
-    })
+    const { currentPage, type } = this.state
+    const value = currentPage[type] + 1
+    this.setPage(type, value)
     this.refresh(true)
 
     t('排行榜.下一页', {
@@ -364,7 +304,7 @@ export default class Action extends Fetch {
   }
 
   /** 输入框改变 */
-  onPaginationInputChange = ({ nativeEvent }) => {
+  onPaginationInputChange = ({ nativeEvent }: { nativeEvent: { text: string } }) => {
     const { type, ipt } = this.state
     this.setState({
       ipt: {
@@ -400,24 +340,14 @@ export default class Action extends Fetch {
 
   /** 页码跳转 */
   doSearch = () => {
-    const { type, currentPage, ipt } = this.state
+    const { type, ipt } = this.state
     const value = ipt[type] === '' ? 1 : parseInt(ipt[type])
     if (value < 1) {
       info('请输入正确页码')
       return
     }
 
-    this.setState({
-      visibleBottom: EXCLUDE_STATE.visibleBottom,
-      currentPage: {
-        ...currentPage,
-        [type]: value
-      },
-      ipt: {
-        ...ipt,
-        [type]: String(value)
-      }
-    })
+    this.setPage(type, value)
     this.refresh(true)
 
     t('排行榜.页码跳转', {

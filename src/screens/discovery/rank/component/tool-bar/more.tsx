@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-23 14:58:29
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'

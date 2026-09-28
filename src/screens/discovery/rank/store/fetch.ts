@@ -3,9 +3,11 @@
  * @Date: 2024-05-24 10:13:13
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-29 22:48:39
+ *
+ * 排行榜请求: 排行榜数据 / 收藏状态队列与云快照读写
  */
 import { collectionStore, tagStore } from '@stores'
-import { getTimestamp } from '@utils'
+import { ensureArrayLimit, getTimestamp } from '@utils'
 import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
 import Computed from './computed'
@@ -68,7 +70,7 @@ export default class Fetch extends Computed {
 
     setTimeout(async () => {
       if (!this.ota && !this.rank._loaded) {
-        const data = await get(this.thirdPartyKey)
+        const data = await get<Rank>(this.thirdPartyKey)
         if (!data) {
           // 就算没有数据也插入 key, 用于判断是否需要更新云数据
           this.setState({
@@ -103,6 +105,8 @@ export default class Fetch extends Computed {
         list: this.rank.list.map(({ collected, ...other }) => other)
       })
       THIRD_PARTY_UPDATED.push(this.thirdPartyKey)
+      // 保留最新 50 个 key, 旧 key 淘汰后可能重新上传, 但避免数组无界增长
+      ensureArrayLimit(THIRD_PARTY_UPDATED, 50, true)
     }, 0)
   }
 }

@@ -8,5 +8,6 @@ import type { RefObject } from 'react'
 import type { InputInstance } from '@components'
 
 export type Props = {
+  /** 搜索框实例引用 */
   iptRef: RefObject<InputInstance | null>
 }
