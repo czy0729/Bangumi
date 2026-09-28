@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 20:54:02
+ * @Last Modified time: 2026-09-28 22:00:00
  */
-import React from 'react'
 import { Cover, Flex, Heatmap, Iconfont, Link, Squircle, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _ } from '@stores'
@@ -16,6 +15,7 @@ import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 import type { ReactNode } from '@types'
+import type { SubjectFromHtmlRelationsItem } from '@stores/subject/types'
 
 const Series = memo(
   ({
@@ -34,7 +34,7 @@ const Series = memo(
       let displayed = 0
       const maxDisplay = 2
       const items: ReactNode[] = []
-      const pushItem = (data: any, label: string) => {
+      const pushItem = (data: SubjectFromHtmlRelationsItem | undefined, label: string) => {
         if (data && displayed < maxDisplay) {
           items.push(<Item key={label} data={data} from={label} />)
           displayed += 1

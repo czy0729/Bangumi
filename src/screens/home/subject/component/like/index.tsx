@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-25 05:12:59
  */
-import React, { Suspense } from 'react'
+import { Suspense } from 'react'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { systemStore, useStore } from '@stores'

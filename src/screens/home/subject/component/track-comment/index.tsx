@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-02-03 15:44:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 21:17:33
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 追踪用户的吐槽列表
  */
-import React from 'react'
+import { Fragment } from 'react'
 import { observer } from 'mobx-react'
 import { Component, Divider } from '@components'
 import { ClientTrack, InView, ItemComment } from '@_'
@@ -70,7 +72,7 @@ function TrackComment() {
           popoverData.push(TEXT_MENU_MANAGE_TRACK)
 
           return (
-            <React.Fragment key={`${userId}|${userInfo.avatar}|${userInfo.userName}`}>
+            <Fragment key={`${userId}|${userInfo.avatar}|${userInfo.userName}`}>
               <ItemComment
                 style={styles.item}
                 event={event}
@@ -119,7 +121,7 @@ function TrackComment() {
                 subjectId={$.subjectId}
                 type={$.subjectTypeValue}
               />
-            </React.Fragment>
+            </Fragment>
           )
         })}
         <Divider />

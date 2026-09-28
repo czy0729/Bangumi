@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-25 05:11:55
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { IconTouchable } from '@_'

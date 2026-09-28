@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 11:22:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-15 18:33:00
+ * @Last Modified time: 2026-09-28 22:00:00
  */
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
@@ -31,7 +31,7 @@ export const DEFAULT_PROPS = {
   showCustomOnair: true as typeof systemStore.setting.showCustomOnair,
   focusOrigin: false as typeof systemStore.setting.focusOrigin,
   onChangeText: FROZEN_FN as $['changeText'],
-  onScrollIntoViewIfNeeded: FROZEN_FN as (y: number) => any,
+  onScrollIntoViewIfNeeded: FROZEN_FN as (y: number) => void,
   doUpdateSubjectEp: FROZEN_FN as $['doUpdateSubjectEp']
 }
 

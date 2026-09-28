@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-08-04 04:45:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:36:58
+ * @Last Modified time: 2026-09-28 22:00:00
+ *
+ * 标签列表, 超过阈值折叠
  */
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
@@ -20,8 +22,9 @@ import { memoStyles } from './styles'
 
 import type { SubjectType } from '@types'
 import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
-function TagList({ showTyperank }: { showTyperank: boolean }) {
+function TagList({ showTyperank }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const [expand, setExpand] = useState(false)
@@ -33,11 +36,18 @@ function TagList({ showTyperank }: { showTyperank: boolean }) {
     (name: string, isTyperank: boolean) => {
       const isExist = isTyperank && exist(subjectTypeLabel, name)
       const to = isExist ? 'Typerank' : 'Tag'
-      navigation.push(to as any, {
-        type: subjectTypeLabel,
-        tag: name,
-        ...(isExist ? { subjectId: $.subjectId } : {})
-      })
+      if (isExist) {
+        navigation.push('Typerank', {
+          type: subjectTypeLabel,
+          tag: name,
+          subjectId: $.subjectId
+        })
+      } else {
+        navigation.push('Tag', {
+          type: subjectTypeLabel,
+          tag: name
+        })
+      }
 
       t('条目.跳转', {
         from: TITLE_TAGS,

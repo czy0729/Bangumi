@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:26:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-26 20:25:33
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 条目基础派生数据 (条目信息 / 收藏 / 标签 / 名称 / 源头)
  */
 import { computed } from 'mobx'
 import { calendarStore, collectionStore, subjectStore, userStore } from '@stores'
@@ -19,7 +21,6 @@ import {
   x18
 } from '@utils'
 import { logger } from '@utils/dev'
-import { extractDlsiteId, extractVndbId } from '@utils/thirdParty/dlsite-vndb'
 import { HOST, IMG_DEFAULT, MODEL_SUBJECT_TYPE } from '@constants'
 import State from '../state'
 import { EXCLUDE_STATE, NAMESPACE } from '../ds'
@@ -27,20 +28,12 @@ import { getOriginConfig } from '../../../../user/origin-setting/utils'
 import {
   checkIsPS,
   filterSubjectComments,
-  getAnimeInfo,
-  getAnimeTags,
-  getGameInfo,
-  getGameTags,
-  getMangaInfo,
-  getMangaTags,
   getOnlineOrigins,
-  getValidPlaySources,
-  getWenkuInfo,
-  getWenkuTags
+  getValidPlaySources
 } from '../utils'
 
 import type { SubjectType, SubjectTypeCn } from '@types'
-import type { SubjectCommentValue, TagsItem } from '../../types'
+import type { SubjectCommentValue } from '../../types'
 
 /** 条目基础派生数据 */
 export default class Base extends State {
@@ -275,73 +268,6 @@ export default class Base extends State {
   /** 是否 PS 游戏, 跳转 psnine 查看奖杯 */
   @computed get isPS() {
     return checkIsPS(this.type, this.info)
-  }
-
-  /** 第三方动画信息 */
-  @computed get animeInfo() {
-    const item = getAnimeInfo(this.type, this.subjectId)
-    return item ? freeze(item) : null
-  }
-
-  /** 第三方动画标签 */
-  @computed get animeTags() {
-    const tags = getAnimeTags(this.subjectId, this.animeInfo)
-    return tags ? freeze<TagsItem[]>(tags) : null
-  }
-
-  /** 第三方游戏信息 */
-  @computed get gameInfo() {
-    const item = getGameInfo(this.type, this.subjectId)
-    return item ? freeze(item) : null
-  }
-
-  /** 第三方游戏标签 */
-  @computed get gameTags() {
-    const tags = getGameTags(this.gameInfo)
-    return tags ? freeze<TagsItem[]>(tags) : null
-  }
-
-  /** ADV 类型游戏专用，VNDB ID (从 infobox 链接提取) */
-  @computed get vndbId(): string | null {
-    if (this.type !== '游戏') return null
-    return extractVndbId(this.rawInfo)
-  }
-
-  /** ADV 类型游戏专用，DLsite ID (从 infobox 链接提取) */
-  @computed get dlsiteId(): string | null {
-    if (this.type !== '游戏') return null
-    return extractDlsiteId(this.rawInfo)
-  }
-
-  /** ADV 类型游戏专用，是否有外部截图数据 */
-  @computed get hasExternalScreenshots(): boolean {
-    return !!(
-      this.state.externalScreenshots.vndb.length || this.state.externalScreenshots.dlsite.length
-    )
-  }
-
-  /** 第三方漫画信息 */
-  @computed get mangaInfo() {
-    const item = getMangaInfo(this.type, this.subjectId)
-    return item ? freeze(item) : null
-  }
-
-  /** 第三方游漫画标签 */
-  @computed get mangaTags() {
-    const tags = getMangaTags(this.mangaInfo)
-    return tags ? freeze<TagsItem[]>(tags) : null
-  }
-
-  /** 第三方文库信息 */
-  @computed get wenkuInfo() {
-    const item = getWenkuInfo(this.type, this.subjectId)
-    return item ? freeze(item) : null
-  }
-
-  /** 第三方游文库标签 */
-  @computed get wenkuTags() {
-    const tags = getWenkuTags(this.wenkuInfo)
-    return tags ? freeze<TagsItem[]>(tags) : null
   }
 
   /** 漫画或文库是否有源头 */

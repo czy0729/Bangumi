@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-08-12 15:30:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:33:20
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 评分板块标题, 点击可切换评分显示
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { Rank, SectionTitle } from '@_'
@@ -14,8 +16,9 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
-function Title({ showScore }: { showScore: boolean }) {
+function Title({ showScore }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const { showRating } = systemStore.setting

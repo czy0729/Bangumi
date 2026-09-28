@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-25 05:11:18
  */
-import React from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Katakana, Text, Touchable } from '@components'
 import { ScoreTag, Tag } from '@_'

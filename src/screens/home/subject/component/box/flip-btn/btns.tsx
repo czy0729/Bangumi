@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-27 04:11:47
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Button, Flex, Iconfont, Text } from '@components'
 import { _, systemStore } from '@stores'

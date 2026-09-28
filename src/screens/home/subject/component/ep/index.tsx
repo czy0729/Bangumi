@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-24 04:39:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:11:09
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 章节入口, 按条目类型分派书籍 / 音乐 / 动画章节
  */
-import React, { useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
 import { subjectStore, systemStore, useStore } from '@stores'
@@ -24,10 +25,7 @@ import type { Props } from './types'
 function EpWrap({ onBlockRef, onScrollIntoViewIfNeeded }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const typeCn = useMemo(
-    () => $.type || MODEL_SUBJECT_TYPE.getTitle(subjectStore.type($.subjectId)),
-    [$.type, $.subjectId]
-  )
+  const typeCn = $.type || MODEL_SUBJECT_TYPE.getTitle(subjectStore.type($.subjectId))
 
   if (!$.showEp[1]) return null
 

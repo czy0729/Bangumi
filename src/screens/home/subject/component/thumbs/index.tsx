@@ -133,12 +133,9 @@ function Thumbs({ onBlockRef }: Props) {
             <IconThumbsRefresh />
             {!!thumbsReference && (
               <Touchable
-                style={[
-                  flexStyle(),
-                  {
-                    marginTop: -2
-                  }
-                ]}
+                style={stl(flexStyle(), {
+                  marginTop: -2
+                })}
                 onPress={() => openSearch(thumbsReferenceUrl)}
               >
                 <Text type={_.select('sub', 'icon')} size={10} lineHeight={12} align='right'>

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-10-31 14:40:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:14:21
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 标签优于百分之多少的同类条目
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _, useStore } from '@stores'
@@ -12,8 +13,9 @@ import { calc, exist } from '../utils'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
-function Typerank({ tag }: { tag: string }) {
+function Typerank({ tag }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   let text: string

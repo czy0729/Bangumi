@@ -2,14 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-07-06 23:18:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-15 01:36:02
+ * @Last Modified time: 2026-09-28 22:00:00
+ *
+ * 评分图表数值计算 (柱高 / 标准差 / 争议度)
  */
-import type { ViewStyle } from 'react-native'
+import type { ViewStyle as RNViewStyle } from 'react-native'
+import type { Rating } from '@types'
 
 const MIN_PERCENT = 0.032
 
 /** 比例柱子高度 */
-export function getHeight(total: string | number, current: number): ViewStyle['height'] {
+export function getHeight(total: string | number, current: number): RNViewStyle['height'] {
   if (!total || !current) return 0
   let percent = current / Number(total)
   if (percent > 0 && percent < MIN_PERCENT) percent = MIN_PERCENT
@@ -17,7 +20,11 @@ export function getHeight(total: string | number, current: number): ViewStyle['h
 }
 
 /** 计算标准差 */
-export function getDeviation(total: string | number, count: any, score: string | number) {
+export function getDeviation(
+  total: string | number,
+  count: Rating['count'],
+  score: string | number
+) {
   if (total == 0) return 0
 
   const scores = Object.values(count).reverse()
@@ -25,7 +32,7 @@ export function getDeviation(total: string | number, count: any, score: string |
 }
 
 /** 计算标准差 */
-function calculateSD(scores: any[], score: string | number, n: string | number) {
+function calculateSD(scores: number[], score: string | number, n: string | number) {
   let sd = 0
   scores.forEach((item, index) => {
     if (item === 0) return

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-03 18:42:42
  */
-import React, { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { Expand, Flex, Heatmap, Text } from '@components'
 import { SectionTitle, Tag } from '@_'

@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:30:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:13:57
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 系列条目入口, 按需加载系列列表
  */
-import React, { Suspense } from 'react'
+import { Suspense } from 'react'
 import { observer } from 'mobx-react'
 import { Flex } from '@components'
 import { IconRelation } from '@_'
@@ -16,8 +18,9 @@ import { styles } from './styles'
 
 import type { SubjectFromHtmlRelationsItem } from '@stores/subject/types'
 import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-function SeriesWrap({ size }: { size: number }) {
+function SeriesWrap({ size }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const { showRelation } = systemStore.setting

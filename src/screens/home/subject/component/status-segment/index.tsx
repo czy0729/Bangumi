@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-04-29 22:36:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 23:35:28
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 吐槽筛选 (按收藏状态)
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
@@ -21,10 +23,7 @@ function StatusSegement() {
   const { filterStatus } = $.state
   const isAnime = $.action === '看'
 
-  const memoData = useMemo(
-    () => (isAnime ? STATUS_DS : STATUS_DS.map(item => item.replace('看', $.action))),
-    [$, isAnime]
-  )
+  const data = isAnime ? STATUS_DS : STATUS_DS.map(item => item.replace('看', $.action))
 
   const handleSelect = useCallback(
     (title: string) => {
@@ -34,7 +33,7 @@ function StatusSegement() {
   )
 
   return (
-    <Popover style={styles.touch} data={memoData} onSelect={handleSelect}>
+    <Popover style={styles.touch} data={data} onSelect={handleSelect}>
       <Flex style={styles.btn} justify='center'>
         <Iconfont
           name='md-filter-list'

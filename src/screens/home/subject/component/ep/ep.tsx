@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-08 06:40:14
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { View } from 'react-native'
 import { Button, Flex, Heatmap, Input, Text } from '@components'
 import { SectionTitle } from '@_'

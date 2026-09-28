@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-11 08:37:55
  */
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { stl } from '@utils'

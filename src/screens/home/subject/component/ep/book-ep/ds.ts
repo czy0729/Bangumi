@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 11:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:59:03
+ * @Last Modified time: 2026-09-28 22:00:00
  */
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
@@ -29,7 +29,7 @@ export const DEFAULT_PROPS = {
   } as $['collection']['status'],
   focusOrigin: false as typeof systemStore.setting.focusOrigin,
   onChangeText: FROZEN_FN as $['changeText'],
-  onScrollIntoViewIfNeeded: FROZEN_FN as (y: number) => any,
+  onScrollIntoViewIfNeeded: FROZEN_FN as (y: number) => void,
   doUpdateBookEp: FROZEN_FN as $['doUpdateBookEp'],
   doUpdateNext: (() => undefined) as $['doUpdateNext']
 }

@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-08-12 13:36:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:13:21
+ * @Last Modified time: 2026-09-28 22:00:00
  */
-import React from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl, toFixed } from '@utils'
 import { memo } from '@utils/decorators'
-import { FROZEN_FN, FROZEN_OBJECT } from '@constants'
+import { FROZEN_FN } from '@constants'
 import VibTrend from '../vib-trend'
 import { getDeviation, getDispute, getHeight } from './utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS, DEFAULT_RATES, MESSAGES } from './ds'
@@ -22,7 +21,7 @@ const Chart = memo(
     friend,
     rating = 0,
     total = 0,
-    count = FROZEN_OBJECT,
+    count = DEFAULT_RATES,
     score = 0,
     toRating = FROZEN_FN
   }) => {

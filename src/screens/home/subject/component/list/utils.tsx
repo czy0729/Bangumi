@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-23 17:00:30
  */
-import React from 'react'
 import Item from '../item'
 
 import type { SubjectCommentsItem } from '@stores/subject/types'

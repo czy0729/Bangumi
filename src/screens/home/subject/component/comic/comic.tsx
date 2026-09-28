@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-06 07:33:26
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Heatmap, HorizontalList, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { InView, SectionTitle } from '@_'

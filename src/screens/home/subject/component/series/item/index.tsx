@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-25 05:13:49
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Cover, Flex, Heatmap, Squircle, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'

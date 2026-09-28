@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-09 16:36:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-05 14:23:35
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 书籍章节 / 卷数进度编辑区块
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { View } from 'react-native'
 import { Button, Flex, Heatmap, Input, ProgressBar, Text } from '@components'
 import { SectionTitle } from '@_'
@@ -16,6 +18,8 @@ import IconManga from '../../icon/manga'
 import IconSearch from '../../icon/search'
 import IconWenku from '../../icon/wenku'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
+
+import type { InputBlockParams } from './types'
 
 const BookEp = memo(
   ({
@@ -59,14 +63,7 @@ const BookEp = memo(
       total,
       totalNumber,
       type
-    }: {
-      label: string
-      value: string | number
-      placeholder: string | number
-      total?: string | number
-      totalNumber?: string | number
-      type: 'chap' | 'vol'
-    }) => (
+    }: InputBlockParams) => (
       <>
         <Flex>
           <Text style={styles.label} align='right'>

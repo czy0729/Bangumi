@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2026-05-24 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 20:56:17
+ * @Last Modified time: 2026-09-28 21:00:00
+ *
+ * 外部站点游戏截图横滑列表 (VNDB / DLsite)
  */
-import React, { useCallback, useMemo, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Image, ScrollView, Text, Touchable } from '@components'
@@ -32,28 +34,15 @@ function ExternalThumbs() {
   const hasDlsite = dlsiteImages.length > 0
   const isVndb = sourceIndex === 0 && hasVndb
 
-  const memoImages = useMemo(() => {
-    const images = isVndb
-      ? vndbScreenshots.map(s => ({ url: s.thumbnail || s.url, nsfw: isNsfwScreenshot(s) }))
-      : dlsiteImages.map((s, i) => ({ url: s.url, nsfw: nsfw && i > 0 }))
-    return images
-  }, [isVndb, vndbScreenshots, dlsiteImages, nsfw])
-  const memoSafeImages = useMemo(
-    () => (isVndb || isAdvance ? memoImages : memoImages.filter(i => !i.nsfw)),
-    [isAdvance, isVndb, memoImages]
-  )
-  const memoPreviews = useMemo(
-    () => memoSafeImages.map(i => ({ url: String(i.url).replace('/sf.t/', '/sf/') })),
-    [memoSafeImages]
-  )
-  const memoSegmentData = useMemo(
-    () =>
-      [
-        hasVndb && `VNDB (${vndbScreenshots.length})`,
-        hasDlsite && `DLsite (${dlsiteImages.length})`
-      ].filter(Boolean),
-    [hasVndb, vndbScreenshots.length, hasDlsite, dlsiteImages.length]
-  )
+  const images = isVndb
+    ? vndbScreenshots.map(s => ({ url: s.thumbnail || s.url, nsfw: isNsfwScreenshot(s) }))
+    : dlsiteImages.map((s, i) => ({ url: s.url, nsfw: nsfw && i > 0 }))
+  const safeImages = isVndb || isAdvance ? images : images.filter(i => !i.nsfw)
+  const previews = safeImages.map(i => ({ url: String(i.url).replace('/sf.t/', '/sf/') }))
+  const segmentData = [
+    hasVndb && `VNDB (${vndbScreenshots.length})`,
+    hasDlsite && `DLsite (${dlsiteImages.length})`
+  ].filter(Boolean)
 
   const handleScroll = useCallback(() => {
     setScrolled(true)
@@ -61,24 +50,21 @@ function ExternalThumbs() {
   const handleSelect = useCallback((_: unknown, index: number) => {
     setSourceIndex(index)
   }, [])
-  const handlePressImage = useCallback(
-    (url: string, nsfw: boolean) => {
-      if (isVndb) {
-        open(String(url).replace('/sf.t/', '/sf/'))
-      } else if (nsfw && !isAdvance) {
-        open(String(url).replace('/sf.t/', '/sf/'))
-      } else {
-        if (!memoPreviews.length) return
+  const handlePressImage = (url: string, nsfw: boolean) => {
+    if (isVndb) {
+      open(String(url).replace('/sf.t/', '/sf/'))
+    } else if (nsfw && !isAdvance) {
+      open(String(url).replace('/sf.t/', '/sf/'))
+    } else {
+      if (!previews.length) return
 
-        const safeIndex = memoSafeImages.findIndex(i => i.url === url)
-        showImageViewer(memoPreviews, safeIndex)
-      }
+      const safeIndex = safeImages.findIndex(i => i.url === url)
+      showImageViewer(previews, safeIndex)
+    }
 
-      t('条目.游戏截图', { subjectId })
-    },
-    [isVndb, isAdvance, subjectId, memoPreviews, memoSafeImages]
-  )
-  if ((!hasVndb && !hasDlsite) || !memoImages.length) return null
+    t('条目.游戏截图', { subjectId })
+  }
+  if ((!hasVndb && !hasDlsite) || !images.length) return null
 
   const styles = memoStyles()
 
@@ -87,8 +73,8 @@ function ExternalThumbs() {
       {(hasVndb || hasDlsite) && (
         <Flex style={styles.segment}>
           <Segment
-            textStyle={memoSegmentData.length >= 2 && styles.segmentText}
-            data={memoSegmentData}
+            textStyle={segmentData.length >= 2 && styles.segmentText}
+            data={segmentData}
             selectedIndex={sourceIndex}
             onSelect={handleSelect}
           />
@@ -117,7 +103,7 @@ function ExternalThumbs() {
         horizontal
         onScroll={scrolled ? undefined : handleScroll}
       >
-        {memoImages
+        {images
           .filter((_item, index) => index <= (scrolled ? 24 : 4))
           .map((item, index) => (
             <Touchable

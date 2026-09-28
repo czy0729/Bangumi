@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-03 22:18:26
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { systemStore, useStore } from '@stores'
 import Disc from './disc'

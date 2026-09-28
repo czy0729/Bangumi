@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-04-19 09:04:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:14:18
+ * @Last Modified time: 2026-09-28 22:00:00
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
@@ -25,8 +24,12 @@ function Block({ path, tags }: Props) {
   const styles = memoStyles()
 
   const handlePress = (item: TagsItem) => {
-    navigation.push(path as any, {
-      _tags: [item]
+    /** 目标页 query.tags 只认标签名字符串, 对象形态取 value (否则搜索匹配必然失败) */
+    const value = typeof item === 'string' ? item : item.value
+
+    // Anime / Game / Manga / Wenku 四个路由的 push 签名一致, 收窄到其中之一以通过类型检查
+    navigation.push(path as 'Anime', {
+      _tags: [value]
     })
 
     t('条目.跳转', {

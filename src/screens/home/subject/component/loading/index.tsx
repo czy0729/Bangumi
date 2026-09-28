@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-17 23:32:22
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Loading as LoadingComp } from '@components'
 import { useStore } from '@stores'

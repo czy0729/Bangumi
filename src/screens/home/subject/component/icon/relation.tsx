@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-09-19 20:45:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:12:16
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 关联条目更多跳转
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Link, Text } from '@components'
 import { useStore } from '@stores'
@@ -13,14 +14,9 @@ import { COMPONENT_RELATION } from './ds'
 import styles from './styles'
 
 import type { Ctx } from '../../types'
+import type { RelationProps } from './types'
 
-function IconRelation({
-  title = '关联',
-  list = []
-}: {
-  title: string
-  list: any[] | readonly any[]
-}) {
+function IconRelation({ title = '关联', list = [] }: RelationProps) {
   const { $ } = useStore<Ctx>(COMPONENT_RELATION)
 
   return (

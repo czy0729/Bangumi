@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-25 05:11:24
  */
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { observer } from 'mobx-react'
 import { Component, ErrorBoundary, Flex } from '@components'
 import { renderWithErrorBoundary } from '@components/error-boundary/utils'

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-06 07:33:07
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Heatmap, HorizontalList } from '@components'
 import { InView, SectionTitle } from '@_'
 import { _ } from '@stores'

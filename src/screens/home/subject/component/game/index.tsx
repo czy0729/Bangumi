@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:11:13
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 游戏信息区块 (截图 / 详情 / 相关视频)
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Component, Expand, Flex, Iconfont, Text } from '@components'
 import { InView, Popover, PreventTouchPlaceholder, SectionTitle } from '@_'
@@ -30,11 +32,8 @@ function Game({ onBlockRef }: Props) {
   const { cn, jp } = $
   const isADV = $.gameInfo?.isADV
 
-  const memoData = useMemo(() => {
-    const data = [cn || jp]
-    if (cn && jp && jp !== cn) data.push(jp)
-    return data
-  }, [cn, jp])
+  const data = [cn || jp]
+  if (cn && jp && jp !== cn) data.push(jp)
   const handleSelect = useCallback(
     (title: string) => {
       open(getVideoSearchUrl(title, isADV))
@@ -78,7 +77,7 @@ function Game({ onBlockRef }: Props) {
         {shouldWrapExpand ? <Expand ratio={1.6}>{elContent}</Expand> : elContent}
 
         <Flex style={stl(_.container.wind, _.mt.sm)}>
-          <Popover style={_.mr.sm} data={memoData} onSelect={handleSelect}>
+          <Popover style={_.mr.sm} data={data} onSelect={handleSelect}>
             <Flex>
               <Text type='sub' lineHeight={22}>
                 相关视频

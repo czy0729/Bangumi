@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-25 05:12:45
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Text } from '@components'
 import { FolderManageModal, IconTouchable } from '@_'

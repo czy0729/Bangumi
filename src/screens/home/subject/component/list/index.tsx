@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-04-06 05:41:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:13:05
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 条目页面滚动容器 (头部区块 + 吐槽列表)
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { FooterEmptyData, ListView } from '@components'
@@ -34,15 +36,12 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }: Props) {
 
   const { showComment } = systemStore.setting
   const { nsfw } = $
-  const elFooterEmpty = useMemo(
-    () =>
-      showComment === -1 ? (
-        <View />
-      ) : (
-        <FooterEmptyData style={_.container.plain} text={nsfw ? TEXT_18X : undefined} />
-      ),
-    [nsfw, showComment]
-  )
+  const elFooterEmpty =
+    showComment === -1 ? (
+      <View />
+    ) : (
+      <FooterEmptyData style={_.container.plain} text={nsfw ? TEXT_18X : undefined} />
+    )
 
   return (
     <ListView

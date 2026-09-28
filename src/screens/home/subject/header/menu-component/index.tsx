@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-02-04 07:04:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:14:55
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 右上角菜单 (浏览器打开 / 各功能项)
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
@@ -20,10 +22,7 @@ import type { Props } from './types'
 function MenuComponent({ color }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  const memoData = useMemo(
-    () => [`${TEXT_MENU_BROWSER}${withSplit($.subjectId)}` as const, ...MENU_DS] as const,
-    [$]
-  )
+  const data = [`${TEXT_MENU_BROWSER}${withSplit($.subjectId)}` as const, ...MENU_DS] as const
 
   const handleSelect = useCallback(
     (key: string) => {
@@ -42,7 +41,7 @@ function MenuComponent({ color }: Props) {
   )
 
   return (
-    <HeaderV2Popover style={styles.menu} data={memoData} color={color} onSelect={handleSelect} />
+    <HeaderV2Popover style={styles.menu} data={data} color={color} onSelect={handleSelect} />
   )
 }
 

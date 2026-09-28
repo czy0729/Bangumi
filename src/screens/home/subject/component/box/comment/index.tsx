@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-25 05:10:03
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Comments, Likes } from '@_'
 import { timelineStore, uiStore, userStore, useStore } from '@stores'

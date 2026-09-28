@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-22 00:09:01
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { systemStore, useStore } from '@stores'
 import BookEp from './book-ep'

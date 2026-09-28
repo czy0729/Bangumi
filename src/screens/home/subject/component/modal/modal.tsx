@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-20 23:07:15
  */
-import React from 'react'
 import { ManageModal } from '@_'
 import { memo } from '@utils/decorators'
 import { FROZEN_FN } from '@constants'

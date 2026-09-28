@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-16 07:46:28
  */
-import React from 'react'
 import { View } from 'react-native'
 import { Cover, Flex, Katakana, Text, Touchable } from '@components'
 import { Rank, Stars } from '@_'

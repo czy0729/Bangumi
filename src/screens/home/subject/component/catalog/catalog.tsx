@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-07 20:36:33
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Heatmap, ScrollView } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
 import { _ } from '@stores'

@@ -23,13 +23,13 @@ import {
   mapRelations,
   mapStaff
 } from '../utils'
-import Base from './base'
+import ThirdPartyInfo from './third-party'
 
 import type { Collection, Sites, TranslateResult } from '@types'
 import type { Crt, CrtMapSource, RecDataItem, PersonsMapSource, StaffMapSource } from '../../types'
 
 /** 元信息与来源派生 */
-export default class Meta extends Base {
+export default class Meta extends ThirdPartyInfo {
   /** 筛选章节构造数据, 每 100 章节一个选项 */
   @computed get filterEpsData() {
     return freeze(getFilterEpsData(this.eps.length))

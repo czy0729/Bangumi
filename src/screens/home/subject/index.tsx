@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-23 04:16:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-08 22:09:29
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 条目页面 (滚动区块容器 + 头部 + 悬浮层)
  */
 import { observer } from 'mobx-react'
 import { Component, Page } from '@components'

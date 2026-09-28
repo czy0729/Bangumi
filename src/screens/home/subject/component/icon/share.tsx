@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2021-07-09 23:45:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 06:23:12
+ * @Last Modified time: 2026-09-28 22:00:00
  */
 import { observer } from 'mobx-react'
 import { HeaderV2Popover } from '@components'
 import { _ } from '@stores'
 import { WEB } from '@constants'
 
-import type { Override } from '@types'
+import type { ColorValue, Override } from '@types'
 import type { Ctx } from '../../types'
 
 const TEXT_POST_SHARE = '海报分享'
@@ -23,7 +23,7 @@ function IconShare({
 }: Override<
   Ctx,
   {
-    color?: any
+    color?: ColorValue
   }
 >) {
   if (WEB) return null

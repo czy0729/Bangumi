@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-17 00:12:01
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Image, Link, ScrollView, Squircle, Text } from '@components'
 import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'

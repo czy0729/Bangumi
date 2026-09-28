@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-25 05:14:43
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2Popover } from '@components'
 import { useStore } from '@stores'

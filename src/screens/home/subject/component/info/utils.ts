@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-04-25 19:28:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-12 17:41:16
+ * @Last Modified time: 2026-09-28 22:00:00
  */
 import { systemStore } from '@stores'
 import { cheerio } from '@utils'
@@ -19,14 +19,14 @@ export const processHtml = (html: string) => {
 
   try {
     const $ = cheerio(html)
-    const subContainer = $('li.sub_container').filter((_i: any, el: any) => {
+    const subContainer = $('li.sub_container').filter((_i, el) => {
       return $(el).attr('class') === 'sub_container'
     })
 
     if (subContainer.length > 0) {
       if (subContainer.find('li span.tip').text().includes('别名')) {
         const aliasItems = subContainer.find('li').get()
-        aliasItems.sort((a: any, b: any) => {
+        aliasItems.sort((a, b) => {
           const aText = $(a).contents().last().text().trim()
           const bText = $(b).contents().last().text().trim()
           return aText.length - bText.length
@@ -34,7 +34,7 @@ export const processHtml = (html: string) => {
         subContainer.find('ul').empty().append(aliasItems)
 
         const chineseNameLi = $('li')
-          .filter((_i: any, el: any) => $(el).find('span.tip').text().includes('中文名'))
+          .filter((_i, el) => $(el).find('span.tip').text().includes('中文名'))
           .first()
         if (chineseNameLi.length > 0) subContainer.insertAfter(chineseNameLi)
       }

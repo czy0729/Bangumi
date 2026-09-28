@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-25 05:15:09
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Image, Touchable } from '@components'
 import { useStore } from '@stores'

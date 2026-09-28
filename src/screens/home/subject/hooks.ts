@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-12-15 16:13:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-05 03:44:45
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 条目页面初始化与滚动定位逻辑
  */
 import { useCallback, useEffect, useRef } from 'react'
 import { findNodeHandle } from 'react-native'
@@ -16,6 +18,7 @@ import { HEADER_HEIGHT } from '@styles'
 import store from './store'
 import { TITLE_HEAD } from './ds'
 
+import type { RefObject } from 'react'
 import type { View } from 'react-native'
 import type { NavigationProps, TimerRef } from '@types'
 import type { ListViewScrollMethods } from '@components'
@@ -64,11 +67,22 @@ export function useSubjectPage(props: NavigationProps) {
   )
 
   return {
+    /** 页面上下文 (id / $ / navigation) */
     ...context,
+
+    /** 收集长列表 ref */
     handleForwardRef,
+
+    /** 收集区块锚点 ref */
     handleBlockRef,
+
+    /** 滚动到指定 y 轴坐标 */
     handleScrollIntoViewIfNeeded,
+
+    /** 滚动到指定区块 */
     handleScrollTo,
+
+    /** 滚动到顶 */
     handleScrollToTop
   }
 }
@@ -105,10 +119,19 @@ function useSubjectRefs() {
   }, [])
 
   return {
+    /** 长列表 ref */
     scrollViewRef,
+
+    /** 区块锚点 ref 集合 */
     blockRefs,
+
+    /** 延迟滚动定时器集合 */
     scrollTimers,
+
+    /** 收集长列表 ref */
     handleForwardRef,
+
+    /** 收集区块锚点 ref */
     handleBlockRef
   }
 }
@@ -116,9 +139,9 @@ function useSubjectRefs() {
 /** 所有滚动相关逻辑 */
 function useSubjectScroll(
   $: Ctx['$'],
-  scrollViewRef: React.RefObject<ListViewScrollMethods>,
-  blockRefs: React.RefObject<Record<string, View>>,
-  scrollTimers: React.RefObject<TimerRef[]>
+  scrollViewRef: RefObject<ListViewScrollMethods>,
+  blockRefs: RefObject<Record<string, View>>,
+  scrollTimers: RefObject<TimerRef[]>
 ) {
   /** 子组件可以调用此方法定位到指定 y 轴坐标 */
   const handleScrollIntoViewIfNeeded = useCallback<HandleScrollIntoViewIfNeeded>(
@@ -229,8 +252,13 @@ function useSubjectScroll(
   }, [scrollViewRef])
 
   return {
+    /** 滚动到指定 y 轴坐标 */
     handleScrollIntoViewIfNeeded,
+
+    /** 滚动到指定区块 */
     handleScrollTo,
+
+    /** 滚动到顶 */
     handleScrollToTop
   }
 }
