@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2022-11-21 06:55:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-22 00:00:00
+ * @Last Modified time: 2026-09-28 23:47:44
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { PaginationList } from '@_'
 import { _, systemStore, useStore } from '@stores'
@@ -13,6 +12,7 @@ import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../../types'
+import type { ItemType } from '../../list/types'
 import type { Props } from './types'
 
 function List({ title }: Props) {
@@ -28,7 +28,7 @@ function List({ title }: Props) {
       key={`${_.orientation}${numColumns}`}
       keyExtractor={keyExtractor}
       contentContainerStyle={styles.contentContainerStyle}
-      data={$.currentCollection(title).list}
+      data={$.currentCollection(title).list as ItemType[]}
       progressViewOffset={20}
       limit={systemStore.setting.homeGridCoverLayout === 'square' ? 20 : 16}
       numColumns={numColumns}

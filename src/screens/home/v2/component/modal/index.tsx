@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 07:39:32
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ManageModal } from '@_'
 import { useStore } from '@stores'

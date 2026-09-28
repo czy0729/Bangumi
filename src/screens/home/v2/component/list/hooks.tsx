@@ -3,6 +3,8 @@
  * @Date: 2026-08-22 00:00:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-22 00:00:00
+ *
+ * 首页列表容器 hooks: 顶部留白计算与列表各区域渲染元素
  */
 import { useCallback, useMemo } from 'react'
 import { _ } from '@stores'

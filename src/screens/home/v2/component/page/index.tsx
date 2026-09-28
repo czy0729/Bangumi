@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-08 23:30:49
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Page as PageComp } from '@components'
 import { _, systemStore, useStore } from '@stores'

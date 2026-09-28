@@ -2,44 +2,25 @@
  * @Author: czy0729
  * @Date: 2022-06-19 21:18:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-27 05:09:56
+ * @Last Modified time: 2026-09-28 23:47:53
  */
-import React from 'react'
-import { MODEL_SUBJECT_TYPE } from '@constants'
+import { getGameSubject, getItemSubjectId } from '../../list/utils'
 import Item from '../item'
 
-import type { RenderItem, SubjectTypeValue } from '@types'
+import type { RenderItem } from '@types'
 import type { ItemType } from '../../list/types'
 
+/** 列表 key 提取 */
 export function keyExtractor(item: ItemType) {
-  return String('subject_id' in item ? item.subject_id : item.id)
+  return String(getItemSubjectId(item))
 }
 
 /** 游戏标签页和其他类型数据源和结构都不一样, 需要构造 */
 export function renderItem({ item }: RenderItem<ItemType>) {
   return (
     <Item
-      subjectId={'subject_id' in item ? item.subject_id : item.id}
-      subject={
-        'subject' in item
-          ? item.subject
-          : {
-              id: item.id,
-              images: {
-                common: item.cover,
-                grid: item.cover,
-                large: item.cover,
-                medium: item.cover,
-                small: item.cover
-              },
-              name: item.name,
-              name_cn: item.nameCn,
-              summary: '',
-              type: MODEL_SUBJECT_TYPE.getValue<SubjectTypeValue>('游戏'),
-              url: '',
-              time: item.time
-            }
-      }
+      subjectId={getItemSubjectId(item)}
+      subject={getGameSubject(item)}
       epStatus={'ep_status' in item ? item.ep_status : ''}
     />
   )

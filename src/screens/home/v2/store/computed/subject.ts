@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-08-27 02:35:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 03:53:37
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 首页条目派生: 单条目的章节 / 进度 / 按钮数据
  */
 import { computed } from 'mobx'
 import { _, subjectStore, systemStore, userStore } from '@stores'
@@ -99,17 +101,17 @@ export default class Subject extends Base {
   )
 
   /** 当前放送到的章节 */
-  currentOnAir(subjectId: SubjectId) {
+  currentOnAir = computedFn((subjectId: SubjectId) => {
     try {
       return getCurrentOnAir(this.epsNoSp(subjectId))
     } catch (error) {
       logger.error(NAMESPACE, 'currentOnAir', error)
       return 0
     }
-  }
+  })
 
   /** 总章节 */
-  totalEps(subjectId: SubjectId) {
+  totalEps = computedFn((subjectId: SubjectId) => {
     try {
       const eps = this.epsNoSp(subjectId)
       return (
@@ -119,7 +121,7 @@ export default class Subject extends Base {
       logger.error(NAMESPACE, 'totalEps', error)
       return '??'
     }
-  }
+  })
 
   /** 已看过的章节 */
   watchedEps = computedFn((subjectId: SubjectId) => {
@@ -128,9 +130,9 @@ export default class Subject extends Base {
   })
 
   /** subject 中的 epStatus 未必准确, 需要手动算一个对比 */
-  epStatus(subjectId: SubjectId) {
+  epStatus = computedFn((subjectId: SubjectId) => {
     return this.watchedEps(subjectId).length
-  }
+  })
 
   /** 网格布局实际显示的章节一行多少个 */
   numbersOfLineGrid = computedFn((subjectId: SubjectId) =>

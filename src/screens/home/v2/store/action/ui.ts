@@ -2,11 +2,15 @@
  * @Author: czy0729
  * @Date: 2026-08-27 02:45:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 03:53:13
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 首页界面操作: Modal 显隐 / 展开收起置顶 / 列表刷新
  */
+import { feedback } from '@utils'
 import { t } from '@utils/fetch'
+import { logger } from '@utils/dev'
 import { MODEL_SUBJECT_TYPE } from '@constants'
-import { EXCLUDE_STATE, STATE } from '../ds'
+import { EXCLUDE_STATE, NAMESPACE, STATE } from '../ds'
 import Base from './base'
 
 import type { SubjectId } from '@types'
@@ -111,7 +115,7 @@ export default class Ui extends Base {
   }
 
   /** 格子布局条目选择 */
-  selectGirdSubject = (subjectId: SubjectId, grid?: typeof STATE.grid) => {
+  selectGridSubject = (subjectId: SubjectId, grid?: typeof STATE.grid) => {
     this.setState({
       current: subjectId,
       grid: grid || STATE.grid
@@ -123,5 +127,41 @@ export default class Ui extends Base {
     t('首页.格子布局条目选择', {
       subjectId
     })
+  }
+
+  /** 下拉刷新 */
+  onHeaderRefresh = () => {
+    if (this.tabsLabel === '游戏') return this.fetchDoingGames(true)
+    return this.initFetch(true)
+  }
+
+  /** 下一页 */
+  onFooterRefresh = () => {
+    return this.fetchDoingGames()
+  }
+
+  /** 刷新并返回到顶部 */
+  onRefreshThenScrollTop = () => {
+    try {
+      const { page } = this.state
+      if (typeof this.scrollToIndex[page] === 'function') {
+        this.scrollToIndex[page]({
+          animated: true,
+          index: 0,
+          viewOffset: 8000
+        })
+        setTimeout(() => {
+          feedback()
+        }, 400)
+
+        this.onHeaderRefresh()
+
+        t('其他.刷新到顶', {
+          screen: 'Home'
+        })
+      }
+    } catch (error) {
+      logger.error(NAMESPACE, 'onRefreshThenScrollTop', error)
+    }
   }
 }

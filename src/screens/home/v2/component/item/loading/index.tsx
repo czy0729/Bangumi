@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 07:37:26
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Loading as LoadingComp } from '@components'
 import { _, useStore } from '@stores'
@@ -20,7 +19,7 @@ function Loading({ subjectId }: Props) {
   if (progress.fetchingSubjectId1 !== subjectId && progress.fetchingSubjectId2 !== subjectId)
     return null
 
-  return <LoadingComp.Medium color={_.colorSub} size={16} />
+  return <LoadingComp.Medium color={_.colorSub} />
 }
 
 export default observer(Loading)

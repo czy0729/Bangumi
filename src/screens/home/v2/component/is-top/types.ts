@@ -4,12 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-07-21 18:17:28
  */
-import type { SubjectId, ViewStyle } from '@types'
+import type { SubjectId, WithViewStyles } from '@types'
 
-export type Props = {
-  /** 容器样式 */
-  style?: ViewStyle
-
+export type Props = WithViewStyles<{
   /** 条目 Id */
   subjectId: SubjectId
-}
+}>

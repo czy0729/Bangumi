@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 07:40:30
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { BlurViewBottomTab, BlurViewRoot } from '@_'
 import { r } from '@utils/dev'

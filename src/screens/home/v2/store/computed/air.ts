@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-08-27 02:35:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 03:53:21
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 首页放送派生: 今日放送状态与进度标题
  */
 import { computed } from 'mobx'
 import { calendarStore, subjectStore, systemStore } from '@stores'

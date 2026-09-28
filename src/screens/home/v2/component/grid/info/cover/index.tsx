@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 02:52:17
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Cover as CoverComp } from '@components'
 import { _, useStore } from '@stores'

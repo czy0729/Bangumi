@@ -9,6 +9,7 @@ import { SHARE_MODE, WEB } from '@constants'
 import { getCurrentStoryId, navigate, parseUrlParams } from './utils'
 import { BOTTOM_TAB_DS } from './ds'
 
+import type { NavigationProps } from '@types'
 import type { StorybookNavigationType } from './types'
 
 const BOTTOM_TAB_IDS = BOTTOM_TAB_DS.map(item => ({
@@ -135,11 +136,12 @@ export function getStorybookRoute(routeName: string) {
   }
 }
 
-export function getStorybookArgs(routeName: string) {
+export function getStorybookArgs(routeName: string): NavigationProps {
   const route = getStorybookRoute(routeName)
 
+  // storybook 仿导航对象与 react-navigation 的 Navigation 只有鸭子类型层面的兼容, 在此定型到页面 props 边界
   return {
     navigation: StorybookNavigation,
     route
-  }
+  } as unknown as NavigationProps
 }

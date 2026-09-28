@@ -11,11 +11,13 @@ import { appNavigate } from '@utils'
 import Images from './images'
 import { HM } from './ds'
 
+import type { NavigationProps } from '@types'
 import type { Params } from './types'
 
 /** 说明 */
-function Information({ navigation, route }) {
-  const { title = '', message = [], images = [], advance = false, ai, url } = route.params as Params
+function Information({ navigation, route }: NavigationProps) {
+  const { title = '', message = [], images = [], advance = false, ai, url } = (route?.params ||
+    {}) as Params
   const messageData: string[] = typeof message === 'string' ? message.split(',') : message
   const imagesData: string[] = typeof images === 'string' ? images.split(',') : images
   const size = messageData.length >= 10 ? 15 : 16

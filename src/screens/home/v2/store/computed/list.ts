@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-08-27 02:35:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 03:53:30
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 首页列表派生: 按当前 Tab 与设置筛选排序后的条目列表
  */
 import { calendarStore, systemStore } from '@stores'
 import { cacheManager } from '@utils/cache'

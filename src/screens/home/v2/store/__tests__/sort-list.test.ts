@@ -251,6 +251,7 @@ describe('sortByIds: 兜底', () => {
         throw new Error('boom')
       },
       hasNewEp: () => false,
+      hasAiredEp: () => true,
       isToday: subjectId => subjectId === 601,
       isNextDay: () => false,
       watchedCount: () => 0

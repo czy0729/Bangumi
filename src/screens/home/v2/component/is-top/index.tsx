@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-01-20 09:18:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 07:30:53
+ * @Last Modified time: 2026-09-29 00:39:35
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Touchable } from '@components'

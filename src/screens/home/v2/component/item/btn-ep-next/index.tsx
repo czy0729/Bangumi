@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-01-21 14:40:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 07:32:33
+ * @Last Modified time: 2026-09-29 00:41:04
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'

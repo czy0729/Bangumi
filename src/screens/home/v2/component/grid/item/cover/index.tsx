@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-11-21 07:28:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-24 02:51:08
+ * @Last Modified time: 2026-09-28 23:47:31
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Cover as CoverComp, Touchable } from '@components'
 import { systemStore, useStore } from '@stores'
@@ -28,7 +28,7 @@ function Cover({ subjectId, subject, epStatus }: Props) {
     )
 
   const handlePress = useCallback(() => {
-    $.selectGirdSubject(subjectId, {
+    $.selectGridSubject(subjectId, {
       subject_id: subjectId,
       subject,
       ep_status: epStatus

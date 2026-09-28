@@ -4,11 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-19 23:16:13
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _, systemStore, useStore } from '@stores'
+import { stl } from '@utils'
 import { MODEL_SETTING_HOME_ANIME_INFO_INLINE } from '@constants'
 import { SEASON_COLORS } from '../ds'
 import { calcSeason, getLeftText, getNextInfo } from '../utils'
@@ -51,10 +51,9 @@ function BottomInfo({ subjectId, typeCn }: Props) {
   return (
     <Flex style={styles.bottomInfo}>
       <View
-        style={[
-          styles.split,
-          { backgroundColor: typeCn === '动画' ? SEASON_COLORS[quarter - 1] : _.colorBorder }
-        ]}
+        style={stl(styles.split, {
+          backgroundColor: typeCn === '动画' ? SEASON_COLORS[quarter - 1] : _.colorBorder
+        })}
       />
       <Flex.Item>
         <Text {...textProps}>{leftText}</Text>

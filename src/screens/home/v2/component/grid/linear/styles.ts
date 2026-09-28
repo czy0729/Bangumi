@@ -10,8 +10,8 @@ export const styles = _.create({
   linear: {
     position: 'absolute',
     zIndex: 1,
-    right: 0,
     top: 0,
+    right: 0,
     left: 0,
     height: 24
   }

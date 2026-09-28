@@ -13,9 +13,9 @@ export const memoStyles = _.memoStyles(() => ({
     paddingBottom: 16,
     marginTop: -20,
     marginBottom: _.ios(12, 0),
+    backgroundColor: _.colorPlain,
     borderBottomWidth: _.ios(0, 12),
-    borderBottomColor: _.colorBg,
-    backgroundColor: _.colorPlain
+    borderBottomColor: _.colorBg
   },
   split: {
     width: 4,

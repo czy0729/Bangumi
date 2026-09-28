@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-08-27 02:45:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 03:53:08
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 首页进度操作: 单集 / 批量 watched 状态同步与提交
  */
 import { collectionStore, userStore } from '@stores'
 import { asc, feedback } from '@utils'

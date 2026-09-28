@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-08-27 02:35:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 03:53:24
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 首页基础派生: 登录态 / 标签页配置 / 集合数据源
  */
 import { computed } from 'mobx'
 import { collectionStore, userStore } from '@stores'
@@ -146,6 +148,7 @@ export default class Base extends State {
     return this.state.renderedTabsIndex.includes(index)
   })
 
+  /** HM 埋点参数 */
   @computed get hm() {
     return (
       this.isLogin ? [`?id=${this.userId}`, 'Home'] : [`?id=${this.userId}&login=0`, 'Home']

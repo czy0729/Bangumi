@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-19 05:34:12
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { TabBar as TabViewTabBar } from '@components'
 import { _ } from '@stores'

@@ -23,8 +23,8 @@ Item.args = list[2]
 export const List = () => (
   <StorybookPage>
     <StorybookGrid space>
-      {list.map(item => (
-        <Component key={item.id} {...item} />
+      {list.map((item, index) => (
+        <Component key={item.id} index={index} {...item} />
       ))}
     </StorybookGrid>
   </StorybookPage>

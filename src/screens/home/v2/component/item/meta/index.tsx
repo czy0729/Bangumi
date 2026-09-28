@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-19 23:11:47
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _, systemStore, useStore } from '@stores'

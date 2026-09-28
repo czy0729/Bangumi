@@ -2,13 +2,16 @@
  * @Author: czy0729
  * @Date: 2026-08-27 02:45:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 03:53:00
+ * @Last Modified time: 2026-09-29 00:44:15
+ *
+ * 首页条目菜单: 置顶 / 展开收起 / 章节操作 / 在线播放源选择与跳转
  */
 import { getCoverSrc } from '@components/cover/utils'
 import { appNavigate, confirm, copy, HTMLDecode, open } from '@utils'
 import { logger } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { IMG_WIDTH, MODEL_EP_STATUS, SITE_AGEFANS, TEXT_MENU_TOPIC } from '@constants'
+import { replaceOriginUrl } from '@src/screens/user/origin-setting/utils'
 import {
   NAMESPACE,
   TEXT_ADD_REMINDER,
@@ -18,12 +21,11 @@ import {
   TEXT_PIN,
   TEXT_UNPIN
 } from '../ds'
-import { replaceOriginUrl } from '../../../../user/origin-setting/utils'
 import Calendar from './calendar'
 
 import type { Ep } from '@stores/subject/types'
 import type { EpStatus, Navigation, SubjectId } from '@types'
-import type { OriginItem } from '../../../../user/origin-setting/utils'
+import type { OriginItem } from '@src/screens/user/origin-setting/utils'
 
 export default class Menu extends Calendar {
   /** 在线源头选择 */
@@ -34,26 +36,24 @@ export default class Menu extends Calendar {
       let url: string
 
       // 匹配用户自定义源头
-      if (!url) {
-        const find = this.onlineOrigins(subjectId).find(item =>
-          typeof item === 'object' ? item.name === label : false
-        ) as OriginItem
-        if (find) {
-          if (label === '萌番组' && find.id) {
-            copy(HTMLDecode(name_cn || name))
-            setTimeout(() => {
-              open(find.url)
-            }, 1600)
-            return
-          }
-
-          url = replaceOriginUrl(find.url, {
-            CN: HTMLDecode(name_cn || name),
-            JP: HTMLDecode(name || name_cn),
-            ID: subjectId,
-            YEAR: String(air_date || '').match(/(\d{4})/)?.[0] || ''
-          })
+      const find = this.onlineOrigins(subjectId).find(item =>
+        typeof item === 'object' ? item.name === label : false
+      ) as OriginItem
+      if (find) {
+        if (label === '萌番组' && find.id) {
+          copy(HTMLDecode(name_cn || name))
+          setTimeout(() => {
+            open(find.url)
+          }, 1600)
+          return
         }
+
+        url = replaceOriginUrl(find.url, {
+          CN: HTMLDecode(name_cn || name),
+          JP: HTMLDecode(name || name_cn),
+          ID: subjectId,
+          YEAR: String(air_date || '').match(/(\d{4})/)?.[0] || ''
+        })
       }
 
       if (!url) {

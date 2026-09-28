@@ -2,22 +2,18 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:26:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-15 00:08:16
+ * @Last Modified time: 2026-09-29 00:43:23
+ *
+ * 首页 store 入口: 定义 init() 与初始化编排 (状态恢复 / 请求调度 / 设备上报)
  */
 import * as Device from 'expo-device'
-import { _, systemStore, userStore } from '@stores'
-import { date, feedback, getTimestamp, info, pick, postTask, sortObject } from '@utils'
+import { _, systemStore } from '@stores'
+import { date, getTimestamp, pick, postTask, sortObject } from '@utils'
 import { logger } from '@utils/dev'
-import { t } from '@utils/fetch'
 import { update } from '@utils/kv'
 import { getProxyStrategy } from '@utils/proxy'
 import { get } from '@utils/thirdParty/protobuf'
-import {
-  D,
-  DEVICE_MODEL_NAME,
-  MODEL_SETTING_INITIAL_PAGE,
-  VERSION_GITHUB_RELEASE
-} from '@constants'
+import { DEVICE_MODEL_NAME, MODEL_SETTING_INITIAL_PAGE, VERSION_GITHUB_RELEASE } from '@constants'
 import { IOS_IPA } from '@src/config'
 import { HEADER_HEIGHT, STATUS_BAR_HEIGHT } from '@styles'
 import Action from './action'
@@ -28,9 +24,6 @@ import type { STATE } from './ds'
 
 /** 是否初始化 */
 let inited: boolean
-
-/** 是否授权中 */
-let reOauthing: boolean
 
 export default class ScreenHomeV2 extends Action {
   /** 初始化 */
@@ -63,92 +56,6 @@ export default class ScreenHomeV2 extends Action {
       loadedBangumiData: !!get('bangumi-data')?.length,
       _loaded: getTimestamp()
     })
-  }
-
-  /** 初始化请求 */
-  initFetch = async (refresh: boolean = false) => {
-    if (this.state.progress.fetching) {
-      info('正在刷新条目信息')
-      return
-    }
-
-    let flag = refresh
-    let { _loaded } = this.collection
-    if (typeof _loaded !== 'number') _loaded = 0
-
-    // 6 天强制刷新一次
-    if (getTimestamp() - _loaded > D * 6 || !this.collection.list.length) {
-      flag = true
-    }
-
-    // 需要全刷新数据
-    if (flag) {
-      let queued: boolean
-      try {
-        queued = await this.initQueue()
-      } catch (error) {
-        logger.error(NAMESPACE, 'initQueue', error)
-        return true
-      }
-
-      if (queued) {
-        this.fetchCollectionTimelines()
-        return true
-      }
-
-      // 可能是 access_token 过期了, 需要重新刷新 access_token
-      if (userStore.isWebLogin) {
-        if (!reOauthing) {
-          reOauthing = true
-
-          // oauth 成功后重新刷新数据
-          if (await userStore.reOauth()) {
-            reOauthing = false
-
-            feedback()
-            info('重新授权成功')
-            t('其他.重新授权')
-
-            let result: boolean
-            try {
-              result = await this.initQueue()
-            } catch (error) {
-              logger.error(NAMESPACE, 'initQueue', error)
-              result = true
-            }
-            this.fetchCollectionTimelines()
-            return result
-          }
-
-          reOauthing = false
-        }
-      }
-    } else {
-      // 不需要全刷新也至少刷新首屏
-      const result = await this.fetchCollectionTimelines()
-      this.initQueue(6).catch(error => {
-        logger.error(NAMESPACE, 'initQueue', error)
-      })
-      return result
-    }
-
-    return true
-  }
-
-  /** 初始化进度和条目等数据 */
-  initQueue = async (count?: number) => {
-    const data = await Promise.all([userStore.fetchCollection()])
-    const collection = data?.[0]
-
-    // 本次请求确实成功 (拿到过有效响应), 只是在看收藏为空: 用户是真的 0 在看, 授权正常, 不能当成过期
-    // (_ok 缺失表示旧缓存或请求失败, 落回原有分支)
-    if (collection?._ok && !collection.list.length) return true
-
-    if (collection?.list?.length) {
-      return this.fetchSubjectsQueue(collection.list, count)
-    }
-
-    return false
   }
 
   /** 注册设备名，构建监测报错信息的环境变量 */
@@ -228,42 +135,6 @@ export default class ScreenHomeV2 extends Action {
         e: sortObject(systemStore.t)
       })
     }, 8000)
-  }
-
-  /** 下拉刷新 */
-  onHeaderRefresh = () => {
-    if (this.tabsLabel === '游戏') return this.fetchDoingGames(true)
-    return this.initFetch(true)
-  }
-
-  /** 下一页 */
-  onFooterRefresh = () => {
-    return this.fetchDoingGames()
-  }
-
-  /** 刷新并返回到顶部 */
-  onRefreshThenScrollTop = () => {
-    try {
-      const { page } = this.state
-      if (typeof this.scrollToIndex[page] === 'function') {
-        this.scrollToIndex[page]({
-          animated: true,
-          index: 0,
-          viewOffset: 8000
-        })
-        setTimeout(() => {
-          feedback()
-        }, 400)
-
-        this.onHeaderRefresh()
-
-        t('其他.刷新到顶', {
-          screen: 'Home'
-        })
-      }
-    } catch (error) {
-      logger.error(NAMESPACE, 'onRefreshThenScrollTop', error)
-    }
   }
 
   /** 设置应用初始页面 */

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-08-27 02:30:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 03:53:43
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 首页章节纯函数: 未看章节计算与观看集数统计
  */
 import { systemStore } from '@stores'
 import { findLastIndex } from '@utils'

@@ -4,10 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 07:41:09
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { systemStore } from '@stores'
+import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -19,12 +19,9 @@ function Time({ value }: Props) {
 
   return (
     <Text
-      style={[
-        styles.time,
-        {
-          bottom: systemStore.setting.homeListCompact ? 4 : 8
-        }
-      ]}
+      style={stl(styles.time, {
+        bottom: systemStore.setting.homeListCompact ? 4 : 8
+      })}
       type='sub'
       size={12}
     >

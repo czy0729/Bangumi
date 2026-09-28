@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-08-27 02:30:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 03:53:40
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 首页放送日期纯函数
  */
 
 /** 判断是否今天放送 */

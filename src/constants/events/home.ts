@@ -17,6 +17,7 @@ export default {
   '首页.全部展开': 'Home.expandAll',
   '首页.全部关闭': 'Home.closeAll',
   '首页.选择布局': 'Home.selectLayout',
+  // 历史拼写 (Gird), 与线上统计的 key 保持一致, 勿修正
   '首页.格子布局条目选择': 'Home.selectGirdSubject',
   '首页.观看下一章节': 'Home.doWatchedNextEp',
   '首页.更新书籍下一个章节': 'Home.doUpdateNext',

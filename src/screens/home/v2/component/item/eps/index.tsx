@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 07:37:11
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
@@ -35,7 +35,7 @@ function Eps({ subjectId, isFirst }: Props) {
         login={$.isLogin}
         subjectId={subjectId}
         eps={$.eps(subjectId)}
-        userProgress={$.userProgress(subjectId)}
+        userProgress={$.userProgress(subjectId) as Record<string, string>}
         flip={$.state.flip === subjectId}
         onFliped={$.afterEpsFlip}
         onSelect={handleSelect}

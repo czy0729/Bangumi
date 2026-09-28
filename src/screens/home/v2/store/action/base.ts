@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-08-27 02:45:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 03:51:05
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 首页基础操作: 标签页切换 / 筛选防抖 / 章节动画与 scrollToIndex 注册
  */
 import { debounce, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'

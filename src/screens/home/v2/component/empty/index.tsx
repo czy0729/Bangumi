@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 07:13:22
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Button, Flex, Link, Mesume, Text } from '@components'
 import { randomSpeech } from '@components/mesume/utils'

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-08-27 02:30:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 03:53:55
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 首页列表筛选纯函数: 文字 / x18 / 排除已看
  */
 import { systemStore, userStore } from '@stores'
 import { getPinYinFilterValue, x18 } from '@utils'
@@ -17,7 +19,7 @@ import type { Origin } from '@types'
 import type { Tabs } from '../../types'
 
 /** 计算已看章节数量（排除 SP） */
-export function getWatchedCount(userProgress: UserProgress, eps: readonly Ep[] | undefined) {
+export function getWatchedCount(userProgress: UserProgress, eps: readonly Ep[]) {
   const epsMap: Record<string, boolean> = {}
   eps.forEach(item => {
     if (item.type !== 1) epsMap[item.id] = true

@@ -14,12 +14,12 @@ export const memoStyles = _.memoStyles(() => ({
     minHeight: 280
   },
   text: {
-    marginTop: _.md,
     maxWidth: _.window.contentWidth - 2 * _.md,
+    marginTop: _.md,
     ..._.fontSize14
   },
   btn: {
-    marginTop: _.lg,
-    width: 120
+    width: 120,
+    marginTop: _.lg
   }
 }))

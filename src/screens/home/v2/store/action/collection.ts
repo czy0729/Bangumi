@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-08-27 02:45:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-27 03:52:49
+ * @Last Modified time: 2026-09-28 10:00:00
+ *
+ * 首页收藏操作: 条目收藏状态修改
  */
 import { collectionStore, userStore } from '@stores'
 import { feedback } from '@utils'

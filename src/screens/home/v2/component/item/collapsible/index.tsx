@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 07:33:54
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Collapsible as CollapsibleComp } from '@components'
 import { numbersOfLine } from '@_/base/eps/ds'

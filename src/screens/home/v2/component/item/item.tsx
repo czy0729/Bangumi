@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2021-08-09 08:04:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-19 06:02:53
+ * @Last Modified time: 2026-09-29 00:40:13
  */
-import React from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap } from '@components'
 import { memo } from '@utils/decorators'

@@ -22,7 +22,6 @@ jest.mock('expo-device', () => ({
 }))
 
 jest.mock('../computed', () => ({ __esModule: true, default: class {} }))
-jest.mock('../action', () => ({ __esModule: true, default: class {} }))
 
 jest.mock('@stores', () => ({
   _: { window: { height: 0, width: 0 } },
@@ -63,7 +62,7 @@ jest.mock('@src/config', () => ({ IOS_IPA: false }))
 jest.mock('@styles', () => ({ HEADER_HEIGHT: 0, STATUS_BAR_HEIGHT: 0 }), { virtual: true })
 
 import { userStore } from '@stores'
-import ScreenHomeV2 from '../index'
+import Fetch from '../fetch'
 
 const mockUserStore = userStore as unknown as {
   isWebLogin: boolean
@@ -72,8 +71,11 @@ const mockUserStore = userStore as unknown as {
 }
 
 /** 构造被测实例, keepInitQueue 为 true 时不覆盖真实的 initQueue 实现 */
-function createContext(overrides: Record<string, unknown> = {}, keepInitQueue = false) {
-  const $: any = new ScreenHomeV2()
+function createContext(
+  overrides: Record<string, unknown> = {},
+  keepInitQueue: boolean = false
+) {
+  const $: any = new Fetch()
   $.state = { progress: { fetching: false } }
   // 从未成功加载过 (flag 需要全量刷新分支)
   $.collection = { list: [], _loaded: 0 }
