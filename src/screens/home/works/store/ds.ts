@@ -2,13 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-07-31 18:28:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 03:00:00
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * NAMESPACE / RESET_STATE / EXCLUDE_STATE / STATE
  */
 import { _ } from '@stores'
 import { MODEL_MONO_WORKS_ORDERBY } from '@constants'
 import { COMPONENT } from '../ds'
 
+import type { MonoWorks } from '@stores/subject/types'
+import type { ResultData } from '@utils/kv/type'
 import type { Loaded } from '@types'
+import type { SnapshotId } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -24,7 +29,7 @@ export const EXCLUDE_STATE = {
   position: '',
 
   /** 云快照 */
-  ota: {}
+  ota: {} as Record<SnapshotId, ResultData<MonoWorks>>
 }
 
 export const STATE = {

@@ -2,13 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-07-30 03:42:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-13 05:21:00
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * NAMESPACE / RESET_STATE / EXCLUDE_STATE / STATE
  */
 import { _ } from '@stores'
 import { MODEL_TAG_ORDERBY } from '@constants'
 import { COMPONENT } from '../ds'
 
+import type { Tag } from '@stores/tag/types'
+import type { ResultData } from '@utils/kv/type'
 import type { Loaded, TagOrder } from '@types'
+import type { SnapshotId } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -33,7 +38,7 @@ export const EXCLUDE_STATE = {
   hide: false,
 
   /** 云快照 */
-  ota: {}
+  ota: {} as Record<SnapshotId, ResultData<Tag>>
 }
 
 export const STATE = {

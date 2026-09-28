@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-11-01 08:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-23 18:50:13
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 排行榜列表: 本地分页 PaginationList, 按页拉取 OSS 快照
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Empty } from '@components'
 import { PaginationList } from '@_'

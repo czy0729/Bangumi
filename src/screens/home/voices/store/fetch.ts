@@ -2,18 +2,22 @@
  * @Author: czy0729
  * @Date: 2024-09-16 20:51:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 20:51:45
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 请求: 人物角色列表抓取与云快照读取 / 上传, 翻页时批量拉取收藏状态
  */
 import { collectionStore, subjectStore } from '@stores'
 import { getTimestamp } from '@utils'
+import { ensureCacheLimit } from '@utils/cache'
 import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
 import { SNAPSHOT_LIMIT } from '../ds'
 import Computed from './computed'
 
-import type { MonoVoicesItem } from '@stores/subject/types'
-import type { SnapshotId } from '../types'
+import type { MonoVoices, MonoVoicesItem } from '@stores/subject/types'
+import type { ResultData } from '@utils/kv/type'
 import type { SubjectId } from '@types'
+import type { SnapshotId } from '../types'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = new Map<SnapshotId, true>()
@@ -45,7 +49,7 @@ export default class Fetch extends Computed {
   /** 获取云快照 */
   fetchThirdParty = async () => {
     if (!this.ota && !this.monoVoices._loaded) {
-      const data = await get(this.thirdPartyKey)
+      const data = await get<ResultData<MonoVoices>>(this.thirdPartyKey)
       if (!data) {
         // 就算没有数据也插入 key, 用于判断是否需要更新云数据
         this.setState({
@@ -91,6 +95,7 @@ export default class Fetch extends Computed {
         list: this.monoVoices.list.slice(0, SNAPSHOT_LIMIT)
       })
       THIRD_PARTY_UPDATED.set(this.thirdPartyKey, true)
+      ensureCacheLimit(THIRD_PARTY_UPDATED, 100)
     }, 0)
   }
 }

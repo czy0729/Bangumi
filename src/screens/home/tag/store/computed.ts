@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-06-03 07:45:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 20:38:00
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 派生: 标签列表 (云快照兜底 / 收藏过滤) 与工具栏菜单文案
  */
 import { computed } from 'mobx'
 import { subjectStore, tagStore } from '@stores'
@@ -19,12 +21,12 @@ import {
   TEXT_MENU_LIST,
   TEXT_MENU_NOT_SHOW,
   TEXT_MENU_SHOW,
-  TEXT_MENU_SPLIT_LEFT,
-  TEXT_MENU_SPLIT_RIGHT,
-  TEXT_MENU_TOOLBAR
+  TEXT_MENU_TOOLBAR,
+  withSplit
 } from '@constants'
 import State from './state'
 
+import type { Tag } from '@stores/tag/types'
 import type { SubjectId, SubjectTypeCn } from '@types'
 import type { SnapshotId } from '../types'
 
@@ -47,7 +49,7 @@ export default class Computed extends State {
   }
 
   /** 过滤列表 */
-  @computed get list() {
+  @computed get list(): Tag {
     if (!this.tag._loaded) {
       return this.ota
         ? {
@@ -57,7 +59,7 @@ export default class Computed extends State {
               pageTotal: 10
             }
           }
-        : LIST_EMPTY
+        : (LIST_EMPTY as Tag)
     }
 
     if (this.state.collected) return this.tag
@@ -103,15 +105,9 @@ export default class Computed extends State {
   /** 工具栏菜单 */
   @computed get toolBar() {
     return [
-      `${TEXT_MENU_TOOLBAR}${TEXT_MENU_SPLIT_LEFT}${
-        this.state.fixed ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT
-      }${TEXT_MENU_SPLIT_RIGHT}`,
-      `${TEXT_MENU_LAYOUT}${TEXT_MENU_SPLIT_LEFT}${
-        this.state.list ? TEXT_MENU_LIST : TEXT_MENU_GRID
-      }${TEXT_MENU_SPLIT_RIGHT}`,
-      `${TEXT_MENU_FAVOR}${TEXT_MENU_SPLIT_LEFT}${
-        this.state.collected ? TEXT_MENU_SHOW : TEXT_MENU_NOT_SHOW
-      }${TEXT_MENU_SPLIT_RIGHT}`
+      `${TEXT_MENU_TOOLBAR}${withSplit(this.state.fixed ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT)}`,
+      `${TEXT_MENU_LAYOUT}${withSplit(this.state.list ? TEXT_MENU_LIST : TEXT_MENU_GRID)}`,
+      `${TEXT_MENU_FAVOR}${withSplit(this.state.collected ? TEXT_MENU_SHOW : TEXT_MENU_NOT_SHOW)}`
     ]
   }
 

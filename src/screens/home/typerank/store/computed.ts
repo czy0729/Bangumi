@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-08-18 04:07:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 20:38:01
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 派生: 路由参数与 OSS 条目快照读取
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'

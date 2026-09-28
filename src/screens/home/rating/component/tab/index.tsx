@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 11:26:22
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 收藏状态 TabView: 标签带数量占位, 按条目类型替换动词
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, TabBar, TabView, Text } from '@components'
 import { _, useStore } from '@stores'
@@ -14,6 +16,7 @@ import renderScene from './renderScene'
 import { COMPONENT, STATUS_MAP } from './ds'
 import { memoStyles } from './styles'
 
+import type { RatingStatus } from '@types'
 import type { Ctx } from '../../types'
 
 function Tab() {
@@ -21,6 +24,7 @@ function Tab() {
 
   const { headerStyle } = useInsets()
 
+  const { counts, params } = $
   const { page } = $.state
   const navigationState = useMemo(
     () => ({
@@ -31,9 +35,10 @@ function Tab() {
   )
 
   const handleRenderLabel = useCallback(
-    ({ route, focused }) => {
-      const count = $.counts[route.key] || $.params[STATUS_MAP[route.key]]
-      const { type } = $.params
+    ({ route, focused }: { route: { key: string; title?: string }; focused: boolean }) => {
+      const status = route.key as RatingStatus
+      const count = counts[status] || params[STATUS_MAP[status]]
+      const { type } = params
       let title = route.title || ''
       if (type === '书籍') title = title.replace('看', '读')
       else if (type === '游戏') title = title.replace('看', '玩')
@@ -52,7 +57,7 @@ function Tab() {
         </Flex>
       )
     },
-    [$.counts, $.params]
+    [counts, params]
   )
 
   const styles = memoStyles()

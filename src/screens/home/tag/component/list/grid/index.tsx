@@ -2,19 +2,21 @@
  * @Author: czy0729
  * @Date: 2022-07-30 10:49:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-13 06:14:46
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 网格布局的单个条目 (ItemCollectionsGrid)
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore, useStore } from '@stores'
 import { matchYear } from '@utils'
-import { EVENT } from './ds'
+import { COMPONENT, EVENT } from './ds'
 
 import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
-function Grid({ item, index, numColumns }) {
-  const { $ } = useStore<Ctx>()
+function Grid({ item, index, numColumns }: Props) {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return (
     <ItemCollectionsGrid
@@ -26,7 +28,6 @@ function Grid({ item, index, numColumns }) {
       typeCn={$.typeCn}
       collection={collectionStore.collect(String(item.id).replace('/subject/', ''))}
       airtime={$.state.airtime === '' && matchYear(item.tip)}
-      isCollect={item.collected}
     />
   )
 }

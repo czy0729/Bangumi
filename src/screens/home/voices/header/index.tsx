@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-15 20:45:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 11:38:54
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 页面头部: 标题 + 浏览器查看菜单
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'

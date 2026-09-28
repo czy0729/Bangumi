@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-09-07 01:38:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-07 01:44:41
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 派生: 条目信息、页面命名空间、路由透传的预览图与请求头
  */
 import { computed } from 'mobx'
 import { cnjp } from '@utils'
@@ -35,7 +37,7 @@ export default class Computed extends State {
   @computed get data(): string[] {
     try {
       const { _images } = this.params
-      if (_images) return JSON.parse(_images)
+      if (_images) return JSON.parse(_images) as string[]
     } catch {}
 
     return []
@@ -47,7 +49,9 @@ export default class Computed extends State {
   } {
     try {
       const { _headers } = this.params
-      if (_headers) return JSON.parse(_headers)
+      if (_headers) return JSON.parse(_headers) as {
+        Referer?: string
+      }
     } catch {}
 
     return {}

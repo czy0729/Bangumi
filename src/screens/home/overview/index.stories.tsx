@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-10-09 02:01:27
  * @Last Modified by:   czy0729
- * @Last Modified time: 2024-10-09 02:01:27
+ * @Last Modified time: 2026-09-27 11:00:00
+ *
+ * storybook 入口
  */
-import React from 'react'
 import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
 import { Overview as Component } from '@screens'
 

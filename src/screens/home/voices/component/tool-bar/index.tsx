@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-04-28 00:24:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 22:28:13
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 筛选工具条: 外层/内层排序, 职位与收藏状态筛选
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap, ToolBar as ToolBarComp } from '@components'
 import { userStore, useStore } from '@stores'

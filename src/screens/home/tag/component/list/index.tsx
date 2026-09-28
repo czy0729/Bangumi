@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-07-30 04:30:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-13 06:50:08
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 标签条目列表: ListView, 列表/网格双布局与工具条组装
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { ListView } from '@components'
 import { Notice } from '@_'
@@ -17,6 +19,8 @@ import ListItem from './list'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
+import type { TagItem } from '@stores/tag/types'
+import type { RenderItem } from '@types'
 import type { Ctx } from '../../types'
 
 function List() {
@@ -42,7 +46,7 @@ function List() {
   )
 
   const renderItem = useCallback(
-    ({ item, index }) =>
+    ({ item, index }: RenderItem<TagItem>) =>
       list ? (
         <ListItem item={item} index={index} />
       ) : (

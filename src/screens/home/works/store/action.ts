@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-09-06 01:12:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 02:59:48
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 操作: 排序 / 职位筛选, 布局与工具栏切换
  */
 import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
@@ -14,6 +16,7 @@ import {
 } from '@constants'
 import Fetch from './fetch'
 
+import type { MonoFiltersItem } from '@stores/subject/types'
 import type { ToolBarKeys } from '../types'
 
 export default class Action extends Fetch {
@@ -31,7 +34,7 @@ export default class Action extends Fetch {
   }
 
   /** 职位选择 */
-  onFilterSelect = (label: string, data: any[]) => {
+  onFilterSelect = (label: string, data: MonoFiltersItem['data']) => {
     const { value = '' } = data.find(item => item.title === label) || {}
     this.setState({
       position: value

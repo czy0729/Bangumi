@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-07-20 16:22:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-25 05:21:45
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 用户评分: 好友/所有人 SegmentedControl + 各收藏状态 TabView 列表
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, Heatmap, Page } from '@components'
 import { _, StoreContext } from '@stores'

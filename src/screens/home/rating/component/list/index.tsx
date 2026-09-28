@@ -2,16 +2,18 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:50:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 11:27:21
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 单个评分状态标签页的网格列表 (ListView 分页)
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { MODEL_RATING_STATUS } from '@constants'
-import Item from '../item'
 import { COMPONENT } from './ds'
+import { renderItem } from './utils'
 import { memoStyles } from './styles'
 
 import type { RatingStatus } from '@types'
@@ -48,7 +50,3 @@ function List({ title }: Props) {
 }
 
 export default observer(List)
-
-function renderItem({ item }) {
-  return <Item {...item} />
-}

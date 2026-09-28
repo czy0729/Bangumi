@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-07-28 11:59:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 11:37:29
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 评分条目: 用户头像 + 名称/年龄 + 星级与短评
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, UserStatus } from '@components'

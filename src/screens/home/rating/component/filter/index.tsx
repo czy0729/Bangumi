@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-07-28 22:28:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 11:44:45
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 好友/所有人切换 (SegmentedControl)
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Heatmap, SegmentedControl } from '@components'

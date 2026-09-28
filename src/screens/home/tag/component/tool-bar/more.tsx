@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2022-06-05 15:46:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-13 06:19:37
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 工具栏设置菜单 (固定 / 布局 / 显示收藏)
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
+import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../types'
 
 function More() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   return (
     <ToolBar.Popover

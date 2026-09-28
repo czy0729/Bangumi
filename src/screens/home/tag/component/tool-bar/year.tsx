@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-06-05 15:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-13 06:20:04
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 年选择
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
 import { DATA_AIRTIME } from '@constants'
+import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../types'
 
 function Year() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
   const { airtime } = $.state
 
   return (

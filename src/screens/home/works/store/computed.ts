@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-09-06 00:36:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 20:38:04
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 派生: 人物作品列表 (云快照兜底 / 收藏过滤) 与工具栏菜单文案
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
@@ -18,12 +20,12 @@ import {
   TEXT_MENU_LIST,
   TEXT_MENU_NOT_SHOW,
   TEXT_MENU_SHOW,
-  TEXT_MENU_SPLIT_LEFT,
-  TEXT_MENU_SPLIT_RIGHT,
-  TEXT_MENU_TOOLBAR
+  TEXT_MENU_TOOLBAR,
+  withSplit
 } from '@constants'
 import State from './state'
 
+import type { MonoWorks } from '@stores/subject/types'
 import type { SubjectId } from '@types'
 import type { SnapshotId } from '../types'
 
@@ -39,9 +41,9 @@ export default class Computed extends State {
   }
 
   /** 过滤数据 */
-  @computed get list() {
+  @computed get list(): MonoWorks {
     if (!this.monoWorks._loaded) {
-      if (!this.ota) return LIST_EMPTY
+      if (!this.ota) return LIST_EMPTY as MonoWorks
 
       return {
         ...this.ota,
@@ -83,15 +85,9 @@ export default class Computed extends State {
   /** 工具栏菜单 */
   @computed get toolBar() {
     return [
-      `${TEXT_MENU_TOOLBAR}${TEXT_MENU_SPLIT_LEFT}${
-        this.state.fixed ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT
-      }${TEXT_MENU_SPLIT_RIGHT}`,
-      `${TEXT_MENU_LAYOUT}${TEXT_MENU_SPLIT_LEFT}${
-        this.state.list ? TEXT_MENU_LIST : TEXT_MENU_GRID
-      }${TEXT_MENU_SPLIT_RIGHT}`,
-      `${TEXT_MENU_FAVOR}${TEXT_MENU_SPLIT_LEFT}${
-        this.state.collected ? TEXT_MENU_SHOW : TEXT_MENU_NOT_SHOW
-      }${TEXT_MENU_SPLIT_RIGHT}`
+      `${TEXT_MENU_TOOLBAR}${withSplit(this.state.fixed ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT)}`,
+      `${TEXT_MENU_LAYOUT}${withSplit(this.state.list ? TEXT_MENU_LIST : TEXT_MENU_GRID)}`,
+      `${TEXT_MENU_FAVOR}${withSplit(this.state.collected ? TEXT_MENU_SHOW : TEXT_MENU_NOT_SHOW)}`
     ]
   }
 

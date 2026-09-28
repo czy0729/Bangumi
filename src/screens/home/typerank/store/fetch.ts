@@ -2,15 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-08-18 04:08:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-23 19:05:50
+ * @Last Modified time: 2026-09-28 20:00:00
+ *
+ * 请求: 按页从 OSS 拉取条目快照, 提炼名称/日期/原作/导演等展示字段
  */
 import { collectionStore } from '@stores'
-import { fixedSubjectInfo, getTimestamp, pick } from '@utils'
+import { getTimestamp } from '@utils'
 import { logger } from '@utils/dev'
 import { gets } from '@utils/kv'
 import Computed from './computed'
+import { normalizeOssSubject, OSS_SUBJECT_PICKER } from './utils'
 
 import type { SubjectId } from '@types'
+import type { OssSubject } from '../types'
 
 export default class Fetch extends Computed {
   /** 这个接口太慢了, 而且不太依赖, 暂时屏蔽 */
@@ -23,7 +27,7 @@ export default class Fetch extends Computed {
 
     const { subjects } = this.state
     const now = getTimestamp()
-    const fetchIds = []
+    const fetchIds: string[] = []
     ids.forEach(id => {
       // maybe nsfw
       if (!this.subject(id).id) {
@@ -41,62 +45,17 @@ export default class Fetch extends Computed {
     try {
       logger.info('fetchSubjectsFromOSS', fetchIds)
 
-      const picker = [
-        'name',
-        'name_cn',
-        'image',
-        'rank',
-        'rating',
-        'totalEps',
-        'info',
-        'staff',
-        'tags'
-      ]
-      const data = await gets(fetchIds, picker)
+      const data = await gets<OssSubject>(fetchIds, [...OSS_SUBJECT_PICKER])
       Object.entries(data).forEach(([key, item]) => {
         try {
-          data[key] = pick(item, picker)
-          if (data[key].info) {
-            data[key].date =
-              fixedSubjectInfo(data[key].info).match(
-                /<li><span>(发售日|放送开始|上映年度|上映时间): <\/span>(.+?)<\/li>/
-              )?.[2] || ''
-          }
-          delete data[key].info
+          if (!item) return
 
-          if (!data[key].date && Array.isArray(data[key].tags)) {
-            let find = data[key].tags.find((item: any) => /^\d+年\d+月$/.test(item.name))
-            if (find) data[key].date = find.name
-
-            find = data[key].tags.find((item: any) => /^\d{4}$/.test(item.name))
-            if (find) data[key].date = find.name
-          }
-          delete data[key].tags
-
-          if (Array.isArray(data[key].staff)) {
-            // 原作
-            const origin = data[key].staff.find((item: any) => item.desc === '原作')
-            data[key].origin = origin?.name || origin?.nameJP || ''
-
-            // 导演
-            let director = data[key].staff.find((item: any) => item.desc === '导演')
-            data[key].director = director?.name || director?.nameJP || ''
-
-            if (!data[key].director) {
-              director = data[key].staff.find(
-                (item: any) => item.desc === '作者' || item.desc === '开发' || item.desc === '音乐'
-              )
-              data[key].director = director?.name || director?.nameJP || ''
-            }
-          }
-          delete data[key].staff
-
-          data[key]._loaded = getTimestamp()
+          data[key] = normalizeOssSubject(item, getTimestamp())
         } catch {}
       })
 
       this.setState({
-        subjects: data
+        subjects: data as Record<string, OssSubject>
       })
       this.save()
     } catch {}

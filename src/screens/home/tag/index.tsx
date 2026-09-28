@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-06-08 02:52:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-12 22:36:08
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 标签条目: 筛选工具条 + 列表/网格双布局展示
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'

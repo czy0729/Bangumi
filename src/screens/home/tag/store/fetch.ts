@@ -2,14 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-06-03 07:48:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-13 05:21:09
+ * @Last Modified time: 2026-09-28 20:00:00
+ *
+ * 请求: 标签条目分页抓取与云快照读取 / 上传
  */
 import { collectionStore, tagStore } from '@stores'
 import { getTimestamp } from '@utils'
+import { ensureArrayLimit } from '@utils/cache'
 import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
 import Computed from './computed'
 
+import type { Tag } from '@stores/tag/types'
+import type { ResultData } from '@utils/kv/type'
 import type { SnapshotId } from '../types'
 
 /** 若更新过则不会再主动更新 */
@@ -61,7 +66,7 @@ export default class Fetch extends Computed {
 
     setTimeout(async () => {
       if (!this.ota && !this.tag._loaded) {
-        const data = await get(this.thirdPartyKey)
+        const data = await get<ResultData<Tag>>(this.thirdPartyKey)
         if (!data) {
           // 就算没有数据也插入 key, 用于判断是否需要更新云数据
           this.setState({
@@ -96,6 +101,7 @@ export default class Fetch extends Computed {
         list: this.tag.list.map(({ collected, ...other }) => other)
       })
       THIRD_PARTY_UPDATED.push(this.thirdPartyKey)
+      ensureArrayLimit(THIRD_PARTY_UPDATED, 100, true)
     }, 0)
   }
 

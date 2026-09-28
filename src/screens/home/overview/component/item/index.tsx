@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-05-14 05:00:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-24 04:39:11
+ * @Last Modified time: 2026-09-27 11:00:00
+ *
+ * 单个条目块: 居中大图封面 (InView 惰性渲染) + 居中标题与类型描述
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Cover, Flex, getCoverSrc, Text, Touchable } from '@components'

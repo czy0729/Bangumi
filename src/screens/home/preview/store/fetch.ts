@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-09-07 01:42:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-17 06:02:19
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 请求: 从 douban 匹配条目获取官方剧照 (native 直连抓取, web 走云快照)
  */
 import { randomizeImgHost } from '@utils'
 import { getManualDoubanId, getPreview, matchMovie, search } from '@utils/douban'
@@ -12,7 +14,7 @@ import Action from './action'
 import type { ResultData } from '@utils/kv/type'
 
 export default class Fetch extends Action {
-  /** 从 donban 匹配条目, 并获取官方剧照信息 */
+  /** 从 douban 匹配条目, 并获取官方剧照信息 */
   fetchMovieFromDouban = async () => {
     const { cn, jp, year } = this.params
 

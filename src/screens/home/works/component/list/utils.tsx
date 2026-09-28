@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-06-02 15:40:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-23 02:58:46
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 列表 / 网格布局的条目渲染函数
  */
-import React from 'react'
 import Item from '../item'
 import ItemGrid from '../item-grid'
 

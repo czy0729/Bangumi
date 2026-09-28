@@ -2,13 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-06-03 07:50:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-07 03:47:18
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 操作: 排序 / 年月 / 公共标签筛选, 布局与工具栏切换
  */
 import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { MODEL_TAG_ORDERBY, TEXT_MENU_FAVOR, TEXT_MENU_LAYOUT, TEXT_MENU_TOOLBAR } from '@constants'
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
+
+import type { TagOrderCn } from '@types'
 
 export default class Action extends Fetch {
   /** 隐藏后延迟显示列表 (用于重置滚动位置) */
@@ -27,7 +31,7 @@ export default class Action extends Fetch {
   }
 
   /** 排序选择 */
-  onOrderSelect = (label: any) => {
+  onOrderSelect = (label: TagOrderCn) => {
     this.resetScrollView()
     this.setState({
       order: MODEL_TAG_ORDERBY.getValue(label)

@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 05:39:07
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 页面头部: 标题 + 好友筛选 + 浏览器查看菜单
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'

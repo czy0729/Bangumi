@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-08-26 08:13:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 20:37:58
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 派生: 好友评分列表 (带默认头像过滤), 数目统计缓存, 页面地址
  */
 import { computed } from 'mobx'
 import { subjectStore, systemStore } from '@stores'
@@ -33,7 +35,7 @@ export default class Computed extends State {
     return rating
   })
 
-  private _counts = null
+  private _counts: Record<RatingStatus, number> | null = null
 
   /** 各评分状态的数目统计 */
   @computed get counts() {

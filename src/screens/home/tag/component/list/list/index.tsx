@@ -2,18 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-07-30 10:41:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 01:08:18
+ * @Last Modified time: 2026-09-28 09:00:00
+ *
+ * 列表布局的单个条目 (ItemSearch)
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemSearch } from '@_'
 import { collectionStore, useStore } from '@stores'
-import { EVENT } from './ds'
+import { COMPONENT, EVENT } from './ds'
 
 import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
-function List({ item, index }) {
-  const { $, navigation } = useStore<Ctx>()
+function List({ item, index }: Props) {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   return (
     <ItemSearch
