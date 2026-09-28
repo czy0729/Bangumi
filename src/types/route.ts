@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-06 19:35:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-06 17:32:25
+ * @Last Modified time: 2026-09-28 22:08:33
  */
 import type { ImageSourcePropType } from 'react-native'
 import type {
@@ -16,7 +16,7 @@ import type {
   SubjectTypeValue
 } from '@constants/model/types'
 import type * as Screens from '@screens'
-import type { Id, MonoId, PersonId, SubjectId, TopicId, UserId } from './bangumi'
+import type { Id, MonoId, SubjectId, TopicId, UserId } from './bangumi'
 
 /** 所有页面路径名 */
 export type Paths = keyof typeof Screens
@@ -260,8 +260,8 @@ export type RouteSay = Route<
 export type RouteVoices = Route<
   'Voices',
   {
-    /** 现实人物 ID */
-    monoId: PersonId
+    /** 人物 ID (现实人物 / 虚拟角色) */
+    monoId: MonoId
 
     /** 现实人物名字 */
     name?: string
@@ -272,8 +272,8 @@ export type RouteVoices = Route<
 export type RouteWorks = Route<
   'Works',
   {
-    /** 现实人物 ID */
-    monoId: PersonId
+    /** 人物 ID (现实人物 / 虚拟角色) */
+    monoId: MonoId
 
     /** 现实人物名字 */
     name?: string

@@ -3,6 +3,8 @@
  * @Date: 2021-11-27 07:01:50
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-06-26 19:50:41
+ *
+ * 收藏人物区块入口 (惰性加载)
  */
 import { observer } from 'mobx-react'
 import { Heatmap, Iconfont, Touchable } from '@components'

@@ -3,6 +3,8 @@
  * @Date: 2022-05-11 19:23:35
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-01-10 04:42:31
+ *
+ * 状态: 路由参数与 observable 状态
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'

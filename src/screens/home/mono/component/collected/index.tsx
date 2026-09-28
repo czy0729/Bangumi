@@ -3,6 +3,8 @@
  * @Date: 2023-01-10 05:37:39
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-07 20:51:04
+ *
+ * 谁收藏了区块入口 (惰性加载)
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'

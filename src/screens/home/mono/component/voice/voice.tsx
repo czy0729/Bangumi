@@ -3,8 +3,10 @@
  * @Date: 2022-08-25 17:32:54
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 05:28:44
+ *
+ * 出演角色横滑列表
  */
-import React from 'react'
+
 import { View } from 'react-native'
 import { Cover, Flex, Heatmap, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'

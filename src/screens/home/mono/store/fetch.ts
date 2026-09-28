@@ -3,12 +3,23 @@
  * @Date: 2023-04-21 18:32:13
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-09-14 19:27:16
+ *
+ * 请求: 人物信息抓取与云端缓存读取 / 上传
  */
-import { monoStore, subjectStore, systemStore, tinygrailStore } from '@stores'
+import { monoStore, subjectStore, tinygrailStore } from '@stores'
 import { getTimestamp, omit } from '@utils'
 import { get, update } from '@utils/kv'
 import { H6 } from '@constants'
 import Computed from './computed'
+
+import type { Mono, MonoComments } from '@stores/subject/types'
+
+/** 云端人物缓存数据结构 */
+type MonoOSSData = {
+  ts: number
+  mono: Mono
+  comments: MonoComments
+}
 
 export default class Fetch extends Computed {
   /** 人物信息和吐槽箱  */
@@ -31,21 +42,12 @@ export default class Fetch extends Computed {
     return data
   }
 
-  /** 私有 CDN 的条目信息 */
-  fetchMonoFormCDN = async () => {
-    const { setting } = systemStore
-    const { _loaded } = this.mono
-    if (!setting.cdn || _loaded) return true
-
-    return subjectStore.fetchMonoFormCDN(this.monoId)
-  }
-
   /** 装载云端人物缓存数据 */
   fetchMonoFromOSS = async () => {
     if (this.mono._loaded) return
 
     try {
-      const data = await get(`mono_${this.monoId.replace('/', '_')}`)
+      const data = await get<MonoOSSData>(`mono_${this.monoId.replace('/', '_')}`)
 
       // 云端没有数据存在, 本地计算后上传
       if (!data) {

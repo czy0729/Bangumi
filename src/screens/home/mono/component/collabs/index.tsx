@@ -3,6 +3,8 @@
  * @Date: 2023-01-10 05:37:39
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-09 12:59:33
+ *
+ * 合作角色区块
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'

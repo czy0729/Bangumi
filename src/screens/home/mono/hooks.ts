@@ -3,6 +3,8 @@
  * @Date: 2024-01-10 04:40:24
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-17 10:00:18
+ *
+ * 人物页面初始化逻辑
  */
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-04-21 18:33:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-07 05:18:05
+ * @Last Modified time: 2026-09-28 21:47:11
+ *
+ * 操作: 收藏 / ICO / 翻译 / 滚动
  */
 import { getHeaderFixed } from '@components/header-v2/utils'
 import { systemStore, tinygrailStore, userStore } from '@stores'
@@ -13,7 +15,7 @@ import { webhookMono } from '@utils/webhooks'
 import { HOST } from '@constants'
 import Fetch from './fetch'
 
-import type { Id, Navigation, ScrollEvent } from '@types'
+import type { Id, Navigation, ScrollEvent, TranslateResult } from '@types'
 
 export default class Action extends Fetch {
   updateVisibleBottom = updateVisibleBottom.bind(this)
@@ -104,9 +106,12 @@ export default class Action extends Fetch {
       monoId: this.monoId
     })
 
-    const data = await tinygrailStore.doICO({
+    const data = (await tinygrailStore.doICO({
       monoId: this.monoId.replace('character/', '')
-    })
+    })) as {
+      /** 0 表示成功 */
+      State: number
+    }
 
     if (data.State !== 0) {
       info('启动ICO失败')
@@ -120,7 +125,10 @@ export default class Action extends Fetch {
   }
 
   /** 翻译内容 */
-  doTranslate = async (key = 'translateResult', content: any) => {
+  doTranslate = async (
+    key: 'translateResult' | 'translateResultDetail' = 'translateResult',
+    content: string
+  ) => {
     if (this.state[key].length) return
 
     t('人物.翻译内容', {
@@ -164,7 +172,9 @@ export default class Action extends Fetch {
       const response = await baiduTranslate(text)
       hide()
 
-      const { trans_result } = JSON.parse(response)
+      const { trans_result } = JSON.parse(response) as {
+        trans_result?: TranslateResult
+      }
       if (Array.isArray(trans_result)) {
         this.setState({
           [key]: trans_result
@@ -227,7 +237,9 @@ export default class Action extends Fetch {
         const response = await baiduTranslate(text)
         hide()
 
-        const { trans_result: translateResult } = JSON.parse(response)
+        const { trans_result: translateResult } = JSON.parse(response) as {
+          trans_result?: TranslateResult
+        }
         if (Array.isArray(translateResult)) {
           this.setState({
             translateResultFloor: {

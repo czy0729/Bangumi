@@ -3,6 +3,8 @@
  * @Date: 2019-05-11 04:19:28
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-09 12:56:15
+ *
+ * 人物页面 (滚动区块容器 + 头部 + 悬浮层)
  */
 import { observer } from 'mobx-react'
 import { Component, Heatmap, Page } from '@components'

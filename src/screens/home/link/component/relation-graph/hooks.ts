@@ -18,7 +18,7 @@ import {
 } from './ds'
 
 import type { ScrollView } from 'react-native'
-import type { NodeLayout, RelationEdge } from './types'
+import type { NodeLayout, RelationEdge, RelationGraphProps } from './types'
 import type { NodeItem } from '../../types'
 
 /** 中间分段渲染窗口 */
@@ -150,20 +150,8 @@ export function getScrollOffsetToNode(layout: NodeLayout) {
 }
 
 /** 组装关系图组件所需的全部状态、派生数据与回调 */
-export function useRelationGraph({
-  data,
-  focusId: initialFocusId,
-  maxRelations = 10,
-  hideRelates = []
-}: {
-  data: {
-    node: NodeItem[]
-    relate: RelationEdge[]
-  }
-  focusId: string | number
-  maxRelations?: number
-  hideRelates?: string[]
-}) {
+export function useRelationGraph(props: RelationGraphProps) {
+  const { data, focusId: initialFocusId, maxRelations = 10, hideRelates = [] } = props
   const { node, relate } = data
 
   const [focusId, setFocusId] = useState(initialFocusId)
@@ -171,7 +159,7 @@ export function useRelationGraph({
   const [, forceUpdate] = useState(0)
   const [focusLayoutReady, setFocusLayoutReady] = useState(false)
 
-  const windowRef = useRef<RelationWindow | null>(null)
+  const [renderWindow, setRenderWindow] = useState<RelationWindow | null>(null)
   const layoutsRef = useRef<Map<number, NodeLayout>>(new Map())
   const scrollViewRef = useRef<ScrollView>(null)
 
@@ -214,26 +202,32 @@ export function useRelationGraph({
   )
   const { nodesByYear, years } = useMemo(() => groupNodesByYear(sortedNodes), [sortedNodes])
 
-  // 只有当需要分割 (即 total > NODES_FOR_SPLIT) 时才初始化窗口
-  if (!windowRef.current && sortedNodes.length > NODES_FOR_SPLIT) {
-    windowRef.current = createWindow(middleNodes, focusId)
+  // 数据异步到达, 需要分割时当次渲染同步初始化窗口, 避免先渲染一帧全部中间节点
+  // 节点数回落到阈值内时复位, 否则残留窗口会继续切片
+  let currentWindow = renderWindow
+  if (currentWindow === null && sortedNodes.length > NODES_FOR_SPLIT) {
+    currentWindow = createWindow(middleNodes, focusId)
+    setRenderWindow(currentWindow)
+  } else if (currentWindow !== null && sortedNodes.length <= NODES_FOR_SPLIT) {
+    currentWindow = null
+    setRenderWindow(null)
   }
 
   const { renderMiddleNodes, omittedTopCount, omittedBottomCount } = sliceWindow(
     middleNodes,
-    windowRef.current
+    currentWindow
   )
 
   const handleExpandTop = useCallback(() => {
-    if (!windowRef.current) return
-    windowRef.current = expandWindow(windowRef.current, middleNodes.length, 'top')
-    forceUpdate(n => n + 1)
+    setRenderWindow(current =>
+      current ? expandWindow(current, middleNodes.length, 'top') : current
+    )
   }, [middleNodes.length])
 
   const handleExpandBottom = useCallback(() => {
-    if (!windowRef.current) return
-    windowRef.current = expandWindow(windowRef.current, middleNodes.length, 'bottom')
-    forceUpdate(n => n + 1)
+    setRenderWindow(current =>
+      current ? expandWindow(current, middleNodes.length, 'bottom') : current
+    )
   }, [middleNodes.length])
 
   const focusRelations = useMemo(

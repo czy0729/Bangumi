@@ -3,6 +3,8 @@
  * @Date: 2021-01-30 00:33:21
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-01-10 04:31:14
+ *
+ * 浏览热力区块
  */
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'

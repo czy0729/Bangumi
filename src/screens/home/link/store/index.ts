@@ -5,6 +5,7 @@
  * @Last Modified time: 2025-12-12 00:59:24
  */
 import Action from './action'
+import { normalizeHideTypes } from './utils'
 import { EXCLUDE_STATE, RESET_STATE } from './ds'
 
 import type { STATE } from './ds'
@@ -18,6 +19,7 @@ export default class ScreenSubjectLink extends Action {
     this.setState({
       ...storageData,
       ...EXCLUDE_STATE,
+      hideTypes: normalizeHideTypes(storageData.hideTypes),
       focused: true,
       _loaded: true
     })

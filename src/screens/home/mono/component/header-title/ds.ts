@@ -3,6 +3,8 @@
  * @Date: 2022-08-25 07:47:23
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-01-03 23:13:02
+ *
+ * 页头标题常量
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'

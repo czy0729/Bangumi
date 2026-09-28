@@ -3,6 +3,8 @@
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-03-19 19:40:45
+ *
+ * 页头标题入口 (惰性加载)
  */
 import { observer } from 'mobx-react'
 import { useStore } from '@stores'

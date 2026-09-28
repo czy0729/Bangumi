@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-08-25 17:31:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-10 04:28:16
+ * @Last Modified time: 2026-09-28 21:46:30
+ *
+ * 出演角色区块常量
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
-import { Navigation, ViewStyle } from '@types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
 
+import type { Navigation, ViewStyle } from '@types'
 import type { Ctx } from '../../types'
+import type { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'Voice')
 

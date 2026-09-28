@@ -3,6 +3,8 @@
  * @Date: 2022-01-04 04:32:24
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-09 13:01:23
+ *
+ * 人物详情区块入口 (惰性加载)
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'

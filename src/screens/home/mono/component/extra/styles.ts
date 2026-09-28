@@ -3,6 +3,8 @@
  * @Date: 2025-06-26 15:17:14
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-17 17:14:27
+ *
+ * 扩展区块样式
  */
 import { _ } from '@stores'
 

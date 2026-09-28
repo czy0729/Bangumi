@@ -3,6 +3,8 @@
  * @Date: 2024-03-19 19:26:54
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-03-19 19:28:32
+ *
+ * 人物封面区块样式
  */
 import { _ } from '@stores'
 

@@ -3,6 +3,8 @@
  * @Date: 2025-08-17 16:32:24
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-17 23:04:13
+ *
+ * 右上角菜单常量与动作
  */
 import { cnjp, copy } from '@utils'
 import { rc } from '@utils/dev'

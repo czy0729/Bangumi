@@ -6,8 +6,8 @@
  *
  * 关系图测试数据 (真实抓取: 无职转生 bangumi-link/map/277/277554.json)
  */
-import type { NodeItem } from '../../types'
-import type { RelationEdge } from './types'
+import type { NodeItem } from '../../../../types'
+import type { RelationEdge } from '../../types'
 
 /** 全部节点 (原始顺序) */
 export const NODES: NodeItem[] = [

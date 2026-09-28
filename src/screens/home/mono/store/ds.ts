@@ -3,12 +3,14 @@
  * @Date: 2023-04-21 18:20:33
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-19 22:35:29
+ *
+ * NAMESPACE / RESET_STATE / EXCLUDE_STATE / STATE
  */
 import { _ } from '@stores'
 import { COMPONENT } from '../ds'
 
 import type { Mono, MonoComments } from '@stores/subject/types'
-import type { Loaded, TranslateResult } from '@types'
+import type { Id, Loaded, TranslateResult } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -27,7 +29,7 @@ export const EXCLUDE_STATE = {
   checkTinygrail: false,
 
   /** 展开的子楼层 id */
-  expands: [],
+  expands: [] as Id[],
 
   /** 翻译缓存 (对应 mono.info) */
   translateResult: [] as TranslateResult,

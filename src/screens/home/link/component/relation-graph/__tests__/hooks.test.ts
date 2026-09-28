@@ -18,7 +18,7 @@ jest.mock('../ds', () => ({
   START_FROM_RIGHT: true
 }))
 
-import { NODES, RELATES, SORTED_IDS } from '../fixture'
+import { NODES, RELATES, SORTED_IDS } from './fixtures/fixture'
 import {
   createWindow,
   expandWindow,

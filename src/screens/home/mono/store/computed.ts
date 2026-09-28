@@ -3,6 +3,8 @@
  * @Date: 2023-04-21 18:30:40
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-06-26 20:08:39
+ *
+ * 派生: 人物信息 / 名字 / 出演 / 作品 (CDN 兜底)
  */
 import { computed } from 'mobx'
 import { subjectStore, systemStore, tinygrailStore } from '@stores'
@@ -145,6 +147,8 @@ export default class Computed extends State {
   @computed get jobs() {
     return ((this.mono._loaded ? this.mono.jobs : this.monoFormCDN.jobs) || FROZEN_ARRAY)
       .slice()
-      .sort((a, b) => desc(a, b, item => (item.type == 2 ? 99 : Number(item.type)))) as Mono['jobs']
+      .sort((a, b) =>
+        desc(a, b, item => (Number(item.type) === 2 ? 99 : Number(item.type)))
+      ) as Mono['jobs']
   }
 }

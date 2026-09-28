@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-08-25 19:22:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-17 17:04:39
+ * @Last Modified time: 2026-09-28 21:45:41
+ *
+ * 扩展区块常量
  */
 import { rc } from '@utils/dev'
-import { Navigation } from '@types'
 import { COMPONENT as PARENT } from '../ds'
 
+import type { Navigation } from '@types'
 import type { Ctx } from '../../types'
 
 export const COMPONENT = rc(PARENT, 'Extra')

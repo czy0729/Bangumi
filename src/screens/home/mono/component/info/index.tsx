@@ -3,6 +3,8 @@
  * @Date: 2019-05-11 17:19:56
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-09 13:04:59
+ *
+ * 人物信息区块入口 (封面 + 名字 + 简介)
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'

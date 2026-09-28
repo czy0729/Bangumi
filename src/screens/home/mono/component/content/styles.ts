@@ -3,6 +3,8 @@
  * @Date: 2022-08-25 17:18:05
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-08-25 17:19:05
+ *
+ * 简介区块样式
  */
 import { _ } from '@stores'
 

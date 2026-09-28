@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2025-08-17 16:27:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:06:31
+ * @Last Modified time: 2026-09-28 23:00:00
+ *
+ * 右上角菜单 (复制链接 / 复制分享文案 / 浏览器打开)
  */
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
-import { TEXT_MENU_BROWSER, TEXT_MENU_SPLIT_LEFT, TEXT_MENU_SPLIT_RIGHT } from '@constants'
+import { withSplit, TEXT_MENU_BROWSER } from '@constants'
 import { COMPONENT, MENU_ACTIONS, MENU_DS } from './ds'
 
 import type { Ctx } from '../../types'
@@ -18,19 +20,14 @@ import type { Ctx } from '../../types'
 function Menu() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const memoData = useMemo(
-    () =>
-      [
-        `${TEXT_MENU_BROWSER}${TEXT_MENU_SPLIT_LEFT}${$.id}${TEXT_MENU_SPLIT_RIGHT}`,
-        ...MENU_DS
-      ] as const,
-    [$.id]
-  )
+  const data = [`${TEXT_MENU_BROWSER}${withSplit($.id)}`, ...MENU_DS] as const
 
   const handleSelect = useCallback(
-    (key: string) => {
+    (key?: (typeof data)[number]) => {
+      if (!key) return
+
       if (key in MENU_ACTIONS) {
-        MENU_ACTIONS[key]($)
+        MENU_ACTIONS[key as keyof typeof MENU_ACTIONS]($)
       } else {
         open($.url)
       }
@@ -43,7 +40,7 @@ function Menu() {
     [$]
   )
 
-  return <HeaderV2Popover data={memoData} onSelect={handleSelect} />
+  return <HeaderV2Popover data={data} onSelect={handleSelect} />
 }
 
 export default observer(Menu)

@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-07-19 17:09:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-07-20 14:33:15
+ * @Last Modified time: 2026-09-28 21:45:59
+ *
+ * 参与制作区块常量
  */
 import { rc } from '@utils/dev'
-import { Navigation, ViewStyle } from '@types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
 
+import type { Navigation, ViewStyle } from '@types'
 import type { Ctx } from '../../types'
+import type { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'Jobs')
 

@@ -3,8 +3,10 @@
  * @Date: 2020-04-21 12:15:41
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-17 17:13:36
+ *
+ * 小圣杯信息 (等级 / ICO)
  */
-import React from 'react'
+
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { IconHeader } from '@_'
 import { _ } from '@stores'

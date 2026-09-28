@@ -3,8 +3,10 @@
  * @Date: 2024-03-19 19:17:09
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 02:46:16
+ *
+ * 人物封面 (小图占位 + 大图惰性加载)
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
 import { Cover as CoverComp, Flex, Heatmap, Image } from '@components'
 import { _ } from '@stores'
@@ -13,7 +15,9 @@ import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-function Cover({ thumb, src, monoId }) {
+import type { Props } from './types'
+
+function Cover({ thumb, src, monoId }: Props) {
   r(COMPONENT)
 
   const [loaded, setLoaded] = useState(false)

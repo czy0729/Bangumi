@@ -3,8 +3,10 @@
  * @Date: 2019-06-02 23:19:35
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 05:28:48
+ *
+ * 相关作品横滑列表
  */
-import React from 'react'
+
 import { View } from 'react-native'
 import { Flex, Heatmap, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'

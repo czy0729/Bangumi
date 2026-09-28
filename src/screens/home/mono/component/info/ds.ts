@@ -3,6 +3,8 @@
  * @Date: 2022-07-19 17:09:22
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-07-20 14:33:15
+ *
+ * 人物信息区块常量
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'

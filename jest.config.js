@@ -38,5 +38,5 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
-  testPathIgnorePatterns: ['/node_modules/', '/web/', '/test/']
+  testPathIgnorePatterns: ['/node_modules/', '/web/', '/test/', '/__tests__/fixtures/']
 }

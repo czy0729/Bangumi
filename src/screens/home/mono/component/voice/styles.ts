@@ -3,6 +3,8 @@
  * @Date: 2022-08-25 17:29:05
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-19 17:45:32
+ *
+ * 出演角色区块样式
  */
 import { _ } from '@stores'
 

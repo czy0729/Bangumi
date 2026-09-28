@@ -3,6 +3,8 @@
  * @Date: 2023-01-10 06:00:56
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-19 17:49:56
+ *
+ * 合作角色区块样式
  */
 import { _ } from '@stores'
 

@@ -3,6 +3,8 @@
  * @Date: 2019-06-03 00:53:10
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-17 10:04:38
+ *
+ * 参与制作区块入口 (惰性加载)
  */
 import { observer } from 'mobx-react'
 import { _, useStore } from '@stores'

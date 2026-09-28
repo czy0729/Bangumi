@@ -3,8 +3,10 @@
  * @Date: 2022-07-20 14:29:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 05:28:40
+ *
+ * 参与制作横滑列表
  */
-import React from 'react'
+
 import { View } from 'react-native'
 import { Cover, Expand, Flex, Heatmap, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'

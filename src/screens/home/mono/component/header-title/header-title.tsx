@@ -3,8 +3,10 @@
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-05-08 06:14:57
+ *
+ * 页头标题 (名字 + 收藏状态)
  */
-import React from 'react'
+
 import { Flex, Text } from '@components'
 import { Cover } from '@_'
 import { _ } from '@stores'

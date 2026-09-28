@@ -3,6 +3,8 @@
  * @Date: 2020-04-21 12:15:41
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-09 13:01:28
+ *
+ * 扩展区块入口 (小圣杯 + 图集入口)
  */
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text, Touchable } from '@components'

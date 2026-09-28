@@ -3,6 +3,8 @@
  * @Date: 2024-01-09 17:10:26
  * @Last Modified by:   czy0729
  * @Last Modified time: 2024-01-09 17:10:26
+ *
+ * 收藏列表区块常量
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'

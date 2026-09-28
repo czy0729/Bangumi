@@ -3,6 +3,8 @@
  * @Date: 2023-01-10 06:00:56
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-05-12 05:56:23
+ *
+ * 收藏列表区块样式
  */
 import { _ } from '@stores'
 

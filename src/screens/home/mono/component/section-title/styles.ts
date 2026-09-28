@@ -3,6 +3,8 @@
  * @Date: 2024-08-16 05:08:36
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-16 05:13:52
+ *
+ * 板块标题样式
  */
 import { _ } from '@stores'
 

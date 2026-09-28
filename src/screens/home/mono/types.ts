@@ -3,6 +3,8 @@
  * @Date: 2022-07-19 15:51:17
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-01-03 23:25:20
+ *
+ * Ctx / Params 类型
  */
 import type { GetRouteParams, RouteMono, WithNavigation } from '@types'
 import type Store from './store'

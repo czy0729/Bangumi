@@ -3,6 +3,8 @@
  * @Date: 2019-05-11 16:23:29
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-06-26 20:11:02
+ *
+ * 页面初始化: 云快照装载与按需拉取
  */
 import { queue } from '@utils'
 import Action from './action'

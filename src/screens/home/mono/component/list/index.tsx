@@ -3,6 +3,8 @@
  * @Date: 2021-11-26 03:42:57
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-09 13:05:34
+ *
+ * 吐槽列表 (分页 + 倒序)
  */
 import { useMemo } from 'react'
 import { observer } from 'mobx-react'

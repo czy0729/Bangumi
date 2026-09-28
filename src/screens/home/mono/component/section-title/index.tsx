@@ -3,6 +3,8 @@
  * @Date: 2024-08-16 01:11:21
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-17 10:05:42
+ *
+ * 通用板块标题 (更多入口)
  */
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
