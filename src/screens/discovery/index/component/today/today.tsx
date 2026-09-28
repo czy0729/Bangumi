@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-09-10 08:07:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-06 07:33:01
+ * @Last Modified time: 2026-09-29 02:50:34
  */
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { Flex, HorizontalList, Text } from '@components'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
 import { INITIAL_RENDER_NUMS_XS } from '../../ds'
@@ -33,14 +34,7 @@ const Today = memo(
               <Text size={10} type='sub'>
                 now
               </Text>
-              <View
-                style={[
-                  styles.line,
-                  {
-                    marginTop: _.xs + 2
-                  }
-                ]}
-              />
+              <View style={stl(styles.line, { marginTop: _.xs + 2 })} />
             </Flex>
           )}
           <CoverToday data={item} />

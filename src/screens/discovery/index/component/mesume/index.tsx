@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-02-12 05:42:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 22:19:51
+ * @Last Modified time: 2026-09-29 02:49:14
  */
-import React from 'react'
 import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
 import { observer } from 'mobx-react'

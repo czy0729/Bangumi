@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2021-06-11 15:08:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-17 11:10:28
+ * @Last Modified time: 2026-09-29 04:44:59
  */
-import React from 'react'
 import { Clipboard } from 'react-native'
 import { observer } from 'mobx-react'
 import { getLastPath } from '@_'
@@ -16,6 +15,7 @@ import i18n from '@constants/i18n'
 import Btn from './btn'
 import { COMPONENT } from './ds'
 
+import type { Paths } from '@types'
 import type { Ctx } from '../../types'
 import type { Props } from './types'
 
@@ -79,7 +79,8 @@ function BtnWrap({ style, item }: Props) {
         return
       }
 
-      navigation.push(key as any)
+      // 常规菜单项 key 均为注册路由 (Open / Netabare / UserTimeline / Link 已在上方处理)
+      navigation.push(key as Paths)
       return
     }
   }

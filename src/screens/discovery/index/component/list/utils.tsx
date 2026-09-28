@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-20 13:15:04
  */
-import React from 'react'
 import { View } from 'react-native'
 import { Heatmap } from '@components'
 import { MODEL_SUBJECT_TYPE } from '@constants'

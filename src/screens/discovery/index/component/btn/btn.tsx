@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-17 11:09:58
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Text, Touchable } from '@components'
@@ -53,7 +52,7 @@ function BtnMain({ style, item, userId, showIcon = true, onPress }: MainProps) {
   if (onPress) {
     return (
       <Touchable
-        style={stl(_.container.touch, WEB && item.login && !userId && styles.disabled)}
+        style={stl(_.container.touch, WEB && item.login && !userId ? styles.disabled : undefined)}
         animate
         onPress={onPress}
       >

@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-03-10 02:30:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-25 16:38:22
+ * @Last Modified time: 2026-09-29 02:48:55
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Image } from '@components'
@@ -16,6 +16,7 @@ import { memoStyles } from './styles'
 
 function Live2DMenu() {
   const styles = memoStyles()
+
   const { live2DV2, live2DModel, live2dScale } = systemStore.setting
 
   const memoData = useMemo(() => {

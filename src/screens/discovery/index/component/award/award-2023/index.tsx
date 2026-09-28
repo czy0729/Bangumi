@@ -4,11 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-21 20:32:25
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { useNavigation } from '@utils/hooks'
 import { HOST } from '@constants'
 import { COMPONENT } from './ds'
@@ -23,13 +23,10 @@ function Award2023({ width, height }: Props) {
 
   return (
     <View
-      style={[
-        styles.container,
-        {
-          height: height || styles.container.height,
-          marginRight: height ? 0 : styles.container.marginRight
-        }
-      ]}
+      style={stl(styles.container, {
+        height: height || styles.container.height,
+        marginRight: height ? 0 : styles.container.marginRight
+      })}
     >
       <Touchable
         animate
@@ -40,13 +37,10 @@ function Award2023({ width, height }: Props) {
         }}
       >
         <View
-          style={[
-            styles.body,
-            {
-              width: width || styles.body.width,
-              height: height || styles.body.height
-            }
-          ]}
+          style={stl(styles.body, {
+            width: width || styles.body.width,
+            height: height || styles.body.height
+          })}
           pointerEvents='none'
         >
           <View style={styles.header}>

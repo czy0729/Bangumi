@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-26 10:00:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Text, Touchable } from '@components'
 import { discoveryStore, userStore } from '@stores'

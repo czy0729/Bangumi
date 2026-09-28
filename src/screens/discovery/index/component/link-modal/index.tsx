@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-14 21:34:18
  */
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { autorun } from 'mobx'
 import { observer } from 'mobx-react'

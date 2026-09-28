@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-24 20:12:59
  */
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native'
 import { observer } from 'mobx-react'
 import { useDom } from '@utils/hooks'
@@ -12,6 +12,7 @@ import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { memoStyles } from './styles'
 import './index.scss'
 
+import type { Ref } from 'react'
 import type { Props } from './types'
 
 const cls = 'scroll-view-horizontal'
@@ -73,7 +74,8 @@ function ScrollViewHorizontal({ children, ...other }: Props) {
 
   return (
     <ScrollView
-      ref={ref}
+      // web 端 ref 实际接收 DOM 元素 (useDom 的 DomElement), 与 RN ScrollView 实例类型在此分叉
+      ref={ref as unknown as Ref<ScrollView>}
       contentContainerStyle={styles.contentContainerStyle}
       scrollEventThrottle={16}
       {...SCROLL_VIEW_RESET_PROPS}

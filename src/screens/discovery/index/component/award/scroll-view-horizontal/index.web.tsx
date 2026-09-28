@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-11-08 00:47:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 20:39:43
+ * @Last Modified time: 2026-09-29 02:46:55
  */
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native'
 import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
@@ -14,6 +14,7 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 import './index.scss'
 
+import type { Ref } from 'react'
 import type { ScrollViewProps } from '@components'
 
 const cls = 'scroll-view-horizontal'
@@ -77,7 +78,8 @@ function ScrollViewHorizontal({ children, ...other }: ScrollViewProps) {
 
   return (
     <ScrollView
-      ref={ref}
+      // web 端 ref 实际接收 DOM 元素 (useDom 的 DomElement), 与 RN ScrollView 实例类型在此分叉
+      ref={ref as unknown as Ref<ScrollView>}
       contentContainerStyle={styles.contentContainerStyle}
       scrollEventThrottle={16}
       {...SCROLL_VIEW_RESET_PROPS}

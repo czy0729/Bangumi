@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-07 20:53:20
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ScrollView } from '@components'
 import { r } from '@utils/dev'

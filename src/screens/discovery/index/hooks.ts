@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-01-04 14:12:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 23:07:03
+ * @Last Modified time: 2026-09-29 04:44:47
  */
 import { useCallback, useRef, useState } from 'react'
 import { _, useInitStore } from '@stores'
@@ -11,6 +11,7 @@ import { useIsFocused, usePageLifecycle } from '@utils/hooks'
 import { EVENT_APP_TAB_PRESS } from '@src/navigations/tab-bar'
 import store from './store'
 
+import type { GestureResponderEvent } from 'react-native'
 import type { WebView } from 'react-native-webview'
 import type { NavigationProps } from '@types'
 import type { Ctx } from './types'
@@ -32,7 +33,7 @@ export function useDiscoveryPage(props: NavigationProps) {
     webviewRef.current = ref
   }, [])
   const handleTouchMove = useCallback(
-    (e: any) => {
+    (e: GestureResponderEvent) => {
       if (!loaded || !isFocused) return
 
       const touch = e.nativeEvent?.touches?.[0]
@@ -94,9 +95,17 @@ export function useDiscoveryPage(props: NavigationProps) {
 
   return {
     ...context,
+
+    /** WebView (live2D 舞台) 是否加载完成 */
     loaded,
+
+    /** WebView 加载完成信号回调 */
     handleMessage,
+
+    /** live2D 舞台 WebView 引用回调 */
     handleForwardRef,
+
+    /** live2D 视线跟随触摸移动回调 */
     handleTouchMove
   }
 }

@@ -7,12 +7,20 @@
 import type { MenuItem, UserId, WithViewStyles } from '@types'
 
 export type Props = WithViewStyles<{
+  /** 菜单项 */
   item: MenuItem
 }>
 
 export type MainProps = WithViewStyles<{
+  /** 菜单项 */
   item: MenuItem
+
+  /** 用户 Id (跳转用户页) */
   userId: UserId
+
+  /** 是否显示图标 */
   showIcon?: boolean
+
+  /** 点击回调 */
   onPress: () => void
 }>

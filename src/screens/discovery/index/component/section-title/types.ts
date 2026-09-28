@@ -7,6 +7,9 @@
 import type { SubjectType, SubjectTypeCn } from '@types'
 
 export type Props = {
+  /** 频道标题 */
   title: SubjectTypeCn
+
+  /** 频道类型 */
   type: SubjectType
 }

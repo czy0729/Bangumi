@@ -4,12 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-16 22:23:46
  */
-import React from 'react'
 import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
 import { observer } from 'mobx-react'
 import { Squircle, Touchable } from '@components'
 import { systemStore } from '@stores'
+import { stl } from '@utils'
 import { withT } from '@utils/fetch'
 import { useActive, useNavigation } from '@utils/hooks'
 import { HOST, TEXT_ONLY } from '@constants'
@@ -29,22 +29,16 @@ function Award2022({ width, height }: Props) {
 
   return (
     <View
-      style={[
-        styles.container,
-        {
-          height: height || styles.container.height,
-          marginRight: height ? 0 : styles.container.marginRight
-        }
-      ]}
+      style={stl(styles.container, {
+        height: height || styles.container.height,
+        marginRight: height ? 0 : styles.container.marginRight
+      })}
     >
       <Touchable
-        style={[
-          styles.item2022,
-          {
-            width: w,
-            height: h
-          }
-        ]}
+        style={stl(styles.item2022, {
+          width: w,
+          height: h
+        })}
         animate
         onPress={withT(
           () => {
@@ -63,24 +57,18 @@ function Award2022({ width, height }: Props) {
         <Squircle width={w} height={h} radius={systemStore.coverRadius}>
           {!TEXT_ONLY && (
             <View
-              style={[
-                styles.body,
-                {
-                  width: width || styles.body.width,
-                  height: height || styles.body.height
-                }
-              ]}
+              style={stl(styles.body, {
+                width: width || styles.body.width,
+                height: height || styles.body.height
+              })}
               pointerEvents='none'
             >
               {active && (
                 <WebView
-                  style={[
-                    styles.body,
-                    {
-                      width: width || styles.body.width,
-                      height: height || styles.body.height
-                    }
-                  ]}
+                  style={stl(styles.body, {
+                    width: width || styles.body.width,
+                    height: height || styles.body.height
+                  })}
                   source={{
                     html: getHtml(width || styles.body.width, height || styles.body.height)
                   }}

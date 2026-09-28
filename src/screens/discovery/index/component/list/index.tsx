@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-09 21:41:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 22:21:22
+ * @Last Modified time: 2026-09-29 02:48:05
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ListView } from '@components'
@@ -16,9 +16,15 @@ import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { GestureResponderEvent } from 'react-native'
 import type { Ctx } from '../../types'
 
-function List({ onTouchMove }) {
+type Props = {
+  /** 触摸移动回调 (live2D 视线跟随) */
+  onTouchMove: (event: GestureResponderEvent) => void
+}
+
+function List({ onTouchMove }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const { headerHeight, statusBarHeight } = useInsets()

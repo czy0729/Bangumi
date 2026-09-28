@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-21 21:22:43
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { systemStore, useStore } from '@stores'
 import Today from './today'

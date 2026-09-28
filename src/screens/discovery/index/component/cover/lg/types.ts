@@ -9,8 +9,15 @@ import type { HomeItem } from '@stores/calendar/types'
 import type { SubjectTypeCn } from '@types'
 
 export type Props = {
+  /** 频道标题 */
   title: SubjectTypeCn
+
+  /** 封面图 */
   src: CoverProps['src']
+
+  /** 条目中文名 */
   cn: string
+
+  /** 条目数据 */
   data: HomeItem
 }

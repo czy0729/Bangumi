@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-04-05 00:01:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 05:24:02
+ * @Last Modified time: 2026-09-29 02:51:40
  */
-import React from 'react'
 import { StorybookGrid, StorybookPage } from '@components'
 import { ItemCollectionsGrid as Component } from './index'
 import { list } from './index.mock'

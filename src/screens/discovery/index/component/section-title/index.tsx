@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-21 21:22:05
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text, Touchable } from '@components'
 import { SectionTitle as SectionTitleComp } from '@_'

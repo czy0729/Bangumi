@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-01-27 15:33:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 22:23:15
+ * @Last Modified time: 2026-09-29 02:46:34
  */
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Animated, StyleSheet, View } from 'react-native'
 import Svg, { Circle, Defs, Pattern, Rect } from 'react-native-svg'
 import { observer } from 'mobx-react'

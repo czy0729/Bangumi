@@ -7,5 +7,6 @@
 export type Years = 2018 | 2019 | 2020 | 2021 | 2022
 
 export type Props = {
+  /** 年鉴年份 */
   year: Years
 }

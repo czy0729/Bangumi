@@ -7,5 +7,6 @@
 import type { CalendarItemWithWeekday } from '../../../types'
 
 export type Props = {
+  /** 今日放送条目数据 */
   data: CalendarItemWithWeekday
 }

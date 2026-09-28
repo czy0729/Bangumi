@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-07-17 03:43:57
  * @Last Modified by:   czy0729
- * @Last Modified time: 2024-07-17 03:43:57
+ * @Last Modified time: 2026-09-29 05:19:21
+ *
+ * 发现页用户操作: 刷新 / 剪贴板识别 / 菜单编辑拖拽与滚动联动
  */
-import { _, systemStore } from '@stores'
+import { _, calendarStore, systemStore } from '@stores'
 import { appNavigate, info, matchBgmUrl, updateVisibleBottom } from '@utils'
 import { logger } from '@utils/dev'
-import { t, withT } from '@utils/fetch'
+import { queue, t, withT } from '@utils/fetch'
 import { SUBJECT_TYPE } from '@constants'
 import Fetch from './fetch'
 
@@ -18,6 +20,17 @@ import type { Navigation, ScrollEvent, SubjectType } from '@types'
 const fetchedChannelTypes = new Set<SubjectType>(['anime'])
 
 export default class Action extends Fetch {
+  /** 下拉刷新 */
+  onHeaderRefresh = withT(async () => {
+    await queue([
+      () => this.fetchOnline(),
+      () => calendarStore.fetchOnAir(true),
+      () => calendarStore.fetchCalendar(),
+      () => calendarStore.fetchHome()
+    ])
+    this.updateRandomHome()
+  }, '发现.下拉刷新')
+
   /** 刷新到顶函数引用 */
   scrollToIndex: ScrollToIndex
 

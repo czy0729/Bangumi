@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-09 21:52:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-06 07:32:49
+ * @Last Modified time: 2026-09-29 05:22:29
  */
-import React, { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { HorizontalList } from '@components'
 import { InView } from '@_'
 import { _, usersStore } from '@stores'
@@ -34,7 +34,9 @@ const ListItem = memo(
   }) => {
     const title = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
     const first = list[0]
-    const rest = list.slice(1)
+
+    // HorizontalList keyExtractor 取 item.id, HomeItem 用 subjectId 补上 (memo 依赖 list 引用)
+    const rest = useMemo(() => list.slice(1).map(item => ({ ...item, id: item.subjectId })), [list])
 
     const handleEndReachedSm = useCallback(() => {
       t('发现.滑动到边', { from: `CoverSm|${type}` })
