@@ -4,15 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-17 12:53:37
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { getSPAParams, open } from '@utils'
 import { t } from '@utils/fetch'
-import { URL_SPA } from '@constants'
+import { TEXT_MENU_SPA, URL_SPA } from '@constants'
 import RecSegement from '../component/rec-segment'
-import { COMPONENT, DATA, TEXT_BROWSER, TEXT_SPA } from './ds'
+import { COMPONENT, DATA, TEXT_BROWSER } from './ds'
 
 import type { Ctx } from '../types'
 
@@ -30,7 +30,7 @@ function Header() {
           onSelect={title => {
             if (title === TEXT_BROWSER) {
               open($.url)
-            } else if (title === TEXT_SPA) {
+            } else if (title === TEXT_MENU_SPA) {
               open(`${URL_SPA}/${getSPAParams('Tags')}`)
             }
 

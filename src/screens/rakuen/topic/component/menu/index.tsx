@@ -4,14 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-22 05:44:03
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { copy, getSPAParams, open } from '@utils'
 import { t } from '@utils/fetch'
-import { HOST, URL_SPA } from '@constants'
-import { COMPONENT, DATA, TEXT_COPY, TEXT_REPORT, TEXT_SHARE, TEXT_SPA } from './ds'
+import { HOST, TEXT_MENU_SPA, URL_SPA } from '@constants'
+import { COMPONENT, DATA, TEXT_COPY, TEXT_REPORT, TEXT_SHARE } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
@@ -26,7 +26,7 @@ function Menu() {
   const handleSelect = useCallback(
     (key: string) => {
       switch (key) {
-        case TEXT_SPA: {
+        case TEXT_MENU_SPA: {
           const url = `${URL_SPA}/${getSPAParams('Topic', { topicId })}`
           open(url)
           break
