@@ -27,7 +27,7 @@ export const DEFAULT_PROPS = {
   prevTime: '' as string,
   expand: false as boolean,
   collection: undefined as string,
-  rank: 0 as number,
+  rank: 0 as string | number,
   score: 0 as number,
   total: 0 as number,
   sites: {} as ReturnType<$['sites']>

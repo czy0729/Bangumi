@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-20 17:28:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-04 21:25:30
+ * @Last Modified time: 2026-09-29 16:51:29
  */
 import { computed } from 'mobx'
 import { calendarStore, collectionStore, subjectStore } from '@stores'
@@ -19,8 +19,7 @@ import {
   TEXT_MENU_SHOW,
   withSplit
 } from '@constants'
-import { PREV_DAY_HOUR } from '../ds'
-import { getTime } from '../utils'
+import { getShowPrevDay, getTime } from '../utils'
 import State from './state'
 
 import type { SubjectId } from '@types'
@@ -37,7 +36,7 @@ export default class Computed extends State {
     let day = new Date().getDay()
     if (day === 0) day = 7
 
-    const showPrevDay = new Date().getHours() < PREV_DAY_HOUR
+    const showPrevDay = getShowPrevDay()
     const shift = day - (showPrevDay ? 2 : 1)
 
     const list = this.calendar.list.map(item => ({

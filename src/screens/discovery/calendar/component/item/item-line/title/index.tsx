@@ -4,14 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-16 08:05:29
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Katakana } from '@components'
 import { _ } from '@stores'
 import { HTMLDecode } from '@utils'
 
-function Title({ name }) {
+import type { Props } from './types'
+
+function Title({ name }: Props) {
   const title = HTMLDecode(name)
   const size = title.length >= 20 ? 12 : title.length >= 14 ? 13 : 14
 

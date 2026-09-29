@@ -30,9 +30,6 @@ export const styles = _.create({
     height: COVER_HEIGHT - 2,
     paddingTop: 2
   },
-  katakanas: {
-    marginTop: -10
-  },
   desc: {
     marginTop: -6,
     marginRight: -36

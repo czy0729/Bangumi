@@ -4,13 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 04:36:06
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
-import * as Speech from 'expo-speech'
 import { Image, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
-import { logger, r } from '@utils/dev'
+import { r } from '@utils/dev'
+import { speak } from '@utils/ui'
 import { GROUP_THUMB_MAP } from '@assets/images'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -22,16 +22,7 @@ export const IconSound = observer(({ style, text }: IconSoundProps) => {
   r(COMPONENT)
 
   const handlePress = useCallback(() => {
-    try {
-      Speech.speak(text, {
-        voice: 'com.apple.voice.compact.ja-JP.Kyoko',
-        language: 'ja-JP'
-      })
-
-      logger.log('IconSound', 'Speech.speak', {
-        text
-      })
-    } catch {}
+    speak(text)
   }, [text])
 
   if (!text) return null

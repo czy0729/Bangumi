@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 02:53:32
  */
-import React from 'react'
 import { View } from 'react-native'
 import { Cover, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
@@ -25,7 +24,7 @@ const ItemGrid = memo(
     subjectId = 0,
     name = '',
     image = '',
-    score = '',
+    score = 0,
     collection = '',
     time = '2359'
   }) => {

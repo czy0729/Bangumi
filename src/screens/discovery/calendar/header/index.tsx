@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-03-11 01:55:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 06:41:22
+ * @Last Modified time: 2026-09-29 16:51:29
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
@@ -15,39 +15,26 @@ import IconNavigate from './icon-navigate'
 import { COMPONENT, DATA, HM, TEXT_INFOR } from './ds'
 
 import type { Ctx } from '../types'
+import type { Props } from './types'
 
-function Header({ onScrollToOffset }) {
+function Header({ onScrollToOffset }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
+  const { toolBar } = $
 
-  const memoData = useMemo(() => [...DATA, TEXT_MENU_SPLIT, ...$.toolBar], [$.toolBar])
+  const handleHeaderRight = useCallback(() => {
+    const data = [...DATA, TEXT_MENU_SPLIT, ...toolBar]
 
-  const handleHeaderRight = useCallback(
-    () => (
+    return (
       <>
         <IconNavigate onScrollToOffset={onScrollToOffset} />
         <HeaderV2Popover
-          data={memoData}
+          data={data}
           onSelect={title => {
             if (title === TEXT_MENU_BROWSER) {
               open(`${HOST}/calendar`)
-
-              t('每日放送.右上角菜单', {
-                key: title
-              })
-              return
-            }
-
-            if (title === TEXT_MENU_SPA) {
-              const url = `${URL_SPA}/${getSPAParams('Calendar')}`
-              open(url)
-
-              t('每日放送.右上角菜单', {
-                key: title
-              })
-              return
-            }
-
-            if (title === TEXT_INFOR) {
+            } else if (title === TEXT_MENU_SPA) {
+              open(`${URL_SPA}/${getSPAParams('Calendar')}`)
+            } else if (title === TEXT_INFOR) {
               navigation.push('Information', {
                 title: '每日放送数据',
                 message: [
@@ -57,20 +44,19 @@ function Header({ onScrollToOffset }) {
                   '3：标签和动画制作数据摘取自 https://yuc.wiki。'
                 ]
               })
-
-              t('每日放送.右上角菜单', {
-                key: title
-              })
+            } else {
+              $.onToolBar(title)
               return
             }
 
-            $.onToolBar(title)
+            t('每日放送.右上角菜单', {
+              key: title
+            })
           }}
         />
       </>
-    ),
-    [$, memoData, navigation, onScrollToOffset]
-  )
+    )
+  }, [$, navigation, onScrollToOffset, toolBar])
 
   return <HeaderV2 title='每日放送' hm={HM} headerRight={handleHeaderRight} />
 }

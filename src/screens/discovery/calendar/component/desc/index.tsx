@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-03-29 10:25:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 04:07:23
+ * @Last Modified time: 2026-09-29 16:51:29
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -13,7 +13,7 @@ import { COMPONENT } from './ds'
 
 import type { ReactNode } from '@types'
 import type { Ctx } from '../../types'
-import type { Props } from './type'
+import type { Props } from './types'
 
 function Desc({ style, subjectId, sites, size = 11, filterToShow = false }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)

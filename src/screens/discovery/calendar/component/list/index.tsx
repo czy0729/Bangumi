@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-21 06:49:21
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ListView } from '@components'
 import { _, useStore } from '@stores'
@@ -13,9 +12,9 @@ import { renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { Ctx } from '../../types'
+import type { Ctx, HandleForwardRef } from '../../types'
 
-function List({ forwardRef }) {
+function List({ forwardRef }: { forwardRef: HandleForwardRef }) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const styles = memoStyles()

@@ -2,94 +2,81 @@
  * @Author: czy0729
  * @Date: 2024-03-29 11:28:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 03:59:12
+ * @Last Modified time: 2026-09-29 17:40:00
  */
 import { desc, getOnAirItem } from '@utils'
+import { ensureCacheLimit } from '@utils/cache'
 
 import type { Calendar } from '@stores/calendar/types'
 
-const cacheMap = new Map<
-  number,
-  {
-    adapts: string[]
-    origins: string[]
-    tags: string[]
-  }
->()
+type Data = {
+  /** 可选改编菜单（首项固定「全部」） */
+  adapts: string[]
+
+  /** 可选动画制作菜单（首项固定「全部」） */
+  origins: string[]
+
+  /** 可选标签菜单（首项固定「全部」） */
+  tags: string[]
+}
+
+const cacheMap = new Map<string, Data>()
+
+/** 构建缓存 key（全量条目 id 拼接, 精确且远小于整表 JSON） */
+function getCacheKey(data: Calendar['list']) {
+  return data.map(({ items }) => items.map(({ id }) => id).join(',')).join(',')
+}
+
+/** 条目计数并按数量降序转成菜单数据（首项固定「全部」） */
+function toMenuData(record: Record<string, number>) {
+  return [
+    '全部',
+    ...Object.entries(record)
+      .sort((a, b) => desc(a[1], b[1]))
+      .map(([key, value]) => `${key} (${value})`)
+  ]
+}
 
 /** 构建筛选数据 */
-export function getData(
-  data: Calendar['list']
-  // filter?: {
-  //   adapt: string
-  //   tag: string
-  //   origin: string
-  // }
-) {
-  const { length } = JSON.stringify(data)
-  if (cacheMap.has(length)) return cacheMap.get(length)
+export function getData(data: Calendar['list']) {
+  const key = getCacheKey(data)
+  const cached = cacheMap.get(key)
+  if (cached) return cached
 
   try {
-    const adapts = {}
-    const origins = {}
-    const tags = {}
+    const adapts: Record<string, number> = {}
+    const origins: Record<string, number> = {}
+    const tags: Record<string, number> = {}
 
-    data.forEach(item => {
-      item.items.forEach(item => {
-        const { type: adpat, origin, tag } = getOnAirItem(item.id)
-        // 筛选联动
-        // if (
-        //   (filter.adapt && adpat !== filter.adapt) ||
-        //   (filter.tag && !tag?.includes(filter.tag)) ||
-        //   (filter.origin && !origin?.includes(filter.origin))
-        // ) {
-        //   return
-        // }
+    data.forEach(({ items }) => {
+      items.forEach(({ id }) => {
+        const { type: adapt, origin, tag } = getOnAirItem(id)
 
-        if (adpat) {
-          if (adapts[adpat]) {
-            adapts[adpat] += 1
-          } else {
-            adapts[adpat] = 1
-          }
-        }
+        if (adapt) adapts[adapt] = (adapts[adapt] || 0) + 1
 
         if (origin) {
           origin.split('/').forEach(item => {
             const value = item.trim()
-            if (origins[value]) {
-              origins[value] += 1
-            } else {
-              origins[value] = 1
-            }
+            origins[value] = (origins[value] || 0) + 1
           })
         }
 
         if (tag) {
           tag.split('/').forEach(item => {
             const value = item.trim()
-            if (tags[value]) {
-              tags[value] += 1
-            } else {
-              tags[value] = 1
-            }
+            tags[value] = (tags[value] || 0) + 1
           })
         }
       })
     })
 
-    const result = {
-      adapts: Object.entries(adapts)
-        .sort((a, b) => desc(a[1], b[1]))
-        .map(([key, value]) => `${key} (${value})`),
-      origins: Object.entries(origins)
-        .sort((a, b) => desc(a[1], b[1]))
-        .map(([key, value]) => `${key} (${value})`),
-      tags: Object.entries(tags)
-        .sort((a, b) => desc(a[1], b[1]))
-        .map(([key, value]) => `${key} (${value})`)
+    const result: Data = {
+      adapts: toMenuData(adapts),
+      origins: toMenuData(origins),
+      tags: toMenuData(tags)
     }
-    cacheMap.set(length, result)
+    cacheMap.set(key, result)
+    ensureCacheLimit(cacheMap, 12)
 
     return result
   } catch {}
@@ -98,5 +85,5 @@ export function getData(
     adapts: [],
     origins: [],
     tags: []
-  }
+  } as Data
 }

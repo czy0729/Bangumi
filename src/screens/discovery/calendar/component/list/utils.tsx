@@ -2,14 +2,21 @@
  * @Author: czy0729
  * @Date: 2024-01-09 15:44:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 03:49:38
+ * @Last Modified time: 2026-09-29 16:51:29
  */
-import React from 'react'
 import { SectionHeader } from '@_'
 import Item from '../item'
 import { memoStyles } from './styles'
 
-export function renderSectionHeader({ section: { title } }) {
+import type { Props as ItemProps } from '../item/types'
+
+export function renderSectionHeader({
+  section: { title }
+}: {
+  section: {
+    title: string
+  }
+}) {
   const styles = memoStyles()
 
   return (
@@ -19,6 +26,6 @@ export function renderSectionHeader({ section: { title } }) {
   )
 }
 
-export function renderItem({ item, section = {} }) {
+export function renderItem({ item, section }: ItemProps) {
   return <Item item={item} section={section} />
 }

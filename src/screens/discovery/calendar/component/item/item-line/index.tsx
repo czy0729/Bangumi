@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2020-04-10 16:13:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 22:26:14
+ * @Last Modified time: 2026-09-29 16:51:29
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { collectionStore, systemStore, useStore } from '@stores'
 import ItemLine from './item-line'
 import { COMPONENT } from './ds'
 
 import type { Ctx } from '../../../types'
+import type { ItemView } from '../types'
 
 function ItemLineWrap({
   subjectId,
@@ -23,7 +23,7 @@ function ItemLineWrap({
   score,
   total,
   index
-}) {
+}: ItemView) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   return (

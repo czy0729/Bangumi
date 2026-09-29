@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-16 22:25:56
  */
-import React from 'react'
 import { View } from 'react-native'
 import { Flex } from '@components'
 import { Manage } from '@_'

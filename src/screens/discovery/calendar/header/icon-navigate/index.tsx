@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2026-03-21 15:29:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 06:40:39
+ * @Last Modified time: 2026-09-29 16:51:29
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { date, feedback, getTimestamp } from '@utils'
-import { PREV_DAY_HOUR } from '../../ds'
-import { getItemTime } from '../../utils'
+import { feedback } from '@utils'
+import { getCurrentHi, getItemTime, getShowPrevDay } from '../../utils'
 import { COMPONENT, ITEM_HEIGHT, SECTION_HEIGHT } from './ds'
 
 import type { Ctx } from '../../types'
-import type { Props } from './types'
+import type { Props } from '../types'
 
 function IconNavigate({ onScrollToOffset }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
@@ -24,10 +23,10 @@ function IconNavigate({ onScrollToOffset }: Props) {
     if (typeof onScrollToOffset !== 'function') return
 
     try {
-      const showPrevDay = new Date().getHours() < PREV_DAY_HOUR
+      const showPrevDay = getShowPrevDay()
       const targetSectionIndex = showPrevDay ? 1 : 0
 
-      const current = parseInt(date('Hi', getTimestamp()))
+      const current = getCurrentHi()
       let totalOffset = 0
       let lineInnerOffset = -1
       for (let i = 0; i < targetSectionIndex; i += 1) {

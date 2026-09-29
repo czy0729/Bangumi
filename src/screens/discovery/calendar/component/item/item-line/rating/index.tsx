@@ -4,13 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-21 03:44:05
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { Rank, Stars } from '@_'
 import { _ } from '@stores'
 
-function Rating({ hideScore, rank, score, total }) {
+import type { Props } from './types'
+
+function Rating({ hideScore, rank, score, total }: Props) {
   const showScore = !hideScore && !!score
 
   return (

@@ -2,21 +2,23 @@
  * @Author: czy0729
  * @Date: 2024-03-29 04:26:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 03:44:17
+ * @Last Modified time: 2026-09-29 17:10:00
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { stl } from '@utils'
+import { formatTime } from '../../../../utils'
 import { styles } from './styles'
 
-function Time({ time, prevTime, expand }) {
+import type { Props } from './types'
+
+function Time({ time, prevTime, expand }: Props) {
+  const text = time === '2359' ? (expand ? '未知' : '') : formatTime(time)
+
   return (
     <View style={stl(styles.time, prevTime && prevTime === time && styles.transparent)}>
-      {!!(time && !(time === '2359' && !expand)) && (
-        <Text bold>{time === '2359' ? '未知' : `${time.slice(0, 2)}:${time.slice(2)}`}</Text>
-      )}
+      {!!text && <Text bold>{text}</Text>}
     </View>
   )
 }

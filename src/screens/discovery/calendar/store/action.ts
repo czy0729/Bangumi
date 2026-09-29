@@ -2,12 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-06-20 17:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-28 21:06:43
+ * @Last Modified time: 2026-09-29 16:51:29
  */
 import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { TEXT_MENU_FAVOR, TEXT_MENU_LAYOUT } from '@constants'
 import Fetch from './fetch'
+
+/** 解析筛选菜单选中值（'全部' 或 '名称 (数量)' → 名称） */
+const parseFilterValue = (value: string) => {
+  if (value === '全部') return ''
+  return value.split(' (')?.[0] || ''
+}
 
 export default class Action extends Fetch {
   /** 切换布局 */
@@ -55,12 +61,7 @@ export default class Action extends Fetch {
 
   /** 切换改编 */
   onAdapt = (adapt: string) => {
-    let value: string
-    if (adapt === '全部') {
-      value = ''
-    } else {
-      value = adapt.split(' (')?.[0] || ''
-    }
+    const value = parseFilterValue(adapt)
     this.setState({
       adapt: value
     })
@@ -72,12 +73,7 @@ export default class Action extends Fetch {
 
   /** 切换标签 */
   onTag = (tag: string) => {
-    let value: string
-    if (tag === '全部') {
-      value = ''
-    } else {
-      value = tag.split(' (')?.[0] || ''
-    }
+    const value = parseFilterValue(tag)
     this.setState({
       tag: value
     })
@@ -87,14 +83,9 @@ export default class Action extends Fetch {
     })
   }
 
-  /** 切换标签 */
+  /** 切换动画制作 */
   onOrigin = (origin: string) => {
-    let value: string
-    if (origin === '全部') {
-      value = ''
-    } else {
-      value = origin.split(' (')?.[0] || ''
-    }
+    const value = parseFilterValue(origin)
     this.setState({
       origin: value
     })

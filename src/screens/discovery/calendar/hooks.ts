@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-17 01:09:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 15:52:43
+ * @Last Modified time: 2026-09-29 16:51:29
  */
 import { useCallback, useRef } from 'react'
 import { useInitStore } from '@stores'
@@ -47,7 +47,11 @@ export function useCalendarPage(props: NavigationProps) {
 
   return {
     ...context,
+
+    /** 收集长列表的 ref */
     handleForwardRef,
+
+    /** 滚动到 */
     handleScrollToOffset
   }
 }

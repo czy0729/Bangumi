@@ -28,6 +28,10 @@ function syncHaptics(): typeof import('expo-haptics') {
   return require('expo-haptics') as typeof import('expo-haptics')
 }
 
+function syncSpeech(): typeof import('expo-speech') {
+  return require('expo-speech') as typeof import('expo-speech')
+}
+
 /**
  * Loading 指示器
  * @param text 内容
@@ -279,4 +283,48 @@ export function scrollToView(
   }
 
   return true
+}
+
+/**
+ * 朗读日语文本
+ * - iOS: 使用系统日语音色 Kyoko
+ * - Android: 依赖系统 TTS 引擎 (如 Google 文字转语音 + 日语语音包), 优先选用增强音色;
+ *   缺少日语音色时轻提示引导安装
+ * - expo-speech 涉及原生模块, 函数内懒加载
+ */
+export async function speak(text: string) {
+  if (!text) return
+
+  try {
+    const Speech = syncSpeech()
+
+    if (IOS) {
+      Speech.speak(text, {
+        voice: 'com.apple.voice.compact.ja-JP.Kyoko',
+        language: 'ja-JP'
+      })
+    } else if (WEB) {
+      Speech.speak(text, { language: 'ja-JP' })
+    } else {
+      const voices = await Speech.getAvailableVoicesAsync()
+      const jaVoices = voices.filter(voice => String(voice.language || '').startsWith('ja'))
+      const voice =
+        jaVoices.find(item => String(item.quality).toLowerCase() === 'enhanced') || jaVoices[0]
+
+      if (voice) {
+        Speech.speak(text, {
+          language: 'ja-JP',
+          voice: voice.name
+        })
+      } else {
+        info('未检测到日语系统语音, 请安装文字转语音引擎 (如 Google 文字转语音) 并下载日语语音包')
+        log('speak', 'no ja voice', voices.length)
+        return
+      }
+    }
+
+    log('speak', text)
+  } catch (error) {
+    log('speak', 'error', error)
+  }
 }

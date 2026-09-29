@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-06-20 17:31:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-20 17:31:26
+ * @Last Modified time: 2026-09-29 16:51:29
  */
 import { collectionStore } from '@stores'
 import { getTimestamp } from '@utils'
 import { decode } from '@utils/thirdParty/protobuf'
 import { D1 } from '@constants'
 import Computed from './computed'
+
+import type { SubjectId } from '@types'
 
 export default class Fetch extends Computed {
   /** 全局管理单独条目的收藏状态 */
@@ -17,7 +19,7 @@ export default class Fetch extends Computed {
 
     setTimeout(async () => {
       try {
-        const subjectIds = []
+        const subjectIds: SubjectId[] = []
         this.calendar.list.forEach(item => {
           item.items.forEach(i => {
             subjectIds.push(i.id)

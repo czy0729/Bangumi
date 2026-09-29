@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 02:53:05
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Cover as CoverComp, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
@@ -15,7 +14,9 @@ import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { styles } from './styles'
 
-function Cover({ index, subjectId, image, name }) {
+import type { Props } from './types'
+
+function Cover({ index, subjectId, image, name }: Props) {
   const navigation = useNavigation()
 
   const { minWidth: width, minHeight: height } = styles.inView

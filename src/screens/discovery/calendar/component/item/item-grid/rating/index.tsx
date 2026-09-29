@@ -2,21 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-03-30 07:18:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 03:41:36
+ * @Last Modified time: 2026-09-29 17:10:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { Stars } from '@_'
 import { _ } from '@stores'
+import { formatTime } from '../../../../utils'
 
-function Rating({ hideScore, time, score }) {
+import type { Props } from './types'
+
+function Rating({ hideScore, time, score }: Props) {
   const showScore = !hideScore && !!score
-  let middle: any = []
-  if (!!time && time !== '2359') {
-    middle.push(`${time.slice(0, 2)}:${time.slice(2)}`)
-  }
-  middle = middle.join(' · ')
+  const middle = formatTime(time)
 
   return (
     <Flex style={_.mt.xs}>

@@ -23,7 +23,7 @@ export const DEFAULT_PROPS = {
   subjectId: 0 as SubjectId,
   name: '' as string,
   image: '' as string,
-  score: '' as string | number,
+  score: 0 as number,
   collection: '' as string,
   time: '2359' as string
 }
