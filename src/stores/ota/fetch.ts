@@ -2,10 +2,12 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:48:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-22 07:09:59
+ * @Last Modified time: 2026-09-30 18:43:13
  */
 import { pick } from '@utils'
 import { gets } from '@utils/kv'
+import Crypto from '@utils/thirdParty/crypto'
+import { CDN_ADV_DETAIL } from '@constants/cdn/adv'
 import Computed from './computed'
 
 import type { SubjectId } from '@types'
@@ -142,35 +144,44 @@ export default class Fetch extends Computed {
     }
   }
 
+  /** ADV 详情: CDN 加密单文件 (每条一文件, Crypto.get 解密) */
   onADVPage = async (list: number[]) => {
     if (!list.length) return
 
-    const keys: string[] = []
+    const subjectIds: SubjectId[] = []
     list.forEach(index => {
       const subjectId = this.advSubjectId(index)
-      const key = `adv_${subjectId}`
-      if (!subjectId || key in this.state.game) return
-      keys.push(key)
+      if (!subjectId) return
+      if (`adv_${subjectId}` in this.state.adv) return
+      subjectIds.push(subjectId)
     })
-    if (!keys.length) return
+    if (!subjectIds.length) return
 
-    const datas = await gets<ResultData<ADVItem>>(keys)
-    if (datas) {
-      const key = 'adv'
-      const data: Record<string, Partial<ADVItem>> = {}
-      Object.keys(datas).forEach(key => {
-        const item = datas[key]
-        if (item && typeof item === 'object') {
-          data[key] = item
-        } else {
-          data[key] = {}
+    const datas = await Promise.all(
+      subjectIds.map(async subjectId => {
+        try {
+          const res = await fetch(CDN_ADV_DETAIL(subjectId))
+          if (!res.ok) return [subjectId, {}] as const
+
+          const item = Crypto.get<ADVItem>(await res.text())
+          return [subjectId, item && typeof item === 'object' ? item : {}] as const
+        } catch (error) {
+          return [subjectId, {}] as const
         }
       })
-      this.setState({
-        [key]: data
-      })
-      this.save(key)
-    }
+    )
+
+    const data: Record<string, Partial<ADVItem>> = {}
+    datas.forEach(([subjectId, item]) => {
+      data[`adv_${subjectId}`] = item
+    })
+    this.setState({
+      adv: {
+        ...this.state.adv,
+        ...data
+      }
+    })
+    this.save('adv')
   }
 
   onMangaPage = async (list: number[]) => {

@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-12 09:51:59
  */
-import React from 'react'
 import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
 import { ADV as Component } from '@screens'
 

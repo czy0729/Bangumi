@@ -26,7 +26,7 @@ export const TEXT_18X = `好像什么都没有\n可能需要你到网页端的�
 export const TEXT_UPDATE_ANIME = '2026-07-13'
 
 /** 找游戏、ADV 静态数据最后更新时间 */
-export const TEXT_UPDATE_GAME = '2024-07-14'
+export const TEXT_UPDATE_GAME = '2026-09-30'
 
 /** 找漫画最后更新时间 */
 export const TEXT_UPDATE_MANGA = '2024-09-23'
@@ -50,7 +50,7 @@ export const TEXT_UPDATE_QIAFAN = '2026-05'
 export const TEXT_TOTAL = {
   番剧: 5113,
   游戏: 2837,
-  ADV: 3600,
+  ADV: 15037,
   漫画: 10622,
   文库: 2740,
   Hentai: 1036,

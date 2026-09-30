@@ -3,17 +3,27 @@
  * @Date: 2024-07-14 15:53:46
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-14 16:05:16
+ *
+ * 找 Gal 用户操作
  */
 import { otaStore } from '@stores'
 import { updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
+import type { FILTER_DS } from '../ds'
 import Fetch from './fetch'
 
 import type { ScrollToOffset } from '@components'
 
+type FilterType = (typeof FILTER_DS)[number]['type']
+
 export default class Action extends Fetch {
-  /** 筛选选择 */
-  onSelect = (type: string, value: string) => {
+  /**
+   * 筛选选择
+   *
+   * @param type 筛选维度
+   * @param value 筛选值
+   */
+  onSelect = (type: FilterType, value: string) => {
     this.setState({
       query: {
         ...this.state.query,

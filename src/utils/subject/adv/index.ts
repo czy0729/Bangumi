@@ -65,7 +65,7 @@ export function search(query: Query): SearchResult {
 
   // 查询指纹
   const finger = JSON.stringify(query || {})
-  const { first, year, dev, playtime, cn, sort } = query || {}
+  const { first, year, dev, playtime, cn, x, sort } = query || {}
 
   if (sort !== '随机' && SEARCH_CACHE[finger]) {
     return SEARCH_CACHE[finger]
@@ -93,6 +93,8 @@ export function search(query: Query): SearchResult {
         match = !item.cn
       }
     }
+    /** 分级: 限制 = nsfw 已打标, 未知 = 未打标 (bgm 未标记的条目实际分级未知) */
+    if (match && x) match = x === '限制' ? item.x === 1 : x === '未知' ? !item.x : true
     if (match) _list.push(index)
   })
 

@@ -13,6 +13,7 @@
  * 头像、条目封面对象存储等运行时管线已迁至 @utils/cdn
  */
 export * from './ds'
+export * from './adv'
 export * from './game'
 export * from './onair'
 export * from './rakuen'

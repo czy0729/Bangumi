@@ -3,6 +3,8 @@
  * @Date: 2024-07-14 15:42:36
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-14 16:08:45
+ *
+ * 找 Gal 派生数据
  */
 import { computed } from 'mobx'
 import { collectionStore, otaStore, systemStore } from '@stores'
@@ -32,7 +34,7 @@ export default class Computed extends State {
     }
 
     if (!systemStore.advance) {
-      list = list.filter((_item, index) => index < ADVANCE_LIMIT)
+      list = list.slice(0, ADVANCE_LIMIT)
     }
 
     return list

@@ -6,7 +6,6 @@
  */
 import { _ } from '@stores'
 import { IMG_HEIGHT_LG, IMG_WIDTH_LG } from '@constants'
-import { THUMB_HEIGHT } from './ds'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
@@ -26,19 +25,6 @@ export const memoStyles = _.memoStyles(() => ({
   },
   body: {
     marginRight: _.wind
-  },
-  thumbs: {
-    marginTop: _.md,
-    height: THUMB_HEIGHT
-  },
-  nums: {
-    width: THUMB_HEIGHT,
-    height: THUMB_HEIGHT,
-    marginRight: _._wind,
-    marginLeft: _.sm,
-    backgroundColor: _.colorBg,
-    borderRadius: _.radiusSm,
-    overflow: 'hidden'
   },
   loading: {
     height: IMG_HEIGHT_LG

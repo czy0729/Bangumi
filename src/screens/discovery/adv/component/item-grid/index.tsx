@@ -3,14 +3,16 @@
  * @Date: 2021-05-09 13:21:14
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-01 05:47:04
+ *
+ * 找 Gal 网格布局条目
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Loading } from '@components'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore, otaStore } from '@stores'
 import { r } from '@utils/dev'
 import { HOST_BGM_STATIC, IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
+import { getColumnNum } from '../ds'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -21,12 +23,14 @@ function ItemGrid({ pickIndex, index }: Props) {
 
   const styles = memoStyles()
 
-  // --- Data Logic ---
   const subjectId = otaStore.advSubjectId(pickIndex)
-  const { id } = otaStore.adv(subjectId)
-  const columnNum = _.portrait(_.device(3, 4), 5)
+  const { id, title, cover, score, rank, date } = otaStore.adv(subjectId)
+  const columnNum = getColumnNum()
 
-  // --- Render ---
+  /**
+   * 占位宽高随 _.window.contentWidth 实时变化 (iPad 分屏 / 分屏模式), 不能进 memoStyles:
+   * memoStyles 失效键只含 mode / deepDark / orientation 等, 不含窗口宽度
+   */
   if (!id) {
     const gridStyles = _.grid(columnNum)
     return (
@@ -44,7 +48,6 @@ function ItemGrid({ pickIndex, index }: Props) {
     )
   }
 
-  const { title, cover, score, rank, date } = otaStore.adv(subjectId)
   const coverUrl = cover ? `${HOST_BGM_STATIC}/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
   const collectionStatus = collectionStore.collect(id)
 

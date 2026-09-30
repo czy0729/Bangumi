@@ -1,17 +1,34 @@
 syntax = "proto3";
 
+// 找 ADV (galgame) 搜索数据 (finger)
+//  - 与 src/utils/thirdParty/protobuf/schemas.ts 的 adv schema 同步维护
+//  - proto3 默认值 (0 / '') 编码后缺席, 全年龄 / 无开发商 等语义依赖这一点
+
 message ADV {
+  /** 条目 Id */
   int32 i = 1;
+  /** 首字母 (name_cn 拼音首字母 A-Z, 用于首字筛选) */
   string f = 2;
+  /** 发售日期 */
   string en = 3;
+  /** 评分 */
   float s = 4;
+  /** 排名 */
   int32 r = 5;
+  /** 评分人数 */
   int32 l = 6;
+
+  /** 开发商序号 (1-based, 0/缺席 = 无) */
   int32 d = 7;
+  /** 时长档位 (1 超短 - 5 超长) */
   int32 t = 8;
+  /** 汉化 (1 = 有) */
   int32 cn = 9;
+  /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
+  int32 x = 10;
 }
 
+/** 条目列表包装 */
 message Payload {
   repeated ADV payload = 1;
 }

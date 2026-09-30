@@ -119,7 +119,8 @@ export const ITEM_SCHEMAS: Record<DataAssets, Schema> = {
     6: { tag: 6, key: 'l', type: 'int32' },
     7: { tag: 7, key: 'd', type: 'int32' },
     8: { tag: 8, key: 't', type: 'int32' },
-    9: { tag: 9, key: 'cn', type: 'int32' }
+    9: { tag: 9, key: 'cn', type: 'int32' },
+    10: { tag: 10, key: 'x', type: 'int32' }
   },
   catalog: {
     1: { tag: 1, key: 'i', type: 'int32' },

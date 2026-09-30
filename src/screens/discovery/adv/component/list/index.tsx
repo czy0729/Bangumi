@@ -4,12 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-27 06:10:46
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Loading } from '@components'
 import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import Filter from '../filter'
+import { getColumnNum } from '../ds'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 
@@ -18,14 +19,12 @@ import type { Ctx } from '../../types'
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  // --- Data Logic ---
   const { _loaded, layout, data } = $.state
   const isInitialLoading = !_loaded && !data._loaded
 
-  // --- Memos (Elements) ---
+  /** Filter 元素保持稳定引用, 避免列表更新时 ListHeaderComponent 重渲染 */
   const elFilter = useMemo(() => <Filter />, [])
 
-  // --- Render ---
   if (isInitialLoading) {
     return (
       <>
@@ -35,7 +34,7 @@ function List() {
     )
   }
 
-  const numColumns = $.isList ? undefined : _.portrait(_.device(3, 4), 5)
+  const numColumns = $.isList ? undefined : getColumnNum()
 
   return (
     <PaginationList

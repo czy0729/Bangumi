@@ -12,9 +12,14 @@ export type Finger = string
 export type Query = {
   first?: string
   year?: string | number
-  dev?: (typeof ADV_DEV)[number]
+
+  /** 开发商, 空串表示未筛选 */
+  dev?: '' | (typeof ADV_DEV)[number]
   playtime?: string
   cn?: string
+
+  /** 分级筛选 */
+  x?: string
   sort?: (typeof ADV_SORT)[number]
 }
 
@@ -25,9 +30,14 @@ export type Item = {
   s?: number
   r?: number
   l?: number
-  d: number
+
+  /** 开发商序号 (1-based, 0/缺席 = 无开发商; proto3 默认值语义) */
+  d?: number
   t?: 1 | 2 | 3 | 4 | 5
   cn?: number
+
+  /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
+  x?: number
 }
 
 /** @deprecated 原始压缩数据（unzip 专用） */
@@ -56,7 +66,8 @@ export type UnzipItem = {
 }
 
 export type SearchResult = {
-  list: UnzipItem[]
+  /** 匹配条目在数据源中的排序下标 */
+  list: number[]
   pagination: {
     page: 1
     pageTotal: 1

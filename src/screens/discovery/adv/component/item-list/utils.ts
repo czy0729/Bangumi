@@ -3,14 +3,12 @@
  * @Date: 2022-08-28 15:43:13
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-14 16:43:06
+ *
+ * 找 Gal 列表布局条目缩略图工具
  */
 import { CDN_ADV } from '@constants'
 
 import type { SubjectId } from '@types'
-
-export function fixed(image: string | string[]) {
-  return `m/${image}`
-}
 
 export function getThumbs(subjectId: SubjectId, length: number, thumb: boolean = true) {
   if (typeof length !== 'number' || length === -1) return []

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-14 04:50:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:31:47
+ * @Last Modified time: 2026-09-30 20:46:38
  */
 import { asc, getTimestamp } from '@utils'
 import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin/dict'
@@ -11,29 +11,40 @@ import { DATA_ALPHABET } from '@constants/data'
 /** 预设排序 */
 export const SORT = {
   /** 上映时间 */
-  begin<T extends Record<string, any>>(a: Partial<T> = {}, b: Partial<T> = {}, key: keyof T = 'b') {
-    return (getTimestamp(b[key] || '0000-00-00') || 0) - (getTimestamp(a[key] || '0000-00-00') || 0)
+  begin<T extends Record<string, unknown>>(
+    a: Partial<T> = {},
+    b: Partial<T> = {},
+    key: keyof T = 'b'
+  ) {
+    return (
+      (getTimestamp(String(b[key] || '0000-00-00')) || 0) -
+      (getTimestamp(String(a[key] || '0000-00-00')) || 0)
+    )
   },
 
   /** 名称 */
-  name<T extends Record<string, any>>(a: Partial<T> = {}, b: Partial<T> = {}, key: keyof T = 'c') {
+  name<T extends Record<string, unknown>>(
+    a: Partial<T> = {},
+    b: Partial<T> = {},
+    key: keyof T = 'c'
+  ) {
     return asc(
-      String(getPinYinFirstCharacter(a[key] || '')),
-      String(getPinYinFirstCharacter(b[key] || ''))
+      String(getPinYinFirstCharacter(String(a[key] || ''))),
+      String(getPinYinFirstCharacter(String(b[key] || '')))
     )
   },
 
   /** 评分或排名 */
-  rating<T extends Record<string, any>>(
+  rating<T extends Record<string, unknown>>(
     a: Partial<T> = {},
     b: Partial<T> = {},
     keyScore: keyof T = 's',
     keyRank: keyof T = 'r'
   ) {
-    const sA = a[keyScore] || 0
-    const sB = b[keyScore] || 0
-    const rA = a[keyRank] === undefined ? -10000 : 10000 - a[keyRank]
-    const rB = b[keyRank] === undefined ? -10000 : 10000 - b[keyRank]
+    const sA = Number(a[keyScore] || 0)
+    const sB = Number(b[keyScore] || 0)
+    const rA = a[keyRank] === undefined ? -10000 : 10000 - Number(a[keyRank])
+    const rB = b[keyRank] === undefined ? -10000 : 10000 - Number(b[keyRank])
     return sB + rB - (sA + rA)
   },
 
@@ -43,12 +54,20 @@ export const SORT = {
   },
 
   /** 分数, 也可用于数值比较 */
-  score<T extends Record<string, any>>(a: Partial<T> = {}, b: Partial<T> = {}, key: keyof T = 's') {
+  score<T extends Record<string, unknown>>(
+    a: Partial<T> = {},
+    b: Partial<T> = {},
+    key: keyof T = 's'
+  ) {
     return Number(b[key] || 0) - Number(a[key] || 0)
   },
 
   /** 评分人数 */
-  total<T extends Record<string, any>>(a: Partial<T> = {}, b: Partial<T> = {}, key: keyof T = 'l') {
+  total<T extends Record<string, unknown>>(
+    a: Partial<T> = {},
+    b: Partial<T> = {},
+    key: keyof T = 'l'
+  ) {
     return Number(b[key] || 0) - Number(a[key] || 0)
   }
 }
@@ -67,33 +86,18 @@ export const ANIME_TYPE = ['TV', '剧场版', 'OVA', 'WEB'] as const
 
 export const ANIME_FIRST = DATA_ALPHABET
 
+/** 当前日期, 9 月 1 日起提前把下一年纳入年份筛选 */
+const NOW = new Date()
+
+/** 最新可筛选的年份, 9 月前为当前年份, 9 月起为下一年 */
+const LATEST_YEAR = NOW.getFullYear() + (NOW.getMonth() >= 8 ? 1 : 0)
+
+/** 动画年份, 从最新年份倒序生成到 2001 年, 更早的统一归入「2000以前」 */
 export const ANIME_YEAR = [
-  2026,
-  2025,
-  2024,
-  2023,
-  2022,
-  2021,
-  2020,
-  2019,
-  2018,
-  2017,
-  2016,
-  2015,
-  2014,
-  2013,
-  2012,
-  2011,
-  2010,
-  2009,
-  2008,
-  2007,
-  2006,
-  2005,
-  2004,
-  2003,
-  2002,
-  2001,
+  ...Array.from(
+    { length: LATEST_YEAR - 2000 },
+    (__, index) => LATEST_YEAR - index
+  ),
   '2000以前'
 ] as const
 
