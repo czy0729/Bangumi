@@ -2,9 +2,7 @@ name: Build unsigned IPA
 
 # 未签名 IPA 流水线 (移植自 ci-ipa 分支的 build-ipa.yml, 面向当前 master 代码)
 #
-# 已停用: 推送不再自动打包, 需要打包时按下面两步手动开启
-#   1) 删掉 jobs.build 里的 `if: false`
-#   2) 需要随推送自动触发时, 再补回 push 触发器 (branches: [ci-ipa-57])
+# 已启用: 推送到本分支即自动打包 (push 触发器只绑打包分支, 不影响 master)
 #
 # 与 ci-ipa 版的刻意差异:
 #   1) 产物改为 actions/upload-artifact 上传, 不创建 GitHub Release, 也不回写 master 的 alt_store.json
@@ -13,6 +11,8 @@ name: Build unsigned IPA
 # 产物下载: 运行页底部 Artifacts 区 (GitHub 要求登录后下载)
 # 未签名 IPA 需自行使用 AltStore / Sideloadly / TrollStore 侧载
 on:
+  push:
+    branches: [ci-ipa-8.41.0]
   workflow_dispatch:
     inputs:
       version:
@@ -33,8 +33,7 @@ concurrency:
 jobs:
   build:
     name: Build unsigned IPA
-    # 已停用: 需要打包时删掉这一行 (并补回 push 触发器)
-    if: false
+    if: true
     runs-on: macos-26
     timeout-minutes: 180
 
