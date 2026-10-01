@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-20 17:28:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-29 16:51:29
+ * @Last Modified time: 2026-10-01 21:52:50
  */
 import { computed } from 'mobx'
 import { calendarStore, collectionStore, subjectStore } from '@stores'
@@ -19,6 +19,11 @@ import {
   TEXT_MENU_SHOW,
   withSplit
 } from '@constants'
+import {
+  AIR_TIME_MISSING_MIN_COUNT,
+  AIR_TIME_MISSING_MIN_UNKNOWN,
+  AIR_TIME_MISSING_RATIO
+} from './ds'
 import { getShowPrevDay, getTime } from '../utils'
 import State from './state'
 
@@ -29,6 +34,25 @@ export default class Computed extends State {
   /** 每日放送 */
   @computed get calendar() {
     return calendarStore.calendar
+  }
+
+  /**
+   * 换季后线上与内置放送数据均未包含新番时, 大部分条目会落入「未知时间」
+   * 正常季节数据源覆盖率很高, 未知占比远达不到该比例, 可据此判断数据缺失
+   */
+  @computed get isAirTimeMissing() {
+    const items = this.calendar.list.flatMap(({ items }) => items)
+    if (items.length < AIR_TIME_MISSING_MIN_COUNT) return false
+
+    let unknown = 0
+    items.forEach(item => {
+      if (getTime(item, item.id) === '2359') unknown += 1
+    })
+
+    return (
+      unknown >= AIR_TIME_MISSING_MIN_UNKNOWN &&
+      unknown / items.length >= AIR_TIME_MISSING_RATIO
+    )
   }
 
   /** 每日放送分区列表 */

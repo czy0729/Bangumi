@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 20:10:35
+ * @Last Modified time: 2026-10-01 21:52:50
  */
 import { calendarStore } from '@stores'
 import { queue } from '@utils/fetch'
@@ -22,15 +22,20 @@ export default class ScreenCalendar extends Action {
       _loaded: true
     })
 
-    return queue(
-      [
-        () => calendarStore.fetchOnAir(),
-        () => calendarStore.fetchCalendar(),
-        () => this.fetchBangumiData(),
-        () => this.fetchCollectionsQueue()
-      ],
-      1
-    )
+    try {
+      await queue(
+        [
+          () => calendarStore.fetchOnAir(),
+          () => calendarStore.fetchCalendar(),
+          () => this.fetchBangumiData(),
+          () => this.fetchCollectionsQueue()
+        ],
+        1
+      )
+    } catch {}
+
+    // 请求完成后检查是否换季后放送数据缺失, 即使请求失败也有本地缓存可判定
+    this.checkAirTimeMissing()
   }
 
   unmount = () => {

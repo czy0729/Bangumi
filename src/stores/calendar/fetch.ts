@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:05:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-21 00:07:37
+ * @Last Modified time: 2026-10-01 21:52:50
  */
 import { getTimestamp, HTMLTrim } from '@utils'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
@@ -132,6 +132,12 @@ export default class Fetch extends Computed {
         )
         if (airEps.length) data[item.id].air = airEps[airEps.length - 1].sort
       })
+
+      // 请求失败或响应为空时保留原有缓存, 避免换季等异常情况下清空本地放送数据
+      if (!onAir.length) {
+        this.error('fetchOnAir', '响应为空, 保留原有数据')
+        return
+      }
 
       const key = 'onAir'
       this.clearState(key, fixedOnAir(data))
