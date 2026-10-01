@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-01-19 10:32:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-23 12:00:00
+ * @Last Modified time: 2026-10-02 01:17:48
  */
 import { observer } from 'mobx-react'
 import { ActionSheet } from '@components'
@@ -52,8 +52,8 @@ function CDN({ filter }: WithFilterProps) {
         {shows.avatarRound && <AvatarRound filter={filter} />}
         {!WEB && (
           <>
-            shows.cover && <CDNCover filter={filter} setFalse={setFalse} />
-            shows.test && <CDNTest filter={filter} />
+            {shows.cover && <CDNCover filter={filter} setFalse={setFalse} />}
+            {shows.test && <CDNTest filter={filter} />}
           </>
         )}
         {shows.imageSkeleton && <ImageSkeleton filter={filter} />}
