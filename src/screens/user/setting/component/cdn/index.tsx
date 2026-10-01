@@ -52,8 +52,8 @@ function CDN({ filter }: WithFilterProps) {
         {shows.avatarRound && <AvatarRound filter={filter} />}
         {!WEB && (
           <>
-            shows.cover && <CDNCover filter={filter} setFalse={setFalse} />
-            shows.test && <CDNTest filter={filter} />
+            {shows.cover && <CDNCover filter={filter} setFalse={setFalse} />}
+            {shows.test && <CDNTest filter={filter} />}
           </>
         )}
         {shows.imageSkeleton && <ImageSkeleton filter={filter} />}
