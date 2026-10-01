@@ -7,6 +7,7 @@
 import type { Loaded } from '@types'
 import type { HENTAI_SORT, HENTAI_TAGS } from './ds'
 
+/** 查询指纹, 由筛选条件序列化得到 */
 export type Finger = string
 
 export type Query = {
@@ -20,17 +21,40 @@ export type Query = {
 }
 
 export type Item = {
+  /** 条目 ID */
   id: number
+
+  /** 番组 id */
   h?: number
+
+  /** 名称首字 */
   f?: string
+
+  /** 中文名 */
   c?: string
+
+  /** 日文名 */
   j?: string
+
+  /** 封面 */
   i?: string
+
+  /** 话数 */
   e?: string
+
+  /** 评分 */
   s?: number
+
+  /** 排名 */
   r?: number
+
+  /** 评分人数 */
   n?: number
+
+  /** 上映日期 */
   a: string
+
+  /** 标签下标, 见 HENTAI_TAGS_MAP */
   t: number[]
 }
 

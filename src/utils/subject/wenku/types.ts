@@ -7,16 +7,32 @@
 import type { Loaded } from '@types'
 import type { WENKU_ANIME, WENKU_AUTHOR, WENKU_CATE, WENKU_STATUS } from './ds'
 
+/** 查询指纹, 由筛选条件序列化得到 */
 export type Finger = string
 
 export type Query = {
+  /** 排序 */
   sort?: string
+
+  /** 开始连载年份 */
   year?: string | number
+
+  /** 名称首字 */
   first?: string
+
+  /** 连载状态 */
   status?: (typeof WENKU_STATUS)[number]
+
+  /** 分类标签, 见 WENKU_TAGS_MAP */
   tags?: string[]
+
+  /** 是否动画化 */
   anime?: (typeof WENKU_ANIME)[number]
+
+  /** 所属文库方 */
   cate?: (typeof WENKU_CATE)[number]
+
+  /** 作者 */
   author?: (typeof WENKU_AUTHOR)[number]
 }
 

@@ -59,7 +59,7 @@ export function find(id: SubjectId): UnzipItem {
   return unzip(getData().find(item => item.i == id))
 }
 
-/** 只返回下标数组对象 */
+/** 只返回下标数组对象, max 为返回条数上限 */
 export function search(query: Query, max: number = 500): SearchResult {
   init()
 

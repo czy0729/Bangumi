@@ -7,6 +7,7 @@
 import type { Loaded } from '@types'
 import type { ANIME_AREA, ANIME_BEGIN, ANIME_OFFICIAL, ANIME_STATUS, ANIME_TYPE } from './ds'
 
+/** 查询指纹, 由筛选条件序列化得到 */
 export type Finger = string
 
 export type Query = {
@@ -21,15 +22,34 @@ export type Query = {
 }
 
 export type Item = {
+  /** 条目 ID */
   i: number
+
+  /** 评分 */
   s?: number
+
+  /** 排名 */
   r?: number
+
+  /** 评分人数 */
   l?: number
+
+  /** 类型, 缺席视为 TV */
   ty?: string
+
+  /** 标签下标, 见 ANIME_TAGS_MAP */
   t?: number[]
+
+  /** 放送日期 */
   b?: string
+
+  /** 地区, 缺席视为 jp */
   ar?: 'jp' | 'cn'
+
+  /** 放送状态: 1 = 连载, 2 = 未播放, 缺席视为完结 */
   st?: number
+
+  /** 制作公司下标, 见 ANIME_OFFICIAL_MAP */
   o: number[]
 }
 

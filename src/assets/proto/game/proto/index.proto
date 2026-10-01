@@ -1,20 +1,38 @@
 syntax = "proto3";
 
+// 找游戏搜索数据 (finger)
+//  - 与 src/utils/thirdParty/protobuf/schemas.ts 的 game schema 同步维护
+//  - proto3 默认值 (0 / '' / 空数组) 编码后缺席, 未筛选 / 无下标 等语义依赖这一点
+
 message Game {
+  /** 条目 Id */
   int32 i = 1;
+  /** 首字母 (name_cn 拼音首字母 A-Z, 用于首字筛选) */
   string f = 2;
+  /** 发行日期 */
   string en = 3;
+  /** 评分 */
   float s = 4;
+  /** 排名 */
   int32 r = 5;
+  /** 评分人数 */
   int32 l = 6;
+
+  /** 分类下标数组 (见 GAME_CATE_MAP) */
   repeated int32 ta = 7;
+  /** 开发商下标数组 (见 GAME_DEV_MAP) */
   repeated int32 d = 8;
+  /** 发行商下标数组 (见 GAME_PUB_MAP) */
   repeated int32 p = 9;
+  /** 平台下标数组 (见 GAME_PLATFORM_MAP) */
   repeated int32 pl = 10;
+  /** 外网评分 */
   float vs = 11;
+  /** 外网热度 */
   int32 vc = 12;
 }
 
+/** 条目列表包装 */
 message Payload {
   repeated Game payload = 1;
 }

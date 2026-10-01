@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-06 02:55:53
  */
-import React from 'react'
 import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
 import { Game as Component } from '@screens'
 

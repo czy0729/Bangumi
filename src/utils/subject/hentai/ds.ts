@@ -7,10 +7,13 @@
 import { DATA_ALPHABET } from '@constants/data'
 import { ANIME_COLLECTED, ANIME_YEAR } from '../anime'
 
+/** 名称首字, 复用动画字母表 */
 export const HENTAI_FIRST = DATA_ALPHABET
 
+/** 年份筛选, 复用动画年份列表 */
 export const HENTAI_YEAR = ANIME_YEAR
 
+/** 收藏筛选, 复用动画 */
 export const HENTAI_COLLECTED = ANIME_COLLECTED
 
 export const HENTAI_SORT = ['排名', '评分人数', '上映时间', '随机', '名称'] as const

@@ -7,14 +7,19 @@
 import { DATA_ALPHABET } from '@constants/data'
 import { ANIME_COLLECTED, ANIME_YEAR } from '../anime'
 
+/** 名称首字, 复用动画字母表 */
 export const MANGA_FIRST = DATA_ALPHABET
 
+/** 年份筛选, 复用动画年份列表 */
 export const MANGA_YEAR = ANIME_YEAR
 
+/** 收藏筛选, 复用动画 */
 export const MANGA_COLLECTED = ANIME_COLLECTED
 
+/** 连载状态 */
 export const MANGA_STATUS = ['连载', '完结'] as const
 
+/** 分类, 顺序即 MANGA_TAGS_MAP 的序号 */
 export const MANGA_TAGS = [
   '爱情',
   '幽默',
@@ -70,6 +75,7 @@ export const MANGA_TAGS_MAP = Object.fromEntries(
   MANGA_TAGS.map((item, index) => [item, index])
 ) as Record<(typeof MANGA_TAGS)[number], number>
 
+/** 热门作者, 顺序即 MANGA_AUTHORS_MAP 的序号 */
 export const MANGA_AUTHORS = [
   '手冢治虫',
   'CLAMP',

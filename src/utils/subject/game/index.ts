@@ -13,11 +13,14 @@ import {
   GAME_CATE_MAP,
   GAME_COLLECTED,
   GAME_DEV,
+  GAME_DEV_ALIAS,
   GAME_DEV_MAP,
   GAME_FIRST,
+  GAME_JUNK,
   GAME_PLATFORM,
   GAME_PLATFORM_MAP,
   GAME_PUB,
+  GAME_PUB_ALIAS,
   GAME_PUB_MAP,
   GAME_SORT,
   GAME_YEAR
@@ -31,15 +34,46 @@ export {
   GAME_CATE_MAP,
   GAME_COLLECTED,
   GAME_DEV,
+  GAME_DEV_ALIAS,
   GAME_DEV_MAP,
   GAME_FIRST,
+  GAME_JUNK,
   GAME_PLATFORM,
   GAME_PLATFORM_MAP,
   GAME_PUB,
+  GAME_PUB_ALIAS,
   GAME_PUB_MAP,
   GAME_SORT,
   GAME_YEAR
 }
+
+/** 开发商筛选: 名 → 可命中的 d 集合 (d 为 GAME_DEV 的下标), 别名同组共享 */
+const DEV_MATCH: Record<string, number[]> = {}
+Object.keys(GAME_DEV_MAP).forEach(name => {
+  DEV_MATCH[name] = [GAME_DEV_MAP[name]]
+})
+GAME_DEV_ALIAS.forEach(group => {
+  const nums = group.filter(name => name in GAME_DEV_MAP).map(name => GAME_DEV_MAP[name])
+  if (nums.length < 2) return
+
+  group.forEach(name => {
+    DEV_MATCH[name] = nums
+  })
+})
+
+/** 发行商筛选: 名 → 可命中的 p 集合 (p 为 GAME_PUB 的下标), 别名同组共享 */
+const PUB_MATCH: Record<string, number[]> = {}
+Object.keys(GAME_PUB_MAP).forEach(name => {
+  PUB_MATCH[name] = [GAME_PUB_MAP[name]]
+})
+GAME_PUB_ALIAS.forEach(group => {
+  const nums = group.filter(name => name in GAME_PUB_MAP).map(name => GAME_PUB_MAP[name])
+  if (nums.length < 2) return
+
+  group.forEach(name => {
+    PUB_MATCH[name] = nums
+  })
+})
 
 /** 缓存搜索结果 */
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
@@ -71,7 +105,7 @@ export function findGame(id: SubjectId): Item {
   return getData().find(item => item.i == id)
 }
 
-/** @deprecated根据条目 id 查询一项 */
+/** @deprecated 根据条目 id 查询一项 */
 export function find(id: SubjectId): GameUnzipItem {
   init()
   return unzip(getData().find(item => item.i == id) as unknown as CompressedItem | undefined)
@@ -111,10 +145,10 @@ export function search(query: Query): SearchResult {
     if (match && cate) match = item.ta?.includes(GAME_CATE_MAP[cate])
 
     // d: ['Nintendo']
-    if (match && dev) match = item.d?.includes(GAME_DEV_MAP[dev])
+    if (match && dev) match = DEV_MATCH[dev]?.some(num => item.d?.includes(num)) ?? false
 
     // p: ['Nintendo']
-    if (match && pub) match = item.p?.includes(GAME_PUB_MAP[pub])
+    if (match && pub) match = PUB_MATCH[pub]?.some(num => item.p?.includes(num)) ?? false
 
     if (match) _list.push(index)
   })

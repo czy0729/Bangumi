@@ -49,7 +49,7 @@ export const TEXT_UPDATE_QIAFAN = '2026-05'
 /** 找条目数目 */
 export const TEXT_TOTAL = {
   番剧: 5113,
-  游戏: 2837,
+  游戏: 16385,
   ADV: 15037,
   漫画: 10622,
   文库: 2740,

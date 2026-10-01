@@ -7,6 +7,7 @@
 import type { Loaded } from '@types'
 import type { ADV_DEV, ADV_SORT } from './ds'
 
+/** 查询指纹, 由筛选条件序列化得到 */
 export type Finger = string
 
 export type Query = {
@@ -24,16 +25,31 @@ export type Query = {
 }
 
 export type Item = {
+  /** 条目 ID */
   i: number
+
+  /** 名称首字 */
   f?: string
+
+  /** 发行日期 */
   en: string
+
+  /** 评分 */
   s?: number
+
+  /** 排名 */
   r?: number
+
+  /** 评分人数 */
   l?: number
 
   /** 开发商序号 (1-based, 0/缺席 = 无开发商; proto3 默认值语义) */
   d?: number
+
+  /** 时长档位, 见 ADV_PLAYTIME_MAP */
   t?: 1 | 2 | 3 | 4 | 5
+
+  /** 是否有汉化 */
   cn?: number
 
   /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */

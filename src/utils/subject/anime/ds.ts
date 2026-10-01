@@ -72,7 +72,7 @@ export const SORT = {
   }
 }
 
-/** 只返回下标数组对象 */
+/** 季度筛选正则, 匹配放送日期中的 年-月- */
 export const REG_SEASONS = {
   '1月': /-(01|02|03|1|2|3)-/,
   '4月': /-(04|05|06|4|5|6)-/,
@@ -80,10 +80,13 @@ export const REG_SEASONS = {
   '10月': /-(10|11|12)-/
 } as const
 
+/** 地区 */
 export const ANIME_AREA = ['日本', '中国'] as const
 
+/** 类型 */
 export const ANIME_TYPE = ['TV', '剧场版', 'OVA', 'WEB'] as const
 
+/** 名称首字 */
 export const ANIME_FIRST = DATA_ALPHABET
 
 /** 当前日期, 9 月 1 日起提前把下一年纳入年份筛选 */
@@ -101,10 +104,13 @@ export const ANIME_YEAR = [
   '2000以前'
 ] as const
 
+/** 放送季度 */
 export const ANIME_BEGIN = ['1月', '4月', '7月', '10月'] as const
 
+/** 放送状态, 对应 Item.st (缺席视为完结) */
 export const ANIME_STATUS = ['连载', '完结', '未播放'] as const
 
+/** 标签, 顺序即 ANIME_TAGS_MAP 的序号 */
 export const ANIME_TAGS = [
   '奇幻',
   '战斗',
@@ -154,10 +160,12 @@ export const ANIME_TAGS = [
   '偶像'
 ] as const
 
+/** 标签 → Item.t 中的下标 */
 export const ANIME_TAGS_MAP = Object.fromEntries(
   ANIME_TAGS.map((item, index) => [item, index])
 ) as Record<(typeof ANIME_TAGS)[number], number>
 
+/** 制作公司, 顺序即 ANIME_OFFICIAL_MAP 的序号 */
 export const ANIME_OFFICIAL = [
   'J.C.STAFF',
   'A-1 Pictures',
@@ -283,10 +291,12 @@ export const ANIME_OFFICIAL = [
   'Yostar Pictures'
 ] as const
 
+/** 制作公司 → Item.o 中的下标 */
 export const ANIME_OFFICIAL_MAP = Object.fromEntries(
   ANIME_OFFICIAL.map((item, index) => [item, index])
 ) as Record<(typeof ANIME_OFFICIAL)[number], number>
 
 export const ANIME_SORT = ['排名', '上映时间', '评分人数', '随机', '名称'] as const
 
+/** 收藏筛选 */
 export const ANIME_COLLECTED = ['隐藏'] as const

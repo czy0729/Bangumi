@@ -2,24 +2,36 @@
  * @Author: czy0729
  * @Date: 2021-05-09 13:21:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-11 16:03:04
+ * @Last Modified time: 2026-09-30 22:36:26
+ *
+ * 找游戏网格布局条目
  */
 import { observer } from 'mobx-react'
 import { Flex, Loading } from '@components'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore, otaStore } from '@stores'
 import { r } from '@utils/dev'
-import { IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
+import { HOST_BGM_STATIC, IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
+import { getColumnNum } from '../ds'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
-function ItemGrid({ pickIndex, index, num }) {
+import type { Props } from '../types'
+
+function ItemGrid({ pickIndex, index = 0 }: Props) {
   r(COMPONENT)
+
+  const styles = memoStyles()
 
   const subjectId = otaStore.gameSubjectId(pickIndex)
   const { id, t: title, c: image, sc: score, r: rank, en: time } = otaStore.game(subjectId)
+  const num = getColumnNum()
 
   if (!id) {
+    /**
+     * 占位宽高随 _.window.contentWidth 实时变化 (iPad 分屏 / 分屏模式), 不能进 memoStyles:
+     * memoStyles 失效键只含 mode / deepDark / orientation 等, 不含窗口宽度
+     */
     const gridStyles = _.grid(num)
     return (
       <Flex
@@ -36,19 +48,21 @@ function ItemGrid({ pickIndex, index, num }) {
     )
   }
 
-  const styles = memoStyles()
+  const coverUrl = image ? `${HOST_BGM_STATIC}/pic/cover/m/${image}.jpg` : IMG_DEFAULT
 
   return (
     <ItemCollectionsGrid
       style={(_.isPad || _.isLandscape) && !(index % num) && styles.left}
+      index={index}
       num={num}
       id={id}
-      cover={image ? `//lain.bgm.tv/pic/cover/m/${image}.jpg` : IMG_DEFAULT}
+      cover={coverUrl}
       name={title}
       score={score}
       rank={rank}
       airtime={time}
       collection={collectionStore.collect(id)}
+      offset={Math.floor(_.window.height * 0.4)}
       event={EVENT}
     />
   )

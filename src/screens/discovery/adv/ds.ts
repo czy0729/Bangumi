@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-06-26 06:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-30 21:18:45
+ * @Last Modified time: 2026-09-30 23:43:22
  */
 import { ADV_COLLECTED, ADV_DEV, ADV_FIRST, ADV_SORT, ADV_YEAR } from '@utils/subject/adv'
 import { ADV_CN, ADV_PLAYTIME } from '@utils/subject/adv/ds'
@@ -15,8 +15,8 @@ export const ADVANCE_LIMIT = 60
 const ADV_DEV_GROUP = [[], []]
 ADV_DEV.forEach((item, index) => ADV_DEV_GROUP[index % 2 ? 1 : 0].push(item))
 
-/** 分级 */
-export const ADV_NSFW = ['全部', '限制', '未知'] as const
+/** 分级 (「全部」由通用筛选组提供, 点击时写入空串) */
+export const ADV_NSFW = ['限制', '未知'] as const
 
 export const FILTER_DS = [
   {

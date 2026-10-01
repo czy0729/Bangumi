@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-23 06:23:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-30 01:16:39
+ * @Last Modified time: 2026-10-01 06:33:27
  */
 export type AnimeItem = {
   id: number
@@ -62,6 +62,12 @@ export type GameItem = {
   pl: string[]
   vc?: number
   vs?: number
+
+  /** 在线截图 (数据侧从 KV douban_ 收集的第三方截图), 存在时找游戏频道列表优先于自建 CDN 截图使用 */
+  screens?: string[]
+
+  /** 在线截图防盗链 Referer, 与 screens 配套 */
+  screensReferer?: string
 }
 
 export type ADVItem = {

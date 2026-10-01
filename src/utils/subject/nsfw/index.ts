@@ -16,6 +16,7 @@ import type { Finger, Item, Query, SearchResult } from './types'
 
 export { NSFW_COLLECTED, NSFW_SORT, NSFW_YEAR, NSFW_TYPE }
 
+/** 缓存搜索结果 */
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
 let nsfw: Item[] = []
 let loaded: boolean = false

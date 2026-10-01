@@ -2,24 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-06-26 06:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-14 17:30:03
+ * @Last Modified time: 2026-09-30 23:49:41
  *
  * 找 Gal 状态声明与本地存储
  */
 import { _ } from '@stores'
+import { ADV_YEAR } from '@utils/subject/adv'
 import { LIST_EMPTY } from '@constants'
 import { COMPONENT } from '../ds'
 
-import type { Query } from '@utils/subject/adv/types'
 import type { ListEmpty, Loaded } from '@types'
-
-type ScreenQuery = Query & {
-  /** 收藏筛选 (页面本地维度, 不参与 search) */
-  collected: string
-
-  /** 分级筛选 (页面本地维度, 不参与 search) */
-  x: string
-}
+import type { ScreenQuery } from '../types'
 
 /** 默认筛选条件 */
 const QUERY: ScreenQuery = {
@@ -27,7 +20,7 @@ const QUERY: ScreenQuery = {
   first: '',
 
   /** 发行年份 */
-  year: '2024',
+  year: ADV_YEAR[0],
 
   /** 开发商 */
   dev: '',

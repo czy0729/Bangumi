@@ -37,6 +37,7 @@ export {
   HENTAI_YEAR
 }
 
+/** 缓存搜索结果 */
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
 let hentai: Item[] = []
 let loaded: boolean = false
@@ -161,6 +162,7 @@ export function unzip(item: Item | undefined): UnzipItem {
   }
 }
 
+/** 按 HENTAI_TAGS 的分组区间反查标签类型 */
 export function getTagType(tag: number) {
   if (tag >= 40) return 'content'
   if (tag >= 25) return 'body'

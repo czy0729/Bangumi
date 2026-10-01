@@ -11,6 +11,7 @@ import { SORT } from '../anime'
 import {
   ADV_COLLECTED,
   ADV_DEV,
+  ADV_DEV_ALIAS,
   ADV_DEV_MAP,
   ADV_FIRST,
   ADV_PLAYTIME_MAP,
@@ -22,6 +23,20 @@ import type { SubjectId } from '@types'
 import type { CompressedItem, Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
 export { ADV_COLLECTED, ADV_DEV, ADV_DEV_MAP, ADV_FIRST, ADV_SORT, ADV_YEAR }
+
+/** 开发商筛选: 名 → 可命中的 d 集合 (d 为 ADV_DEV 的 1-based 下标), 别名同组共享 */
+const DEV_MATCH: Record<string, number[]> = {}
+Object.keys(ADV_DEV_MAP).forEach(name => {
+  DEV_MATCH[name] = [ADV_DEV_MAP[name]]
+})
+ADV_DEV_ALIAS.forEach(group => {
+  const nums = group.filter(name => name in ADV_DEV_MAP).map(name => ADV_DEV_MAP[name])
+  if (nums.length < 2) return
+
+  group.forEach(name => {
+    DEV_MATCH[name] = nums
+  })
+})
 
 /** 缓存搜索结果 */
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
@@ -82,7 +97,7 @@ export function search(query: Query): SearchResult {
     let match = true
     if (match && first) match = item.f !== undefined && first === item.f
     if (match && year) match = yearReg.test(item.en)
-    if (match && dev) match = item.d === ADV_DEV_MAP[dev]
+    if (match && dev) match = DEV_MATCH[dev]?.includes(item.d) ?? false
     if (match && playtime) {
       match = playtime === '不明' ? !item.t : item.t === ADV_PLAYTIME_MAP[playtime]
     }

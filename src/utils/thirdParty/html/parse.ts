@@ -23,7 +23,7 @@ export const DECODE_SPECIAL_CHARS: Record<string, string> = {
 
 /** HTML 反转义 */
 export function HTMLDecode(str: string = ''): string {
-  if (str.length === 0) return ''
+  if (!str?.length) return ''
 
   return str.replace(/(&amp;|&lt;|&gt;|&nbsp;|&#39;|&quot;)/g, match => DECODE_SPECIAL_CHARS[match])
 }

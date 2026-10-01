@@ -91,7 +91,7 @@ export function search(query: Query): SearchResult {
     }
     if (match && anime) match = anime === '是' ? item.m === 1 : !item.m
     if (match && author) match = item.a === WENKU_AUTHOR_MAP[author]
-    if (match && cate) match = item.c === WENKU_CATE_MAP[author]
+    if (match && cate) match = item.c === WENKU_CATE_MAP[cate]
     if (match) _list.push(index)
   })
 

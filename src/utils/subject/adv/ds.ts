@@ -7,10 +7,13 @@
 import { DATA_ALPHABET } from '@constants/data'
 import { ANIME_COLLECTED, ANIME_YEAR } from '../anime'
 
+/** 名称首字, 复用动画字母表 */
 export const ADV_FIRST = DATA_ALPHABET
 
+/** 年份筛选, 复用动画年份列表 */
 export const ADV_YEAR = ANIME_YEAR
 
+/** 收藏筛选, 复用动画 */
 export const ADV_COLLECTED = ANIME_COLLECTED
 
 export const ADV_DEV = [
@@ -181,10 +184,19 @@ export const ADV_DEV_MAP = Object.fromEntries(
   ADV_DEV.map((item, index) => [item, index + 1])
 ) as Record<(typeof ADV_DEV)[number], number>
 
+/** 同一开发商的不同写法, 筛选时同组成员互相命中 */
+export const ADV_DEV_ALIAS = [
+  ['ALICESOFT', 'アリスソフト'],
+  ['Nitro+', 'ニトロプラス'],
+  ['RUNE', 'ルネ']
+] as const
+
 export const ADV_SORT = ['发行', '排名', '评分人数', '随机', '名称'] as const
 
+/** 时长档位 */
 export const ADV_PLAYTIME = ['超长', '长', '中', '短', '超短', '不明'] as const
 
+/** 时长档位 → Item.t; 「不明」无对应值, 由 Item.t 缺席表示 */
 export const ADV_PLAYTIME_MAP = {
   超短: 1,
   短: 2,
@@ -193,4 +205,5 @@ export const ADV_PLAYTIME_MAP = {
   超长: 5
 } as const
 
+/** 是否有汉化 */
 export const ADV_CN = ['有', '无'] as const

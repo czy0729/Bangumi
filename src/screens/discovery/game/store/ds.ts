@@ -6,24 +6,53 @@
  */
 import { GAME_YEAR } from '@utils/subject/game'
 import { LIST_EMPTY } from '@constants'
-import { Loaded } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { ListEmpty, Loaded } from '@types'
+import type { ScreenQuery } from '../types'
+
+/** 默认筛选条件 */
+const QUERY: ScreenQuery = {
+  /** 首字 */
+  first: '',
+
+  /** 发行年份 */
+  year: GAME_YEAR[0],
+
+  /** 平台 */
+  platform: '',
+
+  /** 类型 */
+  cate: '',
+
+  /** 开发商 */
+  dev: '',
+
+  /** 发行商 */
+  pub: '',
+
+  /** 排序 */
+  sort: '发行',
+
+  /** 收藏 */
+  collected: ''
+}
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const STATE = {
-  query: {
-    first: '',
-    year: GAME_YEAR[0],
-    platform: '',
-    cate: '',
-    dev: '',
-    pub: '',
-    sort: '发行',
-    collected: ''
-  },
-  data: LIST_EMPTY,
+  /** 筛选条件 (浅拷贝隔离默认值, 避免原地改写污染 QUERY 并持久化) */
+  query: { ...QUERY },
+
+  /** 搜索结果 (otaStore.game 数据源排序下标) */
+  data: LIST_EMPTY as ListEmpty<number>,
+
+  /** 布局: list | grid */
   layout: 'list',
+
+  /** 是否展开全部筛选项 */
   expand: false,
+
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

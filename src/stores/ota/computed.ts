@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:47:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-06 06:20:56
+ * @Last Modified time: 2026-10-01 07:09:31
  */
 import { computed } from 'mobx'
 import { pick as advPick } from '@utils/subject/adv'
@@ -28,11 +28,10 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   anime(subjectId: SubjectId) {
-    const STATE_KEY = 'anime'
-    this.init(STATE_KEY, true)
+    this.init('anime', true)
 
     return computed(() => {
-      return (this.state[STATE_KEY][`age_${subjectId}`] || {}) as AnimeItem
+      return (this.state.anime[`age_${subjectId}`] || {}) as AnimeItem
     }).get()
   }
 
@@ -45,8 +44,8 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   manga(subjectId: SubjectId) {
     this.init('manga', true)
-    return computed<MangaItem>(() => {
-      return this.state.manga[`mox_${subjectId}`] || {}
+    return computed(() => {
+      return (this.state.manga[`mox_${subjectId}`] || {}) as MangaItem
     }).get()
   }
 
@@ -57,10 +56,10 @@ export default class Computed extends State implements StoreConstructor<typeof S
     }).get()
   }
 
-  game(subjectId: SubjectId) {
+  game(subjectId: SubjectId): GameItem {
     this.init('game', true)
-    return computed<GameItem>(() => {
-      return this.state.game[`game_${subjectId}`] || {}
+    return computed((): GameItem => {
+      return (this.state.game[`game_${subjectId}`] || {}) as GameItem
     }).get()
   }
 
@@ -73,8 +72,8 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   adv(subjectId: SubjectId) {
     this.init('adv', true)
-    return computed<ADVItem>(() => {
-      return this.state.adv[`adv_${subjectId}`] || {}
+    return computed(() => {
+      return (this.state.adv[`adv_${subjectId}`] || {}) as ADVItem
     }).get()
   }
 
@@ -87,8 +86,8 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   wenku(subjectId: SubjectId) {
     this.init('wenku', true)
-    return computed<WenkuItem>(() => {
-      return this.state.wenku[`wk8_${subjectId}`] || {}
+    return computed(() => {
+      return (this.state.wenku[`wk8_${subjectId}`] || {}) as WenkuItem
     }).get()
   }
 
@@ -101,8 +100,8 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
   hentai(subjectId: SubjectId) {
     this.init('hentai', true)
-    return computed<HentaiItem>(() => {
-      return this.state.hentai[`hentai_${subjectId}`] || {}
+    return computed(() => {
+      return (this.state.hentai[`hentai_${subjectId}`] || {}) as HentaiItem
     }).get()
   }
 
@@ -114,12 +113,10 @@ export default class Computed extends State implements StoreConstructor<typeof S
   }
 
   nsfw(subjectId: SubjectId) {
-    const STATE_KEY = 'nsfw'
-    this.init(STATE_KEY, true)
+    this.init('nsfw', true)
 
     return computed(() => {
-      const ITEM_KEY = `nsfw_${subjectId}`
-      return (this.state[STATE_KEY][ITEM_KEY] || {}) as NSFWItem
+      return (this.state.nsfw[`nsfw_${subjectId}`] || {}) as NSFWItem
     }).get()
   }
 }

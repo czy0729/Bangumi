@@ -8,16 +8,22 @@ import { DATA_ALPHABET } from '@constants/data'
 import { desc } from '../../utils'
 import { ANIME_COLLECTED, ANIME_YEAR } from '../anime'
 
+/** 名称首字, 复用动画字母表 */
 export const WENKU_FIRST = DATA_ALPHABET
 
+/** 年份筛选, 复用动画年份列表 */
 export const WENKU_YEAR = ANIME_YEAR
 
+/** 收藏筛选, 复用动画 */
 export const WENKU_COLLECTED = ANIME_COLLECTED
 
+/** 连载状态 */
 export const WENKU_STATUS = ['连载', '完结'] as const
 
+/** 是否动画化 */
 export const WENKU_ANIME = ['是', '否'] as const
 
+/** 所属文库, 顺序即 WENKU_CATE_MAP 的序号 */
 export const WENKU_CATE = [
   '电击文库',
   '角川文库',
@@ -38,6 +44,7 @@ export const WENKU_CATE_MAP = Object.fromEntries(
   WENKU_CATE.map((item, index) => [item, index])
 ) as Record<(typeof WENKU_CATE)[number], number>
 
+/** 热门作者, 顺序即 WENKU_AUTHOR_MAP 的序号 */
 export const WENKU_AUTHOR = [
   '西尾维新',
   '入间人间',
@@ -137,6 +144,7 @@ export const WENKU_SORT = [
   '名称'
 ] as const
 
+/** 标签权重, 用于生成按权重倒序的 WENKU_TAGS */
 export const WENKU_TAGS_NUMS_MAP = {
   科幻: 629,
   悬疑: 700,
@@ -189,10 +197,12 @@ export const WENKU_TAGS_NUMS_MAP = {
   龙傲天: 303
 } as const
 
+/** 标签, 按权重倒序 */
 export const WENKU_TAGS = Object.keys(WENKU_TAGS_NUMS_MAP).sort((a, b) =>
   desc(WENKU_TAGS_NUMS_MAP[a], WENKU_TAGS_NUMS_MAP[b])
 ) as (keyof typeof WENKU_TAGS_NUMS_MAP)[]
 
+/** 标签 → Item.j 中的下标 */
 export const WENKU_TAGS_MAP = Object.fromEntries(
   WENKU_TAGS.map((item, index) => [item, index])
 ) as Record<(typeof WENKU_TAGS)[number], number>

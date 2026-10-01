@@ -7,6 +7,7 @@
 import type { Loaded, SubjectId } from '@types'
 import type { MANGA_STATUS } from './ds'
 
+/** 查询指纹, 由筛选条件序列化得到 */
 export type Finger = string
 
 export type Query = {

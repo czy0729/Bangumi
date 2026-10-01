@@ -1,12 +1,17 @@
-import { otaStore } from '@stores'
 /*
  * @Author: czy0729
  * @Date: 2024-07-25 20:34:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-25 21:21:11
+ * @Last Modified time: 2026-09-30 22:37:45
  */
+import { otaStore } from '@stores'
 import { t } from '@utils/fetch'
 import Fetch from './fetch'
+
+import type { ScrollToOffset } from '@components'
+import type { filterDS } from '../ds'
+
+type FilterType = (typeof filterDS)[number]['type']
 
 export default class Action extends Fetch {
   /** 初始化查询配置 */
@@ -20,8 +25,13 @@ export default class Action extends Fetch {
     })
   }
 
-  /** 筛选选择 */
-  onSelect = (type: string, value: string) => {
+  /**
+   * 筛选选择
+   *
+   * @param type 筛选维度
+   * @param value 筛选值
+   */
+  onSelect = (type: FilterType, value: string) => {
     this.setState({
       query: {
         ...this.state.query,
@@ -40,9 +50,9 @@ export default class Action extends Fetch {
     }, 0)
   }
 
-  scrollToOffset = null
+  scrollToOffset: ScrollToOffset = null
 
-  forwardRef = (ref: { scrollToOffset: any }) => {
+  forwardRef = (ref: { scrollToOffset: ScrollToOffset }) => {
     if (ref?.scrollToOffset) this.scrollToOffset = ref.scrollToOffset
   }
 
@@ -50,8 +60,7 @@ export default class Action extends Fetch {
   scrollToTop = () => {
     if (typeof this.scrollToOffset === 'function') {
       this.scrollToOffset({
-        x: 0,
-        y: 0,
+        offset: 0,
         animated: true
       })
 
