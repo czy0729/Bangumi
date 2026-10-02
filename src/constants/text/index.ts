@@ -41,7 +41,7 @@ export const TEXT_UPDATE_SPONSOR = '2026-04-14'
 export const TEXT_UPDATE_TYPERANK = '2026-04-12'
 
 /** 找番剧 (NSFW) 静态数据最后更新时间 */
-export const TEXT_UPDATE_NSFW = '2025-11-06'
+export const TEXT_UPDATE_NSFW = '2026-10-02'
 
 /** 开发者话语最后更新时间 */
 export const TEXT_UPDATE_QIAFAN = '2026-05'
@@ -54,7 +54,7 @@ export const TEXT_TOTAL = {
   漫画: 10622,
   文库: 2740,
   Hentai: 1036,
-  NSFW: 5987
+  NSFW: 21543
 } as const
 
 /** 空格 */

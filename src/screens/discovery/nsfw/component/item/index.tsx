@@ -1,24 +1,26 @@
 /*
  * @Author: czy0729
  * @Date: 2025-11-06 01:30:00
- * @Last Modified by:   czy0729
+ * @Last Modified by: czy0729
  * @Last Modified time: 2025-11-06 01:30:00
+ *
+ * 找 NSFW 条目: 按布局分发列表 / 网格
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { useStore } from '@stores'
 import ItemGrid from '../item-grid'
 import ItemList from '../item-list'
 import { COMPONENT } from './ds'
 
+import type { RenderItem } from '@types'
 import type { Ctx } from '../../types'
-import type { Props } from './types'
 
-function Item({ item, index }: Props) {
+function Item({ item: pickIndex, index }: RenderItem<number>) {
   const { $ } = useStore<Ctx>(COMPONENT)
-  const Component = $.isList ? ItemList : ItemGrid
 
-  return <Component pickIndex={item} index={index} />
+  if ($.isList) return <ItemList pickIndex={pickIndex} index={index} />
+
+  return <ItemGrid pickIndex={pickIndex} index={index} />
 }
 
 export default observer(Item)

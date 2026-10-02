@@ -1,16 +1,29 @@
 syntax = "proto3";
 
+// 找 NSFW 搜索数据 (finger)
+//  - 与 src/utils/thirdParty/protobuf/schemas.ts 的 nsfw schema 同步维护
+//  - proto3 默认值 (0 / '') 编码后缺席, 未筛选 / 无话数 等语义依赖这一点
+
 message Nsfw {
+  /** 条目 Id */
   int32 i = 1;
+  /** 上映日期 */
   string d = 2;
+  /** 评分 */
   float s = 3;
+  /** 排名 */
   int32 r = 4;
+  /** 收藏数 */
   int32 l = 5;
+  /** 评分人数 */
   int32 c = 6;
+  /** 条目类型 (对应 MODEL_SUBJECT_TYPE 的数值) */
   int32 t = 7;
+  /** 话数 */
   int32 e = 8;
 }
 
+/** 条目列表包装 */
 message Payload {
   repeated Nsfw payload = 1;
 }

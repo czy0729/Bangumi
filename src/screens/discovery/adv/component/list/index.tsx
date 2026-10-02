@@ -44,6 +44,7 @@ function List() {
       contentContainerStyle={_.container.bottom}
       data={$.list}
       limit={9}
+      skipEnteringExitingAnimations={9}
       numColumns={numColumns}
       ListHeaderComponent={elFilter}
       renderItem={renderItem}

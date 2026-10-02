@@ -34,7 +34,7 @@ jobs:
   build:
     name: Build unsigned IPA
     # 已停用: 需要打包时删掉这一行 (并补回 push 触发器)
-    if: true
+    if: false
     runs-on: macos-26
     timeout-minutes: 180
 

@@ -44,6 +44,7 @@ function List() {
       numColumns={numColumns}
       data={$.list}
       limit={9}
+      skipEnteringExitingAnimations={9}
       ListHeaderComponent={elFilter}
       renderItem={renderItem}
       onPage={$.onPage}

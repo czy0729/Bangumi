@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-27 06:21:07
+ * @Last Modified time: 2026-10-02 05:11:20
+ *
+ * 找 NSFW
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, FooterEmptyData, HeaderPlaceholder, Page } from '@components'
 import { FilterSwitch } from '@_'
@@ -16,7 +17,7 @@ import { HM } from './ds'
 
 import type { NavigationProps } from '@types'
 
-/** 找番剧 */
+/** 找 NSFW */
 function NSFW(props: NavigationProps) {
   const { id, $ } = useNSFWPage(props)
 

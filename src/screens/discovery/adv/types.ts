@@ -6,6 +6,7 @@
  */
 import type { Query } from '@utils/subject/adv/types'
 import type { WithNavigation } from '@types'
+import type { FILTER_DS } from './ds'
 import type Store from './store'
 
 export type Ctx = WithNavigation<{
@@ -17,3 +18,6 @@ export type ScreenQuery = Query & {
   /** 收藏筛选 (页面本地维度, 不参与 search) */
   collected: string
 }
+
+/** 筛选维度 */
+export type FilterType = (typeof FILTER_DS)[number]['type']

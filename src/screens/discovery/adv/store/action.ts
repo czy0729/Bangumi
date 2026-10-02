@@ -9,12 +9,10 @@
 import { otaStore } from '@stores'
 import { updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
-import type { FILTER_DS } from '../ds'
 import Fetch from './fetch'
 
 import type { ScrollToOffset } from '@components'
-
-type FilterType = (typeof FILTER_DS)[number]['type']
+import type { FilterType } from '../types'
 
 export default class Action extends Fetch {
   /**

@@ -3,8 +3,9 @@
  * @Date: 2024-07-20 11:20:37
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-11-06 01:30:37
+ *
+ * 找 NSFW 列表 renderItem 工具
  */
-import React from 'react'
 import Item from '../item'
 
 import type { RenderItem } from '@types'

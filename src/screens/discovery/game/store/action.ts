@@ -9,9 +9,7 @@ import { t } from '@utils/fetch'
 import Fetch from './fetch'
 
 import type { ScrollToOffset } from '@components'
-import type { filterDS } from '../ds'
-
-type FilterType = (typeof filterDS)[number]['type']
+import type { FilterType } from '../types'
 
 export default class Action extends Fetch {
   /** 初始化查询配置 */

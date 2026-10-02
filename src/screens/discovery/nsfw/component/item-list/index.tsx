@@ -3,8 +3,10 @@
  * @Date: 2024-07-20 11:02:42
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-12 03:23:37
+ *
+ * 找 NSFW 列表布局条目
  */
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, flexStyle, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
@@ -25,13 +27,39 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { CollectionStatus } from '@types'
-import type { Props } from './types'
+import type { Props } from '../types'
 
 function ItemList({ pickIndex }: Props) {
   const navigation = useNavigation(COMPONENT)
+
   const styles = memoStyles()
+
   const subjectId = otaStore.nsfwSubjectId(pickIndex)
   const anime = otaStore.nsfw(subjectId)
+  const { id, title, cover, score, total, rank, info, date, eps } = anime
+
+  const handlePress = useCallback(() => {
+    const image = cover ? `${HOST_BGM_STATIC}/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
+
+    navigation.push('Subject', {
+      subjectId: id,
+      _cn: title,
+      _image: getCoverSrc(image, IMG_WIDTH_LG)
+    })
+    t('NSFW.跳转', { subjectId: id })
+  }, [cover, title, id, navigation])
+  const handleManage = useCallback(() => {
+    const collection = collectionStore.collect(id)
+
+    uiStore.showManageModal(
+      {
+        subjectId: id,
+        title,
+        status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection)
+      },
+      '找NSFW'
+    )
+  }, [title, id])
 
   /**
    * 必须放在 `if (!anime?.id)` 之前
@@ -52,8 +80,6 @@ function ItemList({ pickIndex }: Props) {
     )
   }
 
-  const { id, title, cover, score, total, rank, info, date, eps } = anime
-
   const titleLen = title.length
   const titleSize = titleLen >= 20 ? 13 : titleLen >= 14 ? 14 : 15
   const image = cover ? `${HOST_BGM_STATIC}/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
@@ -62,26 +88,6 @@ function ItemList({ pickIndex }: Props) {
 
   const collection = collectionStore.collect(id)
   const textOnly = TEXT_ONLY || !userStore.isLogin
-
-  const handlePress = () => {
-    navigation.push('Subject', {
-      subjectId: id,
-      _cn: title,
-      _image: getCoverSrc(image, IMG_WIDTH_LG)
-    })
-    t('NSFW.跳转', { subjectId: id })
-  }
-
-  const handleManage = () => {
-    uiStore.showManageModal(
-      {
-        subjectId: id,
-        title,
-        status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection)
-      },
-      '找NSFW'
-    )
-  }
 
   return (
     <Touchable style={itemStyle} onPress={handlePress}>

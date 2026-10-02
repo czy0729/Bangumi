@@ -2,9 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-07-20 10:53:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-20 11:18:39
+ * @Last Modified time: 2026-10-02 05:11:39
+ *
+ * 找 NSFW 页面私有组件共享常量
  */
+import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Component')
+
+/** 网格布局列数 (随横竖屏变化, 需在渲染期调用以保持响应) */
+export const getColumnNum = () => _.portrait(_.device(3, 4), 5)

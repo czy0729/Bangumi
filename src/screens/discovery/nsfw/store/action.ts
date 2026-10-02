@@ -3,14 +3,24 @@
  * @Date: 2024-07-20 10:43:16
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-11-08 21:53:18
+ *
+ * 找 NSFW 用户操作
  */
 import { collectionStore, otaStore } from '@stores'
 import { t } from '@utils/fetch'
 import Fetch from './fetch'
 
+import type { ScrollToOffset } from '@components'
+import type { FilterType } from '../types'
+
 export default class Action extends Fetch {
-  /** 筛选选择 */
-  onSelect = (type: string, value: string) => {
+  /**
+   * 筛选选择
+   *
+   * @param type 筛选维度
+   * @param value 筛选值
+   */
+  onSelect = (type: FilterType, value: string) => {
     this.setState({
       query: {
         ...this.state.query,
@@ -29,14 +39,17 @@ export default class Action extends Fetch {
     }, 0)
   }
 
-  scrollToOffset: any = null
+  scrollToOffset: ScrollToOffset = null
+
+  forwardRef = (ref: { scrollToOffset: ScrollToOffset }) => {
+    if (ref?.scrollToOffset) this.scrollToOffset = ref.scrollToOffset
+  }
 
   /** 到顶 */
   scrollToTop = () => {
     if (typeof this.scrollToOffset === 'function') {
       this.scrollToOffset({
-        x: 0,
-        y: 0,
+        offset: 0,
         animated: true
       })
 

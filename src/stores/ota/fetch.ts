@@ -8,6 +8,7 @@ import { pick } from '@utils'
 import { gets } from '@utils/kv'
 import { CDN_ADV_DETAIL } from '@constants/cdn/adv'
 import { CDN_GAME_DETAIL } from '@constants/cdn/game'
+import { CDN_NSFW_DETAIL } from '@constants/cdn/nsfw'
 import Computed from './computed'
 import { fetchDetails, isFailed, isRetried, log } from './utils'
 
@@ -294,33 +295,44 @@ export default class Fetch extends Computed {
     }
   }
 
+  /** NSFW 详情: CDN 加密单文件 (每条一文件, Crypto.get 解密) */
   onNSFWPage = async (list: number[]) => {
     if (!list.length) return
 
-    const keys: string[] = []
+    /** 判重: 无详情且本轮未失败过的直接请求, 已加载但缺封面的每轮冷启动重试一次 */
+    const subjectIds: SubjectId[] = []
     list.forEach(index => {
       const subjectId = this.nsfwSubjectId(index)
-      const key = `nsfw_${subjectId}`
-      if (!subjectId || key in this.state.nsfw) return
-      keys.push(key)
-    })
-    if (!keys.length) return
+      if (!subjectId) return
 
-    const datas = await gets<ResultData<NSFWItem>>(keys)
-    if (datas) {
-      const data: Record<string, Partial<NSFWItem>> = {}
-      Object.keys(datas).forEach(itemKey => {
-        const item = datas[itemKey]
-        if (item && typeof item === 'object') {
-          data[itemKey] = item
-        } else {
-          data[itemKey] = {}
-        }
-      })
-      this.setState({
-        nsfw: data
-      })
-      this.save('nsfw')
-    }
+      const key = `nsfw_${subjectId}`
+      const item = this.state.nsfw[key] as Partial<NSFWItem> | undefined
+      if (item?.title) {
+        if (item.cover || isRetried(key)) return
+      } else if (isFailed(key)) {
+        return
+      }
+      subjectIds.push(subjectId)
+    })
+    if (!subjectIds.length) return
+
+    const data = await fetchDetails<NSFWItem>(
+      subjectIds,
+      'nsfw',
+      CDN_NSFW_DETAIL,
+      item => !!item.title
+    )
+    log('onNSFWPage', {
+      total: list.length,
+      requested: subjectIds.length,
+      loaded: Object.keys(data).length,
+      noCover: Object.keys(data).filter(key => !data[key].cover)
+    })
+    if (!Object.keys(data).length) return
+
+    this.setState({
+      nsfw: data
+    })
+    this.save('nsfw')
   }
 }
