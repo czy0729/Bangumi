@@ -10,6 +10,7 @@ import { CDN_ADV_DETAIL } from '@constants/cdn/adv'
 import { CDN_GAME_DETAIL } from '@constants/cdn/game'
 import { CDN_MUSIC_DETAIL } from '@constants/cdn/music'
 import { CDN_NSFW_DETAIL } from '@constants/cdn/nsfw'
+import { CDN_REAL_DETAIL } from '@constants/cdn/real'
 import Computed from './computed'
 import { fetchDetails, isFailed, isRetried, log } from './utils'
 
@@ -23,6 +24,7 @@ import type {
   HentaiItem,
   MangaItem,
   MusicItem,
+  RealItem,
   WenkuItem
 } from './types'
 
@@ -384,5 +386,46 @@ export default class Fetch extends Computed {
       music: data
     })
     this.save('music')
+  }
+
+  /** 三次元详情: CDN 加密单文件 (每条一文件, Crypto.get 解密) */
+  onRealPage = async (list: number[]) => {
+    if (!list.length) return
+
+    /** 判重: 无详情且本轮未失败过的直接请求, 已加载但缺封面的每轮冷启动重试一次 */
+    const subjectIds: SubjectId[] = []
+    list.forEach(index => {
+      const subjectId = this.realSubjectId(index)
+      if (!subjectId) return
+
+      const key = `real_${subjectId}`
+      const item = this.state.real[key] as Partial<RealItem> | undefined
+      if (item?.title) {
+        if (item.cover || isRetried(key)) return
+      } else if (isFailed(key)) {
+        return
+      }
+      subjectIds.push(subjectId)
+    })
+    if (!subjectIds.length) return
+
+    const data = await fetchDetails<RealItem>(
+      subjectIds,
+      'real',
+      CDN_REAL_DETAIL,
+      item => !!item.title
+    )
+    log('onRealPage', {
+      total: list.length,
+      requested: subjectIds.length,
+      loaded: Object.keys(data).length,
+      noCover: Object.keys(data).filter(key => !data[key].cover)
+    })
+    if (!Object.keys(data).length) return
+
+    this.setState({
+      real: data
+    })
+    this.save('real')
   }
 }

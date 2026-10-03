@@ -192,3 +192,27 @@ export type MusicItem = {
   date: string
   info: string
 }
+
+/**
+ * real_{id} (找三次元详情, CDN 加密单文件):
+ * {
+ *   id: 1346,
+ *   title: '紧急救命',
+ *   cover: '00/27/1346_qqYD',
+ *   score: 8.1,
+ *   total: 2837,
+ *   rank: 712,
+ *   date: '2008-07-03',
+ *   info: '西浦正记、叶山浩树 / 山下智久'
+ * }
+ */
+export type RealItem = {
+  id: number
+  title: string
+  cover: string
+  score: number
+  total: number
+  rank: number
+  date: string
+  info: string
+}

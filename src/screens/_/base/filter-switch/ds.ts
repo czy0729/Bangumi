@@ -12,7 +12,7 @@ export const COMPONENT = rc(PARENT, 'FilterSwitch')
 
 export const FLITER_SWITCH_LAST_PATH_KEY = '@screens|base|FilterSwitch'
 
-export const FILTER_SWITCH_DS = ['番剧', '游戏', '漫画', '文库', 'ADV', '音乐', 'NSFW'] as const
+export const FILTER_SWITCH_DS = ['番剧', '游戏', '漫画', '文库', 'ADV', '音乐', '三次元', 'NSFW'] as const
 
 export const PATH_MAP = {
   番剧: 'Anime',
@@ -22,7 +22,8 @@ export const PATH_MAP = {
   文库: 'Wenku',
   Hentai: 'Hentai',
   NSFW: 'NSFW',
-  音乐: 'Music'
+  音乐: 'Music',
+  三次元: 'Real'
 } as const
 
 export const TOTAL = TEXT_TOTAL

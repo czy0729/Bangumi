@@ -17,6 +17,7 @@ import type { Item as AnimeFingerItem } from '@utils/subject/anime/types'
 import type { Item as GameFingerItem } from '@utils/subject/game/types'
 import type { Item as MangaFingerItem } from '@utils/subject/manga/types'
 import type { Item as MusicFingerItem } from '@utils/subject/music/types'
+import type { Item as RealFingerItem } from '@utils/subject/real/types'
 import type { BangumiData, Id } from '@types'
 
 /**
@@ -36,6 +37,7 @@ import type { BangumiData, Id } from '@types'
  *  - 'anime-ids': 年份/标签 → SubjectId[] 字典 (分类排行/tags/猜你喜欢)
  *  - 'nsfw': NSFW 条目数组
  *  - 'music': 找音乐条目数组
+ *  - 'real': 找三次元条目数组
  *  - 'mono': 人物/单行本条目数组 (高级搜索联想)
  */
 export type DataAssets =
@@ -51,6 +53,7 @@ export type DataAssets =
   | 'anime-ids'
   | 'nsfw'
   | 'music'
+  | 'real'
   | 'mono'
 
 /** decode(name) 的函数签名 */
@@ -141,6 +144,9 @@ export type Data = {
 
   /** 找音乐条目数组 */
   music: MusicFingerItem[]
+
+  /** 找三次元条目数组 */
+  real: RealFingerItem[]
 
   /** 人物/单行本条目数组 */
   mono: JSONMono

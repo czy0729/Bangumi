@@ -12,6 +12,7 @@ import type {
   HentaiItem,
   MangaItem,
   MusicItem,
+  RealItem,
   WenkuItem
 } from './types'
 
@@ -41,7 +42,10 @@ export const STATE = {
   nsfw: { nsfw_0: {} } as Record<string, Partial<NSFWItem>>,
 
   /** 找音乐 */
-  music: { music_0: {} } as Record<string, Partial<MusicItem>>
+  music: { music_0: {} } as Record<string, Partial<MusicItem>>,
+
+  /** 找三次元 */
+  real: { real_0: {} } as Record<string, Partial<RealItem>>
 }
 
 export const LOADED = {
@@ -52,5 +56,6 @@ export const LOADED = {
   wenku: false,
   hentai: false,
   nsfw: false,
-  music: false
+  music: false,
+  real: false
 }

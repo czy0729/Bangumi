@@ -12,6 +12,7 @@ import { pick as hentaiPick } from '@utils/subject/hentai'
 import { pick as mangaPick } from '@utils/subject/manga'
 import { pick as musicPick } from '@utils/subject/music'
 import { pick as nsfwPick } from '@utils/subject/nsfw'
+import { pick as realPick } from '@utils/subject/real'
 import { pick as wenkuPick } from '@utils/subject/wenku'
 import State from './state'
 
@@ -25,6 +26,7 @@ import type {
   HentaiItem,
   MangaItem,
   MusicItem,
+  RealItem,
   WenkuItem
 } from './types'
 
@@ -141,6 +143,21 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
     return computed(() => {
       return (this.state.music[`music_${subjectId}`] || {}) as MusicItem
+    }).get()
+  }
+
+  realSubjectId(pickIndex: number): SubjectId {
+    return computed(() => {
+      const item = realPick(pickIndex)
+      return item?.i || 0
+    }).get()
+  }
+
+  real(subjectId: SubjectId) {
+    this.init('real', true)
+
+    return computed(() => {
+      return (this.state.real[`real_${subjectId}`] || {}) as RealItem
     }).get()
   }
 }

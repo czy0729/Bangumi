@@ -34,6 +34,9 @@ export const TEXT_UPDATE_MANGA = '2024-09-23'
 /** 找音乐静态数据最后更新时间 */
 export const TEXT_UPDATE_MUSIC = '2026-10-03'
 
+/** 找三次元静态数据最后更新时间 */
+export const TEXT_UPDATE_REAL = '2026-10-03'
+
 /** 本地整合目录最后更新时间 */
 export const TEXT_UPDATE_CATALOGS = '2026-04-11'
 
@@ -58,7 +61,8 @@ export const TEXT_TOTAL = {
   文库: 2740,
   Hentai: 1036,
   NSFW: 21543,
-  音乐: 27657
+  音乐: 27657,
+  三次元: 8626
 } as const
 
 /** 空格 */

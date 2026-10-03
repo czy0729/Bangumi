@@ -202,6 +202,13 @@ export default {
   'Music.切换布局': 'Music.switchLayout',
   'Music.更多': 'Music.onPage',
 
+  Real: 'Real',
+  'Real.跳转': 'Real.to',
+  'Real.选择': 'Real.onSelect',
+  'Real.到顶': 'Real.scrollToTop',
+  'Real.切换布局': 'Real.switchLayout',
+  'Real.更多': 'Real.onPage',
+
   维基人: 'Wiki',
   '维基人.右上角菜单': 'Wiki.topRightMenu',
 

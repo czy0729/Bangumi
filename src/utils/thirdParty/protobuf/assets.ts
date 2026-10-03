@@ -29,6 +29,7 @@ const MODULES: Record<DataAssets, () => number> = {
   'anime-ids': () => require('@assets/proto/anime-ids/bin/index.bin') as number,
   nsfw: () => require('@assets/proto/nsfw/bin/index.bin') as number,
   music: () => require('@assets/proto/music/bin/index.bin') as number,
+  real: () => require('@assets/proto/real/bin/index.bin') as number,
   mono: () => require('@assets/proto/mono/bin/index.bin') as number
 }
 
