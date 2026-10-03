@@ -7,7 +7,7 @@
 import { ensureRecordLimit } from '../../cache'
 import { getTimestamp } from '../../index'
 import { decode, get } from '../../thirdParty/protobuf'
-import { SORT } from '../anime'
+import { SEARCH_RESULT_LIMIT, SORT } from '../anime'
 import {
   ADV_COLLECTED,
   ADV_DEV,
@@ -137,6 +137,8 @@ export function search(query: Query): SearchResult {
     default:
       break
   }
+
+  _list = _list.slice(0, SEARCH_RESULT_LIMIT)
 
   const result: SearchResult = {
     list: _list,

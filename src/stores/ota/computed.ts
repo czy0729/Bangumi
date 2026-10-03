@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-26 14:47:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-01 07:09:31
+ * @Last Modified time: 2026-10-03 23:18:46
  */
 import { computed } from 'mobx'
 import { pick as advPick } from '@utils/subject/adv'
@@ -10,6 +10,7 @@ import { pick as animePick } from '@utils/subject/anime'
 import { pick as gamePick } from '@utils/subject/game'
 import { pick as hentaiPick } from '@utils/subject/hentai'
 import { pick as mangaPick } from '@utils/subject/manga'
+import { pick as musicPick } from '@utils/subject/music'
 import { pick as nsfwPick } from '@utils/subject/nsfw'
 import { pick as wenkuPick } from '@utils/subject/wenku'
 import State from './state'
@@ -17,7 +18,15 @@ import State from './state'
 import type { UnzipItem as NSFWItem } from '@utils/subject/nsfw/types'
 import type { StoreConstructor, SubjectId } from '@types'
 import type { STATE } from './init'
-import type { ADVItem, AnimeItem, GameItem, HentaiItem, MangaItem, WenkuItem } from './types'
+import type {
+  ADVItem,
+  AnimeItem,
+  GameItem,
+  HentaiItem,
+  MangaItem,
+  MusicItem,
+  WenkuItem
+} from './types'
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   animeSubjectId(pickIndex: number): SubjectId {
@@ -117,6 +126,21 @@ export default class Computed extends State implements StoreConstructor<typeof S
 
     return computed(() => {
       return (this.state.nsfw[`nsfw_${subjectId}`] || {}) as NSFWItem
+    }).get()
+  }
+
+  musicSubjectId(pickIndex: number): SubjectId {
+    return computed(() => {
+      const item = musicPick(pickIndex)
+      return item?.i || 0
+    }).get()
+  }
+
+  music(subjectId: SubjectId) {
+    this.init('music', true)
+
+    return computed(() => {
+      return (this.state.music[`music_${subjectId}`] || {}) as MusicItem
     }).get()
   }
 }

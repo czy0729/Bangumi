@@ -8,6 +8,9 @@ import { asc, getTimestamp } from '@utils'
 import { getPinYinFirstCharacter } from '@utils/thirdParty/pinyin/dict'
 import { DATA_ALPHABET } from '@constants/data'
 
+/** 找条目单次搜索结果上限 (各频道统一, 任意筛选组合最多返回 1000 条) */
+export const SEARCH_RESULT_LIMIT = 1000
+
 /** 预设排序 */
 export const SORT = {
   /** 上映时间 */

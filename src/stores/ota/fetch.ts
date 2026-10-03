@@ -8,6 +8,7 @@ import { pick } from '@utils'
 import { gets } from '@utils/kv'
 import { CDN_ADV_DETAIL } from '@constants/cdn/adv'
 import { CDN_GAME_DETAIL } from '@constants/cdn/game'
+import { CDN_MUSIC_DETAIL } from '@constants/cdn/music'
 import { CDN_NSFW_DETAIL } from '@constants/cdn/nsfw'
 import Computed from './computed'
 import { fetchDetails, isFailed, isRetried, log } from './utils'
@@ -15,7 +16,15 @@ import { fetchDetails, isFailed, isRetried, log } from './utils'
 import type { ResultData } from '@utils/kv/type'
 import type { UnzipItem as NSFWItem } from '@utils/subject/nsfw/types'
 import type { SubjectId } from '@types'
-import type { ADVItem, AnimeItem, GameItem, HentaiItem, MangaItem, WenkuItem } from './types'
+import type {
+  ADVItem,
+  AnimeItem,
+  GameItem,
+  HentaiItem,
+  MangaItem,
+  MusicItem,
+  WenkuItem
+} from './types'
 
 export default class Fetch extends Computed {
   fetchAnime = async (subjectId: SubjectId) => {
@@ -334,5 +343,46 @@ export default class Fetch extends Computed {
       nsfw: data
     })
     this.save('nsfw')
+  }
+
+  /** 音乐详情: CDN 加密单文件 (每条一文件, Crypto.get 解密) */
+  onMusicPage = async (list: number[]) => {
+    if (!list.length) return
+
+    /** 判重: 无详情且本轮未失败过的直接请求, 已加载但缺封面的每轮冷启动重试一次 */
+    const subjectIds: SubjectId[] = []
+    list.forEach(index => {
+      const subjectId = this.musicSubjectId(index)
+      if (!subjectId) return
+
+      const key = `music_${subjectId}`
+      const item = this.state.music[key] as Partial<MusicItem> | undefined
+      if (item?.title) {
+        if (item.cover || isRetried(key)) return
+      } else if (isFailed(key)) {
+        return
+      }
+      subjectIds.push(subjectId)
+    })
+    if (!subjectIds.length) return
+
+    const data = await fetchDetails<MusicItem>(
+      subjectIds,
+      'music',
+      CDN_MUSIC_DETAIL,
+      item => !!item.title
+    )
+    log('onMusicPage', {
+      total: list.length,
+      requested: subjectIds.length,
+      loaded: Object.keys(data).length,
+      noCover: Object.keys(data).filter(key => !data[key].cover)
+    })
+    if (!Object.keys(data).length) return
+
+    this.setState({
+      music: data
+    })
+    this.save('music')
   }
 }

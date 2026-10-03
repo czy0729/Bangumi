@@ -168,3 +168,27 @@ export type HentaiItem = {
   e: number
   t: number[]
 }
+
+/**
+ * music_{id} (找音乐详情, CDN 加密单文件):
+ * {
+ *   id: 15,
+ *   title: '浪漫制作',
+ *   cover: 'fb/d7/15_ajp',
+ *   score: 8.2,
+ *   total: 513,
+ *   rank: 664,
+ *   date: '2001-12-30',
+ *   info: 'OST / 动画 / ED'
+ * }
+ */
+export type MusicItem = {
+  id: number
+  title: string
+  cover: string
+  score: number
+  total: number
+  rank: number
+  date: string
+  info: string
+}

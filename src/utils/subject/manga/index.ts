@@ -6,7 +6,7 @@
  */
 import { getTimestamp } from '../../index'
 import { decode, get } from '../../thirdParty/protobuf'
-import { SORT } from '../anime'
+import { SEARCH_RESULT_LIMIT, SORT } from '../anime'
 import { MANGA_AUTHORS_MAP, MANGA_TAGS_MAP } from './ds'
 
 import type { SubjectId } from '@types'
@@ -60,7 +60,7 @@ export function find(id: SubjectId): UnzipItem {
 }
 
 /** 只返回下标数组对象, max 为返回条数上限 */
-export function search(query: Query, max: number = 500): SearchResult {
+export function search(query: Query, max: number = SEARCH_RESULT_LIMIT): SearchResult {
   init()
 
   // 查询指纹

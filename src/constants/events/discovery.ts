@@ -195,6 +195,13 @@ export default {
   'NSFW.切换布局': 'NSFW.switchLayout',
   'NSFW.更多': 'NSFW.onPage',
 
+  Music: 'Music',
+  'Music.跳转': 'Music.to',
+  'Music.选择': 'Music.onSelect',
+  'Music.到顶': 'Music.scrollToTop',
+  'Music.切换布局': 'Music.switchLayout',
+  'Music.更多': 'Music.onPage',
+
   维基人: 'Wiki',
   '维基人.右上角菜单': 'Wiki.topRightMenu',
 

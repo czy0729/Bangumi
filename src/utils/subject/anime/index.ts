@@ -6,7 +6,7 @@
  */
 import { getTimestamp } from '../../index'
 import { decode, get } from '../../thirdParty/protobuf'
-import { ANIME_OFFICIAL_MAP, ANIME_TAGS_MAP, REG_SEASONS, SORT } from './ds'
+import { ANIME_OFFICIAL_MAP, ANIME_TAGS_MAP, REG_SEASONS, SEARCH_RESULT_LIMIT, SORT } from './ds'
 
 import type { SubjectId } from '@types'
 import type { CompressedItem, Finger, Item, Query, SearchResult, UnzipItem } from './types'
@@ -25,6 +25,7 @@ export {
   ANIME_TYPE,
   ANIME_YEAR,
   REG_SEASONS,
+  SEARCH_RESULT_LIMIT,
   SORT
 } from './ds'
 
@@ -65,7 +66,7 @@ export function find(id: SubjectId): UnzipItem {
 }
 
 /** 只返回下标数组对象, max 为返回条数上限 */
-export function search(query: Query, max: number = 500): SearchResult {
+export function search(query: Query, max: number = SEARCH_RESULT_LIMIT): SearchResult {
   init()
 
   // 查询指纹

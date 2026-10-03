@@ -31,6 +31,9 @@ export const TEXT_UPDATE_GAME = '2026-09-30'
 /** 找漫画最后更新时间 */
 export const TEXT_UPDATE_MANGA = '2024-09-23'
 
+/** 找音乐静态数据最后更新时间 */
+export const TEXT_UPDATE_MUSIC = '2026-10-03'
+
 /** 本地整合目录最后更新时间 */
 export const TEXT_UPDATE_CATALOGS = '2026-04-11'
 
@@ -54,7 +57,8 @@ export const TEXT_TOTAL = {
   漫画: 10622,
   文库: 2740,
   Hentai: 1036,
-  NSFW: 21543
+  NSFW: 21543,
+  音乐: 27657
 } as const
 
 /** 空格 */

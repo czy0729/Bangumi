@@ -4,7 +4,7 @@
 
 ## Discovery
 
-adv, anime, anitama, award, bi-weekly, blog, browser, calendar, catalog, catalog-detail, channel, character, dollars, game, hentai, like, manga, nsfw, pic, rank, recommend, search, series, staff, tags, users, vib, wenku, wiki, word-cloud, yearbook
+adv, anime, anitama, award, bi-weekly, blog, browser, calendar, catalog, catalog-detail, channel, character, dollars, game, hentai, like, manga, music, nsfw, pic, rank, recommend, search, series, staff, tags, users, vib, wenku, wiki, word-cloud, yearbook
 
 ## Home
 

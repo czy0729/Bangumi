@@ -16,6 +16,7 @@ import type { Item as ADVFingerItem } from '@utils/subject/adv/types'
 import type { Item as AnimeFingerItem } from '@utils/subject/anime/types'
 import type { Item as GameFingerItem } from '@utils/subject/game/types'
 import type { Item as MangaFingerItem } from '@utils/subject/manga/types'
+import type { Item as MusicFingerItem } from '@utils/subject/music/types'
 import type { BangumiData, Id } from '@types'
 
 /**
@@ -34,6 +35,7 @@ import type { BangumiData, Id } from '@types'
  *  - 'katakana': 片假名 → 罗马字/英文 翻译字典
  *  - 'anime-ids': 年份/标签 → SubjectId[] 字典 (分类排行/tags/猜你喜欢)
  *  - 'nsfw': NSFW 条目数组
+ *  - 'music': 找音乐条目数组
  *  - 'mono': 人物/单行本条目数组 (高级搜索联想)
  */
 export type DataAssets =
@@ -48,6 +50,7 @@ export type DataAssets =
   | 'katakana'
   | 'anime-ids'
   | 'nsfw'
+  | 'music'
   | 'mono'
 
 /** decode(name) 的函数签名 */
@@ -135,6 +138,9 @@ export type Data = {
 
   /** NSFW 条目数组 */
   nsfw: JSONNSFW
+
+  /** 找音乐条目数组 */
+  music: MusicFingerItem[]
 
   /** 人物/单行本条目数组 */
   mono: JSONMono

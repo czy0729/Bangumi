@@ -152,6 +152,14 @@ export const ITEM_SCHEMAS: Record<DataAssets, Schema> = {
     7: { tag: 7, key: 't', type: 'int32' },
     8: { tag: 8, key: 'e', type: 'int32' }
   },
+  music: {
+    1: { tag: 1, key: 'i', type: 'int32' },
+    2: { tag: 2, key: 'd', type: 'string' },
+    3: { tag: 3, key: 's', type: 'float' },
+    4: { tag: 4, key: 'r', type: 'int32' },
+    5: { tag: 5, key: 'l', type: 'int32' },
+    6: { tag: 6, key: 't', type: 'int32[]' }
+  },
   mono: {
     1: { tag: 1, key: 'i', type: 'int32' },
     2: { tag: 2, key: 'n', type: 'string' },

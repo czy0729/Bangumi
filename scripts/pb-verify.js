@@ -34,6 +34,7 @@ const DATASETS = [
   'katakana',
   'anime-ids',
   'nsfw',
+  'music',
   'mono'
 ]
 

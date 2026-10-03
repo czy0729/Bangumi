@@ -7,7 +7,7 @@
 import { loadJSON } from '@assets/json'
 import { ensureRecordLimit } from '../../cache'
 import { desc, getTimestamp } from '../../index'
-import { SORT } from '../anime'
+import { SEARCH_RESULT_LIMIT, SORT } from '../anime'
 import {
   WENKU_ANIME,
   WENKU_AUTHOR,
@@ -142,6 +142,8 @@ export function search(query: Query): SearchResult {
     default:
       break
   }
+
+  _list = _list.slice(0, SEARCH_RESULT_LIMIT)
 
   const result: SearchResult = {
     list: _list,

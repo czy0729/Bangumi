@@ -5,7 +5,15 @@
  * @Last Modified time: 2026-10-01 04:54:10
  */
 import type { UnzipItem as NSFWItem } from '@utils/subject/nsfw/types'
-import type { ADVItem, AnimeItem, GameItem, HentaiItem, MangaItem, WenkuItem } from './types'
+import type {
+  ADVItem,
+  AnimeItem,
+  GameItem,
+  HentaiItem,
+  MangaItem,
+  MusicItem,
+  WenkuItem
+} from './types'
 
 /** 命名空间 */
 export const NAMESPACE = 'OTA'
@@ -30,7 +38,10 @@ export const STATE = {
   hentai: { hentai_0: {} } as Record<string, Partial<HentaiItem>>,
 
   /** 找 NSFW */
-  nsfw: { nsfw_0: {} } as Record<string, Partial<NSFWItem>>
+  nsfw: { nsfw_0: {} } as Record<string, Partial<NSFWItem>>,
+
+  /** 找音乐 */
+  music: { music_0: {} } as Record<string, Partial<MusicItem>>
 }
 
 export const LOADED = {
@@ -40,5 +51,6 @@ export const LOADED = {
   adv: false,
   wenku: false,
   hentai: false,
-  nsfw: false
+  nsfw: false,
+  music: false
 }
