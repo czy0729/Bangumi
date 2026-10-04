@@ -166,6 +166,20 @@ export default {
   'Wenku.切换布局': 'Wenku.switchLayout',
   'Wenku.更多': 'Wenku.onPage',
 
+  Album: 'Album',
+  'Album.跳转': 'Album.to',
+  'Album.选择': 'Album.onSelect',
+  'Album.到顶': 'Album.scrollToTop',
+  'Album.切换布局': 'Album.switchLayout',
+  'Album.更多': 'Album.onPage',
+
+  画集: 'Album',
+  '画集.跳转': 'Album.to',
+  '画集.选择': 'Album.onSelect',
+  '画集.到顶': 'Album.scrollToTop',
+  '画集.切换布局': 'Album.switchLayout',
+  '画集.更多': 'Album.onPage',
+
   游戏: 'Game',
   '游戏.跳转': 'Game.to',
   '游戏.选择': 'Game.onSelect',

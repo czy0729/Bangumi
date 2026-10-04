@@ -115,6 +115,18 @@ export const ITEM_SCHEMAS: Record<DataAssets, Schema> = {
     14: { tag: 14, key: 'c', type: 'int32' },
     15: { tag: 15, key: 'm', type: 'int32' }
   },
+  album: {
+    1: { tag: 1, key: 'i', type: 'int32' },
+    2: { tag: 2, key: 'd', type: 'string' },
+    3: { tag: 3, key: 's', type: 'float' },
+    4: { tag: 4, key: 'r', type: 'int32' },
+    5: { tag: 5, key: 'l', type: 'int32' },
+    6: { tag: 6, key: 't', type: 'int32[]' },
+    7: { tag: 7, key: 'x', type: 'int32' },
+    8: { tag: 8, key: 'p', type: 'int32[]' },
+    9: { tag: 9, key: 'a', type: 'int32[]' },
+    10: { tag: 10, key: 'c', type: 'int32' }
+  },
   game: {
     1: { tag: 1, key: 'i', type: 'int32' },
     2: { tag: 2, key: 'f', type: 'string' },

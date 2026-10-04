@@ -8,6 +8,7 @@ import { pick } from '@utils'
 import { gets } from '@utils/kv'
 import { CDN_ADV_DETAIL } from '@constants/cdn/adv'
 import { CDN_GAME_DETAIL } from '@constants/cdn/game'
+import { CDN_ALBUM_DETAIL } from '@constants/cdn/album'
 import { CDN_MANGA_DETAIL } from '@constants/cdn/manga'
 import { CDN_MUSIC_DETAIL } from '@constants/cdn/music'
 import { CDN_WENKU_DETAIL } from '@constants/cdn/wenku'
@@ -23,6 +24,7 @@ import type {
   ADVItem,
   AnimeItem,
   GameItem,
+  AlbumItem,
   HentaiItem,
   MangaItem,
   MusicItem,
@@ -282,6 +284,47 @@ export default class Fetch extends Computed {
       wenku: data
     })
     this.save('wenku')
+  }
+
+  /** 画集详情: CDN 加密单文件 (每条一文件, Crypto.get 解密) */
+  onAlbumPage = async (list: number[]) => {
+    if (!list.length) return
+
+    /** 判重: 无详情且本轮未失败过的直接请求, 已加载但缺封面的每轮冷启动重试一次 */
+    const subjectIds: SubjectId[] = []
+    list.forEach(index => {
+      const subjectId = this.albumSubjectId(index)
+      if (!subjectId) return
+
+      const key = `album_${subjectId}`
+      const item = this.state.album[key] as Partial<AlbumItem> | undefined
+      if (item?.title) {
+        if (item.cover || isRetried(key)) return
+      } else if (isFailed(key)) {
+        return
+      }
+      subjectIds.push(subjectId)
+    })
+    if (!subjectIds.length) return
+
+    const data = await fetchDetails<AlbumItem>(
+      subjectIds,
+      'album',
+      CDN_ALBUM_DETAIL,
+      item => !!item.title
+    )
+    log('onAlbumPage', {
+      total: list.length,
+      requested: subjectIds.length,
+      loaded: Object.keys(data).length,
+      noCover: Object.keys(data).filter(key => !data[key].cover)
+    })
+    if (!Object.keys(data).length) return
+
+    this.setState({
+      album: data
+    })
+    this.save('album')
   }
 
   onHentaiPage = async (list: number[]) => {

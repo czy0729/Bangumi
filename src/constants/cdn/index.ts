@@ -14,6 +14,7 @@
  */
 export * from './ds'
 export * from './adv'
+export * from './album'
 export * from './game'
 export * from './manga'
 export * from './nsfw'

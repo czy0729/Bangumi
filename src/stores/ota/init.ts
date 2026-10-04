@@ -13,6 +13,7 @@ import type {
   MangaItem,
   MusicItem,
   RealItem,
+  AlbumItem,
   WenkuItem
 } from './types'
 
@@ -35,6 +36,9 @@ export const STATE = {
   /** 找文库 */
   wenku: { wenku_0: {} } as Record<string, Partial<WenkuItem>>,
 
+  /** 找画集 */
+  album: { album_0: {} } as Record<string, Partial<AlbumItem>>,
+
   /** @deprecated 找 Hentai */
   hentai: { hentai_0: {} } as Record<string, Partial<HentaiItem>>,
 
@@ -54,6 +58,7 @@ export const LOADED = {
   game: false,
   adv: false,
   wenku: false,
+  album: false,
   hentai: false,
   nsfw: false,
   music: false,

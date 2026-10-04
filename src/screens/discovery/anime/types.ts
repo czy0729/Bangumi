@@ -15,4 +15,14 @@ export type Params = {
   _tags?: string[] | string
 }
 
-export type TitleType = 'Anime' | '文库' | 'Manga' | '游戏' | 'ADV' | 'Hentai' | 'NSFW' | 'Music' | 'Real'
+export type TitleType =
+  | 'Anime'
+  | '文库'
+  | '画集'
+  | 'Manga'
+  | '游戏'
+  | 'ADV'
+  | 'Hentai'
+  | 'NSFW'
+  | 'Music'
+  | 'Real'

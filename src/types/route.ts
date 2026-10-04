@@ -93,6 +93,7 @@ export type NavigationPushType = RouteActions &
   RouteTinygrail &
   RouteTinygrailCharaAssets &
   RouteTinygrailDeal &
+  RouteAlbum &
   RouteTips &
   RouteTopic &
   RouteTyperank &
@@ -184,6 +185,15 @@ export type RouteManga = Route<
 /** 找文库 */
 export type RouteWenku = Route<
   'Wenku',
+  {
+    /** 预选标签 */
+    _tags?: string[]
+  }
+>
+
+/** 找画集 */
+export type RouteAlbum = Route<
+  'Album',
   {
     /** 预选标签 */
     _tags?: string[]

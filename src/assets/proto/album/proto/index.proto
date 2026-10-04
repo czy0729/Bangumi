@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+// 找画集搜索数据 (finger)
+//  - 与 src/utils/thirdParty/protobuf/schemas.ts 的 album schema 同步维护
+//  - proto3 默认值 (0 / '' / 空数组) 编码后缺席, 未筛选 / 无标签 等语义依赖这一点
+//  - 画集 / 绘本 / 公式书 / 写真 / 其他合并频道 (platform 1003/1004/1005/1006/0), 字段精简自 wenku
+
+message Album {
+  /** 条目 Id */
+  int32 i = 1;
+  /** 发售日期 */
+  string d = 2;
+  /** 评分 */
+  float s = 3;
+  /** 排名 */
+  int32 r = 4;
+  /** 评分人数 */
+  int32 l = 5;
+  /** 标签下标数组 (见 ALBUM_TAGS, 收录标签 top100) */
+  repeated int32 t = 6;
+  /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
+  int32 x = 7;
+  /** 出版社下标数组 (见 ALBUM_PUBLISHERS, 收录出版社 top100) */
+  repeated int32 p = 8;
+  /** 作者下标数组 (见 ALBUM_AUTHORS, 收录作者 top100) */
+  repeated int32 a = 9;
+  /** 类型下标 (见 ALBUM_CATES: 文库 / 画集 / 写真集 / 公式书 / 其他; 1-based, 0/缺席 = 无) */
+  int32 c = 10;
+}
+
+/** 条目列表包装 */
+message Payload {
+  repeated Album payload = 1;
+}

@@ -164,6 +164,38 @@ export type WenkuItem = {
 }
 
 /**
+ * album_{id} (找画集详情, CDN 加密单文件):
+ * {
+ *   id: 10,
+ *   title: 'Your Eyes Only',
+ *   cover: '...',
+ *   score: 8.3,
+ *   total: 100,
+ *   rank: 820,
+ *   date: '2003-01-29',
+ *   info: 'CLAMP',
+ *   pub: '講談社',
+ *   nsfw: 0
+ * }
+ */
+export type AlbumItem = {
+  id: number
+  title: string
+  cover: string
+  score: number
+  total: number
+  rank: number
+  date: string
+  info: string
+
+  /** 出版社 (首个) */
+  pub?: string
+
+  /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
+  nsfw?: number
+}
+
+/**
  * hentai_285482: {
  *   id: 285482,
  *   h: 1812,
