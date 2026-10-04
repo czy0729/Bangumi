@@ -1,37 +1,48 @@
 /*
  * @Author: czy0729
- * @Date: 2022-09-22 06:34:00
+ * @Date: 2026-10-04 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 05:57:19
+ * @Last Modified time: 2026-10-04 00:00:00
  */
-import type { Loaded, SubjectId } from '@types'
-import type { MANGA_STATUS } from './ds'
+import type { Loaded } from '@types'
+import type { MANGA_SORT } from './ds'
 
 /** 查询指纹, 由筛选条件序列化得到 */
 export type Finger = string
 
 export type Query = {
-  year?: string | number
-  end?: string | number
+  tag?: string
+
+  /** 出版社 (MANGA_PUBLISHERS 项, 空串表示未筛选) */
+  publisher?: string
+
+  /** 卷数档位 (MANGA_VOL 项, 空串表示未筛选) */
+  vol?: string
+
+  /** 话数档位 (MANGA_CH 项, 空串表示未筛选) */
+  ch?: string
+
+  /** 开始年份 (st || d 前缀, 空串表示未筛选) */
+  start?: string | number
+
+  /** 更新年份 (ud || d 前缀, 空串表示未筛选) */
   update?: string | number
-  status?: (typeof MANGA_STATUS)[number]
-  tags?: string[]
-  author?: string
-  sort?: string
+
+  /** 结束年份 (ed 前缀, 空串表示未筛选) */
+  end?: string | number
+
+  /** 分级 ('限制' = NSFW, '未知' = 全年龄, 空串表示未筛选) */
+  x?: string
+
+  sort?: (typeof MANGA_SORT)[number]
 }
 
 export type Item = {
   /** 条目 ID */
-  i: SubjectId
+  i: number
 
-  /** mox id */
-  m?: number
-
-  /** 标题 */
-  t?: string
-
-  /** 封面 */
-  c?: string
+  /** 发售日期 */
+  d?: string
 
   /** 评分 */
   s?: number
@@ -42,70 +53,29 @@ export type Item = {
   /** 评分人数 */
   l?: number
 
-  /** 是否连载, 完结没有值, 连载固定为 1 */
-  u?: 1
+  /** 标签下标数组 (见 ds.ts MANGA_TAGS) */
+  t?: number[]
 
-  /** 分类索引 */
-  b: number[]
+  /** 开始日期 (系列内最早单卷发售日, 缺席 = 同 d) */
+  st?: string
 
-  /** 发行年份 */
-  p: string
+  /** 更新日期 (系列内最晚单卷发售日, 缺席 = 同 d) */
+  ud?: string
 
-  /** 最后更新年份-月份 */
-  d: string
+  /** 结束日期 (infobox 结束 / 连载结束) */
+  ed?: string
 
-  /** 连载结束年份 */
-  e?: string
+  /** 卷数 (infobox 册数, 关系聚合单行本数回落) */
+  v?: number
 
-  /** 热度 */
-  h: number
+  /** 话数 */
+  c?: number
 
-  /** 热门作者索引 */
-  a?: number
-}
+  /** 出版社下标数组 (见 ds.ts MANGA_PUBLISHERS) */
+  p?: number[]
 
-export type UnzipItem = {
-  /** 条目 ID */
-  id: SubjectId
-
-  /** mox id */
-  mid: number
-
-  /** 标题 */
-  title: string
-
-  /** 封面 */
-  image: string
-
-  /** 评分 */
-  score: number
-
-  /** 排名 */
-  rank: number
-
-  /** 评分人数 */
-  total: number
-
-  /** 卷 */
-  ep: string
-
-  /** 作者 */
-  author: string
-
-  /** 分类 */
-  cates: string
-
-  /** 最后出版年份 */
-  publish: string
-
-  /** 最后更新时间 */
-  update: string
-
-  /** 有值则为连载中 */
-  status?: number
-
-  /** 热度 */
-  hot: number
+  /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
+  x?: number
 }
 
 export type SearchResult = {

@@ -56,7 +56,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   manga(subjectId: SubjectId) {
     this.init('manga', true)
     return computed(() => {
-      return (this.state.manga[`mox_${subjectId}`] || {}) as MangaItem
+      return (this.state.manga[`manga_${subjectId}`] || {}) as MangaItem
     }).get()
   }
 

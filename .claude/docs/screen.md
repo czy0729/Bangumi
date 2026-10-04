@@ -239,6 +239,16 @@ component/ep/
 - 区块锚点统一用 `component/block-anchor`（`<BlockAnchor title={TITLE_X} onBlockRef={onBlockRef} />`），不要手写 `useCallback` + `<View ref collapsable>` 样板
 - 新增区块遵循此模式；不要把内容组件改成 observer 直连 store（会破坏浅比较优化）
 
+## 敏感标签过滤（条目页第三方标签）
+
+条目页底部四个第三方标签块（`component/tags/block/`，`path` = `Anime` / `Game` / `Manga` / `Wenku`）在 `userStore.isExtremeLimit` 为真时，统一走 `isSensitiveTag()` 过滤：
+
+- 判定实现在 `src/utils/subject/sensitive-tag.ts`，三档匹配：**子串包含**（绝大多数词）、**整串相等**（`肉` / `变态` / `正太` / `触手` / `强制`，子串会误伤 `肉鸽` / `生肉` / `变态王子与不笑猫` 等）、**ASCII 单词边界**（`ntr` / `sm` / `3p`，会误伤 `LapinTrack` / `PLAYISM` / `d3p`）
+- 四个块一视同仁，**不要**再按 `path` 区分；`path` 只用于跳转
+- 「四块」指条目页标签区实际渲染的 4 个 `<Block>`（`component/tags/tags-list/index.tsx`），与 `src/utils/subject/` 下的 9 个频道目录无关：找ADV / 本子 / 三次元 / 音乐频道不渲染第三方标签块，它们用各自 ds 的 `TAGS` 做筛选 chip；但词表来源覆盖全部频道目录
+- 词表增删后必须跑 `src/utils/subject/__tests__/sensitive-tag.test.ts`：它以 typerank 五类全量标签（4776 条）为语料，断言命中集合与人工确认清单**完全一致**（多一个即误伤，少一个即漏词）
+- 题材义标签（`BL` / `百合` / `耽美` / `后宫` / `纯爱` / `一般向`）与资源义标签（`生肉`）一律不遮
+
 ## 页面内组件规范（components/）
 
 纯 UI 小组件放 `components/`，不访问 Store（这是它与 `component/` 下子组件的唯一区别）。目录结构、类型定义（`PropsWithChildren<WithViewStyles<{}>>`）、样式（`stl()`）、命名函数 + `export default observer()` 写法均同 [component.md](./component.md)。

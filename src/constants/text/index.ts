@@ -29,7 +29,7 @@ export const TEXT_UPDATE_ANIME = '2026-07-13'
 export const TEXT_UPDATE_GAME = '2026-09-30'
 
 /** 找漫画最后更新时间 */
-export const TEXT_UPDATE_MANGA = '2024-09-23'
+export const TEXT_UPDATE_MANGA = '2026-10-04'
 
 /** 找音乐静态数据最后更新时间 */
 export const TEXT_UPDATE_MUSIC = '2026-10-03'
@@ -57,7 +57,7 @@ export const TEXT_TOTAL = {
   番剧: 5113,
   游戏: 16385,
   ADV: 15037,
-  漫画: 10622,
+  漫画: 25424,
   文库: 2740,
   Hentai: 1036,
   NSFW: 21543,

@@ -24,7 +24,7 @@ export const STATE = {
   anime: { age_0: {} } as Record<string, Partial<AnimeItem>>,
 
   /** 找漫画 */
-  manga: { mox_0: {} } as Record<string, Partial<MangaItem>>,
+  manga: { manga_0: {} } as Record<string, Partial<MangaItem>>,
 
   /** 找游戏  */
   game: { game_0: {} } as Record<string, Partial<GameItem>>,

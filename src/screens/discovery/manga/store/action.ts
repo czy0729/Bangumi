@@ -1,60 +1,32 @@
-import { otaStore } from '@stores'
 /*
  * @Author: czy0729
- * @Date: 2024-07-26 05:10:29
+ * @Date: 2026-10-04 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-26 05:23:42
+ * @Last Modified time: 2026-10-04 00:00:00
+ *
+ * 找漫画用户操作
  */
+import { collectionStore, otaStore } from '@stores'
 import { t } from '@utils/fetch'
 import Fetch from './fetch'
 
+import type { ScrollToOffset } from '@components'
+import type { FilterType } from '../types'
+
 export default class Action extends Fetch {
-  /** 初始化查询配置 */
-  initQuery = (tags = []) => {
+  /**
+   * 筛选选择
+   *
+   * @param type 筛选维度
+   * @param value 筛选值
+   */
+  onSelect = (type: FilterType, value: string) => {
     this.setState({
-      expand: true,
       query: {
         ...this.state.query,
-        tags
+        [type]: value
       }
     })
-  }
-
-  /** 筛选选择 */
-  onSelect = (type: string, value: string, multiple = false) => {
-    const { query } = this.state
-    if (type === 'tags') {
-      const { tags = [] } = query
-
-      if (multiple) {
-        // 标签支持多选
-        this.setState({
-          query: {
-            ...query,
-            tags:
-              value === ''
-                ? []
-                : tags.includes(value)
-                ? tags.filter(item => value !== item)
-                : [...tags, value]
-          }
-        })
-      } else {
-        this.setState({
-          query: {
-            ...query,
-            tags: value === '' ? [] : [value]
-          }
-        })
-      }
-    } else {
-      this.setState({
-        query: {
-          ...query,
-          [type]: value
-        }
-      })
-    }
 
     setTimeout(() => {
       this.search()
@@ -62,20 +34,22 @@ export default class Action extends Fetch {
 
       t('Manga.选择', {
         type,
-        value,
-        multiple
+        value
       })
     }, 0)
   }
 
-  scrollToOffset = null
+  scrollToOffset: ScrollToOffset = null
+
+  forwardRef = (ref: { scrollToOffset: ScrollToOffset }) => {
+    if (ref?.scrollToOffset) this.scrollToOffset = ref.scrollToOffset
+  }
 
   /** 到顶 */
   scrollToTop = () => {
     if (typeof this.scrollToOffset === 'function') {
       this.scrollToOffset({
-        x: 0,
-        y: 0,
+        offset: 0,
         animated: true
       })
 
@@ -111,6 +85,12 @@ export default class Action extends Fetch {
         page
       })
     }
+
+    setTimeout(() => {
+      collectionStore.fetchCollectionStatusQueue(
+        pageData.map(item => otaStore.mangaSubjectId(item)).filter(Boolean)
+      )
+    }, 0)
 
     return otaStore.onMangaPage(pageData)
   }

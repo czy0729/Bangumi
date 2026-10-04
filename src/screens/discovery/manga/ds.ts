@@ -1,45 +1,64 @@
 /*
  * @Author: czy0729
- * @Date: 2021-06-26 05:59:58
+ * @Date: 2026-10-04 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 16:18:06
+ * @Last Modified time: 2026-10-04 00:00:00
  */
 import {
+  MANGA_CH,
   MANGA_COLLECTED,
+  MANGA_NSFW,
+  MANGA_PUBLISHERS,
   MANGA_SORT,
-  MANGA_STATUS,
   MANGA_TAGS,
+  MANGA_VOL,
   MANGA_YEAR
 } from '@utils/subject/manga'
-import { MANGA_AUTHORS } from '@utils/subject/manga/ds'
 
 export const COMPONENT = 'Manga'
 
 export const ADVANCE_LIMIT = 60
 
-// 类型分组
-const MANGA_TAGS_GROUP = [[], [], []]
+/** 标签三行分组 (横向滚动, 三行同显, 同 music / real 的 TAG_GROUP) */
+const MANGA_TAG_GROUP = [[], [], []]
 MANGA_TAGS.forEach((item, index) => {
-  if (index % 3 === 0) {
-    MANGA_TAGS_GROUP[0].push(item)
-  } else if (index % 3 === 1) {
-    MANGA_TAGS_GROUP[1].push(item)
-  } else {
-    MANGA_TAGS_GROUP[2].push(item)
-  }
+  /** '¬' 为数据源噪音标签, 因 MANGA_TAGS 下标即 bin 的 t 不能从表中删除, 仅不进筛选项 */
+  if (item === '¬') return
+  MANGA_TAG_GROUP[index % 3].push(item)
 })
+
+/** 出版社两行分组 */
+const MANGA_PUBLISHER_GROUP = [[], []]
+MANGA_PUBLISHERS.forEach((item, index) => MANGA_PUBLISHER_GROUP[index % 2].push(item))
 
 export const filterDS = [
   {
-    title: '开始',
-    type: 'year',
-    data: MANGA_YEAR,
-    always: true
+    title: '标签',
+    type: 'tag',
+    data: MANGA_TAG_GROUP,
+    multiple: true
   },
   {
-    title: '结束',
-    type: 'end',
-    data: MANGA_YEAR
+    title: '出版',
+    type: 'publisher',
+    data: MANGA_PUBLISHER_GROUP,
+    multiple: true
+  },
+  {
+    title: '卷数',
+    type: 'vol',
+    data: MANGA_VOL
+  },
+  {
+    title: '话数',
+    type: 'ch',
+    data: MANGA_CH
+  },
+  {
+    title: '开始',
+    type: 'start',
+    data: MANGA_YEAR,
+    always: true
   },
   {
     title: '更新',
@@ -47,21 +66,14 @@ export const filterDS = [
     data: MANGA_YEAR
   },
   {
-    title: '状态',
-    type: 'status',
-    data: MANGA_STATUS
+    title: '结束',
+    type: 'end',
+    data: MANGA_YEAR
   },
   {
-    title: '类型',
-    type: 'tags',
-    data: MANGA_TAGS_GROUP,
-    multiple: true,
-    multiSelect: true
-  },
-  {
-    title: '作者',
-    type: 'author',
-    data: MANGA_AUTHORS
+    title: '分级',
+    type: 'x',
+    data: MANGA_NSFW
   },
   {
     title: '排序',

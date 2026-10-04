@@ -1,19 +1,40 @@
 syntax = "proto3";
 
+// 找漫画搜索数据 (finger)
+//  - 与 src/utils/thirdParty/protobuf/schemas.ts 的 manga schema 同步维护
+//  - proto3 默认值 (0 / '' / 空数组) 编码后缺席, 未筛选 / 无标签 等语义依赖这一点
+//  - 收录仅 platform=1001 (漫画), 排除小说 / 文库 / 画集等; 无 subject 类型细分, 字段对齐 music / real
+
 message Manga {
+  /** 条目 Id */
   int32 i = 1;
-  float s = 2;
-  int32 r = 3;
-  int32 l = 4;
-  int32 u = 5;
-  repeated int32 b = 6;
-  string e = 7;
-  string p = 8;
-  string d = 9;
-  int32 h = 10;
-  int32 a = 11;
+  /** 发售日期 */
+  string d = 2;
+  /** 评分 */
+  float s = 3;
+  /** 排名 */
+  int32 r = 4;
+  /** 评分人数 */
+  int32 l = 5;
+  /** 标签下标数组 (见 MANGA_TAGS, 收录标签 top100) */
+  repeated int32 t = 6;
+  /** 开始日期 (系列内最早单卷发售日, 缺席 = 与 d 相同) */
+  string st = 7;
+  /** 更新日期 (系列内最晚单卷发售日, 缺席 = 与 d 相同) */
+  string ud = 8;
+  /** 结束日期 (infobox 结束 / 连载结束) */
+  string ed = 9;
+  /** 卷数 (infobox 册数, 关系聚合单行本数回落) */
+  int32 v = 10;
+  /** 话数 */
+  int32 c = 11;
+  /** 出版社下标数组 (见 MANGA_PUBLISHERS, 收录出版社 top100) */
+  repeated int32 p = 12;
+  /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
+  int32 x = 13;
 }
 
+/** 条目列表包装 */
 message Payload {
   repeated Manga payload = 1;
 }

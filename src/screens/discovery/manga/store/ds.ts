@@ -1,36 +1,63 @@
 /*
  * @Author: czy0729
- * @Date: 2024-07-26 05:13:21
+ * @Date: 2026-10-04 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-23 21:55:17
+ * @Last Modified time: 2026-10-04 00:00:00
+ *
+ * 找漫画状态声明与本地存储
  */
-import { MANGA_YEAR } from '@utils/subject/manga'
 import { LIST_EMPTY } from '@constants'
-import { Loaded } from '@types'
 import { COMPONENT } from '../ds'
+
+import type { ListEmpty, Loaded } from '@types'
+import type { ScreenQuery } from '../types'
+
+/** 默认筛选条件 */
+const QUERY: ScreenQuery = {
+  /** 标签 */
+  tag: '',
+
+  /** 出版社 */
+  publisher: '',
+
+  /** 卷数 */
+  vol: '',
+
+  /** 话数 */
+  ch: '',
+
+  /** 开始年份 */
+  start: '',
+
+  /** 更新年份 */
+  update: '',
+
+  /** 结束年份 */
+  end: '',
+
+  /** 分级 */
+  x: '',
+
+  /** 排序 */
+  sort: '评分人数',
+
+  /** 收藏 */
+  collected: ''
+}
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const STATE = {
-  /** 查询参数 */
-  query: {
-    year: MANGA_YEAR[0],
-    end: '',
-    update: '',
-    status: '',
-    tags: [],
-    author: '',
-    sort: '评分人数',
-    collected: ''
-  },
+  /** 筛选条件 (浅拷贝隔离默认值, 避免原地改写污染 QUERY 并持久化) */
+  query: { ...QUERY },
 
-  /** 缓存列表 */
-  data: LIST_EMPTY,
+  /** 搜索结果 (otaStore.manga 数据源排序下标) */
+  data: LIST_EMPTY as ListEmpty<number>,
 
-  /** 布局 */
-  layout: 'list' as 'list' | 'grid',
+  /** 布局: list | grid */
+  layout: 'list',
 
-  /** 是否展开更多过滤选项 */
+  /** 是否展开全部筛选项 */
   expand: false,
 
   /** 页面初始化完成 */

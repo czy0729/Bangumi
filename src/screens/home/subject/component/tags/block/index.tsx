@@ -7,9 +7,10 @@
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
-import { useStore } from '@stores'
+import { userStore, useStore } from '@stores'
 import { stl } from '@utils'
 import { t } from '@utils/fetch'
+import { isSensitiveTag } from '@utils/subject/sensitive-tag'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -19,7 +20,18 @@ import type { Props } from './types'
 function Block({ path, tags }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  if (!tags?.length) return null
+  /**
+   * 敏感标签: isExtremeLimit 用户渲染时返回 null (四个第三方标签块统一生效)
+   *  - 全部命中时整块不渲染 (含「第三方标签」标题)
+   */
+  const isLimited = userStore.isExtremeLimit
+  const visibleTags = isLimited
+    ? (tags || []).filter(item => {
+        const tag = typeof item === 'string' ? item : item.value
+        return !isSensitiveTag(tag)
+      })
+    : tags
+  if (!visibleTags?.length) return null
 
   const styles = memoStyles()
 
@@ -47,7 +59,7 @@ function Block({ path, tags }: Props) {
         </Text>
       </Flex>
 
-      {tags.map(item => {
+      {visibleTags.map(item => {
         const { tag, pressable } =
           typeof item === 'string'
             ? { tag: item, pressable: true }

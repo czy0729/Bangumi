@@ -23,27 +23,43 @@ export type AnimeItem = {
   total: number
 }
 
+/**
+ * manga_{id} (找漫画详情, CDN 加密单文件):
+ * {
+ *   id: 27684,
+ *   title: '哆啦A梦',
+ *   cover: '69/20/27684_D4ySY',
+ *   score: 9.3,
+ *   total: 1578,
+ *   rank: 4,
+ *   date: '1974-07-31',
+ *   info: '藤子・F・不二雄',
+ *   pub: '小学館',
+ *   vol: 45,
+ *   ch: 1345
+ * }
+ */
 export type MangaItem = {
   id: number
-  mid: number
   title: string
-  ep: string
-  author: string
-  status: string
-  cates: string
-  publish: string
-  update: string
-  // mScore: number
-  // mTotal: number
-  // subscribe: number
-  // favor: number
-  // read: number
-  hot: number
+  cover: string
   score: number
-  rank: number
   total: number
-  image: string
-  end: string
+  rank: number
+  date: string
+  info: string
+
+  /** 出版社 (首个) */
+  pub?: string
+
+  /** 卷数 (infobox 册数, 关系聚合单行本数回落) */
+  vol?: number
+
+  /** 话数 */
+  ch?: number
+
+  /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
+  nsfw?: number
 }
 
 export type GameItem = {
@@ -86,6 +102,9 @@ export type ADVItem = {
 
   /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
   nsfw?: number
+
+  /** 描述性信息 (平台 / 游戏类型) */
+  info?: string
 
   /** 在线截图 (VNDB, 数据侧已过滤 NSFW), 存在时优先于 CDN 截图使用 */
   screens?: ADVScreen[]

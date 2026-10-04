@@ -26,6 +26,10 @@ message ADV {
   int32 cn = 9;
   /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
   int32 x = 10;
+  /** 标签下标数组 (见 ADV_TAGS, 收录标签 top100; 已剔年份, 同义归并) */
+  repeated int32 ta = 11;
+  /** 平台下标数组 (见 ADV_PLATFORM, 0-based) */
+  repeated int32 pl = 12;
 }
 
 /** 条目列表包装 */

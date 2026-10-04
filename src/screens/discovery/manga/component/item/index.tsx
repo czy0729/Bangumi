@@ -1,171 +1,26 @@
 /*
  * @Author: czy0729
- * @Date: 2021-01-09 01:00:56
+ * @Date: 2026-10-04 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:39:01
+ * @Last Modified time: 2026-10-04 00:00:00
+ *
+ * 找漫画条目: 按布局分发列表 / 网格
  */
 import { observer } from 'mobx-react'
-import { Flex, Loading, Text, Touchable } from '@components'
-import { getCoverSrc } from '@components/cover/utils'
-import { Cover, Manage, Rank, Stars, Tag } from '@_'
-import { _, collectionStore, otaStore, uiStore, useStore } from '@stores'
-import { desc, x18 } from '@utils'
-import { withT } from '@utils/fetch'
-import {
-  HOST_BGM_STATIC,
-  IMG_DEFAULT,
-  IMG_HEIGHT_LG,
-  IMG_WIDTH_LG,
-  MODEL_COLLECTION_STATUS
-} from '@constants'
+import { useStore } from '@stores'
+import ItemGrid from '../item-grid'
+import ItemList from '../item-list'
 import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
 
-import type { CollectionStatus } from '@types'
+import type { RenderItem } from '@types'
 import type { Ctx } from '../../types'
 
-function Item({ pickIndex }) {
-  const { $, navigation } = useStore<Ctx>(COMPONENT)
+function Item({ item: pickIndex, index }: RenderItem<number>) {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  const styles = memoStyles()
-  const subjectId = otaStore.mangaSubjectId(pickIndex)
-  const manga = otaStore.manga(subjectId)
-  if (!manga?.id) {
-    return (
-      <Flex style={styles.loading} justify='center'>
-        <Loading.Raw />
-      </Flex>
-    )
-  }
+  if ($.isList) return <ItemList pickIndex={pickIndex} index={index} />
 
-  const {
-    id,
-    mid,
-    author,
-    title,
-    cates,
-    ep,
-    image,
-    score,
-    rank,
-    total,
-    status,
-    publish,
-    update,
-    end
-  } = otaStore.manga(subjectId)
-  const titleSize = title.length >= 20 ? 13 : title.length >= 14 ? 14 : 15
-  const cover = image ? `${HOST_BGM_STATIC}/pic/cover/m/${image}.jpg` : IMG_DEFAULT
-
-  let top = ''
-  let bottom = ''
-  try {
-    top = [
-      end ? '完结' : status,
-      !end && update && !update.includes('1041') && `更新 ${update}`,
-      publish && publish !== '0000' && `开始 ${publish}`,
-      end && `结束 ${end}`
-    ]
-      .filter(item => !!item)
-      .join(' / ')
-    bottom = [ep, author].filter(item => !!item).join(' / ')
-  } catch {}
-
-  const { tags = [] } = $.state.query
-  const catesValue = String(cates)
-    .split(' ')
-    .sort((a, b) => desc(tags.includes(a) ? 1 : 0, tags.includes(b) ? 1 : 0))
-
-  const collection = collectionStore.collect(id)
-  return (
-    <Touchable
-      style={styles.container}
-      animate
-      onPress={withT(
-        () => {
-          navigation.push('Subject', {
-            subjectId: id,
-            _cn: title,
-            _image: getCoverSrc(cover, IMG_WIDTH_LG),
-            _type: '书籍',
-            _mid: mid
-          })
-        },
-        'Manga.跳转',
-        {
-          subjectId: id
-        }
-      )}
-    >
-      <Flex style={styles.wrap} align='start'>
-        <Cover
-          src={cover}
-          width={IMG_WIDTH_LG}
-          height={IMG_HEIGHT_LG}
-          radius
-          cdn={!x18(id, title)}
-        />
-        <Flex.Item style={_.ml.wind}>
-          <Flex align='start'>
-            <Flex.Item>
-              <Flex style={styles.content} direction='column' justify='between' align='start'>
-                <Flex align='start'>
-                  <Flex.Item>
-                    <Text size={titleSize} bold numberOfLines={2}>
-                      {title}
-                    </Text>
-                  </Flex.Item>
-                  <Manage
-                    subjectId={id}
-                    collection={collection}
-                    typeCn='书籍'
-                    onPress={() => {
-                      uiStore.showManageModal(
-                        {
-                          subjectId: id,
-                          title,
-                          status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection),
-                          action: '读'
-                        },
-                        '找漫画'
-                      )
-                    }}
-                  />
-                </Flex>
-                {!!top && <Text size={11}>{top}</Text>}
-                {!!bottom && (
-                  <Text style={_.mt.md} size={11}>
-                    {bottom}
-                  </Text>
-                )}
-              </Flex>
-            </Flex.Item>
-          </Flex>
-          <Flex style={styles.bottom}>
-            <Rank value={rank} />
-            <Stars style={_.mr.xs} value={score} simple />
-            {!!total && (
-              <Text style={_.mr.sm} type='sub' size={11} bold>
-                ({total})
-              </Text>
-            )}
-            <Flex.Item>
-              <Flex>
-                {catesValue.map(item => (
-                  <Tag
-                    key={item}
-                    style={_.mr.sm}
-                    type={tags.includes(item) ? 'warning' : undefined}
-                    value={item}
-                  />
-                ))}
-              </Flex>
-            </Flex.Item>
-          </Flex>
-        </Flex.Item>
-      </Flex>
-    </Touchable>
-  )
+  return <ItemGrid pickIndex={pickIndex} index={index} />
 }
 
 export default observer(Item)

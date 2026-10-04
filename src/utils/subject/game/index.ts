@@ -23,6 +23,7 @@ import {
   GAME_PUB_ALIAS,
   GAME_PUB_MAP,
   GAME_SORT,
+  GAME_TAGS,
   GAME_YEAR
 } from './ds'
 
@@ -44,6 +45,7 @@ export {
   GAME_PUB_ALIAS,
   GAME_PUB_MAP,
   GAME_SORT,
+  GAME_TAGS,
   GAME_YEAR
 }
 
@@ -77,6 +79,12 @@ GAME_PUB_ALIAS.forEach(group => {
 
 /** 缓存搜索结果 */
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
+
+/** 标签筛选: 名 → bin 的 tg 下标 (下标 0 合法, 不可用 indexOf 真值判断) */
+const GAME_TAG_MATCH: Record<string, number> = {}
+GAME_TAGS.forEach((tag, index) => {
+  GAME_TAG_MATCH[tag] = index
+})
 
 let game: Item[] = []
 
@@ -117,7 +125,7 @@ export function search(query: Query): SearchResult {
 
   // 查询指纹
   const finger = JSON.stringify(query || {})
-  const { first, year, platform, cate, dev, pub, sort } = query || {}
+  const { first, year, platform, cate, dev, pub, tag, sort } = query || {}
 
   if (sort !== '随机' && SEARCH_CACHE[finger]) {
     return SEARCH_CACHE[finger]
@@ -143,6 +151,10 @@ export function search(query: Query): SearchResult {
 
     // ta: ['格斗', '角色扮演']
     if (match && cate) match = item.ta?.includes(GAME_CATE_MAP[cate])
+
+    // tg: 标签下标 (见 GAME_TAGS, 下标 0 合法)
+    const tagIndex = tag ? GAME_TAG_MATCH[tag] : undefined
+    if (match && tag) match = typeof tagIndex === 'number' && !!item.tg?.includes(tagIndex)
 
     // d: ['Nintendo']
     if (match && dev) match = DEV_MATCH[dev]?.some(num => item.d?.includes(num)) ?? false

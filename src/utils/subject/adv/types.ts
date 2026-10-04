@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-08-30 05:56:06
  */
 import type { Loaded } from '@types'
-import type { ADV_DEV, ADV_SORT } from './ds'
+import type { ADV_DEV, ADV_PLATFORM, ADV_SORT, ADV_TAGS } from './ds'
 
 /** 查询指纹, 由筛选条件序列化得到 */
 export type Finger = string
@@ -21,6 +21,12 @@ export type Query = {
 
   /** 分级筛选 */
   x?: string
+
+  /** 标签, 空串表示未筛选 */
+  tag?: '' | (typeof ADV_TAGS)[number]
+
+  /** 平台, 空串表示未筛选 */
+  platform?: '' | (typeof ADV_PLATFORM)[number]
   sort?: (typeof ADV_SORT)[number]
 }
 
@@ -54,6 +60,12 @@ export type Item = {
 
   /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
   x?: number
+
+  /** 标签下标数组 (见 ds.ts ADV_TAGS) */
+  ta?: number[]
+
+  /** 平台下标数组 (见 ds.ts ADV_PLATFORM) */
+  pl?: number[]
 }
 
 /** @deprecated 原始压缩数据（unzip 专用） */

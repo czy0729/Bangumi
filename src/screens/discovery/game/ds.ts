@@ -13,6 +13,7 @@ import {
   GAME_PLATFORM,
   GAME_PUB,
   GAME_SORT,
+  GAME_TAGS,
   GAME_YEAR
 } from '@utils/subject/game'
 
@@ -23,6 +24,10 @@ export const ADVANCE_LIMIT = 60
 // 类型分组
 const GAME_CATE_GROUP = [[], []]
 GAME_CATE.forEach((item, index) => GAME_CATE_GROUP[index % 2 ? 1 : 0].push(item))
+
+// 标签三行分组 (横向滚动, 三行同显, 同 music / adv)
+const GAME_TAG_GROUP = [[], [], []]
+GAME_TAGS.forEach((item, index) => GAME_TAG_GROUP[index % 3].push(item))
 
 // 开发商分组 (数据侧清洗残留的公司后缀不展示, 仍可在 search 命中)
 const GAME_DEV_GROUP = [[], []]
@@ -37,6 +42,12 @@ GAME_PUB.filter(item => !GAME_JUNK.includes(item)).forEach((item, index) =>
 )
 
 export const filterDS = [
+  {
+    title: '标签',
+    type: 'tag',
+    data: GAME_TAG_GROUP,
+    multiple: true
+  },
   {
     title: '首字　',
     type: 'first',

@@ -1,8 +1,10 @@
 /*
  * @Author: czy0729
- * @Date: 2021-01-09 00:57:23
+ * @Date: 2026-10-04 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 12:43:32
+ * @Last Modified time: 2026-10-04 00:00:00
+ *
+ * 找漫画
  */
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
@@ -23,7 +25,7 @@ function Manga(props: NavigationProps) {
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded}>
           <HeaderPlaceholder />
-          <List $={$} />
+          <List />
         </Page>
         <Header title='找漫画' alias='Manga' hm={HM} />
       </StoreContext.Provider>

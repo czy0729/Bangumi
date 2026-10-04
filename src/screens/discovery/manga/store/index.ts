@@ -1,13 +1,16 @@
 /*
  * @Author: czy0729
- * @Date: 2021-01-09 01:08:04
+ * @Date: 2026-10-04 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-26 05:13:00
+ * @Last Modified time: 2026-10-04 00:00:00
+ *
+ * 找漫画 Store 入口
  */
-import { collectionStore } from '@stores'
 import { init } from '@utils/subject/manga'
 import Action from './action'
-import { NAMESPACE, STATE } from './ds'
+import { NAMESPACE } from './ds'
+
+import type { STATE } from './ds'
 
 let _loaded = false
 
@@ -22,13 +25,19 @@ export default class ScreenManga extends Action {
     if (!_loaded) await init()
     _loaded = true
 
+    /** 条目页第三方标签块跳转携带 _tags, 新版标签为单选, 取首项映射到 tag (同 game 的 initQuery) */
     const { _tags = [] } = this.params
-    if (_tags.length) this.initQuery(typeof _tags === 'string' ? [_tags] : _tags)
+    if (_tags.length) {
+      this.setState({
+        expand: true,
+        query: {
+          ...this.state.query,
+          tag: typeof _tags === 'string' ? _tags : _tags[0]
+        }
+      })
+    }
 
-    await init()
     this.search()
-
-    collectionStore.fetchUserCollectionsQueue(false, '书籍')
     setTimeout(() => {
       this.setState({
         _loaded: true

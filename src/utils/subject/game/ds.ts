@@ -516,3 +516,36 @@ export const GAME_SORT = [
   '随机',
   '名称'
 ] as const
+
+/**
+ * 标签筛选 (全量 type=4 条目出现次数 top100, 下标即 bin 的 tg)
+ *  - 已剔除年份标签, 同义标签 (大小写 / 繁简 / 日文新字体) 自动合并
+ *  - 与 web/standalone/game 的 rule.loadTags 同步维护, 重建后如有变化需同步此表
+ */
+export const GAME_TAGS = [
+  '游戏', 'PC', 'Galgame', 'ADV',
+  'RPG', 'AVG', '拔作', 'R18',
+  '同人', 'Android', 'STEAM', 'iOS',
+  'ACT', '全年龄', 'NS', 'SLG',
+  'PS4', '黄油', '乙女', 'GAL',
+  'Windows', '国产', '手游', 'Web',
+  '合集', '汉化', 'BL', '解谜',
+  'PS5', '独立游戏', 'PUZ', '乙女向',
+  'XboxOne', 'SIM', 'ARPG', '纯爱',
+  'XSX', '短篇', 'PSP', '萝莉',
+  'DJ', 'PS2', '云过', '百合',
+  'NTR', '恐怖', 'STG', '生肉',
+  '中国', 'PS3', 'PSV', 'FPS',
+  '后宫', '童年', '休闲', 'NDS',
+  '动态CG', '盘1', 'VN', '街机',
+  '乙女ゲーム', '巨乳', '悬疑', 'RPGMaker',
+  'PS', '妹', 'Mac', 'JRPG',
+  '凌辱', 'HRPG', 'Switch', '人妻',
+  '冒险', '单机', 'dw', '库存',
+  'SRPG', 'Roguelike', '视觉小说', 'APP',
+  '3DS', '游戏性', 'Xbox360', 'FC',
+  'FTG', '任天堂', '3D', '像素',
+  '资源难找', 'RM', 'FD', 'AAVG',
+  'TPS', '调教', 'Platform', '模拟',
+  '盘4', 'GBA', 'MUG', 'SFC',
+] as const

@@ -155,9 +155,9 @@ export function getMangaInfo(type: string, subjectId: string | number) {
 }
 
 /** 获取第三方漫画标签 */
-export function getMangaTags(mangaInfo: { b?: readonly number[] } | null) {
+export function getMangaTags(mangaInfo: { t?: readonly number[] } | null) {
   if (!mangaInfo) return null
-  const tags = mangaInfo.b || []
+  const tags = mangaInfo.t || []
   return tags.map(item => MANGA_TAGS[item])
 }
 

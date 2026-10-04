@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-30 18:48:19
+ * @Last Modified time: 2026-10-04 05:10:08
  */
 import { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -35,7 +35,7 @@ function Item({ index, pickIndex }: Props) {
 
   const subjectId = otaStore.advSubjectId(pickIndex)
   const adv = otaStore.adv(subjectId)
-  const { id, title, cover, date, score, rank, total, length, dev, time, cn, screens } = adv
+  const { id, title, cover, date, score, rank, total, length, dev, time, cn, info, screens } = adv
 
   const handlePress = useCallback(() => {
     const { title, cover } = adv
@@ -89,7 +89,8 @@ function Item({ index, pickIndex }: Props) {
   const size = titleText.length >= 20 ? 13 : titleText.length >= 14 ? 14 : 15
   const image = cover ? `${HOST_BGM_STATIC}/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
 
-  const tipStr = [date, dev, formatPlaytime(time), cn ? '汉化' : '']
+  /** 描述性信息 (平台 / 游戏类型) 追加在日期之后, 既有字段 (开发商 / 时长 / 汉化) 保留 */
+  const tipStr = [date, info, dev, formatPlaytime(time), cn ? '汉化' : '']
     .filter(item => !!item)
     .join(' / ')
 

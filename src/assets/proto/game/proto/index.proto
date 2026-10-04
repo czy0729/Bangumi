@@ -30,6 +30,8 @@ message Game {
   float vs = 11;
   /** 外网热度 */
   int32 vc = 12;
+  /** 标签下标数组 (见 GAME_TAGS, 收录标签 top100; 已剔年份, 同义归并) */
+  repeated int32 tg = 13;
 }
 
 /** 条目列表包装 */
