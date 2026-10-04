@@ -30,7 +30,8 @@ const MODULES: Record<DataAssets, () => number> = {
   nsfw: () => require('@assets/proto/nsfw/bin/index.bin') as number,
   music: () => require('@assets/proto/music/bin/index.bin') as number,
   real: () => require('@assets/proto/real/bin/index.bin') as number,
-  mono: () => require('@assets/proto/mono/bin/index.bin') as number
+  mono: () => require('@assets/proto/mono/bin/index.bin') as number,
+  wenku: () => require('@assets/proto/wenku/bin/index.bin') as number
 }
 
 /** 读取本地 .bin 字节 */

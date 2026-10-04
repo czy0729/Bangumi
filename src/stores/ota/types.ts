@@ -47,6 +47,10 @@ export type MangaItem = {
   total: number
   rank: number
   date: string
+
+  /** 更新日期 (系列内最晚单卷发售日, 缺席 = 与 date 相同) */
+  update?: string
+
   info: string
 
   /** 出版社 (首个) */
@@ -117,48 +121,46 @@ export type ADVScreen = {
 }
 
 /**
- * wk8_37782: {
- *   cn: '来自新世界',
- *   jp: '新世界より',
- *   ep: '第二卷 下 解说 大森望',
- *   update: '2015-03-11',
- *   begin: '2008-01-23',
- *   status: 1,
- *   anime: 1,
- *   cate: '讲谈社',
- *   author: '贵志佑介',
- *   score: 9,
- *   rank: 7,
- *   total: 1073,
- *   image: '1e/7b/37782_OkkQ7',
- *   id: 37782,
- *   wid: 1827,
- *   len: 36,
- *   tags: '科幻 悬疑 冒险 末日 黑暗',
- *   hot: 2,
- *   up: 0
+ * wenku_{id} (找文库详情, CDN 加密单文件):
+ * {
+ *   id: 29,
+ *   title: '云之彼端，约定的地方',
+ *   cover: '44/13/11408_jp',
+ *   score: 7.6,
+ *   total: 178,
+ *   rank: 2203,
+ *   date: '2006-01-05',
+ *   info: '加納新太',
+ *   pub: 'エンターブレイン',
+ *   vol: 1,
+ *   anime: 1
  * }
  */
 export type WenkuItem = {
-  cn: string
-  jp: string
-  ep: string
-  update: string
-  begin: string
-  status: 0 | 1
-  anime: 0 | 1
-  cate: string
-  author: string
-  score: number
-  rank: number
-  total: number
-  image: string
   id: number
-  wid: number
-  len: number
-  tags: string
-  hot: 0 | 1 | 2 | 3 | 4 | 5
-  up: 0 | 1 | 2 | 3 | 4 | 5
+  title: string
+  cover: string
+  score: number
+  total: number
+  rank: number
+  date: string
+
+  /** 更新日期 (系列内最晚分卷发售日, 缺席 = 与 date 相同) */
+  update?: string
+
+  info: string
+
+  /** 出版社 (首个) */
+  pub?: string
+
+  /** 卷数 (infobox 册数, 关系聚合分卷数回落) */
+  vol?: number
+
+  /** 动画化 (1 = 有动画) */
+  anime?: number
+
+  /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
+  nsfw?: number
 }
 
 /**

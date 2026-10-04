@@ -21,7 +21,6 @@ export type JSONPath =
   | 'nsfw_id_distribution'
   | 'thirdParty/ja.addon'
   | 'thirdParty/h.min'
-  | 'thirdParty/wenku.min'
 
 export type JSONSubString = Record<string, SubjectId>
 
@@ -71,24 +70,6 @@ export type JSONNSFW = {
   e?: number
 }[]
 
-export type JSONWenku = {
-  i: number
-  f?: string
-  v?: number
-  m?: number
-  a?: number
-  b: string
-  u: string
-  c: number
-  h: number
-  p?: number
-  l: number
-  s?: number
-  r?: number
-  k?: number
-  j?: number[]
-}[]
-
 export type JSONData = Expand<
   {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -104,6 +85,5 @@ export type JSONData = Expand<
     nsfw_id_distribution: number[]
     'thirdParty/ja.addon': JSONJA
     'thirdParty/h.min': JSONHentai
-    'thirdParty/wenku.min': JSONWenku
   }
 >

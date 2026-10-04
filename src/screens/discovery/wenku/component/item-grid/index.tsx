@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-04 00:00:00
  *
- * 找漫画网格布局条目
+ * 找文库网格布局条目
  */
 import { observer } from 'mobx-react'
 import { Flex, Loading } from '@components'
@@ -23,15 +23,15 @@ function ItemGrid({ pickIndex, index }: Props) {
 
   const styles = memoStyles()
 
-  const subjectId = otaStore.mangaSubjectId(pickIndex)
-  const { id, title, cover, score, rank, date, update } = otaStore.manga(subjectId)
+  const subjectId = otaStore.wenkuSubjectId(pickIndex)
+  const { id, title, cover, score, rank, date, update } = otaStore.wenku(subjectId)
   const num = getColumnNum()
 
   if (!id) {
     /**
      * 占位宽高随 _.window.contentWidth 实时变化 (iPad 分屏 / 分屏模式), 不能进 memoStyles:
      * memoStyles 失效键只含 mode / deepDark / orientation 等, 不含窗口宽度
-     *  - 高度取 IMG_HEIGHT_LG: 漫画封面为竖版, 与真实封面等高, 否则数据到位时整行跳动
+     *  - 高度取 IMG_HEIGHT_LG: 轻小说封面为竖版, 与真实封面等高, 否则数据到位时整行跳动
      */
     const gridStyles = _.grid(num)
     return (
@@ -60,7 +60,7 @@ function ItemGrid({ pickIndex, index }: Props) {
       nameCn={title}
       score={score}
       rank={rank}
-      /** 日期: 更新日期 (系列内最晚单卷发售日) 优先, 回落发售日期 */
+      /** 日期: 更新日期 (系列内最晚分卷发售日) 优先, 回落发售日期 */
       airtime={(update || date) ? String(update || date).slice(0, 7) : ''}
       collection={collectionStore.collect(id)}
       offset={Math.floor(_.window.height * 0.4)}

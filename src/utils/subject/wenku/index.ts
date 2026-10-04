@@ -1,57 +1,93 @@
 /*
  * @Author: czy0729
- * @Date: 2020-09-02 18:26:02
+ * @Date: 2026-10-04 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-17 05:40:57
+ * @Last Modified time: 2026-10-04 00:00:00
  */
-import { loadJSON } from '@assets/json'
+import { decode } from '@utils/thirdParty/protobuf'
 import { ensureRecordLimit } from '../../cache'
-import { desc, getTimestamp } from '../../index'
+import { getTimestamp } from '../../index'
 import { SEARCH_RESULT_LIMIT, SORT } from '../anime'
 import {
   WENKU_ANIME,
-  WENKU_AUTHOR,
-  WENKU_AUTHOR_MAP,
-  WENKU_CATE,
-  WENKU_CATE_MAP,
+  WENKU_AUTHORS,
+  WENKU_CATES,
   WENKU_COLLECTED,
-  WENKU_FIRST,
+  WENKU_NSFW,
+  WENKU_PUBLISHERS,
   WENKU_SORT,
-  WENKU_STATUS,
   WENKU_TAGS,
-  WENKU_TAGS_MAP,
-  WENKU_TAGS_NUMS_MAP,
+  WENKU_VOL,
   WENKU_YEAR
 } from './ds'
 
 import type { SubjectId } from '@types'
-import type { Finger, Item, Query, SearchResult, UnzipItem } from './types'
+import type { Finger, Item, Query, SearchResult } from './types'
 
 export {
   WENKU_ANIME,
-  WENKU_AUTHOR,
-  WENKU_AUTHOR_MAP,
-  WENKU_CATE,
-  WENKU_CATE_MAP,
+  WENKU_AUTHORS,
+  WENKU_CATES,
   WENKU_COLLECTED,
-  WENKU_FIRST,
+  WENKU_NSFW,
+  WENKU_PUBLISHERS,
   WENKU_SORT,
-  WENKU_STATUS,
   WENKU_TAGS,
-  WENKU_TAGS_MAP,
-  WENKU_TAGS_NUMS_MAP,
+  WENKU_VOL,
   WENKU_YEAR
 }
-
-/** 搜索结果上限: 指纹由筛选条件组合而成, 不加界会随浏览持续累积大数组 */
-const SEARCH_CACHE_LIMIT = 50
 
 /** 缓存搜索结果 */
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
 let wenku: Item[] = []
 let loaded: boolean = false
 
-/** v7.1.0 后取消 OTA */
+/**
+ * 标签筛选: 名 → 可命中的 t 集合 (t 为 WENKU_TAGS 的下标, 下标 0 合法)
+ */
+const TAG_MATCH: Record<string, number[]> = {}
+WENKU_TAGS.forEach((tag, index) => {
+  TAG_MATCH[tag] = [index]
+})
+
+/**
+ * 出版社筛选: 名 → 可命中的 p 集合 (p 为 WENKU_PUBLISHERS 的下标, 下标 0 合法)
+ */
+const PUBLISHER_MATCH: Record<string, number[]> = {}
+WENKU_PUBLISHERS.forEach((publisher, index) => {
+  PUBLISHER_MATCH[publisher] = [index]
+})
+
+/**
+ * 作者筛选: 名 → 可命中的 a 集合 (a 为 WENKU_AUTHORS 的下标, 下标 0 合法)
+ */
+const AUTHOR_MATCH: Record<string, number[]> = {}
+WENKU_AUTHORS.forEach((author, index) => {
+  AUTHOR_MATCH[author] = [index]
+})
+
+/** 卷数档位 → [最小值, 最大值] (0 表示无界) */
+const VOL_RANGE: Record<string, [number, number]> = {
+  '1-5卷': [1, 5],
+  '6-10卷': [6, 10],
+  '11-20卷': [11, 20],
+  '21-50卷': [21, 50],
+  '51卷+': [51, 0]
+}
+
+/** 年份匹配 (YYYY[-MM[-DD]] 前缀, '2000以前' 含整个 20 世纪) */
+function matchYear(value: string | undefined, year: string | number | undefined) {
+  if (!value) return false
+  if (year === '2000以前') return /^(2000|1\d{3})/.test(value)
+  return new RegExp(`^(${year})`).test(value)
+}
+
+/** 档位匹配 */
+function matchRange(value: number | undefined, range: [number, number] | undefined) {
+  if (!value) return false
+  return value >= range[0] && (!range[1] || value <= range[1])
+}
+
 function getData() {
   return wenku
 }
@@ -60,8 +96,20 @@ function getData() {
 export async function init() {
   if (loaded) return
 
-  wenku = await loadJSON('thirdParty/wenku.min')
+  wenku = await decode('wenku')
   loaded = true
+}
+
+/** 根据 index 选一项 */
+export function pick(index: number): Item {
+  init()
+  return getData()[index]
+}
+
+/** 根据条目 id 查询一项 */
+export function findWenku(id: SubjectId): Item | undefined {
+  init()
+  return getData().find(item => item.i == id)
 }
 
 /** 只返回下标数组对象 */
@@ -70,69 +118,49 @@ export function search(query: Query): SearchResult {
 
   // 查询指纹
   const finger = JSON.stringify(query || {})
-  const { sort, year, first, status, anime, cate, author, tags } = query || {}
+  const { tag, publisher, author, cate, vol, start, update, end, x, anime, sort } = query || {}
   if (sort !== '随机' && SEARCH_CACHE[finger]) return SEARCH_CACHE[finger]
 
   let _list = []
-  let yearReg: RegExp
-  if (year) yearReg = new RegExp(year === '2000以前' ? '^(2000|1\\d{3})' : `^(${year})`)
+
+  const tagNums = tag ? TAG_MATCH[tag] : undefined
+  const publisherNums = publisher ? PUBLISHER_MATCH[publisher] : undefined
+  const authorNums = author ? AUTHOR_MATCH[author] : undefined
+  const cateIndex = cate ? WENKU_CATES.indexOf(cate as (typeof WENKU_CATES)[number]) : undefined
+  const volRange = vol ? VOL_RANGE[vol] : undefined
 
   const data = getData()
   data.forEach((item, index) => {
     let match = true
 
-    if (match && first) match = first === item.f
-    if (match && year) match = yearReg.test(item.b || '0000')
-    if (match && status) match = status === '完结' ? item.v === 1 : !item.v
-    if (match && tags.length) {
-      tags.forEach((tag: string) => {
-        if (match) match = item.j?.includes(WENKU_TAGS_MAP[tag])
-      })
-    }
+    if (match && tag) match = !!tagNums?.some(num => item.t?.includes(num))
+    if (match && publisher) match = !!publisherNums?.some(num => item.p?.includes(num))
+    if (match && author) match = !!authorNums?.some(num => item.a?.includes(num))
+    if (match && cate) match = typeof cateIndex === 'number' && cateIndex >= 0 && item.c === cateIndex + 1
+    if (match && volRange) match = matchRange(item.v, volRange)
+    if (match && start) match = matchYear(item.st || item.d, start)
+    if (match && update) match = matchYear(item.ud || item.d, update)
+    if (match && end) match = matchYear(item.ed, end)
+    if (match && x) match = x === '限制' ? item.x === 1 : x === '未知' ? !item.x : true
     if (match && anime) match = anime === '是' ? item.m === 1 : !item.m
-    if (match && author) match = item.a === WENKU_AUTHOR_MAP[author]
-    if (match && cate) match = item.c === WENKU_CATE_MAP[cate]
     if (match) _list.push(index)
   })
 
   switch (sort) {
-    case '发行':
-      _list = _list.sort((a, b) => {
-        return desc(String(data[b].b || '0000'), String(data[a].b || '0000'))
-      })
+    case '发售时间':
+      _list = _list.sort((a, b) => SORT.begin(data[a], data[b], 'd'))
       break
 
-    case '更新':
-      _list = _list.sort((a, b) => {
-        return desc(String(data[b].u || '0000'), String(data[a].u || '0000'))
-      })
+    case '更新时间':
+      _list = _list.sort((a, b) => SORT.begin(data[a], data[b], 'ud'))
       break
 
-    case '名称':
-      _list = _list.sort((a, b) => SORT.name(data[a], data[b], 'f'))
-      break
-
-    case '评分':
     case '排名':
       _list = _list.sort((a, b) => SORT.rating(data[a], data[b], 's', 'r'))
       break
 
     case '评分人数':
-      _list = _list.sort((a, b) => SORT.total(data[a], data[b], 'k'))
-      break
-
-    case '热度':
-      _list = _list.sort((a, b) => {
-        if (data[a].h === data[b].h) return (data[b].s || 0) - (data[a].s || 0)
-        return data[b].h - data[a].h
-      })
-      break
-
-    case '趋势':
-      _list = _list.sort((a, b) => {
-        if (data[a].p === data[b].p) return (data[b].s || 0) - (data[a].s || 0)
-        return (data[b].p || 0) - (data[a].p || 0)
-      })
+      _list = _list.sort((a, b) => SORT.total(data[a], data[b], 'l'))
       break
 
     case '随机':
@@ -155,50 +183,7 @@ export function search(query: Query): SearchResult {
     _loaded: getTimestamp()
   }
   SEARCH_CACHE[finger] = result
-  ensureRecordLimit(SEARCH_CACHE, SEARCH_CACHE_LIMIT)
+  ensureRecordLimit(SEARCH_CACHE, 50)
 
   return result
-}
-
-/** 根据 index 选一项 */
-export function pick(index: number): Item {
-  init()
-  return getData()[index]
-}
-
-/** 根据条目 id 查询一项 */
-export function findWenku(id: SubjectId): Item {
-  init()
-  return getData().find(item => item.i == id)
-}
-
-/** @deprecated 根据条目 id 查询一项 */
-export function find(id: SubjectId): UnzipItem {
-  init()
-  return unzip(getData().find(item => item.i == id))
-}
-
-/** @deprecated 转换压缩数据的 key 名 */
-export function unzip(item: Item | undefined): UnzipItem {
-  return {
-    id: item?.i || 0,
-    wenkuId: item?.w || 0,
-    status: item?.v || 0,
-    anime: item?.m || 0,
-    author: item?.a ? String(item.a) : '',
-    ep: item?.e || '',
-    cn: item?.t || '',
-    // jp: item?.j || '',
-    image: item?.o || '',
-    begin: item?.b || '',
-    update: item?.u || '',
-    cate: item?.c ? String(item.c) : '',
-    hot: item?.h || 0,
-    up: item?.p || 0,
-    len: item?.l || 0,
-    score: item?.s || 0,
-    rank: item?.r || 0,
-    total: item?.k || 0,
-    tags: item?.j || []
-  }
 }

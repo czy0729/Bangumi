@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+// 找文库搜索数据 (finger)
+//  - 与 src/utils/thirdParty/protobuf/schemas.ts 的 wenku schema 同步维护
+//  - proto3 默认值 (0 / '' / 空数组) 编码后缺席, 未筛选 / 无标签 等语义依赖这一点
+//  - 收录仅 platform=1002 (小说) 中标签命中轻小说的条目, 排除系列内分卷; 字段对齐 manga
+
+message Wenku {
+  /** 条目 Id */
+  int32 i = 1;
+  /** 发售日期 */
+  string d = 2;
+  /** 评分 */
+  float s = 3;
+  /** 排名 */
+  int32 r = 4;
+  /** 评分人数 */
+  int32 l = 5;
+  /** 标签下标数组 (见 WENKU_TAGS, 收录标签 top100) */
+  repeated int32 t = 6;
+  /** 开始日期 (系列内最早分卷发售日, 缺席 = 与 d 相同) */
+  string st = 7;
+  /** 更新日期 (系列内最晚分卷发售日, 缺席 = 与 d 相同) */
+  string ud = 8;
+  /** 结束日期 (infobox 结束 / 连载结束) */
+  string ed = 9;
+  /** 卷数 (infobox 册数, 关系聚合分卷数回落) */
+  int32 v = 10;
+  /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
+  int32 x = 11;
+  /** 出版社下标数组 (见 WENKU_PUBLISHERS, 收录出版社 top100) */
+  repeated int32 p = 12;
+  /** 作者下标数组 (见 WENKU_AUTHORS, 收录作者 top100) */
+  repeated int32 a = 13;
+  /** 文库方下标 (见 WENKU_CATES, 收录文库方 top100; 1-based, 0/缺席 = 无) */
+  int32 c = 14;
+  /** 动画化 (1 = 有动画, 由条目关系推导) */
+  int32 m = 15;
+}
+
+/** 条目列表包装 */
+message Payload {
+  repeated Wenku payload = 1;
+}

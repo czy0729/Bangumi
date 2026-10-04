@@ -10,6 +10,7 @@ import { CDN_ADV_DETAIL } from '@constants/cdn/adv'
 import { CDN_GAME_DETAIL } from '@constants/cdn/game'
 import { CDN_MANGA_DETAIL } from '@constants/cdn/manga'
 import { CDN_MUSIC_DETAIL } from '@constants/cdn/music'
+import { CDN_WENKU_DETAIL } from '@constants/cdn/wenku'
 import { CDN_NSFW_DETAIL } from '@constants/cdn/nsfw'
 import { CDN_REAL_DETAIL } from '@constants/cdn/real'
 import Computed from './computed'
@@ -242,34 +243,45 @@ export default class Fetch extends Computed {
     this.save('manga')
   }
 
+  /** 文库详情: CDN 加密单文件 (每条一文件, Crypto.get 解密) */
   onWenkuPage = async (list: number[]) => {
     if (!list.length) return
 
-    const keys: string[] = []
+    /** 判重: 无详情且本轮未失败过的直接请求, 已加载但缺封面的每轮冷启动重试一次 */
+    const subjectIds: SubjectId[] = []
     list.forEach(index => {
       const subjectId = this.wenkuSubjectId(index)
-      const key = `wk8_${subjectId}`
-      if (!subjectId || key in this.state.wenku) return
-      keys.push(key)
-    })
-    if (!keys.length) return
+      if (!subjectId) return
 
-    const datas = await gets<ResultData<WenkuItem>>(keys)
-    if (datas) {
-      const data: Record<string, Partial<WenkuItem>> = {}
-      Object.keys(datas).forEach(itemKey => {
-        const item = datas[itemKey]
-        if (item && typeof item === 'object') {
-          data[itemKey] = item
-        } else {
-          data[itemKey] = {}
-        }
-      })
-      this.setState({
-        wenku: data
-      })
-      this.save('wenku')
-    }
+      const key = `wenku_${subjectId}`
+      const item = this.state.wenku[key] as Partial<WenkuItem> | undefined
+      if (item?.title) {
+        if (item.cover || isRetried(key)) return
+      } else if (isFailed(key)) {
+        return
+      }
+      subjectIds.push(subjectId)
+    })
+    if (!subjectIds.length) return
+
+    const data = await fetchDetails<WenkuItem>(
+      subjectIds,
+      'wenku',
+      CDN_WENKU_DETAIL,
+      item => !!item.title
+    )
+    log('onWenkuPage', {
+      total: list.length,
+      requested: subjectIds.length,
+      loaded: Object.keys(data).length,
+      noCover: Object.keys(data).filter(key => !data[key].cover)
+    })
+    if (!Object.keys(data).length) return
+
+    this.setState({
+      wenku: data
+    })
+    this.save('wenku')
   }
 
   onHentaiPage = async (list: number[]) => {

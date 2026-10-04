@@ -1,91 +1,97 @@
 /*
  * @Author: czy0729
- * @Date: 2021-06-26 07:07:57
+ * @Date: 2026-10-04 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 16:18:49
+ * @Last Modified time: 2026-10-04 00:00:00
  */
 import {
   WENKU_ANIME,
-  WENKU_AUTHOR,
-  WENKU_CATE,
+  WENKU_AUTHORS,
+  WENKU_CATES,
   WENKU_COLLECTED,
-  WENKU_FIRST,
+  WENKU_NSFW,
+  WENKU_PUBLISHERS,
   WENKU_SORT,
-  WENKU_STATUS,
   WENKU_TAGS,
+  WENKU_VOL,
   WENKU_YEAR
 } from '@utils/subject/wenku'
-import { LIST_EMPTY } from '@constants'
-import { Loaded } from '@types'
 
-export const NAMESPACE = 'ScreenWenku'
-
-export const STATE = {
-  query: {
-    first: '',
-    year: 2022,
-    status: '',
-    anime: '',
-    cate: '',
-    author: '',
-    tags: [],
-    sort: '发行',
-    collected: ''
-  },
-  data: LIST_EMPTY,
-  layout: 'list',
-  expand: false,
-
-  /** 页面初始化完成 */
-  _loaded: false as Loaded
-}
+export const COMPONENT = 'Wenku'
 
 export const ADVANCE_LIMIT = 60
 
-// 类型分组
-const WENKU_TAGS_GROUP = [[], []]
-WENKU_TAGS.forEach((item, index) => WENKU_TAGS_GROUP[index % 2 ? 1 : 0].push(item))
+/** 标签三行分组 (横向滚动, 三行同显, 同 music / real / manga 的 TAG_GROUP) */
+const WENKU_TAG_GROUP = [[], [], []]
+WENKU_TAGS.forEach((item, index) => WENKU_TAG_GROUP[index % 3].push(item))
+
+/** 出版社两行分组 */
+const WENKU_PUBLISHER_GROUP = [[], []]
+WENKU_PUBLISHERS.forEach((item, index) => WENKU_PUBLISHER_GROUP[index % 2].push(item))
+
+/** 作者两行分组 */
+const WENKU_AUTHOR_GROUP = [[], []]
+WENKU_AUTHORS.forEach((item, index) => WENKU_AUTHOR_GROUP[index % 2].push(item))
+
+/** 文库方两行分组 */
+const WENKU_CATE_GROUP = [[], []]
+WENKU_CATES.forEach((item, index) => WENKU_CATE_GROUP[index % 2].push(item))
 
 export const filterDS = [
   {
-    title: '首字',
-    type: 'first',
-    data: WENKU_FIRST
+    title: '标签',
+    type: 'tag',
+    data: WENKU_TAG_GROUP,
+    multiple: true
   },
   {
-    title: '发行',
-    type: 'year',
+    title: '出版',
+    type: 'publisher',
+    data: WENKU_PUBLISHER_GROUP,
+    multiple: true
+  },
+  {
+    title: '文库',
+    type: 'cate',
+    data: WENKU_CATE_GROUP,
+    multiple: true
+  },
+  {
+    title: '作者',
+    type: 'author',
+    data: WENKU_AUTHOR_GROUP,
+    multiple: true
+  },
+  {
+    title: '卷数',
+    type: 'vol',
+    data: WENKU_VOL
+  },
+  {
+    title: '开始',
+    type: 'start',
     data: WENKU_YEAR,
     always: true
   },
   {
-    title: '状态',
-    type: 'status',
-    data: WENKU_STATUS
+    title: '更新',
+    type: 'update',
+    data: WENKU_YEAR
+  },
+  {
+    title: '结束',
+    type: 'end',
+    data: WENKU_YEAR
+  },
+  {
+    title: '分级',
+    type: 'x',
+    data: WENKU_NSFW
   },
   {
     title: '动画',
     type: 'anime',
     data: WENKU_ANIME
-  },
-  {
-    title: '出版',
-    type: 'cate',
-    data: WENKU_CATE
-  },
-  {
-    title: '作者',
-    type: 'author',
-    data: WENKU_AUTHOR
-  },
-  {
-    title: '分类',
-    type: 'tags',
-    data: WENKU_TAGS_GROUP,
-    multiple: true,
-    multiSelect: true,
-    // nums: WENKU_TAGS_NUMS_MAP,
-    always: true
   },
   {
     title: '排序',

@@ -98,6 +98,23 @@ export const ITEM_SCHEMAS: Record<DataAssets, Schema> = {
     12: { tag: 12, key: 'p', type: 'int32[]' },
     13: { tag: 13, key: 'x', type: 'int32' }
   },
+  wenku: {
+    1: { tag: 1, key: 'i', type: 'int32' },
+    2: { tag: 2, key: 'd', type: 'string' },
+    3: { tag: 3, key: 's', type: 'float' },
+    4: { tag: 4, key: 'r', type: 'int32' },
+    5: { tag: 5, key: 'l', type: 'int32' },
+    6: { tag: 6, key: 't', type: 'int32[]' },
+    7: { tag: 7, key: 'st', type: 'string' },
+    8: { tag: 8, key: 'ud', type: 'string' },
+    9: { tag: 9, key: 'ed', type: 'string' },
+    10: { tag: 10, key: 'v', type: 'int32' },
+    11: { tag: 11, key: 'x', type: 'int32' },
+    12: { tag: 12, key: 'p', type: 'int32[]' },
+    13: { tag: 13, key: 'a', type: 'int32[]' },
+    14: { tag: 14, key: 'c', type: 'int32' },
+    15: { tag: 15, key: 'm', type: 'int32' }
+  },
   game: {
     1: { tag: 1, key: 'i', type: 'int32' },
     2: { tag: 2, key: 'f', type: 'string' },

@@ -104,10 +104,6 @@ export async function loadJSON<T extends JSONPath>(
         data = require('./thirdParty/h.min.json') as JSONData[T]
         break
 
-      case 'thirdParty/wenku.min':
-        data = require('./thirdParty/wenku.min.json') as JSONData[T]
-        break
-
       default:
         break
     }

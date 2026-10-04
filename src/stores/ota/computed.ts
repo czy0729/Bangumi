@@ -98,7 +98,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
   wenku(subjectId: SubjectId) {
     this.init('wenku', true)
     return computed(() => {
-      return (this.state.wenku[`wk8_${subjectId}`] || {}) as WenkuItem
+      return (this.state.wenku[`wenku_${subjectId}`] || {}) as WenkuItem
     }).get()
   }
 

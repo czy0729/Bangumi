@@ -169,9 +169,9 @@ export function getWenkuInfo(type: string, subjectId: string | number) {
 }
 
 /** 获取第三方文库标签 */
-export function getWenkuTags(wenkuInfo: { j?: readonly number[] } | null) {
+export function getWenkuTags(wenkuInfo: { t?: readonly number[] } | null) {
   if (!wenkuInfo) return null
-  const tags = wenkuInfo.j || []
+  const tags = wenkuInfo.t || []
   return tags.map(item => WENKU_TAGS[item])
 }
 

@@ -18,6 +18,7 @@ import type { Item as GameFingerItem } from '@utils/subject/game/types'
 import type { Item as MangaFingerItem } from '@utils/subject/manga/types'
 import type { Item as MusicFingerItem } from '@utils/subject/music/types'
 import type { Item as RealFingerItem } from '@utils/subject/real/types'
+import type { Item as WenkuFingerItem } from '@utils/subject/wenku/types'
 import type { BangumiData, Id } from '@types'
 
 /**
@@ -55,6 +56,7 @@ export type DataAssets =
   | 'music'
   | 'real'
   | 'mono'
+  | 'wenku'
 
 /** decode(name) 的函数签名 */
 export type Decode = <T extends DataAssets>(name: T) => Promise<Data[T]>
@@ -150,6 +152,9 @@ export type Data = {
 
   /** 人物/单行本条目数组 */
   mono: JSONMono
+
+  /** 找文库条目数组 */
+  wenku: WenkuFingerItem[]
 }
 
 /** get(name) 的函数签名 (同步读缓存, 需先 await decode(name) 预热) */

@@ -1,158 +1,97 @@
 /*
  * @Author: czy0729
- * @Date: 2022-09-20 01:25:40
+ * @Date: 2026-10-04 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 05:57:33
+ * @Last Modified time: 2026-10-04 00:00:00
  */
 import type { Loaded } from '@types'
-import type { WENKU_ANIME, WENKU_AUTHOR, WENKU_CATE, WENKU_STATUS } from './ds'
+import type { WENKU_SORT } from './ds'
 
 /** 查询指纹, 由筛选条件序列化得到 */
 export type Finger = string
 
 export type Query = {
-  /** 排序 */
-  sort?: string
+  tag?: string
 
-  /** 开始连载年份 */
-  year?: string | number
+  /** 出版社 (WENKU_PUBLISHERS 项, 空串表示未筛选) */
+  publisher?: string
 
-  /** 名称首字 */
-  first?: string
+  /** 作者 (WENKU_AUTHORS 项, 空串表示未筛选) */
+  author?: string
 
-  /** 连载状态 */
-  status?: (typeof WENKU_STATUS)[number]
+  /** 文库方 (WENKU_CATES 项, 空串表示未筛选) */
+  cate?: string
 
-  /** 分类标签, 见 WENKU_TAGS_MAP */
-  tags?: string[]
+  /** 卷数档位 (WENKU_VOL 项, 空串表示未筛选) */
+  vol?: string
 
-  /** 是否动画化 */
-  anime?: (typeof WENKU_ANIME)[number]
+  /** 开始年份 (st || d 前缀, 空串表示未筛选) */
+  start?: string | number
 
-  /** 所属文库方 */
-  cate?: (typeof WENKU_CATE)[number]
+  /** 更新年份 (ud || d 前缀, 空串表示未筛选) */
+  update?: string | number
 
-  /** 作者 */
-  author?: (typeof WENKU_AUTHOR)[number]
+  /** 结束年份 (ed 前缀, 空串表示未筛选) */
+  end?: string | number
+
+  /** 分级 ('限制' = NSFW, '未知' = 全年龄, 空串表示未筛选) */
+  x?: string
+
+  /** 动画化 ('是' = m===1, '否' = !m, 空串表示未筛选) */
+  anime?: string
+
+  sort?: (typeof WENKU_SORT)[number]
 }
 
 export type Item = {
-  /** SubjectId */
+  /** 条目 ID */
   i: number
 
-  /** wenku8 id */
-  w?: number
+  /** 发售日期 */
+  d?: string
 
-  /** 首字 */
-  f?: string
-
-  /** 是否连载中 */
-  v?: number
-
-  /** 是否动画化 */
-  m?: number
-
-  /** 作者 */
-  a?: number
-
-  /** 当前章节 */
-  e?: string
-
-  /** 标题, v7.1 后中文与日文合并以减少容量 */
-  t?: string
-
-  /** 封面 */
-  o?: string
-
-  /** 开始连载时间 */
-  b: string
-
-  /** 最后更新时间 */
-  u: string
-
-  /** 所属文库方 */
-  c: number
-
-  /** 热度 */
-  h: number
-
-  /** 上升趋势 */
-  p?: number
-
-  /** 文字量 (万) */
-  l: number
-
-  /** 分数 */
+  /** 评分 */
   s?: number
 
   /** 排名 */
   r?: number
 
-  /** 打分人数 */
-  k?: number
+  /** 评分人数 */
+  l?: number
 
-  /** 分类 */
-  j?: number[]
-}
+  /** 标签下标数组 (见 ds.ts WENKU_TAGS) */
+  t?: number[]
 
-export type UnzipItem = {
-  /** SubjectId */
-  id: number
+  /** 开始日期 (系列内最早分卷发售日, 缺席 = 同 d) */
+  st?: string
 
-  /** wenku8 id */
-  wenkuId: number
+  /** 更新日期 (系列内最晚分卷发售日, 缺席 = 同 d) */
+  ud?: string
 
-  /** 原先 1 表示已结束, 大部分都是 1, 所以现在 1 改为连载中 */
-  status: number
+  /** 结束日期 (infobox 结束 / 连载结束) */
+  ed?: string
 
-  /** 是否动画化 */
-  anime: number
+  /** 卷数 (infobox 册数, 关系聚合分卷数回落) */
+  v?: number
 
-  /** 作者 */
-  author: string
+  /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
+  x?: number
 
-  /** 当前章节 */
-  ep: string
+  /** 出版社下标数组 (见 ds.ts WENKU_PUBLISHERS) */
+  p?: number[]
 
-  /** 标题, v7.1 后中文与日文合并以减少容量 */
-  cn: string
+  /** 作者下标数组 (见 ds.ts WENKU_AUTHORS) */
+  a?: number[]
 
-  /** 封面 */
-  image: string
+  /** 文库方下标 (见 ds.ts WENKU_CATES) */
+  c?: number
 
-  /** 开始连载时间 */
-  begin: string
-
-  /** 最后更新时间 */
-  update: string
-
-  /** 所属文库方 */
-  cate: string
-
-  /** 热度 */
-  hot: number
-
-  /** 上升趋势 */
-  up: number
-
-  /** 文字量 (万) */
-  len: number
-
-  /** 分数 */
-  score: number
-
-  /** 排名 */
-  rank: number
-
-  /** 打分人数 */
-  total: number
-
-  /** 分类 */
-  tags: number[]
+  /** 动画化 (1 = 有动画) */
+  m?: number
 }
 
 export type SearchResult = {
-  list: UnzipItem[]
+  list: number[]
   pagination: {
     page: 1
     pageTotal: 1

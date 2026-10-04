@@ -33,7 +33,7 @@ export const STATE = {
   adv: { adv_0: {} } as Record<string, Partial<ADVItem>>,
 
   /** 找文库 */
-  wenku: { wk8_0: {} } as Record<string, Partial<WenkuItem>>,
+  wenku: { wenku_0: {} } as Record<string, Partial<WenkuItem>>,
 
   /** @deprecated 找 Hentai */
   hentai: { hentai_0: {} } as Record<string, Partial<HentaiItem>>,

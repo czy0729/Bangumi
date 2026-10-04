@@ -159,6 +159,13 @@ export default {
   'Manga.切换布局': 'Manga.switchLayout',
   'Manga.更多': 'Manga.onPage',
 
+  Wenku: 'Wenku',
+  'Wenku.跳转': 'Wenku.to',
+  'Wenku.选择': 'Wenku.onSelect',
+  'Wenku.到顶': 'Wenku.scrollToTop',
+  'Wenku.切换布局': 'Wenku.switchLayout',
+  'Wenku.更多': 'Wenku.onPage',
+
   游戏: 'Game',
   '游戏.跳转': 'Game.to',
   '游戏.选择': 'Game.onSelect',

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-04 00:00:00
  *
- * 找漫画列表布局条目
+ * 找文库列表布局条目
  */
 import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -34,9 +34,9 @@ function ItemList({ pickIndex }: Props) {
 
   const styles = memoStyles()
 
-  const subjectId = otaStore.mangaSubjectId(pickIndex)
-  const manga = otaStore.manga(subjectId)
-  const { id, title, cover, score, total, rank, info, date, update, pub, vol, ch } = manga
+  const subjectId = otaStore.wenkuSubjectId(pickIndex)
+  const wenku = otaStore.wenku(subjectId)
+  const { id, title, cover, score, total, rank, info, date, update, pub, vol } = wenku
 
   const handlePress = useCallback(() => {
     const image = cover ? `${HOST_BGM_STATIC}/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
@@ -46,7 +46,7 @@ function ItemList({ pickIndex }: Props) {
       _cn: title,
       _image: getCoverSrc(image, IMG_WIDTH_LG)
     })
-    t('Manga.跳转', { subjectId: id })
+    t('Wenku.跳转', { subjectId: id })
   }, [cover, title, id, navigation])
   const handleManage = useCallback(() => {
     const collection = collectionStore.collect(id)
@@ -57,12 +57,12 @@ function ItemList({ pickIndex }: Props) {
         title,
         status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection)
       },
-      '找漫画'
+      '找文库'
     )
   }, [title, id])
 
   /**
-   * 必须放在 `if (!manga?.id)` 之前
+   * 必须放在 `if (!wenku?.id)` 之前
    *  - 数据未就绪时首次渲染会走 loading 分支, 若把 hook 写在提前 return 之后,
    *    后续渲染就会报 Rendered more hooks than during the previous render
    * */
@@ -73,7 +73,7 @@ function ItemList({ pickIndex }: Props) {
     [styles]
   )
 
-  if (!manga?.id) {
+  if (!wenku?.id) {
     return (
       <Flex style={styles.loading} justify='center'>
         <Loading.Raw />
@@ -85,12 +85,10 @@ function ItemList({ pickIndex }: Props) {
   const titleSize = titleLen >= 20 ? 13 : titleLen >= 14 ? 14 : 15
   const image = cover ? `${HOST_BGM_STATIC}/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
 
-  /** 日期: 更新日期 (系列内最晚单卷发售日) 优先, 回落发售日期 */
+  /** 日期: 更新日期 (系列内最晚分卷发售日) 优先, 回落发售日期 */
   const showDate = update || date
 
-  const tip = [vol > 1 ? `${vol}卷` : ch ? `${ch}话` : '', showDate, info, pub]
-    .filter(Boolean)
-    .join(' / ')
+  const tip = [vol > 1 ? `${vol}卷` : '', showDate, info, pub].filter(Boolean).join(' / ')
 
   const collection = collectionStore.collect(id)
   const textOnly = TEXT_ONLY || !userStore.isLogin
