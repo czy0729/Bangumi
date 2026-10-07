@@ -5,8 +5,9 @@
  * @Last Modified time: 2026-10-01 07:17:16
  */
 import { computed } from 'mobx'
-import { collectionStore, otaStore, systemStore } from '@stores'
-import { isArray } from '@utils'
+import { filterList } from '@_'
+import { otaStore, systemStore, userStore } from '@stores'
+import { pick } from '@utils/subject/game'
 import { ADVANCE_LIMIT } from '../ds'
 import State from './state'
 
@@ -18,19 +19,14 @@ export default class Computed extends State {
 
   /** 对应项实际显示列表 */
   @computed get list() {
-    const { data, query } = this.state
-    let list = isArray(data?.list) ? data.list : []
-    if (query.collected === '隐藏') {
-      list = list.filter(item => {
-        const subjectId = otaStore.gameSubjectId(item)
-        return !collectionStore.collect(subjectId)
-      })
-    }
-
-    if (!systemStore.advance) {
-      list = list.slice(0, ADVANCE_LIMIT)
-    }
-
-    return list
+    return filterList({
+      list: this.state.data?.list,
+      query: this.state.query,
+      advance: systemStore.advance,
+      advanceLimit: ADVANCE_LIMIT,
+      isExtremeLimit: userStore.isExtremeLimit,
+      pick,
+      subjectId: index => otaStore.gameSubjectId(index)
+    })
   }
 }

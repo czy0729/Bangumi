@@ -21,6 +21,8 @@ message Nsfw {
   int32 t = 7;
   /** 话数 */
   int32 e = 8;
+  /** 标签下标数组 (见 NSFW_TAGS, 收录标签 top100; 已剔类型词 / 平台词 / 噪音, 同义归并) */
+  repeated int32 tg = 9;
 }
 
 /** 条目列表包装 */

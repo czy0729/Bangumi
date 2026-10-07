@@ -10,7 +10,7 @@ import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, flexStyle, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Cover, Manage, Rank, Stars } from '@_'
+import { Cover, getTitleSize, Manage, Rank, Stars } from '@_'
 import { _, collectionStore, otaStore, uiStore, userStore } from '@stores'
 import { stl } from '@utils'
 import { t } from '@utils/fetch'
@@ -36,7 +36,7 @@ function ItemList({ pickIndex }: Props) {
 
   const subjectId = otaStore.albumSubjectId(pickIndex)
   const album = otaStore.album(subjectId)
-  const { id, title, cover, score, total, rank, info, date, pub } = album
+  const { id, title, cover, score, total, rank, info, date, pub, tags: tagStr } = album
 
   const handlePress = useCallback(() => {
     const image = cover ? `${HOST_BGM_STATIC}/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
@@ -81,11 +81,14 @@ function ItemList({ pickIndex }: Props) {
     )
   }
 
-  const titleLen = title.length
-  const titleSize = titleLen >= 20 ? 13 : titleLen >= 14 ? 14 : 15
+  const titleSize = getTitleSize(title)
   const image = cover ? `${HOST_BGM_STATIC}/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
 
-  const tip = [date, info, pub].filter(Boolean).join(' / ')
+  /** tip: 日期 / 信息 / 出版社 / 标签, 各段斜杠分割, 标签顿号连接 (同 manga / wenku) */
+  const cates = String(tagStr || '')
+    .split(' ')
+    .filter(Boolean)
+  const tip = [date, info, pub, cates.join('、')].filter(Boolean).join(' / ')
 
   const collection = collectionStore.collect(id)
   const textOnly = TEXT_ONLY || !userStore.isLogin

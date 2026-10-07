@@ -12,6 +12,10 @@ export type Finger = string
 
 export type Query = {
   type?: (typeof NSFW_TYPE)[number]
+
+  /** 标签 */
+  tag?: string
+
   year?: string | number
   sort?: (typeof NSFW_SORT)[number]
 }
@@ -40,6 +44,9 @@ export type Item = {
 
   /** 话数 */
   e?: number
+
+  /** 标签下标数组 (NSFW_TAGS) */
+  tg?: number[]
 }
 
 export type UnzipItem = {
@@ -54,6 +61,9 @@ export type UnzipItem = {
   info: string
   collection: number
   eps: number
+
+  /** 标签 (top100 命中名, 空格分隔; 旧版详情缓存无此字段) */
+  tags?: string
 }
 
 export type SearchResult = {

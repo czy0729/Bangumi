@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-10-04 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-04 00:00:00
+ * @Last Modified time: 2026-10-06 05:34:05
  *
  * 找文库列表布局条目
  */
@@ -10,7 +10,7 @@ import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, flexStyle, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Cover, Manage, Rank, Stars } from '@_'
+import { Cover, getTitleSize, Manage, Rank, Stars } from '@_'
 import { _, collectionStore, otaStore, uiStore, userStore } from '@stores'
 import { stl } from '@utils'
 import { t } from '@utils/fetch'
@@ -36,7 +36,7 @@ function ItemList({ pickIndex }: Props) {
 
   const subjectId = otaStore.wenkuSubjectId(pickIndex)
   const wenku = otaStore.wenku(subjectId)
-  const { id, title, cover, score, total, rank, info, date, update, pub, vol } = wenku
+  const { id, title, cover, score, total, rank, info, date, update, pub, vol, tags: tagStr } = wenku
 
   const handlePress = useCallback(() => {
     const image = cover ? `${HOST_BGM_STATIC}/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
@@ -81,14 +81,19 @@ function ItemList({ pickIndex }: Props) {
     )
   }
 
-  const titleLen = title.length
-  const titleSize = titleLen >= 20 ? 13 : titleLen >= 14 ? 14 : 15
+  const titleSize = getTitleSize(title)
   const image = cover ? `${HOST_BGM_STATIC}/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
 
   /** 日期: 更新日期 (系列内最晚分卷发售日) 优先, 回落发售日期 */
   const showDate = update || date
 
-  const tip = [vol > 1 ? `${vol}卷` : '', showDate, info, pub].filter(Boolean).join(' / ')
+  /** tip: 卷数 / 日期 / 作者 / 出版社 / 标签, 各段斜杠分割, 标签顿号连接 (同 manga) */
+  const cates = String(tagStr || '')
+    .split(' ')
+    .filter(Boolean)
+  const tip = [vol > 1 ? `${vol}卷` : '', showDate, info, pub, cates.join('、')]
+    .filter(Boolean)
+    .join(' / ')
 
   const collection = collectionStore.collect(id)
   const textOnly = TEXT_ONLY || !userStore.isLogin

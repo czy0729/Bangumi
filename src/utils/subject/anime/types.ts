@@ -5,19 +5,24 @@
  * @Last Modified time: 2026-08-30 05:56:41
  */
 import type { Loaded } from '@types'
-import type { ANIME_AREA, ANIME_BEGIN, ANIME_OFFICIAL, ANIME_STATUS, ANIME_TYPE } from './ds'
+import type { ANIME_AREA, ANIME_BEGIN, ANIME_EP, ANIME_NSFW, ANIME_OFFICIAL, ANIME_STATUS } from './ds'
 
 /** 查询指纹, 由筛选条件序列化得到 */
 export type Finger = string
 
 export type Query = {
   area?: (typeof ANIME_AREA)[number]
-  type?: (typeof ANIME_TYPE)[number]
+  /** 类型 (meta_tags, 多选) */
+  meta?: string[]
   year?: string | number
   begin?: (typeof ANIME_BEGIN)[number]
   status?: (typeof ANIME_STATUS)[number]
+  /** 集数 (infobox 话数, 空串表示未筛选) */
+  ep?: (typeof ANIME_EP)[number]
   tags?: string[]
   official?: (typeof ANIME_OFFICIAL)[number]
+  /** 分级 ('限制' = NSFW, '未知' = 全年龄, 空串表示未筛选) */
+  x?: (typeof ANIME_NSFW)[number]
   sort?: string
 }
 
@@ -43,21 +48,30 @@ export type Item = {
   /** 放送日期 */
   b?: string
 
-  /** 地区, 缺席视为 jp */
-  ar?: 'jp' | 'cn'
+  /** 地区, 'cn' 中国 / 'ot' 欧美, 缺席视为日本 */
+  ar?: 'jp' | 'cn' | 'ot'
 
   /** 放送状态: 1 = 连载, 2 = 未播放, 缺席视为完结 */
   st?: number
 
   /** 制作公司下标, 见 ANIME_OFFICIAL_MAP */
   o: number[]
+
+  /** 话数 (infobox 话数) */
+  e?: number
+
+  /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
+  x?: number
+
+  /** 类型 meta_tags 下标, 见 ANIME_META_MAP */
+  mt?: number[]
 }
 
 export type UnzipItem = {
   id: number
   ageId: number
   type: string
-  area: 'jp' | 'cn'
+  area: 'jp' | 'cn' | 'ot'
   status: number | string
   official: string
   tags: string
@@ -76,7 +90,7 @@ export type CompressedItem = {
   id?: number
   a?: number
   ty?: string
-  ar?: 'jp' | 'cn'
+  ar?: 'jp' | 'cn' | 'ot'
   st?: number
   o?: number[]
   t?: number[]

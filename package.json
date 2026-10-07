@@ -23,6 +23,7 @@
     "test": "jest --detectOpenHandles",
     "test:watch": "jest --watch --forceExit",
     "pb:verify": "node scripts/pb-verify.js",
+    "tag:verify": "node scripts/tag-verify.js",
     "lint:styles": "npx eslint 'src/**/styles.ts'",
     "lint:imports": "npx eslint 'src/**/*.{ts,tsx}' --quiet --config eslint-rules/.eslintrc.check-imports.js",
     "fixed:chown": "sudo chown -R $(whoami):staff node_modules metro-cache dist android ios"

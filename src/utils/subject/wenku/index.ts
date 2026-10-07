@@ -6,6 +6,7 @@
  */
 import { decode } from '@utils/thirdParty/protobuf'
 import { ensureRecordLimit } from '../../cache'
+import { logger } from '../../dev'
 import { getTimestamp } from '../../index'
 import { SEARCH_RESULT_LIMIT, SORT } from '../anime'
 import {
@@ -92,17 +93,20 @@ function getData() {
   return wenku
 }
 
-/** 初始化文库数据 */
+/** 初始化文库数据 (解码失败按已加载兜底, 避免调用端未捕获 rejection 与反复重解大 bin) */
 export async function init() {
   if (loaded) return
 
-  wenku = await decode('wenku')
+  try {
+    wenku = await decode('wenku')
+  } catch (error) {
+    logger.error('utils/subject/wenku', 'init', error)
+  }
   loaded = true
 }
 
-/** 根据 index 选一项 */
+/** 根据 index 选一项 (数据源加载由 store 侧 initData 保证, 此处不触发 init) */
 export function pick(index: number): Item {
-  init()
   return getData()[index]
 }
 

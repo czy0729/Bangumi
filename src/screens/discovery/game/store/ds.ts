@@ -13,9 +13,6 @@ import type { ScreenQuery } from '../types'
 
 /** 默认筛选条件 */
 const QUERY: ScreenQuery = {
-  /** 首字 */
-  first: '',
-
   /** 发行年份 */
   year: GAME_YEAR[0],
 
@@ -31,8 +28,11 @@ const QUERY: ScreenQuery = {
   /** 发行商 */
   pub: '',
 
+  /** 分级 */
+  x: '',
+
   /** 排序 */
-  sort: '发行',
+  sort: '评分人数',
 
   /** 收藏 */
   collected: ''

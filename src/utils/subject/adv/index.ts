@@ -13,7 +13,6 @@ import {
   ADV_DEV,
   ADV_DEV_ALIAS,
   ADV_DEV_MAP,
-  ADV_FIRST,
   ADV_PLATFORM,
   ADV_PLATFORM_MAP,
   ADV_PLAYTIME_MAP,
@@ -29,7 +28,6 @@ export {
   ADV_COLLECTED,
   ADV_DEV,
   ADV_DEV_MAP,
-  ADV_FIRST,
   ADV_PLATFORM,
   ADV_SORT,
   ADV_TAGS,
@@ -98,7 +96,7 @@ export function search(query: Query): SearchResult {
 
   // 查询指纹
   const finger = JSON.stringify(query || {})
-  const { first, tag, platform, year, dev, playtime, cn, x, sort } = query || {}
+  const { tag, platform, year, dev, playtime, cn, x, sort } = query || {}
 
   if (sort !== '随机' && SEARCH_CACHE[finger]) {
     return SEARCH_CACHE[finger]
@@ -116,7 +114,6 @@ export function search(query: Query): SearchResult {
   const data = getData()
   data.forEach((item, index) => {
     let match = true
-    if (match && first) match = item.f !== undefined && first === item.f
     if (match && tag) match = typeof tagIndex === 'number' && !!item.ta?.includes(tagIndex)
     if (match && platform) {
       match = typeof platformIndex === 'number' && !!item.pl?.includes(platformIndex)
@@ -153,10 +150,6 @@ export function search(query: Query): SearchResult {
 
     case '随机':
       _list = _list.sort(() => SORT.random())
-      break
-
-    case '名称':
-      _list = _list.sort((a, b) => SORT.name(data[a], data[b], 't'))
       break
 
     default:

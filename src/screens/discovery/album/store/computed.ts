@@ -7,8 +7,8 @@
  * 找画集派生数据
  */
 import { computed } from 'mobx'
-import { collectionStore, otaStore, systemStore, userStore } from '@stores'
-import { isArray } from '@utils'
+import { filterList } from '@_'
+import { otaStore, systemStore, userStore } from '@stores'
 import { pick } from '@utils/subject/album'
 import { ADVANCE_LIMIT } from '../ds'
 import State from './state'
@@ -21,25 +21,14 @@ export default class Computed extends State {
 
   /** 对应项实际显示列表 */
   @computed get list() {
-    const { data, query } = this.state
-    let list = isArray(data?.list) ? data.list : []
-
-    /** 受限用户隐藏 NSFW 条目 (finger 的 x) */
-    if (userStore.isExtremeLimit) {
-      list = list.filter(item => pick(item).x !== 1)
-    }
-
-    if (query.collected === '隐藏') {
-      list = list.filter(item => {
-        const subjectId = otaStore.albumSubjectId(item)
-        return !collectionStore.collect(subjectId)
-      })
-    }
-
-    if (!systemStore.advance) {
-      list = list.slice(0, ADVANCE_LIMIT)
-    }
-
-    return list
+    return filterList({
+      list: this.state.data?.list,
+      query: this.state.query,
+      advance: systemStore.advance,
+      advanceLimit: ADVANCE_LIMIT,
+      isExtremeLimit: userStore.isExtremeLimit,
+      pick,
+      subjectId: index => otaStore.albumSubjectId(index)
+    })
   }
 }

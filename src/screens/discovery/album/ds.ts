@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-05 00:00:00
  */
+import { groupItems } from '@_'
 import {
   ALBUM_AUTHORS,
   ALBUM_CATES,
@@ -20,23 +21,21 @@ export const COMPONENT = 'Album'
 export const ADVANCE_LIMIT = 60
 
 /** 标签三行分组 (横向滚动, 三行同显, 同其他频道的 TAG_GROUP) */
-const ALBUM_TAG_GROUP = [[], [], []]
-ALBUM_TAGS.forEach((item, index) => ALBUM_TAG_GROUP[index % 3].push(item))
+const ALBUM_TAG_GROUP = groupItems(ALBUM_TAGS)
 
 /** 出版社两行分组 */
-const ALBUM_PUBLISHER_GROUP = [[], []]
-ALBUM_PUBLISHERS.forEach((item, index) => ALBUM_PUBLISHER_GROUP[index % 2].push(item))
+const ALBUM_PUBLISHER_GROUP = groupItems(ALBUM_PUBLISHERS, 2)
 
 /** 作者两行分组 */
-const ALBUM_AUTHOR_GROUP = [[], []]
-ALBUM_AUTHORS.forEach((item, index) => ALBUM_AUTHOR_GROUP[index % 2].push(item))
+const ALBUM_AUTHOR_GROUP = groupItems(ALBUM_AUTHORS, 2)
 
+/** 筛选行顺序统一见 web/standalone/DIMENSIONS.md §一.8 */
 export const filterDS = [
   {
-    title: '标签',
-    type: 'tag',
-    data: ALBUM_TAG_GROUP,
-    multiple: true
+    title: '年份',
+    type: 'year',
+    data: ALBUM_YEAR,
+    always: true
   },
   {
     title: '出版',
@@ -50,16 +49,16 @@ export const filterDS = [
     data: ALBUM_CATES
   },
   {
+    title: '标签',
+    type: 'tag',
+    data: ALBUM_TAG_GROUP,
+    multiple: true
+  },
+  {
     title: '作者',
     type: 'author',
     data: ALBUM_AUTHOR_GROUP,
     multiple: true
-  },
-  {
-    title: '年份',
-    type: 'year',
-    data: ALBUM_YEAR,
-    always: true
   },
   {
     title: '分级',

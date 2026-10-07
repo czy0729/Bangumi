@@ -13,7 +13,6 @@ import {
   HENTAI_CHARA,
   HENTAI_COLLECTED,
   HENTAI_CONTENT,
-  HENTAI_FIRST,
   HENTAI_JOB,
   HENTAI_SORT,
   HENTAI_TAGS,
@@ -29,7 +28,6 @@ export {
   HENTAI_CHARA,
   HENTAI_COLLECTED,
   HENTAI_CONTENT,
-  HENTAI_FIRST,
   HENTAI_JOB,
   HENTAI_SORT,
   HENTAI_TAGS,
@@ -79,7 +77,7 @@ export function search(query: Query): SearchResult {
 
   // 查询指纹
   const finger = JSON.stringify(query || {})
-  const { first, year, chara, job, body, content, sort } = query || {}
+  const { year, chara, job, body, content, sort } = query || {}
 
   if (sort !== '随机' && SEARCH_CACHE[finger]) {
     return SEARCH_CACHE[finger]
@@ -95,7 +93,6 @@ export function search(query: Query): SearchResult {
   data.forEach((item, index) => {
     let match = true
 
-    if (match && first) match = first === item.f
     if (match && year) match = yearReg.test(item.a)
     if (match && chara) match = item.t?.includes(HENTAI_TAGS_MAP[chara])
     if (match && job) match = item.t?.includes(HENTAI_TAGS_MAP[job])
@@ -115,7 +112,7 @@ export function search(query: Query): SearchResult {
       break
 
     case '排名':
-      _list = _list.sort((a, b) => SORT.rating(data[a], data[b], 's', 'f'))
+      _list = _list.sort((a, b) => SORT.rating(data[a], data[b], 's', 'r'))
       break
 
     case '评分人数':

@@ -9,7 +9,7 @@ import { getFolder } from './utils'
 
 import type { SubjectId } from '@types'
 
-/** 单个条目的画集详情 (加密单文件, Crypto.get 解密) */
-export const CDN_ALBUM_DETAIL = (subjectId: SubjectId) => {
-  return `${HOST_DOGE_CDN}/bangumi-album/${getFolder(subjectId)}/${subjectId}.txt` as const
+/** 单个条目的番剧详情 (加密单文件, Crypto.get 解密) */
+export const CDN_ANIME_DETAIL = (subjectId: SubjectId) => {
+  return `${HOST_DOGE_CDN}/bangumi-anime/${getFolder(subjectId)}/${subjectId}.txt` as const
 }

@@ -16,9 +16,6 @@ import type { ScreenQuery } from '../types'
 
 /** 默认筛选条件 */
 const QUERY: ScreenQuery = {
-  /** 首字 */
-  first: '',
-
   /** 发行年份 */
   year: ADV_YEAR[0],
 

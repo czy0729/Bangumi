@@ -18,6 +18,8 @@ message Music {
   int32 l = 5;
   /** 标签下标数组 (见 MUSIC_TAGS, 收录标签 top100) */
   repeated int32 t = 6;
+  /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
+  int32 x = 7;
 }
 
 /** 条目列表包装 */

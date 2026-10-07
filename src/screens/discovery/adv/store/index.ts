@@ -2,38 +2,26 @@
  * @Author: czy0729
  * @Date: 2024-07-14 16:05:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-14 16:07:20
+ * @Last Modified time: 2026-10-05 00:00:00
  */
+import { createInit } from '@_'
 import { collectionStore } from '@stores'
 import { init } from '@utils/subject/adv'
+import { FILTER_DS } from '../ds'
 import Action from './action'
-import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
-
-import type { STATE } from './ds'
-
-let _loaded = false
+import { EXCLUDE_STATE, NAMESPACE, RESET_STATE, STATE } from './ds'
 
 export default class ScreenADV extends Action {
-  init = async () => {
-    const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
-    this.setState({
-      ...storageData,
-      ...EXCLUDE_STATE,
-      _loaded
-    })
-    if (!_loaded) await init()
-    _loaded = true
-
-    collectionStore.fetchUserCollectionsQueue(false, '游戏')
-
-    this.search()
-
-    setTimeout(() => {
-      this.setState({
-        _loaded: true
-      })
-    }, 120)
-  }
+  init = createInit(this, {
+    namespace: NAMESPACE,
+    defaults: STATE.query,
+    filterDS: FILTER_DS,
+    excludeState: EXCLUDE_STATE,
+    initData: init,
+    onBeforeSearch: () => {
+      collectionStore.fetchUserCollectionsQueue(false, '游戏')
+    }
+  })
 
   unmount = () => {
     this.scrollToOffset = null

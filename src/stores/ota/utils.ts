@@ -55,6 +55,61 @@ export function isFailed(key: string) {
   return FAILED.has(key)
 }
 
+type FetchDetailPageOptions<T> = {
+  /** finger 排序下标 */
+  list: number[]
+  /** 状态键与缓存键前缀, 如 'anime' */
+  name: string
+  /** 日志方法名, 如 'onAnimePage' */
+  label: string
+  /** 已缓存详情 */
+  cache: Record<string, Partial<T> | undefined>
+  /** 下标 → 条目 ID */
+  subjectId: (index: number) => SubjectId
+  /** 单条详情地址 */
+  getUrl: (subjectId: SubjectId) => string
+  /** 是否已加载 (即判重字段) */
+  isLoaded: (item: Partial<T>) => boolean
+  /** 是否有封面 */
+  hasCover: (item: T) => boolean
+}
+
+/**
+ * 列表分页详情拉取
+ *
+ * 判重: 无详情且本轮未失败过的直接请求, 已加载但缺封面的每轮冷启动重试一次
+ */
+export async function fetchDetailPage<T extends object>(
+  options: FetchDetailPageOptions<T>
+): Promise<Record<string, T>> {
+  const { list, name, label, cache, subjectId, getUrl, isLoaded, hasCover } = options
+  const subjectIds: SubjectId[] = []
+  list.forEach(index => {
+    const id = subjectId(index)
+    if (!id) return
+
+    const key = `${name}_${id}`
+    const item = cache[key]
+    if (item && isLoaded(item)) {
+      if (hasCover(item as T) || isRetried(key)) return
+    } else if (isFailed(key)) {
+      return
+    }
+    subjectIds.push(id)
+  })
+  if (!subjectIds.length) return {}
+
+  const data = await fetchDetails<T>(subjectIds, name, getUrl, item => isLoaded(item))
+  const keys = Object.keys(data)
+  log(label, {
+    total: list.length,
+    requested: subjectIds.length,
+    loaded: keys.length,
+    noCover: keys.filter(key => !hasCover(data[key]))
+  })
+  return data
+}
+
 /**
  * 批量拉取 CDN 加密单文件详情
  *

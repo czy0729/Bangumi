@@ -11,7 +11,6 @@ import type { HENTAI_SORT, HENTAI_TAGS } from './ds'
 export type Finger = string
 
 export type Query = {
-  first?: string
   year?: string | number
   chara?: (typeof HENTAI_TAGS)[number]
   job?: (typeof HENTAI_TAGS)[number]
@@ -24,11 +23,11 @@ export type Item = {
   /** 条目 ID */
   id: number
 
-  /** 番组 id */
-  h?: number
-
   /** 名称首字 */
   f?: string
+
+  /** 番组 id */
+  h?: number
 
   /** 中文名 */
   c?: string

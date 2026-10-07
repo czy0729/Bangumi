@@ -28,12 +28,14 @@ export const STATE = {
   /** 查询参数 */
   query: {
     area: '日本',
-    type: '',
+    meta: [],
     year: ANIME_YEAR[0],
     begin: '',
     status: '',
+    ep: '',
     tags: [],
     official: '',
+    x: '',
     sort: '评分人数',
     collected: ''
   },

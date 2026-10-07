@@ -23,9 +23,6 @@ export const memoStyles = _.memoStyles(() => ({
   body: {
     marginRight: _.wind
   },
-  tags: {
-    marginRight: -48
-  },
   thumbs: {
     marginTop: _.md,
     height: THUMB_HEIGHT

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-10-04 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-04 00:00:00
+ * @Last Modified time: 2026-10-06 07:37:24
  *
  * 找漫画列表布局条目
  */
@@ -10,7 +10,7 @@ import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, flexStyle, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Cover, Manage, Rank, Stars } from '@_'
+import { Cover, getTitleSize, Manage, Rank, Stars } from '@_'
 import { _, collectionStore, otaStore, uiStore, userStore } from '@stores'
 import { stl } from '@utils'
 import { t } from '@utils/fetch'
@@ -36,7 +36,22 @@ function ItemList({ pickIndex }: Props) {
 
   const subjectId = otaStore.mangaSubjectId(pickIndex)
   const manga = otaStore.manga(subjectId)
-  const { id, title, cover, score, total, rank, info, date, update, pub, vol, ch } = manga
+  const {
+    id,
+    title,
+    cover,
+    score,
+    total,
+    rank,
+    info,
+    date,
+    update,
+    pub,
+    vol,
+    ch,
+    pages,
+    tags: tagStr
+  } = manga
 
   const handlePress = useCallback(() => {
     const image = cover ? `${HOST_BGM_STATIC}/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
@@ -81,14 +96,25 @@ function ItemList({ pickIndex }: Props) {
     )
   }
 
-  const titleLen = title.length
-  const titleSize = titleLen >= 20 ? 13 : titleLen >= 14 ? 14 : 15
+  const titleSize = getTitleSize(title)
   const image = cover ? `${HOST_BGM_STATIC}/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
 
   /** 日期: 更新日期 (系列内最晚单卷发售日) 优先, 回落发售日期 */
   const showDate = update || date
 
-  const tip = [vol > 1 ? `${vol}卷` : ch ? `${ch}话` : '', showDate, info, pub]
+  /** 仿网页版 tip: 话数(卷数) / 日期 / 作者 / 出版社 / 页数 / 标签, 各段斜杠分割, 标签顿号连接 */
+  const author = String(info || '').split(' / ')[0] || ''
+  const cates = String(tagStr || '')
+    .split(' ')
+    .filter(Boolean)
+  const tip = [
+    vol > 1 ? `${vol}卷` : ch ? `${ch}话` : '',
+    showDate,
+    author,
+    pub,
+    pages ? `${pages}页` : '',
+    cates.join('、')
+  ]
     .filter(Boolean)
     .join(' / ')
 

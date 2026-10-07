@@ -9,7 +9,6 @@ import {
   HENTAI_CHARA,
   HENTAI_COLLECTED,
   HENTAI_CONTENT,
-  HENTAI_FIRST,
   HENTAI_JOB,
   HENTAI_SORT,
   HENTAI_YEAR
@@ -21,7 +20,6 @@ export const NAMESPACE = 'ScreenHentai'
 
 export const STATE = {
   query: {
-    first: '',
     year: 2022,
     chara: '',
     job: '',
@@ -43,11 +41,6 @@ const HENTAI_CONTENT_GROUP = [[], []]
 HENTAI_CONTENT.forEach((item, index) => HENTAI_CONTENT_GROUP[index % 2 ? 1 : 0].push(item))
 
 export const filterDS = [
-  {
-    title: '首字',
-    type: 'first',
-    data: HENTAI_FIRST
-  },
   {
     title: '年份',
     type: 'year',

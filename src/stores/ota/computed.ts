@@ -44,7 +44,7 @@ export default class Computed extends State implements StoreConstructor<typeof S
     this.init('anime', true)
 
     return computed(() => {
-      return (this.state.anime[`age_${subjectId}`] || {}) as AnimeItem
+      return (this.state.anime[`anime_${subjectId}`] || {}) as AnimeItem
     }).get()
   }
 

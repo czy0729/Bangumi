@@ -7,8 +7,7 @@ syntax = "proto3";
 message ADV {
   /** 条目 Id */
   int32 i = 1;
-  /** 首字母 (name_cn 拼音首字母 A-Z, 用于首字筛选) */
-  string f = 2;
+  reserved 2;
   /** 发售日期 */
   string en = 3;
   /** 评分 */

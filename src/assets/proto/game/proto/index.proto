@@ -7,8 +7,7 @@ syntax = "proto3";
 message Game {
   /** 条目 Id */
   int32 i = 1;
-  /** 首字母 (name_cn 拼音首字母 A-Z, 用于首字筛选) */
-  string f = 2;
+  reserved 2;
   /** 发行日期 */
   string en = 3;
   /** 评分 */
@@ -32,6 +31,8 @@ message Game {
   int32 vc = 12;
   /** 标签下标数组 (见 GAME_TAGS, 收录标签 top100; 已剔年份, 同义归并) */
   repeated int32 tg = 13;
+  /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
+  int32 x = 14;
 }
 
 /** 条目列表包装 */

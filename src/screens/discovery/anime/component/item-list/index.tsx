@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 04:08:55
+ * @Last Modified time: 2026-10-06 05:33:29
  */
 import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, flexStyle, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Cover, InView, Manage, PreventTouchPlaceholder, Rank, Stars, Tags } from '@_'
+import { Cover, getTitleSize, InView, Manage, PreventTouchPlaceholder, Rank, Stars } from '@_'
 import { _, collectionStore, otaStore, uiStore, useStore } from '@stores'
-import { cnjp, desc, stl, x18 } from '@utils'
+import { cnjp, desc, isArray, stl, x18 } from '@utils'
 import { t } from '@utils/fetch'
 import {
   HOST_BGM_STATIC,
@@ -89,30 +89,46 @@ function ItemList({ index, pickIndex }: Props) {
     type,
     status,
     begin,
+    meta,
     tags: tagStr,
     official,
     origin,
+    director,
+    author,
+    charaDesign,
     score,
     rank,
     total
   } = anime
 
   const title = cnjp(cn, jp)
-  const titleLen = title.length
-  const titleSize = titleLen >= 20 ? 13 : titleLen >= 14 ? 14 : 15
+  const titleSize = getTitleSize(title)
   const cover = image ? `${HOST_BGM_STATIC}/pic/cover/m/${image}.jpg` : IMG_DEFAULT
 
-  const epStr = String(ep).replace(/\(完结\)|第|\[|\]/g, '')
-  const tipStr = [type === 'TV' ? '' : type, epStr, status, begin]
-    .concat([official, origin].map(v => (v === '暂无' ? '' : v)))
+  const epStr = ep ? `${String(ep).replace(/\(完结\)|第|\[|\]/g, '')}话` : ''
+  const metas = String(meta || '')
+    .split(' ')
+    .filter(Boolean)
+  /** 类型 (meta) 已涵盖形式 (type) 与改编来源 (origin), 有 meta 时不再单独显示 */
+  const head = metas.length
+    ? [epStr, status, begin, director, author, charaDesign, official]
+    : [type === 'TV' ? '' : type, epStr, status, begin, official, origin]
+  const tipStr = head
+    .map(v => (v === '暂无' ? '' : v))
     .filter(Boolean)
     .join(' / ')
 
-  const { tags = [] } = $.state.query
+  /** 当前筛选命中的标签置前 (历史缓存可能是非数组形态, 先归一) */
+  const queryTags = $.state.query.tags
+  const tags: string[] = isArray(queryTags) ? queryTags : []
+  /** 标签剔除与类型 (meta) 重复的题材词 */
   const cates = String(tagStr)
     .split(' ')
-    .filter(v => v && v !== '暂无')
+    .filter(v => v && v !== '暂无' && !metas.includes(v))
     .sort((a, b) => desc(tags.includes(a) ? 1 : 0, tags.includes(b) ? 1 : 0))
+
+  /** 顺序: 信息 / 类型 / 标签, 各段斜杠分割, 段内顿号连接 */
+  const tip = [tipStr, metas.join('、'), cates.join('、')].filter(Boolean).join(' / ')
 
   const collection = collectionStore.collect(id)
 
@@ -140,23 +156,18 @@ function ItemList({ index, pickIndex }: Props) {
               <Manage subjectId={id} collection={collection} onPress={handleManage} />
             </Flex>
 
-            <Text style={styles.tip} size={11} lineHeight={14}>
-              {tipStr}
+            <Text style={styles.tip} size={11} lineHeight={14} numberOfLines={3}>
+              {tip}
             </Text>
 
             <Flex>
-              <Flex>
-                <Rank value={rank} />
-                <Stars style={_.mr.xs} value={score} simple />
-                {!!total && (
-                  <Text style={_.mr.sm} type='sub' size={11} bold>
-                    ({total})
-                  </Text>
-                )}
-              </Flex>
-              <Flex.Item>
-                <Tags value={cates} active={tags} />
-              </Flex.Item>
+              <Rank value={rank} />
+              <Stars style={_.mr.xs} value={score} simple />
+              {!!total && (
+                <Text style={_.mr.sm} type='sub' size={11} bold>
+                  ({total})
+                </Text>
+              )}
             </Flex>
           </Flex>
         </Flex.Item>

@@ -15,8 +15,8 @@ import {
   GAME_DEV,
   GAME_DEV_ALIAS,
   GAME_DEV_MAP,
-  GAME_FIRST,
   GAME_JUNK,
+  GAME_NSFW,
   GAME_PLATFORM,
   GAME_PLATFORM_MAP,
   GAME_PUB,
@@ -37,8 +37,8 @@ export {
   GAME_DEV,
   GAME_DEV_ALIAS,
   GAME_DEV_MAP,
-  GAME_FIRST,
   GAME_JUNK,
+  GAME_NSFW,
   GAME_PLATFORM,
   GAME_PLATFORM_MAP,
   GAME_PUB,
@@ -125,7 +125,7 @@ export function search(query: Query): SearchResult {
 
   // 查询指纹
   const finger = JSON.stringify(query || {})
-  const { first, year, platform, cate, dev, pub, tag, sort } = query || {}
+  const { year, platform, cate, dev, pub, tag, x, sort } = query || {}
 
   if (sort !== '随机' && SEARCH_CACHE[finger]) {
     return SEARCH_CACHE[finger]
@@ -140,8 +140,6 @@ export function search(query: Query): SearchResult {
   const data = getData()
   data.forEach((item, index) => {
     let match = true
-
-    if (match && first) match = first === item.f
 
     // en: '2020-02-06'
     if (match && year) match = yearReg.test(item.en || '0000')
@@ -162,11 +160,14 @@ export function search(query: Query): SearchResult {
     // p: ['Nintendo']
     if (match && pub) match = PUB_MATCH[pub]?.some(num => item.p?.includes(num)) ?? false
 
+    // x: '限制' = NSFW, '未知' = 全年龄
+    if (match && x) match = x === '限制' ? item.x === 1 : x === '未知' ? !item.x : true
+
     if (match) _list.push(index)
   })
 
   switch (sort) {
-    case '发行':
+    case '发行时间':
       _list = _list.sort((a, b) => SORT.begin(data[a], data[b], 'en'))
       break
 
@@ -178,20 +179,8 @@ export function search(query: Query): SearchResult {
       _list = _list.sort((a, b) => SORT.total(data[a], data[b], 'l'))
       break
 
-    case '外网评分':
-      _list.sort((a, b) => SORT.score(data[a], data[b], 'vs'))
-      break
-
-    case '外网热度':
-      _list.sort((a, b) => SORT.score(data[a], data[b], 'vc'))
-      break
-
     case '随机':
       _list = _list.sort(() => SORT.random())
-      break
-
-    case '名称':
-      _list = _list.sort((a, b) => SORT.name(data[a], data[b], 'f'))
       break
 
     default:

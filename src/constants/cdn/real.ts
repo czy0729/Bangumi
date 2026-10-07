@@ -4,12 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-03 00:00:00
  */
-import { HOST_DOGE } from './ds'
+import { HOST_DOGE_CDN } from './ds'
 import { getFolder } from './utils'
 
 import type { SubjectId } from '@types'
 
 /** 单个条目的三次元详情 (加密单文件, Crypto.get 解密) */
 export const CDN_REAL_DETAIL = (subjectId: SubjectId) => {
-  return `${HOST_DOGE}/bangumi-real/${getFolder(subjectId)}/${subjectId}.txt` as const
+  return `${HOST_DOGE_CDN}/bangumi-real/${getFolder(subjectId)}/${subjectId}.txt` as const
 }

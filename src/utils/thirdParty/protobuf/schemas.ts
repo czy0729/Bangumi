@@ -81,7 +81,10 @@ export const ITEM_SCHEMAS: Record<DataAssets, Schema> = {
     7: { tag: 7, key: 'o', type: 'int32[]' },
     8: { tag: 8, key: 't', type: 'int32[]' },
     9: { tag: 9, key: 'ar', type: 'string' },
-    10: { tag: 10, key: 'b', type: 'string' }
+    10: { tag: 10, key: 'b', type: 'string' },
+    11: { tag: 11, key: 'e', type: 'int32' },
+    12: { tag: 12, key: 'x', type: 'int32' },
+    13: { tag: 13, key: 'mt', type: 'int32[]' }
   },
   manga: {
     1: { tag: 1, key: 'i', type: 'int32' },
@@ -129,7 +132,6 @@ export const ITEM_SCHEMAS: Record<DataAssets, Schema> = {
   },
   game: {
     1: { tag: 1, key: 'i', type: 'int32' },
-    2: { tag: 2, key: 'f', type: 'string' },
     3: { tag: 3, key: 'en', type: 'string' },
     4: { tag: 4, key: 's', type: 'float' },
     5: { tag: 5, key: 'r', type: 'int32' },
@@ -140,11 +142,11 @@ export const ITEM_SCHEMAS: Record<DataAssets, Schema> = {
     10: { tag: 10, key: 'pl', type: 'int32[]' },
     11: { tag: 11, key: 'vs', type: 'float' },
     12: { tag: 12, key: 'vc', type: 'int32' },
-    13: { tag: 13, key: 'tg', type: 'int32[]' }
+    13: { tag: 13, key: 'tg', type: 'int32[]' },
+    14: { tag: 14, key: 'x', type: 'int32' }
   },
   adv: {
     1: { tag: 1, key: 'i', type: 'int32' },
-    2: { tag: 2, key: 'f', type: 'string' },
     3: { tag: 3, key: 'en', type: 'string' },
     4: { tag: 4, key: 's', type: 'float' },
     5: { tag: 5, key: 'r', type: 'int32' },
@@ -184,7 +186,8 @@ export const ITEM_SCHEMAS: Record<DataAssets, Schema> = {
     5: { tag: 5, key: 'l', type: 'int32' },
     6: { tag: 6, key: 'c', type: 'int32' },
     7: { tag: 7, key: 't', type: 'int32' },
-    8: { tag: 8, key: 'e', type: 'int32' }
+    8: { tag: 8, key: 'e', type: 'int32' },
+    9: { tag: 9, key: 'tg', type: 'int32[]' }
   },
   music: {
     1: { tag: 1, key: 'i', type: 'int32' },
@@ -192,7 +195,8 @@ export const ITEM_SCHEMAS: Record<DataAssets, Schema> = {
     3: { tag: 3, key: 's', type: 'float' },
     4: { tag: 4, key: 'r', type: 'int32' },
     5: { tag: 5, key: 'l', type: 'int32' },
-    6: { tag: 6, key: 't', type: 'int32[]' }
+    6: { tag: 6, key: 't', type: 'int32[]' },
+    7: { tag: 7, key: 'x', type: 'int32' }
   },
   real: {
     1: { tag: 1, key: 'i', type: 'int32' },
@@ -202,7 +206,8 @@ export const ITEM_SCHEMAS: Record<DataAssets, Schema> = {
     5: { tag: 5, key: 'l', type: 'int32' },
     6: { tag: 6, key: 't', type: 'int32[]' },
     7: { tag: 7, key: 'g', type: 'int32' },
-    8: { tag: 8, key: 'f', type: 'int32' }
+    8: { tag: 8, key: 'f', type: 'int32' },
+    9: { tag: 9, key: 'x', type: 'int32' }
   },
   mono: {
     1: { tag: 1, key: 'i', type: 'int32' },

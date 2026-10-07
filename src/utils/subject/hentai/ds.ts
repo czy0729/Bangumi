@@ -4,11 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-03 23:31:53
  */
-import { DATA_ALPHABET } from '@constants/data'
 import { ANIME_COLLECTED, ANIME_YEAR } from '../anime'
-
-/** 名称首字, 复用动画字母表 */
-export const HENTAI_FIRST = DATA_ALPHABET
 
 /** 年份筛选, 复用动画年份列表 */
 export const HENTAI_YEAR = ANIME_YEAR

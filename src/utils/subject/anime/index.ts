@@ -4,9 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-11-03 16:44:11
  */
-import { getTimestamp } from '../../index'
+import { ensureRecordLimit } from '../../cache'
+import { getTimestamp, isArray } from '../../index'
 import { decode, get } from '../../thirdParty/protobuf'
-import { ANIME_OFFICIAL_MAP, ANIME_TAGS_MAP, REG_SEASONS, SEARCH_RESULT_LIMIT, SORT } from './ds'
+import { ANIME_META_MAP, ANIME_OFFICIAL_MAP, ANIME_TAGS_MAP, REG_SEASONS, SEARCH_RESULT_LIMIT, SORT } from './ds'
 
 import type { SubjectId } from '@types'
 import type { CompressedItem, Finger, Item, Query, SearchResult, UnzipItem } from './types'
@@ -15,7 +16,10 @@ export {
   ANIME_AREA,
   ANIME_BEGIN,
   ANIME_COLLECTED,
-  ANIME_FIRST,
+  ANIME_EP,
+  ANIME_META,
+  ANIME_META_MAP,
+  ANIME_NSFW,
   ANIME_OFFICIAL,
   ANIME_OFFICIAL_MAP,
   ANIME_SORT,
@@ -30,7 +34,7 @@ export {
 } from './ds'
 
 /** 缓存搜索结果 */
-const memo = new Map<Finger, SearchResult>()
+const memo: Record<Finger, SearchResult> = {}
 
 let anime: Item[] = []
 
@@ -65,14 +69,31 @@ export function find(id: SubjectId): UnzipItem {
   return unzip(getData().find(item => item.i == id) as unknown as CompressedItem | undefined)
 }
 
+/** 集数档位 → 话数区间 (0 表示无上限) */
+const EP_RANGE: Record<string, [number, number]> = {
+  '1话': [1, 1],
+  '2-13话': [2, 13],
+  '14-26话': [14, 26],
+  '27-52话': [27, 52],
+  '52话+': [53, 0]
+}
+
+function matchRange(value: number | undefined, range: [number, number] | undefined) {
+  if (!value || !range) return false
+  return value >= range[0] && (!range[1] || value <= range[1])
+}
+
 /** 只返回下标数组对象, max 为返回条数上限 */
 export function search(query: Query, max: number = SEARCH_RESULT_LIMIT): SearchResult {
   init()
 
   // 查询指纹
   const finger = JSON.stringify(query || {})
-  const { area, type, year, begin, status, tags = [], official, sort } = query || {}
-  if (sort !== '随机' && memo.has(finger)) return memo.get(finger)
+  const { area, year, begin, status, ep, official, x, sort } = query || {}
+  /** 多选维度来自本地缓存恢复 / 深链, 形态不可信, 非数组一律视为未筛选 */
+  const meta = isArray(query?.meta) ? query.meta : []
+  const tags = isArray(query?.tags) ? query.tags : []
+  if (sort !== '随机' && memo[finger]) return memo[finger]
 
   let list: number[] = []
   let yearReg: RegExp
@@ -86,11 +107,16 @@ export function search(query: Query, max: number = SEARCH_RESULT_LIMIT): SearchR
     if (match && area) {
       match =
         ((item.ar || 'jp') === 'jp' && area === '日本') ||
-        ((item.ar || 'jp') === 'cn' && area === '中国')
+        ((item.ar || 'jp') === 'cn' && area === '中国') ||
+        ((item.ar || 'jp') === 'ot' && area === '欧美')
     }
 
-    // type: 'TV'
-    if (match && type) match = (item.ty || 'TV') === type
+    // meta: 类型 (meta_tags, 多选)
+    if (match && meta.length) {
+      meta.forEach((tag: string) => {
+        if (match) match = item.mt?.includes(ANIME_META_MAP[tag])
+      })
+    }
 
     // begin: '2008-04-06'
     if (match && year) match = yearReg.test(item.b || '')
@@ -119,6 +145,9 @@ export function search(query: Query, max: number = SEARCH_RESULT_LIMIT): SearchR
       }
     }
 
+    // ep: '2-13话'
+    if (match && ep) match = matchRange(item.e, EP_RANGE[ep])
+
     // tags: '科幻 机战 悬疑 战斗 战争'
     if (match && tags.length) {
       tags.forEach((tag: string) => {
@@ -129,6 +158,9 @@ export function search(query: Query, max: number = SEARCH_RESULT_LIMIT): SearchR
     if (match && official) {
       match = item.o?.includes(ANIME_OFFICIAL_MAP[official])
     }
+
+    // x: '限制' = NSFW, '未知' = 全年龄
+    if (match && x) match = x === '限制' ? item.x === 1 : x === '未知' ? !item.x : true
 
     if (match) list.push(index)
   })
@@ -164,7 +196,8 @@ export function search(query: Query, max: number = SEARCH_RESULT_LIMIT): SearchR
     _finger: finger,
     _loaded: getTimestamp()
   }
-  memo.set(finger, result)
+  memo[finger] = result
+  ensureRecordLimit(memo, 50)
 
   return result
 }
@@ -236,7 +269,7 @@ export function guess(
         let rate = 0
         String(item.t || '')
           .split(' ')
-          .sort((a, b) => rates[b] - rates[a])
+          .sort((a, b) => (rates[b] || 0) - (rates[a] || 0))
           .filter((_item, index) => index < 3)
           .forEach(tag => {
             rate += rates[tag] || 0

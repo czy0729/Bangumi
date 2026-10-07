@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-01 07:17:11
+ * @Last Modified time: 2026-10-06 05:33:42
  *
  * 找游戏列表布局条目
  */
@@ -20,7 +20,7 @@ import {
   Touchable
 } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Cover, Manage, Rank, Stars, Tags } from '@_'
+import { Cover, getTitleSize, Manage, Rank, Stars } from '@_'
 import { _, collectionStore, otaStore, systemStore, uiStore } from '@stores'
 import { HTMLDecode, isArray, showImageViewer, stl, x18 } from '@utils'
 import { t } from '@utils/fetch'
@@ -51,7 +51,8 @@ function ItemList({ index, pickIndex }: Props) {
     t: title,
     c: image,
     en: time,
-    cn: timeCn,
+    genre,
+    tags: tagStr,
     sc: score,
     r: rank,
     o: total,
@@ -126,7 +127,7 @@ function ItemList({ index, pickIndex }: Props) {
   }
 
   const _title = HTMLDecode(title)
-  const size = _title.length >= 20 ? 13 : _title.length >= 14 ? 14 : 15
+  const size = getTitleSize(_title)
 
   const cover = image ? `${HOST_BGM_STATIC}/pic/cover/m/${image}.jpg` : IMG_DEFAULT
 
@@ -134,23 +135,26 @@ function ItemList({ index, pickIndex }: Props) {
   const showNums = thumbUrls.length > 3
   const moreIndex = WEB && thumbUrls.length > 1 ? 0 : thumbsData.length
 
-  const tag = toArray(game, 'ta')
   const dev = toArray(game, 'd')
   const publish = toArray(game, 'p')
   const platform = toArray(game, 'pl')
   const _dev = dev.map(item => String(item).trim()).filter(item => !!item)
   const _publish = publish.map(item => String(item).trim()).filter(item => !!item)
 
-  const tip: string[] = [
-    platform.join('、'),
-    time,
-    timeCn && timeCn !== time ? `中文 ${timeCn}` : ''
-  ]
+  /** 仿找番剧 tip: 发行日期 / 平台(超 3 个取前 3 加「等」) / 游戏类型 / 开发 (发行) / 标签, 各段斜杠分割, 顿号连接 (标签剔除与类型重复词) */
+  const _genre = String(genre || '').trim()
+  const cates = String(tagStr || '')
+    .split(' ')
+    .filter(tag => !!tag && tag !== _genre)
+  const platformStr =
+    platform.length > 3 ? `${platform.slice(0, 3).join('、')}等` : platform.join('、')
+  const tip: string[] = [time, platformStr, _genre]
   if (_dev.join('、') === _publish.join('、')) {
     tip.push(_dev.join('、'))
   } else {
     tip.push(`${_dev.join('、')} 开发`, `${_publish.join('、')} 发行`)
   }
+  tip.push(cates.join('、'))
   const tipStr = tip.filter(item => !!item).join(' / ')
   const collection = collectionStore.collect(id)
 
@@ -168,7 +172,7 @@ function ItemList({ index, pickIndex }: Props) {
           <View style={styles.body}>
             <Flex style={_.container.block} align='start'>
               <Flex.Item>
-                <Text size={size} bold numberOfLines={3}>
+                <Text size={size} bold numberOfLines={2}>
                   {_title}
                 </Text>
                 <Text style={_.mt.sm} size={11} lineHeight={14} numberOfLines={5}>
@@ -182,9 +186,6 @@ function ItemList({ index, pickIndex }: Props) {
                       ({total})
                     </Text>
                   )}
-                  <Flex.Item style={styles.tags}>
-                    <Tags value={tag} />
-                  </Flex.Item>
                 </Flex>
               </Flex.Item>
               <Manage

@@ -1,18 +1,40 @@
 syntax = "proto3";
 
+// 找番剧搜索数据 (finger)
+//  - 与 src/utils/thirdParty/protobuf/schemas.ts 的 anime schema 同步维护
+//  - proto3 默认值 (0 / '') 编码后缺席, TV / 日本 / 完结 等缺省语义依赖这一点
+//  - 数据源为 bgm.tv 快照 (type 2), 旧字段号语义不变, 追加 11 e / 12 x (旧版 App 解码时未知字段自动跳过)
+
 message Anime {
+  /** 条目 Id */
   int32 i = 1;
+  /** 评分 */
   float s = 2;
+  /** 排名 */
   int32 r = 3;
+  /** 评分人数 */
   int32 l = 4;
+  /** 放送状态: 1 = 连载, 2 = 未播放, 缺席视为完结 (近似推导, 见 scan.js) */
   int32 st = 5;
+  /** 类型 (meta_tags 形式标签: TV / 剧场版 / OVA / WEB / 短片), 缺席视为 TV */
   string ty = 6;
+  /** 动画制作下标数组 (见 ANIME_OFFICIAL, 收录动画制作 top100) */
   repeated int32 o = 7;
+  /** 标签下标数组 (见 ANIME_TAGS, 收录用户标签 top100, 已剔除 meta 词表与年月) */
   repeated int32 t = 8;
+  /** 地区, 'cn' 中国 / 'ot' 欧美, 缺席视为日本 */
   string ar = 9;
+  /** 放送日期 (YYYY-MM-DD) */
   string b = 10;
+  /** 话数 (infobox 话数) */
+  int32 e = 11;
+  /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
+  int32 x = 12;
+  /** 类型 meta_tags 下标数组 (见 ANIME_META, 收录 meta top100) */
+  repeated int32 mt = 13;
 }
 
+/** 条目列表包装 */
 message Payload {
   repeated Anime payload = 1;
 }

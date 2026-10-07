@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-05-15 16:26:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:40:58
+ * @Last Modified time: 2026-10-06 05:33:44
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { Flex, Heatmap, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Cover, Manage, Rank, Stars, Tag } from '@_'
+import { Cover, getTitleSize, Manage, Rank, Stars, Tag } from '@_'
 import { _, collectionStore, otaStore, uiStore, useStore } from '@stores'
-import { observer } from 'mobx-react'
 import { t } from '@utils/fetch'
 import { HENTAI_TAGS } from '@utils/subject/hentai'
 import {
@@ -51,7 +50,7 @@ function Item({ index, pickIndex }) {
     )
   }
 
-  const size = cn.length >= 20 ? 13 : cn.length >= 14 ? 14 : 15
+  const size = getTitleSize(cn)
   const cover = image ? `${HOST_BGM_STATIC}/pic/cover/m/${image}.jpg` : IMG_DEFAULT
   const tip = [ep ? `${ep}话` : '', air].filter(item => !!item).join(' / ')
   const collection = collectionStore.collect(id)
@@ -90,10 +89,10 @@ function Item({ index, pickIndex }) {
           >
             <Flex align='start'>
               <Flex.Item>
-                <Text size={size} bold numberOfLines={3}>
+                <Text size={size} bold numberOfLines={2}>
                   {cn}
                 </Text>
-                <Text style={_.mt.sm} size={11} lineHeight={14}>
+                <Text style={_.mt.sm} size={11} lineHeight={14} numberOfLines={3}>
                   {tip}
                 </Text>
               </Flex.Item>

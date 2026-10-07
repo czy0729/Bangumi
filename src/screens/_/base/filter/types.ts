@@ -7,7 +7,8 @@
 import type { DeepPartial, ReactNode } from '@types'
 import type { FilterSwitchName } from '../filter-switch/types'
 
-type FilterItem = {
+/** 筛选项 (筛选组件与查询清洗共用) */
+export type FilterItem = {
   title: string
   type: string
   data: unknown[] | readonly unknown[]

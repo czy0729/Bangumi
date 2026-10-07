@@ -11,7 +11,6 @@ import type { ADV_DEV, ADV_PLATFORM, ADV_SORT, ADV_TAGS } from './ds'
 export type Finger = string
 
 export type Query = {
-  first?: string
   year?: string | number
 
   /** 开发商, 空串表示未筛选 */
@@ -33,9 +32,6 @@ export type Query = {
 export type Item = {
   /** 条目 ID */
   i: number
-
-  /** 名称首字 */
-  f?: string
 
   /** 发行日期 */
   en: string

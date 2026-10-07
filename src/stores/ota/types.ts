@@ -2,22 +2,59 @@
  * @Author: czy0729
  * @Date: 2022-09-23 06:23:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-01 06:33:27
+ * @Last Modified time: 2026-10-06 07:37:28
  */
 export type AnimeItem = {
   id: number
-  ageId: number
+
+  /** @deprecated agefans id (新数据不再携带) */
+  ageId?: number
+
+  /** 中文名 (bgm 条目可能无中文名, 可选) */
+  cn?: string
+
+  /** 日文名 */
+  jp?: string
+
+  /** 封面 hash 路径 */
   image: string
-  cn: string
-  jp: string
-  ep: string
-  type: string
+
+  /** 话数 */
+  ep?: number
+
+  /** 类型, 缺省 TV */
+  type?: string
+
+  /** 放送状态 */
   status: '完结' | '连载' | '未播放'
+
+  /** 放送日期 */
   begin: string
-  tags: string
-  official: string
-  origin: string
-  summary: string
+
+  /** 标签 (空格分隔) */
+  tags?: string
+
+  /** 类型 meta_tags (空格分隔: 形式 / 地区 / 改编来源 / 题材) */
+  meta?: string
+
+  /** 动画制作 */
+  official?: string
+
+  /** 改编来源 (原创 / 漫画改 / 小说改 / 游戏改) */
+  origin?: string
+
+  /** 导演 (infobox 导演 / 监督) */
+  director?: string
+
+  /** 原作 (infobox 原作) */
+  author?: string
+
+  /** 人物设定 (infobox 人物设定) */
+  charaDesign?: string
+
+  /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
+  nsfw?: number
+
   score: number
   rank: number
   total: number
@@ -62,6 +99,12 @@ export type MangaItem = {
   /** 话数 */
   ch?: number
 
+  /** 页数 (infobox 页数, 单行本才有, 系列缺席) */
+  pages?: number
+
+  /** 标签 (top100, 空格分隔) */
+  tags?: string
+
   /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
   nsfw?: number
 }
@@ -82,6 +125,12 @@ export type GameItem = {
   pl: string[]
   vc?: number
   vs?: number
+
+  /** 游戏类型 (infobox 原文, 详情 tip 显示) */
+  genre?: string
+
+  /** 标签 (top100, 空格分隔) */
+  tags?: string
 
   /** 在线截图 (数据侧从 KV douban_ 收集的第三方截图), 存在时找游戏频道列表优先于自建 CDN 截图使用 */
   screens?: string[]
@@ -110,6 +159,9 @@ export type ADVItem = {
   /** 描述性信息 (平台 / 游戏类型) */
   info?: string
 
+  /** 标签 (top100 命中名, 空格分隔; 旧版详情缓存无此字段) */
+  tags?: string
+
   /** 在线截图 (VNDB, 数据侧已过滤 NSFW), 存在时优先于 CDN 截图使用 */
   screens?: ADVScreen[]
 }
@@ -133,7 +185,8 @@ export type ADVScreen = {
  *   info: '加納新太',
  *   pub: 'エンターブレイン',
  *   vol: 1,
- *   anime: 1
+ *   anime: 1,
+ *   tags: '轻小说 恋爱 奇幻'
  * }
  */
 export type WenkuItem = {
@@ -161,6 +214,9 @@ export type WenkuItem = {
 
   /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
   nsfw?: number
+
+  /** 标签 (top100 命中名, 空格分隔; 旧版详情缓存无此字段) */
+  tags?: string
 }
 
 /**
@@ -193,6 +249,9 @@ export type AlbumItem = {
 
   /** 敏感标记 (1 = NSFW, 0/缺席 = 全年龄) */
   nsfw?: number
+
+  /** 标签 (top100 命中名, 空格分隔; 旧版详情缓存无此字段) */
+  tags?: string
 }
 
 /**
@@ -244,6 +303,9 @@ export type MusicItem = {
   rank: number
   date: string
   info: string
+
+  /** 标签 (top100 命中名, 空格分隔; 旧版详情缓存无此字段) */
+  tags?: string
 }
 
 /**
@@ -268,4 +330,7 @@ export type RealItem = {
   rank: number
   date: string
   info: string
+
+  /** 标签 (top100 命中名, 空格分隔; 旧版详情缓存无此字段) */
+  tags?: string
 }

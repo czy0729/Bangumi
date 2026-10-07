@@ -6,13 +6,14 @@
  */
 import { decode } from '@utils/thirdParty/protobuf'
 import { ensureRecordLimit } from '../../cache'
+import { logger } from '../../dev'
 import { getTimestamp } from '../../index'
 import { SEARCH_RESULT_LIMIT, SORT } from '../anime'
-import { MUSIC_COLLECTED, MUSIC_SORT, MUSIC_TAG_ALIAS, MUSIC_TAGS, MUSIC_YEAR } from './ds'
+import { MUSIC_COLLECTED, MUSIC_NSFW, MUSIC_SORT, MUSIC_TAG_ALIAS, MUSIC_TAGS, MUSIC_YEAR } from './ds'
 
 import type { Finger, Item, Query, SearchResult } from './types'
 
-export { MUSIC_COLLECTED, MUSIC_SORT, MUSIC_TAG_ALIAS, MUSIC_TAGS, MUSIC_YEAR }
+export { MUSIC_COLLECTED, MUSIC_NSFW, MUSIC_SORT, MUSIC_TAG_ALIAS, MUSIC_TAGS, MUSIC_YEAR }
 
 /** 缓存搜索结果 */
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
@@ -39,17 +40,20 @@ function getData() {
   return music
 }
 
-/** 初始化音乐数据 */
+/** 初始化音乐数据 (解码失败按已加载兜底, 避免调用端未捕获 rejection 与反复重解大 bin) */
 export async function init() {
   if (loaded) return
 
-  music = await decode('music')
+  try {
+    music = await decode('music')
+  } catch (error) {
+    logger.error('utils/subject/music', 'init', error)
+  }
   loaded = true
 }
 
-/** 根据 index 选一项 */
+/** 根据 index 选一项 (数据源加载由 store 侧 initData 保证, 此处不触发 init) */
 export function pick(index: number): Item {
-  init()
   return getData()[index]
 }
 
@@ -59,7 +63,7 @@ export function search(query: Query): SearchResult {
 
   // 查询指纹
   const finger = JSON.stringify(query || {})
-  const { tag, year, sort } = query || {}
+  const { tag, year, x, sort } = query || {}
   if (sort !== '随机' && SEARCH_CACHE[finger]) return SEARCH_CACHE[finger]
 
   let _list = []
@@ -75,6 +79,10 @@ export function search(query: Query): SearchResult {
 
     if (match && tag) match = !!tagNums?.some(num => item.t?.includes(num))
     if (match && year) match = yearReg.test(item.d)
+
+    // x: '限制' = NSFW, '未知' = 全年龄
+    if (match && x) match = x === '限制' ? item.x === 1 : x === '未知' ? !item.x : true
+
     if (match) _list.push(index)
   })
 

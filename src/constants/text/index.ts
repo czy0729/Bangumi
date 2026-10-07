@@ -23,7 +23,7 @@ export const TEXT_EMPTY = '好像什么都没有'
 export const TEXT_18X = `好像什么都没有\n可能需要你到网页端的设置页面\n打开「显示受限条目内容」设置`
 
 /** 找番剧静态数据最后更新时间 */
-export const TEXT_UPDATE_ANIME = '2026-07-13'
+export const TEXT_UPDATE_ANIME = '2026-10-05'
 
 /** 找游戏、ADV 静态数据最后更新时间 */
 export const TEXT_UPDATE_GAME = '2026-09-30'
@@ -60,7 +60,7 @@ export const TEXT_UPDATE_QIAFAN = '2026-05'
 
 /** 找条目数目 */
 export const TEXT_TOTAL = {
-  番剧: 5113,
+  番剧: 23037,
   游戏: 16385,
   ADV: 15037,
   漫画: 25424,

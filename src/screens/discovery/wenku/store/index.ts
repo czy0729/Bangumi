@@ -2,34 +2,21 @@
  * @Author: czy0729
  * @Date: 2026-10-04 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-04 00:00:00
+ * @Last Modified time: 2026-10-05 00:00:00
  *
  * 找文库 Store 入口
  */
+import { createInit } from '@_'
 import { init } from '@utils/subject/wenku'
+import { filterDS } from '../ds'
 import Action from './action'
-import { NAMESPACE } from './ds'
-
-import type { STATE } from './ds'
-
-let _loaded = false
+import { NAMESPACE, STATE } from './ds'
 
 export default class ScreenWenku extends Action {
-  init = async () => {
-    const storageData = await this.getStorageOnce<typeof STATE>(NAMESPACE)
-    this.setState({
-      ...storageData,
-      _loaded
-    })
-
-    if (!_loaded) await init()
-    _loaded = true
-
-    this.search()
-    setTimeout(() => {
-      this.setState({
-        _loaded: true
-      })
-    }, 120)
-  }
+  init = createInit(this, {
+    namespace: NAMESPACE,
+    defaults: STATE.query,
+    filterDS,
+    initData: init
+  })
 }

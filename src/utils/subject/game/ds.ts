@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-09-13 21:03:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-01 04:39:49
+ * @Last Modified time: 2026-10-06 07:37:37
  */
-import { DATA_ALPHABET } from '@constants/data'
 import { ANIME_COLLECTED, ANIME_YEAR } from '../anime'
-
-/** 名称首字, 复用动画字母表 */
-export const GAME_FIRST = DATA_ALPHABET
 
 /** 年份筛选, 复用动画年份列表 */
 export const GAME_YEAR = ANIME_YEAR
 
 /** 收藏筛选, 复用动画 */
 export const GAME_COLLECTED = ANIME_COLLECTED
+
+/** 分级筛选 (「全部」由通用筛选组提供, 点击时写入空串) */
+export const GAME_NSFW = ['限制', '未知'] as const
 
 export const GAME_PLATFORM = [
   'PC',
@@ -507,15 +506,8 @@ export const GAME_PUB_ALIAS = [
   ['Gamera Games', 'Gamera Game']
 ] as const
 
-export const GAME_SORT = [
-  '发行',
-  '排名',
-  '评分人数',
-  '外网评分',
-  '外网热度',
-  '随机',
-  '名称'
-] as const
+/** 排序, 顺序与标签同找番剧 (发行时间对应番剧的上映时间) */
+export const GAME_SORT = ['排名', '发行时间', '评分人数', '随机'] as const
 
 /**
  * 标签筛选 (全量 type=4 条目出现次数 top100, 下标即 bin 的 tg)
@@ -523,29 +515,104 @@ export const GAME_SORT = [
  *  - 与 web/standalone/game 的 rule.loadTags 同步维护, 重建后如有变化需同步此表
  */
 export const GAME_TAGS = [
-  '游戏', 'PC', 'Galgame', 'ADV',
-  'RPG', 'AVG', '拔作', 'R18',
-  '同人', 'Android', 'STEAM', 'iOS',
-  'ACT', '全年龄', 'NS', 'SLG',
-  'PS4', '黄油', '乙女', 'GAL',
-  'Windows', '国产', '手游', 'Web',
-  '合集', '汉化', 'BL', '解谜',
-  'PS5', '独立游戏', 'PUZ', '乙女向',
-  'XboxOne', 'SIM', 'ARPG', '纯爱',
-  'XSX', '短篇', 'PSP', '萝莉',
-  'DJ', 'PS2', '云过', '百合',
-  'NTR', '恐怖', 'STG', '生肉',
-  '中国', 'PS3', 'PSV', 'FPS',
-  '后宫', '童年', '休闲', 'NDS',
-  '动态CG', '盘1', 'VN', '街机',
-  '乙女ゲーム', '巨乳', '悬疑', 'RPGMaker',
-  'PS', '妹', 'Mac', 'JRPG',
-  '凌辱', 'HRPG', 'Switch', '人妻',
-  '冒险', '单机', 'dw', '库存',
-  'SRPG', 'Roguelike', '视觉小说', 'APP',
-  '3DS', '游戏性', 'Xbox360', 'FC',
-  'FTG', '任天堂', '3D', '像素',
-  '资源难找', 'RM', 'FD', 'AAVG',
-  'TPS', '调教', 'Platform', '模拟',
-  '盘4', 'GBA', 'MUG', 'SFC',
+  'ADV',
+  'Galgame',
+  'RPG',
+  '拔作',
+  'R18',
+  '同人',
+  '乙女',
+  'ACT',
+  '国产',
+  '全年龄',
+  'SLG',
+  '黄油',
+  '手游',
+  'SIM',
+  '合集',
+  '汉化',
+  'BL',
+  '解谜',
+  '独立游戏',
+  'PUZ',
+  '恐怖',
+  'VN',
+  'RPGMaker',
+  'ARPG',
+  '纯爱',
+  '短篇',
+  '萝莉',
+  'DJ',
+  '百合',
+  'NTR',
+  'STG',
+  '生肉',
+  'FPS',
+  '后宫',
+  '童年',
+  '休闲',
+  '动态CG',
+  '巨乳',
+  'FTG',
+  '悬疑',
+  'MUG',
+  '日本',
+  '妹',
+  'JRPG',
+  '凌辱',
+  'HRPG',
+  '人妻',
+  '冒险',
+  'SRPG',
+  'Roguelike',
+  '游戏性',
+  '3D',
+  '像素',
+  'FD',
+  'AAVG',
+  'TPS',
+  '调教',
+  '猎奇',
+  '废萌',
+  '推理',
+  'DLC',
+  'RTS',
+  'Linux',
+  '扩展包',
+  'ERO-RPG',
+  'ARC',
+  'SPG',
+  'Capcom',
+  'Mobile',
+  'RAC',
+  '幼驯染',
+  '卡牌',
+  '桌游',
+  '科幻',
+  'PC98',
+  'MMORPG',
+  'SEGA',
+  '多人',
+  '欧美',
+  '网游',
+  '恋爱',
+  '普通游戏',
+  'Konami',
+  '横版',
+  '经典',
+  '视频通关',
+  '策略',
+  'ERO-ADV',
+  '模拟经营',
+  '韩国',
+  '触手',
+  '东方',
+  'EPIC',
+  'freegame',
+  '实用',
+  'DOS',
+  'VR',
+  'CG',
+  '小游戏',
+  'SS'
 ] as const

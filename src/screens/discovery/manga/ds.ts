@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-04 00:00:00
  */
+import { groupItems } from '@_'
 import {
   MANGA_CH,
   MANGA_COLLECTED,
@@ -19,41 +20,14 @@ export const COMPONENT = 'Manga'
 
 export const ADVANCE_LIMIT = 60
 
-/** 标签三行分组 (横向滚动, 三行同显, 同 music / real 的 TAG_GROUP) */
-const MANGA_TAG_GROUP = [[], [], []]
-MANGA_TAGS.forEach((item, index) => {
-  /** '¬' 为数据源噪音标签, 因 MANGA_TAGS 下标即 bin 的 t 不能从表中删除, 仅不进筛选项 */
-  if (item === '¬') return
-  MANGA_TAG_GROUP[index % 3].push(item)
-})
+/** 标签三行分组 (横向滚动, 三行同显, 同 music / real 的 TAG_GROUP; 平台 / 出版社 / 噪音词已在数据侧剔除) */
+const MANGA_TAG_GROUP = groupItems(MANGA_TAGS)
 
 /** 出版社两行分组 */
-const MANGA_PUBLISHER_GROUP = [[], []]
-MANGA_PUBLISHERS.forEach((item, index) => MANGA_PUBLISHER_GROUP[index % 2].push(item))
+const MANGA_PUBLISHER_GROUP = groupItems(MANGA_PUBLISHERS, 2)
 
+/** 筛选行顺序统一见 web/standalone/DIMENSIONS.md §一.8 */
 export const filterDS = [
-  {
-    title: '标签',
-    type: 'tag',
-    data: MANGA_TAG_GROUP,
-    multiple: true
-  },
-  {
-    title: '出版',
-    type: 'publisher',
-    data: MANGA_PUBLISHER_GROUP,
-    multiple: true
-  },
-  {
-    title: '卷数',
-    type: 'vol',
-    data: MANGA_VOL
-  },
-  {
-    title: '话数',
-    type: 'ch',
-    data: MANGA_CH
-  },
   {
     title: '开始',
     type: 'start',
@@ -69,6 +43,28 @@ export const filterDS = [
     title: '结束',
     type: 'end',
     data: MANGA_YEAR
+  },
+  {
+    title: '出版',
+    type: 'publisher',
+    data: MANGA_PUBLISHER_GROUP,
+    multiple: true
+  },
+  {
+    title: '标签',
+    type: 'tag',
+    data: MANGA_TAG_GROUP,
+    multiple: true
+  },
+  {
+    title: '卷数',
+    type: 'vol',
+    data: MANGA_VOL
+  },
+  {
+    title: '话数',
+    type: 'ch',
+    data: MANGA_CH
   },
   {
     title: '分级',

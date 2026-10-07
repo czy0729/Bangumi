@@ -6,14 +6,15 @@
  */
 import { decode } from '@utils/thirdParty/protobuf'
 import { ensureRecordLimit } from '../../cache'
+import { logger } from '../../dev'
 import { getTimestamp } from '../../index'
 import { SEARCH_RESULT_LIMIT, SORT } from '../anime'
-import { REAL_COLLECTED, REAL_FORM, REAL_REGION, REAL_SORT, REAL_TAGS, REAL_YEAR } from './ds'
+import { REAL_COLLECTED, REAL_FORM, REAL_NSFW, REAL_REGION, REAL_SORT, REAL_TAGS, REAL_YEAR } from './ds'
 
 import type { SubjectId } from '@types'
 import type { Finger, Item, Query, SearchResult } from './types'
 
-export { REAL_COLLECTED, REAL_FORM, REAL_REGION, REAL_SORT, REAL_TAGS, REAL_YEAR }
+export { REAL_COLLECTED, REAL_FORM, REAL_NSFW, REAL_REGION, REAL_SORT, REAL_TAGS, REAL_YEAR }
 
 /** 缓存搜索结果 */
 const SEARCH_CACHE: Record<Finger, SearchResult> = {}
@@ -39,17 +40,20 @@ function getData() {
   return real
 }
 
-/** 初始化三次元数据 */
+/** 初始化三次元数据 (解码失败按已加载兜底, 避免调用端未捕获 rejection 与反复重解大 bin) */
 export async function init() {
   if (loaded) return
 
-  real = await decode('real')
+  try {
+    real = await decode('real')
+  } catch (error) {
+    logger.error('utils/subject/real', 'init', error)
+  }
   loaded = true
 }
 
-/** 根据 index 选一项 */
+/** 根据 index 选一项 (数据源加载由 store 侧 initData 保证, 此处不触发 init) */
 export function pick(index: number): Item {
-  init()
   return getData()[index]
 }
 
@@ -65,7 +69,7 @@ export function search(query: Query): SearchResult {
 
   // 查询指纹
   const finger = JSON.stringify(query || {})
-  const { tag, region, form, year, sort } = query || {}
+  const { tag, region, form, year, x, sort } = query || {}
   if (sort !== '随机' && SEARCH_CACHE[finger]) return SEARCH_CACHE[finger]
 
   let _list = []
@@ -83,6 +87,10 @@ export function search(query: Query): SearchResult {
     if (match && region) match = matchIndexed(item.g, region, REGION_INDEX_MAP)
     if (match && form) match = matchIndexed(item.f, form, FORM_INDEX_MAP)
     if (match && year) match = yearReg.test(item.d)
+
+    // x: '限制' = NSFW, '未知' = 全年龄
+    if (match && x) match = x === '限制' ? item.x === 1 : x === '未知' ? !item.x : true
+
     if (match) _list.push(index)
   })
 

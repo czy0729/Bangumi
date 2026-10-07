@@ -6,7 +6,6 @@
  *
  * 找三次元状态声明与本地存储
  */
-import { REAL_YEAR } from '@utils/subject/real'
 import { LIST_EMPTY } from '@constants'
 import { COMPONENT } from '../ds'
 
@@ -18,8 +17,17 @@ const QUERY: ScreenQuery = {
   /** 标签 */
   tag: '',
 
-  /** 年份 */
-  year: REAL_YEAR[0],
+  /** 地区 */
+  region: '',
+
+  /** 形式 */
+  form: '',
+
+  /** 年份 (空串为全部, 数据侧次年条目极少, 默认不限定年份避免首屏空列表) */
+  year: '',
+
+  /** 分级 */
+  x: '',
 
   /** 排序 */
   sort: '评分人数',

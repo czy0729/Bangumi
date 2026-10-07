@@ -35,6 +35,9 @@ const DATASETS = [
   'anime-ids',
   'nsfw',
   'music',
+  'real',
+  'album',
+  'wenku',
   'mono'
 ]
 

@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:33:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-28 21:00:00
+ * @Last Modified time: 2026-10-06 06:01:41
  *
  * 剧照平台数据 (影视 / 游戏的预告与剧照)
  */
+import { MAX_RESULTS } from '@utils/bilibili'
 import { logger } from '@utils/dev'
 import {
   getManualDoubanId,
@@ -207,18 +208,27 @@ export default class Douban extends Bilibili {
         if (videos.data.length) {
           updates.videos = videos.data
           updates.epsThumbsHeader = { Referer: videos.referer }
-        } else {
-          /** 剧照平台没有视频, 回落到视频平台搜索 (游戏带类型后缀, 合并进本轮 updates 单次落库) */
+        }
+
+        /**
+         * 无剧照且视频不足 (≤2 条) 时才从视频平台补齐 (有剧照视为内容已足够)
+         *  - 结果在前 / 视频平台结果在后, 截断到 MAX_RESULTS
+         *  - 游戏带类型后缀 (ADV 搜 OP, 其余搜 PV)
+         */
+        if (!previews.data.length && videos.data.length <= 2) {
           const videosMV = await this.searchVideosFromBilibili(
             q,
             '',
             this.gameInfo?.isADV ? 'OP' : 'PV'
           )
           if (videosMV.length) {
-            updates.videos = videosMV
-            updates.epsThumbsHeader = { ...updates.epsThumbsHeader, Referer: HOST_AC_M }
+            updates.videos = [...(updates.videos || []), ...videosMV].slice(0, MAX_RESULTS)
+            if (!updates.epsThumbsHeader?.Referer) {
+              updates.epsThumbsHeader = { ...updates.epsThumbsHeader, Referer: HOST_AC_M }
+            }
           }
         }
+
         if (previews.data.length) {
           updates.epsThumbs = previews.data
           updates.epsThumbsHeader = { ...updates.epsThumbsHeader, Referer: previews.referer }

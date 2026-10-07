@@ -12,10 +12,7 @@ export default class Fetch extends Computed {
   search = (passQuery?: any) => {
     setTimeout(() => {
       this.setState({
-        data: search({
-          ...(passQuery || this.state.query),
-          first: ''
-        })
+        data: search(passQuery || this.state.query)
       })
     }, 80)
   }

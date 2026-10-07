@@ -4,12 +4,13 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-07-14 17:08:28
  */
+import { groupItems } from '@_'
 import {
   GAME_CATE,
   GAME_COLLECTED,
   GAME_DEV,
-  GAME_FIRST,
   GAME_JUNK,
+  GAME_NSFW,
   GAME_PLATFORM,
   GAME_PUB,
   GAME_SORT,
@@ -22,37 +23,25 @@ export const COMPONENT = 'Game'
 export const ADVANCE_LIMIT = 60
 
 // 类型分组
-const GAME_CATE_GROUP = [[], []]
-GAME_CATE.forEach((item, index) => GAME_CATE_GROUP[index % 2 ? 1 : 0].push(item))
+const GAME_CATE_GROUP = groupItems(GAME_CATE, 2)
 
 // 标签三行分组 (横向滚动, 三行同显, 同 music / adv)
-const GAME_TAG_GROUP = [[], [], []]
-GAME_TAGS.forEach((item, index) => GAME_TAG_GROUP[index % 3].push(item))
+const GAME_TAG_GROUP = groupItems(GAME_TAGS)
 
 // 开发商分组 (数据侧清洗残留的公司后缀不展示, 仍可在 search 命中)
-const GAME_DEV_GROUP = [[], []]
-GAME_DEV.filter(item => !GAME_JUNK.includes(item)).forEach((item, index) =>
-  GAME_DEV_GROUP[index % 2 ? 1 : 0].push(item)
+const GAME_DEV_GROUP = groupItems(
+  GAME_DEV.filter(item => !GAME_JUNK.includes(item)),
+  2
 )
 
 // 发行商分组
-const GAME_PUB_GROUP = [[], []]
-GAME_PUB.filter(item => !GAME_JUNK.includes(item)).forEach((item, index) =>
-  GAME_PUB_GROUP[index % 2 ? 1 : 0].push(item)
+const GAME_PUB_GROUP = groupItems(
+  GAME_PUB.filter(item => !GAME_JUNK.includes(item)),
+  2
 )
 
+/** 筛选组顺序与找番剧一致: 属性维度在前, 标签居中, 制作维度随后, 收尾固定 */
 export const filterDS = [
-  {
-    title: '标签',
-    type: 'tag',
-    data: GAME_TAG_GROUP,
-    multiple: true
-  },
-  {
-    title: '首字　',
-    type: 'first',
-    data: GAME_FIRST
-  },
   {
     title: '发行　',
     type: 'year',
@@ -72,6 +61,12 @@ export const filterDS = [
     always: true
   },
   {
+    title: '标签',
+    type: 'tag',
+    data: GAME_TAG_GROUP,
+    multiple: true
+  },
+  {
     title: '开发商',
     type: 'dev',
     data: GAME_DEV_GROUP,
@@ -82,6 +77,11 @@ export const filterDS = [
     type: 'pub',
     data: GAME_PUB_GROUP,
     multiple: true
+  },
+  {
+    title: '分级　',
+    type: 'x',
+    data: GAME_NSFW
   },
   {
     title: '排序　',

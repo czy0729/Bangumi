@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-04 05:10:08
+ * @Last Modified time: 2026-10-06 05:33:08
  */
 import { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, flexStyle, Heatmap, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Cover, InView, Manage, Rank, Stars } from '@_'
+import { Cover, getTitleSize, InView, Manage, Rank, Stars } from '@_'
 import { _, collectionStore, otaStore, uiStore } from '@stores'
 import { formatPlaytime, HTMLDecode, stl, x18 } from '@utils'
 import { t } from '@utils/fetch'
@@ -35,7 +35,22 @@ function Item({ index, pickIndex }: Props) {
 
   const subjectId = otaStore.advSubjectId(pickIndex)
   const adv = otaStore.adv(subjectId)
-  const { id, title, cover, date, score, rank, total, length, dev, time, cn, info, screens } = adv
+  const {
+    id,
+    title,
+    cover,
+    date,
+    score,
+    rank,
+    total,
+    length,
+    dev,
+    time,
+    cn,
+    info,
+    screens,
+    tags: tagStr
+  } = adv
 
   const handlePress = useCallback(() => {
     const { title, cover } = adv
@@ -86,11 +101,14 @@ function Item({ index, pickIndex }: Props) {
   }
 
   const titleText = HTMLDecode(title)
-  const size = titleText.length >= 20 ? 13 : titleText.length >= 14 ? 14 : 15
+  const size = getTitleSize(titleText)
   const image = cover ? `${HOST_BGM_STATIC}/pic/cover/m/${cover}.jpg` : IMG_DEFAULT
 
-  /** 描述性信息 (平台 / 游戏类型) 追加在日期之后, 既有字段 (开发商 / 时长 / 汉化) 保留 */
-  const tipStr = [date, info, dev, formatPlaytime(time), cn ? '汉化' : '']
+  /** 描述性信息 (平台 / 游戏类型) 追加在日期之后, 既有字段 (开发商 / 时长 / 汉化) 保留, 尾部标签段顿号连接 (同 game) */
+  const cates = String(tagStr || '')
+    .split(' ')
+    .filter(Boolean)
+  const tipStr = [date, info, dev, formatPlaytime(time), cn ? '汉化' : '', cates.join('、')]
     .filter(item => !!item)
     .join(' / ')
 
@@ -112,7 +130,7 @@ function Item({ index, pickIndex }: Props) {
         <View style={styles.body}>
           <Flex style={_.container.block} align='start'>
             <Flex.Item>
-              <Text size={size} bold numberOfLines={3}>
+              <Text size={size} bold numberOfLines={2}>
                 {titleText}
               </Text>
               <Text style={_.mt.sm} size={11} lineHeight={14} numberOfLines={5}>

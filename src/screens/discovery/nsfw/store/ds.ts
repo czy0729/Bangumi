@@ -6,7 +6,6 @@
  *
  * 找 NSFW 状态声明与本地存储
  */
-import { NSFW_YEAR } from '@utils/subject/nsfw'
 import { LIST_EMPTY } from '@constants'
 import { COMPONENT } from '../ds'
 
@@ -18,8 +17,11 @@ const QUERY: ScreenQuery = {
   /** 类型 */
   type: '动画',
 
-  /** 年份 */
-  year: NSFW_YEAR[0],
+  /** 标签 */
+  tag: '',
+
+  /** 年份 (空串为全部, 数据侧次年条目极少, 默认不限定年份避免首屏空列表) */
+  year: '',
 
   /** 排序 */
   sort: '评分人数',

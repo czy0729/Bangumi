@@ -22,7 +22,7 @@ export const NAMESPACE = 'OTA'
 
 export const STATE = {
   /** 找番剧 */
-  anime: { age_0: {} } as Record<string, Partial<AnimeItem>>,
+  anime: { anime_0: {} } as Record<string, Partial<AnimeItem>>,
 
   /** 找漫画 */
   manga: { manga_0: {} } as Record<string, Partial<MangaItem>>,
