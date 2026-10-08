@@ -2,12 +2,15 @@
  * @Author: czy0729
  * @Date: 2026-09-10 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-10 05:18:37
+ * @Last Modified time: 2026-10-08 22:47:47
  *
  * 遮罩显隐: 淡入淡出, 淡出结束后把 showValue 置为 false (组件常驻挂载, showValue 仅用于触摸拦截判定)
  */
 import { useEffect, useRef, useState } from 'react'
-import { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
+import { isAnimationDisabled, timing } from '@utils'
+
+import type { ViewStyle } from 'react-native'
 
 /** 动画时长 (ms) */
 export const MASK_DURATION = 200
@@ -27,7 +30,7 @@ export function useMask(show: boolean, duration: number = MASK_DURATION) {
   useEffect(() => {
     clearTimeout(timerRef.current)
 
-    opacity.value = withTiming(show ? 1 : 0, { duration })
+    opacity.value = timing(show ? 1 : 0, { duration })
 
     if (show) {
       setShow(true)
@@ -35,6 +38,12 @@ export function useMask(show: boolean, duration: number = MASK_DURATION) {
     }
 
     // 淡出结束再卸载, 用 JS 定时器代替 withTiming 回调 (回调同样要跨 runtime 转换)
+    // 系统关闭动画时没有淡出过程, 立即卸载
+    if (isAnimationDisabled()) {
+      setShow(false)
+      return
+    }
+
     timerRef.current = setTimeout(() => setShow(false), duration)
 
     return () => clearTimeout(timerRef.current)
@@ -44,11 +53,21 @@ export function useMask(show: boolean, duration: number = MASK_DURATION) {
     opacity: opacity.value
   }))
 
+  /** 系统关闭动画: 由调用方静态渲染, 不经过 reanimated */
+  const disabled = isAnimationDisabled()
+  const staticMaskStyle: ViewStyle = { opacity: showValue ? 1 : 0 }
+
   return {
     /** 是否处于展示态 (淡出结束后才为 false) */
     showValue,
 
     /** 遮罩渐变样式 */
-    maskStyle
+    maskStyle,
+
+    /** 系统是否已关闭动画 */
+    disabled,
+
+    /** 关闭动画时的遮罩样式 (静态终值) */
+    staticMaskStyle
   }
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-19 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-20 04:08:43
+ * @Last Modified time: 2026-10-09 00:06:47
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { I18nManager, Image } from 'react-native'
@@ -13,7 +13,7 @@ import {
   withTiming
 } from 'react-native-reanimated'
 import { _ } from '@stores'
-import { scheduleOnUI } from '@utils'
+import { isAnimationDisabled, scheduleOnUI, timing } from '@utils'
 import { createImageSizeList, getFlipDirection, getPositionX, updateImageSize } from './utils'
 import { FADE_DURATION, FLIP_THRESHOLD, PAGE_ANIMATE_TIME, RESET_DURATION } from './ds'
 import { createPagerStyles } from './styles'
@@ -47,6 +47,9 @@ export const useZoomPager = ({
 
   const fadeOpacity = useSharedValue(0)
   const positionX = useSharedValue(0)
+
+  /** 系统关闭动画: 内容直接可见 */
+  const disabled = isAnimationDisabled()
 
   // 已加载图片的 index, 防止重复请求
   const loadedIndexRef = useRef(new Set<number>())
@@ -132,7 +135,7 @@ export const useZoomPager = ({
 
     // 淡入显示
     cancelAnimation(fadeOpacity)
-    fadeOpacity.value = withTiming(1, { duration: FADE_DURATION })
+    fadeOpacity.value = timing(1, { duration: FADE_DURATION })
 
     // 布局完成后跳到当前页
     if (viewport.width > 0) {
@@ -148,7 +151,9 @@ export const useZoomPager = ({
     [viewport.width, viewport.height, backgroundColor]
   )
 
-  const fadeStyle = useAnimatedStyle(() => ({ opacity: fadeOpacity.value }))
+  const fadeStyle = useAnimatedStyle(() => ({
+    opacity: disabled ? 1 : fadeOpacity.value
+  }))
 
   const moveStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: positionX.value }]

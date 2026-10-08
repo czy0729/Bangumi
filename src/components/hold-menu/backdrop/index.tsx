@@ -19,7 +19,7 @@ function BackdropComponent() {
   const show = useContext(MenuShowContext)
   const { theme, close } = useHoldMenu()
 
-  const { maskStyle } = useMask(show, MENU_ANIMATION_DURATION)
+  const { maskStyle, disabled, staticMaskStyle } = useMask(show, MENU_ANIMATION_DURATION)
 
   /** 隐藏时禁用手势, 常驻遮罩不拦截触摸 */
   const tapGesture = Gesture.Tap().enabled(show).onEnd(close)
@@ -33,7 +33,7 @@ function BackdropComponent() {
       <Animated.View
         style={stl(
           styles.backdrop,
-          maskStyle,
+          disabled ? staticMaskStyle : maskStyle,
           show ? styles.backdropShown : styles.backdropHidden,
           {
             backgroundColor: theme === 'dark' ? MASK_COLOR_LIGHT : 'rgba(0, 0, 0, 0.1)'

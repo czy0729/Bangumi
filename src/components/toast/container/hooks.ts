@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-12 07:20:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-17 01:23:05
+ * @Last Modified time: 2026-10-08 23:36:35
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
@@ -12,7 +12,7 @@ import {
   withDelay,
   withTiming
 } from 'react-native-reanimated'
-import { scheduleOnRN } from '@utils'
+import { isAnimationDisabled, scheduleOnRN } from '@utils'
 
 import type { ToastType } from '../types'
 
@@ -33,6 +33,9 @@ export const useToastAnimation = (
   const opacity = useSharedValue(0)
   const endCalledRef = useRef(false)
 
+  /** 系统关闭动画: 内容直接可见 */
+  const disabled = isAnimationDisabled()
+
   // 稳定函数引用, 供动画 worklet 通过 scheduleOnRN 回调 (内联箭头会在 worklet 序列化时导致 iOS 原生闪退)
   const handleAnimationEnd = useCallback(() => {
     if (endCalledRef.current) return
@@ -42,16 +45,24 @@ export const useToastAnimation = (
   }, [onClose, onAnimationEnd])
 
   useEffect(() => {
-    opacity.value = withTiming(1, { duration: FADE_DURATION }, finished => {
-      if (!finished || duration <= 0) return
-      opacity.value = withDelay(
-        duration * 1000,
-        withTiming(0, { duration: FADE_DURATION }, end => {
-          if (!end) return
-          scheduleOnRN(handleAnimationEnd)
-        })
-      )
-    })
+    let stayTimer: ReturnType<typeof setTimeout>
+
+    if (disabled) {
+      // 系统关闭动画: 直接可见, 停留结束用定时器代替动画回调
+      opacity.value = 1
+      if (duration > 0) stayTimer = setTimeout(handleAnimationEnd, duration * 1000)
+    } else {
+      opacity.value = withTiming(1, { duration: FADE_DURATION }, finished => {
+        if (!finished || duration <= 0) return
+        opacity.value = withDelay(
+          duration * 1000,
+          withTiming(0, { duration: FADE_DURATION }, end => {
+            if (!end) return
+            scheduleOnRN(handleAnimationEnd)
+          })
+        )
+      })
+    }
 
     let timer: ReturnType<typeof setTimeout>
     if (type === 'loading') {
@@ -61,12 +72,15 @@ export const useToastAnimation = (
     }
     return () => {
       clearTimeout(timer)
+      clearTimeout(stayTimer)
       cancelAnimation(opacity)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [duration, type, opacity])
 
-  const animatedStyle = useAnimatedStyle(() => ({ opacity: opacity.value }))
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: disabled ? 1 : opacity.value
+  }))
 
   return { showClose, animatedStyle }
 }

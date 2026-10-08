@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2026-08-12 06:40:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-10 12:00:00
+ * @Last Modified time: 2026-10-08 22:47:21
  */
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { interpolate, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { NavigationContext } from '@react-navigation/native'
-import { interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { _ } from '@stores'
-import { scheduleOnRN } from '@utils'
+import { isAnimationDisabled, scheduleOnRN, timing } from '@utils'
 import { useBackHandler } from '@utils/hooks'
+
+import type { ViewStyle } from 'react-native'
 
 /** 动画时长 (ms) */
 const DURATION = 240
@@ -35,7 +37,7 @@ export const useActionSheet = (
   )
 
   const animateTo = useCallback((toValue: number, callback?: () => void) => {
-    progress.value = withTiming(
+    progress.value = timing(
       toValue,
       {
         duration: DURATION
@@ -123,6 +125,14 @@ export const useActionSheet = (
     opacity: progress.value
   }))
 
+  /** 系统关闭动画: 由调用方静态渲染, 不经过 reanimated */
+  const disabled = isAnimationDisabled()
+  const staticContentStyle: ViewStyle = {
+    transform: [{ translateY: 0 }],
+    backgroundColor: contentBg
+  }
+  const staticMaskStyle: ViewStyle = { opacity: 1 }
+
   return {
     /** 是否处于展示态 */
     showValue,
@@ -137,6 +147,13 @@ export const useActionSheet = (
     contentStyle,
 
     /** 遮罩进出场动画样式 */
-    maskStyle
+    maskStyle,
+
+    /** 系统是否已关闭动画 */
+    disabled,
+
+    /** 关闭动画时的内容与遮罩样式 (静态终值) */
+    staticContentStyle,
+    staticMaskStyle
   }
 }

@@ -15,7 +15,7 @@ import type { Props } from './types'
 
 function Mask({ showTextarea, showBgm, onMask }: Props) {
   const show = showTextarea || showBgm
-  const { maskStyle } = useMask(show)
+  const { maskStyle, disabled, staticMaskStyle } = useMask(show)
 
   const styles = memoStyles()
 
@@ -27,7 +27,7 @@ function Mask({ showTextarea, showBgm, onMask }: Props) {
   return (
     <View style={styles.container} pointerEvents={show ? 'auto' : 'none'}>
       <Touchable withoutFeedback onPress={onMask}>
-        <Animated.View style={[styles.mask, maskStyle]} />
+        <Animated.View style={[styles.mask, disabled ? staticMaskStyle : maskStyle]} />
       </Touchable>
     </View>
   )

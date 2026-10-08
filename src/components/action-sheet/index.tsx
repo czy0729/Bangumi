@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-12-25 03:23:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 03:40:34
+ * @Last Modified time: 2026-10-08 23:34:56
  */
 import { View } from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -48,7 +48,16 @@ export const ActionSheet = observer(
   }: ActionSheetProps) => {
     r(COMPONENT)
 
-    const { showValue, handleClose, calcHeight, contentStyle, maskStyle } = useActionSheet(
+    const {
+      showValue,
+      handleClose,
+      calcHeight,
+      contentStyle,
+      maskStyle,
+      disabled,
+      staticContentStyle,
+      staticMaskStyle
+    } = useActionSheet(
       show,
       onClose,
       height,
@@ -102,9 +111,16 @@ export const ActionSheet = observer(
     const elBody = (
       <Component id='component-action-sheet' style={styles.actionSheet}>
         {/* 不传 show: 遮罩 opacity 由 useActionSheet 的 progress 驱动, 与面板动画同步; 传 show 会叠加 Mask 内置淡入淡出 */}
-        <Mask style={maskStyle} onPress={handleClose} />
+        {/* 系统关闭动画时改传静态终值样式, 面板与遮罩不依赖 progress */}
+        <Mask style={disabled ? staticMaskStyle : maskStyle} onPress={handleClose} />
 
-        <Animated.View style={[styles.content, { height: calcHeight }, contentStyle]}>
+        <Animated.View
+          style={[
+            styles.content,
+            { height: calcHeight },
+            disabled ? staticContentStyle : contentStyle
+          ]}
+        >
           <Scroll
             forwardRef={forwardRef}
             contentContainerStyle={contentContainerStyle}

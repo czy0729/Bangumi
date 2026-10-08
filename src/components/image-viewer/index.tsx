@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2019-05-23 18:57:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-20 04:47:39
+ * @Last Modified time: 2026-10-08 22:47:36
  */
 import { useCallback } from 'react'
 import { Modal, View } from 'react-native'
 import { observer } from 'mobx-react'
-import { stl } from '@utils'
+import { isAnimationDisabled, stl } from '@utils'
 import { r } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
 import { Component } from '../component'
@@ -92,7 +92,7 @@ export const ImageViewer = observer(
           visible={visible}
           transparent
           hardwareAccelerated={false}
-          animationType='fade'
+          animationType={isAnimationDisabled() ? 'none' : 'fade'}
           statusBarTranslucent
           onRequestClose={handleRequestClose}
         >

@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-12-25 09:22:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-10 05:19:44
+ * @Last Modified time: 2026-10-08 22:47:54
  */
 import { useEffect } from 'react'
 import { View } from 'react-native'
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
-import { stl } from '@utils'
+import { stl, timing } from '@utils'
 import { DURATION_MODAL } from '@constants'
 import { Component } from '../../component'
 import { Flex } from '../../flex'
@@ -24,21 +24,24 @@ import type { Props } from '../types'
 export const ModalFixed = observer(
   ({ style, visible, title, type = 'title', animated, onClose, children }: Props) => {
     // 遮罩淡入淡出, 淡出结束后再卸载 (不传 animated 时保持旧版无动画行为)
-    const { showValue } = useMask(animated ? visible : true)
+    const { showValue, disabled } = useMask(animated ? visible : true)
 
     const activeRef = useSharedValue(visible ? 1 : 0)
 
     const animatedStyle = useAnimatedStyle(() => ({
-      opacity: withTiming(activeRef.value, {
-        duration: DURATION_MODAL
-      })
+      opacity: activeRef.value
     }))
+
+    /** 系统关闭动画时的内容样式 (静态终值) */
+    const staticContentStyle = { opacity: visible ? 1 : 0 }
 
     useEffect(() => {
       if (!animated) return
 
       setTimeout(() => {
-        activeRef.value = visible ? 1 : 0
+        activeRef.value = timing(visible ? 1 : 0, {
+          duration: DURATION_MODAL
+        })
       }, 0)
     }, [activeRef, animated, visible])
 
@@ -56,7 +59,13 @@ export const ModalFixed = observer(
         {!hidden && (
           <Flex style={styles.fixed} justify='center' pointerEvents='box-none'>
             <View style={styles.container} pointerEvents='auto'>
-              <Animated.View style={stl(style, styles.modal, animated && animatedStyle)}>
+              <Animated.View
+                style={stl(
+                  style,
+                  styles.modal,
+                  animated && (disabled ? staticContentStyle : animatedStyle)
+                )}
+              >
                 {!!title && (
                   <Text style={_.mb.md} type={type} size={16}>
                     {title}

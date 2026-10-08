@@ -8,6 +8,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { BlurView as ExpoBlurView } from 'expo-blur'
+import { isAnimationDisabled } from '@utils/animation'
 import { syncSystemStore, syncThemeStore } from '@utils/async'
 import { BLURVIEW_TINT_DARK, BLURVIEW_TINT_LIGHT } from '../../blur-view/ds'
 import { memoStyles } from './styles'
@@ -20,7 +21,8 @@ const systemStore = syncSystemStore()
 function BlurView({ style, intensity = 100, children }: Props) {
   const styles = memoStyles()
 
-  if (systemStore.blurModal) {
+  // 系统关闭动画时不使用 expo-blur: 保证主框体一定被绘制
+  if (systemStore.blurModal && !isAnimationDisabled()) {
     return (
       <ExpoBlurView
         style={[styles.blurView, style]}

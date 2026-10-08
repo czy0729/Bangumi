@@ -2,22 +2,17 @@
  * @Author: czy0729
  * @Date: 2026-08-12 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-17 06:56:54
+ * @Last Modified time: 2026-10-08 22:47:57
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Dimensions } from 'react-native'
-import {
-  cancelAnimation,
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming
-} from 'react-native-reanimated'
-import { scheduleOnRN } from '@utils'
-import { IOS } from '@constants/env'
+import { cancelAnimation, Easing, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
+import { isAnimationDisabled, scheduleOnRN, timing } from '@utils'
 import { PAD } from '@constants/device'
+import { IOS } from '@constants/env'
 import { getFocusMargin, getOpacity, getPosition, getScale } from './utils'
 
+import type { ViewStyle } from 'react-native'
 import type { Props } from './types'
 
 export type ModalAnimationOptions = Pick<
@@ -49,6 +44,9 @@ export const useModalAnimation = ({
   const screenHeight = Dimensions.get('window').height
   const focusRatio = PAD ? 0.24 : IOS ? 0.44 : 0.38
 
+  /** 系统关闭动画: 调用方按终态静态渲染, 不使用下方共享值 */
+  const disabled = isAnimationDisabled()
+
   const [rendered, setRendered] = useState(visible)
 
   const opacity = useSharedValue(getOpacity(visible))
@@ -75,6 +73,14 @@ export const useModalAnimation = ({
   const animateDialog = useCallback(
     (nextVisible: boolean) => {
       if (animationType === 'none') {
+        // 无动画: 必须直接落到终值, 只 setRendered 会让遮罩停在 opacity 0
+        cancelAnimation(opacity)
+        cancelAnimation(translateY)
+        cancelAnimation(scale)
+        opacity.value = getOpacity(nextVisible)
+        translateY.value = getPosition(animationType, nextVisible, screenHeight)
+        scale.value = getScale(nextVisible)
+
         if (nextVisible) {
           setRendered(true)
           onAnimationEnd(true)
@@ -96,9 +102,9 @@ export const useModalAnimation = ({
 
       if (animationType === 'slide-up' || animationType === 'slide-down') {
         cancelAnimation(opacity)
-        opacity.value = withTiming(getOpacity(nextVisible), maskConfig)
+        opacity.value = timing(getOpacity(nextVisible), maskConfig)
         cancelAnimation(translateY)
-        translateY.value = withTiming(
+        translateY.value = timing(
           getPosition(animationType, nextVisible, screenHeight),
           maskConfig,
           finished => {
@@ -110,11 +116,11 @@ export const useModalAnimation = ({
         // fade: opacity + scale 同步材质化
         cancelAnimation(opacity)
         cancelAnimation(scale)
-        opacity.value = withTiming(getOpacity(nextVisible), contentConfig, finished => {
+        opacity.value = timing(getOpacity(nextVisible), contentConfig, finished => {
           if (finished && !nextVisible) scheduleOnRN(finishHide)
           if (finished && nextVisible) scheduleOnRN(handleAnimationEnd)
         })
-        scale.value = withTiming(getScale(nextVisible), contentConfig)
+        scale.value = timing(getScale(nextVisible), contentConfig)
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
@@ -147,7 +153,7 @@ export const useModalAnimation = ({
   }, [visible])
 
   useEffect(() => {
-    focusMargin.value = withTiming(focus ? getFocusMargin(screenHeight, focusRatio) : 0, {
+    focusMargin.value = timing(focus ? getFocusMargin(screenHeight, focusRatio) : 0, {
       duration: 280
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -164,6 +170,16 @@ export const useModalAnimation = ({
     return { transform: [{ translateY: translateY.value }] } as const
   })
   const focusAnimatedStyle = useAnimatedStyle(() => ({ marginTop: focusMargin.value }))
+  const focusStaticStyle: ViewStyle | undefined = focus
+    ? { marginTop: getFocusMargin(screenHeight, focusRatio) }
+    : undefined
 
-  return { rendered, maskAnimatedStyle, contentAnimatedStyle, focusAnimatedStyle }
+  return {
+    rendered,
+    disabled,
+    maskAnimatedStyle,
+    contentAnimatedStyle,
+    focusAnimatedStyle,
+    focusStaticStyle
+  }
 }

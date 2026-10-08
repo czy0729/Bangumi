@@ -36,14 +36,36 @@ export const ModalView = observer(
   }: ModalViewProps) => {
     r(COMPONENT)
 
-    const { rendered, maskAnimatedStyle, contentAnimatedStyle, focusAnimatedStyle } =
-      useModalAnimation({
-        animationType,
-        animateAppear,
-        focus,
-        onAnimationEnd,
-        visible
-      })
+    const {
+      rendered,
+      disabled,
+      maskAnimatedStyle,
+      contentAnimatedStyle,
+      focusAnimatedStyle,
+      focusStaticStyle
+    } = useModalAnimation({
+      animationType,
+      animateAppear,
+      focus,
+      onAnimationEnd,
+      visible
+    })
+
+    // 系统关闭动画: 遮罩与主框体按终态静态渲染, 不依赖动画完成; 不可见时不挂载
+    if (disabled) {
+      if (!visible) return null
+
+      return (
+        <Portal>
+          <View style={[styles.wrap, wrapStyle]}>
+            <TouchableWithoutFeedback onPress={maskClosable ? onClose : undefined}>
+              <View style={[styles.absolute, styles.mask, maskStyle]} />
+            </TouchableWithoutFeedback>
+            <View style={[focusStaticStyle, style]}>{children}</View>
+          </View>
+        </Portal>
+      )
+    }
 
     if (!rendered) {
       return null

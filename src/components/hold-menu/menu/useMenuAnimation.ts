@@ -1,10 +1,11 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-09 07:21:52
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-09 07:21:52
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-10-09 00:06:44
  */
 import { useAnimatedProps, useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated'
+import { isAnimationDisabled } from '@utils'
 import { MENU_ANIMATION_DURATION, SPRING_CONFIGURATION, SPRING_CONFIGURATION_MENU } from '../ds'
 import { useHoldMenu } from '../context'
 import { getMenuHeight, getMenuWidth } from '../utils'
@@ -18,8 +19,12 @@ export const useMenuAnimation = ({ items }: MenuAnimationProps) => {
   const { active, position } = useHoldMenu()
 
   const defaultWidth = getMenuWidth()
+
   // 非零默认高度, 避免首帧 BlurView 以 0 高度挂载导致模糊不渲染
   const defaultHeight = getMenuHeight(items)
+
+  // 系统关闭动画时弹簧不会落值, 直接取终态
+  const disabled = isAnimationDisabled()
 
   const animatedStyle = useAnimatedStyle(() => {
     const pos = position.value
@@ -44,14 +49,18 @@ export const useMenuAnimation = ({ items }: MenuAnimationProps) => {
       // 与按钮同步位移, 菜单放不下时整体向合适方向挤开
       {
         translateY: isActive
-          ? withSpring(tY, SPRING_CONFIGURATION)
+          ? disabled
+            ? tY
+            : withSpring(tY, SPRING_CONFIGURATION)
           : withTiming(0, { duration: MENU_ANIMATION_DURATION })
       },
       { translateX },
       { translateY },
       {
         scale: isActive
-          ? withSpring(1, SPRING_CONFIGURATION_MENU)
+          ? disabled
+            ? 1
+            : withSpring(1, SPRING_CONFIGURATION_MENU)
           : withTiming(0, { duration: MENU_ANIMATION_DURATION })
       },
       { translateX: -translateX },
@@ -63,7 +72,11 @@ export const useMenuAnimation = ({ items }: MenuAnimationProps) => {
       top,
       width,
       height,
-      opacity: withTiming(isActive ? 1 : 0, { duration: MENU_ANIMATION_DURATION }),
+      opacity: disabled
+        ? isActive
+          ? 1
+          : 0
+        : withTiming(isActive ? 1 : 0, { duration: MENU_ANIMATION_DURATION }),
       transform
     }
   })
@@ -74,4 +87,3 @@ export const useMenuAnimation = ({ items }: MenuAnimationProps) => {
 
   return { animatedStyle, animatedProps }
 }
-
