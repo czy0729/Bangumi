@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2026-10-04 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-04 00:00:00
+ * @Last Modified time: 2026-10-09 06:13:01
  *
  * 敏感标签判断 (公共, 各找XX频道渲染标签时共用)
  *  - 词表收敛自本目录下全部频道实际在用的 tag:
  *    manga(TAGS) / anime(TAGS) / game(TAGS) / adv(TAGS) / music(TAGS) / real(TAGS) /
  *    wenku(TAGS) / hentai(CHARA + JOB + BODY + CONTENT), nsfw 频道无标签词表
- *  - 交叉校验语料: typerank 五类 4776 条 + 上述 ds 词表 828 条 = 5224 条, 零连带命中
+ *  - 交叉校验语料: typerank 五类 9049 条 + 上述 ds 词表 828 条 = 9877 条, 零连带命中
  *  - 「生肉」为无字幕资源义, 不在列; BL / 百合 / 耽美 / 后宫 为题材义, 不在列
  *  - 增删任何一档都必须重跑 __tests__/sensitive-tag.test.ts (命中集合与人工确认清单需完全一致)
  */
@@ -27,7 +27,6 @@ export const SENSITIVE_TAG_WORDS = [
   '18禁',
   '4x',
   'r15',
-  'loli',
   'bdsm',
   'nsfw',
   'hentai',
@@ -107,13 +106,18 @@ const SENSITIVE_TAG_EXACT = new Set(['肉', '变态', '正太', '触手', '强�
  *  - ntr → LapinTrack / Ubisoft Montreal (Ubisoft Entertainment)
  *  - sm  → PLAYISM / SMEE / Official髭男dism
  *  - 3p  → d3p
+ *  - loli → hololive
  */
-const SENSITIVE_TAG_BOUND = /\b(?:ntr|sm|3p)\b/i
+const SENSITIVE_TAG_BOUND = /\b(?:ntr|sm|3p)\b|\bloli/i
+
+/** 整串排除: 命中词表但语义为正常作品名 */
+const SENSITIVE_TAG_ALLOW = new Set(['エロマンガ先生', 'ブラザーピエロ'])
 
 /** 判断标签是否敏感 */
 export function isSensitiveTag(tag: string) {
   const normalized = String(tag || '').toLowerCase()
   if (!normalized) return false
+  if (SENSITIVE_TAG_ALLOW.has(normalized)) return false
 
   if (SENSITIVE_TAG_EXACT.has(normalized)) return true
   if (SENSITIVE_TAG_BOUND.test(normalized)) return true

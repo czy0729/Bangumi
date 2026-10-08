@@ -9,8 +9,7 @@ import type {
   JSONJA,
   JSONKatakana,
   JSONMono,
-  JSONNSFW,
-  JSONTypeRankIds
+  JSONNSFW
 } from '@assets/json/types'
 import type { Item as ADVFingerItem } from '@utils/subject/adv/types'
 import type { Item as AnimeFingerItem } from '@utils/subject/anime/types'
@@ -21,6 +20,9 @@ import type { Item as RealFingerItem } from '@utils/subject/real/types'
 import type { Item as AlbumFingerItem } from '@utils/subject/album/types'
 import type { Item as WenkuFingerItem } from '@utils/subject/wenku/types'
 import type { BangumiData, Id } from '@types'
+
+/** 标签 / 年份 → 数值数组 (分类排行的 SubjectId[] 与 rank 序列) */
+export type TypeRankMap = Record<string, number[]>
 
 /**
  * protobuf 静态数据集名
@@ -36,7 +38,8 @@ import type { BangumiData, Id } from '@types'
  *  - 'ja': 条目名 → SubjectId 罗马音字典 (SMB 刮削)
  *  - 'd': 豆瓣 id → SubjectId 字典 (豆瓣同步)
  *  - 'katakana': 片假名 → 罗马字/英文 翻译字典
- *  - 'anime-ids': 年份/标签 → SubjectId[] 字典 (分类排行/tags/猜你喜欢)
+ *  - 'anime-ids' / '{type}-ids': 标签 → SubjectId[] 字典 (分类排行/tags/猜你喜欢)
+ *  - '{type}-ranks': 标签 → rank 序列字典 (条目页标签的百分位)
  *  - 'nsfw': NSFW 条目数组
  *  - 'music': 找音乐条目数组
  *  - 'real': 找三次元条目数组
@@ -53,6 +56,15 @@ export type DataAssets =
   | 'd'
   | 'katakana'
   | 'anime-ids'
+  | 'anime-ranks'
+  | 'book-ranks'
+  | 'game-ranks'
+  | 'music-ranks'
+  | 'real-ranks'
+  | 'book-ids'
+  | 'game-ids'
+  | 'music-ids'
+  | 'real-ids'
   | 'nsfw'
   | 'music'
   | 'real'
@@ -140,8 +152,17 @@ export type Data = {
   /** 片假名 → 罗马字/英文 (decode 内由 Pair 数组还原) */
   katakana: JSONKatakana
 
-  /** 年份/标签 → SubjectId[] (decode 内由 Group 数组还原) */
-  'anime-ids': JSONTypeRankIds
+  /** 标签 / 年份 → ids / rank 序列 (decode 内由 Group 数组还原) */
+  'anime-ids': TypeRankMap
+  'anime-ranks': TypeRankMap
+  'book-ranks': TypeRankMap
+  'game-ranks': TypeRankMap
+  'music-ranks': TypeRankMap
+  'real-ranks': TypeRankMap
+  'book-ids': TypeRankMap
+  'game-ids': TypeRankMap
+  'music-ids': TypeRankMap
+  'real-ids': TypeRankMap
 
   /** NSFW 条目数组 */
   nsfw: JSONNSFW

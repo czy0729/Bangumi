@@ -2,38 +2,24 @@
  * @Author: czy0729
  * @Date: 2023-10-31 16:05:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:14:24
+ * @Last Modified time: 2026-10-09 06:08:44
  */
-import { getJSON, loadJSON } from '@assets/json'
+import { decode, get } from '@utils/thirdParty/protobuf'
 
-import type { SubjectId, SubjectType } from '@types'
+import type { SubjectType } from '@types'
 
 /** 缓存搜索过的结果 */
 const cacheMap = new Map<string, number>()
 
 export async function loadTyperankData(type: SubjectType) {
-  return await loadJSON(`typerank/${type}`)
+  return await decode(`${type}-ranks`)
 }
 
 /** 检查这类型的这标签是否存在于数据中 */
 export function exist(type: SubjectType, key: string) {
   if (!type || !key) return false
 
-  let typerankData: Record<string, SubjectId[]>
-  if (type === 'anime') {
-    typerankData = getJSON('typerank/anime')
-  } else if (type === 'book') {
-    typerankData = getJSON('typerank/book')
-  } else if (type === 'game') {
-    typerankData = getJSON('typerank/game')
-  } else if (type === 'music') {
-    typerankData = getJSON('typerank/music')
-  } else if (type === 'real') {
-    typerankData = getJSON('typerank/real')
-  }
-  if (!typerankData) return false
-
-  return !!typerankData[key]
+  return !!get(`${type}-ranks`)?.[key]
 }
 
 /** 计算优于百分比 */
@@ -41,20 +27,7 @@ export function calc(type: SubjectType, key: string, value: number) {
   const cacheKey = `${type}|${key}|${value}`
   if (cacheMap.has(cacheKey)) return cacheMap.get(cacheKey)
 
-  let typerankData: Record<string, SubjectId[]>
-  if (type === 'anime') {
-    typerankData = getJSON('typerank/anime')
-  } else if (type === 'book') {
-    typerankData = getJSON('typerank/book')
-  } else if (type === 'game') {
-    typerankData = getJSON('typerank/game')
-  } else if (type === 'music') {
-    typerankData = getJSON('typerank/music')
-  } else if (type === 'real') {
-    typerankData = getJSON('typerank/real')
-  }
-
-  const arr = typerankData?.[key]
+  const arr = get(`${type}-ranks`)?.[key]
   if (!arr?.length) return 1
 
   if (value <= Number(arr[0])) {

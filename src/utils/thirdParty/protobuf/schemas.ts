@@ -53,7 +53,7 @@ const PAIR_STRING: Schema = {
   2: { tag: 2, key: 'v', type: 'string' }
 }
 
-/** 年份/标签 → SubjectId[] 分组 ( anime-ids ) */
+/** 标签 / 年份 → 数值数组分组 ( anime-ids 与 typerank 的 ids / ranks ) */
 const GROUP: Schema = {
   1: { tag: 1, key: 'k', type: 'string' },
   2: { tag: 2, key: 'v', type: 'int32[]' }
@@ -178,6 +178,15 @@ export const ITEM_SCHEMAS: Record<DataAssets, Schema> = {
   d: PAIR_INT,
   katakana: PAIR_STRING,
   'anime-ids': GROUP,
+  'anime-ranks': GROUP,
+  'book-ranks': GROUP,
+  'game-ranks': GROUP,
+  'music-ranks': GROUP,
+  'real-ranks': GROUP,
+  'book-ids': GROUP,
+  'game-ids': GROUP,
+  'music-ids': GROUP,
+  'real-ids': GROUP,
   nsfw: {
     1: { tag: 1, key: 'i', type: 'int32' },
     2: { tag: 2, key: 'd', type: 'string' },

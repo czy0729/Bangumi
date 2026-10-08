@@ -4,29 +4,19 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-01 06:16:53
  */
-import type { Expand, Id, SubjectId, SubjectType } from '@types'
+import type { Expand, Id, SubjectId } from '@types'
 
 type Substring = `substrings/${'anime' | 'book' | 'game' | 'real' | 'alias' | 'addon'}`
 
-type TypeRank = `typerank/${SubjectType}`
-
-// anime-ids 已迁移到 protobuf (见 @utils/thirdParty/protobuf), 仅其余类型保留 JSON
-type TypeRankIds = `typerank/${Exclude<SubjectType, 'anime'>}-ids`
-
+// typerank 的 ids / ranks 已迁移到 protobuf (见 @utils/thirdParty/protobuf)
 export type JSONPath =
   | Substring
-  | TypeRank
-  | TypeRankIds
   | 'group'
   | 'nsfw_id_distribution'
   | 'thirdParty/ja.addon'
   | 'thirdParty/h.min'
 
 export type JSONSubString = Record<string, SubjectId>
-
-export type JSONTypeRank = Record<string, SubjectId[]>
-
-export type JSONTypeRankIds = Record<string, SubjectId[]>
 
 export type JSONKatakana = Record<string, string>
 
@@ -74,12 +64,6 @@ export type JSONData = Expand<
   {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     [K in Substring]: JSONSubString
-  } & {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    [K in TypeRank]: JSONTypeRank
-  } & {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    [K in TypeRankIds]: JSONTypeRankIds
   } & {
     group: JSONGroup
     nsfw_id_distribution: number[]

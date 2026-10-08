@@ -50,7 +50,7 @@ export const TEXT_UPDATE_CATALOGS = '2026-04-11'
 export const TEXT_UPDATE_SPONSOR = '2026-04-14'
 
 /** 分类排名更新时间 */
-export const TEXT_UPDATE_TYPERANK = '2026-04-12'
+export const TEXT_UPDATE_TYPERANK = '2026-09-27'
 
 /** 找番剧 (NSFW) 静态数据最后更新时间 */
 export const TEXT_UPDATE_NSFW = '2026-10-02'

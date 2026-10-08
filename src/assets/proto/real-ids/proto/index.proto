@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+// Record<年份/标签, SubjectId[]>
+message Group {
+  string k = 1;
+  repeated int32 v = 2;
+}
+
+message Payload {
+  repeated Group payload = 1;
+}

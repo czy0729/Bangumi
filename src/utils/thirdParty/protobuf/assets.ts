@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-09-02 13:36:13
  *
  * 仅 native 端: bin 资源模块映射与本地加载 (metro asset + expo-asset)
+ *  - bin 内容变更后必须重启 Metro 并重新加载 App: 资源 URL 按内容哈希生成, 旧包会 404
  */
 import { Asset } from 'expo-asset'
 import { toByteArray } from '@utils/thirdParty/base64'
@@ -27,6 +28,15 @@ const MODULES: Record<DataAssets, () => number> = {
   d: () => require('@assets/proto/d/bin/index.bin') as number,
   katakana: () => require('@assets/proto/katakana/bin/index.bin') as number,
   'anime-ids': () => require('@assets/proto/anime-ids/bin/index.bin') as number,
+  'anime-ranks': () => require('@assets/proto/anime-ranks/bin/index.bin') as number,
+  'book-ranks': () => require('@assets/proto/book-ranks/bin/index.bin') as number,
+  'game-ranks': () => require('@assets/proto/game-ranks/bin/index.bin') as number,
+  'music-ranks': () => require('@assets/proto/music-ranks/bin/index.bin') as number,
+  'real-ranks': () => require('@assets/proto/real-ranks/bin/index.bin') as number,
+  'book-ids': () => require('@assets/proto/book-ids/bin/index.bin') as number,
+  'game-ids': () => require('@assets/proto/game-ids/bin/index.bin') as number,
+  'music-ids': () => require('@assets/proto/music-ids/bin/index.bin') as number,
+  'real-ids': () => require('@assets/proto/real-ids/bin/index.bin') as number,
   nsfw: () => require('@assets/proto/nsfw/bin/index.bin') as number,
   music: () => require('@assets/proto/music/bin/index.bin') as number,
   real: () => require('@assets/proto/real/bin/index.bin') as number,
@@ -37,8 +47,9 @@ const MODULES: Record<DataAssets, () => number> = {
 
 /** 读取本地 .bin 字节 */
 export async function loadBinBytes(name: DataAssets): Promise<Uint8Array> {
+  let asset: Asset | undefined
   try {
-    const asset = Asset.fromModule(MODULES[name]())
+    asset = Asset.fromModule(MODULES[name]())
 
     if (!asset.localUri) await asset.downloadAsync()
 
@@ -47,7 +58,12 @@ export async function loadBinBytes(name: DataAssets): Promise<Uint8Array> {
     })
     return new Uint8Array(toByteArray(base64String))
   } catch (error) {
-    logger.log(TAG, 'loadBinBytes', 'Error loading bin file', { name })
+    logger.log(TAG, 'loadBinBytes', 'Error loading bin file', {
+      name,
+      uri: asset?.uri,
+      localUri: asset?.localUri,
+      error: error instanceof Error ? `${error.name}: ${error.message}` : String(error)
+    })
     return new Uint8Array()
   }
 }

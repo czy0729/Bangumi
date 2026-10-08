@@ -8,7 +8,6 @@ import { systemStore } from '@stores'
 import { desc } from '@utils'
 import { decode } from '@utils/thirdParty/protobuf'
 import { MODEL_COLLECTION_STATUS } from '@constants'
-import { loadJSON } from '@assets/json'
 import { REASONS, TIME_PATTERN } from './ds'
 
 import type { CollectionStatusCn, SubjectId, SubjectType } from '@types'
@@ -258,8 +257,7 @@ export async function getTyperankRelates(
   if (!collections.length) return [relates, subjectIds] as const
 
   try {
-    const typerank =
-      type === 'anime' ? await decode('anime-ids') : await loadJSON(`typerank/${type}-ids`)
+    const typerank = await decode(`${type}-ids`)
     collections.forEach(item => {
       const tags = (item.tags || []).filter(
         item => !FILTER_TAG.has(item) && !TIME_PATTERN.test(item)

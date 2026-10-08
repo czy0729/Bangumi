@@ -24,9 +24,15 @@ const monorepoPackages = {
 // (require 条件 → dist/commonjs/slim.js), 无物理文件; Node 侧预算出实际路径供 resolveRequest 定向映射
 const cheerioSlimPath = require.resolve('cheerio/slim')
 
-// expo-file-system 15.x (SDK 49) 无 /legacy 子路径 (该入口自 SDK 53 起才有),
-// 旧 API 即根入口本身, 统一映射到根入口
-const expoFileSystemPath = require.resolve('expo-file-system')
+// expo-file-system 自 SDK 53 起把旧 API 移到 /legacy 子路径, 更早版本 (SDK 47 / 49) 根入口即旧 API。
+// 本配置为 ios / android / web 三环境共用 (env.js 只切换 package.json / node_modules / babel.config.js / app.json),
+// 因此以当前环境能否解析 /legacy 决定是否需要回写, expoFileSystemPath 为 null 时不做任何改写
+let expoFileSystemPath = null
+try {
+  require.resolve('expo-file-system/legacy')
+} catch {
+  expoFileSystemPath = require.resolve('expo-file-system')
+}
 
 config.resolver.extraNodeModules = monorepoPackages
 // 构建产物与原生工程目录不参与解析与监听; 需锚定项目根, 否则会误伤 node_modules 内的同名目录 (如各包的 dist/)
@@ -62,7 +68,7 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
     return context.resolveRequest(context, cheerioSlimPath, platform)
   }
 
-  if (moduleName === 'expo-file-system/legacy') {
+  if (expoFileSystemPath && moduleName === 'expo-file-system/legacy') {
     return context.resolveRequest(context, expoFileSystemPath, platform)
   }
 

@@ -1,22 +1,30 @@
 /*
  * @Author: czy0729
  * @Date: 2026-10-04 22:56:39
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-10-04 22:56:39
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-10-09 06:12:51
  *
  * sensitive-tag.ts 单元测试
  *  - 词表守卫: 任何增删都必须重跑本测试, 语料来自 typerank 五类全量标签
  */
+import fs from 'fs'
+import path from 'path'
+import protobuf from 'protobufjs'
 import { isSensitiveTag, SENSITIVE_TAG_WORDS } from '../sensitive-tag'
 
-/** 全量标签语料 (typerank 五类: anime / book / game / music / real) */
-const CORPUS = [
-  require('@assets/json/typerank/anime.json'),
-  require('@assets/json/typerank/book.json'),
-  require('@assets/json/typerank/game.json'),
-  require('@assets/json/typerank/music.json'),
-  require('@assets/json/typerank/real.json')
-].flatMap((item: Record<string, unknown>) => Object.keys(item)) as string[]
+/** 全量标签语料 (typerank 五类, 取自 src/assets/proto/{type}-ranks 的发布资产) */
+const CORPUS = ['anime', 'book', 'game', 'music', 'real'].flatMap(type => {
+  const dir = path.resolve(__dirname, `../../../../src/assets/proto/${type}-ranks`)
+  const { root } = protobuf.parse(fs.readFileSync(path.join(dir, 'proto/index.proto'), 'utf-8'))
+  const Message = root.lookupType('Payload')
+  const decoded = Message.decode(fs.readFileSync(path.join(dir, 'bin/index.bin')))
+  const { payload } = Message.toObject(decoded, {
+    longs: Number,
+    enums: Number,
+    bytes: String
+  })
+  return payload.map((item: { k: string }) => item.k)
+}) as string[]
 
 /**
  * 语料里允许被过滤掉的全部标签 (逐条人工确认过语义即敏感)
@@ -26,47 +34,81 @@ const CORPUS = [
 const EXPECTED_HIT = [
   '18+',
   '18X',
+  '18禁',
+  '3D里番',
+  '3P',
   '4X',
+  'BDSM',
   'loli',
   'Loli',
   'LOLI',
+  'LOLI控',
+  'NSFW',
   'NTR',
+  'R-18',
+  'R-18G',
   'R15',
   'R18',
+  'R18G',
   'SM',
   'エロ',
+  'エロい',
+  'エロイット',
+  'エロゲ',
+  'エロゲー',
+  '专治妹控',
   '乱交',
+  '乱交派对Orz',
   '乱伦',
   '乳摇',
   '人妻',
   '兄控',
+  '凌辱',
   '出轨',
   '卖肉',
   '变态',
+  '口交',
+  '口交本',
   '妹控',
   '姐控',
+  '小黄油',
   '工口',
+  '工口漫画',
   '巨乳',
+  '巨乳フェチ',
   '师生恋',
   '幼驯染',
+  '微エロ',
   '性癖',
+  '情色',
   '成人向',
   '成人漫画',
   '成年コミック',
   '打飞机',
+  '扶他',
   '拔作',
+  '无码',
   '本子',
   '正太',
+  '泡面里番',
+  '痴女',
+  '痴汉',
   '监禁',
+  '群交',
   '肉',
   '肉番',
+  '肛交',
   '背德',
+  '色情',
   '萝莉',
   '触手',
   '触手产物',
+  '调教',
   '足控',
+  '轻エロ',
   '里番',
   '限制',
+  '露出',
   '黄油'
 ]
 
@@ -160,15 +202,24 @@ describe('isSensitiveTag', () => {
     expect(isSensitiveTag('NTR剧情')).toBe(true)
     expect(isSensitiveTag('SM')).toBe(true)
     expect(isSensitiveTag('3P')).toBe(true)
+    expect(isSensitiveTag('LOLI控')).toBe(true)
 
     const tags = [
       'LapinTrack',
       'Ubisoft Montreal (Ubisoft Entertainment)',
       'PLAYISM',
       'SMEE',
-      'd3p'
+      'd3p',
+      'hololive'
     ]
     tags.forEach(tag => expect(isSensitiveTag(tag)).toBe(false))
+  })
+
+  it('整串排除档: 命中词表但语义为正常作品名', () => {
+    const tags = ['エロマンガ先生', 'ブラザーピエロ']
+    tags.forEach(tag => expect(isSensitiveTag(tag)).toBe(false))
+
+    expect(isSensitiveTag('エロゲ')).toBe(true)
   })
 
   it('题材与资源义标签一律不命中', () => {

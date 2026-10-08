@@ -6,6 +6,16 @@
  */
 const path = require('path')
 
+// expo-file-system < SDK 53 无 /legacy 子路径, 旧 API 即根入口 (判定同 metro.config.js)
+let fileSystemLegacyMapper = {}
+try {
+  require.resolve('expo-file-system/legacy')
+} catch {
+  fileSystemLegacyMapper = {
+    '^expo-file-system/legacy$': '<rootDir>/node_modules/expo-file-system'
+  }
+}
+
 module.exports = {
   globals: {
     __DEV__: true
@@ -35,7 +45,7 @@ module.exports = {
     '^react-native$': '<rootDir>/jest/mocks/react-native.js',
     '^expo-web-browser$': '<rootDir>/jest/mocks/expo-web-browser.js',
     '^expo-modules-core(/.*)?$': '<rootDir>/jest/mocks/expo-modules-core.js',
-    '^expo-file-system/legacy$': '<rootDir>/node_modules/expo-file-system'
+    ...fileSystemLegacyMapper
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],

@@ -47,44 +47,6 @@ export async function loadJSON<T extends JSONPath>(
         data = require('./substrings/addon.json') as JSONData[T]
         break
 
-      /** ==================== typerank ==================== */
-      case 'typerank/anime':
-        data = require('./typerank/anime.json') as JSONData[T]
-        break
-
-      case 'typerank/book':
-        data = require('./typerank/book.json') as JSONData[T]
-        break
-
-      case 'typerank/game':
-        data = require('./typerank/game.json') as JSONData[T]
-        break
-
-      case 'typerank/music':
-        data = require('./typerank/music.json') as JSONData[T]
-        break
-
-      case 'typerank/real':
-        data = require('./typerank/real.json') as JSONData[T]
-        break
-
-      /** ==================== typerank-ids ==================== */
-      case 'typerank/book-ids':
-        data = require('./typerank/book-ids.json') as JSONData[T]
-        break
-
-      case 'typerank/game-ids':
-        data = require('./typerank/game-ids.json') as JSONData[T]
-        break
-
-      case 'typerank/music-ids':
-        data = require('./typerank/music-ids.json') as JSONData[T]
-        break
-
-      case 'typerank/real-ids':
-        data = require('./typerank/real-ids.json') as JSONData[T]
-        break
-
       /** ==================== data ==================== */
       case 'group':
         data = require('./group.json') as JSONData[T]

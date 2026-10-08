@@ -56,6 +56,15 @@ export function convert<T extends DataAssets>(name: T, payload: unknown): Data[T
       return pairsToRecord(payload as Pair<string, string>[]) as Data[T]
 
     case 'anime-ids':
+    case 'anime-ranks':
+    case 'book-ranks':
+    case 'game-ranks':
+    case 'music-ranks':
+    case 'real-ranks':
+    case 'book-ids':
+    case 'game-ids':
+    case 'music-ids':
+    case 'real-ids':
       return groupsToRecord(payload as Group[]) as Data[T]
 
     default:

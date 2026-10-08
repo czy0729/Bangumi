@@ -49,7 +49,7 @@ const MANGA_PROTO_TEXT = `
 syntax = "proto3";
 message Manga {
   int32 i = 1;
-  string d = 9;
+  string ed = 9;
 }
 message Payload {
   repeated Manga payload = 1;
@@ -102,7 +102,7 @@ describe('decode 成功链路', () => {
   })
 
   it('不同数据源分别解码、缓存互不影响', async () => {
-    const mangaItems = [{ i: 9, d: '進撃の巨人' }]
+    const mangaItems = [{ i: 9, ed: '進撃の巨人' }]
     ;(FileSystem.readAsStringAsync as any).mockImplementation((uri: string) =>
       Promise.resolve(
         String(uri).includes('asset-202')
