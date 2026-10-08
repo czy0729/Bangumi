@@ -6,7 +6,7 @@
  */
 import { HOST } from '@constants'
 
-import type { ResponseV0Episodes } from '@types'
+import type { Id, ResponseV0Episodes } from '@types'
 import type { SubjectSnapshot } from './types'
 
 /** 条目信息桶容量上限 (每桶): 内含 eps / staff / crt / collection 等大数组 */
@@ -90,5 +90,18 @@ export function mapV0Episodes(data: ResponseV0Episodes['data'] = []) {
       type: Number(item.type) || 0,
       url: `${HOST}/ep/${item.id}` as const
     }
+  })
+}
+
+/** 按 id 去重, 保留先出现的一条 (跨页合并时同一条留言可能重复) */
+export function uniqById<T extends { id: Id }>(list: T[]): T[] {
+  const seen = new Set<string>()
+
+  return list.filter(item => {
+    const id = String(item.id)
+    if (seen.has(id)) return false
+
+    seen.add(id)
+    return true
   })
 }

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-15 09:33:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-05 15:53:42
+ * @Last Modified time: 2026-10-08 04:04:23
  */
 import { cheerioComments } from '@stores/rakuen/common'
 import {
@@ -193,6 +193,32 @@ export function cheerioSubjectEpsFromHTML(html: string) {
   return data
 }
 
+/** 条目留言解析产物 (sub / floor 等字段是吐槽箱类型复用, 留言页不产出) */
+type SubjectCommentParsed = Omit<
+  SubjectCommentsItem,
+  'sub' | 'floor' | 'userSign' | 'replySub' | 'message'
+>
+
+/**
+ * 保证 id 唯一
+ *  - relatedId 取自页面节点, 结构异常时可能被复用, 撞车会让列表 key 复用错实例
+ */
+function dedupeIds(list: SubjectCommentParsed[], page: number): SubjectCommentParsed[] {
+  const seen = new Set<string>()
+
+  return list.map((item, index) => {
+    const id = String(item.id)
+    if (!seen.has(id)) {
+      seen.add(id)
+      return item
+    }
+
+    const fallback = `${page}|${index}`
+    seen.add(fallback)
+    return { ...item, id: fallback }
+  })
+}
+
 /** 条目留言 */
 export function cheerioSubjectComments(html: string): Override<
   SubjectComments,
@@ -204,14 +230,24 @@ export function cheerioSubjectComments(html: string): Override<
     version: boolean
   }
 > {
-  const $ = cheerio(htmlMatch(html, '<div id="columnInSubjectA"', '<div id="columnInSubjectB"'))
-  const page = Number($('.page_inner .p_cur').text().trim() || 1)
-  const pagination = $('.page_inner .p_edge').text().trim().match(/\d+/g)
+  const $ = cheerio(htmlMatch(html, '<div id="columnInSubjectA', '<div id="columnInSubjectB'))
+
+  // 文档级只能用 $() 查询 (引擎的 doc 不带 .find), 元素级才走 cFind / cList
+  const page = Number(cText($('.page_inner .p_cur')) || 1)
+  const pagination = cText($('.page_inner .p_edge')).match(/\d+/g)
   const pageTotal = Number(pagination?.[1] || pagination?.[0] || $('.page_inner a.p').length || 1)
 
   let likes: Likes = {}
   try {
-    likes = JSON.parse(html.match(/data_likes_list\s*=\s*(\{.*?\});/)?.[1])
+    // 先取串再判空: 未命中时 JSON.parse(undefined) 靠抛错兜底, 属于用异常控制流程
+    // [\s\S] 兼容页面把这段脚本换行排版的情况, 命中结果需为对象, 避免脏数据入库
+    const matched = html.match(/data_likes_list\s*=\s*(\{[\s\S]*?\});/)?.[1]
+    if (matched) {
+      const parsed = JSON.parse(matched) as unknown
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+        likes = parsed as Likes
+      }
+    }
   } catch {}
 
   return {
@@ -219,33 +255,40 @@ export function cheerioSubjectComments(html: string): Override<
       page,
       pageTotal
     },
-    list: ($('#comment_box .item')
-      .map((index: number, element: CheerioNode) => {
-        const $row = cheerio(element)
-        const $subject = $row.find('.thumbTip')
-
+    list: dedupeIds(
+      cMap<SubjectCommentParsed>($('#comment_box .item'), ($row, index = 0) => {
         /**
          * - 玩过 @ 2024-4-24 23:53
          * - 在玩 オーディンスフィア @ 2024-4-12 17:58
          */
-        const text = $row.find('small.grey').text().trim()
+        const text = cText(cList($row, 'small.grey'), false, true)
+        const relatedId = cData(cFind($row, '.likes_grid'), 'id').match(/\d+/g)?.[0] || ''
+
         return {
-          id: `${page}|${index}`,
-          userId: matchUserId($row.find('a.avatar').attr('href')),
-          userName: $row.find('a.l').text().trim(),
-          avatar: matchAvatar($row.find('span.avatarNeue').attr('style')),
+          // id 直接用留言标识: 同一条留言在任何数据源下 key 都一致, 不会被复用成另一条的实例
+          id: relatedId || `${page}|${index}`,
+          userId: matchUserId(cData(cFind($row, 'a.avatar'), 'href')),
+          userName: cText(cFind($row, 'a.l')),
+          avatar: matchAvatar(cData(cFind($row, 'span.avatarNeue'), 'style')),
           time: text.split('@ ')?.[1] || '',
-          star: ($row.find('span.starlight').attr('class') || '').replace('starlight stars', ''),
-          comment: $row.find('p').text().trim(),
-          relatedId: ($row.find('.likes_grid').attr('id') || '').match(/\d+/g)?.[0] || '',
-          action: text.split(' ')?.[0] || '',
-          mainId: String($subject.attr('href') || '').replace('/subject/', ''),
-          mainName: $subject.text().trim()
+
+          // 两个 small 之间可能没有空白分隔 (看过@ 2024-4-24 23:53), 按 @ 切才不会带上分隔符
+          action: text.split('@')[0].trim(),
+          star: cData(cFind($row, 'span.starlight'), 'class').replace('starlight stars', ''),
+
+          // 旧口径是 item 内所有 p 的文本拼接, 保持等价不收窄
+          comment: cText(cList($row, 'p')),
+          relatedId,
+          mainId: cData(cFind($row, '.thumbTip'), 'href').replace('/subject/', ''),
+
+          // 多个 .thumbTip 时旧口径是拼接全部文本, 这里保持不收窄
+          mainName: cText(cList($row, '.thumbTip'))
         }
-      })
-      .get() || []) as SubjectCommentsItem[],
+      }),
+      page
+    ) as SubjectCommentsItem[],
     likes,
-    version: !!$('#SecTab a.chiiBtn').attr('href')
+    version: !!cData($('#SecTab a.chiiBtn'), 'href')
   }
 }
 

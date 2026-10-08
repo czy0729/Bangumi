@@ -23,6 +23,7 @@
     "test": "jest --detectOpenHandles",
     "test:watch": "jest --watch --forceExit",
     "pb:verify": "node scripts/pb-verify.js",
+    "tag:verify": "node scripts/tag-verify.js",
     "lint:styles": "npx eslint 'src/**/styles.ts'",
     "lint:imports": "npx eslint 'src/**/*.{ts,tsx}' --quiet --config eslint-rules/.eslintrc.check-imports.js",
     "fixed:chown": "sudo chown -R $(whoami):staff node_modules metro-cache dist android ios"
@@ -33,7 +34,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
-    "@react-native-community/blur": "4.2.0",
+    "@react-native-community/blur": "4.4.1",
     "@react-native-community/cameraroll": "4.0.4",
     "@react-native-community/slider": "5.2.0",
     "@react-native-masked-view/masked-view": "0.3.2",
@@ -111,5 +112,16 @@
     "protobufjs": "^8.8.0",
     "stream-browserify": "^3.0.0",
     "typescript": "^6.0.3"
-  }
+  },
+  "expo": {
+    "autolinking": {
+      "ios": {
+        "exclude": [
+          "react-native-realtimeblurview",
+          "@sdcx/nested-scroll"
+        ]
+      }
+    }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

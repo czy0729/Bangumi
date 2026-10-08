@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-07 21:31:28
+ * @Last Modified time: 2026-10-08 05:27:33
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { getBucketId } from '@utils/bucket'
@@ -51,7 +51,7 @@ import {
   INIT_SUBJECT_FROM_CDN_ITEM,
   INIT_SUBJECT_V2
 } from './init'
-import { mapV0Episodes } from './utils'
+import { mapV0Episodes, uniqById } from './utils'
 
 import type { EpId, MonoId, RatingStatus, ResponseV0Episodes, SubjectId } from '@types'
 import type { STATE } from './init'
@@ -437,7 +437,7 @@ export default class Fetch extends Computed {
     const key = `subjectComments${last}` as const
     const data = {
       [subjectId]: {
-        list: refresh ? next.list : [...list, ...next.list],
+        list: refresh ? next.list : uniqById([...list, ...next.list]),
         pagination: next.pagination,
         version: hasVersion,
         _loaded: getTimestamp(),
@@ -498,7 +498,7 @@ export default class Fetch extends Computed {
         3
       )) || []
     const success = results.filter(
-      (item): item is Exclude<typeof results[number], null> => item !== null
+      (item): item is Exclude<(typeof results)[number], null> => item !== null
     )
     success.sort((a, b) => a.page - b.page)
     if (!success.length) return this.subjectComments(subjectId)
@@ -508,7 +508,7 @@ export default class Fetch extends Computed {
       [STATE_KEY]: {
         [ITEM_KEY]: {
           ...this.subjectComments(subjectId),
-          list: [...existingList, ...success.flatMap(item => item.list)],
+          list: uniqById([...existingList, ...success.flatMap(item => item.list)]),
           pagination: last.pagination,
           version: last.version,
           _loaded: getTimestamp()
@@ -777,7 +777,7 @@ export default class Fetch extends Computed {
     return true
   }
 
-  updateVIB = (subjectId: SubjectId, data: Partial<typeof STATE.vib[0]>) => {
+  updateVIB = (subjectId: SubjectId, data: Partial<(typeof STATE.vib)[0]>) => {
     const key = 'vib'
     this.setState({
       [key]: {

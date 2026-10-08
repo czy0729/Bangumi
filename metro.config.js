@@ -24,6 +24,10 @@ const monorepoPackages = {
 // (require 条件 → dist/commonjs/slim.js), 无物理文件; Node 侧预算出实际路径供 resolveRequest 定向映射
 const cheerioSlimPath = require.resolve('cheerio/slim')
 
+// expo-file-system 15.x (SDK 49) 无 /legacy 子路径 (该入口自 SDK 53 起才有),
+// 旧 API 即根入口本身, 统一映射到根入口
+const expoFileSystemPath = require.resolve('expo-file-system')
+
 config.resolver.extraNodeModules = monorepoPackages
 // 构建产物与原生工程目录不参与解析与监听; 需锚定项目根, 否则会误伤 node_modules 内的同名目录 (如各包的 dist/)
 const projectBlockList = ['dist', 'web', 'ios', 'android'].map(
@@ -56,6 +60,10 @@ const aliases = Object.entries(paths).reduce((acc, [pattern, targets]) => {
 config.resolver.resolveRequest = (context, moduleName, platform) => {
   if (moduleName === 'cheerio/slim') {
     return context.resolveRequest(context, cheerioSlimPath, platform)
+  }
+
+  if (moduleName === 'expo-file-system/legacy') {
+    return context.resolveRequest(context, expoFileSystemPath, platform)
   }
 
   if (aliases[moduleName]) {

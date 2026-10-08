@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-06-14 20:53:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 17:47:20
+ * @Last Modified time: 2026-10-08 04:01:39
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { memoStyles } from '../styles'
 import { VerticalAlign } from '../../vertical-align'
+
+import type { Props } from './types'
 
 function VerticalAlignWithRemoveSpec({
   text,
@@ -21,14 +23,16 @@ function VerticalAlignWithRemoveSpec({
   bold,
   numberOfLines,
   ...other
-}) {
-  const [name, setName] = useState(text)
+}: Props) {
+  /** 记录命中的原文与去除特殊字符后的文本, 原文变化后自动回落到当前 text */
+  const [hit, setHit] = useState<{ from: string; to: string } | null>(null)
   const handleHit = useCallback(
     (removeSpecText: string) => {
-      setName(removeSpecText)
+      setHit({ from: text, to: removeSpecText })
     },
-    [setName]
+    [text]
   )
+  const name = hit && hit.from === text ? hit.to : text
 
   return (
     <VerticalAlign
