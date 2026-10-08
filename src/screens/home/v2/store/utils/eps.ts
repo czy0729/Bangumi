@@ -66,6 +66,11 @@ export function getCurrentOnAir(eps: readonly Ep[]) {
   return flagZero && current ? current + 1 : current
 }
 
+/** 获取已放送 (Air) 章节的数量: 章节编号可能非 1 开始, 不能直接用 sort 当数量 */
+export function getAiredCount(eps: readonly Ep[]) {
+  return (eps || []).filter(item => item.status === 'Air').length
+}
+
 /** 判断章节是否从第 0 集开始 */
 export function isZeroBasedEps(eps: readonly Ep[]) {
   return eps.length > 0 && eps[0].sort === 0

@@ -15,6 +15,7 @@ import { MODEL_SETTING_HOME_LAYOUT } from '@constants'
 import { NAMESPACE, PAGE_LIMIT_GRID, PAGE_LIMIT_LIST } from '../ds'
 import {
   formatCountRight,
+  getAiredCount,
   getCurrentOnAir,
   getEpsCount,
   getEpsNoSp,
@@ -106,6 +107,16 @@ export default class Subject extends Base {
       return getCurrentOnAir(this.epsNoSp(subjectId))
     } catch (error) {
       logger.error(NAMESPACE, 'currentOnAir', error)
+      return 0
+    }
+  })
+
+  /** 已放送章节数量 */
+  airedCount = computedFn((subjectId: SubjectId) => {
+    try {
+      return getAiredCount(this.epsNoSp(subjectId))
+    } catch (error) {
+      logger.error(NAMESPACE, 'airedCount', error)
       return 0
     }
   })

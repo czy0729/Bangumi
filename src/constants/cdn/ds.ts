@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-05-23 04:40:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-06 05:32:43
+ * @Last Modified time: 2026-10-08 20:13:01
  */
 import { get } from '@utils/thirdParty/crypto'
-import { DEV } from '@src/config'
+
+// import { DEV } from '@src/config'
 
 /** DogeCloud */
 export const HOST_DOGE = get(
@@ -17,7 +18,7 @@ export const HOST_DOGE = get(
  *  - 服务器: node web/standalone/server.js (默认端口 9910)
  *  - Android 模拟器访问宿主机需把地址换成 http://10.0.2.2:9910
  */
-export const DEV_LOCAL_CDN = DEV
+export const DEV_LOCAL_CDN = false
 
 /** 找XX 详情服务器 (本地开发服务器或 DogeCloud) */
 export const HOST_DOGE_CDN = DEV_LOCAL_CDN ? 'http://192.168.31.217:9910' : HOST_DOGE

@@ -16,13 +16,7 @@ function Progress({ subjectId, epStatus }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const total = $.epsCount(subjectId, true)
-  let current = $.currentOnAir(subjectId)
-
-  // 有一种情况为多季度番剧, 章节数非 0 或 1 开始的
-  // 会出现当前集数比总章节数多的情况, 需要使用实际放送章节数代替当前章节数
-  if (current > total) {
-    current = $.epsNoSp(subjectId).filter(item => item.status === 'Air').length
-  }
+  const current = $.airedCount(subjectId)
 
   return (
     <OnairProgress
