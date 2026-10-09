@@ -1,0 +1,6 @@
+run_id=37970656210
+run_url=https://github.com/czy0729/Bangumi/actions/runs/37970656210
+branch=master
+sha=deb3006ae1c1b0def95d9721e988f3f02e06ecb9
+version=unknown
+collected_at=2026-10-09T18:04:07Z
