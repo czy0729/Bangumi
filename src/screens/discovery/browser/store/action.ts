@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-05-25 08:09:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-30 05:29:04
+ * @Last Modified time: 2026-10-10 10:20:00
+ *
+ * 索引操作: 筛选选择 / 年月前后翻页 / 工具栏与布局切换
  */
 import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import {
-  MODEL_BROWSER_SORT,
   MODEL_SUBJECT_TYPE,
   TEXT_MENU_FAVOR,
   TEXT_MENU_LAYOUT,
@@ -17,6 +18,11 @@ import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
 
 import type { ScrollToOffset } from '@components'
+import type { SubjectType } from '@types'
+import type { Airtime, Month } from '../types'
+
+/** 前后翻页方向 */
+type Direction = -1 | 1
 
 export default class Action extends Fetch {
   scrollToOffset: ScrollToOffset = null
@@ -47,10 +53,15 @@ export default class Action extends Fetch {
     }, 0)
   }
 
+  /** 下拉刷新 */
+  onHeaderRefresh = () => {
+    return this.fetchBrowser(true)
+  }
+
   /** 类型选择 */
-  onTypeSelect = (type: any) => {
+  onTypeSelect = (type: string) => {
     this.setState({
-      type: MODEL_SUBJECT_TYPE.getLabel(type),
+      type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>(type),
       visibleBottom: EXCLUDE_STATE.visibleBottom
     })
     this.resetScrollView(true)
@@ -61,7 +72,7 @@ export default class Action extends Fetch {
   }
 
   /** 年选择 */
-  onAirdateSelect = (airtime: any) => {
+  onAirdateSelect = (airtime: Airtime) => {
     this.setState({
       airtime: airtime === '全部' ? '' : airtime,
       visibleBottom: EXCLUDE_STATE.visibleBottom
@@ -74,7 +85,7 @@ export default class Action extends Fetch {
   }
 
   /** 月选择 */
-  onMonthSelect = (month: any) => {
+  onMonthSelect = (month: Month) => {
     if (!this.state.airtime) {
       info('请先选择年')
       return
@@ -91,33 +102,43 @@ export default class Action extends Fetch {
     })
   }
 
-  /** 前一月 */
-  onAirdatePrev = () => {
+  /** 前后翻页, 未选择月时只变年, 跨年时月做进退 */
+  private shiftAirtime = (direction: Direction) => {
     const { airtime, month } = this.state
     if (!airtime) {
       info('请先选择年')
-      return
+      return false
     }
 
-    if (!month) {
-      this.setState({
-        airtime: Number(airtime) - 1
-      })
-    } else {
-      let _airtime = Number(airtime)
-      let _month = Number(month)
-      if (month == 1) {
-        _airtime -= 1
-        _month = 12
-      } else {
-        _month -= 1
-      }
-      this.setState({
-        airtime: _airtime,
-        month: _month,
-        visibleBottom: EXCLUDE_STATE.visibleBottom
-      })
+    // 非数字的月 (如历史缓存的 '不选择') 视作未选择月
+    const monthNum = Number(month)
+    const showMonth = !!month && !Number.isNaN(monthNum)
+
+    let _airtime = Number(airtime)
+    let _month = showMonth ? monthNum + direction : ''
+
+    // 1 月的前一月是去年 12 月, 12 月的后一月是次年 1 月
+    if (showMonth && _month === 0) {
+      _airtime -= 1
+      _month = 12
+    } else if (showMonth && _month === 13) {
+      _airtime += 1
+      _month = 1
     }
+
+    this.setState({
+      airtime: _airtime,
+      month: _month,
+      visibleBottom: EXCLUDE_STATE.visibleBottom
+    })
+
+    return true
+  }
+
+  /** 前一月 */
+  onAirdatePrev = () => {
+    if (!this.shiftAirtime(-1)) return
+
     this.resetScrollView(true)
 
     t('索引.前一月')
@@ -125,63 +146,26 @@ export default class Action extends Fetch {
 
   /** 后一月 */
   onAirdateNext = () => {
-    const { airtime, month } = this.state
-    if (!airtime) {
-      info('请先选择年')
-      return
-    }
+    if (!this.shiftAirtime(1)) return
 
-    if (!month) {
-      this.setState({
-        airtime: Number(airtime) + 1
-      })
-    } else {
-      let _airtime = Number(airtime)
-      let _month = Number(month)
-      if (month == 12) {
-        _airtime += 1
-        _month = 1
-      } else {
-        _month += 1
-      }
-      this.setState({
-        airtime: _airtime,
-        month: _month,
-        visibleBottom: EXCLUDE_STATE.visibleBottom
-      })
-    }
     this.resetScrollView(true)
 
     t('索引.后一月')
   }
 
-  /** 排序选择 */
-  onOrderSelect = (label: any) => {
-    const value = MODEL_BROWSER_SORT.getValue(label)
-    this.setState({
-      sort: value,
-      visibleBottom: EXCLUDE_STATE.visibleBottom
-    })
-    this.resetScrollView(true)
-
-    t('索引.排序选择', {
-      sort: value
-    })
-  }
-
   /** 切换布局 */
   switchLayout = () => {
-    const value = this.isList ? 'grid' : 'list'
+    const layout = this.isList ? 'grid' : 'list'
     this.setState({
-      layout: value
+      layout
     })
     this.save()
 
-    info(this.toolBar?.[1])
+    info(this.toolBar[1])
     feedback(true)
 
     t('索引.切换布局', {
-      layout: value
+      layout
     })
   }
 
@@ -192,7 +176,7 @@ export default class Action extends Fetch {
     })
     this.save()
 
-    info(this.toolBar?.[0])
+    info(this.toolBar[0])
     feedback(true)
   }
 
@@ -203,7 +187,7 @@ export default class Action extends Fetch {
     })
     this.save()
 
-    info(this.toolBar?.[2])
+    info(this.toolBar[2])
     feedback(true)
   }
 

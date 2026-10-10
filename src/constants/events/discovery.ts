@@ -37,7 +37,6 @@ export default {
   '索引.跳转': 'Browser.to',
   '索引.右上角菜单': 'Browser.topRightMenu',
   '索引.类型选择': 'Browser.onSelect',
-  '索引.排序选择': 'Browser.onOrderSelect',
   '索引.年选择': 'Browser.onAirdateSelect',
   '索引.月选择': 'Browser.onMonthSelect',
   '索引.前一月': 'Browser.onAirdatePrev',

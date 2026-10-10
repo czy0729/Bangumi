@@ -46,3 +46,6 @@ export const DEFAULT_PROPS = {
   y: undefined as number,
   event: EVENT as Props['event']
 } as const
+
+/** 封面以下文字区 (名称 / 收藏 / 评分 / 底部间距) 的估算高度 */
+export const ITEM_COLLECTIONS_GRID_TEXT_HEIGHT = 72

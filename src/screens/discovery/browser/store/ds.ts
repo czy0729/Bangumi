@@ -2,13 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-07-26 22:57:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-25 21:56:30
+ * @Last Modified time: 2026-10-10 10:20:00
+ *
+ * 缓存命名空间与状态初始值
  */
 import { _ } from '@stores'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { COMPONENT } from '../ds'
 
 import type { BrowserSort, Loaded, SubjectType } from '@types'
+import type { Airtime, Month, OtaSnapshot, SnapshotId } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}`
 
@@ -25,11 +28,8 @@ export const EXCLUDE_STATE = {
   /** 排序 */
   sort: 'date' as BrowserSort,
 
-  /** 是否显示列表, 制造切页效果 */
-  show: true,
-
   /** 云快照 */
-  ota: {}
+  ota: {} as Record<SnapshotId, OtaSnapshot>
 }
 
 export const STATE = {
@@ -39,10 +39,10 @@ export const STATE = {
   type: MODEL_SUBJECT_TYPE.getLabel<SubjectType>('动画'),
 
   /** 年 */
-  airtime: DATE.getFullYear(),
+  airtime: DATE.getFullYear() as Airtime,
 
   /** 月 */
-  month: (DATE.getMonth() + 1) as number | '不选择',
+  month: (DATE.getMonth() + 1) as Month,
 
   /** 布局 list | grid */
   layout: 'list',

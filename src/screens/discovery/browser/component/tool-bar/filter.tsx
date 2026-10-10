@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-06-04 06:22:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 06:58:21
+ * @Last Modified time: 2026-10-10 10:20:00
+ *
+ * 类型选择
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
@@ -17,8 +18,7 @@ import type { Ctx } from '../../types'
 function Filter() {
   const { $ } = useStore<Ctx>()
 
-  const { type } = $.state
-  const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(type)
+  const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>($.state.type)
 
   return (
     <ToolBar.Popover

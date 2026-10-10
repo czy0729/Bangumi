@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 05:23:34
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { x18 } from '@utils'
@@ -12,6 +11,8 @@ import { r } from '@utils/dev'
 import { InView } from '../../base'
 import Item from './item'
 import { COMPONENT } from './ds'
+
+export { ITEM_COLLECTIONS_GRID_TEXT_HEIGHT } from './ds'
 
 import type { Props as ItemCollectionsGridProps } from './types'
 export type { ItemCollectionsGridProps }

@@ -2,12 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-05-25 04:31:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 20:37:27
+ * @Last Modified time: 2026-10-10 10:20:00
+ *
+ * 索引派生: 筛选参数 / 列表数据 (x18 与收藏过滤) / 工具栏菜单
  */
 import { computed } from 'mobx'
-import { subjectStore, tagStore, userStore } from '@stores'
+import { _, tagStore, userStore } from '@stores'
 import { x18 } from '@utils'
-import { computedFn } from '@utils/computed-fn'
 import {
   HTML_BROWSER,
   LIST_EMPTY,
@@ -19,59 +20,66 @@ import {
   TEXT_MENU_LIST,
   TEXT_MENU_NOT_SHOW,
   TEXT_MENU_SHOW,
-  TEXT_MENU_SPLIT_LEFT,
-  TEXT_MENU_SPLIT_RIGHT,
-  TEXT_MENU_TOOLBAR
+  TEXT_MENU_TOOLBAR,
+  withSplit
 } from '@constants'
 import State from './state'
 
-import type { SubjectId, SubjectType } from '@types'
+import type { Browser } from '@stores/tag/types'
+import type { SubjectType } from '@types'
+import type { OtaSnapshot, SnapshotId } from '../types'
 
 export default class Computed extends State {
-  /** 日期 */
+  /** 年月, 未选择月时只有年 */
   @computed get airtime() {
     const { airtime, month } = this.state
-    return month && month !== '不选择' ? `${airtime}-${month}` : String(airtime)
+    const monthNum = Number(month)
+
+    return month && !Number.isNaN(monthNum) ? `${airtime}-${month}` : String(airtime)
   }
 
   /** 云快照 */
-  @computed get ota() {
+  @computed get ota(): OtaSnapshot {
     return this.state.ota[this.thirdPartyKey]
   }
 
-  /** 索引 */
-  @computed get browser() {
-    const browser = tagStore.browser(this.state.type, this.airtime, this.state.sort)
-    if (userStore.isLimit) {
-      let _filter = 0
-      const list = browser.list.filter(item => {
-        const filter = x18(item.id, item.nameCn || item.name)
-        if (filter) _filter += 1
-        return !filter
-      })
-
-      return {
-        ...browser,
-        list,
-        _filter
-      }
-    }
-
-    return browser
+  /** 云快照 key */
+  @computed get thirdPartyKey(): SnapshotId {
+    return `browser_${[this.state.type, this.airtime, this.state.sort].join('_')}`
   }
 
-  /** 条件索引 */
-  @computed get list() {
+  /** 索引 (开启 R18 时过滤敏感条目) */
+  @computed get browser(): Browser {
+    const browser = tagStore.browser(this.state.type, this.airtime, this.state.sort)
+    if (!userStore.isLimit) return browser
+
+    let _filter = 0
+    const list = browser.list.filter(item => {
+      const filter = x18(item.id, item.nameCn || item.name)
+      if (filter) _filter += 1
+      return !filter
+    })
+
+    return {
+      ...browser,
+      list,
+      _filter
+    }
+  }
+
+  /** 列表数据, 未加载时回退到云快照 */
+  @computed get list(): Browser {
+    // 云快照与空列表壳作为未加载时的占位数据
     if (!this.browser._loaded) {
-      return this.ota
-        ? {
-            ...this.ota,
-            pagination: {
-              page: 1,
-              pageTotal: 10
-            }
-          }
-        : LIST_EMPTY
+      if (!this.ota) return LIST_EMPTY as Browser
+
+      return {
+        ...this.ota,
+        pagination: {
+          page: 1,
+          pageTotal: 10
+        }
+      }
     }
 
     if (this.state.collected) return this.browser
@@ -92,31 +100,21 @@ export default class Computed extends State {
     return this.state.layout === 'list'
   }
 
-  /** 条目信息 */
-  subject = computedFn((subjectId: SubjectId) => {
-    return subjectStore.subject(subjectId)
-  })
-
-  @computed get thirdPartyKey() {
-    const query = [this.state.type, this.airtime, this.state.sort].join('_')
-    return `browser_${query}`
+  /** 网格布局列数 */
+  @computed get numColumns() {
+    return _.portrait(_.device(3, 4), 5)
   }
 
   /** 工具栏菜单 */
   @computed get toolBar() {
     return [
-      `${TEXT_MENU_TOOLBAR}${TEXT_MENU_SPLIT_LEFT}${
-        this.state.fixed ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT
-      }${TEXT_MENU_SPLIT_RIGHT}`,
-      `${TEXT_MENU_LAYOUT}${TEXT_MENU_SPLIT_LEFT}${
-        this.state.layout === 'list' ? TEXT_MENU_LIST : TEXT_MENU_GRID
-      }${TEXT_MENU_SPLIT_RIGHT}`,
-      `${TEXT_MENU_FAVOR}${TEXT_MENU_SPLIT_LEFT}${
-        this.state.collected ? TEXT_MENU_SHOW : TEXT_MENU_NOT_SHOW
-      }${TEXT_MENU_SPLIT_RIGHT}`
+      `${TEXT_MENU_TOOLBAR}${withSplit(this.state.fixed ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT)}`,
+      `${TEXT_MENU_LAYOUT}${withSplit(this.isList ? TEXT_MENU_LIST : TEXT_MENU_GRID)}`,
+      `${TEXT_MENU_FAVOR}${withSplit(this.state.collected ? TEXT_MENU_SHOW : TEXT_MENU_NOT_SHOW)}`
     ]
   }
 
+  /** 路由 heatmap */
   @computed get hm() {
     return [this.url, 'Browser'] as const
   }

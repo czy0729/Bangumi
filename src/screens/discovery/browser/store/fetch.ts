@@ -2,14 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-05-25 08:00:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-30 05:26:08
+ * @Last Modified time: 2026-10-10 10:20:00
+ *
+ * 索引数据获取与云快照读写
  */
 import { collectionStore, tagStore } from '@stores'
 import { getTimestamp } from '@utils'
+import { ensureCacheLimit } from '@utils/cache'
 import { t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
 import Computed from './computed'
+
+import type { OtaSnapshot } from '../types'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = new Map<string, true>()
@@ -63,30 +68,30 @@ export default class Fetch extends Computed {
     await tagStore.init('browser')
 
     setTimeout(async () => {
-      if (!this.ota && !this.browser._loaded) {
-        const data = await get(this.thirdPartyKey)
-        if (!data) {
-          // 就算没有数据也插入 key, 用于判断是否需要更新云数据
-          this.setState({
-            ota: {
-              [this.thirdPartyKey]: {
-                list: [],
-                _loaded: 0
-              }
-            }
-          })
-          return
-        }
+      if (this.ota || this.browser._loaded) return
 
+      const data = await get<OtaSnapshot>(this.thirdPartyKey)
+      if (!data) {
+        // 就算没有数据也插入 key, 用于判断是否需要更新云数据
         this.setState({
           ota: {
             [this.thirdPartyKey]: {
-              ...data,
-              _loaded: getTimestamp()
+              list: [],
+              _loaded: 0
             }
           }
         })
+        return
       }
+
+      this.setState({
+        ota: {
+          [this.thirdPartyKey]: {
+            ...data,
+            _loaded: getTimestamp()
+          }
+        }
+      })
     }, 80)
   }
 
@@ -99,6 +104,7 @@ export default class Fetch extends Computed {
         list: this.browser.list.map(({ collected, ...other }) => other)
       })
       THIRD_PARTY_UPDATED.set(this.thirdPartyKey, true)
+      ensureCacheLimit(THIRD_PARTY_UPDATED, 100)
     }, 0)
   }
 }

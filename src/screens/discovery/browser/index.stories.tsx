@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-11 12:27:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-06 02:50:26
+ * @Last Modified time: 2026-10-10 10:20:00
+ *
+ * 索引页面 Storybook
  */
-import React from 'react'
 import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
 import { Browser as Component } from '@screens'
 

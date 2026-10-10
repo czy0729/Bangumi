@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-11 21:51:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 06:59:24
+ * @Last Modified time: 2026-10-10 10:20:00
+ *
+ * 页面头部与右上角菜单 (网页入口 / 工具栏设置)
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
@@ -18,36 +20,32 @@ import type { Ctx } from '../types'
 function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const memoData = useMemo(() => [...DATA, TEXT_MENU_SPLIT, ...$.toolBar], [$.toolBar])
+  const { toolBar, url } = $
+
+  const memoData = useMemo(() => [...DATA, TEXT_MENU_SPLIT, ...toolBar] as const, [toolBar])
 
   const handleHeaderRight = useCallback(
     () => (
       <HeaderV2Popover
         data={memoData}
-        onSelect={title => {
+        onSelect={(title: string) => {
+          if (title === TEXT_MENU_SPLIT) return
+
           if (title === TEXT_MENU_BROWSER) {
-            open($.url)
-
-            t('索引.右上角菜单', {
-              key: title
-            })
-            return
-          }
-
-          if (title === TEXT_MENU_SPA) {
+            open(url)
+          } else if (title === TEXT_MENU_SPA) {
             open(`${URL_SPA}/${getSPAParams('Browser')}`)
-
-            t('索引.右上角菜单', {
-              key: title
-            })
-            return
+          } else {
+            $.onToolBar(title)
           }
 
-          $.onToolBar(title)
+          t('索引.右上角菜单', {
+            key: title
+          })
         }}
       />
     ),
-    [$, memoData]
+    [$, memoData, url]
   )
 
   return <HeaderV2 title='索引' hm={$.hm} headerRight={handleHeaderRight} />
