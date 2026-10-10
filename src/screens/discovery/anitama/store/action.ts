@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-08-07 22:29:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-29 13:14:05
+ * @Last Modified time: 2026-10-10 10:00:00
+ *
+ * 翻页、切站点、内置浏览器开关等交互逻辑
  */
 import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { MODEL_NEWS } from '@constants'
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
-
-import type { Id } from '@types'
 
 export default class Action extends Fetch {
   /** 更新页码并刷新列表 */
@@ -74,21 +74,10 @@ export default class Action extends Fetch {
   }
 
   /** 分页输入框改变 */
-  onChange = ({ nativeEvent }) => {
+  onChange = ({ nativeEvent }: { nativeEvent: { text: string } }) => {
     this.setState({
       ipt: nativeEvent.text
     })
-  }
-
-  /** 记录文章已看过 */
-  pushHistory = (aid: Id) => {
-    const { history } = this.state
-    if (!history.includes(aid)) {
-      this.setState({
-        history: [...history, aid]
-      })
-      this.save()
-    }
   }
 
   /** 切换是否使用内置浏览器打开网页 */

@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2019-05-29 19:37:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-30 00:16:06
+ * @Last Modified time: 2026-10-10 10:10:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, Page } from '@components'
 import { stl } from '@utils'
@@ -19,22 +18,13 @@ import type { Params } from './types'
 
 /** 年鉴 */
 function Award(props: NavigationProps<Params>) {
-  const {
-    loading,
-    redirectCount,
-    year,
-    html,
-    source,
-    handleOpen,
-    handleLoad,
-    handleError,
-    handleMessage
-  } = useAwardPage(props)
+  const { loading, year, html, source, handleOpen, handleLoad, handleError, handleMessage } =
+    useAwardPage(props)
 
   return (
     <Component id='screen-award'>
-      <Page style={stl(styles.container, year == '2025' && styles.container2025)}>
-        {loading && <Loading redirectCount={redirectCount} onOpen={handleOpen} />}
+      <Page style={stl(styles.container, year === '2025' && styles.container2025)}>
+        {loading && <Loading onOpen={handleOpen} />}
 
         {!!html && (
           <WebView

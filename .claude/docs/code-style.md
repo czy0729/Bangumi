@@ -58,6 +58,7 @@
 - 每个组件/页面通过 `ds.ts` 导出 `COMPONENT` 常量标识自身，子组件用 `rc(PARENT, 'Name')` 生成
 - Store 访问：页面通过 hooks 解构 `{ id, $ }`，子组件通过 `useStore<Ctx>(COMPONENT)` 获取
 - `StoreContext.Provider` 在页面 index.tsx 中提供，子组件通过 context 消费
+- **JSX 文件不要写 `import React from 'react'`**：项目使用 automatic JSX runtime（expo `jsx: react-jsx`），多余的 React 导入会触发 `noUnusedLocals` 的 TS6133
 
 # React Native 规范
 

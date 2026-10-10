@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-10-21 17:09:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-30 00:31:39
+ * @Last Modified time: 2026-10-10 10:10:00
+ *
+ * 承载年鉴 html 的 webview
  */
-import React from 'react'
 import WebViewComp from 'react-native-webview'
 import { observer } from 'mobx-react'
 import { SafeAreaView } from '@_'
@@ -22,11 +23,9 @@ function WebView({ year, source, ...other }: Props) {
 
   const { statusBarHeight, bottom } = useInsets()
 
-  // --- Data Logic ---
-  const showStatusBar = !IOS && (year == '2023' || year == '2025')
-  const showBottom = year == '2025'
+  const showStatusBar = !IOS && (year === '2023' || year === '2025')
+  const showBottom = year === '2025'
 
-  // --- Render ---
   return (
     <SafeAreaView
       style={stl(
@@ -43,12 +42,9 @@ function WebView({ year, source, ...other }: Props) {
       }}
     >
       <WebViewComp
-        style={[
-          styles.webView,
-          {
-            paddingTop: statusBarHeight
-          }
-        ]}
+        style={stl(styles.webView, {
+          paddingTop: statusBarHeight
+        })}
         useWebKit
         allowFileAccess
         thirdPartyCookiesEnabled={false}

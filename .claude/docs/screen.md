@@ -76,7 +76,6 @@ export function useXxxPage(props: NavigationProps) {
 ## index.tsx
 
 ```ts
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, StoreContext } from '@stores'
 import { useXxxPage } from './hooks'
@@ -119,7 +118,6 @@ State → Computed → Fetch → Action → ScreenXxx
 ## 子组件访问 Store
 
 ```ts
-import React from 'react'
 import { observer } from 'mobx-react'
 import { rc } from '@utils/dev'
 import { useStore } from '@stores'

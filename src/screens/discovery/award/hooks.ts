@@ -2,13 +2,16 @@
  * @Author: czy0729
  * @Date: 2026-04-30 00:10:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-14 23:15:09
+ * @Last Modified time: 2026-10-10 10:10:00
+ *
+ * 年鉴页面逻辑: 拉取并处理 html, 处理 webview 点击跳转
  */
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { systemStore } from '@stores'
 import {
   appNavigate,
   cheerio,
+  ensureRecordLimit,
   feedback,
   fixedBgmUrl,
   getStorage,
@@ -20,17 +23,18 @@ import { fetchHTML, t } from '@utils/fetch'
 import { applyProxy, restoreNativeUrl } from '@utils/proxy'
 import { HOST, WEB } from '@constants'
 import { getAwardUrl, getAwardYear, transformAwardHTML } from './utils'
-import { NAMESPACE } from './ds'
+import { EVENT, NAMESPACE } from './ds'
 
+import type { WebViewMessageEvent } from 'react-native-webview'
 import type { NavigationProps } from '@types'
-import type { Params } from './types'
+import type { MessageData, Params } from './types'
+
 const HTML_CACHE: Record<string, string> = {}
 
 /** 年鉴页面逻辑 */
 export function useAwardPage({ navigation, route }: NavigationProps<Params>) {
   const [loading, setLoading] = useState(true)
   const [html, setHtml] = useState('')
-  const [redirectCount] = useState(0)
 
   const uri = route?.params?.uri || ''
   const year = useMemo(() => getAwardYear(uri), [uri])
@@ -51,21 +55,21 @@ export function useAwardPage({ navigation, route }: NavigationProps<Params>) {
     navigation.goBack()
     info('网络似乎出了点问题，请重试')
 
-    t('年鉴.错误', { uri })
+    t(EVENT.error, { uri })
   }, [navigation, uri])
 
   const handleOpen = useCallback(() => {
     open(uri)
 
-    t('年鉴.浏览器打开', { uri })
+    t(EVENT.browser, { uri })
   }, [uri])
 
   const handleDirect = useCallback(
-    (data: { href?: string; innerHTML?: string; nextInnerHTML?: string }) => {
+    (data: MessageData) => {
       if (!data?.href) return
 
       const { href, innerHTML, nextInnerHTML } = data
-      const params: any = {}
+      const params: Record<string, string> = {}
 
       if (href.includes('/subject/')) {
         if (innerHTML && !systemStore.isHostProxy) {
@@ -80,7 +84,7 @@ export function useAwardPage({ navigation, route }: NavigationProps<Params>) {
       }
 
       const event = {
-        id: '年鉴.跳转',
+        id: EVENT.id,
         data: { year }
       } as const
 
@@ -91,18 +95,22 @@ export function useAwardPage({ navigation, route }: NavigationProps<Params>) {
   )
 
   const handleMessage = useCallback(
-    async (event: any) => {
+    (event: WebViewMessageEvent) => {
       try {
-        const { type, data } = JSON.parse(event.nativeEvent.data)
+        const { type, data } = JSON.parse(event.nativeEvent.data) as {
+          type?: string
+          data?: MessageData
+        }
 
         if (type === 'onclick') {
           handleDirect(data)
         }
       } catch {
-        handleError()
+        // 忽略非注入脚本的消息与解析失败
+        return
       }
     },
-    [handleDirect, handleError]
+    [handleDirect]
   )
 
   const handleFetch = useCallback(async () => {
@@ -112,6 +120,7 @@ export function useAwardPage({ navigation, route }: NavigationProps<Params>) {
       const transformed = transformAwardHTML(rawHtml, year)
 
       HTML_CACHE[uri] = transformed
+      ensureRecordLimit(HTML_CACHE, 3)
       setHtml(transformed)
 
       if (WEB) {
@@ -131,7 +140,7 @@ export function useAwardPage({ navigation, route }: NavigationProps<Params>) {
     }
 
     if (WEB) {
-      getStorage(`${NAMESPACE}|html|${year}`).then((cache: string) => {
+      getStorage<string>(`${NAMESPACE}|html|${uri}`).then((cache: string) => {
         if (cache) {
           setHtml(cache)
           handleLoad()
@@ -151,14 +160,28 @@ export function useAwardPage({ navigation, route }: NavigationProps<Params>) {
   }, [uri, year, handleFetch, handleLoad])
 
   return {
+    /** 是否显示加载中 */
     loading,
-    redirectCount,
+
+    /** 年份 */
     year,
+
+    /** 处理后的 html */
     html,
+
+    /** webview 源 */
     source,
+
+    /** 使用浏览器打开 */
     handleOpen,
+
+    /** 加载完成 */
     handleLoad,
+
+    /** 加载失败 */
     handleError,
+
+    /** webview 消息 */
     handleMessage
   }
 }

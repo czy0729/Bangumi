@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-11-08 06:06:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-30 04:16:07
+ * @Last Modified time: 2026-10-10 11:00:00
+ *
+ * 文章 / 目录切换
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { SegmentedControl } from '@components'
 import { useStore } from '@stores'

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-01-10 11:19:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 04:09:29
+ * @Last Modified time: 2026-10-10 10:00:00
+ *
+ * 资讯列表
  */
 import { useCallback } from 'react'
 import { View } from 'react-native'
@@ -13,7 +15,7 @@ import { _, systemStore, useStore } from '@stores'
 import { open } from '@utils'
 import { hm, t } from '@utils/fetch'
 import { TITLE } from '../../ds'
-import { COMPONENT } from './ds'
+import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { NewsItem } from '@stores/discovery/types'
@@ -37,7 +39,7 @@ function List() {
         open(item.url)
       }
 
-      t('Anitama.跳转', {
+      t(EVENT.id, {
         to: 'WebBrowser',
         url: item.url,
         useWebView
@@ -88,7 +90,7 @@ function List() {
                 )}
               </View>
 
-              {!index && <Heatmap id='Anitama.跳转' />}
+              {!index && <Heatmap id={EVENT.id} />}
             </Touchable>
           ))}
         </View>

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-05-14 04:57:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-30 04:16:11
+ * @Last Modified time: 2026-10-10 11:00:00
+ *
+ * 半月刊列表
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ScrollView } from '@components'
 import { _, useStore } from '@stores'
@@ -20,10 +21,8 @@ function List({ data }: Props) {
 
   const styles = memoStyles()
 
-  // --- Data Logic ---
   const { type } = $.state
 
-  // --- Render ---
   return (
     <ScrollView
       key={type}

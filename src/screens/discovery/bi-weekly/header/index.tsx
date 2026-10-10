@@ -2,15 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-05-14 05:56:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-30 04:11:25
+ * @Last Modified time: 2026-10-10 11:00:00
+ *
+ * 头部: 右上角菜单 (小组讨论 / 浏览器打开)
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { HOST, TEXT_MENU_BROWSER } from '@constants'
+import { EVENT } from '../ds'
 import { COMPONENT, DATA, HM } from './ds'
 
 function Header() {
@@ -31,7 +34,7 @@ function Header() {
             open(`${HOST}/group/biweekly`)
           }
 
-          t('半月刊.右上角菜单', {
+          t(EVENT.menu, {
             label: title
           })
         }}

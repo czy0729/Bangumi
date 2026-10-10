@@ -15,6 +15,30 @@ declare global {
     onerror: (() => void) | null
   }
 
+  /** 最小 DOM 事件类型 (仅 web 平台) */
+  type DOMEvent = {
+    /** 事件目标 */
+    target?: DOMNode | null
+
+    /** 阻止默认行为 */
+    preventDefault: () => void
+  }
+
+  /** 最小 DOM 节点类型 (仅 web 平台) */
+  type DOMNode = {
+    /** 最近的匹配祖先 (含自身), 文本节点无此方法 */
+    closest?: (selectors: string) => DOMNode | null
+
+    /** 读取属性 */
+    getAttribute?: (name: string) => string | null
+
+    /** 添加事件监听 */
+    addEventListener: (type: string, listener: (event: DOMEvent) => void) => void
+
+    /** 移除事件监听 */
+    removeEventListener: (type: string, listener: (event: DOMEvent) => void) => void
+  }
+
   interface Global {
     __DEV__: boolean
   }

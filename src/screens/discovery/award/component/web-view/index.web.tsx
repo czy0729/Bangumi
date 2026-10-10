@@ -2,32 +2,44 @@
  * @Author: czy0729
  * @Date: 2023-10-21 17:24:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 06:24:35
+ * @Last Modified time: 2026-10-10 10:10:00
  */
-import React from 'react'
 import { ScrollView } from '@components'
 import { appNavigate, navigationReference } from '@utils'
 import { useMount } from '@utils/hooks'
 import { HOST, IMG_DEFAULT } from '@constants'
 
+import type { Props } from './types'
+
 const cls = 'screen-award-web-view'
 
-function WebView({ source }) {
+function WebView({ source }: Props) {
   useMount(() => {
-    setTimeout(() => {
-      const parent = window.document.querySelector(`.${cls}`)
+    let removeListener = () => {}
 
-      parent.addEventListener('click', function (event) {
-        // @ts-ignore
-        if (event.target.closest(`a.${cls}__link`)) {
-          event.preventDefault()
+    const timer = setTimeout(() => {
+      const parent = window.document.querySelector(`.${cls}`) as DOMNode | null
+      if (!parent) return
 
-          // @ts-ignore
-          const dataHref = event.target.closest('a').getAttribute('data-href')
-          appNavigate(dataHref, navigationReference())
-        }
-      })
+      const handleClick = (event: DOMEvent) => {
+        const target = event.target
+        if (!target?.closest?.(`a.${cls}__link`)) return
+
+        const dataHref = target.closest?.('a')?.getAttribute?.('data-href')
+        if (!dataHref) return
+
+        event.preventDefault()
+        appNavigate(dataHref, navigationReference())
+      }
+
+      parent.addEventListener('click', handleClick)
+      removeListener = () => parent.removeEventListener('click', handleClick)
     }, 4000)
+
+    return () => {
+      clearTimeout(timer)
+      removeListener()
+    }
   })
 
   const __html = source.html

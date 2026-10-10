@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-05-14 06:11:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-30 04:40:00
+ * @Last Modified time: 2026-10-10 11:00:00
+ *
+ * 页面上下文与数据模型
  */
 import type { TopicId, WithNavigation } from '@types'
 import type Store from './store'
@@ -13,9 +15,16 @@ export type Ctx = WithNavigation<{
 }>
 
 export type DataItem = {
+  /** 帖子 Id */
   topicId: TopicId
+
+  /** 标题 */
   title: string
+
+  /** 描述 */
   desc?: string
+
+  /** 封面 */
   cover: string
 }
 

@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-12-17 08:12:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-29 13:13:10
+ * @Last Modified time: 2026-10-10 10:00:00
+ *
+ * 命名空间与状态初始值
  */
 import { _ } from '@stores'
 import { NEWS } from '@constants'
 import { COMPONENT } from '../ds'
 
-import type { Id, Loaded } from '@types'
+import type { Loaded } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -32,9 +34,6 @@ export const EXCLUDE_STATE = {
 
 export const STATE = {
   ...EXCLUDE_STATE,
-
-  /** 记录文章点击过的 ID */
-  history: [] as Id[],
 
   /** 站点 */
   type: NEWS[0].value,

@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-04-11 19:00:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-04-12 09:56:40
+ * @Last Modified time: 2026-10-10 10:05:00
  */
-import React from 'react'
 import { Page, StorybookList, StorybookSPA, Text } from '@components'
 import { _ } from '@stores'
 
@@ -24,9 +23,7 @@ export default {
 export const Anitama = () => (
   <StorybookSPA>
     <StorybookList>
-      <Component
-      // {...getStorybookArgs('Anitama')}
-      />
+      <Component />
     </StorybookList>
   </StorybookSPA>
 )
