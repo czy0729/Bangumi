@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-03-29 11:28:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-29 17:40:00
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 筛选菜单数据构建 (改编 / 标签 / 动画制作)
  */
 import { desc, getOnAirItem } from '@utils'
 import { ensureCacheLimit } from '@utils/cache'
@@ -38,7 +40,7 @@ function toMenuData(record: Record<string, number>) {
 }
 
 /** 构建筛选数据 */
-export function getData(data: Calendar['list']) {
+export function getData(data: Calendar['list']): Data {
   const key = getCacheKey(data)
   const cached = cacheMap.get(key)
   if (cached) return cached
@@ -85,5 +87,5 @@ export function getData(data: Calendar['list']) {
     adapts: [],
     origins: [],
     tags: []
-  } as Data
+  }
 }

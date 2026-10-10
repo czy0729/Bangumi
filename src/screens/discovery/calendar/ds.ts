@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-07-26 04:31:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-21 16:28:29
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 页面常量: 布局 / 筛选类型 / 封面尺寸
  */
 import { IMG_HEIGHT, IMG_WIDTH } from '@constants'
 
@@ -29,6 +31,9 @@ export const TYPE_DS = [
     title: '收藏'
   }
 ] as const
+
+/** 菜单: 未知时间番剧开关 */
+export const TEXT_UNKNOWN_ONAIR = '未知时间番剧'
 
 /** 早上几点前需要显示前一日的放送 */
 export const PREV_DAY_HOUR = 9

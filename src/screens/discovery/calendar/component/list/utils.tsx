@@ -10,13 +10,14 @@ import { memoStyles } from './styles'
 
 import type { Props as ItemProps } from '../item/types'
 
-export function renderSectionHeader({
-  section: { title }
-}: {
+/** 分区头部渲染参数 */
+type SectionHeaderProps = {
   section: {
     title: string
   }
-}) {
+}
+
+export function renderSectionHeader({ section: { title } }: SectionHeaderProps) {
   const styles = memoStyles()
 
   return (

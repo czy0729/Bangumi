@@ -2,12 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-06-20 17:35:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-01 21:52:50
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 每日放送操作: 布局与筛选切换 / 换季数据缺失检查
  */
 import { confirm, feedback, getTimestamp, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { D1, TEXT_MENU_FAVOR, TEXT_MENU_LAYOUT } from '@constants'
 import { calendarStore } from '@stores'
+import { TEXT_UNKNOWN_ONAIR } from '../ds'
 import Fetch from './fetch'
 
 /** 解析筛选菜单选中值（'全部' 或 '名称 (数量)' → 名称） */
@@ -122,7 +125,7 @@ export default class Action extends Fetch {
     this.save()
 
     confirm(
-      '当前大部分新番没有放送时间数据, 可能因刚换季, 线上与内置数据尚未同步\n是否显示未知时间番剧?',
+      `当前大部分新番没有放送时间数据, 可能因刚换季, 线上与内置数据尚未同步\n是否显示${TEXT_UNKNOWN_ONAIR}?`,
       this.onToggleExpand,
       '提示'
     )
@@ -132,7 +135,7 @@ export default class Action extends Fetch {
   onToolBar = (title: string) => {
     if (title.includes(TEXT_MENU_LAYOUT)) return this.onSwitchLayout()
     if (title.includes(TEXT_MENU_FAVOR)) return this.onToggleType()
-    if (title.includes('未知时间番剧')) return this.onToggleExpand()
+    if (title.includes(TEXT_UNKNOWN_ONAIR)) return this.onToggleExpand()
   }
 
   /** 更新可视范围底部 y */

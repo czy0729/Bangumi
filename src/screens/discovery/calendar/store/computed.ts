@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-06-20 17:28:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-01 21:52:50
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 每日放送派生: 分区列表 / 放送数据缺失判定 / 工具栏菜单
  */
 import { computed } from 'mobx'
 import { calendarStore, collectionStore, subjectStore } from '@stores'
@@ -25,6 +27,7 @@ import {
   AIR_TIME_MISSING_RATIO
 } from './ds'
 import { getShowPrevDay, getTime } from '../utils'
+import { TEXT_UNKNOWN_ONAIR } from '../ds'
 import State from './state'
 
 import type { SubjectId } from '@types'
@@ -145,7 +148,7 @@ export default class Computed extends State {
       `${TEXT_MENU_FAVOR}${withSplit(
         this.state.type === 'all' ? TEXT_MENU_SHOW : TEXT_MENU_ONLY_SHOW
       )}`,
-      `未知时间番剧${withSplit(this.state.expand ? TEXT_MENU_SHOW : TEXT_MENU_NOT_SHOW)}`
+      `${TEXT_UNKNOWN_ONAIR}${withSplit(this.state.expand ? TEXT_MENU_SHOW : TEXT_MENU_NOT_SHOW)}`
     ]
   }
 }

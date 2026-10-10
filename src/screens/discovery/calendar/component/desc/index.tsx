@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-03-29 10:25:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-29 16:51:29
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 条目描述 (放送站点与改编 / 标签 / 动画制作)
  */
 import React from 'react'
 import { observer } from 'mobx-react'
@@ -30,8 +32,6 @@ function Desc({ style, subjectId, sites, size = 11, filterToShow = false }: Prop
 
   if (sites?.b) extra.push('bilibili')
   if (!sites?.b && sites?.bhmt) extra.push('bilibili 港澳台')
-  // if (sites?.i) extra.push('爱奇艺')
-  // if (sites?.q) extra.push('腾讯视频')
   if (extra.length) {
     els.push(
       <Text {...baseTextProps} type='sub'>
