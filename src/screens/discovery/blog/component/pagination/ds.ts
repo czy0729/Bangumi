@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-01 13:55:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 05:36:51
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 分页组件标识与埋点
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'

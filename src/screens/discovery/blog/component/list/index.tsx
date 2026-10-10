@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2020-04-04 16:14:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-31 21:12:50
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 日志列表, 按标签页分页展示
  */
-import React from 'react'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { ITEM_BLOG_HEIGHT } from '@_'
-import { useStore } from '@stores'
-import { keyExtractor } from '@utils'
+import { _, useStore } from '@stores'
+import { keyExtractor, stl } from '@utils'
 import Pagination from '../pagination'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
@@ -21,27 +23,26 @@ import type { Props } from './types'
 function List({ type }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  if (!$.state.show) return null
-
   const styles = memoStyles()
   const blog = $.blog(type)
 
   return (
     <>
-      {!blog._loaded ? (
-        <Loading />
-      ) : (
+      <View style={stl(_.container.flex, !$.state.show && styles.hide)}>
         <ListView
+          ref={$.forwardRef}
           keyExtractor={keyExtractor}
           contentContainerStyle={styles.container}
           data={blog}
+          skipEnteringExitingAnimations={4}
           estimatedItemHeight={ITEM_BLOG_HEIGHT}
           itemHeightKey={`${type}-${$.state.currentPage[type]}`}
           renderItem={renderItem}
           showFooter={false}
           onScroll={$.onScroll}
         />
-      )}
+        {!blog._loaded && <Loading style={styles.loading} />}
+      </View>
       <Pagination type={type} />
     </>
   )

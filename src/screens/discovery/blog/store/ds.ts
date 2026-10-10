@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-01 12:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-02 20:57:13
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 缓存命名空间与状态初始值
  */
 import { _ } from '@stores'
 import { COMPONENT } from '../ds'

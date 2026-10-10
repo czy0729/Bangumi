@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-08-09 03:20:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-02 20:57:18
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 页面初始化与卸载
  */
 import { TABS } from '../ds'
 import Action from './action'
@@ -15,8 +17,8 @@ export default class ScreenDiscoveryBlog extends Action {
     const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     const { type } = this.params
     if (type) {
-      const page = TABS.findIndex(item => item.key === type)
-      if (page !== -1) storageData.page = 0
+      const index = TABS.findIndex(item => item.key === type)
+      if (index !== -1) storageData.page = index
     }
 
     this.setState({
@@ -29,6 +31,7 @@ export default class ScreenDiscoveryBlog extends Action {
   }
 
   unmount = () => {
+    this.scrollToOffset = null
     this.setState(RESET_STATE)
   }
 }

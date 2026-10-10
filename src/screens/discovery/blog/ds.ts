@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-01 12:47:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 03:53:56
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 标签页数据
  */
 import { SUBJECT_TYPE } from '@constants'
 

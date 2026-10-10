@@ -2,8 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-08-09 03:15:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 20:37:24
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 日志派生
  */
+import { computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
 import { x18s } from '@utils'
 import { computedFn } from '@utils/computed-fn'
@@ -13,8 +16,9 @@ import State from './state'
 import type { BlogType } from '../types'
 
 export default class Computed extends State {
-  get type() {
-    return TABS[this.state.page].key || 'all'
+  /** 当前标签页 key */
+  @computed get type() {
+    return TABS[this.state.page]?.key || 'all'
   }
 
   /** 全站日志 */
