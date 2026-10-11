@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-07-29 14:00:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-29 20:20:37
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 目录操作: 列表类型与筛选切换 / 翻页 / 工具栏锁定
  */
 import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
@@ -10,7 +12,8 @@ import { TEXT_MENU_PAGINATION, TEXT_MENU_TOOLBAR } from '@constants'
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
 
-import type { TypeLabel } from '../types'
+import type { PaginationProps } from '@components'
+import type { FixedStateKey, FilterStateKey, TypeLabel } from '../types'
 
 export default class Action extends Fetch {
   /** 显示列表 */
@@ -52,7 +55,7 @@ export default class Action extends Fetch {
   }
 
   /** 上一页 */
-  onPrev = async () => {
+  onPrev = () => {
     const { page } = this.state
     if (page === 1) return
 
@@ -72,7 +75,7 @@ export default class Action extends Fetch {
   }
 
   /** 下一页 */
-  onNext = async () => {
+  onNext = () => {
     const { page } = this.state
     const value = page + 1
     this.setState({
@@ -90,14 +93,14 @@ export default class Action extends Fetch {
   }
 
   /** 页码输入框变化 */
-  onChange = ({ nativeEvent }) => {
+  onChange: PaginationProps['onChange'] = ({ nativeEvent }) => {
     this.setState({
       ipt: nativeEvent.text
     })
   }
 
   /** 高级筛选 */
-  onFilterChange = (key: string, value: string) => {
+  onFilterChange = (key: FilterStateKey, value: string) => {
     this.setState({
       page: 1,
       show: false,
@@ -114,7 +117,7 @@ export default class Action extends Fetch {
   }
 
   /** 切换锁定 */
-  onToggleFixed = (key: string) => {
+  onToggleFixed = (key: FixedStateKey) => {
     const value = !this.state[key]
     this.setState({
       [key]: value
@@ -143,7 +146,6 @@ export default class Action extends Fetch {
   /** 更新可视范围底部 y */
   onScroll = updateVisibleBottom.bind(this)
 
-  // -------------------- action --------------------
   /** 页码跳转 */
   doSearch = () => {
     const { ipt } = this.state
@@ -160,13 +162,7 @@ export default class Action extends Fetch {
       visibleBottom: EXCLUDE_STATE.visibleBottom
     })
     this.fetchCatalog()
-
-    setTimeout(() => {
-      this.setState({
-        show: true
-      })
-      this.save()
-    }, 400)
+    this.onShow()
 
     t('目录.页码跳转', {
       page: value

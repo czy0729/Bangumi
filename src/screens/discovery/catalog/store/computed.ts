@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-07-29 13:51:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-30 21:59:27
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 目录派生: 整合列表与筛选 / 工具栏菜单
  */
 import { computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
@@ -15,10 +17,9 @@ import {
   TEXT_MENU_FIXED,
   TEXT_MENU_FLOAT,
   TEXT_MENU_PAGINATION,
-  TEXT_MENU_SPLIT_LEFT,
-  TEXT_MENU_SPLIT_RIGHT,
   TEXT_MENU_TOOLBAR,
-  WEB
+  WEB,
+  withSplit
 } from '@constants'
 import { formatDateToNumber } from './utils'
 import State from './state'
@@ -137,12 +138,12 @@ export default class Computed extends State {
   /** 工具栏菜单 */
   @computed get toolBar() {
     return [
-      `${TEXT_MENU_TOOLBAR}${TEXT_MENU_SPLIT_LEFT}${
+      `${TEXT_MENU_TOOLBAR}${withSplit(
         this.state.fixedFilter ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT
-      }${TEXT_MENU_SPLIT_RIGHT}`,
-      `${TEXT_MENU_PAGINATION}${TEXT_MENU_SPLIT_LEFT}${
+      )}`,
+      `${TEXT_MENU_PAGINATION}${withSplit(
         this.state.fixedPagination ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT
-      }${TEXT_MENU_SPLIT_RIGHT}`
+      )}`
     ]
   }
 }

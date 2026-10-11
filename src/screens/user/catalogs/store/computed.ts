@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2024-09-13 05:34:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 05:36:09
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 目录派生: 用户与标签页
  */
 import { computed } from 'mobx'
-import { discoveryStore, usersStore, userStore } from '@stores'
-import { computedFn } from '@utils/computed-fn'
+import { usersStore, userStore } from '@stores'
 import { HTML_USERS_CATALOGS } from '@constants'
 import { TABS } from '../ds'
 import State from './state'
 
-import type { Id } from '@types'
 import type { TabsKey } from '../types'
 
 export default class Computed extends State {
@@ -30,10 +30,6 @@ export default class Computed extends State {
   catalogs(key: TabsKey) {
     return usersStore.catalogs(this.userId, key === 'collect')
   }
-
-  catalogDetail = computedFn((id: Id) => {
-    return discoveryStore.catalogDetail(id)
-  })
 
   @computed get hm() {
     return [this.url, 'Catelogs'] as const

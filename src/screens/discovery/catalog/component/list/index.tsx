@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-01-09 11:09:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 22:38:27
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 目录列表
  */
 import { useMemo } from 'react'
 import { View } from 'react-native'
@@ -47,7 +49,7 @@ function List() {
                   }, 0)
                   return !!total
                 })
-                .map((item, index: number) => (
+                .map((item, index) => (
                   <ItemCatalog
                     key={item.id}
                     event={EVENT}

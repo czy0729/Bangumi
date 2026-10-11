@@ -24,7 +24,7 @@ import type {
   TextInputProps,
   TextInputSubmitEditingEvent
 } from 'react-native'
-import type { Override } from '@types'
+import type { Override, TextInputChangeEvent } from '@types'
 import type { Props as InputProps, State } from './types'
 export type { InputProps }
 
@@ -143,7 +143,7 @@ export const Input = observer(
       }, 640)
     }
 
-    onChange = (evt: TextInputSubmitEditingEvent) => {
+    onChange = (evt: TextInputChangeEvent) => {
       this.setState({
         value: evt.nativeEvent.text
       })
@@ -160,11 +160,14 @@ export const Input = observer(
 
     onClear = () => {
       const { onChange, onChangeText } = this.props
+      // 清空是内部行为, 只构造 text 字段
       onChange({
         nativeEvent: {
-          text: ''
+          text: '',
+          eventCount: 0,
+          target: 0
         }
-      })
+      } as TextInputChangeEvent)
       onChangeText('')
     }
 

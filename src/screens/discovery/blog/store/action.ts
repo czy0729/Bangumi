@@ -12,7 +12,7 @@ import { TABS } from '../ds'
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
 
-import type { ScrollToOffset } from '@components'
+import type { PaginationProps, ScrollToOffset } from '@components'
 
 export default class Action extends Fetch {
   scrollToOffset: ScrollToOffset = null
@@ -103,7 +103,7 @@ export default class Action extends Fetch {
   }
 
   /** 页码输入框改变 */
-  onChange = ({ nativeEvent }: { nativeEvent: { text: string } }) => {
+  onChange: PaginationProps['onChange'] = ({ nativeEvent }) => {
     const { text } = nativeEvent
     const { ipt } = this.state
     this.setState({

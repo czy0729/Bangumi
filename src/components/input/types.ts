@@ -5,7 +5,7 @@
  * @Last Modified time: 2023-04-27 15:25:22
  */
 import type { TextInputProps } from 'react-native'
-import type { Override, ColorValue, ViewStyle, TextStyle } from '@types'
+import type { Override, ColorValue, TextInputChangeEvent, ViewStyle, TextStyle } from '@types'
 
 export type Props = Override<
   TextInputProps,
@@ -35,7 +35,7 @@ export type Props = Override<
     placeholderTextColor?: ColorValue
 
     /** 文字改变回调（待废弃，使用 onTextChange 代替） */
-    onChange?: (evt: { nativeEvent: { text: string } }) => void
+    onChange?: (evt: TextInputChangeEvent) => void
 
     /** 文字改变回调 */
     onChangeText?: (text: string) => void

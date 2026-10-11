@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-12-17 08:17:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-29 14:11:38
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 缓存命名空间与状态初始值
  */
 import { _ } from '@stores'
 import { COMPONENT, FILTER_KEY_DS, FILTER_TYPE_DS, FILTER_YEAR_DS, TYPE_DS } from '../ds'

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-19 05:03:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-17 09:15:52
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 页面上下文与标签类型
  */
 import type { GetRouteParams, RouteCatalogs, WithNavigation } from '@types'
 import type Store from './store'

@@ -2,14 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:57:08
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 目录列表
  */
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { ListView, Loading } from '@components'
-import { ItemCatalog } from '@_'
+import { ITEM_CATALOG_HEIGHT } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
+import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
 import type { CatalogsItem } from '@stores/users/types'
@@ -21,19 +24,7 @@ function List({ id }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const handleRenderItem = useCallback(
-    ({ item, index }: RenderItem<CatalogsItem>) => (
-      <ItemCatalog
-        {...item}
-        index={index}
-        isUser
-        event={{
-          id: '用户目录.跳转',
-          data: {
-            userId: $.userId
-          }
-        }}
-      />
-    ),
+    (arg: RenderItem<CatalogsItem>) => renderItem(arg, $.userId),
     [$]
   )
   const handleHeaderRefresh = useCallback(() => $.fetchCatalogs(id, true), [$, id])
@@ -46,6 +37,7 @@ function List({ id }: Props) {
     <ListView
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}
+      estimatedItemHeight={ITEM_CATALOG_HEIGHT}
       data={catalogs}
       renderItem={handleRenderItem}
       onScroll={$.onScroll}

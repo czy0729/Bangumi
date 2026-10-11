@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-03-22 19:44:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-17 09:13:23
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 标签页
  */
 import { observer } from 'mobx-react'
 import { TabsV2 } from '@components'

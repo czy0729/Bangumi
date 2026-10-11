@@ -28,7 +28,7 @@ import {
 } from './common'
 import Computed from './computed'
 
-import type { UserId } from '@types'
+import type { Id, UserId } from '@types'
 import type { FetchCatalogsArgs } from './types'
 
 export default class Fetch extends Computed {
@@ -282,10 +282,19 @@ export default class Fetch extends Computed {
 
       const FINAL_STATE_KEY = `catalogs${isCollect ? 'Collect' : ''}` as const
       const next = cheerioCatalogs(html)
+
+      // 翻页期间目录可能新增, 同一项会跨页重复出现, 按 id 去重
+      const seen = new Set<Id>()
+      const catalogs = (refresh ? next : [...list, ...next]).filter(item => {
+        if (seen.has(item.id)) return false
+        seen.add(item.id)
+        return true
+      })
+
       this.setState({
         [FINAL_STATE_KEY]: {
           [ITEM_KEY]: {
-            list: refresh ? next : [...list, ...next],
+            list: catalogs,
             pagination: {
               page,
               pageTotal: next.length >= LIMIT ? 100 : page

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-07-29 14:00:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-04 21:25:44
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 目录数据获取与快照上传
  */
 import { discoveryStore } from '@stores'
 import { HTMLDecode, removeHTMLTag } from '@utils'
@@ -14,12 +16,13 @@ import Computed from './computed'
 
 import type { CatalogDetail } from '@stores/discovery/types'
 import type { Id, Override } from '@types'
+import type { CatalogItem } from '../types'
 
 export default class Fetch extends Computed {
   /** 目录 */
   fetchCatalog = async () => {
     const { type, page, loadedCatalog } = this.state
-    let data: any[]
+    let data: CatalogItem[]
     if (type === 'advance') {
       if (!loadedCatalog) {
         await decode('catalog')
@@ -78,7 +81,6 @@ export default class Fetch extends Computed {
       {
         id: Id
         info?: string
-        _loaded?: any
       }
     >
   ) => {

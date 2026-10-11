@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-01-02 16:52:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-12 02:08:32
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 页面初始化与卸载
  */
 import { get } from '@utils/thirdParty/protobuf'
 import Action from './action'

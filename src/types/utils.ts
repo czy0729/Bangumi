@@ -13,6 +13,7 @@ import type {
   NativeScrollEvent,
   NativeSyntheticEvent,
   StyleProp,
+  TextInputChangeEventData,
   TextStyle as RNTextStyle,
   ViewStyle as RNViewStyle
 } from 'react-native'
@@ -134,6 +135,9 @@ export type FnParams<T extends (...args: unknown[]) => unknown> = Parameters<T>[
 
 /** ScrollView 滑动事件对象类型 */
 export type ScrollEvent = NativeSyntheticEvent<NativeScrollEvent>
+
+/** TextInput 输入变化事件对象类型 */
+export type TextInputChangeEvent = NativeSyntheticEvent<TextInputChangeEventData>
 
 export type Join<T extends string[], D extends string> = T extends [infer F, ...infer R]
   ? // @ts-expect-error

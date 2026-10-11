@@ -14,6 +14,9 @@ import type { Props } from './types'
 
 /** 目录标题与描述 */
 function Title({ title, typeCn, desc, collect, filter }: Props) {
+  // collect 是解析出来的字符串, '0' 视为无收藏数
+  const collectValue = Number(collect) > 0 ? collect : ''
+
   return (
     <View style={_.container.block}>
       <Highlight
@@ -29,17 +32,17 @@ function Title({ title, typeCn, desc, collect, filter }: Props) {
         <Text
           style={_.mt.sm}
           size={10}
-          numberOfLines={(collect ? 2 : 3) - (title.length >= 24 ? 1 : 0)}
+          numberOfLines={(collectValue ? 2 : 3) - (title.length >= 24 ? 1 : 0)}
         >
           {desc}
         </Text>
       )}
       <Flex style={_.mt.sm}>
         {!!typeCn && <Tag style={_.mr.sm} value={typeCn} />}
-        {!!collect && (
+        {!!collectValue && (
           <Flex.Item>
             <Text size={10} type='sub' bold>
-              {collect} 人收藏
+              {collectValue} 人收藏
             </Text>
           </Flex.Item>
         )}

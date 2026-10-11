@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-09-13 05:38:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 05:39:38
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 目录操作: 标签页切换
  */
 import { updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'

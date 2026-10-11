@@ -248,23 +248,30 @@ export function cheerioBlogs(html: string) {
 /** 用户目录列表 */
 export function cheerioCatalogs(html: string): CatalogsItem[] {
   const $ = cheerio(htmlMatch(html, '<div class="mainWrapper', '<div class="homeBg'))
+
+  // 数量文本可能缺失或带单位, 兜底必须放在 Number 之后才能挡住 NaN
+  const count = ($row: CheerioSelection, selector: string) =>
+    Number(cText(cFind($row, selector))) || 0
+
   return cMap($('#timeline li'), $row => {
-    const $a = cFind($row, '.clearit a.l')
+    // 按 href 定位目录链接: 项内还有用户链接, 按 .clearit 层级或文档顺序取都不可靠
+    const $a = cFind($row, 'a[href*="/index/"]')
     const $user = cFind($row, '.time a.l')
     return {
-      id: cData($a, 'href').replace('/index/', ''),
+      // li 自带 item_ 前缀的 id, 不受 href 是否带域名影响
+      id: cData($row, 'id').replace('item_', ''),
       title: cText($a),
-      userId: cData($user, 'href').replace('/user/', ''),
+      userId: cData($user, 'href').replace(/^.*\/user\//, ''),
       userName: cText($user),
       avatar: matchAvatar(cData(cFind($row, '.avatar .avatarNeue'), 'style')),
       time: cText(cFind($row, '.time .tip_j')),
       update: cText(cFind($row, '.time .tip_j', 1)),
       tip: cText(cFind($row, '.desc')),
-      anime: Number(cText(cFind($row, '.subject_type_2 .num')) || 0),
-      book: Number(cText(cFind($row, '.subject_type_1 .num')) || 0),
-      music: Number(cText(cFind($row, '.subject_type_3 .num')) || 0),
-      game: Number(cText(cFind($row, '.subject_type_4 .num')) || 0),
-      real: Number(cText(cFind($row, '.subject_type_6 .num')) || 0)
+      anime: count($row, '.subject_type_2 .num'),
+      book: count($row, '.subject_type_1 .num'),
+      music: count($row, '.subject_type_3 .num'),
+      game: count($row, '.subject_type_4 .num'),
+      real: count($row, '.subject_type_6 .num')
     }
   })
 }

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-09-13 05:36:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 05:37:34
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 目录数据获取
  */
 import { discoveryStore, usersStore } from '@stores'
 import { queue } from '@utils/fetch'

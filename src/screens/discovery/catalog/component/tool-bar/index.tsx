@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-07-30 11:48:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-12 01:58:32
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 工具栏: 列表类型与整合筛选
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ToolBar as ToolBarComp } from '@components'
 import { useStore } from '@stores'
@@ -21,7 +22,7 @@ import type { Ctx } from '../../types'
 function ToolBar() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const type = TYPE_DS.find(item => item.key === $.state.type)?.['title']
+  const type = TYPE_DS.find(item => item.key === $.state.type)?.title
 
   return (
     <ToolBarComp>
