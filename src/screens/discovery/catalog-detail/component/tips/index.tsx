@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-04-17 17:09:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-10 05:06:17
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 头部进度提示
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Progress } from '@components'
 import { useStore } from '@stores'

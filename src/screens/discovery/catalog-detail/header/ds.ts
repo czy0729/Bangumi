@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-01-12 05:51:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-10 15:28:53
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 头部组件标识与菜单数据
  */
 import { rc } from '@utils/dev'
 import { TEXT_MENU_BROWSER, TEXT_MENU_SPA, WEB } from '@constants'

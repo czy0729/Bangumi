@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-08-09 19:55:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-10 05:05:32
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 目录管理弹窗
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { FolderManageModal } from '@_'
 import { useStore } from '@stores'

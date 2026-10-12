@@ -2,20 +2,38 @@
  * @Author: czy0729
  * @Date: 2024-07-29 19:28:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-25 00:39:02
+ * @Last Modified time: 2026-10-12 05:56:21
+ *
+ * 目录详情派生: 列表 / 类型筛选 / 排序
  */
 import { computed } from 'mobx'
 import { _, discoveryStore, systemStore, userStore } from '@stores'
 import { cacheManager } from '@utils/cache'
-import { enrichListWithScore, sortByScore, sortByTimestamp, sortByTotal } from './utils'
+import {
+  DEFAULT_TYPE,
+  TEXT_TYPE_ANIME,
+  TEXT_TYPE_BLOG,
+  TEXT_TYPE_CHARACTER,
+  TEXT_TYPE_EP,
+  TEXT_TYPE_PERSON,
+  TEXT_TYPE_TOPIC
+} from '../ds'
+import {
+  enrichListWithScore,
+  parseTypeText,
+  sortByScore,
+  sortByTimestamp,
+  sortByTotal,
+  toTypeText
+} from './utils'
 import State from './state'
 import { NAMESPACE } from './ds'
 
-import type { List } from '../types'
+import type { List, ListData } from '../types'
 
 export default class Computed extends State {
-  private _reverseSrc: unknown = null
-  private _reverseResult: unknown = null
+  /** 倒序缓存: 数据源未变时复用结果 */
+  private _reverse: { src: ListData[]; result: ListData[] } | null = null
 
   /** 目录 ID */
   @computed get catalogId() {
@@ -80,19 +98,18 @@ export default class Computed extends State {
     const { list, crt, prsn, topic, ep, blog } = this.catalogDetail || {}
 
     const data: string[] = []
-    if (list?.length) data.push(`动画 ${list.length}`)
-    if (crt?.length) data.push(`角色 ${crt.length}`)
-    if (prsn?.length) data.push(`人物 ${prsn.length}`)
-    if (topic?.length) data.push(`小组 ${topic.length}`)
-    if (ep?.length) data.push(`章节 ${ep.length}`)
-    if (blog?.length) data.push(`日志 ${blog.length}`)
+    if (list?.length) data.push(toTypeText(TEXT_TYPE_ANIME, list.length))
+    if (crt?.length) data.push(toTypeText(TEXT_TYPE_CHARACTER, crt.length))
+    if (prsn?.length) data.push(toTypeText(TEXT_TYPE_PERSON, prsn.length))
+    if (topic?.length) data.push(toTypeText(TEXT_TYPE_TOPIC, topic.length))
+    if (ep?.length) data.push(toTypeText(TEXT_TYPE_EP, ep.length))
+    if (blog?.length) data.push(toTypeText(TEXT_TYPE_BLOG, blog.length))
 
     return data
   }
 
   /** 目录列表当前筛选类型 */
   @computed get type() {
-    const DEFAULT_TYPE = '动画'
     const { list = [] } = this.catalogDetail || {}
     const { typeData } = this
     const onlyOneType = typeData.length <= 1
@@ -102,7 +119,7 @@ export default class Computed extends State {
 
     // 情况 2: 若动画无内容但当前选中动画 -> 自动切换到第一个类型
     if (!list.length && this.state.type === DEFAULT_TYPE) {
-      const firstType = typeData?.[0]?.split(' ')?.[0]
+      const firstType = parseTypeText(typeData[0])
       return firstType || DEFAULT_TYPE
     }
 
@@ -111,27 +128,27 @@ export default class Computed extends State {
   }
 
   /** 当前类型列表 */
-  @computed get data() {
+  @computed get data(): ListData[] {
     const { reverse } = this.state
     const { catalogDetail } = this
     const { type } = this
 
-    const map = {
-      角色: () => catalogDetail.crt || [],
-      人物: () => catalogDetail.prsn || [],
-      小组: () => catalogDetail.topic || [],
-      章节: () => catalogDetail.ep || [],
-      日志: () => catalogDetail.blog || []
-    } as const
+    /** 非动画类型的数据源 (动画走本页列表, 需补全评分与排序) */
+    const map: Record<string, () => ListData[]> = {
+      [TEXT_TYPE_CHARACTER]: () => catalogDetail.crt || [],
+      [TEXT_TYPE_PERSON]: () => catalogDetail.prsn || [],
+      [TEXT_TYPE_TOPIC]: () => catalogDetail.topic || [],
+      [TEXT_TYPE_EP]: () => catalogDetail.ep || [],
+      [TEXT_TYPE_BLOG]: () => catalogDetail.blog || []
+    }
     const getter = map[type] ?? (() => this.list)
     const data = getter()
 
     if (!reverse) return data
-    if (this._reverseSrc !== data) {
-      this._reverseSrc = data
-      this._reverseResult = data.slice().reverse()
+    if (!this._reverse || this._reverse.src !== data) {
+      this._reverse = { src: data, result: data.slice().reverse() }
     }
-    return this._reverseResult as typeof data
+    return this._reverse.result
   }
 
   /** 目录是否已收藏 */

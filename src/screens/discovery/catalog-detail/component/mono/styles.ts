@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-01-07 17:15:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-07 17:42:48
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 角色人物条目布局
  */
 import { _ } from '@stores'
 

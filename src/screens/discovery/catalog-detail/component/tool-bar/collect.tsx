@@ -2,21 +2,22 @@
  * @Author: czy0729
  * @Date: 2024-08-09 20:13:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-10 05:06:32
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 收藏范围筛选
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
 import { COLLECT_DS } from '../../ds'
-import { COLLECT_DATA } from './ds'
+import { COLLECT_DATA, COMPONENT_COLLECT } from './ds'
 
 import type { Ctx } from '../../types'
 
 function Collect() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT_COLLECT)
 
-  const text = COLLECT_DS.find(item => item.key === $.state.collect)?.['title']
+  const text = COLLECT_DS.find(item => item.key === $.state.collect)?.title
 
   return (
     <ToolBar.Popover
@@ -24,7 +25,7 @@ function Collect() {
       icon='md-bookmark-outline'
       iconColor={_.colorDesc}
       iconSize={17}
-      text={text === '全部' ? '收藏' : text}
+      text={text === COLLECT_DS[0].title ? '收藏' : text}
       type='desc'
       onSelect={$.onToggleCollect}
     />

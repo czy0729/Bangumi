@@ -2,10 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-08-26 15:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-22 01:02:28
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 缓存命名空间与状态初始值
  */
 import { _ } from '@stores'
-import { COLLECT_DS, COMPONENT, LAYOUT_DS, SORT_DS } from '../ds'
+import { COLLECT_DS, COMPONENT, DEFAULT_TYPE, LAYOUT_DS, SORT_DS } from '../ds'
 
 import type { Loaded } from '@types'
 import type { Collect, Layout, Sort } from '../types'
@@ -38,7 +40,7 @@ export const EXCLUDE_STATE = {
   },
 
   /** 类型筛选 */
-  type: '动画'
+  type: DEFAULT_TYPE
 }
 
 export const STATE = {

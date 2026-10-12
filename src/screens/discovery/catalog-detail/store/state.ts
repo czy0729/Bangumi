@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-07-29 19:25:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-22 01:02:37
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 目录详情可观察状态与持久化
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'

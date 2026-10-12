@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2025-01-08 05:50:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-16 08:01:34
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 章节条目
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Cover, Flex, Text, Touchable } from '@components'
 import { InView } from '@_'

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2025-01-07 17:08:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-16 08:00:21
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 角色 / 人物条目
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Avatar, Flex, Text } from '@components'
 import { InView } from '@_'

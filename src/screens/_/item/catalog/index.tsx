@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-03 11:23:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-26 23:22:08
+ * @Last Modified time: 2026-10-12 21:10:05
  *
  * 目录条目: 封面 / 标题描述 / 编纂者信息
  */
@@ -42,6 +42,7 @@ export const ItemCatalog = observer(
     time,
     last,
     isUser,
+    isPrivate,
     hideScore = false,
     filter,
     detail,
@@ -120,6 +121,7 @@ export const ItemCatalog = observer(
                   desc={desc}
                   collect={collect}
                   filter={filter}
+                  isPrivate={isPrivate}
                 />
                 <Desc
                   index={index}

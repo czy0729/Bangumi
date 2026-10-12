@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-08-10 14:06:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-10 01:30:28
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 目录封面
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Image, UserStatus } from '@components'
 import { _, useStore } from '@stores'

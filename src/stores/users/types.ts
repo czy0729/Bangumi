@@ -164,19 +164,47 @@ export type Blogs = ListEmpty<BlogsItem>
 
 /** 用户目录项 */
 export type CatalogsItem = {
+  /** 目录 ID */
   id: Id
+
+  /** 目录标题 */
   title: string
+
+  /** 目录编纂者 ID (仅别人的目录存在, 自己目录页为空) */
   userId: UserId
+
+  /** 目录编纂者昵称 */
   userName: string
+
+  /** 目录编纂者头像 */
   avatar: string
+
+  /** 创建时间 */
   time: string
+
+  /** 更新时间 */
   update: string
+
+  /** 目录描述 */
   tip: string
+
+  /** 动画条目数 */
   anime: number
+
+  /** 书籍条目数 */
   book: number
+
+  /** 音乐条目数 */
   music: number
+
+  /** 游戏条目数 */
   game: number
+
+  /** 三次元条目数 */
   real: number
+
+  /** 是否私密目录 */
+  isPrivate: boolean
 }
 
 /** 用户目录 */

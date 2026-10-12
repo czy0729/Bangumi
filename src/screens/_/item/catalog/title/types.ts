@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-09-26 21:42:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-26 21:42:02
+ * @Last Modified time: 2026-10-12 21:10:05
  */
 export type Props = {
   /** 目录标题 */
@@ -19,4 +19,7 @@ export type Props = {
 
   /** 标题高亮值 */
   filter?: string
+
+  /** 是否私密目录 */
+  isPrivate?: boolean
 }

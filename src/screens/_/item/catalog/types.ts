@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-16 23:36:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-27 00:14:31
+ * @Last Modified time: 2026-10-12 21:10:05
  */
 import type { PropsWithChildren } from 'react'
 import type { CatalogDetail, CatalogDetailFromOSS } from '@stores/discovery/types'
@@ -38,6 +38,9 @@ export type Props = PropsWithChildren<{
 
   /** 是否自己创建的目录 */
   isUser?: boolean
+
+  /** 是否私密目录 */
+  isPrivate?: boolean
   hideScore?: boolean
 
   /** 目录详情信息 */

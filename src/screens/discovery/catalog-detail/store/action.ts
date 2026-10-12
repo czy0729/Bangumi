@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-07-29 19:39:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-22 01:02:06
+ * @Last Modified time: 2026-10-12 05:56:17
+ *
+ * 目录详情操作: 布局与筛选 / 收藏 / 复制
  */
 import { getHeaderFixed } from '@components/header-v2/utils'
 import { discoveryStore, userStore } from '@stores'
@@ -11,8 +13,9 @@ import { fetchHTML, queue, t } from '@utils/fetch'
 import { webhookCatalog } from '@utils/webhooks'
 import { HOST } from '@constants'
 import i18n from '@constants/i18n'
-import { COLLECT_DS, LAYOUT_DS, SORT_DS } from '../ds'
+import { COLLECT_DS, DEFAULT_TYPE, LAYOUT_DS, SORT_DS } from '../ds'
 import Fetch from './fetch'
+import { parseTypeText } from './utils'
 import { EXCLUDE_STATE } from './ds'
 
 import type { Navigation, ScrollEvent } from '@types'
@@ -56,12 +59,10 @@ export default class Action extends Fetch {
       id: this.catalogId
     })
 
-    if (item) {
-      this.setState({
-        visible: true,
-        defaultEditItem: item
-      })
-    }
+    this.setState({
+      visible: true,
+      defaultEditItem: item
+    })
   }
 
   /** 关闭编辑目录 */
@@ -88,7 +89,7 @@ export default class Action extends Fetch {
 
   /** 切换布局 */
   onSwitchLayout = (label: string) => {
-    const layout = LAYOUT_DS.find(item => item.title === label)?.['key']
+    const layout = LAYOUT_DS.find(item => item.title === label)?.key
     this.setState({
       layout
     })
@@ -101,7 +102,7 @@ export default class Action extends Fetch {
 
   /** 切换类型 */
   onToggleSort = (label: string) => {
-    const sort = SORT_DS.find(item => item.title === label)?.['key']
+    const sort = SORT_DS.find(item => item.title === label)?.key
     this.setState({
       sort
     })
@@ -114,7 +115,7 @@ export default class Action extends Fetch {
 
   /** 切换收藏范围 */
   onToggleCollect = (label: string) => {
-    const collect = COLLECT_DS.find(item => item.title === label)?.['key']
+    const collect = COLLECT_DS.find(item => item.title === label)?.key
     this.setState({
       collect
     })
@@ -139,11 +140,10 @@ export default class Action extends Fetch {
   /** 切换类型筛选 */
   onType = (type: string) => {
     this.setState({
-      type: type.split(' ')?.[0] || '动画'
+      type: parseTypeText(type) || DEFAULT_TYPE
     })
   }
 
-  // -------------------- action --------------------
   /** 收藏目录 */
   doCollect = async () => {
     const { joinUrl } = this.catalogDetail

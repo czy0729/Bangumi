@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-07-29 19:36:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-25 04:49:37
+ * @Last Modified time: 2026-10-12 05:56:39
+ *
+ * 目录详情获取与评分补全
  */
 import { collectionStore, discoveryStore, subjectStore, userStore } from '@stores'
 import { confirm, info, optimize, sleep } from '@utils'
@@ -11,6 +13,10 @@ import { gets } from '@utils/kv'
 import { D1, M2 } from '@constants'
 import Computed from './computed'
 import { EXCLUDE_STATE } from './ds'
+
+import type { Subject } from '@stores/subject/types'
+import type { SubjectId } from '@types'
+import type { SubjectFromOSS } from '../types'
 
 export default class Fetch extends Computed {
   /** 目录详情 */
@@ -65,22 +71,31 @@ export default class Fetch extends Computed {
 
         if (needFetch.length) {
           const keys = needFetch.map(item => `subject_${item.id}`)
-          const ossData = await gets(keys, ['rating', 'rank', 'type', 'titleLabel', 'ts'])
+          const ossData = await gets<SubjectFromOSS>(keys, [
+            'rating',
+            'rank',
+            'type',
+            'titleLabel',
+            'ts'
+          ])
 
           if (ossData) {
             const key = 'subjectFromOSS'
-            const patch: Record<string, any> = {}
+            const patch: Record<SubjectId, Partial<Subject>> = {}
             needFetch.forEach(item => {
               const data = ossData[`subject_${item.id}`]
               if (data && typeof data === 'object' && !Array.isArray(data)) {
-                const { ts, ...oss } = data as any
-                patch[item.id] = {
-                  rating: oss.rating,
-                  rank: oss.rank,
-                  type: oss.type,
-                  titleLabel: oss.titleLabel,
-                  _loaded: ts
-                }
+                const { ts, rating, rank, type, titleLabel } = data
+
+                // 只写回 OSS 实际有值的字段, 缺失或 null 会覆盖已有缓存
+                // (Subject.rank 声明为 number, OSS 里无排名是 '')
+                const value: Partial<Subject> = {}
+                if (rating != null) value.rating = rating
+                if (rank != null) value.rank = rank as number
+                if (type != null) value.type = type
+                if (titleLabel != null) value.titleLabel = titleLabel
+                if (ts != null) value._loaded = ts
+                patch[item.id] = value
               }
             })
 

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-26 15:21:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-09 20:25:16
+ * @Last Modified time: 2026-10-12 05:29:53
+ *
+ * 页面常量: 布局 / 排序 / 收藏范围
  */
 export const COMPONENT = 'CatalogDetail'
 
@@ -53,3 +55,14 @@ export const COLLECT_DS = [
     title: '不看收藏'
   }
 ] as const
+
+/** 条目类型标题 (state.type 取值, 与详情字段的对应关系见 store 的 map) */
+export const TEXT_TYPE_ANIME = '动画'
+export const TEXT_TYPE_CHARACTER = '角色'
+export const TEXT_TYPE_PERSON = '人物'
+export const TEXT_TYPE_TOPIC = '小组'
+export const TEXT_TYPE_EP = '章节'
+export const TEXT_TYPE_BLOG = '日志'
+
+/** 默认条目类型 */
+export const DEFAULT_TYPE = TEXT_TYPE_ANIME

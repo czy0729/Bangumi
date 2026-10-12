@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-11 23:14:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-25 10:05:49
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 条目 (列表 / 网格)
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemCollections, ItemCollectionsGrid } from '@_'

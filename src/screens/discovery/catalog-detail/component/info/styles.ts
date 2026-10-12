@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-26 15:36:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-16 02:25:21
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 信息区布局
  */
 import { _ } from '@stores'
 

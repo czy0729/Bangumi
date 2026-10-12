@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-01-05 21:50:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-10 00:04:37
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 目录详情
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'

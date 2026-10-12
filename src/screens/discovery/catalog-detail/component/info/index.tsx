@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-01-06 16:07:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-10 01:31:14
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 目录信息区
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'

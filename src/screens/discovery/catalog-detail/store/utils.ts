@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-06-25 00:31:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-25 00:38:54
+ * @Last Modified time: 2026-10-11 12:00:00
+ *
+ * 排序与评分补全工具
  */
 import { subjectStore } from '@stores'
 import { desc, getTimestamp } from '@utils'
@@ -34,7 +36,7 @@ export function enrichListWithScore(list: List): List {
  * 支持格式：YYYY年M月D日、YYYY-MM-DD、YYYY、带括号备注、多个日期（取第一个）。
  */
 function parseInfoTimestamp(info: string): number {
-  const raw = String(info).split(' / ')?.[0]?.trim() || ''
+  const raw = String(info).split(' / ')[0].trim()
 
   // 1. 用中文顿号或英文逗号分割多个日期，取第一个
   const first = raw.split(/[、,]/)[0].trim()
@@ -80,10 +82,20 @@ export function sortByTimestamp(list: List): List {
 export function sortByScore(list: List): List {
   return list
     .slice()
-    .sort((a, b) => desc(a, b, item => (item.rank ? 10000 - item.rank : item.score)))
+    .sort((a, b) => desc(a, b, item => (item.rank ? 10000 - Number(item.rank) : item.score)))
 }
 
 /** 按评分人数排序 */
 export function sortByTotal(list: List): List {
   return list.slice().sort((a, b) => desc(a, b, item => item.total || 0))
+}
+
+/** 条目类型展示文本: 标题 + 数量 */
+export function toTypeText(title: string, count: number) {
+  return `${title} ${count}`
+}
+
+/** 从展示文本解析条目类型标题 */
+export function parseTypeText(text: string) {
+  return String(text || '').split(' ')[0]
 }

@@ -271,7 +271,10 @@ export function cheerioCatalogs(html: string): CatalogsItem[] {
       book: count($row, '.subject_type_1 .num'),
       music: count($row, '.subject_type_3 .num'),
       game: count($row, '.subject_type_4 .num'),
-      real: count($row, '.subject_type_6 .num')
+      real: count($row, '.subject_type_6 .num'),
+
+      // 私密目录: 标题前带锁图标
+      isPrivate: !!cFind($row, 'h3 .ico_lock').length
     }
   })
 }
