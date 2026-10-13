@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2020-05-04 15:40:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:28:32
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 最新日志
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { IconNavigate, ItemBlog, SectionTitle } from '@_'
 import { _, useStore } from '@stores'
 import { t } from '@utils/fetch'
 import { COMPONENT } from './ds'
+import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
@@ -42,7 +44,7 @@ function Blog() {
         最新日志
       </SectionTitle>
 
-      <View style={_.mt.sm}>
+      <View style={styles.list}>
         {blog.map((item, index) => (
           <ItemBlog
             key={item.id}

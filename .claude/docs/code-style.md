@@ -46,6 +46,10 @@
   - 组件 `style?: ViewStyle` 用 `WithViewStyles<>` 组合；带导航参数的组件用 `WithNavigation<>`
   - children 一律用 React 的 `PropsWithChildren<>`
 - **遗留类型 `Fn` 与 `AnyObject` 已从 `@types` 移除**（2026-09 清理）：禁止再使用，回调一律写具体签名（如 `() => void`、`(res?: unknown) => void`、复用 `TouchableHandlePress`），动态数据袋用 `Record<string, any>` 等内联结构
+- **云快照（`@utils/kv` 读写的 OTA 数据）类型一律用 `ResultData<T>`**（`@utils/kv/type`，等价于 `T & { ts?: number }`），不手写 `T & { ts?: number }`：
+  - 读取写 `get<ResultData<X>>(key)` / `gets<ResultData<X>>(keys)`
+  - store 保存快照时，先在页面 `types.ts` 用 `ResultData<...>` 定义快照类型（如 `type OtaChannel = ResultData<Partial<Channel>>`），state 再引用
+  - `ts` 由 `ResultData` 提供，业务类型里不再重复声明；上传用 `update(key, omit(data, [...瞬态字段]))` 剔除 `_loaded` 等本地字段
 
 # 代码风格（全局）
 

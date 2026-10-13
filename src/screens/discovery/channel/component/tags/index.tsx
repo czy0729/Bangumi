@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-05-04 17:27:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 07:30:12
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 标签
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
@@ -35,8 +36,8 @@ function Tags() {
               })
 
               t('频道.跳转', {
-                to: 'DiscoveryBlog',
-                from: '标签',
+                to: 'Tags',
+                from: 'tags',
                 type: $.type
               })
             }}
@@ -46,10 +47,9 @@ function Tags() {
         标签
       </SectionTitle>
 
-      <Flex style={styles.container} wrap='wrap'>
-        {tags
-          .filter((_item, index) => index < 24)
-          .map(item => (
+      <View style={styles.card}>
+        <Flex style={styles.tags} wrap='wrap'>
+          {tags.slice(0, 24).map(item => (
             <Touchable
               key={item}
               style={styles.tag}
@@ -74,7 +74,8 @@ function Tags() {
               </Text>
             </Touchable>
           ))}
-      </Flex>
+        </Flex>
+      </View>
     </View>
   )
 }

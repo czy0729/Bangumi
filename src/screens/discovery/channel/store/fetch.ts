@@ -2,13 +2,17 @@
  * @Author: czy0729
  * @Date: 2024-08-20 14:45:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-20 17:36:29
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 频道数据获取与云快照同步
  */
 import { discoveryStore } from '@stores'
 import { getTimestamp, omit } from '@utils'
 import { get, update } from '@utils/kv'
 import { D } from '@constants'
 import Computed from './computed'
+
+import type { OtaChannel } from '../types'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = new Set<string>()
@@ -26,8 +30,7 @@ export default class Fetch extends Computed {
       this.thirdPartyKey in this.state.ota
     ) {
       const ts = this.ota?.ts || 0
-      const _loaded = getTimestamp()
-      if (_loaded - ts >= D) this.updateThirdParty()
+      if (getTimestamp() - ts >= D) this.updateThirdParty()
     }
 
     return data
@@ -35,30 +38,29 @@ export default class Fetch extends Computed {
 
   /** 获取云快照 */
   fetchThirdParty = async () => {
-    if (!this.ota && !this.channel._loaded) {
-      const data = await get(this.thirdPartyKey)
-      if (!data) {
-        // 就算没有数据也插入 key, 用于判断是否需要更新云数据
-        this.setState({
-          ota: {
-            [this.thirdPartyKey]: {
-              list: [],
-              _loaded: 0
-            }
-          }
-        })
-        return
-      }
+    if (this.ota || this.channel._loaded) return
 
+    const data = await get<OtaChannel>(this.thirdPartyKey)
+    if (!data) {
+      // 就算没有数据也插入 key, 用于判断是否需要更新云数据
       this.setState({
         ota: {
           [this.thirdPartyKey]: {
-            ...data,
-            _loaded: getTimestamp()
+            _loaded: 0
           }
         }
       })
+      return
     }
+
+    this.setState({
+      ota: {
+        [this.thirdPartyKey]: {
+          ...data,
+          _loaded: getTimestamp()
+        }
+      }
+    })
   }
 
   /** 上传预数据 */

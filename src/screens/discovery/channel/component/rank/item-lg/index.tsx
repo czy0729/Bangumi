@@ -2,101 +2,88 @@
  * @Author: czy0729
  * @Date: 2024-08-20 15:31:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-23 20:43:40
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 注目榜等宽卡片 (第 1 名)
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Katakana, Text, Touchable } from '@components'
+import { Katakana, Squircle, Text } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { Cover, Rate, Tag } from '@_'
-import { _, collectionStore, useStore } from '@stores'
-import { findSubjectCn, getVisualLength, HTMLDecode, stl, x18 } from '@utils'
+import { Cover, CoverBlur, InView, Rate, TouchableScale } from '@_'
+import { _, systemStore, useStore } from '@stores'
+import { findSubjectCn, HTMLDecode, x18 } from '@utils'
 import { t } from '@utils/fetch'
-import { COVER_HEIGHT, COVER_WIDTH } from '../ds'
+import { SCRIM_HEIGHT } from '../../ds'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { TextProps } from '@components'
-import type { ChannelRankItem } from '@stores/discovery/types'
 import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
-function ItemLg({ item, index }: { item: ChannelRankItem; index: number }) {
-  const { $, navigation } = useStore<Ctx>()
+function ItemLg({ item, index, y }: Props) {
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const styles = memoStyles()
 
-  const collection = collectionStore.collect(item.id, $.typeCn) || ''
-  const isMusic = $.typeCn === '音乐'
-  const width = Math.floor(COVER_WIDTH * (isMusic ? 1.2 : 1))
-  const height = isMusic ? width : COVER_HEIGHT
-  const value = index + 1
-
   const title = findSubjectCn(HTMLDecode(item.name), item.id)
-  const visualLength = getVisualLength(title)
-  const textProps: TextProps = {
-    size: visualLength >= 18 ? 14 : 15,
-    lineHeight: _.device(15, 18),
-    numberOfLines: 2
-  } as const
+  const isMusic = $.typeCn === '音乐'
+  const { width, height } = styles.cover
+  const coverHeight = isMusic ? width : height
+  const isUseCDN = !x18(item.id, title)
 
   return (
-    <Touchable
-      style={styles.item}
-      animate
-      onPress={() => {
-        navigation.push('Subject', {
-          subjectId: item.id,
-          _jp: item.name,
-          _image: getCoverSrc(item.cover, width),
-          _type: $.typeCn
-        })
+    <View style={styles.item}>
+      <InView style={{ width, height: coverHeight }} y={y}>
+        <TouchableScale
+          onPress={() => {
+            navigation.push('Subject', {
+              subjectId: item.id,
+              _jp: item.name,
+              _image: getCoverSrc(item.cover, width),
+              _type: $.typeCn
+            })
 
-        t('频道.跳转', {
-          to: 'Subject',
-          from: 'rank',
-          type: $.type,
-          subjectId: item.id
-        })
-      }}
-    >
-      <Flex align='start'>
-        <Cover
-          src={item.cover}
-          width={width}
-          height={height}
-          radius={_.radiusSm}
-          type={$.typeCn}
-          cdn={!x18(item.id, title)}
-        />
-
-        <Flex.Item style={_.ml.md}>
-          <Flex
-            style={stl(styles.content, isMusic && styles.music)}
-            direction='column'
-            justify='between'
-            align='start'
-          >
-            <View style={styles.name}>
-              <Katakana.Provider {...textProps}>
-                <Katakana {...textProps} bold>
-                  {title}
-                </Katakana>
-              </Katakana.Provider>
-              <Text style={_.mt.xs} size={12} type='sub'>
+            t('频道.跳转', {
+              to: 'Subject',
+              from: 'rank',
+              type: $.type,
+              subjectId: item.id
+            })
+          }}
+        >
+          <Squircle width={width} height={coverHeight} radius={systemStore.coverRadius}>
+            <Cover src={item.cover} width={width} height={coverHeight} cdn={isUseCDN} />
+            <CoverBlur
+              src={item.cover}
+              cdn={isUseCDN}
+              width={width}
+              height={coverHeight}
+              scrimHeight={SCRIM_HEIGHT}
+            />
+            <View style={styles.desc}>
+              <Text type={_.select('plain', 'desc')} size={12} bold>
                 {item.follow}
               </Text>
+              <View style={_.mt.sm}>
+                <Katakana.Provider
+                  firstLineStyle={_.mt.sm}
+                  type='__plain__'
+                  size={22}
+                  bold
+                  numberOfLines={2}
+                >
+                  <Katakana type='__plain__' size={22} bold numberOfLines={2}>
+                    {title}
+                  </Katakana>
+                </Katakana.Provider>
+              </View>
             </View>
-            <View>{!!collection && <Tag value={collection} />}</View>
-          </Flex>
-        </Flex.Item>
-
-        <Rate
-          style={styles.rec}
-          textStyle={stl(styles.recText, styles[`rec${value}`])}
-          value={value}
-        />
-      </Flex>
-    </Touchable>
+            <Rate style={styles.rec} textStyle={styles.recText} value={index + 1} />
+          </Squircle>
+        </TouchableScale>
+      </InView>
+    </View>
   )
 }
 

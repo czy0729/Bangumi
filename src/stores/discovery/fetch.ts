@@ -376,10 +376,17 @@ export default class Fetch extends Computed {
         url: HTML_CHANNEL(type)
       })
 
+      const data = cheerioChannel(html)
+
+      // 解析不出任何内容 (主站异常页等), 不写入, 保留上一次结果
+      if (!data.rank.length && !data.discuss.length && !data.blog.length && !data.tags.length) {
+        return this.getState(STATE_KEY, ITEM_KEY)
+      }
+
       this.setState({
         [STATE_KEY]: {
           [ITEM_KEY]: {
-            ...cheerioChannel(html),
+            ...data,
             _loaded: getTimestamp()
           }
         }

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-05-02 21:02:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 23:04:03
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 频道聚合: 注目榜 / 好友最近关注 / 最新日志 / 最新帖子 / 标签
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, Flex, HeaderPlaceholder, Mesume, Page, ScrollView } from '@components'
 import RandomText from '@components/list-view/footer/random-text'
@@ -28,7 +29,12 @@ function Channel(props: NavigationProps) {
       <StoreContext.Provider value={id}>
         <Page loaded={$.channel._loaded}>
           <HeaderPlaceholder />
-          <ScrollView contentContainerStyle={_.container.bottom}>
+          <ScrollView
+            forwardRef={$.forwardRef}
+            contentContainerStyle={_.container.bottom}
+            scrollEventThrottle={16}
+            onScroll={$.onScroll}
+          >
             <Rank />
             <Friends />
             <Blog />
