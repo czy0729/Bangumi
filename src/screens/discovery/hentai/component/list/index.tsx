@@ -1,0 +1,58 @@
+/*
+ * @Author: czy0729
+ * @Date: 2019-06-23 02:20:58
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 找 Hentai 列表
+ */
+import { useMemo } from 'react'
+import { observer } from 'mobx-react'
+import { Loading } from '@components'
+import { PaginationList } from '@_'
+import { _, useStore } from '@stores'
+import { getColumnNum } from '../ds'
+import Filter from '../filter'
+import { keyExtractor, renderItem } from './utils'
+import { COMPONENT } from './ds'
+
+import type { Ctx } from '../../types'
+
+function List() {
+  const { $ } = useStore<Ctx>(COMPONENT)
+
+  /** Filter 元素保持稳定引用, 避免列表更新时 ListHeaderComponent 重渲染 */
+  const elFilter = useMemo(() => <Filter />, [])
+
+  const { _loaded, layout, data } = $.state
+  const isInitialLoading = !_loaded && !data._loaded
+
+  if (isInitialLoading) {
+    return (
+      <>
+        {elFilter}
+        <Loading />
+      </>
+    )
+  }
+
+  const numColumns = $.isList ? undefined : getColumnNum()
+
+  return (
+    <PaginationList
+      key={`${layout}${numColumns}`}
+      keyExtractor={keyExtractor}
+      forwardRef={$.forwardRef}
+      contentContainerStyle={_.container.bottom}
+      numColumns={numColumns}
+      data={$.list}
+      limit={9}
+      skipEnteringExitingAnimations={9}
+      ListHeaderComponent={elFilter}
+      renderItem={renderItem}
+      onPage={$.onPage}
+    />
+  )
+}
+
+export default observer(List)

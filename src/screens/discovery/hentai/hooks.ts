@@ -2,27 +2,16 @@
  * @Author: czy0729
  * @Date: 2024-11-16 11:09:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-16 11:27:28
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 找 Hentai 页面逻辑
  */
-import { useInitStore } from '@stores'
-import { usePageLifecycle } from '@utils/hooks'
-import { NavigationProps } from '@types'
+import { useDiscoveryListPage } from '@_'
 import store from './store'
-import { Ctx } from './types'
 
-/** 找番剧页面逻辑 */
+import type { NavigationProps } from '@types'
+import type { Ctx } from './types'
+
 export function useHentaiPage(props: NavigationProps) {
-  const context = useInitStore<Ctx['$']>(props, store)
-  const { id, $ } = context
-
-  usePageLifecycle(
-    {
-      onEnterComplete() {
-        $.init()
-      }
-    },
-    id
-  )
-
-  return context
+  return useDiscoveryListPage<Ctx['$']>(props, store)
 }

@@ -83,7 +83,7 @@ export function search(query: Query): SearchResult {
     return SEARCH_CACHE[finger]
   }
 
-  let _list = []
+  let _list: number[] = []
   let yearReg: RegExp
   if (year) {
     yearReg = new RegExp(year === '2000以前' ? '^(2000|1\\d{3})' : `^(${year})`)

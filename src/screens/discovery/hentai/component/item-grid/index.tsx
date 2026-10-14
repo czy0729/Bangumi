@@ -1,26 +1,37 @@
-import { observer } from 'mobx-react'
 /*
  * @Author: czy0729
  * @Date: 2021-01-03 05:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:40:44
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 找 Hentai 网格布局条目
  */
+import { observer } from 'mobx-react'
 import { Flex, Loading } from '@components'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore, otaStore } from '@stores'
+import { r } from '@utils/dev'
 import { HOST_BGM_STATIC, IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
+import { getColumnNum } from '../ds'
+import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
-const EVENT = {
-  id: 'Hentai.跳转'
-} as const
+import type { Props } from '../types'
 
-function ItemGrid({ pickIndex, index, num }) {
+function ItemGrid({ pickIndex, index }: Props) {
+  r(COMPONENT)
+
   const styles = memoStyles()
 
   const subjectId = otaStore.hentaiSubjectId(pickIndex)
   const { id, i: image, c: cn, a: air, s: score, r: rank } = otaStore.hentai(subjectId)
+  const num = getColumnNum()
+
   if (!id) {
+    /**
+     * 占位宽高随 _.window.contentWidth 实时变化 (iPad 分屏 / 分屏模式), 不能进 memoStyles:
+     * memoStyles 失效键只含 mode / deepDark / orientation 等, 不含窗口宽度
+     */
     const gridStyles = _.grid(num)
     return (
       <Flex
@@ -40,7 +51,7 @@ function ItemGrid({ pickIndex, index, num }) {
   return (
     <ItemCollectionsGrid
       style={(_.isPad || _.isLandscape) && !(index % num) && styles.left}
-      event={EVENT}
+      index={index}
       num={num}
       id={id}
       cover={image ? `${HOST_BGM_STATIC}/pic/cover/m/${image}.jpg` : IMG_DEFAULT}
@@ -50,6 +61,8 @@ function ItemGrid({ pickIndex, index, num }) {
       rank={rank}
       airtime={air ? String(air).slice(0, 7) : ''}
       collection={collectionStore.collect(id)}
+      offset={Math.floor(_.window.height * 0.4)}
+      event={EVENT}
     />
   )
 }

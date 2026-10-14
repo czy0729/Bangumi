@@ -2,20 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-07-15 11:51:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 12:43:16
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 找 Hentai
  */
 import { observer } from 'mobx-react'
 import { Component, FooterEmptyData, HeaderPlaceholder, Page } from '@components'
 import { FilterSwitch, Notice } from '@_'
 import { StoreContext, userStore } from '@stores'
 import Header from '../anime/header'
+import List from './component/list'
 import { useHentaiPage } from './hooks'
-import List from './list'
 import { HM } from './ds'
 
 import type { NavigationProps } from '@types'
 
-/** 找番剧 */
+/** 找 Hentai */
 function Hentai(props: NavigationProps) {
   const { id, $ } = useHentaiPage(props)
 
@@ -31,7 +33,7 @@ function Hentai(props: NavigationProps) {
               <FooterEmptyData />
             </>
           ) : (
-            <List $={$} />
+            <List />
           )}
         </Page>
         <Header title='找番剧' alias='Hentai' hm={HM} />

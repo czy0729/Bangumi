@@ -72,7 +72,8 @@ export type UnzipItem = {
 }
 
 export type SearchResult = {
-  list: UnzipItem[]
+  /** 命中条目的数据源下标 (对应 Item[], 详情由 otaStore 提供) */
+  list: number[]
   pagination: {
     page: 1
     pageTotal: 1

@@ -2,8 +2,11 @@
  * @Author: czy0729
  * @Date: 2021-06-26 05:07:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 16:24:46
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 页面常量: 筛选维度与分组
  */
+import { groupItems } from '@_'
 import {
   HENTAI_BODY,
   HENTAI_CHARA,
@@ -13,32 +16,13 @@ import {
   HENTAI_SORT,
   HENTAI_YEAR
 } from '@utils/subject/hentai'
-import { LIST_EMPTY } from '@constants'
-import { Loaded } from '@types'
 
-export const NAMESPACE = 'ScreenHentai'
-
-export const STATE = {
-  query: {
-    year: 2022,
-    chara: '',
-    job: '',
-    body: '',
-    content: '',
-    sort: '评分人数',
-    collected: ''
-  },
-  data: LIST_EMPTY,
-  layout: 'list',
-  expand: false,
-  _loaded: false as Loaded
-}
+export const COMPONENT = 'Hentai'
 
 export const ADVANCE_LIMIT = 60
 
-// 类型分组
-const HENTAI_CONTENT_GROUP = [[], []]
-HENTAI_CONTENT.forEach((item, index) => HENTAI_CONTENT_GROUP[index % 2 ? 1 : 0].push(item))
+/** 剧情两行分组 (横向滚动, 两行同显) */
+const HENTAI_CONTENT_GROUP = groupItems(HENTAI_CONTENT, 2)
 
 export const filterDS = [
   {
