@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-12 22:46:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 21:17:34
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 人物头部
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'

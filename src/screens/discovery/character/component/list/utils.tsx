@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-04-06 14:38:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-09 21:56:39
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 人物列表 renderItem
  */
-import React from 'react'
 import { isFutureDate } from '@utils/thirdParty/date'
 import Item from '../item'
 import ItemRecents from '../item-recents'

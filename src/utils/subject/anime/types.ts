@@ -15,14 +15,17 @@ export type Query = {
   /** 类型 (meta_tags, 多选) */
   meta?: string[]
   year?: string | number
-  begin?: (typeof ANIME_BEGIN)[number]
-  status?: (typeof ANIME_STATUS)[number]
+  /** 季度, 空串表示未筛选 */
+  begin?: '' | (typeof ANIME_BEGIN)[number]
+  /** 状态, 空串表示未筛选 */
+  status?: '' | (typeof ANIME_STATUS)[number]
   /** 集数 (infobox 话数, 空串表示未筛选) */
-  ep?: (typeof ANIME_EP)[number]
+  ep?: '' | (typeof ANIME_EP)[number]
   tags?: string[]
-  official?: (typeof ANIME_OFFICIAL)[number]
+  /** 动画制作, 空串表示未筛选 */
+  official?: '' | (typeof ANIME_OFFICIAL)[number]
   /** 分级 ('限制' = NSFW, '未知' = 全年龄, 空串表示未筛选) */
-  x?: (typeof ANIME_NSFW)[number]
+  x?: '' | (typeof ANIME_NSFW)[number]
   sort?: string
 }
 

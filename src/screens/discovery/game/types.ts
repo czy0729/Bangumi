@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-28 15:37:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-30 22:43:23
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 页面上下文与筛选条件类型
  */
 import type { Query } from '@utils/subject/game/types'
 import type { WithNavigation } from '@types'

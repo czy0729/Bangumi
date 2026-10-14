@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-01-05 04:03:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-04 15:56:19
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 头部扩展: 布局切换 / 到顶
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap } from '@components'
 import { IconHeader, IconLayout } from '@_'

@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-18 21:13:54
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 人物列表
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { ListView } from '@components'
 import { _, useStore } from '@stores'

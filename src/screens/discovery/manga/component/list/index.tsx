@@ -24,7 +24,10 @@ function List() {
   /** Filter 元素保持稳定引用, 避免列表更新时 ListHeaderComponent 重渲染 */
   const elFilter = useMemo(() => <Filter />, [])
 
-  if (!$.state._loaded && !$.state.data._loaded) {
+  const { _loaded, layout, data } = $.state
+  const isInitialLoading = !_loaded && !data._loaded
+
+  if (isInitialLoading) {
     return (
       <>
         {elFilter}
@@ -37,7 +40,7 @@ function List() {
 
   return (
     <PaginationList
-      key={`${$.state.layout}${numColumns}`}
+      key={`${layout}${numColumns}`}
       keyExtractor={keyExtractor}
       forwardRef={$.forwardRef}
       contentContainerStyle={_.container.bottom}

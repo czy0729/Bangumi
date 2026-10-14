@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-28 15:41:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-03-18 21:22:11
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 列表布局条目组件常量
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:37:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-17 07:11:48
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 标签页
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { TabsV2 } from '@components'
 import { _, useStore } from '@stores'

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:38:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-18 21:13:35
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 页面初始化与卸载
  */
 import Action from './action'
 import { RESET_STATE } from './ds'

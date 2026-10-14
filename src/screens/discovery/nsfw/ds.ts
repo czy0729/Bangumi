@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-07-20 09:31:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 16:21:11
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 页面常量: 筛选维度与分组
  */
 import { groupItems } from '@_'
 import { NSFW_COLLECTED, NSFW_SORT, NSFW_TAGS, NSFW_TYPE, NSFW_YEAR } from '@utils/subject/nsfw'

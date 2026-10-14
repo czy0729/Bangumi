@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-11 17:19:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-04 15:56:56
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 头部 (多个频道共用, 可传标题与埋点别名)
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2 } from '@components'
 import { r } from '@utils/dev'
@@ -13,12 +15,13 @@ import { COMPONENT, HM } from './ds'
 
 import type { Props } from './types'
 
+/** 头部 (多个频道共用) */
 function Header({ title = '找番剧', alias = 'Anime', hm }: Props) {
   r(COMPONENT)
 
   const handleHeaderRight = useCallback(() => <Extra title={alias} />, [alias])
 
-  return <HeaderV2 title={title} alias={alias} hm={hm || HM} headerRight={handleHeaderRight} />
+  return <HeaderV2 title={title} alias={alias} hm={hm ?? HM} headerRight={handleHeaderRight} />
 }
 
 export default observer(Header)

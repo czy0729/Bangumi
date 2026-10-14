@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2021-01-03 05:07:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:43:43
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 找番剧网格布局条目
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Loading } from '@components'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore, otaStore } from '@stores'
 import { r } from '@utils/dev'
 import { HOST_BGM_STATIC, IMG_DEFAULT, IMG_HEIGHT_LG } from '@constants'
+import { getColumnNum } from '../ds'
 import { COMPONENT, EVENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -21,12 +23,10 @@ function ItemGrid({ index, pickIndex }: Props) {
 
   const styles = memoStyles()
 
-  // --- Data Logic ---
   const subjectId = otaStore.animeSubjectId(pickIndex)
   const anime = otaStore.anime(subjectId)
-  const num = _.portrait(_.device(3, 4), 5)
+  const num = getColumnNum()
 
-  // --- Render ---
   if (!anime?.id) {
     const gridStyles = _.grid(num)
 

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:45:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 04:12:29
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 角色与人物卡片
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'

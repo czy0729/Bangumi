@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-04-06 14:53:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-06 14:54:11
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 人物列表样式
  */
 import { _ } from '@stores'
 

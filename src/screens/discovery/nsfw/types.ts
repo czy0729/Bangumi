@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-07-20 09:31:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-02 05:11:28
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 页面上下文与筛选条件类型
  */
 import type { Query } from '@utils/subject/nsfw/types'
 import type { WithNavigation } from '@types'

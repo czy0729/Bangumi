@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2026-05-18 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 06:42:59
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 滚动到人物近况分割线位置的按钮
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-09-09 17:34:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 04:12:46
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 人物: 虚拟角色 / 现实人物 / 人物近况
  */
 import { observer } from 'mobx-react'
 import { Component, Page } from '@components'

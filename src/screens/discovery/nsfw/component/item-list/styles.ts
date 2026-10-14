@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-11 12:25:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-08 22:05:06
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 找NSFW列表布局条目样式
  */
 import { _ } from '@stores'
 import { IMG_HEIGHT_LG } from '@constants'

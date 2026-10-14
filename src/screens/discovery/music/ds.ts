@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-10-03 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-03 00:00:00
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 页面常量: 筛选维度与分组
  */
 import { groupItems } from '@_'
 import { MUSIC_COLLECTED, MUSIC_NSFW, MUSIC_SORT, MUSIC_TAGS, MUSIC_YEAR } from '@utils/subject/music'

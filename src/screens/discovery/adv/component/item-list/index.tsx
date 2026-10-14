@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-09-03 10:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-06 05:33:08
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 找 Gal 列表布局条目
  */
 import { useCallback, useMemo } from 'react'
 import { View } from 'react-native'

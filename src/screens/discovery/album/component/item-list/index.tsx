@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-10-05 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-05 00:00:00
+ * @Last Modified time: 2026-10-14 12:00:00
  *
  * 找画集列表布局条目
  */
@@ -46,8 +46,10 @@ function ItemList({ pickIndex }: Props) {
       _cn: title,
       _image: getCoverSrc(image, IMG_WIDTH_LG)
     })
+
     t('Album.跳转', { subjectId: id })
   }, [cover, title, id, navigation])
+
   const handleManage = useCallback(() => {
     const collection = collectionStore.collect(id)
 
@@ -62,12 +64,11 @@ function ItemList({ pickIndex }: Props) {
   }, [title, id])
 
   /**
-   * 必须放在 `if (!album?.id)` 之前
+   * itemStyle 的 useMemo 必须放在 `if (!album?.id)` 之前
    *  - 数据未就绪时首次渲染会走 loading 分支, 若把 hook 写在提前 return 之后,
    *    后续渲染就会报 Rendered more hooks than during the previous render
-   * */
-
-  /** 稳定 style 引用, 避免每次渲染生成新数组击穿子组件 memo */
+   *  - 稳定 style 引用, 避免每次渲染生成新数组击穿子组件 memo
+   */
   const itemStyle = useMemo(
     () => stl(flexStyle({ align: 'start' }), styles.container, styles.wrap),
     [styles]

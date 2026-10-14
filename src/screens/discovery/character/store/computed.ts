@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-12-03 15:36:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 18:45:41
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 人物派生: 用户 / 标签页 / 列表
  */
 import { computed } from 'mobx'
 import { usersStore, userStore } from '@stores'
@@ -17,10 +19,12 @@ export default class Computed extends State {
     return this.params.userName || userStore.myId
   }
 
+  /** 自己的人物页多一个近况标签 */
   @computed get tabs() {
     return this.userId === userStore.myId ? TABS_SELF : TABS
   }
 
+  /** 当前标签页 key */
   @computed get id() {
     return this.tabs?.[this.state.page]?.key || TABS[0].key
   }
@@ -41,6 +45,7 @@ export default class Computed extends State {
     return [this.url, 'Character'] as const
   }
 
+  /** 标签页对应的列表数据 */
   list(key: Keys) {
     if (key === 'persons') return usersStore.persons(this.userId)
     if (key === 'recents') return usersStore.recents

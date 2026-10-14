@@ -2,14 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-06-23 02:20:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-27 06:13:20
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 列表
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Loading } from '@components'
 import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import Filter from '../filter'
+import { getColumnNum } from '../ds'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
 
@@ -18,10 +21,9 @@ import type { Ctx } from '../../types'
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  // --- Memos (Elements) ---
+  /** Filter 元素保持稳定引用, 避免列表更新时 ListHeaderComponent 重渲染 */
   const elFilter = useMemo(() => <Filter />, [])
 
-  // --- Render ---
   const { _loaded, data } = $.state
   if (!_loaded && !data._loaded) {
     return (
@@ -32,12 +34,11 @@ function List() {
     )
   }
 
-  const numColumns = $.isList ? undefined : _.portrait(_.device(3, 4), 5)
-  const key = `${$.state.layout}${numColumns}`
+  const numColumns = $.isList ? undefined : getColumnNum()
 
   return (
     <PaginationList
-      key={key}
+      key={`${$.state.layout}${numColumns}`}
       keyExtractor={keyExtractor}
       forwardRef={$.forwardRef}
       contentContainerStyle={_.container.bottom}

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-07-14 16:05:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-05 00:00:00
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 页面初始化与卸载
  */
 import { createInit } from '@_'
 import { collectionStore } from '@stores'

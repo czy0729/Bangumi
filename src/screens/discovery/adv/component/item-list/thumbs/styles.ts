@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-09-30 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-30 00:00:00
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 截图区样式
  */
 import { _ } from '@stores'
 import { THUMB_HEIGHT } from '../ds'

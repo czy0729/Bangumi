@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-07-25 06:16:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-04 19:22:10
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 找番剧用户操作
  */
 import { sanitizeQuery } from '@_'
 import { isArray } from '@utils'
@@ -18,8 +20,16 @@ import { STATE } from './ds'
 import type { ScrollToOffset } from '@components'
 
 export default class Action extends Fetch {
+  /** 列表滚动方法 (连接列表后可用) */
+  scrollToOffset: ScrollToOffset = null
+
+  /** 连接页面列表 */
+  forwardRef = (ref: { scrollToOffset: ScrollToOffset }) => {
+    if (ref?.scrollToOffset) this.scrollToOffset = ref.scrollToOffset
+  }
+
   /** 初始化查询配置 */
-  initQuery = (tags = []) => {
+  initQuery = (tags: string[] = []) => {
     this.setState({
       expand: true,
       query: sanitizeQuery(
@@ -80,12 +90,6 @@ export default class Action extends Fetch {
         multiple
       })
     }, 0)
-  }
-
-  scrollToOffset: ScrollToOffset = null
-
-  forwardRef = (ref: { scrollToOffset: ScrollToOffset }) => {
-    if (ref?.scrollToOffset) this.scrollToOffset = ref.scrollToOffset
   }
 
   /** 到顶 */

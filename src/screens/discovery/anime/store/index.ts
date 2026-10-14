@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-06-22 15:38:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-05 00:00:00
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 页面初始化与卸载
  */
 import { createInit } from '@_'
 import { init } from '@utils/subject/anime'

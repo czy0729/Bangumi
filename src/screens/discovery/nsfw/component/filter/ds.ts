@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-11-06 01:15:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-06 01:22:27
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 筛选组件常量: 说明文案
  */
 import { rc } from '@utils/dev'
 import { TEXT_UPDATE_NSFW } from '@constants'

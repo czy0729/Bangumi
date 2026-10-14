@@ -12,7 +12,6 @@ import store from './store'
 import type { NavigationProps } from '@types'
 import type { Ctx } from './types'
 
-/** 找画集页面逻辑 */
 export function useAlbumPage(props: NavigationProps) {
   return useDiscoveryListPage<Ctx['$']>(props, store)
 }

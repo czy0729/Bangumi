@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-03-16 19:18:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-04 16:24:21
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 条目: 按当前布局分派列表 / 网格卡片
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { useStore } from '@stores'
 import ItemGrid from '../item-grid'

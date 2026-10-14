@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-10-05 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-05 00:00:00
+ * @Last Modified time: 2026-10-14 12:00:00
  *
  * 找画集列表
  */
@@ -24,7 +24,10 @@ function List() {
   /** Filter 元素保持稳定引用, 避免列表更新时 ListHeaderComponent 重渲染 */
   const elFilter = useMemo(() => <Filter />, [])
 
-  if (!$.state._loaded && !$.state.data._loaded) {
+  const { _loaded, layout, data } = $.state
+  const isInitialLoading = !_loaded && !data._loaded
+
+  if (isInitialLoading) {
     return (
       <>
         {elFilter}
@@ -37,7 +40,7 @@ function List() {
 
   return (
     <PaginationList
-      key={`${$.state.layout}${numColumns}`}
+      key={`${layout}${numColumns}`}
       keyExtractor={keyExtractor}
       forwardRef={$.forwardRef}
       contentContainerStyle={_.container.bottom}

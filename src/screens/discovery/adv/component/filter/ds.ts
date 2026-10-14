@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-03-16 15:47:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-04 16:09:32
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 条件筛选组件常量: 说明文案
  */
 import { rc } from '@utils/dev'
 import { TEXT_UPDATE_GAME } from '@constants'

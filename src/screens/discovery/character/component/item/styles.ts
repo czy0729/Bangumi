@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-28 01:13:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-09 21:54:11
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 角色与人物卡片样式
  */
 import { _ } from '@stores'
 

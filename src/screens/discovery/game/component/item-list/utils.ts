@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-28 15:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-01 07:17:13
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 找游戏列表 renderItem 工具
  */
 import { isArray } from '@utils'
 import { CDN_GAME } from '@constants'

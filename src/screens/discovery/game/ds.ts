@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-06-26 06:43:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-14 17:08:28
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 页面常量: 筛选维度与分组
  */
 import { groupItems } from '@_'
 import {

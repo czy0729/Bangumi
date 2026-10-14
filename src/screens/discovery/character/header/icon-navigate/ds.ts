@@ -1,10 +1,12 @@
-import { _ } from '@stores'
 /*
  * @Author: czy0729
  * @Date: 2026-05-18 17:08:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-18 21:16:48
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 跳转按钮常量: 条目高度估算
  */
+import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { COVER_HEIGHT } from '../../component/item-recents/ds'
 import { COMPONENT as PARENT } from '../ds'

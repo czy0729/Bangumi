@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-04-06 03:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 16:14:42
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 找游戏头部
  */
 import { observer } from 'mobx-react'
 import { r } from '@utils/dev'

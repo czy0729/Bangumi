@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-03-16 15:53:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-04 16:51:47
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 列表 renderItem
  */
-import React from 'react'
 import Item from '../item'
 
 import type { RenderItem } from '@types'

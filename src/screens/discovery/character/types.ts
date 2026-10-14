@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-27 23:52:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-25 05:05:06
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 页面上下文与标签类型
  */
 import type { GetRouteParams, RouteCharacter, WithNavigation } from '@types'
 import type Store from './store'
@@ -14,4 +16,5 @@ export type Ctx = WithNavigation<{
 
 export type Params = GetRouteParams<RouteCharacter>
 
+/** 标签页 key */
 export type Keys = (typeof TABS_SELF)[number]['key']

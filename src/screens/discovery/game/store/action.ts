@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-07-25 20:34:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-30 22:37:45
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 找游戏用户操作
  */
 import { sanitizeQuery } from '@_'
 import { otaStore } from '@stores'
@@ -15,8 +17,16 @@ import type { ScrollToOffset } from '@components'
 import type { FilterType } from '../types'
 
 export default class Action extends Fetch {
+  /** 列表滚动方法 (连接列表后可用) */
+  scrollToOffset: ScrollToOffset = null
+
+  /** 连接页面列表 */
+  forwardRef = (ref: { scrollToOffset: ScrollToOffset }) => {
+    if (ref?.scrollToOffset) this.scrollToOffset = ref.scrollToOffset
+  }
+
   /** 初始化查询配置 */
-  initQuery = (tags = []) => {
+  initQuery = (tags: string[] = []) => {
     this.setState({
       expand: true,
       query: sanitizeQuery(
@@ -55,22 +65,16 @@ export default class Action extends Fetch {
     }, 0)
   }
 
-  scrollToOffset: ScrollToOffset = null
-
-  forwardRef = (ref: { scrollToOffset: ScrollToOffset }) => {
-    if (ref?.scrollToOffset) this.scrollToOffset = ref.scrollToOffset
-  }
-
   /** 到顶 */
   scrollToTop = () => {
-    if (typeof this.scrollToOffset === 'function') {
-      this.scrollToOffset({
-        offset: 0,
-        animated: true
-      })
+    if (typeof this.scrollToOffset !== 'function') return
 
-      t('游戏.到顶')
-    }
+    this.scrollToOffset({
+      offset: 0,
+      animated: true
+    })
+
+    t('游戏.到顶')
   }
 
   /** 切换布局 */

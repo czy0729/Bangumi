@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-07-20 10:28:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-17 16:37:02
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 找NSFW可观察状态与持久化
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'

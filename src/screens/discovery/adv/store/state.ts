@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-07-14 15:09:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-06 00:33:04
+ * @Last Modified time: 2026-10-13 12:00:00
+ *
+ * 找 Gal 可观察状态与持久化
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'

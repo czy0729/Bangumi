@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-20 10:43:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-08 21:53:18
+ * @Last Modified time: 2026-10-14 12:00:00
  *
  * 找 NSFW 用户操作
  */
@@ -14,6 +14,14 @@ import type { ScrollToOffset } from '@components'
 import type { FilterType } from '../types'
 
 export default class Action extends Fetch {
+  /** 列表滚动方法 (连接列表后可用) */
+  scrollToOffset: ScrollToOffset = null
+
+  /** 连接页面列表 */
+  forwardRef = (ref: { scrollToOffset: ScrollToOffset }) => {
+    if (ref?.scrollToOffset) this.scrollToOffset = ref.scrollToOffset
+  }
+
   /**
    * 筛选选择
    *
@@ -39,22 +47,16 @@ export default class Action extends Fetch {
     }, 0)
   }
 
-  scrollToOffset: ScrollToOffset = null
-
-  forwardRef = (ref: { scrollToOffset: ScrollToOffset }) => {
-    if (ref?.scrollToOffset) this.scrollToOffset = ref.scrollToOffset
-  }
-
   /** 到顶 */
   scrollToTop = () => {
-    if (typeof this.scrollToOffset === 'function') {
-      this.scrollToOffset({
-        offset: 0,
-        animated: true
-      })
+    if (typeof this.scrollToOffset !== 'function') return
 
-      t('NSFW.到顶')
-    }
+    this.scrollToOffset({
+      offset: 0,
+      animated: true
+    })
+
+    t('NSFW.到顶')
   }
 
   /** 切换布局 */

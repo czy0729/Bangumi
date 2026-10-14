@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-10-03 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-03 00:00:00
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 筛选组件常量: 说明文案
  */
 import { rc } from '@utils/dev'
 import { TEXT_TOTAL, TEXT_UPDATE_REAL } from '@constants'

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-28 15:40:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-06 07:16:19
+ * @Last Modified time: 2026-10-14 12:00:00
+ *
+ * 找游戏列表布局条目样式
  */
 import { _ } from '@stores'
 import { IMG_HEIGHT_LG } from '@constants'
