@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:47:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-22 07:10:02
+ * @Last Modified time: 2026-10-14 17:05:04
  */
 import { cheerio, feedback, getTimestamp } from '@utils'
 import { getBucketId } from '@utils/bucket'
@@ -30,10 +30,11 @@ import {
 } from './common'
 import Computed from './computed'
 import { DEFAULT_TYPE, INIT_CATALOG_ITEM } from './init'
+import { getDollarsKey } from './utils'
 
 import type { CheerioNode } from '@utils/thirdParty/html/types'
 import type { Id, SubjectType } from '@types'
-import type { CatalogDetailFromOSS, CatalogType, FetchBlogArgs } from './types'
+import type { CatalogDetailFromOSS, CatalogType, DollarsItem, FetchBlogArgs } from './types'
 import type { ResultData } from '@utils/kv/type'
 
 export default class Fetch extends Computed {
@@ -468,12 +469,15 @@ export default class Fetch extends Computed {
 
     if (html !== 'null') {
       try {
-        const items = JSON.parse(html)
+        const items = JSON.parse(html) as DollarsItem[]
         const key = 'dollars'
+        // 服务端会重复返回边界上已有的项, 合并前剔除, 否则每次轮询都会在顶部多出一份
+        const exists = new Set(this.state.dollars.list.map(getDollarsKey))
+        const next = items.reverse().filter(item => !exists.has(getDollarsKey(item)))
         this.setState({
           [key]: {
             ...this.state.dollars,
-            list: [...items.reverse(), ...this.state.dollars.list].slice(0, 80),
+            list: [...next, ...this.state.dollars.list].slice(0, 80),
             _loaded: getTimestamp()
           }
         })

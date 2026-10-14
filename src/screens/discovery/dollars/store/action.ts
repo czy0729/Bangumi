@@ -3,6 +3,8 @@
  * @Date: 2024-12-03 13:48:48
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-05 14:58:40
+ *
+ * Dollars 操作: 输入框显隐与发送 / 自动刷新 / 滚动控制
  */
 import { discoveryStore, userStore } from '@stores'
 import { info, updateVisibleBottom } from '@utils'
@@ -17,12 +19,14 @@ export default class Action extends Fetch {
 
   inputRef: InputInstance['inputRef'] = null
 
+  /** 保存列表实例 */
   forwardRef = (ref: ListViewInstance) => {
     try {
       this.listRef = ref
     } catch {}
   }
 
+  /** 保存输入框实例 */
   forwardInputRef = (ref: InputInstance) => {
     try {
       this.inputRef = ref.inputRef
@@ -63,6 +67,7 @@ export default class Action extends Fetch {
     }
   }
 
+  /** 切换输入框显隐, 传入昵称时自动 @ 并聚焦 */
   onToggleShow = (nickname: string = '') => {
     if (!this.isWebLogin) {
       info('未登录')
@@ -90,6 +95,7 @@ export default class Action extends Fetch {
     })
   }
 
+  /** 切换自动刷新 */
   onToggleAutoRefresh = () => {
     this.setState({
       autoRefresh: !this.state.autoRefresh
@@ -97,12 +103,14 @@ export default class Action extends Fetch {
     this.save()
   }
 
+  /** 输入内容 */
   onChangeText = (text: string) => {
     this.setState({
       text: text.trim()
     })
   }
 
+  /** 发送留言 */
   onSubmit = () => {
     const { fetching, text } = this.state
     if (fetching) return

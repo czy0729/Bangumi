@@ -3,8 +3,10 @@
  * @Date: 2023-04-27 16:45:33
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-05 14:35:09
+ *
+ * 页面头部
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, HeaderV2, Text } from '@components'
 import { IconTouchable } from '@_'
@@ -17,7 +19,7 @@ function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const { show, visibleBottom, autoRefresh } = $.state
-  const { online } = $.dollars
+  const { online } = $
 
   const handleHeaderRight = useCallback(
     () => (

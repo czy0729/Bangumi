@@ -3,17 +3,19 @@
  * @Date: 2023-04-26 17:17:04
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-05 14:27:29
+ *
+ * 留言条目
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, UserStatus } from '@components'
 import { Avatar, InView, Popover } from '@_'
 import { _, useStore } from '@stores'
 import { appNavigate, date, HTMLDecode } from '@utils'
-import { extractIdFromAvatar } from '@utils/app/ages'
 import { t } from '@utils/fetch'
 import { HOST_IMAGE } from '@constants'
+import { getDollarsUserId } from '@stores/discovery/utils'
 import { extractLinks } from './utils'
 import { COMPONENT, ITEM_HEIGHT } from './ds'
 import { memoStyles } from './styles'
@@ -26,7 +28,7 @@ function Item({ index, id, avatar, nickname, msg, color }: WithIndex<DollarsItem
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const src = `${HOST_IMAGE}/pic/user/l/${avatar}` as const
-  const userId = extractIdFromAvatar(src)
+  const userId = getDollarsUserId(avatar)
   const content = HTMLDecode(msg).replace(/<br \/>/g, '')
   const links = extractLinks(content)
 

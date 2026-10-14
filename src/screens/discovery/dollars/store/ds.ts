@@ -3,6 +3,8 @@
  * @Date: 2023-04-27 15:38:41
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-13 22:44:02
+ *
+ * 缓存命名空间与状态初始值
  */
 import { _ } from '@stores'
 import { COMPONENT } from '../ds'

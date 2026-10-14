@@ -3,8 +3,9 @@
  * @Date: 2024-04-06 12:45:05
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-04-06 12:51:32
+ *
+ * 列表 renderItem
  */
-import React from 'react'
 import Item from '../item'
 
 import type { DollarsItem } from '@stores/discovery/types'

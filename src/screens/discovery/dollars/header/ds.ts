@@ -3,6 +3,8 @@
  * @Date: 2024-04-06 03:13:48
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-03 00:43:07
+ *
+ * 页面头部常量
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'

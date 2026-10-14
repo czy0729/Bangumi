@@ -3,6 +3,8 @@
  * @Date: 2023-04-26 15:29:29
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-05 14:24:46
+ *
+ * 页面上下文类型
  */
 import type { WithNavigation } from '@types'
 import type Store from './store'

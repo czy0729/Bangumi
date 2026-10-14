@@ -3,8 +3,9 @@
  * @Date: 2023-04-26 15:22:15
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-25 05:05:57
+ *
+ * Dollars 留言板页面
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
@@ -15,7 +16,7 @@ import { useDollarsPage } from './hooks'
 
 import type { NavigationProps } from '@types'
 
-/** Dollars */
+/** Dollars 留言板 */
 function Dollars(props: NavigationProps) {
   const { id, $ } = useDollarsPage(props)
 

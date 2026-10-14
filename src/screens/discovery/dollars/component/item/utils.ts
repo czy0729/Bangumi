@@ -3,13 +3,15 @@
  * @Date: 2025-08-14 17:19:06
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-05 14:29:14
+ *
+ * 留言内容链接提取
  */
 import { HOST } from '@constants'
 
-import type { LinkData, ResultData } from './types'
+import type { LinkData, LinkResult } from './types'
 
 export function extractLinks(str: string): LinkData[] {
-  const results: ResultData[] = []
+  const results: LinkResult[] = []
   let imgCount = 0
   let urlCount = 0
 

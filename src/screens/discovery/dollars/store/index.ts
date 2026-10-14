@@ -3,13 +3,15 @@
  * @Date: 2023-04-26 15:25:25
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-08-13 22:51:56
+ *
+ * Dollars 页面初始化与卸载
  */
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
 
 import type { STATE } from './ds'
 
-/** 搜索页面状态机 */
+/** Dollars 页面状态机 */
 export default class ScreenDollars extends Action {
   init = async () => {
     const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)

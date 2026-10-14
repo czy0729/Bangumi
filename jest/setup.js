@@ -306,6 +306,7 @@ jest.mock(
     })
     return {
       HOST_IMAGE: '//lain.bgm.tv',
+      H: 60 * 60,
       HOST_CDN_AVATAR: 'https://cdn.example.com',
       IMG_AVATAR_DEFAULT: 'IMG_AVATAR_DEFAULT',
       IMG_DEFAULT: 'IMG_DEFAULT',

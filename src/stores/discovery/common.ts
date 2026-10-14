@@ -370,11 +370,12 @@ export function cheerioDollars(html: string) {
   const $ = cheerio(html)
   return {
     list: cMap<DollarsItem>($('#chatList ul li'), $row => ({
-      id: cData($row, 'id').split('_')?.[1].slice(0, 10),
+      // 10 位: li#chat_{毫秒时间戳} 截取前 10 位即秒级时间戳
+      id: (cData($row, 'id').match(/\d+/) || [''])[0].slice(0, 10),
       avatar: cData($row.find('img.avatar'), 'src').split('/m/')?.[1] || '',
       nickname: cText($row.find('.icon p')),
       msg: cText($row.find('.content p')),
-      color: cData($row.find('.content'), 'style').split(':')?.[1] || ''
+      color: cData($row.find('.content'), 'style').split(':')?.[1]?.trim() || ''
     })),
     online: cText($('#toolBox')).split(':')?.[1] || '',
     pagination: {

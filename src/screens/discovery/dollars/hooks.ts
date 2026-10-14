@@ -3,10 +3,12 @@
  * @Date: 2024-04-06 12:30:30
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-05 14:43:00
+ *
+ * Dollars 页面逻辑: 初始化 / 生命周期 / 定时刷新
  */
-import { useRef } from 'react'
+import { useEffect } from 'react'
 import { useInitStore } from '@stores'
-import { useMount, usePageLifecycle } from '@utils/hooks'
+import { useActive, useMount, usePageLifecycle } from '@utils/hooks'
 import store from './store'
 
 import type { NavigationProps } from '@types'
@@ -16,6 +18,8 @@ import type { Ctx } from './types'
 export function useDollarsPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
   const { id, $ } = context
+
+  const active = useActive()
 
   usePageLifecycle(
     {
@@ -29,16 +33,22 @@ export function useDollarsPage(props: NavigationProps) {
     id
   )
 
-  const interval = useRef(null)
-  useMount(() => {
-    interval.current = setInterval(() => {
+  useEffect(() => {
+    if (!active) return
+
+    const interval = setInterval(() => {
       $.updateDollars()
     }, 4000)
 
     return () => {
+      clearInterval(interval)
+    }
+  }, [$, active])
+
+  useMount(() => {
+    return () => {
       $.listRef = null
       $.inputRef = null
-      clearInterval(interval.current)
     }
   })
 

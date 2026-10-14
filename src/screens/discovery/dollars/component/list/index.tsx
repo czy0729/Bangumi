@@ -3,8 +3,9 @@
  * @Date: 2023-04-26 15:30:04
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-05 14:40:46
+ *
+ * 留言列表
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { PaginationList } from '@_'
 import { _, useStore } from '@stores'
