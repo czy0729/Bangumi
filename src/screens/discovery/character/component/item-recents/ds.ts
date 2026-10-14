@@ -17,3 +17,6 @@ export const COVER_WIDTH = IMG_WIDTH_LG
 
 /** 封面高度 */
 export const COVER_HEIGHT = IMG_HEIGHT_LG
+
+/** 条目估算高度 (封面 + 上下间距) */
+export const ITEM_HEIGHT = COVER_HEIGHT + 36

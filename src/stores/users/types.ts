@@ -126,7 +126,7 @@ export type Persons = ListEmpty<CharactersItem>
 
 /** 我收藏的人物近况项 */
 export type RecentsItem = {
-  id: MonoId
+  id: SubjectId
   cover: string
   type: SubjectTypeValue
   href: string

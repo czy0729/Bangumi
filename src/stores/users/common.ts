@@ -9,7 +9,7 @@ import { getBlogItemTime } from '../discovery/utils'
 import { USER_STATS_TYPES } from './ds'
 
 import type { CheerioDoc, CheerioSelection } from '@utils/thirdParty/html/types'
-import type { MonoId, SubjectTypeValue } from '@types'
+import type { MonoId, SubjectId, SubjectTypeValue } from '@types'
 import type {
   BlogsItem,
   CatalogsItem,
@@ -190,21 +190,21 @@ export function cheerioRecents(html: string) {
   return cMap($('#browserItemList li.item'), $row => {
     const $a = cFind($row, 'h3 a.l')
     return {
-      id: cData($row, 'id').replace('item_', '') as MonoId,
+      id: cData($row, 'id').replace('item_', '') as SubjectId,
       cover: cData(cFind($row, 'img.cover'), 'src'),
       type: (cData(cFind($row, 'h3 span.ll'), 'class').match(/subject_type_(\d+)/)?.[1] ||
         '') as SubjectTypeValue,
       href: cData($a, 'href'),
-      name: cText($a),
-      nameJP: cText(cFind($row, 'h3 small.grey')),
-      info: cText(cFind($row, 'p.info')),
+      name: cText($a, false, true),
+      nameJP: cText(cFind($row, 'h3 small.grey'), false, true),
+      info: cText(cFind($row, 'p.info'), false, true),
       star: cData(cFind($row, 'span.starlight'), 'class').match(/stars(\d+)/)?.[1] || '',
-      starInfo: cText(cFind($row, '.rateInfo .tip_j')),
+      starInfo: cText(cFind($row, '.rateInfo .tip_j'), false, true),
       actors: cMap($row.find('.actorBadge'), $row => ({
         id: cData(cFind($row, 'a.avatar'), 'href').replace(/^\/+/, '') as MonoId,
         avatar: cData(cFind($row, 'img'), 'src'),
-        name: cText(cFind($row, 'a.l')),
-        info: cText(cFind($row, 'small.grey'))
+        name: cText(cFind($row, 'a.l'), false, true),
+        info: cText(cFind($row, 'small.grey'), false, true)
       }))
     } as RecentsItem
   })

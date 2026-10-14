@@ -10,3 +10,6 @@ import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Item')
+
+/** 封面以下文字区 (两行名称 / 上下间距) 的估算高度 */
+export const ITEM_TEXT_HEIGHT = 62

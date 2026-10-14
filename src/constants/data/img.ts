@@ -41,4 +41,6 @@ export const IMG_INFO_ONLY = WEB
   : (require('@assets/images/info_only.png') as ImageRequireSource)
 
 /** 默认条目缩略图 */
-export const IMG_SUBJECT_ONLY = `${HOST}/img/no_icon_subject.png` as const
+export const IMG_SUBJECT_ONLY = WEB
+  ? (`${HOST}/img/no_icon_subject.png` as const)
+  : IMG_DEFAULT

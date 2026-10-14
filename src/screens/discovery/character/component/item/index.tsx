@@ -37,8 +37,6 @@ function Item({ index, id, avatar, name }: Props) {
   return (
     <View style={stl(styles.item, index % _.portrait(5, 8) === 0 && styles.side)}>
       <Touchable
-        animate
-        scale={0.9}
         onPress={() => {
           navigation.push('Mono', {
             monoId: id
