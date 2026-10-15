@@ -3,12 +3,16 @@
  * @Date: 2025-10-29 23:02:58
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-09 01:06:59
+ *
+ * 排行榜条目: 列表与网格两种形态
  */
 import { observer } from 'mobx-react'
 import { ItemCollectionsGrid, ItemSearch } from '@_'
-import { _, collectionStore, useStore } from '@stores'
+import { collectionStore, useStore } from '@stores'
 import { matchYear } from '@utils'
 import { MODEL_SUBJECT_TYPE } from '@constants'
+import { TEXT_MUSIC } from '../../ds'
+import { getColumnNum } from '../ds'
 import { COMPONENT, EVENT_GRID, EVENT_LIST } from './ds'
 import { styles } from './styles'
 
@@ -29,17 +33,23 @@ function Item({ item, index }: Props) {
         key={item.id}
         navigation={navigation}
         index={index}
+        id={item.id}
+        name={item.name}
+        nameCn={item.nameCn}
+        tip={item.tip}
+        score={item.score}
+        total={item.total}
+        rank={item.rank}
+        cover={item.cover || $.cover(item.id)}
         collection={collection}
         typeCn={typeCn}
-        {...item}
-        cover={item.cover || $.cover(item.id)}
         screen='排行榜'
         event={EVENT_LIST}
       />
     )
   }
 
-  const num = _.portrait(_.device(3, 4), 5)
+  const num = getColumnNum()
 
   return (
     <ItemCollectionsGrid
@@ -47,13 +57,16 @@ function Item({ item, index }: Props) {
       style={!(index % num) && styles.left}
       index={index}
       num={num}
-      airtime={$.airtime === '' && matchYear(item.tip)}
-      {...item}
       id={id}
+      name={item.name}
+      nameCn={item.nameCn}
+      score={item.score}
+      rank={item.rank}
+      airtime={$.airtime === '' ? matchYear(item.tip) : ''}
       cover={item.cover || $.cover(item.id)}
       typeCn={typeCn}
       collection={collection}
-      isRectangle={typeCn === '音乐'}
+      isRectangle={typeCn === TEXT_MUSIC}
       event={EVENT_GRID}
     />
   )

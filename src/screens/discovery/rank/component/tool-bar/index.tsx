@@ -3,11 +3,14 @@
  * @Date: 2019-06-08 04:35:20
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-23 14:58:44
+ *
+ * 工具栏: 排序与筛选入口
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ToolBar as ToolBarComp } from '@components'
 import { useStore } from '@stores'
+import { TEXT_MUSIC } from '../../ds'
 import Area from './area'
 import Classification from './classification'
 import Expand from './expand'
@@ -28,7 +31,7 @@ import type { Ctx } from '../../types'
 function ToolBar() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const showExpand = $.typeCn !== '音乐'
+  const showExpand = $.typeCn !== TEXT_MUSIC
 
   return (
     <View>

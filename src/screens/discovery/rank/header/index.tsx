@@ -3,6 +3,8 @@
  * @Date: 2022-03-12 23:08:29
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-23 15:24:48
+ *
+ * 页面头部与右上角菜单
  */
 import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -34,7 +36,9 @@ function Header() {
             [TEXT_MENU_SPA]: () => open(`${URL_SPA}/${getSPAParams('Rank')}`)
           }
 
-          actions[title]?.() ?? $.onToolBar(title)
+          const action = actions[title]
+          if (action) action()
+          else $.onToolBar(title)
 
           t('排行榜.右上角菜单', {
             key: title

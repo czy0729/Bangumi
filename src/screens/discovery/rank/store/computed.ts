@@ -11,7 +11,6 @@ import { tagStore, userStore } from '@stores'
 import { x18 } from '@utils'
 import {
   HTML_RANK_V2,
-  LIST_EMPTY,
   MODEL_SUBJECT_TYPE,
   TEXT_MENU_FAVOR,
   TEXT_MENU_FIXED,
@@ -25,14 +24,14 @@ import {
   TEXT_MENU_NOT_SHOW,
   TEXT_MENU_PAGINATION,
   TEXT_MENU_SHOW,
-  TEXT_MENU_SPLIT_LEFT,
-  TEXT_MENU_SPLIT_RIGHT,
-  TEXT_MENU_TOOLBAR
+  TEXT_MENU_TOOLBAR,
+  withSplit
 } from '@constants'
+import { EMPTY_RANK } from './ds'
 import State from './state'
 
 import type { SubjectId, SubjectTypeCn } from '@types'
-import type { ComputedRank, SnapshotId } from '../types'
+import type { ComputedRank, OtaSnapshot, SnapshotId } from '../types'
 
 export default class Computed extends State {
   /** 类型 */
@@ -102,14 +101,10 @@ export default class Computed extends State {
   @computed get rank(): ComputedRank {
     const { type, filter, sort, currentPage, pagination } = this.state
 
-    const key = pagination ? 'rank' : 'rankWithoutPagination'
-    const rank = tagStore[key](
-      type,
-      filter,
-      sort,
-      this.month ? `${this.airtime}-${this.month}` : this.airtime,
-      currentPage[type]
-    )
+    const airtime = this.month ? `${this.airtime}-${this.month}` : this.airtime
+    const rank = pagination
+      ? tagStore.rank(type, filter, sort, airtime, currentPage[type])
+      : tagStore.rankWithoutPagination(type, filter, sort, airtime)
 
     if (userStore.isLimit) {
       let _filter = 0
@@ -130,7 +125,7 @@ export default class Computed extends State {
   /** 过滤数据 */
   @computed get list(): ComputedRank {
     // 云快照与空列表壳作为未加载时的占位数据
-    if (!this.rank._loaded) return this.ota || (LIST_EMPTY as ComputedRank)
+    if (!this.rank._loaded) return this.ota || EMPTY_RANK
 
     if (this.state.collected) return this.rank
 
@@ -194,35 +189,49 @@ export default class Computed extends State {
   @computed get toolBar() {
     const { pagination } = this.state
     const data = [
-      `${TEXT_MENU_TOOLBAR}${TEXT_MENU_SPLIT_LEFT}${
-        this.state.fixed ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT
-      }${TEXT_MENU_SPLIT_RIGHT}`,
-      `${TEXT_MENU_LIST_LOADED}${TEXT_MENU_SPLIT_LEFT}${
+      `${TEXT_MENU_TOOLBAR}${withSplit(this.state.fixed ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT)}`,
+      `${TEXT_MENU_LIST_LOADED}${withSplit(
         pagination ? TEXT_MENU_LIST_PAGINATION : TEXT_MENU_LIST_FOOTER_REFRESH
-      }${TEXT_MENU_SPLIT_RIGHT}`,
-      `${TEXT_MENU_LAYOUT}${TEXT_MENU_SPLIT_LEFT}${
-        this.state.list ? TEXT_MENU_LIST : TEXT_MENU_GRID
-      }${TEXT_MENU_SPLIT_RIGHT}`,
-      `${TEXT_MENU_FAVOR}${TEXT_MENU_SPLIT_LEFT}${
-        this.state.collected ? TEXT_MENU_SHOW : TEXT_MENU_NOT_SHOW
-      }${TEXT_MENU_SPLIT_RIGHT}`
+      )}`,
+      `${TEXT_MENU_LAYOUT}${withSplit(this.state.list ? TEXT_MENU_LIST : TEXT_MENU_GRID)}`,
+      `${TEXT_MENU_FAVOR}${withSplit(this.state.collected ? TEXT_MENU_SHOW : TEXT_MENU_NOT_SHOW)}`
     ]
     if (pagination) {
       data.push(
-        `${TEXT_MENU_PAGINATION}${TEXT_MENU_SPLIT_LEFT}${
+        `${TEXT_MENU_PAGINATION}${withSplit(
           this.state.fixedPagination ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT
-        }${TEXT_MENU_SPLIT_RIGHT}`
+        )}`
       )
     }
     return data
   }
 
+  /** 云快照封面索引缓存 (只保留当前快照, 避免随快照组合持续增长) */
+  private coverCache = {
+    key: '' as SnapshotId,
+    list: undefined as OtaSnapshot['list'] | undefined,
+    map: new Map<SubjectId, string>()
+  }
+
+  /** 云快照封面索引, 避免列表逐项线性查找 */
+  private coverMap(key: SnapshotId) {
+    const list = this.state.ota[key]?.list
+    const cache = this.coverCache
+    if (cache.key === key && cache.list === list) return cache.map
+
+    const map = new Map<SubjectId, string>()
+    list?.forEach(item => {
+      if (item.cover) map.set(item.id, item.cover)
+    })
+    cache.key = key
+    cache.list = list
+    cache.map = map
+    return map
+  }
+
   /** 尝试从云端数据查找封面 */
   cover(subjectId: SubjectId) {
-    if (!this.ota) return ''
-
-    const find = this.ota.list.find((item: { id: SubjectId }) => item.id === subjectId)
-    return find?.cover || ''
+    return this.coverMap(this.thirdPartyKey).get(subjectId) || ''
   }
 
   /** 是否加载中 */

@@ -16,12 +16,10 @@ import {
   TEXT_MENU_LAYOUT,
   TEXT_MENU_LIST_LOADED,
   TEXT_MENU_PAGINATION,
-  TEXT_MENU_TOOLBAR,
-  WEB
+  TEXT_MENU_TOOLBAR
 } from '@constants'
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
-
 
 import type { ScrollTo } from '@components'
 import type {
@@ -41,8 +39,17 @@ import type {
 } from '@types'
 import type { ToolBarKeys, FilterEvent, FilterKey, RankType } from '../types'
 
+/** 解析页码输入, 空或非法返回 0 */
+function parsePage(text: string) {
+  const _text = String(text).trim()
+  if (!/^\d+$/.test(_text)) return 0
+
+  const value = Number(_text)
+  return Number.isSafeInteger(value) ? value : 0
+}
+
 export default class Action extends Fetch {
-  /** ScrollView.scrollTo */
+  /** 列表滚动引用 (由 ScrollView 注入) */
   scrollTo: ScrollTo
 
   /** 收集 ScrollView.scrollTo 引用 */
@@ -50,7 +57,7 @@ export default class Action extends Fetch {
     if (scrollTo) this.scrollTo = scrollTo
   }
 
-  /** 隐藏后延迟显示列表 (用于重置滚动位置) */
+  /** 保存筛选状态, 可选重新请求, 并把列表滚回顶部 */
   refresh = async (refresh?: boolean) => {
     this.save()
 
@@ -62,17 +69,25 @@ export default class Action extends Fetch {
       }
     }
 
-    setTimeout(() => {
+    this.delay(() => {
       if (typeof this.scrollTo === 'function') {
         this.scrollTo({
           x: 0,
           y: 0,
           animated: false
         })
-      } else if (WEB) {
-        scrollToTop(0, false)
+        return
       }
+
+      scrollToTop(0, false)
     }, 0)
+  }
+
+  /** 提示工具栏菜单的当前状态 */
+  tipToolBar = (key: string) => {
+    const text = this.toolBar.find(item => item.includes(key))
+    if (text) info(text)
+    feedback(true)
   }
 
   /** 更新某类型页码 */
@@ -239,9 +254,7 @@ export default class Action extends Fetch {
     })
     this.refresh()
 
-    const text = this.toolBar.find(item => item.includes(TEXT_MENU_LAYOUT))
-    if (text) info(text)
-    feedback(true)
+    this.tipToolBar(TEXT_MENU_LAYOUT)
 
     t('排行榜.切换布局', {
       list: value
@@ -256,19 +269,9 @@ export default class Action extends Fetch {
     })
     this.save()
 
-    if (key === 'fixed') {
-      const text = this.toolBar.find(item => item.includes(TEXT_MENU_TOOLBAR))
-      if (text) info(text)
-      feedback(true)
-    } else if (key === 'collected') {
-      const text = this.toolBar.find(item => item.includes(TEXT_MENU_FAVOR))
-      if (text) info(text)
-      feedback(true)
-    } else if (key === 'fixedPagination') {
-      const text = this.toolBar.find(item => item.includes(TEXT_MENU_PAGINATION))
-      if (text) info(text)
-      feedback(true)
-    }
+    if (key === 'fixed') this.tipToolBar(TEXT_MENU_TOOLBAR)
+    else if (key === 'collected') this.tipToolBar(TEXT_MENU_FAVOR)
+    else if (key === 'fixedPagination') this.tipToolBar(TEXT_MENU_PAGINATION)
 
     t('排行榜.工具栏', {
       [key]: value
@@ -303,7 +306,7 @@ export default class Action extends Fetch {
     })
   }
 
-  /** 输入框改变 */
+  /** 输入框改变 (跳转由键盘提交或失焦触发) */
   onPaginationInputChange = ({ nativeEvent }: { nativeEvent: { text: string } }) => {
     const { type, ipt } = this.state
     this.setState({
@@ -312,7 +315,6 @@ export default class Action extends Fetch {
         [type]: nativeEvent.text
       }
     })
-    this.refresh(true)
   }
 
   /** 切换分页模式 */
@@ -322,9 +324,7 @@ export default class Action extends Fetch {
       pagination: value
     })
 
-    const text = this.toolBar.find(item => item.includes(TEXT_MENU_LIST_LOADED))
-    if (text) info(text)
-    feedback(true)
+    this.tipToolBar(TEXT_MENU_LIST_LOADED)
 
     this.refresh(true)
   }
@@ -341,8 +341,10 @@ export default class Action extends Fetch {
   /** 页码跳转 */
   doSearch = () => {
     const { type, ipt } = this.state
-    const value = ipt[type] === '' ? 1 : parseInt(ipt[type])
-    if (value < 1) {
+    // 清空输入视为跳第 1 页
+    const text = String(ipt[type] ?? '').trim()
+    const value = text === '' ? 1 : parsePage(text)
+    if (!value) {
       info('请输入正确页码')
       return
     }

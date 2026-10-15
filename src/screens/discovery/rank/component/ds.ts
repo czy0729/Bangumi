@@ -1,10 +1,19 @@
 /*
  * @Author: czy0729
  * @Date: 2024-02-28 04:29:11
- * @Last Modified by:   czy0729
+ * @Last Modified by: czy0729
  * @Last Modified time: 2024-02-28 04:29:11
+ *
+ * 区块常量: 私有组件共享标识与网格列数
  */
+import { _ } from '@stores'
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Component')
+
+/** 网格布局列数 (随横竖屏变化, 需在渲染期调用以保持响应) */
+export const getColumnNum = () => _.portrait(_.device(3, 4), 5)
+
+/** 使用进场动画的最前项数 */
+export const ENTERING_ANIMATIONS_NUM = 9

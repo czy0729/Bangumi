@@ -3,17 +3,22 @@
  * @Date: 2024-10-22 07:08:59
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-16 09:53:24
+ *
+ * 工具栏: 受众
  */
 import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
-import { DATA_TARGET } from './ds'
+import { rc } from '@utils/dev'
+import { COMPONENT as PARENT, DATA_TARGET } from './ds'
 
 import type { Ctx } from '../../types'
 
+const COMPONENT = rc(PARENT, 'Target')
+
 /** 受众 */
 function Target() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const typeCn = $.typeCn as '动画' | '游戏'
   const data = DATA_TARGET[typeCn]

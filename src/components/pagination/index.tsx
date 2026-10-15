@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-11 20:21:25
  */
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
@@ -23,7 +23,6 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { EventKeys } from '@constants'
-import type { InputInstance } from '../input'
 import type { Props as PaginationProps } from './types'
 export type { PaginationProps }
 
@@ -41,8 +40,6 @@ export const Pagination = observer(
     onSearch = FROZEN_FN
   }: PaginationProps) => {
     r(COMPONENT)
-
-    const inputRef = useRef<InputInstance>(null)
 
     const [isFocused, setIsFocused] = useState(false)
 
@@ -73,13 +70,10 @@ export const Pagination = observer(
       </Touchable>
     )
 
-    /** 输入框 + iOS 提交按钮 */
+    /** 输入框 + 提交按钮 */
     const renderInput = () => (
       <Flex>
         <Input
-          ref={ref => {
-            inputRef.current = ref
-          }}
           style={stl(styles.input, inputStyle)}
           value={input}
           keyboardType='number-pad'
@@ -92,7 +86,6 @@ export const Pagination = observer(
           onBlur={() => setIsFocused(false)}
           onSubmitEditing={() => {
             onSearch()
-            inputRef.current?.onBlur()
             feedback(true)
           }}
         />

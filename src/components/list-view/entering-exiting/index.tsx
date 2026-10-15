@@ -6,7 +6,8 @@
  */
 import React, { forwardRef, useCallback } from 'react'
 import { FlatList, View } from 'react-native'
-import Animated, { FadeInDown, LayoutAnimationConfig } from 'react-native-reanimated'
+import { LayoutAnimationConfig } from 'react-native-reanimated'
+import { Entering } from '../../entering'
 import { styles } from './styles'
 
 import type { ListRenderItemInfo } from 'react-native'
@@ -25,12 +26,11 @@ function EnteringExiting<ItemT>(
   ref: React.ForwardedRef<FlatList<ItemT>>
 ) {
   const renderAnimatedItem = useCallback(
-    (info: ListRenderItemInfo<ItemT>) => {
-      const el = renderItem(info)
-      if (info.index >= skipEnteringExitingAnimations) return el
-
-      return <Animated.View entering={FadeInDown.duration(640)}>{el}</Animated.View>
-    },
+    (info: ListRenderItemInfo<ItemT>) => (
+      <Entering index={info.index} num={skipEnteringExitingAnimations}>
+        {renderItem(info)}
+      </Entering>
+    ),
     [skipEnteringExitingAnimations, renderItem]
   )
 

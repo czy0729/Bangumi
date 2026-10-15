@@ -3,6 +3,8 @@
  * @Date: 2019-06-08 03:11:59
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-21 05:51:05
+ *
+ * 排行榜页面初始化与卸载
  */
 import { SUBJECT_TYPE } from '@constants'
 import Action from './action'
@@ -15,7 +17,7 @@ export default class ScreenRank extends Action {
   init = async () => {
     const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     const { type } = this.params
-    if (type && SUBJECT_TYPE.findIndex(item => item.label === type) !== -1) {
+    if (type && SUBJECT_TYPE.some(item => item.label === type)) {
       storageData.type = type
     }
 
@@ -29,6 +31,7 @@ export default class ScreenRank extends Action {
   }
 
   unmount = () => {
+    this.clearDelayTasks()
     this.setState(RESET_STATE)
   }
 }

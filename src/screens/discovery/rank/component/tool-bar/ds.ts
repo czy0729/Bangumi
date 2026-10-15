@@ -1,7 +1,7 @@
 /*
  * @Author: czy0729
  * @Date: 2024-02-28 04:30:04
- * @Last Modified by:   czy0729
+ * @Last Modified by: czy0729
  * @Last Modified time: 2024-02-28 04:30:04
  */
 import { rc } from '@utils/dev'
@@ -44,6 +44,9 @@ export const DATA_FILTER_SUB = {
   书籍: MODEL_RANK_BOOK_FILTER_SUB,
   游戏: MODEL_RANK_GAME_FILTER_SUB
 } as const
+
+/** 一级分类占位文案 */
+export const TEXT_FILTER = '分类'
 
 /** 二级分类 (文案) */
 export const TEXT_FILTER_SUB = {

@@ -3,17 +3,22 @@
  * @Date: 2024-10-19 17:18:23
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-16 09:53:04
+ *
+ * 工具栏: 来源
  */
 import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
-import { DATA_SOURCE } from './ds'
+import { rc } from '@utils/dev'
+import { COMPONENT as PARENT, DATA_SOURCE } from './ds'
 
 import type { Ctx } from '../../types'
 
+const COMPONENT = rc(PARENT, 'Source')
+
 /** 来源 */
 function Source() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const typeCn = $.typeCn as '动画'
   const data = DATA_SOURCE[typeCn]

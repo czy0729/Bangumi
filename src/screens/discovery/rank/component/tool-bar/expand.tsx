@@ -3,16 +3,22 @@
  * @Date: 2022-06-06 08:38:32
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-16 09:47:07
+ *
+ * 工具栏: 展开更多筛选
  */
 import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { _, useStore } from '@stores'
+import { rc } from '@utils/dev'
+import { COMPONENT as PARENT } from './ds'
 
 import type { ColorValue } from '@types'
 import type { Ctx } from '../../types'
 
+const COMPONENT = rc(PARENT, 'Expand')
+
 function Expand() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   let color: ColorValue = _.colorIcon
   if (

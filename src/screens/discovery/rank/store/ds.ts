@@ -3,6 +3,8 @@
  * @Date: 2022-07-22 14:46:47
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-29 06:19:01
+ *
+ * 排行榜状态: 筛选条件 / 分页 / 云快照
  */
 import { _ } from '@stores'
 import {
@@ -32,9 +34,26 @@ import type {
   Target,
   Theme
 } from '@types'
-import type { OtaSnapshot, SnapshotId } from '../types'
+import type { ComputedRank, OtaSnapshot, SnapshotId } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
+
+/** 收藏状态查询延迟 */
+export const COLLECTION_QUEUE_DELAY = 160
+
+/** 云快照读取延迟 */
+export const THIRD_PARTY_DELAY = 80
+
+/** 云快照上传记录上限 */
+export const THIRD_PARTY_LIMIT = 50
+
+/** 未加载时的空壳数据 */
+export const EMPTY_RANK: ComputedRank = {
+  list: [],
+  pagination: { page: 0, pageTotal: 0 },
+  _list: [],
+  _loaded: false
+}
 
 export const RESET_STATE = {
   /** 可视范围底部 y */
@@ -53,9 +72,6 @@ export const EXCLUDE_STATE = {
 
 export const STATE = {
   ...EXCLUDE_STATE,
-
-  /** 当前页数 */
-  page: 0,
 
   /** 各类型当前页数 */
   currentPage: {
@@ -122,7 +138,7 @@ export const STATE = {
   /** 是否锁定工具条 (工具条) */
   fixed: true,
 
-  /** 是否锁定分液器 (工具条) */
+  /** 是否锁定分页器 (工具条) */
   fixedPagination: true,
 
   /** 是否显示收藏条目 (工具条) */
