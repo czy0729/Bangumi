@@ -6,6 +6,9 @@
  */
 import { _ } from '@stores'
 
+/** 图片渐显时长 */
+export const FADE_DURATION = 320
+
 export const styles = _.create({
   image: {
     borderRadius: 6,

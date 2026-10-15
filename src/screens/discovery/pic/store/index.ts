@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:54:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-08 21:27:25
+ * @Last Modified time: 2026-10-15 12:00:00
+ *
+ * 图集页面初始化与卸载
  */
 import { userStore } from '@stores'
 import { info } from '@utils'

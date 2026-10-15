@@ -2,17 +2,19 @@
  * @Author: czy0729
  * @Date: 2025-06-09 15:12:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 22:19:19
+ * @Last Modified time: 2026-10-15 12:00:00
+ *
+ * 列表
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { HeaderPlaceholder } from '@components'
 import { ScrollView } from '@_'
 import { _, useStore } from '@stores'
-import { ITEM_MARGIN } from '../../ds'
-import Empty from '../empty'
+import { ITEM_GAP, ITEM_MARGIN } from '../../ds'
 import Item from '../item'
+import Keywords from '../keywords'
 import Pagination from '../pagination'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -30,32 +32,27 @@ function List() {
 
   const numColumns = _.device(2, _.portrait(3, 4))
   const width = (_.window.width - (numColumns + 1) * ITEM_MARGIN) / numColumns
+  const itemWidth = Math.floor(width - ITEM_GAP)
 
-  // 动态分配项目到较短的列
+  // 依次放入当前最矮的列, 高度相等时选索引更大的列以实现交替分配
   const columns: {
     items: ListType[number][]
     height: number
-  }[] = Array(numColumns)
-    .fill(null)
-    .map(() => ({
-      items: [],
-      height: 0
-    }))
+  }[] = Array.from({ length: numColumns }, () => ({
+    items: [],
+    height: 0
+  }))
 
   $.filterList.forEach(item => {
-    // 找到当前高度最小的列，高度相等时选择索引更大的列以实现交替分配
-    const shortestColumn = columns.reduce((prev, curr, i) => {
-      if (curr.height < prev.height) return curr
-      if (curr.height === prev.height && i > columns.indexOf(prev)) return curr
-      return prev
+    let shortest = 0
+    columns.forEach((column, index) => {
+      const target = columns[shortest]
+      if (column.height < target.height) shortest = index
+      if (column.height === target.height && index > shortest) shortest = index
     })
 
-    // 计算当前项目的高度（width / 宽高比）
-    const itemHeight = width / (item.aspectRatio || 1)
-
-    // 添加到该列，并更新列高度
-    shortestColumn.items.push(item)
-    shortestColumn.height += itemHeight + ITEM_MARGIN
+    columns[shortest].items.push(item)
+    columns[shortest].height += width / (item.aspectRatio || 1) + ITEM_MARGIN
   })
 
   const showMoreKeywords = !$.state.fetching && $.list.length <= 6
@@ -77,17 +74,25 @@ function List() {
             return (
               <View key={`column-${index}`} style={styles.column}>
                 {column.items.map(item => {
-                  const w = Math.floor(width - 4)
-                  const h = Math.floor(w / (item.aspectRatio || 1))
+                  const h = Math.floor(itemWidth / (item.aspectRatio || 1))
                   y += h + ITEM_MARGIN
 
-                  return <Item key={item.id} width={w} height={h} y={y - h} {...item} />
+                  return (
+                    <Item
+                      key={item.id}
+                      id={item.id}
+                      tags={item.tags}
+                      width={itemWidth}
+                      height={h}
+                      y={y - h}
+                    />
+                  )
                 })}
               </View>
             )
           })}
         </View>
-        {showMoreKeywords && <Empty showPagination={false} />}
+        {showMoreKeywords && <Keywords />}
       </View>
 
       <Pagination />

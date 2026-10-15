@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-06-09 04:14:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-07 22:57:27
+ * @Last Modified time: 2026-10-15 12:00:00
+ *
+ * 页面上下文与数据模型
  */
 import type { GetRouteParams, Id, ListArray, RoutePic, WithNavigation } from '@types'
 import type Store from './store'
@@ -27,5 +29,5 @@ export type List = ListArray<ItemInfo>
 
 export type Srcs = Record<Id, string>
 
-export type HandleListProgress = (data: List, progress?: string) => any
-export type HandleSrcsProgress = (data: Srcs, progress?: string) => any
+export type HandleListProgress = (data: List, progress: string) => void
+export type HandleSrcsProgress = (data: Srcs, progress: string) => void

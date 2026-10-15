@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2025-06-10 20:38:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-11 05:45:00
+ * @Last Modified time: 2026-10-15 12:00:00
+ *
+ * 分页器
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
@@ -29,23 +30,21 @@ function Pagination() {
 
   return (
     <Flex style={styles.pagination} justify='center'>
-      {Array.from({ length: MAX_PAGE }, (_, i) => i + 1)
-        .filter(item => item <= maxPage)
-        .map(item => (
-          <Touchable
-            key={String(item)}
-            onPress={() => {
-              $.onPage(item)
-            }}
-          >
-            <View style={styles.title}>
-              <Text size={16} lineHeight={26} bold>
-                {item}
-              </Text>
-              {page === item && <View style={styles.active} />}
-            </View>
-          </Touchable>
-        ))}
+      {Array.from({ length: maxPage }, (_, i) => i + 1).map(item => (
+        <Touchable
+          key={String(item)}
+          onPress={() => {
+            $.onPage(item)
+          }}
+        >
+          <View style={styles.title}>
+            <Text size={16} lineHeight={26} bold>
+              {item}
+            </Text>
+            {page === item && <View style={styles.active} />}
+          </View>
+        </Touchable>
+      ))}
     </Flex>
   )
 }

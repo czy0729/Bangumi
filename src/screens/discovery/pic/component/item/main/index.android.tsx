@@ -2,22 +2,34 @@
  * @Author: czy0729
  * @Date: 2025-06-18 03:19:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-15 20:55:42
+ * @Last Modified time: 2026-10-15 12:00:00
  */
 import { useCallback, useRef } from 'react'
 import { findNodeHandle, Image as RNImage, UIManager, View } from 'react-native'
 import { observer } from 'mobx-react'
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming
+} from 'react-native-reanimated'
 import { Touchable } from '@components'
 import { systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { FROZEN_FN } from '@constants'
 import { getURI } from '../../../utils'
-import { styles } from './styles'
+import { FADE_DURATION, styles } from './styles'
 
 import type { Props } from './types'
 
 function Main({ width, height, data, image, onPress, onSelect, onError }: Props) {
   const viewRef = useRef<View>(null)
+
+  const opacity = useSharedValue(systemStore.setting.imageFadeIn ? 0 : 1)
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value
+  }))
 
   const handleLongPress = useCallback(() => {
     if (!viewRef.current) return
@@ -38,6 +50,14 @@ function Main({ width, height, data, image, onPress, onSelect, onError }: Props)
     )
   }, [data, onSelect])
 
+  /** 图片加载完成后才出现 */
+  const handleLoadEnd = useCallback(() => {
+    opacity.value = withTiming(1, {
+      duration: FADE_DURATION,
+      easing: Easing.out(Easing.quad)
+    })
+  }, [opacity])
+
   const handleError = useCallback(() => {
     onError?.()
   }, [onError])
@@ -46,17 +66,28 @@ function Main({ width, height, data, image, onPress, onSelect, onError }: Props)
     <View>
       <View ref={viewRef} style={styles.overflowView} pointerEvents='none' />
       <Touchable
-        style={styles.image}
+        style={[
+          styles.image,
+          {
+            width,
+            height
+          }
+        ]}
         onPress={onPress}
         onLongPress={handleLongPress}
         withoutFeedback
       >
-        <RNImage
-          style={{ width, height }}
-          fadeDuration={280}
-          source={{ uri: getURI(image) }}
-          onError={handleError}
-        />
+        <Animated.View style={animatedStyle}>
+          <RNImage
+            style={{
+              width,
+              height
+            }}
+            source={{ uri: getURI(image) }}
+            onLoadEnd={handleLoadEnd}
+            onError={handleError}
+          />
+        </Animated.View>
       </Touchable>
     </View>
   )

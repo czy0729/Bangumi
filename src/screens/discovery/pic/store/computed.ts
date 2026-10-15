@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:50:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 20:37:44
+ * @Last Modified time: 2026-10-15 12:00:00
+ *
+ * 图集派生数据
  */
 import { computed } from 'mobx'
 import { keepBasicChars } from '@utils'
@@ -13,6 +15,7 @@ import { EXCLUDE_STATE, NAMESPACE } from './ds'
 import type { Id } from '@types'
 
 export default class Computed extends State {
+  /** 持久化到本地存储 */
   save = () => {
     return this.saveStorage(this.namespace, EXCLUDE_STATE)
   }

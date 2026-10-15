@@ -12,6 +12,9 @@ export const COMPONENT = 'Pic'
 
 export const ITEM_MARGIN = 16
 
+/** 条目宽度的预留值, 避免图片贴边溢出 */
+export const ITEM_GAP = 4
+
 export const DECODE = {
   BASE: Crypto.get('U2FsdGVkX1821ej1UrCAbmt2N3LNN/nd4iGmBRn3/kRRTtynOAU3fO3y43XqZJ5H') as string,
   GO: Crypto.get(
@@ -46,6 +49,9 @@ export const PROGRESS_LIMIT = 4
 export const MAX_PAGE = 6
 
 export const LIST_LIMIT = 20
+
+/** 站点每页真实条数, 用于估算已索引的总数 */
+export const REAL_LIMIT = 30
 
 export const TEXT_USER_ABORT = '实验性功能暂只支持登录用户使用'
 

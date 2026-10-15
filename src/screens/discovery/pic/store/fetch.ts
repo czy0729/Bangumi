@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-06-09 14:51:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-07 22:59:01
+ * @Last Modified time: 2026-10-15 12:00:00
+ *
+ * 图集数据请求
  */
 import { monoStore } from '@stores'
 import { getTimestamp, info, throttle } from '@utils'
@@ -13,6 +15,7 @@ import { encodeKey, processImages, src, tag } from '../utils'
 import Computed from './computed'
 
 import type { Id } from '@types'
+import type { ResultData } from '@utils/kv/type'
 import type { List, Srcs } from '../types'
 
 /** 此功能必须完成一次完整的请求流程, 才允许进行下一次流程 */
@@ -48,7 +51,7 @@ export default class Fetch extends Computed {
     const { page } = this.state
     const key = `pic_error_${this.keyword}` as const
     if (!forceRefresh) {
-      const check = await get(encodeKey(key))
+      const check = await get<ResultData>(encodeKey(key))
       if (check?.ts && Number(check.ts) && getTimestamp() - Number(check.ts) <= D7) {
         this.setState({
           empty: true
@@ -106,8 +109,7 @@ export default class Fetch extends Computed {
 
   /** 获取实际地址 */
   fetchSrcs = async (ids?: Id[]) => {
-    const fetchIds =
-      ids || this.list.filter(item => !this.image(item.id)).map(item => item.id) || []
+    const fetchIds = ids || this.list.filter(item => !this.image(item.id)).map(item => item.id)
     if (!fetchIds.length) return true
 
     if (this.state.fetching) {
@@ -127,9 +129,7 @@ export default class Fetch extends Computed {
 
     globalFetching = true
 
-    const srcs = await src(fetchIds, (data, percent) => {
-      this.onSrcsProgress(data, percent)
-    })
+    const srcs = await src(fetchIds, this.onSrcsProgress)
 
     globalFetching = false
 
@@ -142,7 +142,7 @@ export default class Fetch extends Computed {
   }
 
   /** 提前更新列表数据 */
-  onListProgress = (data: List, percent?: string) => {
+  onListProgress = (data: List, percent: string) => {
     this.setState({
       list: {
         [this.state.page]: processImages(data),
@@ -154,12 +154,16 @@ export default class Fetch extends Computed {
   }
 
   /** 提前更新实际地址数据 */
-  onSrcsProgress = (data: Srcs, percent?: string) => {
+  onSrcsProgress = (data: Srcs, percent: string) => {
     this.setState({
       srcs: data
     })
 
-    if (percent) this.updateProgress(percent)
+    // percent 为空表示这一批请求结束, 才需要落盘
+    if (percent) {
+      this.updateProgress(percent)
+      return
+    }
 
     this.save()
   }

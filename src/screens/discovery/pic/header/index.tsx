@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-05-24 11:13:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-08 20:36:07
+ * @Last Modified time: 2026-10-15 12:00:00
+ *
+ * 页面头部
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, HeaderV2, Loading, Text } from '@components'
 import { _, useStore } from '@stores'

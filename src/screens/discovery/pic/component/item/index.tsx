@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-06-09 20:03:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-08 22:19:55
+ * @Last Modified time: 2026-10-15 12:00:00
+ *
+ * 列表条目
  */
-import React, { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { observer } from 'mobx-react'
 import { systemStore, tinygrailStore, useStore } from '@stores'
 import { confirm, copy, info, open, showImageViewer } from '@utils'
@@ -25,6 +27,7 @@ function Item({ width, height, y, id, tags = '' }: Props) {
 
   const [error, setError] = useState(false)
 
+  const { name: picName, monoId: picMonoId } = tinygrailStore.pic
   const image = $.image(id)
 
   const shouldSkip = error || (image && (image === 'null' || image.includes('404.jpg')))
@@ -36,13 +39,10 @@ function Item({ width, height, y, id, tags = '' }: Props) {
       '复制链接',
       '复制头像链接',
       $.params.monoId ? '设为塔图' : false,
-      !$.params.monoId &&
-        tinygrailStore.pic.name &&
-        tinygrailStore.pic.monoId &&
-        `设为〔${tinygrailStore.pic.name}〕的塔图`,
+      !$.params.monoId && picName && picMonoId && `设为〔${picName}〕的塔图`,
       ...tags.split(',').map(item => `# ${item}`)
     ].filter(Boolean) as string[]
-  }, [$.params.monoId, tags])
+  }, [$.params.monoId, tags, picName, picMonoId])
 
   /** 查看大图 */
   const handlePress = useCallback(() => {

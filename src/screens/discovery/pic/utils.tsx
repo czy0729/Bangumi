@@ -2,14 +2,25 @@
  * @Author: czy0729
  * @Date: 2025-06-08 20:20:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-03 23:20:55
+ * @Last Modified time: 2026-10-15 12:00:00
+ *
+ * 图集数据获取与图片地址处理
  */
 import { monoStore } from '@stores'
 import { cData, cheerio, cMap, feedback, getTimestamp, htmlMatch, info, queue, sleep } from '@utils'
 import { xhrCustom } from '@utils/fetch'
 import { get, gets, update } from '@utils/kv'
 import { FROZEN_FN } from '@constants'
-import { DECODE, HOST, HOST_INFO, HOST_PIXIV, HOST_PIXIV_RE, LIST_LIMIT, MAX_PAGE } from './ds'
+import {
+  DECODE,
+  HOST,
+  HOST_INFO,
+  HOST_PIXIV,
+  HOST_PIXIV_RE,
+  LIST_LIMIT,
+  MAX_PAGE,
+  REAL_LIMIT
+} from './ds'
 
 import type { Id, ListEmpty } from '@types'
 import type { HandleListProgress, HandleSrcsProgress, ItemInfo, List, Srcs } from './types'
@@ -26,7 +37,7 @@ export async function tag(
 
   let data: ListEmpty<ItemInfo>
   if (!forceRefresh) {
-    data = await get(encodeKey(key))
+    data = await get<ListEmpty<ItemInfo>>(encodeKey(key))
     if (data) return data
   }
 
@@ -57,14 +68,14 @@ export async function tag(
   feedback(true)
 
   const total = uniqueList.length
-  const infos: Record<Id, ItemInfo> = await gets(uniqueList.map(item => `pic_info_${item.id}`))
+  const infos: Record<Id, ItemInfo> =
+    (await gets<ItemInfo>(uniqueList.map(item => `pic_info_${item.id}`))) ?? {}
 
   const fetchs = uniqueList.map((item, index) => {
     return async () => {
       try {
         const key = `pic_info_${item.id}` as const
-        let percent = `${Math.floor(((index + 1) / total) * 100)}%`
-        if (percent === '0%' || percent === '100%') percent = ''
+        const percent = progressOf(index, total)
 
         if (infos[key]?.tags) {
           uniqueList[index] = infos[key]
@@ -95,9 +106,10 @@ export async function tag(
   })
   await queue(fetchs, 1)
 
-  const realLimit = 30
   const totalCount =
-    uniqueList.length <= LIST_LIMIT ? (page - 1) * realLimit + uniqueList.length : page * realLimit
+    uniqueList.length <= LIST_LIMIT
+      ? (page - 1) * REAL_LIMIT + uniqueList.length
+      : page * REAL_LIMIT
 
   const qText = encodeKey(q)
   const currentTotal = Number((await monoStore.fetchPicTotal(qText)) || 0)
@@ -120,15 +132,14 @@ export async function tag(
 }
 
 /** 获取实际地址 */
-export async function src(ids: Id[], onProgress: (data: Srcs, percent: string) => any = FROZEN_FN) {
-  const data: Srcs = await gets(ids.map(id => `pic_tag_${id}`))
+export async function src(ids: Id[], onProgress: HandleSrcsProgress = FROZEN_FN) {
+  const data: Srcs = (await gets<string>(ids.map(id => `pic_tag_${id}`))) ?? {}
   const total = ids.length
 
   const fetchs = ids.map((id, index) => {
     return async () => {
       const key = `pic_tag_${id}` as const
-      let percent = `${Math.floor(((index + 1) / total) * 100)}%`
-      if (percent === '0%' || percent === '100%') percent = ''
+      const percent = progressOf(index, total)
 
       try {
         if (data[key] && data[key].startsWith('http')) {
@@ -221,4 +232,10 @@ export function getURI(
 
 export function encodeKey(key: string) {
   return key.replace(/\//g, '_')
+}
+
+/** 批量进度, 首尾不显示 */
+function progressOf(index: number, total: number) {
+  const percent = `${Math.floor(((index + 1) / total) * 100)}%`
+  return percent === '0%' || percent === '100%' ? '' : percent
 }
