@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-11-13 07:49:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 21:19:05
+ * @Last Modified time: 2026-10-15 12:00:00
+ *
+ * 用户 ID 输入
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Input as InputComp } from '@components'
 import { IconTouchable } from '@_'

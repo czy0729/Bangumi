@@ -30,6 +30,9 @@ export const EXCLUDE_STATE = {
   /** 请求中 */
   fetching: false,
 
+  /** 列表完成过一次完整加载 */
+  listLoaded: false,
+
   /** 请求中描述信息 */
   message: '',
 

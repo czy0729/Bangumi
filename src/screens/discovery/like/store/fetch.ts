@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-11-11 10:06:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-14 14:41:26
+ * @Last Modified time: 2026-10-15 12:00:00
+ *
+ * 猜你喜欢数据请求
  */
 import { userStore } from '@stores'
 import { asc, confirm, desc, feedback, getTimestamp, HTMLDecode, info, queue, sleep } from '@utils'
@@ -17,14 +19,9 @@ import Computed from './computed'
 import { COLLECTION_STATUS, EXCLUDE_STATE } from './ds'
 
 import type { ResponseV0UserCollections, SubjectId } from '@types'
-import type { CollectionsItem, LikeItem, ListItem, Relates } from '../types'
+import type { CollectionsItem, LikeItem, ListItem, Relates, SubjectSnapshot } from '../types'
 
 export default class Fetch extends Computed {
-  /** 本地化 */
-  save = () => {
-    return this.saveStorage(this.namespace, EXCLUDE_STATE)
-  }
-
   /** 获取用户在看和看过的收藏 */
   fetchCollections = async () => {
     if (!this.userId) return false
@@ -86,7 +83,7 @@ export default class Fetch extends Computed {
           comment: item.comment?.length || 0,
           private: item.private || false,
           diff: dayDiff(item.updated_at),
-          tags: item.subject.tags.map(item => item.name),
+          tags: item.subject.tags.map(tag => tag.name),
           rec
         } as CollectionsItem
       })
@@ -153,10 +150,10 @@ export default class Fetch extends Computed {
 
     // 对没有记录的在快照条目中进行逐个获取
     const fetchs = Object.keys(nulls).map(subjectId => async () => {
-      const data = await get(`subject_${subjectId}`)
+      const data = await get<SubjectSnapshot>(`subject_${subjectId}`)
       const has = Array.isArray(data?.like) && data.like.length
       likes[subjectId] = has
-        ? data.like.map((subject: LikeItem) => ({
+        ? data.like.map(subject => ({
             id: Number(subject.id),
             name: HTMLDecode(subject.name),
             image: subject.image.replace('//lain.bgm.tv/pic/cover/m/', '').replace('.jpg', '')
@@ -253,20 +250,6 @@ export default class Fetch extends Computed {
   }
 
   /** 条目猜你喜欢快照 */
-  fetchSnapshotLikes = async (subjectIds: SubjectId[]) => {
-    const keys = subjectIds
-      .map(subjectId => `like_${subjectId}`)
-      .filter(key => !(key in this.state.snapshotLikes))
-    if (!keys.length) return
-
-    const snapshotLikes = await gets(keys)
-    this.setState({
-      snapshotLikes
-    })
-    this.save()
-  }
-
-  /** 条目猜你喜欢快照 */
   fetchSnapshotLikesV2 = async (subjectIds: SubjectId[]) => {
     const fetchIds = subjectIds.filter(subjectId => !(subjectId in this.state.snapshotLikes))
     if (!fetchIds.length) return
@@ -281,7 +264,7 @@ export default class Fetch extends Computed {
               url: CDN_REC(subjectId)
             })
 
-            const data = JSON.parse(_response)
+            const data = JSON.parse(_response) as LikeItem[]
 
             // 直接存储数组数据，保持与 CDN 返回结构一致
             if (Array.isArray(data) && data.length) {
@@ -307,7 +290,7 @@ export default class Fetch extends Computed {
       .filter(key => !(key in this.state.snapshotSubjects))
     if (!keys.length) return
 
-    const snapshotSubjects = await gets(keys, ['name_cn', 'image'])
+    const snapshotSubjects = (await gets<SubjectSnapshot>(keys, ['name_cn', 'image'])) || {}
     this.setState({
       snapshotSubjects
     })
@@ -344,19 +327,23 @@ export default class Fetch extends Computed {
       if (refresh) feedback()
     } catch (error) {
       info('请求发生错误，请重试')
+    } finally {
+      this.setState({
+        listLoaded: true
+      })
     }
   }
 
   /** 获取推荐条目的基本信息 */
   fetchSubjects = async (subjectIds: SubjectId[]) => {
     const { subjects } = this.state
-    const fetchIds = []
+    const fetchIds: string[] = []
     subjectIds.forEach(subjectId => {
-      if (!(subjectId in subjects)) [fetchIds.push(`subject_${subjectId}`)]
+      if (!(subjectId in subjects)) fetchIds.push(`subject_${subjectId}`)
     })
     if (!fetchIds.length) return
 
-    const datas = await gets(fetchIds, ['type', 'rank', 'rating'])
+    const datas = await gets<SubjectSnapshot>(fetchIds, ['type', 'rank', 'rating'])
     const values = {
       ...subjects
     }

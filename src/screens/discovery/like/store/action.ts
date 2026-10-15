@@ -21,6 +21,7 @@ export default class Action extends Fetch {
     this.setState({
       fetching: true,
       type,
+      listLoaded: false,
       visibleBottom: EXCLUDE_STATE.visibleBottom
     })
     this.save()

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-14 14:37:03
+ * @Last Modified time: 2026-10-15 12:00:00
+ *
+ * 列表条目
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
@@ -13,7 +14,12 @@ import { Cover, InView, Manage, Rank, Rate, Stars } from '@_'
 import { _, collectionStore, systemStore, uiStore, useStore } from '@stores'
 import { alert, getAction, x18 } from '@utils'
 import { t } from '@utils/fetch'
-import { HOST_BGM_STATIC, MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
+import {
+  HOST_BGM_STATIC,
+  IMG_DEFAULT,
+  MODEL_COLLECTION_STATUS,
+  MODEL_SUBJECT_TYPE
+} from '@constants'
 import { getReasonsInfo } from '../../utils'
 import Sub from './sub'
 import { COMPONENT } from './ds'
@@ -36,8 +42,12 @@ function Item({ item, index }: Props) {
 
   const styles = memoStyles()
 
-  const isRemote = item.image.includes('//')
-  const image = isRemote ? item.image : `${HOST_BGM_STATIC}/pic/cover/m/${item.image}.jpg`
+  // 快照数据可能缺失封面, 拼出 /m/.jpg 这类空地址会一直请求失败触发退避重试
+  const image = !item.image
+    ? IMG_DEFAULT
+    : item.image.includes('//')
+    ? item.image
+    : `${HOST_BGM_STATIC}/pic/cover/m/${item.image}.jpg`
   const typeCn = MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type)
   const action = getAction(typeCn)
 

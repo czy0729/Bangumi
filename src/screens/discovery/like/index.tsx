@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:37:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-14 14:42:40
+ * @Last Modified time: 2026-10-15 12:00:00
+ *
+ * 猜你喜欢
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, Empty, HeaderPlaceholder, Page } from '@components'
 import { TapListener } from '@_'
@@ -26,7 +27,7 @@ function Like(props: NavigationProps) {
     <Component id='screen-like'>
       <StoreContext.Provider value={id}>
         <TapListener>
-          <Page loaded={$.state._loaded} loading={$.list.length ? undefined : $.state.fetching}>
+          <Page loaded={$.state._loaded} loading={$.isInitialLoading}>
             <HeaderPlaceholder />
             {$.userId ? (
               <>

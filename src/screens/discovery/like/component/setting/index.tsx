@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-06-13 05:32:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 21:19:18
+ * @Last Modified time: 2026-10-15 12:00:00
+ *
+ * 设置面板
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActionSheet, Divider, Flex, SwitchPro, Text } from '@components'

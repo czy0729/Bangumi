@@ -2,13 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:43:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-14 09:49:08
+ * @Last Modified time: 2026-10-15 12:00:00
+ *
+ * 页面上下文与快照类型
  */
+import type { ResultData } from '@utils/kv/type'
 import type {
   CollectionStatusValue,
   GetRouteParams,
   RouteLike,
   SubjectId,
+  SubjectTypeValue,
   WithNavigation
 } from '@types'
 import type Store from './store'
@@ -76,3 +80,33 @@ export type LikeItem = {
   name: string
   image: string
 }
+
+/** 条目快照 (KV subject_${SubjectId}) */
+export type SubjectSnapshot = ResultData<{
+  /** 条目类型 (数值) */
+  type?: SubjectTypeValue
+
+  /** 条目排名 */
+  rank?: number
+
+  /** 条目评分 */
+  rating?: {
+    /** 评分 */
+    score?: number
+
+    /** 评分人数 */
+    total?: number
+  }
+
+  /** 条目中文名 */
+  name_cn?: string
+
+  /** 条目封面 */
+  image?: string
+
+  /** 条目信息 (html) */
+  info?: string
+
+  /** 猜你喜欢条目 */
+  like?: LikeItem[]
+}>

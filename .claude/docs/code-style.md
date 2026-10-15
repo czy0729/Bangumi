@@ -59,6 +59,7 @@
   - **例外**：滚动密集页面的区块内容组件（见 screen.md「页面区块双组件模式」）使用项目封装的 `memo(props, DEFAULT_PROPS, COMPONENT_MAIN)` + props 驱动；此类组件内部的 useMemo 若服务于稳定引用可保留
 - useCallback 用于稳定引用
 - **`use*` 函数禁止在条件提前返回之后调用**：`if (...) return null` 之后不要再调用任何 `use*` 函数（含纯函数），避免日后函数内引入真实 hook 时触发 Rules of Hooks 崩溃。提前返回应放在所有 `use*` 调用之后
+- **`memoStyles()` 不是 `use*`，不受上一条约束**：`_.memoStyles()` 返回的是普通函数，调用它只是取一份 `StyleSheet`；组件内有提前返回时应放在提前返回之后，避免无渲染的分支也生成样式（见 [component.md](./component.md)「样式规范」）。不要为了「与 `use*` 对齐」把它提到提前返回之前，审查时也不要按 `use*` 报此问题
 - 每个组件/页面通过 `ds.ts` 导出 `COMPONENT` 常量标识自身，子组件用 `rc(PARENT, 'Name')` 生成
 - Store 访问：页面通过 hooks 解构 `{ id, $ }`，子组件通过 `useStore<Ctx>(COMPONENT)` 获取
 - `StoreContext.Provider` 在页面 index.tsx 中提供，子组件通过 context 消费

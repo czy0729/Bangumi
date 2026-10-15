@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-11-11 09:50:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 20:37:40
+ * @Last Modified time: 2026-10-15 12:00:00
+ *
+ * 猜你喜欢派生数据
  */
 import { computed } from 'mobx'
 import { systemStore, userStore } from '@stores'
 import { computedFn } from '@utils/computed-fn'
 import State from './state'
-import { NAMESPACE } from './ds'
+import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
 import type { SubjectId } from '@types'
 
@@ -22,6 +24,11 @@ export default class Computed extends State {
   /** 页面唯一命名空间 */
   @computed get namespace() {
     return `${NAMESPACE}|${this.userId}`
+  }
+
+  /** 本地化 */
+  save = () => {
+    return this.saveStorage(this.namespace, EXCLUDE_STATE)
   }
 
   relates = computedFn((subjectId: SubjectId) => {
@@ -41,5 +48,10 @@ export default class Computed extends State {
     }
 
     return list
+  }
+
+  /** 列表首次加载中 (还没产出过数据) */
+  @computed get isInitialLoading() {
+    return !this.list.length && (!this.state.listLoaded || this.state.fetching)
   }
 }
