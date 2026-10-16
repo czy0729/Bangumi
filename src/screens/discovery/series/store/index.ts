@@ -3,6 +3,8 @@
  * @Date: 2022-04-15 09:20:13
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-30 19:37:40
+ *
+ * 关联系列页面初始化与卸载
  */
 import { getTimestamp } from '@utils'
 import Action from './action'
@@ -30,6 +32,7 @@ export default class ScreenSeries extends Action {
   }
 
   unmount = () => {
+    this.clearDelayTasks()
     this.setState(RESET_STATE)
   }
 }

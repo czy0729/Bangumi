@@ -3,8 +3,9 @@
  * @Date: 2022-04-15 09:17:49
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-23 01:25:40
+ *
+ * 关联系列页入口与布局
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'

@@ -3,8 +3,10 @@
  * @Date: 2022-04-27 06:50:55
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-30 23:08:27
+ *
+ * 页面头部与右上角菜单
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { IconTouchable } from '@_'

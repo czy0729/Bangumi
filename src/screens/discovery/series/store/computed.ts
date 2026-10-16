@@ -3,22 +3,19 @@
  * @Date: 2024-11-30 17:33:27
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-03 20:37:52
+ *
+ * 关联系列派生: 分组排序 / 过滤与工具栏菜单
  */
 import { computed } from 'mobx'
 import { userStore } from '@stores'
 import { asc, desc } from '@utils'
 import { computedFn } from '@utils/computed-fn'
-import {
-  TEXT_MENU_FIXED,
-  TEXT_MENU_FLOAT,
-  TEXT_MENU_SPLIT_LEFT,
-  TEXT_MENU_SPLIT_RIGHT,
-  TEXT_MENU_TOOLBAR
-} from '@constants'
-import { SUBJECT_ITEM } from '../ds'
+import { TEXT_MENU_FIXED, TEXT_MENU_FLOAT, TEXT_MENU_TOOLBAR, withSplit } from '@constants'
+import { SORT_AIRTIME, SORT_RELATIONS, SORT_SCORE, SUBJECT_ITEM } from '../ds'
 import State from './state'
 
 import type { SubjectId } from '@types'
+import type { CollectionItem, SubjectItem } from '../types'
 
 export default class Computed extends State {
   @computed get userId() {
@@ -29,7 +26,7 @@ export default class Computed extends State {
     return this.state.collections.map(item => item.id)
   }
 
-  collection = computedFn((subjectId: SubjectId) => {
+  collection = computedFn((subjectId: SubjectId): CollectionItem | undefined => {
     return (
       this.state.collections.find(item => item.id === subjectId) ||
       this.state.otherCollections.find(item => item.id === subjectId)
@@ -37,7 +34,7 @@ export default class Computed extends State {
   })
 
   collections = computedFn((subjectIds: SubjectId[]) => {
-    const data = {}
+    const data: Record<SubjectId, CollectionItem> = {}
     subjectIds.forEach(subjectId => {
       const item = this.collection(subjectId)
       if (item) data[subjectId] = item
@@ -46,19 +43,19 @@ export default class Computed extends State {
     return data
   })
 
-  subject = computedFn((subjectId: SubjectId) => {
+  subject = computedFn((subjectId: SubjectId): SubjectItem => {
     return this.state.subjects[subjectId] || SUBJECT_ITEM
   })
 
   subjects = computedFn((subjectIds: SubjectId[]) => {
-    const data = {}
+    const data: Record<SubjectId, SubjectItem> = {}
     subjectIds.forEach(subjectId => {
       data[subjectId] = this.subject(subjectId)
     })
     return data
   })
 
-  filterData = computedFn((item: SubjectId[]) => {
+  filterData = computedFn((item: SubjectId[]): SubjectId[] => {
     const { filter } = this.state
     let data = item
     if (filter) {
@@ -96,28 +93,24 @@ export default class Computed extends State {
 
   @computed get data() {
     const { data, sort } = this.state
-    if (sort === '关联数') return data.slice().sort((a, b) => desc(a.length, b.length))
+    if (sort === SORT_RELATIONS) return data.slice().sort((a, b) => desc(a.length, b.length))
 
-    if (sort === '新放送') {
+    if (sort === SORT_AIRTIME) {
       return data.slice().sort((a, b) => {
         const dateA = Math.max(
-          ...a.map((item: SubjectId) =>
-            Number((this.subject(item).date || '0000-00-00').replace(/-/g, ''))
-          )
+          ...a.map(item => Number((this.subject(item).date || '0000-00-00').replace(/-/g, '')))
         )
         const dateB = Math.max(
-          ...b.map((item: SubjectId) =>
-            Number((this.subject(item).date || '0000-00-00').replace(/-/g, ''))
-          )
+          ...b.map(item => Number((this.subject(item).date || '0000-00-00').replace(/-/g, '')))
         )
         return desc(dateA, dateB)
       })
     }
 
-    if (sort === '评分') {
+    if (sort === SORT_SCORE) {
       return data.slice().sort((a, b) => {
-        const rankA = Math.min(...a.map((item: SubjectId) => this.subject(item).rank || 9999))
-        const rankB = Math.min(...b.map((item: SubjectId) => this.subject(item).rank || 9999))
+        const rankA = Math.min(...a.map(item => this.subject(item).rank || 9999))
+        const rankB = Math.min(...b.map(item => this.subject(item).rank || 9999))
         return asc(rankA, rankB)
       })
     }
@@ -136,10 +129,6 @@ export default class Computed extends State {
 
   /** 工具栏菜单 */
   @computed get toolBar() {
-    return [
-      `${TEXT_MENU_TOOLBAR}${TEXT_MENU_SPLIT_LEFT}${
-        this.state.fixed ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT
-      }${TEXT_MENU_SPLIT_RIGHT}`
-    ]
+    return [`${TEXT_MENU_TOOLBAR}${withSplit(this.state.fixed ? TEXT_MENU_FIXED : TEXT_MENU_FLOAT)}`]
   }
 }

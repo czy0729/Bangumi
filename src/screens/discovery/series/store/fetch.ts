@@ -3,6 +3,8 @@
  * @Date: 2024-11-30 19:34:27
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-30 19:44:06
+ *
+ * 关联系列数据请求与计算
  */
 import { toJS } from 'mobx'
 import { systemStore } from '@stores'
@@ -11,21 +13,36 @@ import { queue } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { API_V0 } from '@constants'
 import i18n from '@constants/i18n'
-import { DISTANCE, LIMIT, RELATIONS, SUBJECT_TYPE } from '../ds'
+import { DISTANCE, LIMIT, RELATIONS, SOME_SUBJECTS_LIMIT, SUBJECT_TYPE } from '../ds'
 import Computed from './computed'
-import { EXCLUDE_STATE } from './ds'
+import {
+  CLEAR_STATE_DELAY,
+  EXCLUDE_STATE,
+  OTHER_COLLECTIONS_DELAY,
+  SUB_RELATIONS_DELAY
+} from './ds'
 
 import type { SubjectId } from '@types'
+import type { CollectionRaw, RelationRaw, SubjectRaw } from './types'
 
-const loaded = {}
+const loaded: Record<SubjectId, boolean> = {}
 
-let indexes = {}
+let indexes: Record<SubjectId, number> = {}
 
 export default class Fetch extends Computed {
+  /** 重置请求进度, 保留与请求无关的临时状态 */
+  private resetProgress = () => {
+    this.progressCurrent = 0
+    this.setState({
+      ...EXCLUDE_STATE,
+      expand: this.state.expand
+    })
+  }
+
   /** 建立系列关系列表 */
   calculateData = () => {
     const { relations } = this.state
-    const data = []
+    const data: SubjectId[][] = []
 
     Object.keys(relations)
       .sort((a, b) => desc(a, b))
@@ -59,17 +76,17 @@ export default class Fetch extends Computed {
     await this.fetchRelations()
     this.calculateData()
 
-    setTimeout(async () => {
+    this.delay(async () => {
       // 稍后加载第二层关系数据
       await this.fetchSubRelations()
       this.calculateData()
       this.fetchSomeSubjects()
 
-      setTimeout(() => {
+      this.delay(() => {
         // 因为关联到的条目也可能存在其他收藏状态, 需要请求补全
         this.fetchOtherCollections()
-      }, 4000)
-    }, 1600)
+      }, OTHER_COLLECTIONS_DELAY)
+    }, SUB_RELATIONS_DELAY)
   }
 
   /** 在看和看过的收藏 */
@@ -86,28 +103,31 @@ export default class Fetch extends Computed {
       total: 2
     })
 
-    const _data = []
+    const _data: CollectionRaw[] = []
 
     // 看过
-    let data = await request<any>(
+    let data = await request<{
+      data?: CollectionRaw[]
+      total?: number
+    }>(
       `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=2&limit=${LIMIT}`
     )
     if (Array.isArray(data?.data)) {
-      _data.push(...data?.data)
+      _data.push(...data.data)
 
       // 非高级会员只请求1页
       if (systemStore.advance) {
         // 最多请求5页
         if (data?.total > 100) {
           for (let i = 2; i <= Math.min(Math.ceil(data.total / LIMIT), 5); i += 1) {
-            data = await request(
+            const _res = await request<{ data?: CollectionRaw[] }>(
               `${API_V0}/users/${
                 this.userId
               }/collections?subject_type=${SUBJECT_TYPE}&type=2&offset=${
                 (i - 1) * LIMIT
               }&limit=${LIMIT}`
             )
-            _data.push(...data?.data)
+            if (Array.isArray(_res?.data)) _data.push(..._res.data)
           }
         }
       }
@@ -118,10 +138,12 @@ export default class Fetch extends Computed {
     })
 
     // 在看最多请求1页
-    data = await request<any>(
+    data = await request<{
+      data?: CollectionRaw[]
+    }>(
       `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=3&limit=${LIMIT}`
     )
-    if (Array.isArray(data?.data)) _data.push(...data?.data)
+    if (Array.isArray(data?.data)) _data.push(...data.data)
 
     if (!_data.length) return false
 
@@ -136,9 +158,7 @@ export default class Fetch extends Computed {
           updated_at: item.updated_at
         }))
     })
-    this.setState({
-      ...EXCLUDE_STATE
-    })
+    this.resetProgress()
 
     this.save()
     return true
@@ -146,25 +166,31 @@ export default class Fetch extends Computed {
 
   /** 想看、搁置和抛弃的收藏 */
   fetchOtherCollections = async () => {
-    const _data = []
+    const _data: CollectionRaw[] = []
 
     // 想看
-    let data = await request<any>(
+    let data = await request<{
+      data?: CollectionRaw[]
+    }>(
       `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=1&limit=${LIMIT}`
     )
-    if (Array.isArray(data?.data)) _data.push(...data?.data)
+    if (Array.isArray(data?.data)) _data.push(...data.data)
 
     // 搁置
-    data = await request<any>(
+    data = await request<{
+      data?: CollectionRaw[]
+    }>(
       `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=4&limit=${LIMIT}`
     )
-    if (Array.isArray(data?.data)) _data.push(...data?.data)
+    if (Array.isArray(data?.data)) _data.push(...data.data)
 
     // 抛弃
-    data = await request<any>(
+    data = await request<{
+      data?: CollectionRaw[]
+    }>(
       `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=5&limit=${LIMIT}`
     )
-    if (Array.isArray(data?.data)) _data.push(...data?.data)
+    if (Array.isArray(data?.data)) _data.push(...data.data)
 
     if (!_data.length) return false
 
@@ -185,12 +211,12 @@ export default class Fetch extends Computed {
 
   /** 关联条目 */
   fetchRelations = async () => {
-    const relations = {}
-    const fetchs = []
+    const relations: Record<SubjectId, SubjectId[]> = {}
+    const fetchs: (() => Promise<boolean>)[] = []
 
     this.subjectIds.forEach(subjectId => {
       fetchs.push(async () => {
-        const data = await request(`${API_V0}/subjects/${subjectId}/subjects`)
+        const data = await request<RelationRaw[]>(`${API_V0}/subjects/${subjectId}/subjects`)
 
         if (!Array.isArray(data)) {
           relations[subjectId] = []
@@ -205,13 +231,12 @@ export default class Fetch extends Computed {
       })
     })
 
+    this.progressCurrent = 0
     await queue(
       fetchs.map(fn => async () => {
         await fn()
-        this.setState({
-          fetching: true,
+        this.progress({
           message: '获取条目关系',
-          current: this.state.current + 1,
           total: fetchs.length
         })
         return true
@@ -226,10 +251,10 @@ export default class Fetch extends Computed {
 
   /** 二级关联条目 */
   fetchSubRelations = async () => {
-    const relations = {
+    const relations: Record<SubjectId, SubjectId[]> = {
       ...this.state.relations
     }
-    const fetchs = []
+    const fetchs: (() => Promise<boolean>)[] = []
 
     Object.keys(relations).forEach(subjectId => {
       const relation = relations[subjectId]
@@ -237,7 +262,7 @@ export default class Fetch extends Computed {
         if (relations[sub]) return
 
         fetchs.push(async () => {
-          const data = await request(`${API_V0}/subjects/${sub.id}/subjects`)
+          const data = await request<RelationRaw[]>(`${API_V0}/subjects/${sub}/subjects`)
 
           if (!Array.isArray(data)) {
             relations[sub] = []
@@ -254,6 +279,8 @@ export default class Fetch extends Computed {
       })
     })
 
+    this.progressTs = 0
+    this.progressCurrent = 0
     this.setState({
       fetching: true,
       message: '获取二级条目关系',
@@ -263,10 +290,8 @@ export default class Fetch extends Computed {
     await queue(
       fetchs.map(fn => async () => {
         await fn()
-        this.setState({
-          fetching: true,
+        this.progress({
           message: '获取二级条目关系',
-          current: this.state.current + 1,
           total: fetchs.length
         })
         return true
@@ -277,11 +302,9 @@ export default class Fetch extends Computed {
       relations
     })
 
-    setTimeout(() => {
-      this.setState({
-        ...EXCLUDE_STATE
-      })
-    }, 1600)
+    this.delay(() => {
+      this.resetProgress()
+    }, CLEAR_STATE_DELAY)
 
     this.save()
     return true
@@ -292,18 +315,19 @@ export default class Fetch extends Computed {
     if (!subjectIds.length) return false
 
     const now = getTimestamp()
-    const fetchs = []
+    const fetchs: (() => Promise<void>)[] = []
 
     subjectIds.forEach(subjectId => {
-      if (loaded[subjectId]) return true
+      // 已请求过且数据已落地才跳过, 避免请求失败时对应条目永远占位
+      if (loaded[subjectId] && this.state.subjects[subjectId]) return true
 
       const subject = this.subject(subjectId)
       if (subject._loaded && now - subject._loaded <= DISTANCE) return true
 
       loaded[subjectId] = true
       fetchs.push(async () => {
-        const data = await request<any>(`${API_V0}/subjects/${subjectId}`)
-        if (!data?.id) return false
+        const data = await request<SubjectRaw>(`${API_V0}/subjects/${subjectId}`)
+        if (!data?.id) return
 
         this.setState({
           subjects: {
@@ -334,16 +358,18 @@ export default class Fetch extends Computed {
   /** 条目信息是懒加载的 (为了首次进入能比较好地使用, 预先加载部分条目数据) */
   fetchSomeSubjects = () => {
     const { data } = this.state
-    const subjectIds = []
+    const subjectIds: SubjectId[] = []
     data.forEach(item => {
-      if (Array.isArray(toJS(item))) {
-        subjectIds.push(...item)
+      const _item = toJS(item) as SubjectId | SubjectId[]
+      if (Array.isArray(_item)) {
+        subjectIds.push(..._item)
       } else {
-        subjectIds.push(item)
+        subjectIds.push(_item)
       }
     })
 
-    subjectIds.length = 200
+    // 只预先加载排序后靠前的部分条目, 其余由滚动触发
+    if (subjectIds.length > SOME_SUBJECTS_LIMIT) subjectIds.length = SOME_SUBJECTS_LIMIT
     this.fetchSubjects(subjectIds)
   }
 }

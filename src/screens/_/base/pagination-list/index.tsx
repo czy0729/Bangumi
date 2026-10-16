@@ -23,6 +23,7 @@ function PaginationListComponent<ItemT = unknown>({
   forwardRef,
   data,
   limit: _limit = 24,
+  resetKey,
   onPage,
   onNextPage,
   onFooterRefresh,
@@ -36,6 +37,7 @@ function PaginationListComponent<ItemT = unknown>({
   const { list, onFooterRefresh: handleFooterRefresh } = usePagination<ItemT>({
     data,
     limit,
+    resetKey,
     onPage,
     onNextPage,
     onFooterRefresh
@@ -59,6 +61,7 @@ function PaginationListComponent<ItemT = unknown>({
  *  - onPage / onNextPage 用于旁路预取下一页数据 (如条目详情、收藏状态), 挂载与数据更新时也会各触发一次
  *  - 调用方传 onFooterRefresh 时为网络分页: footer 触发时先本地翻页, 再接力网络加载,
  *    网络数据追加后 data 引用变化会重新划归 pageTotal, 本地页未耗尽前 footer 不会断流
+ *  - resetKey 变化时回到第 1 页 (整批重排但不想重建列表的场景)
  *
  * 核心：利用类型断言，将 observer() 包装回支持泛型的组件类型 (同 @components/list-view)
  */

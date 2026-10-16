@@ -17,6 +17,7 @@ import type { ListState, UsePaginationOptions, UsePaginationResult } from './typ
  *
  * @param data 调用方的全量数据
  * @param limit 一页渲染个数
+ * @param resetKey 重置分页标识, 变化时回到第 1 页
  * @param onPage 下一页回调
  * @param onNextPage 下下一页回调 (用于提前加载)
  * @param onFooterRefresh 调用方的网络分页回调, 本地翻页后接力执行
@@ -24,12 +25,16 @@ import type { ListState, UsePaginationOptions, UsePaginationResult } from './typ
 export function usePagination<ItemT>({
   data,
   limit,
+  resetKey,
   onPage,
   onNextPage,
   onFooterRefresh
 }: UsePaginationOptions<ItemT>): UsePaginationResult<ItemT> {
   // 用户记住列表看到多少页, 在触发更新后需要使用此值去重新划归数组当前页数
   const lastPage = useRef(1)
+
+  // 上一轮的 resetKey, 用于识别需要回到第 1 页的整批重排
+  const lastResetKey = useRef(resetKey)
 
   const [list, setList] = useState<ListState<ItemT>>({
     list: [],
@@ -48,11 +53,20 @@ export function usePagination<ItemT>({
   const onFooterRefreshRef = useRef(onFooterRefresh)
   onFooterRefreshRef.current = onFooterRefresh
 
-  /** 数据变化后按 lastPage 重新划归切片, 保持用户所在页; 数据缩短时页码向下钳制 */
+  /**
+   * 数据变化后按 lastPage 重新划归切片, 保持用户所在页; 数据缩短时页码向下钳制
+   * resetKey 变化视为整批重排, 直接回到第 1 页
+   */
   useEffect(() => {
+    const reset = lastResetKey.current !== resetKey
+    lastResetKey.current = resetKey
+
     const pageTotal = calcPageTotal(data.length, limit)
-    const page = clampPage(lastPage.current, pageTotal)
+    // 空数据时 pageTotal 为 0, 钳制结果会落到 0, 兜回 1 避免列表粘在空切片
+    const page = clampPage(reset ? 1 : lastPage.current, pageTotal) || 1
     const next = getVisibleList(data, page, limit)
+    lastPage.current = page
+
     setList({
       list: next,
       pagination: {
@@ -69,7 +83,7 @@ export function usePagination<ItemT>({
     if (onNextPageRef.current) {
       onNextPageRef.current(getPageData(data, page + 1, limit))
     }
-  }, [data, limit])
+  }, [data, limit, resetKey])
 
   /** 上滑加载: 本地翻页 + 旁路预取, 再接力调用方的网络分页 */
   const handleFooterRefresh = useCallback(async () => {

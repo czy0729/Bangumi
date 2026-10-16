@@ -3,8 +3,9 @@
  * @Date: 2022-04-20 13:52:47
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 02:58:57
+ *
+ * 关联条目行
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Loading, Text, Touchable } from '@components'
@@ -16,6 +17,7 @@ import { IMG_HEIGHT_SM, IMG_WIDTH_SM, MODEL_COLLECTION_STATUS } from '@constants
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { CollectionStatus } from '@types'
 import type { Ctx } from '../../types'
 import type { Props } from './types'
 
@@ -128,7 +130,8 @@ function Subject({ style, id, small = false, section = 0 }: Props) {
               {
                 subjectId: id,
                 title: subject.name,
-                status: collection?.type
+                // 接口返回的是数字状态, 弹窗内部按英文枚举严格比较
+                status: MODEL_COLLECTION_STATUS.getValue<CollectionStatus>(collection?.type) || ''
               },
               '关联系列'
             )

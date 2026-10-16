@@ -3,17 +3,22 @@
  * @Date: 2022-06-05 11:50:52
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-17 08:00:07
+ *
+ * 工具栏: 类型
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
+import { rc } from '@utils/dev'
 import { DATA_FILTER } from '../../ds'
+import { COMPONENT as PARENT } from './ds'
 
 import type { Ctx } from '../../types'
 
+const COMPONENT = rc(PARENT, 'Filter')
+
 function Filter() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const { filter } = $.state
 

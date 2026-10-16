@@ -22,6 +22,9 @@ export type Props<ItemT = unknown> = Override<
     /** 一页渲染个数 (网页端因为页面滚动状态不能保存, 强制为 100) */
     limit?: number
 
+    /** 重置分页标识, 变化时回到第 1 页 (整批重排但不想重建列表的场景) */
+    resetKey?: string | number
+
     /** 下一页回调 (本地翻页后触发; 挂载与数据更新时也会以当前可见切片触发一次) */
     onPage?: (nextPageData: ItemT[], nextPage: number) => void
 
@@ -48,7 +51,7 @@ export type ListState<ItemT> = {
 /** 本地分页 hook 参数 */
 export type UsePaginationOptions<ItemT> = Pick<
   Props<ItemT>,
-  'data' | 'limit' | 'onPage' | 'onNextPage' | 'onFooterRefresh'
+  'data' | 'limit' | 'resetKey' | 'onPage' | 'onNextPage' | 'onFooterRefresh'
 >
 
 /** 本地分页 hook 返回值 */

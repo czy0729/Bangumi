@@ -13,6 +13,9 @@ export const COMPONENT = rc(PARENT, 'Item')
 
 export const COMPONENT_MAIN = rc(COMPONENT)
 
+/** 子条目折叠阈值 */
+export const SUB_ITEM_MAX = 8
+
 type $ = Ctx['$']
 
 export const DEFAULT_PROPS = {

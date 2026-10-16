@@ -3,17 +3,22 @@
  * @Date: 2022-06-05 12:00:01
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-17 08:00:28
+ *
+ * 工具栏: 状态
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ToolBar } from '@components'
 import { useStore } from '@stores'
+import { rc } from '@utils/dev'
 import { DATA_STATUS } from '../../ds'
+import { COMPONENT as PARENT } from './ds'
 
 import type { Ctx } from '../../types'
 
+const COMPONENT = rc(PARENT, 'Status')
+
 function Status() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const { status } = $.state
 

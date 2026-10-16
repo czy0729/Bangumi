@@ -6,12 +6,20 @@
  */
 import { _ } from '@stores'
 
+/** 子条目左边距 (与主条目文字对齐) */
+const subPaddingLeft = _._wind + _.device(_.sm, _.md)
+
 export const styles = _.create({
   sub: {
     marginTop: -_.sm,
-    paddingLeft: _._wind + _.device(_.sm, _.md)
+    paddingLeft: subPaddingLeft
   },
   subItem: {
     paddingVertical: _.md
+  },
+  more: {
+    paddingVertical: _.md,
+    marginLeft: -subPaddingLeft,
+    alignItems: 'center'
   }
 })
