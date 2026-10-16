@@ -3,6 +3,8 @@
  * @Date: 2024-08-21 17:12:20
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-31 05:16:49
+ *
+ * 新番档期数据请求与目录快照上传
  */
 import { discoveryStore, usersStore } from '@stores'
 import { HTMLDecode, removeHTMLTag } from '@utils'
@@ -10,9 +12,10 @@ import { getBucketId } from '@utils/bucket'
 import { queue } from '@utils/fetch'
 import { update } from '@utils/kv'
 import Computed from './computed'
+import { CATALOG_UPLOAD_DELAY } from './ds'
 
-import type { CatalogDetail } from '@stores/discovery/types'
-import type { Id, Override } from '@types'
+import type { Id } from '@types'
+import type { CatalogDetailUploadPayload } from './types'
 
 export default class Fetch extends Computed {
   /** 用户目录 */
@@ -32,7 +35,7 @@ export default class Fetch extends Computed {
 
   /** 目录详情 */
   fetchCatalogDetail = async (id: Id) => {
-    // 桶可能尚未读回, 先同步 init 再判 _loaded, 避免守卫失效重复抓取
+    // 分桶未读回时 _loaded 不可信, 需先同步 init
     await discoveryStore.init(`catalogDetail${getBucketId(id, 2)}`)
 
     const catalogDetail = discoveryStore.catalogDetail(id)
@@ -56,16 +59,7 @@ export default class Fetch extends Computed {
   }
 
   /** 上传目录详情 */
-  updateCatalogDetail = (
-    data: Override<
-      CatalogDetail,
-      {
-        id: Id
-        info?: string
-        _loaded?: any
-      }
-    >
-  ) => {
+  updateCatalogDetail = (data: CatalogDetailUploadPayload) => {
     setTimeout(() => {
       if (!data?.list?.length) return
 
@@ -92,6 +86,6 @@ export default class Fetch extends Computed {
           })),
         total: list.length
       })
-    }, 2000)
+    }, CATALOG_UPLOAD_DELAY)
   }
 }

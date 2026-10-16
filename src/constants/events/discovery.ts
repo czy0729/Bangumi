@@ -199,6 +199,7 @@ export default {
 
   新番档期: 'Staff',
   '新番档期.跳转': 'Staff.to',
+  '新番档期.切换用户': 'Staff.switchUser',
   '新番档期.右上角菜单': 'Staff.topRightMenu',
 
   Hentai: 'Hentai',
