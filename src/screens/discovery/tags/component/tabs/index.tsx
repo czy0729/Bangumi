@@ -3,8 +3,9 @@
  * @Date: 2019-10-03 15:48:52
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-17 14:11:20
+ *
+ * 类型 Tabs 容器
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { TabsV2 } from '@components'
 import { _, useStore } from '@stores'

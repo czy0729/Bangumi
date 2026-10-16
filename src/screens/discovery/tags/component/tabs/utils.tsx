@@ -3,8 +3,9 @@
  * @Date: 2024-04-05 04:37:58
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-28 05:56:50
+ *
+ * 标签页列表项渲染
  */
-import React from 'react'
 import List from '../list'
 
 import type { TABS } from '../../ds'

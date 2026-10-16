@@ -3,8 +3,9 @@
  * @Date: 2024-04-05 04:52:33
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-17 12:54:27
+ *
+ * 标签页切换热区
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'

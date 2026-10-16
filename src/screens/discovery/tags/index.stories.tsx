@@ -3,8 +3,9 @@
  * @Date: 2023-04-11 18:43:18
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-06 03:15:59
+ *
+ * 标签索引 Storybook
  */
-import React from 'react'
 import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
 import { Tags as Component } from '@screens'
 

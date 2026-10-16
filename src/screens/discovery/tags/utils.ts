@@ -3,6 +3,8 @@
  * @Date: 2023-11-04 15:48:18
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-09 06:08:05
+ *
+ * 标签类型与排名数据工具
  */
 import { decode, get } from '@utils/thirdParty/protobuf'
 import { TABS } from './ds'

@@ -3,6 +3,8 @@
  * @Date: 2019-10-03 14:48:10
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-17 12:51:41
+ *
+ * 标签索引页面初始化
  */
 import { TABS } from '../ds'
 import { getType, loadTyperankIdsData } from '../utils'

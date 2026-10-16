@@ -7,5 +7,6 @@
 import type { SubjectType } from '@types'
 
 export type Props = {
+  /** 条目类型 */
   id: SubjectType
 }

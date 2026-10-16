@@ -3,6 +3,8 @@
  * @Date: 2024-08-18 05:35:25
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-17 12:51:44
+ *
+ * 标签索引可观察状态
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'

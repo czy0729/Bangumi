@@ -3,6 +3,8 @@
  * @Date: 2022-03-12 23:47:07
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-17 12:53:37
+ *
+ * 标签索引头部: 数量/排名切换 + 右侧菜单
  */
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'

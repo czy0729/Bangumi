@@ -3,8 +3,9 @@
  * @Date: 2019-10-03 14:44:18
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-17 12:49:32
+ *
+ * 标签索引: 类型 Tabs + 标签/排名列表
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'

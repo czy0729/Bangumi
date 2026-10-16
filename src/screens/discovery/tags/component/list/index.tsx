@@ -3,8 +3,10 @@
  * @Date: 2019-10-03 15:43:03
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-17 14:09:16
+ *
+ * 标签列表: 筛选栏 + 网格列表
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { Notice } from '@_'
@@ -14,9 +16,10 @@ import Item from '../item'
 import { keyExtractor } from './utils'
 import { COMPONENT } from './ds'
 
-import type { Ctx } from '../../types'
+import type { Ctx, TagsItem } from '../../types'
+import type { Props } from './types'
 
-function List({ id }) {
+function List({ id }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const elListHeaderComponent = useMemo(
@@ -32,7 +35,9 @@ function List({ id }) {
   const handleHeaderRefresh = useCallback(() => $.fetchList(id, true), [$, id])
   const handleFooterRefresh = useCallback(() => $.fetchList(id), [$, id])
   const handleRenderItem = useCallback(
-    ({ item, index }) => <Item type={id} index={index} {...item} />,
+    ({ item, index }: { item: TagsItem; index: number }) => (
+      <Item type={id} index={index} {...item} />
+    ),
     [id]
   )
 

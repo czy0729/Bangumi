@@ -3,6 +3,8 @@
  * @Date: 2024-08-18 05:52:38
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-03 20:37:55
+ *
+ * 页面派生数据: 类型/筛选/云快照/标签列表
  */
 import { computed } from 'mobx'
 import { discoveryStore, userStore } from '@stores'
@@ -12,6 +14,7 @@ import { HTML_TAGS, LIST_EMPTY } from '@constants'
 import { TABS } from '../ds'
 import State from './state'
 
+import type { Tags } from '@stores/discovery/types'
 import type { SubjectType } from '@types'
 
 export default class Computed extends State {
@@ -34,18 +37,19 @@ export default class Computed extends State {
   }
 
   /** 标签 */
-  list = computedFn((type: SubjectType) => {
+  list = computedFn((type: SubjectType): Tags => {
     const tags = discoveryStore.tags(type, this.state.filter)
     if (!tags._loaded) {
-      return this.ota
-        ? {
-            ...this.ota,
-            pagination: {
-              page: 1,
-              pageTotal: 10
-            }
-          }
-        : LIST_EMPTY
+      if (!this.ota) return LIST_EMPTY as Tags
+
+      return {
+        ...this.ota,
+        list: this.ota.list || [],
+        pagination: {
+          page: 1,
+          pageTotal: 10
+        }
+      }
     }
 
     if (userStore.isLimit) {

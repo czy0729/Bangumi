@@ -3,6 +3,8 @@
  * @Date: 2024-08-18 05:55:23
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-17 12:51:36
+ *
+ * 标签数据获取与云快照同步
  */
 import { discoveryStore } from '@stores'
 import { getTimestamp } from '@utils'
@@ -11,6 +13,7 @@ import { D7 } from '@constants'
 import Computed from './computed'
 
 import type { SubjectType } from '@types'
+import type { OtaTags } from '../types'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
@@ -45,7 +48,7 @@ export default class Fetch extends Computed {
   /** 获取云快照 */
   fetchThirdParty = async () => {
     if (!this.ota && !this.list(this.type)._loaded) {
-      const data = await get(this.thirdPartyKey)
+      const data = await get<OtaTags>(this.thirdPartyKey)
       if (!data) {
         // 就算没有数据也插入 key, 用于判断是否需要更新云数据
         this.setState({
