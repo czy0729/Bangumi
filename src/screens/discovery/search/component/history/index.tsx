@@ -3,8 +3,9 @@
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-31 02:51:29
+ *
+ * 搜索历史
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'

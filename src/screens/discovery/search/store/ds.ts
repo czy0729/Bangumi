@@ -3,6 +3,8 @@
  * @Date: 2022-07-30 12:47:09
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-21 16:31:01
+ *
+ * 搜索状态: 历史 / 搜索类型 / 输入框 与延迟常量
  */
 import { _ } from '@stores'
 import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants'
@@ -11,6 +13,18 @@ import { COMPONENT } from '../ds'
 import type { Loaded, RatingStatus, SearchCat, SearchLegacy, SubjectActions } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}`
+
+/** 初始参数处理延迟 */
+export const INIT_STATE_DELAY = 40
+
+/** 提交前等待输入值同步的延迟 */
+export const SUBMIT_DELAY = 400
+
+/** 提交后发起搜索的延迟 */
+export const SEARCH_DELAY = 800
+
+/** 收藏状态查询延迟 */
+export const COLLECTION_QUEUE_DELAY = 160
 
 export const RESET_STATE = {
   /** 可视范围底部 y */

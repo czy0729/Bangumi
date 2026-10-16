@@ -3,6 +3,8 @@
  * @Date: 2022-07-30 13:08:25
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-23 01:22:08
+ *
+ * 页面上下文与路由参数
  */
 import type { GetRouteParams, RouteSearch, WithNavigation } from '@types'
 import type Store from './store'

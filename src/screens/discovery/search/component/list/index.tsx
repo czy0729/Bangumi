@@ -3,13 +3,15 @@
  * @Date: 2019-05-15 15:35:54
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 17:55:08
+ *
+ * 搜索结果列表
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ListView } from '@components'
 import { ITEM_SEARCH_HEIGHT } from '@_'
 import { useStore } from '@stores'
 import { keyExtractor } from '@utils'
+import { ENTERING_ANIMATIONS_NUM } from '../ds'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -27,6 +29,7 @@ function List() {
       contentContainerStyle={styles.contentContainerStyle}
       data={$.search}
       estimatedItemHeight={ITEM_SEARCH_HEIGHT}
+      skipEnteringExitingAnimations={ENTERING_ANIMATIONS_NUM}
       keyboardDismissMode='on-drag'
       renderItem={renderItem}
       onScroll={$.onScroll}

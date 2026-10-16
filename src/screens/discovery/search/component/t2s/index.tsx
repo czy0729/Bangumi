@@ -3,8 +3,9 @@
  * @Date: 2024-10-30 15:16:33
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-29 06:47:44
+ *
+ * 输入内容繁转简开关
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Text, Touchable } from '@components'
 import { systemStore, useStore } from '@stores'

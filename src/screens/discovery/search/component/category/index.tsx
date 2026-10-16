@@ -3,8 +3,10 @@
  * @Date: 2019-05-16 01:46:41
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-31 02:51:09
+ *
+ * 搜索类型选择
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Button, Heatmap } from '@components'
 import { KeyboardDismiss, Popover } from '@_'

@@ -3,8 +3,10 @@
  * @Date: 2022-07-30 16:20:54
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-30 18:11:30
+ *
+ * 搜索关键字模糊联想
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Cover, Flex, Highlight, Iconfont, Text, Touchable } from '@components'

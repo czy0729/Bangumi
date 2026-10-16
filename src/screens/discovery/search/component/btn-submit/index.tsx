@@ -3,8 +3,10 @@
  * @Date: 2022-01-10 11:58:42
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-11 06:32:58
+ *
+ * 搜索提交按钮
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Button, Heatmap } from '@components'

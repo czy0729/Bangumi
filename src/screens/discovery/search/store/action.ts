@@ -3,12 +3,15 @@
  * @Date: 2024-06-03 11:47:13
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-26 07:29:08
+ *
+ * 搜索交互: 类型切换 / 提交 / 历史
  */
 import { systemStore, usersStore } from '@stores'
 import { debounce, info, loading, t2s, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
 import { MODEL_SEARCH_CAT, MODEL_SEARCH_LEGACY } from '@constants'
 import Fetch from './fetch'
+import { INIT_STATE_DELAY, SEARCH_DELAY, SUBMIT_DELAY } from './ds'
 
 import type { Navigation, SearchCat, SearchLegacy } from '@types'
 import type { EXCLUDE_STATE } from './ds'
@@ -19,7 +22,7 @@ let touched = false
 export default class Action extends Fetch {
   /** 处理初始参数 */
   initState = () => {
-    setTimeout(() => {
+    this.delay(() => {
       const type = this.params.type || this.params._type
       if ((!touched && type) || (this.params._from && type)) {
         this.setState({
@@ -36,7 +39,7 @@ export default class Action extends Fetch {
         this.save()
         this.doSearch()
       }
-    }, 40)
+    }, INIT_STATE_DELAY)
   }
 
   /** 切换类型 */
@@ -133,7 +136,7 @@ export default class Action extends Fetch {
   /** 提交 */
   onSubmit = (navigation?: Navigation) => {
     // 避免用户输入完文字后立马点击搜索前，文字还没有更新到状态里面导致空提示
-    setTimeout(async () => {
+    this.delay(async () => {
       if (this.isUser) {
         const { value } = this.state
         if (!value) {
@@ -175,10 +178,10 @@ export default class Action extends Fetch {
         return
       }
 
-      setTimeout(() => {
+      this.delay(() => {
         this.doSearch(true)
-      }, 800)
-    }, 400)
+      }, SEARCH_DELAY)
+    }, SUBMIT_DELAY)
   }
 
   /** 本地快速搜索索引点击 */

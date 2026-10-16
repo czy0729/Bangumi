@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-31 02:54:29
  */
-import React from 'react'
 import Item from '../item'
 
 import type { SearchItem } from '@stores/search/types'

@@ -3,6 +3,8 @@
  * @Date: 2024-06-03 11:39:10
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-23 01:22:46
+ *
+ * 搜索状态机基类
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'

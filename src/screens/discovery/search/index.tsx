@@ -3,8 +3,9 @@
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-16 22:18:04
+ *
+ * 搜索页入口与布局
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, Flex, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'

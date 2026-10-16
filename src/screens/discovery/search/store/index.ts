@@ -3,6 +3,8 @@
  * @Date: 2019-05-15 02:20:29
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-23 01:22:43
+ *
+ * 搜索页面初始化与卸载
  */
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
@@ -29,6 +31,7 @@ export default class ScreenSearch extends Action {
   }
 
   unmount = () => {
+    this.clearDelayTasks()
     this.setState(RESET_STATE)
   }
 }

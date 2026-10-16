@@ -3,8 +3,10 @@
  * @Date: 2019-12-28 13:37:53
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 18:26:45
+ *
+ * 精准与模糊搜索切换
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Button, Heatmap } from '@components'
 import { KeyboardDismiss, Popover } from '@_'

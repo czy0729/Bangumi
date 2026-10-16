@@ -3,6 +3,8 @@
  * @Date: 2024-11-17 06:33:33
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-30 18:04:30
+ *
+ * 搜索页面逻辑
  */
 import { useCallback, useRef } from 'react'
 import { useInitStore } from '@stores'
@@ -13,7 +15,6 @@ import type { InputInstance } from '@components'
 import type { NavigationProps } from '@types'
 import type { Ctx } from './types'
 
-/** 搜索页面逻辑 */
 export function useSearchPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
   const { id, $ } = context

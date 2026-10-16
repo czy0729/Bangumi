@@ -7,13 +7,12 @@
  * 搜索页派生: 搜索结果过滤 / 目标网址与类型判断
  */
 import { computed } from 'mobx'
-import { searchStore, subjectStore, userStore } from '@stores'
+import { searchStore, userStore } from '@stores'
 import { x18 } from '@utils'
-import { computedFn } from '@utils/computed-fn'
 import { HTML_SEARCH, MODEL_SEARCH_CAT } from '@constants'
 import State from './state'
 
-import type { SearchCatCn, SubjectId } from '@types'
+import type { SearchCatCn } from '@types'
 
 export default class Computed extends State {
   /** 搜索结果 */
@@ -53,11 +52,6 @@ export default class Computed extends State {
 
     return true
   }
-
-  /** 条目信息 */
-  subject = computedFn((subjectId: SubjectId) => {
-    return subjectStore.subject(subjectId)
-  })
 
   /** HM 埋点参数 */
   @computed get hm() {
