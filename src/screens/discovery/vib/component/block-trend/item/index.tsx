@@ -3,8 +3,9 @@
  * @Date: 2024-05-04 05:27:30
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-31 20:14:19
+ *
+ * 趋势表条目: 变化值带箭头方向, 点击右侧弹出条目缩略框
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
@@ -21,9 +22,10 @@ function Item({ item, index }: Props) {
   const navigation = useNavigation(COMPONENT)
 
   const jp = findSubjectJp(item.title, item.id)
+
   const up = item.value.includes('+')
-  let value: string | number = Math.abs(Number(item.value))
-  if (item.value.includes('.')) value = value.toFixed(2)
+  const absolute = Math.abs(Number(item.value))
+  const value = item.value.includes('.') ? absolute.toFixed(2) : absolute
 
   return (
     <Flex style={styles.item} align='start'>

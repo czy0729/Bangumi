@@ -3,6 +3,8 @@
  * @Date: 2026-01-02 03:09:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-09 12:44:17
+ *
+ * 页面背景: 右上与左下两个静态圆球
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
@@ -10,7 +12,7 @@ import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function DualOrbsStatic() {
+function Bg() {
   r(COMPONENT)
 
   const styles = memoStyles()
@@ -23,4 +25,4 @@ function DualOrbsStatic() {
   )
 }
 
-export default observer(DualOrbsStatic)
+export default observer(Bg)

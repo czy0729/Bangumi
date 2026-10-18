@@ -3,6 +3,8 @@
  * @Date: 2026-01-02 16:35:23
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-09 12:44:26
+ *
+ * 社区项目列表: 主体跳转项目 (站内路由或站外地址), 右侧标签跳转收录帖
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
@@ -12,7 +14,7 @@ import { appNavigate, open } from '@utils'
 import { useNavigation } from '@utils/hooks'
 import { DATA } from '../../ds'
 import Bg from '../bg'
-import { COMPONENT } from './ds'
+import { COMPONENT, TOPIC_PATH } from './ds'
 import { memoStyles } from './styles'
 
 function List() {
@@ -25,15 +27,14 @@ function List() {
       <Bg />
 
       {DATA.map(item => {
-        const isInner = 'path' in item
-        const isPost = item.topic.includes('/group/topic/')
+        const isPost = item.topic.includes(TOPIC_PATH)
 
         return (
           <Flex key={item.title} style={styles.item}>
             <Flex.Item>
               <Touchable
                 onPress={() => {
-                  if (isInner) {
+                  if ('path' in item) {
                     navigation.push(item.path)
                   } else {
                     open(item.url.replace('[USER_ID]', String(userStore.myId || '')))

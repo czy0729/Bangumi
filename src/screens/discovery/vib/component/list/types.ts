@@ -6,10 +6,8 @@
  *
  * 评分月刊列表的类型定义
  */
-import type { MutableRefObject } from 'react'
-import type { ListViewInstance } from '@components'
 import type { ScrollEvent } from '@types'
-import type { Data, ItemNew, ItemTrend } from '../../types'
+import type { Data, HandleForwardRef, ItemNew, ItemTrend } from '../../types'
 
 /**
  * 摊平后的单层列表项
@@ -29,6 +27,8 @@ export type FlatItem =
     }
   | {
       type: 'new'
+
+      /** 全局唯一 key */
       key: string
 
       /** 条目数据 */
@@ -39,8 +39,14 @@ export type FlatItem =
     }
   | {
       type: 'trend'
+
+      /** 全局唯一 key */
       key: string
+
+      /** 条目数据 */
       item: ItemTrend
+
+      /** 块内序号 (用于排名显示) */
       index: number
     }
 
@@ -51,8 +57,8 @@ export type Props = {
   /** 当前期下标 */
   index: number
 
-  /** ListView 引用 (切期回顶) */
-  scrollToRef: MutableRefObject<ListViewInstance | null>
+  /** 收集长列表的 ref */
+  forwardRef: HandleForwardRef
 
   /** 切期回调 */
   onSelect: (index: number) => void

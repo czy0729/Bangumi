@@ -3,8 +3,9 @@
  * @Date: 2024-05-04 05:27:30
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-29 21:19:39
+ *
+ * 新增表条目: 排名值随评分透明度变化, 点击右侧弹出条目缩略框
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Rank } from '@_'

@@ -3,6 +3,8 @@
  * @Date: 2021-03-16 20:57:01
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-17 08:15:24
+ *
+ * 维基人动态条目: 条目名跳转条目页, 署名跳转用户空间
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
@@ -13,7 +15,9 @@ import { useNavigation } from '@utils/hooks'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function Item({ id, name, detail, userName, userId, time }) {
+import type { Props } from './types'
+
+function Item({ id, name, detail, userName, userId, time }: Props) {
   const navigation = useNavigation(COMPONENT)
 
   const styles = memoStyles()

@@ -3,12 +3,15 @@
  * @Date: 2024-11-17 08:13:45
  * @Last Modified by:   czy0729
  * @Last Modified time: 2024-11-17 08:13:45
+ *
+ * 维基人页面逻辑
  */
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+
+import type { NavigationProps } from '@types'
+import type { Ctx } from './types'
 
 /** 维基人页面逻辑 */
 export function useWikiPage(props: NavigationProps) {

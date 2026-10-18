@@ -3,12 +3,15 @@
  * @Date: 2021-02-03 22:46:44
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-04-04 07:35:13
+ *
+ * 维基人页面状态: 标签筛选 (持久化) + 列表派生
  */
 import { computed, observable } from 'mobx'
 import { discoveryStore } from '@stores'
 import store from '@utils/store'
 import { KEYS, LAST_DS, NAMESPACE, RELATION_DS, STATE, TOP_DS, TYPE_DS } from './ds'
-import { TopIndex } from './types'
+
+import type { TopIndex } from './types'
 
 export default class ScreenWiki extends store<typeof STATE> {
   state = observable(STATE)
@@ -32,7 +35,8 @@ export default class ScreenWiki extends store<typeof STATE> {
     return discoveryStore.wiki
   }
 
-  @computed get segement() {
+  /** 当前顶部标签对应的子标签数据 */
+  @computed get segment() {
     const { top } = this.state
 
     let key: string
@@ -78,7 +82,7 @@ export default class ScreenWiki extends store<typeof STATE> {
   }
 
   onChangeSub = (title: string) => {
-    const { key, values } = this.segement
+    const { key, values } = this.segment
     this.setState({
       [key]: values.findIndex((item: string) => item === title)
     })

@@ -3,11 +3,14 @@
  * @Date: 2021-03-16 21:00:09
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-04 00:38:07
+ *
+ * 条目数量计数块 (横向滚动), 同时期对比上一次数据展示增量
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ScrollView, Text } from '@components'
 import { _, systemStore, useStore } from '@stores'
+import { stl } from '@utils'
 import { LABEL_DS } from '../../ds'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -29,17 +32,16 @@ function Counts() {
       >
         {counts.map((item, index) => {
           const change =
-            lastCounts.length > index &&
-            parseInt(item.replace(/,/g, '')) - parseInt(lastCounts[index].replace(/,/g, ''))
+            lastCounts.length > index
+              ? parseInt(item.replace(/,/g, '')) - parseInt(lastCounts[index].replace(/,/g, ''))
+              : 0
+
           return (
             <View
               key={LABEL_DS[index]}
-              style={[
-                styles.count,
-                {
-                  borderRadius: systemStore.coverRadius
-                }
-              ]}
+              style={stl(styles.count, {
+                borderRadius: systemStore.coverRadius
+              })}
             >
               <Text bold>{LABEL_DS[index]}</Text>
               <Text style={_.mt.xs} type='main' size={12} bold>

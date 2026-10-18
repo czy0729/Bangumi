@@ -3,6 +3,8 @@
  * @Date: 2021-03-16 20:55:13
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-09 12:45:39
+ *
+ * 维基人动态列表
  */
 import { observer } from 'mobx-react'
 import { ScrollView } from '@components'
@@ -19,7 +21,15 @@ function List() {
   return (
     <ScrollView contentContainerStyle={styles.contentContainerStyle}>
       {$.list.map((item, index) => (
-        <Item key={index} {...item} />
+        <Item
+          key={index}
+          id={item.id}
+          name={item.name}
+          detail={item.detail}
+          userName={item.userName}
+          userId={item.userId}
+          time={item.time}
+        />
       ))}
     </ScrollView>
   )

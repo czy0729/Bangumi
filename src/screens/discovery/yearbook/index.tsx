@@ -3,6 +3,8 @@
  * @Date: 2021-07-15 20:23:25
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-09 12:45:55
+ *
+ * 年鉴页面: 2022 年鉴卡片 + 各年入口
  */
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page, ScrollView } from '@components'
@@ -21,7 +23,7 @@ function Yearbook() {
       <Page>
         <HeaderPlaceholder />
         <ScrollView contentContainerStyle={styles.container} scrollToTop>
-          <Award2022 width={styles.item2021.width} height={styles.item2021.height} />
+          <Award2022 width={styles.award2022.width} height={styles.award2022.height} />
           <Blocks />
           <Years />
         </ScrollView>

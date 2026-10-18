@@ -3,8 +3,9 @@
  * @Date: 2024-05-04 19:28:28
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-31 20:14:26
+ *
+ * 列表底部: 上一期 / 下一期切换
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Touchable } from '@components'
 import { _ } from '@stores'

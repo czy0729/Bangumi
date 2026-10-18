@@ -3,6 +3,8 @@
  * @Date: 2021-02-03 22:47:20
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-09 12:45:01
+ *
+ * 维基人页面: 计数块 + 标签筛选 + 动态列表
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'

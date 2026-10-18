@@ -6,7 +6,7 @@
  *
  * 评分月刊列表: 分块摊平 + ListView 虚拟化
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ListView } from '@components'
@@ -24,7 +24,7 @@ import type { ListEmpty } from '@types'
 import type { FlatItem, Props } from './types'
 
 /** 评分月刊列表 */
-function List({ data, index, scrollToRef, onSelect, onScroll }: Props) {
+function List({ data, index, forwardRef, onSelect, onScroll }: Props) {
   r(COMPONENT)
 
   const styles = memoStyles()
@@ -68,7 +68,7 @@ function List({ data, index, scrollToRef, onSelect, onScroll }: Props) {
 
   return (
     <ListView
-      ref={scrollToRef}
+      ref={forwardRef}
       keyExtractor={handleKeyExtractor}
       contentContainerStyle={styles.contentContainerStyle}
       onScroll={onScroll}

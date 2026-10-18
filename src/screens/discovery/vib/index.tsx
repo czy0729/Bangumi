@@ -6,7 +6,6 @@
  *
  * 评分月刊页面: 编排 useVIBPage 与列表 / 头部
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
@@ -18,7 +17,8 @@ import type { NavigationProps } from '@types'
 
 /** 评分月刊 */
 function VIB(props: NavigationProps) {
-  const { id, data, index, loaded, handleSelect, scrollToRef, handleScroll } = useVIBPage(props)
+  const { id, data, index, loaded, handleForwardRef, handleSelect, handleScroll } =
+    useVIBPage(props)
 
   return (
     <Component id='screen-vib'>
@@ -28,7 +28,7 @@ function VIB(props: NavigationProps) {
           <List
             data={data}
             index={index}
-            scrollToRef={scrollToRef}
+            forwardRef={handleForwardRef}
             onSelect={handleSelect}
             onScroll={handleScroll}
           />

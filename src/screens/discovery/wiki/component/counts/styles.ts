@@ -3,15 +3,17 @@
  * @Date: 2022-08-27 21:13:37
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-25 05:16:32
+ *
+ * 计数块容器与卡片
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
   contentContainerStyle: {
-    paddingTop: _.xs,
+    minHeight: 56,
     paddingHorizontal: _.wind,
-    paddingLeft: _.wind - _.sm,
-    minHeight: 56
+    paddingTop: _.xs,
+    paddingLeft: _.wind - _.sm
   },
   count: {
     paddingVertical: _.sm,

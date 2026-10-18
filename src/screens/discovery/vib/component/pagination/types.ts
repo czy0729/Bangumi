@@ -7,7 +7,12 @@
 import type { Data } from '../../types'
 
 export type Props = {
+  /** 各期数据 */
   data: Data
+
+  /** 当前期下标 */
   index: number
+
+  /** 切期回调 */
   onSelect: (index: number) => void
 }

@@ -3,6 +3,8 @@
  * @Date: 2024-05-16 13:09:50
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-31 20:13:48
+ *
+ * 评分月刊页面逻辑: 本地快照兜底, 远端数据更新时覆盖
  */
 import { useCallback, useRef, useState } from 'react'
 import { uiStore, useInitStore } from '@stores'
@@ -25,7 +27,17 @@ export function useVIBPage(props: NavigationProps) {
   const [loaded, setLoaded] = useState(fetched)
   const [index, setIndex] = useState(0)
   const [data, setData] = useState<Data>(memo || (require('@assets/json/vib.json') as Data))
-  const callback = async () => {
+
+  /** ListView.ref */
+  const listRef = useRef<ListViewInstance | null>(null)
+
+  /** 收集长列表的 ref */
+  const handleForwardRef = useCallback((ref: ListViewInstance | null) => {
+    listRef.current = ref
+  }, [])
+
+  /** 远端期数多于本地快照时覆盖 */
+  const fetchRemote = async () => {
     if (fetched) return true
 
     const remote = await getData()
@@ -38,20 +50,19 @@ export function useVIBPage(props: NavigationProps) {
     fetched = true
   }
 
-  const scrollToRef = useRef<ListViewInstance | null>(null)
-  const handleSelect = useCallback(
-    (index: number) => {
-      setIndex(index)
-      setTimeout(() => {
-        scrollToRef.current?.scrollToOffset({
-          offset: 0,
-          animated: true
-        })
-      }, 40)
-    },
-    [setIndex]
-  )
+  /** 切期: 更新当前期并回到列表顶部 */
+  const handleSelect = useCallback((index: number) => {
+    setIndex(index)
 
+    setTimeout(() => {
+      listRef.current?.scrollToOffset({
+        offset: 0,
+        animated: true
+      })
+    }, 40)
+  }, [])
+
+  /** 滚动 */
   const handleScroll = useCallback(
     (event: ScrollEvent) => {
       $.onScroll(event)
@@ -64,7 +75,7 @@ export function useVIBPage(props: NavigationProps) {
     {
       onEnterComplete() {
         initBangumiData(() => {
-          callback()
+          fetchRemote()
         })
 
         $.init()
@@ -78,11 +89,23 @@ export function useVIBPage(props: NavigationProps) {
 
   return {
     ...context,
+
+    /** 数据是否已就绪 */
     loaded,
+
+    /** 各期数据 */
     data,
+
+    /** 当前期下标 */
     index,
-    scrollToRef,
+
+    /** 收集长列表的 ref */
+    handleForwardRef,
+
+    /** 切期 */
     handleSelect,
+
+    /** 滚动 */
     handleScroll
   }
 }

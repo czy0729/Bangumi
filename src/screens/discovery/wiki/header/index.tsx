@@ -3,7 +3,10 @@
  * @Date: 2022-03-13 00:03:58
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-04-06 13:35:01
+ *
+ * 页面头部: 右上角菜单
  */
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { open } from '@utils'
@@ -15,26 +18,22 @@ import { COMPONENT, DATA, HM } from './ds'
 function Header() {
   r(COMPONENT)
 
-  return (
-    <HeaderV2
-      title='维基人'
-      hm={HM}
-      headerRight={() => (
-        <HeaderV2Popover
-          data={DATA}
-          onSelect={title => {
-            if (title === TEXT_MENU_BROWSER) {
-              open(`${HOST}/wiki`)
+  const handleSelect = useCallback((title: string) => {
+    if (title === TEXT_MENU_BROWSER) {
+      open(`${HOST}/wiki`)
 
-              t('维基人.右上角菜单', {
-                key: title
-              })
-            }
-          }}
-        />
-      )}
-    />
+      t('维基人.右上角菜单', {
+        key: title
+      })
+    }
+  }, [])
+
+  const handleHeaderRight = useCallback(
+    () => <HeaderV2Popover data={DATA} onSelect={handleSelect} />,
+    [handleSelect]
   )
+
+  return <HeaderV2 title='维基人' hm={HM} headerRight={handleHeaderRight} />
 }
 
 export default observer(Header)

@@ -8,7 +8,7 @@
  */
 import { asc } from '@utils'
 
-import type { Data, ItemNew, ItemTrend } from '../../types'
+import type { Block, ItemNew, ItemTrend } from '../../types'
 import type { FlatItem } from './types'
 
 /**
@@ -16,7 +16,7 @@ import type { FlatItem } from './types'
  *
  * @param blocks 当前期分块数据
  */
-export function getFlatList(blocks: Data[number]['data']): FlatItem[] {
+export function getFlatList(blocks: Block[]): FlatItem[] {
   const list: FlatItem[] = []
 
   blocks.forEach((block, blockIndex) => {

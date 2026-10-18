@@ -3,8 +3,9 @@
  * @Date: 2021-03-16 20:58:10
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-20 22:26:16
+ *
+ * 顶部标签与子标签切换
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { SegmentedControl } from '@components'
 import { useStore } from '@stores'
@@ -34,8 +35,8 @@ function Cate() {
       <SegmentedControl
         style={styles.segment}
         size={11}
-        values={$.segement.values}
-        selectedIndex={$.segement.selectedIndex}
+        values={$.segment.values}
+        selectedIndex={$.segment.selectedIndex}
         onValueChange={$.onChangeSub}
       />
     </>

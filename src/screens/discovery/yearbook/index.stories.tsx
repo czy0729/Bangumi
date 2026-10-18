@@ -4,8 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-06 03:17:52
  */
-import React from 'react'
-import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
+import { StorybookList, StorybookSPA } from '@components'
 import { Yearbook as Component } from '@screens'
 
 export default {
@@ -16,7 +15,7 @@ export default {
 export const Yearbook = () => (
   <StorybookSPA>
     <StorybookList>
-      <Component {...getStorybookArgs('Yearbook')} />
+      <Component />
     </StorybookList>
   </StorybookSPA>
 )

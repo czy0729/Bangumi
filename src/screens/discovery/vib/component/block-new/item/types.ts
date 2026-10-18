@@ -7,6 +7,9 @@
 import type { ItemNew } from '../../../types'
 
 export type Props = {
+  /** 条目数据 */
   item: ItemNew
+
+  /** 列表序号 (从 0 开始) */
   index: number
 }

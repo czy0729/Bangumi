@@ -3,8 +3,9 @@
  * @Date: 2024-05-04 05:23:20
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-31 20:14:37
+ *
+ * 分块标题 / 期数标题
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'

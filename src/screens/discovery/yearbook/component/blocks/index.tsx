@@ -3,6 +3,8 @@
  * @Date: 2024-04-03 22:37:21
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-09 12:46:06
+ *
+ * 2018-2021 年鉴图片卡片入口
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
@@ -26,7 +28,7 @@ function Blocks() {
     <Flex style={_.mt.sm} wrap='wrap'>
       {YEARS_BLOCKS.map(year => (
         <Touchable
-          key={String(year)}
+          key={year}
           style={_.mt.md}
           animate
           onPress={withT(

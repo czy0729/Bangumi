@@ -3,6 +3,8 @@
  * @Date: 2024-04-04 02:01:40
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-09 12:46:16
+ *
+ * 2010-2017 年鉴文字入口
  */
 import { observer } from 'mobx-react'
 import { Flex, Squircle, Text, Touchable } from '@components'
