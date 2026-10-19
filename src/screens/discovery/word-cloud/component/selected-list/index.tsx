@@ -4,11 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-11-29 17:56:14
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActionSheet, Avatar } from '@components'
 import { _, useStore } from '@stores'
+import { stl } from '@utils'
 import { t } from '@utils/fetch'
 import Comments from './comments'
 import Subjects from './subjects'
@@ -61,7 +61,7 @@ function SelectedList() {
       }
       if (image && typeof image === 'string') {
         titleLeft = (
-          <View style={[_.ml._sm, _.mr.sm]}>
+          <View style={stl(_.ml._sm, _.mr.sm)}>
             <Avatar
               src={image}
               size={24}
@@ -98,11 +98,10 @@ function SelectedList() {
       title={`${$.state.title} (${length})`}
       titleLeft={titleLeft}
       height={height}
-      scrollEnabled={!isCollection}
+      scrollEnabled={false}
       usePortal={false}
       onTitlePress={handleTitle}
       onClose={$.onClose}
-      onScroll={$.onScroll}
     >
       {isCollection ? <Subjects /> : <Comments />}
     </ActionSheet>

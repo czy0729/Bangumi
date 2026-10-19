@@ -3,6 +3,8 @@
  * @Date: 2024-09-27 02:45:02
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-16 22:08:23
+ *
+ * 词云布局与渲染的类型定义
  */
 import type { LayoutChangeEvent } from 'react-native'
 import type { SpaceType } from './utils'
@@ -13,6 +15,10 @@ export type Word = {
   index: number
   _placeFirstWord: (word: Word) => void
   _placeOtherWord: (word: Word) => void
+
+  /** 单词完成测量与放置 (参数为单词下标) */
+  _onPlaced?: (index: number) => void
+
   text: string
   value: number
   fontFactor: number
@@ -31,6 +37,10 @@ export type WordConfig = {
   index: number
   _placeFirstWord: (word: Word) => void
   _placeOtherWord: (word: Word) => void
+
+  /** 单词完成测量与放置 (参数为单词下标) */
+  _onPlaced?: (index: number) => void
+
   text: string
   value: number
   fontFactor: number

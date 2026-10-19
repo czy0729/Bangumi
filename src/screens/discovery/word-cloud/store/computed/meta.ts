@@ -3,6 +3,8 @@
  * @Date: 2026-08-31 06:58:34
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-31 07:35:28
+ *
+ * 领域数据派生: 各 domain store 代理与文本预处理
  */
 import { computed } from 'mobx'
 import { rakuenStore, subjectStore, usersStore } from '@stores'
@@ -51,33 +53,24 @@ export default class Meta extends Base {
   @computed get plainText() {
     let text = ''
     if (this.subjectId) {
-      const limit = MAX_PAGE * PAGE_LIMIT
-      this.subjectComments.list.forEach((item, index) => {
-        if (index >= limit) return
-
-        text += removeSlogan(getPlainText(item.comment))
-      })
+      this.subjectComments.list
+        .slice(0, MAX_PAGE * PAGE_LIMIT)
+        .forEach(item => (text += removeSlogan(getPlainText(item.comment))))
     }
 
     if (this.topicId) {
       text += getPlainText(this.topic.title)
       text += getPlainText(this.topic.message, 300)
 
-      const limit = 200
-      this.topicComments.list.forEach((item, index) => {
-        if (index >= limit) return
-
-        text += removeSlogan(getPlainText(item.message), 150)
-      })
+      this.topicComments.list
+        .slice(0, 200)
+        .forEach(item => (text += removeSlogan(getPlainText(item.message), 150)))
     }
 
     if (this.monoId) {
-      const limit = MAX_PAGE * PAGE_LIMIT
-      this.monoComments.list.forEach((item, index) => {
-        if (index >= limit) return
-
-        text += removeSlogan(getPlainText(item.message), 150)
-      })
+      this.monoComments.list
+        .slice(0, MAX_PAGE * PAGE_LIMIT)
+        .forEach(item => (text += removeSlogan(getPlainText(item.message), 150)))
     }
 
     return removeSpec(text)

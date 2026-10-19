@@ -3,6 +3,8 @@
  * @Date: 2024-09-26 18:24:18
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-29 19:10:52
+ *
+ * 分词结果转换为词云单词
  */
 import type { CutList } from '../../types'
 
@@ -15,11 +17,9 @@ const COLORS = [
 ] as const
 
 export function getWords(result: CutList, max: 40 | 60 | 80 = 60) {
-  return result
-    .map((item, index) => ({
-      text: item[0],
-      value: Number(item[1]),
-      color: COLORS[index % COLORS.length]
-    }))
-    .filter((_item, index) => index <= max)
+  return result.slice(0, max).map((item, index) => ({
+    text: item[0],
+    value: Number(item[1]),
+    color: COLORS[index % COLORS.length]
+  }))
 }

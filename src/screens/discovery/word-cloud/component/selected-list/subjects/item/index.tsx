@@ -4,13 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-16 22:07:00
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Cover, Flex, getCoverSrc, Text, Touchable } from '@components'
 import { InView, Stars } from '@_'
 import { _, useStore } from '@stores'
-import { getTimestamp, lastDate } from '@utils'
+import { getTimestamp, lastDate, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { IMG_SUBJECT_ONLY, MODEL_SUBJECT_TYPE, WEB } from '@constants'
 import { NUM_COLUMNS } from '../../ds'
@@ -54,12 +53,7 @@ function Item({ item, index }: Props) {
         }}
       >
         <Flex
-          style={[
-            styles.item,
-            {
-              width
-            }
-          ]}
+          style={stl(styles.item, { width })}
           direction='column'
         >
           <Flex

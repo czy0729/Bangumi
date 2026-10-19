@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-31 07:32:12
  */
-import React, { memo } from 'react'
+import { memo } from 'react'
 import WordCloud from '../wordcloud'
 import { getWords } from './utils'
 

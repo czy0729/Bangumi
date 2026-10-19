@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-20 21:53:17
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, HeaderV2, Iconfont, Text, Touchable } from '@components'
 import { IconTouchable } from '@_'

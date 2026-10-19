@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-11-29 17:55:28
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { PaginationList } from '@_'
 import { useStore } from '@stores'
@@ -27,6 +26,7 @@ function Subjects() {
       contentContainerStyle={styles.container}
       data={$.selectedSubjects}
       limit={20}
+      resetKey={`${$.state.title}|${$.state.subjectType}|${$.state.cutType}|${$.state.subCutType}|${$.state.year}`}
       numColumns={NUM_COLUMNS}
       renderItem={renderItem}
       removeClippedSubviews={false}

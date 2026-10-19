@@ -3,8 +3,10 @@
  * @Date: 2024-09-27 02:45:02
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-31 07:33:57
+ *
+ * 词云布局: 逐词测量后按剩余空间就近放置, 全部完成或静默超时后一次性提交渲染
  */
-import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { createSpace } from './space'
 import Text from './text'
@@ -16,6 +18,9 @@ import { styles } from './styles'
 import type { Props, Space, Word } from './types'
 import type { TextStyle } from '@types'
 
+/** 连续一段时间没有新的词放置时, 才提交已放置的结果 */
+const FLUSH_TIMEOUT = 500
+
 /** 词云 */
 function WordCloud({ style, options = DEFAULT_OPTIONS, onPress }: Props) {
   const [words, setWords] = useState<Word[]>([])
@@ -23,6 +28,11 @@ function WordCloud({ style, options = DEFAULT_OPTIONS, onPress }: Props) {
   const spaceDataObject = useRef<Record<string, Space | null>>({})
   const spaceIdArray = useRef<string[]>([])
   const distanceCounter = useRef(1)
+  const wordsRef = useRef<Word[]>([])
+  const placedRef = useRef<Set<number>>(new Set())
+  const flushTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const flushedSizeRef = useRef(-1)
+
   const target = useRef({
     width: options.width,
     height: options.height,
@@ -35,6 +45,39 @@ function WordCloud({ style, options = DEFAULT_OPTIONS, onPress }: Props) {
 
   const onPressRef = useRef(onPress)
   onPressRef.current = onPress
+
+  /** 一次性提交布局结果, 放置数量没有增加时跳过 (重复 onLayout) */
+  const flush = useCallback(() => {
+    if (flushTimer.current) {
+      clearTimeout(flushTimer.current)
+      flushTimer.current = null
+    }
+
+    if (flushedSizeRef.current === placedRef.current.size) return
+
+    flushedSizeRef.current = placedRef.current.size
+    setWords([...wordsRef.current])
+  }, [])
+
+  /** 重置静默计时, 持续有词放置时不提交中间态 */
+  const scheduleFlush = useCallback(() => {
+    if (flushTimer.current) clearTimeout(flushTimer.current)
+    flushTimer.current = setTimeout(flush, FLUSH_TIMEOUT)
+  }, [flush])
+
+  /** 单词放置完成去重计数, 全部完成后统一提交 */
+  const handleWordPlaced = useCallback(
+    (index: number) => {
+      placedRef.current.add(index)
+      if (placedRef.current.size >= wordsRef.current.length) {
+        flush()
+        return
+      }
+
+      scheduleFlush()
+    },
+    [flush, scheduleFlush]
+  )
 
   const updateSpaceIdArray = useCallback((distanceS: string, distance: number) => {
     if (spaceIdArray.current.length !== 0) {
@@ -75,8 +118,8 @@ function WordCloud({ style, options = DEFAULT_OPTIONS, onPress }: Props) {
     [updateSpaceIdArray]
   )
 
+  /** 记录单词最终位置 (只写引用, 渲染统一由 flush 触发) */
   const updateTextPosition = useCallback((word: Word, top: number, left: number) => {
-    // Update the styles of the word view
     const textStyle = {
       position: 'absolute',
       left: Math.ceil(left),
@@ -86,25 +129,10 @@ function WordCloud({ style, options = DEFAULT_OPTIONS, onPress }: Props) {
       color: word.color
     } as TextStyle
 
-    setWords(prevState =>
-      prevState.map(prevWord => {
-        if (prevWord !== word) return prevWord
-
-        return {
-          ...prevWord,
-          view:
-            (prevWord.view && (
-              <Text
-                key={word.text}
-                style={textStyle}
-                onPress={() => onPressRef.current?.(word.text)}
-              >
-                {word.text}
-              </Text>
-            )) ||
-            null
-        }
-      })
+    word.view = (
+      <Text key={word.text} style={textStyle} onPress={() => onPressRef.current?.(word.text)}>
+        {word.text}
+      </Text>
     )
   }, [])
 
@@ -322,38 +350,50 @@ function WordCloud({ style, options = DEFAULT_OPTIONS, onPress }: Props) {
   useEffect(() => {
     spaceDataObject.current = {}
     spaceIdArray.current = []
+    distanceCounter.current = 1
+    placedRef.current = new Set()
+
     const { words: initialWords, fontOffset, minFont, maxFont, fontFamily } = optionsRef.current
-    initialWords.sort(function (
-      a: { text: string; value: number; color: string },
-      b: { text: string; value: number; color: string }
-    ) {
-      if (a.value < b.value) {
-        return 1
-      } else if (a.value > b.value) {
-        return -1
-      } else {
-        return 0
-      }
-    })
+    if (!initialWords.length) {
+      wordsRef.current = []
+      setWords([])
+      return
+    }
 
-    const _maxValue = initialWords[0].value
-    const _minValue = initialWords[initialWords.length - 1].value
-    const fontFactor = (maxFont! - minFont!) / (_maxValue - _minValue)
+    // 拷贝排序, 不修改调用方传入的数组
+    const sortedWords = [...initialWords].sort((a, b) => b.value - a.value)
+    const maxValue = sortedWords[0].value
+    const minValue = sortedWords[sortedWords.length - 1].value
 
-    const wordsArray = initialWords.map((wordConfig, index) => {
-      const word = createWord({
+    // 所有词频相同时不放大字号, 避免除零得到 Infinity
+    const fontFactor = maxValue === minValue ? 0 : (maxFont! - minFont!) / (maxValue - minValue)
+
+    const wordsArray = sortedWords.map((wordConfig, index) =>
+      createWord({
         ...wordConfig,
-        minValue: _minValue,
+        minValue,
         fontFactor,
         fontOffset: fontOffset! + minFont!,
         fontFamily,
         index,
         _placeFirstWord: placeFirstWord,
-        _placeOtherWord: placeOtherWord
+        _placeOtherWord: placeOtherWord,
+        _onPlaced: handleWordPlaced
       })
-      return word
-    })
+    )
+
+    wordsRef.current = wordsArray
     setWords(wordsArray)
+
+    // 个别词不触发 onLayout 时, 静默到点按已放置的结果渲染
+    scheduleFlush()
+
+    return () => {
+      if (flushTimer.current) {
+        clearTimeout(flushTimer.current)
+        flushTimer.current = null
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

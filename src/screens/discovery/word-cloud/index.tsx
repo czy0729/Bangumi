@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-05 19:58:28
  */
-import React from 'react'
 import { RefreshControl } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component, Page, ScrollView } from '@components'

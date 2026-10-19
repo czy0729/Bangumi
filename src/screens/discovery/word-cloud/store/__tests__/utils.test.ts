@@ -14,10 +14,11 @@ import {
   removeSpec
 } from '../utils'
 
+import type { SubjectId } from '@types'
 import type { CollectionsV0Item, SnapshotSubjectsItem } from '../../types'
 
 /** 构造条目快照 */
-function subject(id, fields = {}) {
+function subject(id: SubjectId, fields: Omit<Partial<SnapshotSubjectsItem>, 'id'> = {}) {
   return {
     id,
     ...fields
@@ -25,7 +26,7 @@ function subject(id, fields = {}) {
 }
 
 /** 构造收藏条目 */
-function collection(id, tags = []) {
+function collection(id: SubjectId, tags: string[] = []) {
   return {
     id,
     name: '',

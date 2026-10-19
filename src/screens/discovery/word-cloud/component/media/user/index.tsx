@@ -4,12 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-16 22:07:44
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Avatar, BLURVIEW_TINT_DARK, Flex, Text } from '@components'
 import { BlurView } from '@_'
 import { _, useStore } from '@stores'
+import { stl } from '@utils'
 import { IOS } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -56,7 +56,7 @@ function User() {
             </Text>
             {!!bottomText && bottomText !== top && (
               <Text
-                style={[_.mt.xs, styles.opacity]}
+                style={stl(_.mt.xs, styles.opacity)}
                 type='__plain__'
                 size={12}
                 bold

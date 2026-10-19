@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-11-29 17:46:24
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { BlurView, BLURVIEW_TINT_DARK } from '@components'
 import { useStore } from '@stores'

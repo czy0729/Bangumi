@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-06 09:02:36
  */
-import React from 'react'
 import { Text as TextComp, Touchable } from '@components'
 
 import type { TextProps } from './types'

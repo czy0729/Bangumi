@@ -4,13 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-16 22:08:38
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { BLURVIEW_TINT_DARK, Cover, Flex, Text } from '@components'
 import { BlurView } from '@_'
 import { _, useStore } from '@stores'
-import { getMonoCoverSmall } from '@utils'
+import { getMonoCoverSmall, stl } from '@utils'
 import { IOS } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -62,7 +61,7 @@ function Mono() {
             </Text>
             {!!bottomText && bottomText !== top && (
               <Text
-                style={[_.mt.xs, styles.opacity]}
+                style={stl(_.mt.xs, styles.opacity)}
                 type='__plain__'
                 size={12}
                 bold

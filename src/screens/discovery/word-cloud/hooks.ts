@@ -3,8 +3,10 @@
  * @Date: 2024-09-27 16:42:01
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-11-29 17:44:07
+ *
+ * 词云页面逻辑
  */
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { StatusBar } from '@components'
 import { systemStore, useInitStore } from '@stores'
 import { info } from '@utils'
@@ -21,24 +23,30 @@ export function useWordCloudPage(props: NavigationProps) {
   const { id, $ } = context
 
   const [refreshing, setRefreshing] = useState(false)
+  const statusBarTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
   const handleRefresh = useCallback(async () => {
     setRefreshing(true)
 
-    if (systemStore.advance) {
-      if ($.subjectId) {
-        await $.batchSubjectThenCut(true)
-      } else if ($.topicId) {
-        await $.cutTopic()
-      } else if ($.monoId) {
-        await $.cutMono()
-      } else if ($.userId) {
-        $.genSubjectCut()
+    try {
+      if (systemStore.advance) {
+        if ($.subjectId) {
+          await $.batchSubjectThenCut(true)
+        } else if ($.topicId) {
+          await $.cutTopic()
+        } else if ($.monoId) {
+          await $.cutMono()
+        } else if ($.userId) {
+          $.genSubjectCut()
+        }
+      } else {
+        info('由于此服务需要消耗大量服务器资源\n暂不对非付费用户提供主动刷新功能', 5)
       }
-    } else {
-      info('由于此服务需要消耗大量服务器资源\n暂不对非付费用户提供主动刷新功能', 5)
+    } catch {
+      info('刷新失败, 请稍后重试')
+    } finally {
+      setRefreshing(false)
     }
-
-    setRefreshing(false)
   }, [$, setRefreshing])
 
   usePageLifecycle(
@@ -47,7 +55,8 @@ export function useWordCloudPage(props: NavigationProps) {
         $.fetchTrend()
       },
       onFocus() {
-        setTimeout(() => {
+        if (statusBarTimer.current) clearTimeout(statusBarTimer.current)
+        statusBarTimer.current = setTimeout(() => {
           StatusBar.setBarStyle('light-content')
         }, 40)
       },
@@ -55,6 +64,11 @@ export function useWordCloudPage(props: NavigationProps) {
         $.init()
       },
       onLeave() {
+        if (statusBarTimer.current) {
+          clearTimeout(statusBarTimer.current)
+          statusBarTimer.current = null
+        }
+
         if (!WEB) $.onClose()
       },
       onLeaveComplete() {
@@ -66,7 +80,11 @@ export function useWordCloudPage(props: NavigationProps) {
 
   return {
     ...context,
+
+    /** 下拉刷新中 */
     refreshing,
+
+    /** 下拉刷新 */
     handleRefresh
   }
 }

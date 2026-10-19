@@ -3,14 +3,15 @@
  * @Date: 2024-11-02 08:08:40
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-11-29 17:47:46
+ *
+ * 收藏词云筛选: 条目类型 / 分词类型 / 二级分类 / 年份
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Loading, Text } from '@components'
 import { IconTouchable, Popover } from '@_'
 import { _, useStore } from '@stores'
-import { confirm } from '@utils'
+import { confirm, stl } from '@utils'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import { CUT_TYPE, METAS } from '../../ds'
 import { COMPONENT, SUBJECT_TYPE_DS } from './ds'
@@ -23,14 +24,14 @@ function Filter() {
 
   if (!$.userId) return null
 
-  const positions = ['全部职位', ...$.positions] as const
+  const positions = ['全部职位', ...$.positions]
   const elSplit = (
     <Text style={styles.split} type='__plain__' size={13} bold>
       ·
     </Text>
   )
 
-  const years = ['收藏时间', ...$.years] as const
+  const years = ['收藏时间', ...$.years]
 
   return (
     <Flex style={styles.container} justify='center'>
@@ -93,7 +94,7 @@ function Filter() {
       )}
       {!$.state.fetchingCollections && (
         <IconTouchable
-          style={[_.ml._xs, _.mr._sm]}
+          style={stl(_.ml._xs, _.mr._sm)}
           name='md-refresh'
           size={16}
           color='rgba(255, 255, 255, 0.64)'

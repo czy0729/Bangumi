@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-04 16:28:55
  */
-import React from 'react'
 import Item from './item'
 
 import type { RenderItem } from '@types'

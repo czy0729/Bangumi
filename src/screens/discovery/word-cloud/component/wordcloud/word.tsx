@@ -3,8 +3,9 @@
  * @Date: 2024-09-27 14:28:46
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-06 09:02:38
+ *
+ * 创建单词: 先以透明文字参与测量, 测量完成后交给布局函数定位
  */
-import React from 'react'
 import Text from './text'
 import { getRandomColor } from './utils'
 
@@ -18,6 +19,7 @@ export function createWord(wordConfig: WordConfig): Word {
     index: wordConfig.index,
     _placeFirstWord: wordConfig._placeFirstWord,
     _placeOtherWord: wordConfig._placeOtherWord,
+    _onPlaced: wordConfig._onPlaced,
     text: wordConfig.text,
     value: wordConfig.value,
     fontFactor: wordConfig.fontFactor,
@@ -60,6 +62,8 @@ export function createWord(wordConfig: WordConfig): Word {
         } else {
           word._placeOtherWord(word)
         }
+
+        word._onPlaced?.(word.index)
       }}
     >
       {word.text}

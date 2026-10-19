@@ -4,12 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-16 22:08:23
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { BLURVIEW_TINT_DARK, Cover, Flex, Text } from '@components'
 import { BlurView, Rank, Stars } from '@_'
 import { _, useStore } from '@stores'
+import { stl } from '@utils'
 import { IMG_HEIGHT_SM, IMG_WIDTH_SM, IOS } from '@constants'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -55,7 +55,7 @@ function Subject() {
               </Text>
               {!!bottom && bottom !== top && (
                 <Text
-                  style={[styles.opacity, _.mt.xs]}
+                  style={stl(styles.opacity, _.mt.xs)}
                   type='__plain__'
                   size={12}
                   bold
@@ -68,7 +68,7 @@ function Subject() {
             <Flex style={_.mt.sm}>
               <Rank style={styles.rank} value={$.subject.rank} />
               <Stars textStyle={styles.opacity} type='__plain__' value={$.subject.rating.score} />
-              <Text style={[styles.opacity, _.ml.xs]} type='__plain__' size={11} bold>
+              <Text style={stl(styles.opacity, _.ml.xs)} type='__plain__' size={11} bold>
                 ({$.subject.rating.total}人评分)
               </Text>
             </Flex>
