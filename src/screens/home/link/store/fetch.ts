@@ -2,16 +2,23 @@
  * @Author: czy0729
  * @Date: 2025-12-10 22:49:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-27 15:50:50
+ * @Last Modified time: 2026-10-20 12:00:00
+ *
+ * 请求关联图数据 (按 nodeId 分段下载与本地缓存) + 条目信息 / 收藏状态补齐
  */
 import { collectionStore, subjectStore, systemStore } from '@stores'
 import { getTimestamp, queue } from '@utils'
+import { ensureCacheLimit } from '@utils/cache'
 import { xhrCustom } from '@utils/fetch'
 import { get, update } from '@utils/kv'
 import { DEV, HOST_DOGE } from '@constants'
 import Computed from './computed'
+import { normalizeRelateMap, sortByDate } from './utils'
 
-import type { NodeItem, RelateMap } from '../types'
+import type { RelateMap } from '../types'
+
+/** 已下载的关系图缓存上限 (按 nodeId 分段, 不加界会随浏览条目增长) */
+const CACHE_LIMIT = 30
 
 const cacheMap = new Map<string, RelateMap>()
 
@@ -44,8 +51,9 @@ export default class Fetch extends Computed {
             url: `${HOST_DOGE}/${path}/map/${Math.floor(nodeId / 1000)}/${nodeId}.json`
           })
 
-          map = JSON.parse(mapRes._response) as RelateMap
+          map = normalizeRelateMap(JSON.parse(mapRes._response) as RelateMap)
           cacheMap.set(cacheId, map)
+          ensureCacheLimit(cacheMap, CACHE_LIMIT)
         }
 
         this.setState({
@@ -57,6 +65,7 @@ export default class Fetch extends Computed {
         })
       }
     } catch (error) {
+      this.error('fetchNode', error)
       this.setState({
         error: true
       })
@@ -145,26 +154,3 @@ export default class Fetch extends Computed {
     return false
   }
 }
-
-const sortByDate = (list: NodeItem[]) =>
-  list.slice().sort((a, b) => {
-    const dateA = a.date || '2099-12-31'
-    const dateB = b.date || '2099-12-31'
-
-    if (dateA !== dateB) {
-      return dateA.localeCompare(dateB)
-    }
-
-    const hasParenA = (a.name || a.nameCN || '').includes('(')
-    const hasParenB = (b.name || b.nameCN || '').includes('(')
-
-    if (hasParenA !== hasParenB) {
-      // 没有 '(' 的优先
-      return hasParenA ? 1 : -1
-    }
-
-    const nameA = a.name || a.nameCN || ''
-    const nameB = b.name || b.nameCN || ''
-
-    return nameA.localeCompare(nameB)
-  })

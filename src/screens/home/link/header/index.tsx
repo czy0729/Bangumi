@@ -3,6 +3,8 @@
  * @Date: 2025-12-10 22:46:41
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-17 22:44:57
+ *
+ * 页面头部: 关联条目数 + 配置面板入口
  */
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'

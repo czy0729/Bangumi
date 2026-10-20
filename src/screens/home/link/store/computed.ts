@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-12-10 22:40:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-17 22:18:21
+ * @Last Modified time: 2026-09-27 19:20:28
+ *
+ * 派生: 关联数据过滤、筛选计数与页面标识
  */
 import { computed } from 'mobx'
 import { logger } from '@utils/dev'
@@ -39,7 +41,7 @@ export default class Computed extends State {
       .join('|')
   }
 
-  /** 关联数据 */
+  /** 关联数据 (extra 模式只保留指定类型) */
   @computed get map() {
     const { extra, type } = this.params
     const { map } = this.state
@@ -47,10 +49,10 @@ export default class Computed extends State {
 
     const { node, relate } = map
 
-    // 1. 先根据类型和平台过滤节点
+    // 1. 先根据类型过滤节点
     const finalNode = node.filter(item => Number(item.type) === Number(type))
 
-    // 2. 过滤关联（基于原始关联，但两端节点都在过滤后节点中）
+    // 2. 过滤关联 (两端节点都在过滤后节点中)
     const validNodeIds = new Set(finalNode.map(n => n.id))
     const filteredRelate = relate.filter(r => validNodeIds.has(r.src) && validNodeIds.has(r.dst))
 
@@ -77,17 +79,17 @@ export default class Computed extends State {
       item => !hideTypes.includes(item.type) && !hidePlatforms.includes(item.platform)
     )
 
-    // 2. 过滤关联（基于原始关联，但两端节点都在过滤后节点中）
+    // 2. 过滤关联 (两端节点都在过滤后节点中)
     const validNodeIds = new Set(filteredNodeByType.map(n => n.id))
     let filteredRelate = relate.filter(r => validNodeIds.has(r.src) && validNodeIds.has(r.dst))
 
-    // 3. 如果有 hideRelates，进一步过滤关联
+    // 3. 如果有 hideRelates, 进一步过滤关联
     if (hideRelates.length) {
       const hideRelatesSet = new Set(hideRelates)
       filteredRelate = filteredRelate.filter(r => !hideRelatesSet.has(r.relate))
     }
 
-    // 4. 如果有 hideRelates，移除孤立节点
+    // 4. 如果有 hideRelates, 移除孤立节点
     let finalNode = filteredNodeByType
     if (hideRelates.length) {
       const connectedIds = new Set<string | number>()
@@ -103,8 +105,6 @@ export default class Computed extends State {
       filteredRelate = filteredRelate.filter(
         r => finalNodeIds.has(r.src) && finalNodeIds.has(r.dst)
       )
-    } else {
-      finalNode = filteredNodeByType
     }
 
     return {
@@ -112,6 +112,42 @@ export default class Computed extends State {
       node: finalNode,
       relate: filteredRelate
     }
+  }
+
+  /** 条目类型计数, 按数量降序 */
+  @computed get typeCounts(): { label: number; count: number }[] {
+    const map = new Map<number, number>()
+    this.map.node.forEach(item => {
+      map.set(item.type, (map.get(item.type) || 0) + 1)
+    })
+
+    return Array.from(map.entries())
+      .map(([label, count]) => ({ label, count }))
+      .sort((a, b) => b.count - a.count)
+  }
+
+  /** 条目平台计数, 按数量降序 */
+  @computed get platformCounts(): { label: string; count: number }[] {
+    const map = new Map<string, number>()
+    this.map.node.forEach(item => {
+      map.set(item.platform, (map.get(item.platform) || 0) + 1)
+    })
+
+    return Array.from(map.entries())
+      .map(([label, count]) => ({ label, count }))
+      .sort((a, b) => b.count - a.count)
+  }
+
+  /** 关系线类型计数, 按数量降序 */
+  @computed get relateCounts(): { label: string; count: number }[] {
+    const map = new Map<string, number>()
+    this.map.relate.forEach(item => {
+      map.set(item.relate, (map.get(item.relate) || 0) + 1)
+    })
+
+    return Array.from(map.entries())
+      .map(([label, count]) => ({ label, count }))
+      .sort((a, b) => b.count - a.count)
   }
 
   /** 用于强制组件刷新 */

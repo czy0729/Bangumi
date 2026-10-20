@@ -3,8 +3,10 @@
  * @Date: 2025-12-14 17:39:24
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-17 03:03:20
+ *
+ * 关联线: 直角折线 + 关系文字标签
  */
-import React from 'react'
+import { Fragment } from 'react'
 import { Pressable, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
@@ -127,7 +129,7 @@ function Lines({ side, relations, layoutsRef, activeRelation, handleRelationPres
         const bottomLabelTop = vTop + vHeight * 0.75 - labelHeight / 2
 
         return (
-          <React.Fragment key={`${side}-${r.src}-${r.dst}-${i}`}>
+          <Fragment key={`${side}-${r.src}-${r.dst}-${i}`}>
             <View
               style={stl(
                 styles.horizontal,
@@ -172,7 +174,7 @@ function Lines({ side, relations, layoutsRef, activeRelation, handleRelationPres
             ) : (
               renderLabel(r, hX, centerLabelTop, isActive, 'center')
             )}
-          </React.Fragment>
+          </Fragment>
         )
       })}
     </>

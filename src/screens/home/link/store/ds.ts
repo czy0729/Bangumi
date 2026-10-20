@@ -3,6 +3,8 @@
  * @Date: 2025-12-10 22:39:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-27 19:20:28
+ *
+ * 关联图页面状态声明
  */
 import { _ } from '@stores'
 import { COMPONENT } from '../ds'
@@ -27,9 +29,6 @@ export const EXCLUDE_STATE = {
 
   /** 是否获取数据失败 */
   error: false,
-
-  /** 当前页面实例是否在路由栈中 (用于退出页面后马上拦截剩余的请求) */
-  focused: false,
 
   /** 可视范围底部 y */
   visibleBottom: _.window.height

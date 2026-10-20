@@ -6,8 +6,8 @@
  *
  * 关系图: 布局与渲染逻辑见 ./hooks
  */
+import { memo } from 'react'
 import { ScrollView, View } from 'react-native'
-import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { useRelationGraph } from './hooks'
@@ -119,4 +119,4 @@ function RelationGraph(props: RelationGraphProps) {
   )
 }
 
-export default observer(RelationGraph)
+export default memo(RelationGraph)

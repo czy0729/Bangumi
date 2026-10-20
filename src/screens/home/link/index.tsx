@@ -3,6 +3,8 @@
  * @Date: 2025-12-10 22:31:39
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-25 05:19:10
+ *
+ * 条目关联页面: 关系图 + 配置面板
  */
 import { observer } from 'mobx-react'
 import { Component, Empty, HeaderPlaceholder, Page } from '@components'

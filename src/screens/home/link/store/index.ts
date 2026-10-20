@@ -3,6 +3,8 @@
  * @Date: 2025-12-10 22:43:01
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-12 00:59:24
+ *
+ * 条目关联页面状态机
  */
 import Action from './action'
 import { normalizeHideTypes } from './utils'

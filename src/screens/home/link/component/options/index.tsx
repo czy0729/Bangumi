@@ -3,10 +3,20 @@
  * @Date: 2025-12-16 03:31:45
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-23 07:25:46
+ *
+ * 关联图配置面板: 类型 / 平台 / 关系筛选与显示项开关
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { ActionSheet, Divider, Flex, Iconfont, SwitchPro, Text, Touchable } from '@components'
+import {
+  ActionSheet,
+  Divider,
+  Flex,
+  Iconfont,
+  SwitchPro,
+  Text,
+  Touchable
+} from '@components'
 import { IconTouchable, ItemSetting, Notice } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { info, stl } from '@utils'
@@ -22,36 +32,6 @@ function Options() {
   const styles = memoStyles()
 
   const { hideTypes, hidePlatforms, hideRelates, trend } = $.state
-
-  // types (条目类型为数字)
-  const typeCountMap = new Map<number, number>()
-  $.map.node.forEach(item => {
-    const type = item.type
-    typeCountMap.set(type, (typeCountMap.get(type) || 0) + 1)
-  })
-  const types = Array.from(typeCountMap.entries())
-    .map(([label, count]) => ({ label, count }))
-    .sort((a, b) => b.count - a.count)
-
-  // platforms
-  const platformCountMap = new Map<string, number>()
-  $.map.node.forEach(item => {
-    const platform = item.platform
-    platformCountMap.set(platform, (platformCountMap.get(platform) || 0) + 1)
-  })
-  const platforms = Array.from(platformCountMap.entries())
-    .map(([label, count]) => ({ label, count }))
-    .sort((a, b) => b.count - a.count)
-
-  // relates
-  const relateCountMap = new Map<string, number>()
-  $.map.relate.forEach(item => {
-    const type = item.relate
-    relateCountMap.set(type, (relateCountMap.get(type) || 0) + 1)
-  })
-  const relates = Array.from(relateCountMap.entries())
-    .map(([label, count]) => ({ label, count }))
-    .sort((a, b) => b.count - a.count)
 
   const renderFilterSection = (
     title: string,
@@ -138,7 +118,7 @@ function Options() {
       {renderFilterSection(
         '类型',
         '点击切换是否显示该类型的条目',
-        types,
+        $.typeCounts,
         hideTypes,
         'hideTypes',
         label => MODEL_SUBJECT_TYPE.getTitle(label)
@@ -147,7 +127,7 @@ function Options() {
       {renderFilterSection(
         '平台',
         '点击切换是否显示该平台的条目',
-        platforms,
+        $.platformCounts,
         hidePlatforms,
         'hidePlatforms'
       )}
@@ -155,7 +135,7 @@ function Options() {
       {renderFilterSection(
         '关联',
         '点击切换是否显示该类型的关系（实验性选项，通常情况下不应该更改此项；当有禁用值时，仅会在一个条目与其他没任何关系时，才会被过滤掉）',
-        relates,
+        $.relateCounts,
         hideRelates,
         'hideRelates'
       )}
