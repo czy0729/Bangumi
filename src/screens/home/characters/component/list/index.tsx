@@ -20,11 +20,12 @@ function List() {
 
   return (
     <PaginationList
+      // 切换定位后整批重建, 回到顶部并从第 1 页开始
+      key={$.state.position}
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}
       data={$.list}
       limit={8}
-      resetKey={$.state.position}
       estimatedItemHeight={ITEM_CHARACTER_HEIGHT}
       renderItem={renderItem}
       onScroll={$.onScroll}

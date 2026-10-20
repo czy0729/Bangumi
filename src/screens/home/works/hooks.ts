@@ -3,6 +3,8 @@
  * @Date: 2024-11-17 11:21:58
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-23 02:59:43
+ *
+ * 人物作品页面逻辑
  */
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'

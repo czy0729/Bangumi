@@ -8,6 +8,7 @@
  */
 import { monoStore } from '@stores'
 import { getTimestamp } from '@utils'
+import { ensureCacheLimit } from '@utils/cache'
 import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
 import Computed from './computed'
@@ -15,7 +16,7 @@ import Computed from './computed'
 import type { SnapshotId, Snapshot } from '../types'
 
 /** 若更新过则不会再主动更新 */
-const THIRD_PARTY_UPDATED = new Map<SnapshotId, true>()
+const THIRD_PARTY_UPDATED = new Set<SnapshotId>()
 
 export default class Fetch extends Computed {
   /** 更多制作人员 */
@@ -49,7 +50,8 @@ export default class Fetch extends Computed {
     })
   }
 
-  /** 上传预数据
+  /**
+   * 上传预数据
    *
    * 同一次会话中每个条目只上传一次
    */
@@ -61,7 +63,8 @@ export default class Fetch extends Computed {
         list: this.persons.list
       })
 
-      THIRD_PARTY_UPDATED.set(this.thirdPartyKey, true)
+      THIRD_PARTY_UPDATED.add(this.thirdPartyKey)
+      ensureCacheLimit(THIRD_PARTY_UPDATED, 100)
     }, 0)
   }
 

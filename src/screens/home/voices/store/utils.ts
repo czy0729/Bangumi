@@ -3,6 +3,8 @@
  * @Date: 2026-05-09 21:00:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-09 21:43:27
+ *
+ * 角色列表排序工具
  */
 import type { MonoVoicesItem, MonoVoicesSubjectItem } from '@stores/subject/types'
 

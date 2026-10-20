@@ -3,9 +3,12 @@
  * @Date: 2023-12-17 10:17:28
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-19 17:15:02
+ *
+ * 更多制作人员页面组件标识与职位排序常量
  */
 export const COMPONENT = 'Persons'
 
+/** 职位展示顺序 (未列出的职位排在最后) */
 export const SORT_POSITIONS = [
   // ===== 创作核心（第一眼）=====
   '原作',
@@ -60,4 +63,5 @@ export const SORT_POSITIONS = [
   '製作'
 ] as const
 
+/** 筛选全部 */
 export const LABEL_ALL = '全部职位'

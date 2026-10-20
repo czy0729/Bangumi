@@ -3,6 +3,8 @@
  * @Date: 2024-08-27 10:18:49
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-01-09 06:27:50
+ *
+ * 制作人员页面交互: 职位筛选与滚动
  */
 import { updateVisibleBottom } from '@utils'
 import Fetch from './fetch'

@@ -20,7 +20,7 @@ import type { SubjectId } from '@types'
 import type { SnapshotId } from '../types'
 
 /** 若更新过则不会再主动更新 */
-const THIRD_PARTY_UPDATED = new Map<SnapshotId, true>()
+const THIRD_PARTY_UPDATED = new Set<SnapshotId>()
 
 export default class Fetch extends Computed {
   /** 人物角色 */
@@ -94,7 +94,7 @@ export default class Fetch extends Computed {
       update(this.thirdPartyKey, {
         list: this.monoVoices.list.slice(0, SNAPSHOT_LIMIT)
       })
-      THIRD_PARTY_UPDATED.set(this.thirdPartyKey, true)
+      THIRD_PARTY_UPDATED.add(this.thirdPartyKey)
       ensureCacheLimit(THIRD_PARTY_UPDATED, 100)
     }, 0)
   }

@@ -3,6 +3,8 @@
  * @Date: 2024-09-16 20:48:10
  * @Last Modified by:   czy0729
  * @Last Modified time: 2024-09-16 20:48:10
+ *
+ * 人物角色页面状态基类
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'

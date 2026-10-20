@@ -3,11 +3,14 @@
  * @Date: 2024-08-27 04:39:40
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-19 17:42:43
+ *
+ * 制作人员派生数据: 列表 + 职位筛选 + 云快照
  */
 import { computed } from 'mobx'
 import { monoStore } from '@stores'
 import { asc } from '@utils'
 import { HTML_SUBJECT_PERSONS, LIST_EMPTY } from '@constants'
+import { OTA_PAGE_TOTAL } from '../../ds'
 import { LABEL_ALL, SORT_POSITIONS } from '../ds'
 import State from './state'
 
@@ -29,7 +32,7 @@ export default class Computed extends State {
         ...this.ota,
         pagination: {
           page: 1,
-          pageTotal: 10
+          pageTotal: OTA_PAGE_TOTAL
         }
       }
     }

@@ -20,11 +20,13 @@ function List() {
 
   return (
     <PaginationList
+      // 切换职位后整批重建, 回到顶部并从第 1 页开始
+      key={$.state.position}
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}
       data={$.list}
-      estimatedItemHeight={ITEM_PERSON_HEIGHT}
       limit={12}
+      estimatedItemHeight={ITEM_PERSON_HEIGHT}
       renderItem={renderItem}
       onScroll={$.onScroll}
     />

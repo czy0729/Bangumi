@@ -3,6 +3,8 @@
  * @Date: 2024-08-27 03:24:25
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-19 16:56:50
+ *
+ * 制作人员页面状态基类
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'

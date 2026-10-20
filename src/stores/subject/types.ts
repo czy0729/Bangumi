@@ -16,8 +16,8 @@ import type {
   ImagesCrt,
   ListEmpty,
   Loaded,
+  MonoId,
   Override,
-  PersonId,
   Rating as RatingType,
   RatingStatus,
   SubjectId,
@@ -840,8 +840,8 @@ export type EpStatus = Record<EpId, string>
 
 /** 人物角色参数 */
 export type FetchMonoVoicesArgs = {
-  /** 现实人物 ID */
-  monoId: PersonId
+  /** 人物 ID (现实人物 / 虚拟角色) */
+  monoId: MonoId
 
   /** 职位筛选 */
   position?: string
@@ -849,8 +849,8 @@ export type FetchMonoVoicesArgs = {
 
 /** 人物作品参数 */
 export type FetchMonoWorksArgs = {
-  /** 现实人物 ID */
-  monoId: PersonId
+  /** 人物 ID (现实人物 / 虚拟角色) */
+  monoId: MonoId
 
   /** 作品职位筛选 */
   position?: string

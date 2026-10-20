@@ -3,10 +3,13 @@
  * @Date: 2024-09-16 20:49:18
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-09 21:43:58
+ *
+ * 人物角色派生数据: 列表 + 内外层排序 + 云快照
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
 import { HTML_MONO_VOICES, LIST_EMPTY } from '@constants'
+import { OTA_PAGE_TOTAL } from '../../ds'
 import { sortByOuterOrder, sortSubjects } from './utils'
 import State from './state'
 
@@ -14,6 +17,7 @@ import type { MonoVoices } from '@stores/subject/types'
 import type { SnapshotId } from '../types'
 
 export default class Computed extends State {
+  /** 人物 Id */
   @computed get monoId() {
     return this.params.monoId
   }
@@ -38,7 +42,7 @@ export default class Computed extends State {
         ...this.ota,
         pagination: {
           page: 1,
-          pageTotal: 10
+          pageTotal: OTA_PAGE_TOTAL
         }
       }
     }

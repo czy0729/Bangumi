@@ -20,22 +20,22 @@ import type { Ctx } from '../types'
 function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const handleHeaderRight = useCallback(
-    () => (
-      <HeaderV2Popover
-        data={DATA}
-        onSelect={title => {
-          if (title === TEXT_MENU_BROWSER) {
-            open($.url)
+  const handleSelect = useCallback(
+    (title: string) => {
+      if (title === TEXT_MENU_BROWSER) {
+        open($.url)
 
-            t('制作人员.右上角菜单', {
-              key: title
-            })
-          }
-        }}
-      />
-    ),
+        t('制作人员.右上角菜单', {
+          key: title
+        })
+      }
+    },
     [$]
+  )
+
+  const handleHeaderRight = useCallback(
+    () => <HeaderV2Popover data={DATA} onSelect={handleSelect} />,
+    [handleSelect]
   )
 
   const title = $.params?.name ? `${$.params.name}的制作人员` : '更多制作人员'

@@ -3,6 +3,8 @@
  * @Date: 2020-04-25 14:54:18
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-23 03:00:05
+ *
+ * 人物作品页面状态机
  */
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'

@@ -20,9 +20,12 @@ function List() {
 
   if (!$.monoVoices._loaded) return null
 
+  const { position, outerOrder, innerOrder } = $.state
+
   return (
     <PaginationList
-      key={`${$.state.outerOrder}|${$.state.innerOrder}`}
+      // 排序 / 职位变化后整批重建, 回到顶部并从第 1 页开始
+      key={`${outerOrder}|${innerOrder}|${position}`}
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}
       data={$.sortedMonoVoicesList}

@@ -3,6 +3,8 @@
  * @Date: 2020-04-28 00:24:15
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-16 20:53:12
+ *
+ * 人物角色页面状态机
  */
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'

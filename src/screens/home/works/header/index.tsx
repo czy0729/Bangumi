@@ -12,7 +12,7 @@ import { HeaderV2, HeaderV2Popover } from '@components'
 import { useStore } from '@stores'
 import { open } from '@utils'
 import { t } from '@utils/fetch'
-import { TEXT_MENU_SPLIT } from '@constants'
+import { TEXT_MENU_BROWSER, TEXT_MENU_SPLIT } from '@constants'
 import { COMPONENT, DATA } from './ds'
 
 import type { Ctx } from '../types'
@@ -26,24 +26,25 @@ function Header() {
   const { length } = monoWorks.list
   if (length) title += ` (${length})`
 
-  const handleHeaderRight = useCallback(
-    () => (
-      <HeaderV2Popover
-        data={[...DATA, TEXT_MENU_SPLIT, ...toolBar]}
-        onSelect={title => {
-          if (title === '浏览器查看') {
-            open($.url)
+  const handleSelect = useCallback(
+    (label: string) => {
+      if (label === TEXT_MENU_BROWSER) {
+        open($.url)
 
-            t('作品.右上角菜单', {
-              key: title
-            })
-          } else {
-            $.onToolBar(title)
-          }
-        }}
-      />
-    ),
-    [$, toolBar]
+        t('作品.右上角菜单', {
+          key: label
+        })
+        return
+      }
+
+      $.onToolBar(label)
+    },
+    [$]
+  )
+
+  const handleHeaderRight = useCallback(
+    () => <HeaderV2Popover data={[...DATA, TEXT_MENU_SPLIT, ...toolBar]} onSelect={handleSelect} />,
+    [handleSelect, toolBar]
   )
 
   return <HeaderV2 title={title} alias='作品' hm={$.hm} headerRight={handleHeaderRight} />

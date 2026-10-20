@@ -23,6 +23,7 @@ import {
   TEXT_MENU_TOOLBAR,
   withSplit
 } from '@constants'
+import { OTA_PAGE_TOTAL } from '../../ds'
 import State from './state'
 
 import type { MonoWorks } from '@stores/subject/types'
@@ -49,7 +50,7 @@ export default class Computed extends State {
         ...this.ota,
         pagination: {
           page: 1,
-          pageTotal: 10
+          pageTotal: OTA_PAGE_TOTAL
         }
       }
     }

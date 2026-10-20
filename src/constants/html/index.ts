@@ -19,7 +19,6 @@ import type {
   EpId,
   Id,
   MonoId,
-  PersonId,
   RakuenScope,
   RakuenType,
   RakuenTypeGroup,
@@ -95,7 +94,7 @@ export const HTML_MONO = (monoId: MonoId) => {
  * position: /position/{INT}
  */
 export const HTML_MONO_WORKS = (
-  monoId: PersonId,
+  monoId: MonoId,
   position: string = '',
   sort: 'date' | 'rank' | 'title' = 'title',
   page: number = 1
@@ -108,7 +107,7 @@ export const HTML_MONO_WORKS = (
  *  - 类型: /voice/{anime | book | game | music | real}
  *  - 角色: /voice/position/{INT}
  */
-export const HTML_MONO_VOICES = (monoId: PersonId, position: string = '') =>
+export const HTML_MONO_VOICES = (monoId: MonoId, position: string = '') =>
   `${HOST}/${monoId}/works/voice${position}`
 
 /** 时间胶囊 */

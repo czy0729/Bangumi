@@ -20,13 +20,13 @@ function ToolBar() {
   if (!$.persons.list.length) return null
 
   // 选中项计数从 filters 实时解析, 数据刷新后计数与文案保持最新
-  const item = $.filters.find(item => item.title === $.state.position) || $.filters[0]
+  const current = $.filters.find(item => item.title === $.state.position) || $.filters[0]
 
   return (
     <ToolBarComp>
       <ToolBarComp.Popover
         data={$.filters.map(item => `${item.title} (${item.value})`)}
-        text={`${item.title} (${item.value})`}
+        text={`${current.title} (${current.value})`}
         onSelect={(_, index) => $.onFilterSelect($.filters[index]?.title ?? LABEL_ALL)}
       />
     </ToolBarComp>

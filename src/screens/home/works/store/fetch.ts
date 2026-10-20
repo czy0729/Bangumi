@@ -18,7 +18,7 @@ import type { ResultData } from '@utils/kv/type'
 import type { SnapshotId } from '../types'
 
 /** 若更新过则不会再主动更新 */
-const THIRD_PARTY_UPDATED = new Map<SnapshotId, true>()
+const THIRD_PARTY_UPDATED = new Set<SnapshotId>()
 
 export default class Fetch extends Computed {
   /** 人物作品 */
@@ -93,7 +93,7 @@ export default class Fetch extends Computed {
       update(this.thirdPartyKey, {
         list: this.monoWorks.list.map(({ collected, ...other }) => other)
       })
-      THIRD_PARTY_UPDATED.set(this.thirdPartyKey, true)
+      THIRD_PARTY_UPDATED.add(this.thirdPartyKey)
       ensureCacheLimit(THIRD_PARTY_UPDATED, 100)
     }, 0)
   }

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-28 09:00:00
  *
- * 操作: 排序 / 职位筛选, 布局与工具栏切换
+ * 人物作品页面交互: 排序 / 筛选 / 布局
  */
 import { feedback, info, updateVisibleBottom } from '@utils'
 import { t } from '@utils/fetch'
