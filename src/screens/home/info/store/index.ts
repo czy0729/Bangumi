@@ -3,6 +3,8 @@
  * @Date: 2024-09-26 16:06:52
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-08 06:28:40
+ *
+ * 条目详情页面状态机
  */
 import { subjectStore } from '@stores'
 import Action from './action'
@@ -10,7 +12,8 @@ import { EXCLUDE_STATE, NAMESPACE } from './ds'
 
 import type { STATE } from './ds'
 
-export default class ScreenWordCloud extends Action {
+/** 条目详情页面状态机 */
+export default class ScreenSubjectInfo extends Action {
   init = async () => {
     const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
     this.setState({

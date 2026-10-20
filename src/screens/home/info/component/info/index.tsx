@@ -3,6 +3,8 @@
  * @Date: 2024-11-08 04:57:17
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-09 19:54:58
+ *
+ * 详情: 网页版条目说明富文本
  */
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'

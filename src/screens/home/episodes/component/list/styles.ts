@@ -3,6 +3,8 @@
  * @Date: 2022-09-01 09:56:06
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-05 15:37:55
+ *
+ * 章节条目与缩略图样式
  */
 import { _ } from '@stores'
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from './ds'

@@ -17,7 +17,7 @@ import type { ResultData } from '@utils/kv/type'
 import type { SnapshotId } from '../types'
 
 /** 若更新过则不会再主动更新 */
-const THIRD_PARTY_UPDATED = new Map<SnapshotId, true>()
+const THIRD_PARTY_UPDATED = new Set<SnapshotId>()
 
 export default class Fetch extends Computed {
   /** 更多角色 */
@@ -67,7 +67,8 @@ export default class Fetch extends Computed {
     }
   }
 
-  /** 上传预数据
+  /**
+   * 上传预数据
    *
    * 同一次会话中每个条目只上传一次
    */
@@ -78,7 +79,7 @@ export default class Fetch extends Computed {
       update(this.thirdPartyKey, {
         list: this.characters.list
       })
-      THIRD_PARTY_UPDATED.set(this.thirdPartyKey, true)
+      THIRD_PARTY_UPDATED.add(this.thirdPartyKey)
     }, 0)
   }
 }

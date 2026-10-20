@@ -3,6 +3,8 @@
  * @Date: 2024-11-08 06:51:35
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-27 10:30:11
+ *
+ * 条目详情页面交互: 简介翻译
  */
 import { systemStore } from '@stores'
 import { info, loading } from '@utils'

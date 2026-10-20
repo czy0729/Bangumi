@@ -3,6 +3,8 @@
  * @Date: 2024-11-17 09:53:20
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-27 10:02:16
+ *
+ * 条目章节页面逻辑
  */
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'

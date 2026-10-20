@@ -3,10 +3,12 @@
  * @Date: 2024-08-24 07:09:48
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-24 07:10:54
+ *
+ * 章节页面派生数据: 章节筛选与排序
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
-import { HOST } from '@constants'
+import { HTML_SUBJECT } from '@constants'
 import { desc } from '@utils'
 import State from './state'
 
@@ -40,7 +42,7 @@ export default class Computed extends State {
   }
 
   @computed get url() {
-    return `${HOST}/subject/${this.subjectId}/ep`
+    return `${HTML_SUBJECT(this.subjectId)}/ep`
   }
 
   @computed get hm() {

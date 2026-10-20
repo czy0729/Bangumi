@@ -3,11 +3,14 @@
  * @Date: 2024-11-09 06:32:46
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-03 20:37:56
+ *
+ * 条目目录派生数据: 列表 + 云快照 + 目录详情
  */
 import { computed } from 'mobx'
 import { discoveryStore, subjectStore } from '@stores'
 import { computedFn } from '@utils/computed-fn'
 import { HTML_SUBJECT_CATALOGS, LIST_EMPTY } from '@constants'
+import { OTA_PAGE_TOTAL } from '../../ds'
 import State from './state'
 
 import type { SubjectCatalogs } from '@stores/subject/types'
@@ -36,7 +39,7 @@ export default class Computed extends State {
               ...this.ota,
               pagination: {
                 page: 1,
-                pageTotal: 10
+                pageTotal: OTA_PAGE_TOTAL
               }
             }
           : LIST_EMPTY

@@ -3,6 +3,8 @@
  * @Date: 2024-09-19 20:35:49
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-07 04:32:05
+ *
+ * 封面一览列表
  */
 import { observer } from 'mobx-react'
 import { ScrollView } from '@components'

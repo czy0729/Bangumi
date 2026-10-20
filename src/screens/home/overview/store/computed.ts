@@ -7,6 +7,7 @@
  * 派生: 路由参数解析出原始列表, 再按类型筛选
  */
 import { computed } from 'mobx'
+import { HOST } from '@constants'
 import State from './state'
 
 import type { ListItem } from '../types'
@@ -25,5 +26,15 @@ export default class Computed extends State {
     if (!filter) return this.list
 
     return this.list.filter(item => item.desc === filter)
+  }
+
+  /** 网页版地址 */
+  @computed get url() {
+    const { subjectId, path } = this.params
+    return `${HOST}/subject/${subjectId}/${path === '关联' ? 'relations' : 'offprints'}`
+  }
+
+  @computed get hm() {
+    return [this.url, 'Overview'] as const
   }
 }

@@ -3,6 +3,8 @@
  * @Date: 2024-08-07 22:06:43
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-08 06:12:58
+ *
+ * 条目详情派生数据: 简介与网页版详情
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'

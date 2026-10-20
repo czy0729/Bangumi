@@ -3,6 +3,8 @@
  * @Date: 2024-12-06 15:43:47
  * @Last Modified by:   czy0729
  * @Last Modified time: 2024-12-06 15:43:47
+ *
+ * 预览页面交互
  */
 import { updateVisibleBottom } from '@utils'
 import Computed from './computed'

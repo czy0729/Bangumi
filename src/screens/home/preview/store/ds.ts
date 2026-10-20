@@ -3,6 +3,8 @@
  * @Date: 2023-12-17 10:19:39
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-07 01:10:37
+ *
+ * 预览页面状态声明
  */
 import { _ } from '@stores'
 import { COMPONENT } from '../ds'
@@ -31,5 +33,6 @@ export const STATE = {
     Referer?: string
   },
 
+  /** 页面初始化完成 */
   _loaded: false as Loaded
 }

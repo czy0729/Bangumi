@@ -3,6 +3,8 @@
  * @Date: 2020-10-17 17:00:40
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-05 15:18:27
+ *
+ * 章节页面状态机
  */
 import { subjectStore } from '@stores'
 import Action from './action'

@@ -21,7 +21,7 @@ import type { ResultData } from '@utils/kv/type'
 import type { SnapshotId } from '../types'
 
 /** 若更新过则不会再主动更新 */
-const THIRD_PARTY_UPDATED: SnapshotId[] = []
+const THIRD_PARTY_UPDATED = new Set<SnapshotId>()
 
 export default class Fetch extends Computed {
   /**
@@ -110,13 +110,13 @@ export default class Fetch extends Computed {
    * 同一次会话中每个目录只上传一次
    */
   updateThirdParty = async () => {
-    if (THIRD_PARTY_UPDATED.includes(this.thirdPartyKey)) return
+    if (THIRD_PARTY_UPDATED.has(this.thirdPartyKey)) return
 
     setTimeout(() => {
       update(this.thirdPartyKey, {
         list: this.list.list
       })
-      THIRD_PARTY_UPDATED.push(this.thirdPartyKey)
+      THIRD_PARTY_UPDATED.add(this.thirdPartyKey)
     }, 0)
   }
 

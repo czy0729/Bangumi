@@ -20,8 +20,8 @@ export const memoStyles = _.memoStyles(() => {
     item: {
       width,
       minHeight: height,
-      marginLeft: _.sm,
-      marginBottom: _.md
+      marginBottom: _.md,
+      marginLeft: _.sm
     }
   }
 })

@@ -3,6 +3,8 @@
  * @Date: 2022-10-21 12:31:07
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-07 01:48:54
+ *
+ * 预览页面状态机: 优先用本地缓存剧照, 缺失时按平台补充抓取
  */
 import { WEB } from '@constants'
 import Fetch from './fetch'
@@ -27,6 +29,8 @@ export default class ScreenPreview extends Fetch {
         this.fetchMovieFromDouban()
       }
     }
+
+    return true
   }
 
   unmount = () => {

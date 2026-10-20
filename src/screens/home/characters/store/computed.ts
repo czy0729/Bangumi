@@ -3,10 +3,13 @@
  * @Date: 2024-08-24 11:21:34
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-27 08:46:30
+ *
+ * 更多角色派生数据: 角色列表 + 定位筛选 + 云快照
  */
 import { computed } from 'mobx'
 import { monoStore } from '@stores'
 import { HTML_SUBJECT_CHARACTERS, LIST_EMPTY } from '@constants'
+import { OTA_PAGE_TOTAL } from '../../ds'
 import { LABEL_ALL } from '../ds'
 import State from './state'
 
@@ -28,7 +31,7 @@ export default class Computed extends State {
         ...this.ota,
         pagination: {
           page: 1,
-          pageTotal: 10
+          pageTotal: OTA_PAGE_TOTAL
         }
       }
     }

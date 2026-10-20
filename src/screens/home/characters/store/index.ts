@@ -3,6 +3,8 @@
  * @Date: 2020-05-21 16:37:42
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-24 11:29:18
+ *
+ * 条目更多角色页面状态机
  */
 import Action from './action'
 import { RESET_STATE } from './ds'

@@ -3,6 +3,8 @@
  * @Date: 2024-04-17 21:36:27
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-26 19:09:17
+ *
+ * 底部热力图埋点
  */
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'

@@ -3,6 +3,8 @@
  * @Date: 2022-03-15 01:10:52
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-27 10:04:21
+ *
+ * 章节页头部: 标题 + 右上角浏览器打开菜单
  */
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -18,22 +20,22 @@ import type { Ctx } from '../types'
 function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const handleHeaderRight = useCallback(
-    () => (
-      <HeaderV2Popover
-        data={DATA}
-        onSelect={title => {
-          if (title === TEXT_MENU_BROWSER) {
-            open($.url)
+  const handleSelect = useCallback(
+    (title: string) => {
+      if (title === TEXT_MENU_BROWSER) {
+        open($.url)
 
-            t('章节.右上角菜单', {
-              key: title
-            })
-          }
-        }}
-      />
-    ),
+        t('章节.右上角菜单', {
+          key: title
+        })
+      }
+    },
     [$]
+  )
+
+  const handleHeaderRight = useCallback(
+    () => <HeaderV2Popover data={DATA} onSelect={handleSelect} />,
+    [handleSelect]
   )
 
   const title = $.params?.name ? `${$.params.name}的章节` : '章节'

@@ -3,6 +3,8 @@
  * @Date: 2024-09-18 14:33:12
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-05 08:09:57
+ *
+ * 条目封面一览页面状态声明
  */
 import { _ } from '@stores'
 

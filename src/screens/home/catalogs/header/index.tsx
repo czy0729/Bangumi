@@ -3,6 +3,8 @@
  * @Date: 2022-03-15 00:48:16
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-27 05:11:45
+ *
+ * 页面头部: 右上角菜单
  */
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -18,22 +20,22 @@ import type { Ctx } from '../types'
 function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const handleHeaderRight = useCallback(
-    () => (
-      <HeaderV2Popover
-        data={DATA}
-        onSelect={title => {
-          if (title === TEXT_MENU_BROWSER) {
-            open($.url)
+  const handleSelect = useCallback(
+    (title: string) => {
+      if (title === TEXT_MENU_BROWSER) {
+        open($.url)
 
-            t('条目目录.右上角菜单', {
-              key: title
-            })
-          }
-        }}
-      />
-    ),
+        t('条目目录.右上角菜单', {
+          key: title
+        })
+      }
+    },
     [$]
+  )
+
+  const handleHeaderRight = useCallback(
+    () => <HeaderV2Popover data={DATA} onSelect={handleSelect} />,
+    [handleSelect]
   )
 
   const title = $.params?.name ? `包含${$.params.name}的目录` : '条目目录'

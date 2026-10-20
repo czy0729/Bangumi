@@ -3,6 +3,8 @@
  * @Date: 2022-03-15 00:51:47
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-26 19:09:17
+ *
+ * 目录列表条目
  */
 import { observer } from 'mobx-react'
 import { ItemCatalog } from '@_'

@@ -3,11 +3,14 @@
  * @Date: 2024-11-08 06:06:55
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-11-17 09:56:45
+ *
+ * 简介: 原文或翻译结果
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _, systemStore, useStore } from '@stores'
+import { stl } from '@utils'
 import { fixedTranslateResult } from '@screens/home/subject/component/utils'
 import Translate from '../translate'
 import { COMPONENT } from './ds'
@@ -31,7 +34,13 @@ function Summary() {
           {fixedTranslateResult(translateResult, content).map((item, index) => (
             <View key={index} style={_.mt.sm}>
               {!!item.src && (
-                <Text style={[_.mt.md, _.mb.xs]} type='sub' size={12} lineHeight={14} selectable>
+                <Text
+                  style={stl(_.mt.md, _.mb.xs)}
+                  type='sub'
+                  size={12}
+                  lineHeight={14}
+                  selectable
+                >
                   {item.src.trim()}
                 </Text>
               )}
@@ -41,7 +50,7 @@ function Summary() {
             </View>
           ))}
           {systemStore.translateEngine === 'gemini' && (
-            <Text style={[_.mt.sm, _.mr.sm]} type='sub' size={10} bold align='right'>
+            <Text style={stl(_.mt.sm, _.mr.sm)} type='sub' size={10} bold align='right'>
               by ✨Gemini
             </Text>
           )}

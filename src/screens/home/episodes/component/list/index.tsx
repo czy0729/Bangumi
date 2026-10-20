@@ -3,6 +3,8 @@
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-27 10:03:37
+ *
+ * 条目章节列表
  */
 import { View } from 'react-native'
 import { toJS } from 'mobx'

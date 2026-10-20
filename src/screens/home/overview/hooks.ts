@@ -3,6 +3,8 @@
  * @Date: 2024-11-16 10:13:10
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-02 23:42:44
+ *
+ * 条目封面一览页面逻辑
  */
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'

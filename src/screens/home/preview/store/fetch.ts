@@ -54,7 +54,7 @@ export default class Fetch extends Action {
           epsThumbsHeader?: { Referer?: string }
         }>
       >(`douban_${this.subjectId}`)
-      if (!data) return true
+      if (!data) return
 
       const { epsThumbs = [], epsThumbsHeader = {} } = data
       this.setState({
@@ -62,10 +62,8 @@ export default class Fetch extends Action {
         epsThumbsHeader
       })
       this.save()
-
-      return false
     } catch (error) {
-      return true
+      this.error('getThirdParty', error)
     }
   }
 }

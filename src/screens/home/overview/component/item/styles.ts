@@ -3,6 +3,8 @@
  * @Date: 2024-09-19 21:21:02
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-05 08:04:26
+ *
+ * 条目块与标题容器样式
  */
 import { _ } from '@stores'
 

@@ -23,8 +23,9 @@ function List() {
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}
       data={$.list}
-      estimatedItemHeight={ITEM_CHARACTER_HEIGHT}
       limit={8}
+      resetKey={$.state.position}
+      estimatedItemHeight={ITEM_CHARACTER_HEIGHT}
       renderItem={renderItem}
       onScroll={$.onScroll}
     />

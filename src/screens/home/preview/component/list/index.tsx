@@ -3,6 +3,8 @@
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-09 13:10:33
+ *
+ * 预览图列表: 路由透传图与豆瓣剧照合并去重
  */
 import { observer } from 'mobx-react'
 import { Flex, Image, ScrollView, Text, Touchable } from '@components'
