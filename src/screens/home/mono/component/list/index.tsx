@@ -13,6 +13,7 @@ import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { useInsets } from '@utils/hooks'
 import Info from '../info'
+import { ITEM_HEIGHT } from '../item/ds'
 import { renderItem } from './utils'
 import { COMPONENT } from './ds'
 
@@ -29,6 +30,7 @@ function List() {
     <PaginationList
       keyExtractor={keyExtractor}
       contentContainerStyle={_.container.bottom}
+      estimatedItemHeight={ITEM_HEIGHT}
       data={$.list}
       limit={16}
       scrollEventThrottle={16}

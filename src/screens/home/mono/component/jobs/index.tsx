@@ -7,7 +7,7 @@
  * 参与制作区块入口 (惰性加载)
  */
 import { observer } from 'mobx-react'
-import { _, useStore } from '@stores'
+import { _, systemStore, useStore } from '@stores'
 import Jobs from './jobs'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -19,7 +19,17 @@ function JobsWrap() {
 
   if (!$.jobs.length) return null
 
-  return <Jobs styles={memoStyles()} navigation={navigation} style={_.mt.md} jobs={$.jobs} />
+  const { avatarRound } = systemStore.setting
+
+  return (
+    <Jobs
+      styles={memoStyles()}
+      navigation={navigation}
+      style={_.mt.md}
+      jobs={$.jobs}
+      avatarRound={avatarRound}
+    />
+  )
 }
 
 export default observer(JobsWrap)

@@ -14,6 +14,9 @@ import type { Id, Loaded, TranslateResult } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
+/** 吐槽每页条数 (用于本地推算总数) */
+export const COMMENT_PAGE_SIZE = 20
+
 export const RESET_STATE = {
   /** 头部是否固定 */
   fixed: false,

@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { RenderHtml, Text } from '@components'
 import { IconTouchable } from '@_'
 import { _, systemStore, useStore } from '@stores'
-import { appNavigate, isChineseParagraph, removeHTMLTag, removeURLs } from '@utils'
+import { appNavigate, isChineseParagraph, removeHTMLTag, removeURLs, stl } from '@utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -29,7 +29,13 @@ function Content() {
         {translateResult.map((item, index) => (
           <View key={index} style={_.mt.sm}>
             {!!item.src && (
-              <Text style={[_.mt.md, _.mb.xs]} type='sub' size={12} lineHeight={14} selectable>
+              <Text
+                style={stl(_.mt.md, _.mb.xs)}
+                type='sub'
+                size={12}
+                lineHeight={14}
+                selectable
+              >
                 {item.src.trim()}
               </Text>
             )}

@@ -93,12 +93,12 @@ export default class Fetch extends Computed {
         comments: {
           list: this.monoComments.list
             .filter(item => !!item.userId)
-            .filter((_item, index) => index < 8)
+            .slice(0, 8)
             .map(item => ({
               ...omit(item, ['replySub']),
               sub: item.sub
                 .filter(i => !!i.userId)
-                .filter((_i, idx) => idx < 8)
+                .slice(0, 8)
                 .map(i => omit(i, ['replySub']))
             })),
           pagination: this.monoComments.pagination

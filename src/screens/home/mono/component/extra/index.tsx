@@ -21,7 +21,8 @@ function ExtraWrap() {
 
   const isCharacter = $.monoId.includes('character')
   const showTinygrail = $.tinygrail
-  const level = isCharacter && showTinygrail ? tinygrailStore.characters($.id)?.level : 0
+  const level =
+    isCharacter && showTinygrail ? Number(tinygrailStore.characters($.id)?.level) || 0 : 0
 
   const showPic = isCharacter && Number($.commentLength) >= 8
   const picTotal = showPic ? monoStore.picTotal($.cn) : 0

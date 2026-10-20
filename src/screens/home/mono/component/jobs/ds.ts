@@ -23,7 +23,10 @@ export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
   styles: {} as ReturnType<typeof memoStyles>,
   style: {} as ViewStyle,
-  jobs: [] as $['jobs']
+  jobs: [] as $['jobs'],
+
+  /** 封面是否使用圆角 */
+  avatarRound: false
 }
 
 export const EVENT = {

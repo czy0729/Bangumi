@@ -6,12 +6,11 @@
  *
  * 参与制作横滑列表
  */
-
 import { View } from 'react-native'
 import { Cover, Expand, Flex, Heatmap, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { SectionTitle, Tag } from '@_'
-import { _, systemStore } from '@stores'
+import { _ } from '@stores'
 import { appNavigate, cnjp, getCoverMedium, getMonoCoverSmall, stl, x18 } from '@utils'
 import { memo } from '@utils/decorators'
 import { IMG_INFO_ONLY, MODEL_SUBJECT_TYPE } from '@constants'
@@ -21,8 +20,8 @@ import { COMPONENT_MAIN, DEFAULT_PROPS, EVENT } from './ds'
 import type { SubjectTypeCn } from '@types'
 
 const Jobs = memo(
-  ({ navigation, styles, style, jobs }) => {
-    const radius = systemStore.setting.avatarRound ? COVER_WIDTH : _.radiusXs
+  ({ navigation, styles, style, jobs, avatarRound }) => {
+    const radius = avatarRound ? COVER_WIDTH : _.radiusXs
 
     const elContent = (
       <View style={stl(styles.container, style)}>

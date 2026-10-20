@@ -18,4 +18,5 @@ export const EVENT = {
   }
 } as const
 
-export const ITEM_HEIGHT = 94
+/** 单个楼层的高度估算 (也用于列表的 estimatedItemHeight) */
+export const ITEM_HEIGHT = 90

@@ -11,6 +11,7 @@ import { subjectStore, systemStore, tinygrailStore } from '@stores'
 import { cnjp, desc, getMonoCoverSmall, HTMLDecode } from '@utils'
 import { FROZEN_ARRAY, HOST } from '@constants'
 import State from './state'
+import { COMMENT_PAGE_SIZE } from './ds'
 
 import type { Mono } from '@stores/subject/types'
 
@@ -95,12 +96,15 @@ export default class Computed extends State {
       list,
       pagination: { pageTotal = 0 }
     } = this.monoComments
-    return pageTotal <= 1 ? list.length : 20 * (pageTotal >= 2 ? pageTotal - 1 : pageTotal)
+    if (pageTotal <= 1) return list.length
+
+    return COMMENT_PAGE_SIZE * (pageTotal - 1)
   }
 
   /** 职业 */
   @computed get position() {
-    const str = this.mono.detail.split('\n')?.[0] || ''
+    // 读 detail 而非 mono.detail, 后者在人物信息未加载时为空
+    const str = this.detail.split('\n')?.[0] || ''
     if (!str.includes('职业')) return ''
     return str.replace(/ {2,}/g, ' ').replace('职业: ', '')
   }
@@ -126,7 +130,7 @@ export default class Computed extends State {
     return this.mono.info || this.monoFormCDN.info
   }
 
-  /** 人物详情 */
+  /** 人物详情 (人物信息未加载时走 CDN 兜底) */
   @computed get detail() {
     return this.mono.detail || this.monoFormCDN.detail
   }
