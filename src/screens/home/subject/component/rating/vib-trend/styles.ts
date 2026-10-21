@@ -29,6 +29,9 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: _.colorPrimary,
     opacity: _.select(1, 0.64)
   },
+  typeScoreVIB: {
+    backgroundColor: _.colorWarning
+  },
   label: {
     width: '52%'
   },

@@ -1,11 +1,17 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-25 05:11:40
- * @Last Modified by:   czy0729
+ * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-25 05:11:40
+ *
+ * 图标组件标识与公共类型
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../../ds'
+
+import type { Ctx } from '../../types'
+
+export type $ = Ctx['$']
 
 export const COMPONENT = rc(PARENT, 'Icon')
 

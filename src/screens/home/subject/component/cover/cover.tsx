@@ -64,7 +64,7 @@ function Cover({ image, placeholder, width, height, subjectId, nsfw }: Props) {
             style={styles.cover}
             src={image}
             imageViewer
-            imageViewerSrc={getCoverLarge(image || placeholder)}
+            imageViewerSrc={getCoverLarge(image)}
             fadeDuration={0}
             event={event}
             cdn={!nsfw}

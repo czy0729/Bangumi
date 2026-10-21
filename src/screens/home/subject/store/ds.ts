@@ -3,6 +3,8 @@
  * @Date: 2022-05-11 19:30:15
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-26 20:52:51
+ *
+ * 条目页面状态声明
  */
 import { _ } from '@stores'
 import { LIST_EMPTY } from '@constants'

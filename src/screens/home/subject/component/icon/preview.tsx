@@ -12,7 +12,15 @@ import styles from './styles'
 
 import type { Ctx } from '../../types'
 
-function IconPreview({ data, headers }) {
+type Props = {
+  /** 预览图列表 */
+  data?: string[]
+
+  /** 图片请求头 */
+  headers?: Record<string, string>
+}
+
+function IconPreview({ data, headers }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT_PREVIEW)
 
   if (!systemStore.setting.showThumbs) return null

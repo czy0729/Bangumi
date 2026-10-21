@@ -14,7 +14,12 @@ import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
-function IconTranslate({ content = '' }) {
+type Props = {
+  /** 简介原文, 用于判断是否已是中文 */
+  content?: string
+}
+
+function IconTranslate({ content = '' }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT_TRANSLATE)
 
   if (

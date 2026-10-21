@@ -11,7 +11,9 @@ import { STATE } from './ds'
 import type { Params } from '../types'
 
 export default class State extends Store<typeof STATE> {
+  /** 路由参数 */
   params: Params
 
+  /** 页面状态 */
   state = observable(STATE)
 }

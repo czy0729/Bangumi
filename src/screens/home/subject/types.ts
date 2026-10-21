@@ -3,6 +3,8 @@
  * @Date: 2022-07-04 15:40:18
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-26 20:40:04
+ *
+ * 条目页面类型
  */
 import type { View } from 'react-native'
 import type { ImageProps, ListViewScrollMethods } from '@components'
@@ -41,8 +43,8 @@ export type Params = GetRouteParams<RouteSubject>
 /** 收集长列表的 ref */
 export type HandleForwardRef = (ref: ListViewScrollMethods) => void
 
-/** 收集子组件的 ref */
-export type HandleBlockRef = (ref: View, componentName: string) => void
+/** 收集子组件的 ref (卸载时为 null) */
+export type HandleBlockRef = (ref: View | null, componentName: string) => void
 
 /** 子组件可以调用此方法定位到指定 y 轴坐标 */
 export type HandleScrollIntoViewIfNeeded = (y: number) => void

@@ -3,6 +3,8 @@
  * @Date: 2023-12-16 06:26:28
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-01-15 14:28:14
+ *
+ * 条目页面组件标识与区块锚点常量
  */
 export const COMPONENT = 'Subject'
 

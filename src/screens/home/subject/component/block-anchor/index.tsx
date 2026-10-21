@@ -14,7 +14,10 @@ import type { Props } from './types'
 
 /** 区块锚点: 注册 View ref, 供滚动定位到指定区块使用 */
 function BlockAnchor({ title, onBlockRef, style }: Props) {
-  const handleBlockRef = useCallback((ref: View) => onBlockRef(ref, title), [onBlockRef, title])
+  const handleBlockRef = useCallback(
+    (ref: View | null) => onBlockRef(ref, title),
+    [onBlockRef, title]
+  )
 
   return <View ref={handleBlockRef} style={stl(_.container.layout, style)} collapsable={false} />
 }

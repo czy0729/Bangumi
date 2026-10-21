@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-03-13 06:25:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-08 22:09:42
+ * @Last Modified time: 2026-10-21 10:00:00
+ *
+ * 条目页面头部 (返回首页 / 标题 / 右侧菜单)
  */
 import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -16,10 +18,12 @@ import { COMPONENT } from './ds'
 import type { Ctx } from '../types'
 import type { Props } from './types'
 
+/** 头部左侧固定元素, 实例常驻, 无需随渲染重建 */
+const elHeaderLeft = <PopToTop />
+
 function Header({ onScrollTo, onScrollToTop }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const elHeaderLeft = useMemo(() => <PopToTop />, [])
   const elHeaderTitle = useMemo(
     () => <HeaderTitle onScrollToTop={onScrollToTop} />,
     [onScrollToTop]

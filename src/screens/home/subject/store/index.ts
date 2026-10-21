@@ -3,6 +3,8 @@
  * @Date: 2019-03-22 08:49:20
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-26 23:53:50
+ *
+ * 条目页面状态机: 初始化、分区请求与退出拦截
  */
 import { _, collectionStore, rakuenStore, subjectStore, userStore } from '@stores'
 import { getTimestamp } from '@utils'

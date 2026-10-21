@@ -8,7 +8,8 @@ import type { CoverProps } from '@components'
 import type { SubjectId } from '@types'
 
 export type Props = {
-  image: string
+  /** 封面地址 (可能为 require 资源, 非字符串时只渲染 placeholder) */
+  image: CoverProps['src']
   placeholder: CoverProps['src']
   width: number
   height: number

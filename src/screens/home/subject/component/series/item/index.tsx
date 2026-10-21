@@ -16,8 +16,9 @@ import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
-function Item({ from, data }) {
+function Item({ from, data }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const _from = `系列${from}`

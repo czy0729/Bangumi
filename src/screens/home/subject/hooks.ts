@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-12-15 16:13:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-28 10:00:00
+ * @Last Modified time: 2026-10-21 10:00:00
  *
  * 条目页面初始化与滚动定位逻辑
  */
 import { useCallback, useEffect, useRef } from 'react'
 import { findNodeHandle } from 'react-native'
 import { useInitStore } from '@stores'
-import { feedback, info, postTask } from '@utils'
+import { feedback, info } from '@utils'
 import { scrollToTop } from '@utils/dom'
 import { t } from '@utils/fetch'
 import { usePageLifecycle } from '@utils/hooks'
@@ -111,11 +111,13 @@ function useSubjectRefs() {
     scrollViewRef.current = ref
   }, [])
 
-  /** 收集子组件的 ref */
+  /** 收集子组件的 ref, 区块卸载时同步移除 */
   const handleBlockRef = useCallback<HandleBlockRef>((ref, componentName) => {
-    postTask(() => {
+    if (ref) {
       blockRefs.current[componentName] = ref
-    }, 1000)
+    } else {
+      delete blockRefs.current[componentName]
+    }
   }, [])
 
   return {
@@ -136,7 +138,14 @@ function useSubjectRefs() {
   }
 }
 
-/** 所有滚动相关逻辑 */
+/**
+ * 所有滚动相关逻辑
+ *
+ * @param $ 条目页面 store
+ * @param scrollViewRef 长列表 ref
+ * @param blockRefs 区块锚点 ref 集合
+ * @param scrollTimers 延迟滚动定时器集合
+ */
 function useSubjectScroll(
   $: Ctx['$'],
   scrollViewRef: RefObject<ListViewScrollMethods>,
@@ -169,9 +178,14 @@ function useSubjectScroll(
         })
       }
 
+      // ref 已注册不代表完成布局, 取不到锚点或长列表时直接放弃, 避免 measure 到未布局的值
+      const head = blockRefs.current[TITLE_HEAD]
+      const target = blockRefs.current[name]
+      if (!head || !target || !scrollViewRef.current) return
+
       if (IOS) {
-        blockRefs.current[TITLE_HEAD].measure((_x: number, _y: number, _w: number, h: number) => {
-          blockRefs.current[name].measure((_x: number, y: number) => {
+        head.measure((_x: number, _y: number, _w: number, h: number) => {
+          target.measure((_x: number, y: number) => {
             scrollViewRef.current.scrollToOffset({
               offset: y + h - HEADER_HEIGHT,
               animated: true
@@ -183,17 +197,14 @@ function useSubjectScroll(
       }
 
       if (WEB) {
-        blockRefs.current[name].measureLayout(
-          blockRefs.current[TITLE_HEAD],
-          (_x: number, y: number) => {
-            scrollToTop(y + 128)
-            callback()
-          }
-        )
+        target.measureLayout(head, (_x: number, y: number) => {
+          scrollToTop(y + 128)
+          callback()
+        })
         return
       }
 
-      blockRefs.current[name].measureLayout(
+      target.measureLayout(
         findNodeHandle(scrollViewRef.current.getInnerRef()),
         (_x: number, y: number) => {
           scrollViewRef.current.scrollToOffset({
@@ -244,6 +255,8 @@ function useSubjectScroll(
 
   /** 滚动到顶 */
   const handleScrollToTop = useCallback<HandleScrollToTop>(() => {
+    if (!scrollViewRef.current) return
+
     feedback()
     scrollViewRef.current.scrollToOffset({
       offset: 0,

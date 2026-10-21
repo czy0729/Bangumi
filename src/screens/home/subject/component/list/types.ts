@@ -7,7 +7,12 @@
 import type { HandleBlockRef, HandleForwardRef, HandleScrollIntoViewIfNeeded } from '../../types'
 
 export type Props = {
+  /** 收集长列表的 ref */
   forwardRef: HandleForwardRef
+
+  /** 滚动到指定 y 轴坐标 */
   onScrollIntoViewIfNeeded: HandleScrollIntoViewIfNeeded
+
+  /** 收集区块锚点 ref */
   onBlockRef: HandleBlockRef
 }

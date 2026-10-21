@@ -15,7 +15,7 @@ import { SITES, SITES_DS } from '@constants'
 import { NON_SHOW } from '../ds'
 import { getOriginConfig } from '../../../../user/origin-setting/utils'
 
-import type { Collection } from '@types'
+import type { Collection, RatingStatus } from '@types'
 import type { EpsData } from '../../types'
 import type { OriginItem } from '../../../../user/origin-setting/utils'
 
@@ -188,7 +188,7 @@ export function getFilterEpsData(epsLength: number) {
 /** 构造全站人员状态数据 */
 export function getSubjectStatus(subjectCollection: Collection, action: string) {
   const { wish = 0, collect = 0, doing = 0, on_hold: onHold = 0, dropped = 0 } = subjectCollection
-  const status: { status: string; text: string; sum?: number }[] = []
+  const status: { status: RatingStatus | ''; text: string; sum?: number }[] = []
 
   if (wish) status.push({ status: 'wishes', text: `${wish}想${action}` })
   if (collect) status.push({ status: 'collections', text: `${collect}${action}过` })

@@ -7,6 +7,9 @@
 import type { HandleScrollTo, HandleScrollToTop } from '../types'
 
 export type Props = {
+  /** 滚动到指定区块 */
   onScrollTo: HandleScrollTo
+
+  /** 滚动到顶 */
   onScrollToTop: HandleScrollToTop
 }

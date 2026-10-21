@@ -18,6 +18,7 @@ import { getPercentile } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { ViewStyle } from 'react-native'
 import type { Ctx } from '../../../types'
 
 function VibTrend() {
@@ -32,9 +33,11 @@ function VibTrend() {
 
   const styles = memoStyles()
 
-  const typeScoreData = Object.entries(typeScore[subjectType])
+  const typeScoreData = Object.entries(
+    (typeScore as Record<string, Record<string, number>>)[subjectType] ?? {}
+  )
     .filter(([key]) => key !== '0.0' && key !== '10.0')
-    .sort((a, b) => desc(a, b))
+    .sort((a, b) => desc(a[0], b[0]))
   const max = Math.max(...typeScoreData.map(item => item[1]))
 
   const vibValue = Number(vib.avg)
@@ -68,9 +71,9 @@ function VibTrend() {
         <View
           style={stl(
             styles.typeScoreBar,
-            (isActive || isActiveVIB) && styles.typeScoreActive,
-            isActiveVIB && { backgroundColor: _.colorWarning },
-            { height: `${height}%` }
+            isActive || isActiveVIB ? styles.typeScoreActive : undefined,
+            isActiveVIB ? styles.typeScoreVIB : undefined,
+            { height: `${height}%` as ViewStyle['height'] }
           )}
         />
       </Flex.Item>

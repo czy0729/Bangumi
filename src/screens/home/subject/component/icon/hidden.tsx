@@ -12,9 +12,18 @@ import { confirm, info } from '@utils'
 import { COMPONENT_HIDDEN } from './ds'
 import { styles } from './styles'
 
+import type { $ } from './ds'
 import type { Ctx } from '../../types'
 
-function IconHidden({ name, value }) {
+type Props = {
+  /** 栏目名称 */
+  name?: string
+
+  /** 要隐藏的栏目 key */
+  value?: Parameters<$['hiddenBlock']>[0]
+}
+
+function IconHidden({ name, value }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT_HIDDEN)
 
   if (!name || !value) return null
