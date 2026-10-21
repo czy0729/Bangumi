@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-03-15 01:43:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:10:33
+ * @Last Modified time: 2026-10-21 12:00:00
  *
- * 预览图列表: 路由透传图与豆瓣剧照合并去重
+ * 预览图列表: 图片合并去重逻辑见 store/computed 的 images
  */
 import { observer } from 'mobx-react'
 import { Flex, Image, ScrollView, Text, Touchable } from '@components'
@@ -22,50 +22,25 @@ function List() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const styles = memoStyles()
-  const { epsThumbs = [], epsThumbsHeader = {} } = $.state
-
-  const hasData = $.data.length > 0
-  const headers = $.headers?.Referer ? $.headers : epsThumbsHeader
-  let images: string[] = hasData ? [...$.data] : [...epsThumbs]
-
-  const isDouban = headers?.Referer?.includes('douban')
-  if (isDouban) {
-    if (hasData && $.data[0]?.includes('douban')) {
-      images = [...$.data]
-    }
-
-    // 去重逻辑：用 /public 后缀片段去判重
-    epsThumbs.forEach(item => {
-      const ext = item.split(/public/)?.[1]
-      if (ext && !images.some(target => target.includes(ext))) {
-        images.push(item)
-      }
-    })
-  }
 
   const passProps: ImageProps = {
     fallback: true
   }
 
-  if (isDouban) {
+  if ($.isDouban) {
     passProps.autoSize = styles.item.width
   } else {
     passProps.width = styles.item.width
     passProps.height = styles.item.minHeight
   }
 
-  const viewerData = images.map(url => ({
-    url: url.split('@')?.[0],
-    headers
-  }))
-
   return (
     <ScrollView style={_.mt.sm} contentContainerStyle={styles.container} onScroll={$.onScroll}>
-      {images.map((item, index) => (
+      {$.images.map((item, index) => (
         <InView key={item} style={styles.item} y={styles.item.minHeight * (index + 1)}>
-          <Touchable withoutFeedback onPress={() => showImageViewer(viewerData, index)}>
+          <Touchable withoutFeedback onPress={() => showImageViewer($.viewerData, index)}>
             <Flex>
-              <Image {...passProps} src={item} headers={headers} errorToHide />
+              <Image {...passProps} src={item} headers={$.displayHeaders} errorToHide />
             </Flex>
           </Touchable>
         </InView>

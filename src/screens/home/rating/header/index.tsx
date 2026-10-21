@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 17:39:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-28 09:00:00
+ * @Last Modified time: 2026-10-21 12:00:00
  *
  * 页面头部: 标题 + 好友筛选 + 浏览器查看菜单
  */
@@ -22,25 +22,27 @@ import type { Ctx } from '../types'
 function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const handleSelect = useCallback(
+    (title: string) => {
+      if (title === TEXT_MENU_BROWSER) {
+        open($.url)
+
+        t('用户评分.右上角菜单', {
+          key: title
+        })
+      }
+    },
+    [$]
+  )
+
   const handleHeaderRight = useCallback(
     () => (
       <>
         <Filter />
-        <HeaderV2Popover
-          data={DATA}
-          onSelect={title => {
-            if (title === TEXT_MENU_BROWSER) {
-              open($.url)
-
-              t('用户评分.右上角菜单', {
-                key: title
-              })
-            }
-          }}
-        />
+        <HeaderV2Popover data={DATA} onSelect={handleSelect} />
       </>
     ),
-    [$]
+    [handleSelect]
   )
 
   return (

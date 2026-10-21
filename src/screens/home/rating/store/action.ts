@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-08-26 08:24:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-26 08:28:59
+ * @Last Modified time: 2026-10-21 12:00:00
+ *
+ * 用户评分页面交互: 标签页切换与好友筛选
  */
 import { t } from '@utils/fetch'
-import { TABS } from '../ds'
 import Fetch from './fetch'
 
 export default class Action extends Fetch {
@@ -16,8 +17,7 @@ export default class Action extends Fetch {
     })
     this.save()
 
-    const status = TABS[page].key
-    if (!this.rating(status)._loaded) this.fetchRating(true)
+    if (!this.rating(this.status)._loaded) this.fetchRating(true)
 
     t('用户评分.标签页切换', {
       page
@@ -26,11 +26,9 @@ export default class Action extends Fetch {
 
   /** 切换类型 */
   onToggleFilter = (label: '所有' | '好友') => {
-    const { page, isFriend } = this.state
-    if (label) {
-      if (label === '所有' && !isFriend) return
-      if (label === '好友' && isFriend) return
-    }
+    const { isFriend } = this.state
+    if (label === '所有' && !isFriend) return
+    if (label === '好友' && isFriend) return
 
     const value = !isFriend
     this.setState({
@@ -38,8 +36,7 @@ export default class Action extends Fetch {
     })
     this.save()
 
-    const status = TABS[page].key
-    if (!this.rating(status)._loaded) this.fetchRating(true)
+    if (!this.rating(this.status)._loaded) this.fetchRating(true)
 
     t('用户评分.切换类型', {
       isFriend: value

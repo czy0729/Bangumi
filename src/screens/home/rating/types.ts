@@ -3,6 +3,8 @@
  * @Date: 2022-07-19 15:51:17
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-26 08:50:54
+ *
+ * 用户评分页面类型
  */
 import type { GetRouteParams, RouteRating, WithNavigation } from '@types'
 import type Store from './store'

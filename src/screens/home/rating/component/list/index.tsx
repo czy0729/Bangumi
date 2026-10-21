@@ -12,7 +12,7 @@ import { ListView, Loading } from '@components'
 import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { MODEL_RATING_STATUS } from '@constants'
-import { COMPONENT } from './ds'
+import { COMPONENT, ITEM_HEIGHT } from './ds'
 import { renderItem } from './utils'
 import { memoStyles } from './styles'
 
@@ -41,6 +41,7 @@ function List({ title }: Props) {
       contentContainerStyle={styles.contentContainerStyle}
       data={data}
       numColumns={numColumns}
+      estimatedItemHeight={ITEM_HEIGHT}
       renderItem={renderItem}
       onEndReachedThreshold={0.2}
       onHeaderRefresh={handleHeaderRefresh}
