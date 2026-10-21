@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 03:42:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-28 09:00:00
+ * @Last Modified time: 2026-10-21 12:00:00
  *
  * NAMESPACE / RESET_STATE / EXCLUDE_STATE / STATE
  */
@@ -33,9 +33,6 @@ export const EXCLUDE_STATE = {
 
   /** 公共标签 */
   meta: false,
-
-  /** 用于列表置顶 */
-  hide: false,
 
   /** 云快照 */
   ota: {} as Record<SnapshotId, ResultData<Tag>>

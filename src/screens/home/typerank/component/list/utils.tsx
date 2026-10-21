@@ -8,8 +8,7 @@
  */
 import Item from '../item'
 
-import type { SubjectId } from '@types'
-import type { RenderItem } from '@types'
+import type { RenderItem, SubjectId } from '@types'
 
 export function keyExtractor(item: SubjectId) {
   return String(item)

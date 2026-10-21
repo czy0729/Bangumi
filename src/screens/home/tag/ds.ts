@@ -3,5 +3,7 @@
  * @Date: 2022-07-30 03:42:32
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-06-02 17:54:07
+ *
+ * 标签条目页面组件标识
  */
 export const COMPONENT = 'Tag'

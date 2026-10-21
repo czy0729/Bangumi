@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-06-03 07:48:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-28 20:00:00
+ * @Last Modified time: 2026-10-21 12:00:00
  *
  * 请求: 标签条目分页抓取与云快照读取 / 上传
  */
 import { collectionStore, tagStore } from '@stores'
 import { getTimestamp } from '@utils'
-import { ensureArrayLimit } from '@utils/cache'
+import { ensureCacheLimit } from '@utils/cache'
 import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
 import Computed from './computed'
@@ -18,7 +18,7 @@ import type { ResultData } from '@utils/kv/type'
 import type { SnapshotId } from '../types'
 
 /** 若更新过则不会再主动更新 */
-const THIRD_PARTY_UPDATED: SnapshotId[] = []
+const THIRD_PARTY_UPDATED = new Set<SnapshotId>()
 
 export default class Fetch extends Computed {
   /** 标签条目 */
@@ -65,7 +65,9 @@ export default class Fetch extends Computed {
     await tagStore.init('tag')
 
     setTimeout(async () => {
-      if (!this.ota && !this.tag._loaded) {
+      if (this.ota || this.tag._loaded) return
+
+      try {
         const data = await get<ResultData<Tag>>(this.thirdPartyKey)
         if (!data) {
           // 就算没有数据也插入 key, 用于判断是否需要更新云数据
@@ -88,20 +90,22 @@ export default class Fetch extends Computed {
             }
           }
         })
+      } catch (error) {
+        this.error('fetchThirdParty', error)
       }
     }, 80)
   }
 
   /** 上传预数据 */
   updateThirdParty = async () => {
-    if (THIRD_PARTY_UPDATED.includes(this.thirdPartyKey)) return
+    if (THIRD_PARTY_UPDATED.has(this.thirdPartyKey)) return
 
     setTimeout(() => {
       update(this.thirdPartyKey, {
         list: this.tag.list.map(({ collected, ...other }) => other)
       })
-      THIRD_PARTY_UPDATED.push(this.thirdPartyKey)
-      ensureArrayLimit(THIRD_PARTY_UPDATED, 100, true)
+      THIRD_PARTY_UPDATED.add(this.thirdPartyKey)
+      ensureCacheLimit(THIRD_PARTY_UPDATED, 100)
     }, 0)
   }
 

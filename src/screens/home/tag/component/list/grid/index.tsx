@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-07-30 10:49:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-28 09:00:00
+ * @Last Modified time: 2026-10-21 12:00:00
  *
  * 网格布局的单个条目 (ItemCollectionsGrid)
  */
 import { observer } from 'mobx-react'
 import { ItemCollectionsGrid } from '@_'
 import { _, collectionStore, useStore } from '@stores'
-import { matchYear } from '@utils'
+import { matchYear, stl } from '@utils'
 import { COMPONENT, EVENT } from './ds'
 
 import type { Ctx } from '../../../types'
@@ -20,7 +20,7 @@ function Grid({ item, index, numColumns }: Props) {
 
   return (
     <ItemCollectionsGrid
-      style={(_.isPad || _.isLandscape) && !(index % numColumns) && _.container.left}
+      style={stl((_.isPad || _.isLandscape) && !(index % numColumns) && _.container.left)}
       index={index}
       event={EVENT}
       num={numColumns}

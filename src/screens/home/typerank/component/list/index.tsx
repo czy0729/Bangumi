@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-11-01 08:51:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-28 09:00:00
+ * @Last Modified time: 2026-10-21 12:00:00
  *
  * 排行榜列表: 本地分页 PaginationList, 按页拉取 OSS 快照
  */
 import { observer } from 'mobx-react'
 import { Empty } from '@components'
-import { PaginationList } from '@_'
+import { ITEM_SEARCH_HEIGHT, PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
@@ -27,6 +27,8 @@ function List() {
       contentContainerStyle={_.container.bottom}
       data={ids}
       limit={12}
+      // ItemSubject 主体就是 ItemSearch (额外信息以 tip 行追加), 先借用其高度估算, 实测后会自动修正
+      estimatedItemHeight={ITEM_SEARCH_HEIGHT}
       renderItem={renderItem}
       onScroll={$.onScroll}
       onPage={$.fetchSubjectsFromOSS}

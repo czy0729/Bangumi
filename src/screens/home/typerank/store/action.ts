@@ -3,6 +3,8 @@
  * @Date: 2024-08-18 04:10:19
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-18 04:10:48
+ *
+ * 分类排行页面交互
  */
 import { updateVisibleBottom } from '@utils'
 import Fetch from './fetch'

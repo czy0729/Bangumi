@@ -2,14 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-06-03 07:55:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-13 05:21:18
+ * @Last Modified time: 2026-10-21 12:00:00
+ *
+ * 标签条目页面状态机
  */
 import Action from './action'
 import { EXCLUDE_STATE, NAMESPACE, RESET_STATE } from './ds'
 
 import type { STATE } from './ds'
 
-/** 标签条目页面状态机 */
 export default class ScreenTag extends Action {
   init = async () => {
     const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
@@ -31,6 +32,7 @@ export default class ScreenTag extends Action {
   }
 
   unmount = () => {
+    this.listRef = null
     this.setState(RESET_STATE)
   }
 }

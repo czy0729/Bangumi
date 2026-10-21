@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-03 07:50:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-28 09:00:00
+ * @Last Modified time: 2026-10-22 12:00:00
  *
  * 操作: 排序 / 年月 / 公共标签筛选, 布局与工具栏切换
  */
@@ -12,21 +12,35 @@ import { MODEL_TAG_ORDERBY, TEXT_MENU_FAVOR, TEXT_MENU_LAYOUT, TEXT_MENU_TOOLBAR
 import Fetch from './fetch'
 import { EXCLUDE_STATE } from './ds'
 
+import type { ScrollToOffset } from '@components'
 import type { TagOrderCn } from '@types'
 
+/** 长列表实例 (只用到滚动方法) */
+type ListRef = { scrollToOffset: ScrollToOffset }
+
 export default class Action extends Fetch {
-  /** 隐藏后延迟显示列表 (用于重置滚动位置) */
+  /** 长列表实例 */
+  protected listRef: ListRef | null = null
+
+  /** 收集长列表 ref, 卸载时置空 */
+  forwardRef = (ref: ListRef | null) => {
+    this.listRef = ref?.scrollToOffset ? ref : null
+  }
+
+  /** 重置滚动位置 (列表不重建, 直接回到顶部) */
   resetScrollView = () => {
     this.setState({
-      hide: true,
       visibleBottom: EXCLUDE_STATE.visibleBottom
     })
 
     setTimeout(() => {
-      this.setState({
-        hide: false
-      })
-      this.save()
+      const scrollToOffset = this.listRef?.scrollToOffset
+      if (typeof scrollToOffset === 'function') {
+        scrollToOffset({
+          offset: 0,
+          animated: false
+        })
+      }
     }, 0)
   }
 
@@ -37,6 +51,8 @@ export default class Action extends Fetch {
       order: MODEL_TAG_ORDERBY.getValue(label)
     })
     this.fetchTag(true)
+    // order 属于持久化字段, 需在 setState 之后保存
+    this.save()
 
     t('用户标签.排序选择', {
       label
@@ -83,6 +99,8 @@ export default class Action extends Fetch {
       return
     }
 
+    this.resetScrollView()
+
     const value = !this.state.meta
     this.setState({
       meta: value
@@ -94,20 +112,19 @@ export default class Action extends Fetch {
     })
   }
 
-  /** 切换布局 */
+  /** 切换布局 (会改变列数, 列表重建后自然回到顶部) */
   onToggleList = () => {
-    this.resetScrollView()
-
     const value = !this.state.list
     this.setState({
       list: value
     })
+    this.save()
 
     info(this.toolBar?.[1])
     feedback(true)
 
     t('用户标签.切换布局', {
-      list: !value
+      list: value
     })
   }
 

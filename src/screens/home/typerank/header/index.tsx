@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-11-01 08:49:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-28 09:00:00
+ * @Last Modified time: 2026-10-21 12:00:00
  *
  * 页面头部: 标题 + 标签页入口 + 功能说明
  */
@@ -21,6 +21,38 @@ import type { Ctx } from '../types'
 function Header() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
+  /** 进入/返回标签页 */
+  const handleTag = useCallback(() => {
+    if ($.params._from === 'Tag') {
+      navigation.goBack()
+      return
+    }
+
+    navigation.push('Tag', {
+      type: $.type,
+      tag: $.tag,
+      _from: 'Typerank'
+    })
+  }, [$, navigation])
+
+  /** 功能说明 */
+  const handleInfo = useCallback(() => {
+    navigation.push('Information', {
+      title: '分类排行',
+      message: [
+        '此功能目前仅存在于客户端\n',
+        '简单说这个标签分类排行榜生成过程：',
+        '1. 数据来源：收集全站所有带排名的条目（动画/书/游戏/音乐等）',
+        '2. 时间快照：在某个特定时间点，对这些条目进行"拍照"记录',
+        '3. 标签筛选：找出这些条目使用的热门标签',
+        '4. 精选TOP100：只选取排名最高的前100个条目',
+        '5. 最终榜单：统计这些精选条目的所有标签，生成排行榜',
+        '6. 补充：因为全站的标签均为用户编辑导向的，故会出现不符合预期的情况，仅供参考\n',
+        `通常一年更新一次，最后一次快照时间为：${TEXT_UPDATE_TYPERANK}`
+      ]
+    })
+  }, [navigation])
+
   const handleHeaderRight = useCallback(
     () => (
       <>
@@ -28,43 +60,17 @@ function Header() {
           name='md-bookmark-outline'
           size={21}
           color={_.colorDesc}
-          onPress={() => {
-            if ($.params._from === 'Tag') {
-              navigation.goBack()
-              return
-            }
-
-            navigation.push('Tag', {
-              type: $.type,
-              tag: $.tag,
-              _from: 'Typerank'
-            })
-          }}
+          onPress={handleTag}
         />
         <IconTouchable
           name='md-info-outline'
           size={20}
           color={_.colorDesc}
-          onPress={() => {
-            navigation.push('Information', {
-              title: '分类排行',
-              message: [
-                '此功能目前仅存在于客户端\n',
-                '简单说这个标签分类排行榜生成过程：',
-                '1. 数据来源：收集全站所有带排名的条目（动画/书/游戏/音乐等）',
-                '2. 时间快照：在某个特定时间点，对这些条目进行"拍照"记录',
-                '3. 标签筛选：找出这些条目使用的热门标签',
-                '4. 精选TOP100：只选取排名最高的前100个条目',
-                '5. 最终榜单：统计这些精选条目的所有标签，生成排行榜',
-                '6. 补充：因为全站的标签均为用户编辑导向的，故会出现不符合预期的情况，仅供参考\n',
-                `通常一年更新一次，最后一次快照时间为：${TEXT_UPDATE_TYPERANK}`
-              ]
-            })
-          }}
+          onPress={handleInfo}
         />
       </>
     ),
-    [$, navigation]
+    [handleTag, handleInfo]
   )
 
   return (

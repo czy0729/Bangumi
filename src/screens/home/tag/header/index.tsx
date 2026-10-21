@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-07-30 11:02:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-28 09:00:00
+ * @Last Modified time: 2026-10-21 12:00:00
  *
  * 页面头部: 标题 + 分类排行入口 + 工具栏设置菜单
  */
@@ -21,6 +21,36 @@ import type { Ctx } from '../types'
 function Header() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
+  /** 进入/返回分类排行 */
+  const handleEqualizer = useCallback(() => {
+    if ($.params._from === 'Typerank') {
+      navigation.goBack()
+      return
+    }
+
+    navigation.push('Typerank', {
+      type: $.params.type || 'anime',
+      tag: $.params.tag,
+      _from: 'Tag'
+    })
+  }, [$, navigation])
+
+  const handleSelect = useCallback(
+    (title: string) => {
+      if (title === TEXT_MENU_BROWSER) {
+        open($.url)
+
+        t('用户标签.右上角菜单', {
+          key: title
+        })
+        return
+      }
+
+      $.onToolBar(title)
+    },
+    [$]
+  )
+
   const handleHeaderRight = useCallback(
     () => (
       <>
@@ -28,36 +58,12 @@ function Header() {
           name='md-equalizer'
           size={20}
           color={_.colorDesc}
-          onPress={() => {
-            if ($.params._from === 'Typerank') {
-              navigation.goBack()
-              return
-            }
-
-            navigation.push('Typerank', {
-              type: $.params.type || 'anime',
-              tag: $.params.tag,
-              _from: 'Tag'
-            })
-          }}
+          onPress={handleEqualizer}
         />
-        <HeaderV2Popover
-          data={[...DATA, TEXT_MENU_SPLIT, ...$.toolBar]}
-          onSelect={title => {
-            if (title === TEXT_MENU_BROWSER) {
-              open($.url)
-
-              t('用户标签.右上角菜单', {
-                key: title
-              })
-            } else {
-              $.onToolBar(title)
-            }
-          }}
-        />
+        <HeaderV2Popover data={[...DATA, TEXT_MENU_SPLIT, ...$.toolBar]} onSelect={handleSelect} />
       </>
     ),
-    [$, navigation]
+    [$.toolBar, handleEqualizer, handleSelect]
   )
 
   const { tag } = $.params

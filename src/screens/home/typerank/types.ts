@@ -3,6 +3,8 @@
  * @Date: 2023-11-01 08:49:52
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-23 19:06:21
+ *
+ * 分类排行页面类型
  */
 import type { GetRouteParams, RouteTyperank, WithNavigation } from '@types'
 import type Store from './store'

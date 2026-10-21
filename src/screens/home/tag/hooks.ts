@@ -3,6 +3,8 @@
  * @Date: 2024-11-17 11:21:58
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-12 22:46:36
+ *
+ * 标签条目页面逻辑
  */
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'

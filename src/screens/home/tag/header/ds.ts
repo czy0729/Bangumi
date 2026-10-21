@@ -3,6 +3,8 @@
  * @Date: 2024-06-02 17:59:24
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-06 17:10:28
+ *
+ * 页面头部组件标识
  */
 import { rc } from '@utils/dev'
 import { TEXT_MENU_BROWSER } from '@constants'

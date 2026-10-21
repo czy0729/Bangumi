@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-18 04:08:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-28 20:00:00
+ * @Last Modified time: 2026-10-21 12:00:00
  *
  * 请求: 按页从 OSS 拉取条目快照, 提炼名称/日期/原作/导演等展示字段
  */
@@ -17,11 +17,6 @@ import type { SubjectId } from '@types'
 import type { OssSubject } from '../types'
 
 export default class Fetch extends Computed {
-  /** 这个接口太慢了, 而且不太依赖, 暂时屏蔽 */
-  fetchSubjects = () => {
-    return true
-  }
-
   fetchSubjectsFromOSS = async (ids: SubjectId[]) => {
     if (!ids.length) return true
 
@@ -51,14 +46,18 @@ export default class Fetch extends Computed {
           if (!item) return
 
           data[key] = normalizeOssSubject(item, getTimestamp())
-        } catch {}
+        } catch (error) {
+          this.error('normalizeOssSubject', error)
+        }
       })
 
       this.setState({
         subjects: data as Record<string, OssSubject>
       })
       this.save()
-    } catch {}
+    } catch (error) {
+      this.error('fetchSubjectsFromOSS', error)
+    }
 
     collectionStore.fetchCollectionStatusQueue(ids)
   }

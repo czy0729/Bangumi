@@ -24,6 +24,7 @@ import {
   TEXT_MENU_TOOLBAR,
   withSplit
 } from '@constants'
+import { OTA_PAGE_TOTAL } from '../../ds'
 import State from './state'
 
 import type { Tag } from '@stores/tag/types'
@@ -56,7 +57,7 @@ export default class Computed extends State {
             ...this.ota,
             pagination: {
               page: 1,
-              pageTotal: 10
+              pageTotal: OTA_PAGE_TOTAL
             }
           }
         : (LIST_EMPTY as Tag)
@@ -112,6 +113,6 @@ export default class Computed extends State {
   }
 
   @computed get hm() {
-    return [this.url, 'Tag']
+    return [this.url, 'Tag'] as const
   }
 }
