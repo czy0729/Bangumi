@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-07-11 16:50:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-09 17:42:16
+ * @Last Modified time: 2026-10-22 12:00:00
+ *
+ * 首页页面类型
  */
 import type { UserCollectionsItem } from '@stores/collection/types'
 import type { UserCollectionItem } from '@stores/user/types'

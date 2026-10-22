@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-01-05 20:34:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-15 02:56:09
+ * @Last Modified time: 2026-10-22 12:00:00
+ *
+ * 首页页面逻辑: 初始化、Tab 点击回到顶部与聚焦刷新
  */
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'

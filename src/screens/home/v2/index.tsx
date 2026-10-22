@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-13 08:34:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 16:11:02
+ * @Last Modified time: 2026-10-22 12:00:00
+ *
+ * 首页: 登录态分流 (进度 Tab / 登录引导) 与页面容器
  */
 import { observer } from 'mobx-react'
 import { Component } from '@components/component'
@@ -27,7 +29,7 @@ function Home(props: NavigationProps) {
         <Page>
           {$.isLogin ? (
             <>
-              <Tab keys={$.tabs.map(item => item.key)} />
+              <Tab keys={$.tabKeys} />
               <Header />
               <Modal />
             </>

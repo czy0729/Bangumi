@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-07-12 09:57:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-10 16:17:50
+ * @Last Modified time: 2026-10-22 12:00:00
+ *
+ * 首页组件标识与布局常量
  */
 import { _ } from '@stores'
 

@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-10-06 16:42:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-24 18:42:37
+ * @Last Modified time: 2026-10-22 12:00:00
+ *
+ * 首页标签页容器: 按可用 Tab 数量选择 TabView / 单列表
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { SceneMap } from '@components'
 import { BlurViewTab } from '@_'
@@ -15,19 +17,20 @@ import BlurView from './blur-view'
 import Tab from './tab'
 import { COMPONENT } from './ds'
 
+import type { ComponentType } from 'react'
 import type { Props } from './types'
 
 function TabWrap({ keys }: Props) {
   r(COMPONENT)
 
   const renderScene = useMemo(() => {
-    const routes: Record<string, React.ComponentType> = {}
+    const routes: Record<string, ComponentType> = {}
     keys.forEach(item => {
       routes[item] = () => <List title={TABS_ITEM[item].title} />
     })
+
     return SceneMap(routes)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [keys.join()])
+  }, [keys])
 
   const { length } = keys
 

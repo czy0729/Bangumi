@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-03-14 15:13:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-29 00:42:31
+ * @Last Modified time: 2026-10-22 12:00:00
+ *
+ * 首页条目列表: 列表布局 (网格布局见 grid)
  */
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -41,8 +43,9 @@ function ListWrap({ title = '全部' }: Props) {
     length: data.list.length
   })
 
-  if (systemStore.setting.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格'))
+  if (systemStore.setting.homeLayout === MODEL_SETTING_HOME_LAYOUT.getValue('网格')) {
     return <Grid title={title} />
+  }
   if (!$.collection._loaded) return <Loading />
   if (!showItem) return null
 

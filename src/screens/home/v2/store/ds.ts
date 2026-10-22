@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-08 00:24:57
+ * @Last Modified time: 2026-10-22 12:00:00
+ *
+ * 首页状态声明
  */
 import { _ } from '@stores'
 

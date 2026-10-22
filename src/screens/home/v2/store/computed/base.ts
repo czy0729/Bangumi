@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-27 02:35:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-28 10:00:00
+ * @Last Modified time: 2026-10-22 12:00:00
  *
  * 首页基础派生: 登录态 / 标签页配置 / 集合数据源
  */
@@ -29,6 +29,11 @@ export default class Base extends State {
   /** 标签页配置 */
   @computed get tabs() {
     return freeze(getTabs())
+  }
+
+  /** 标签页 keys (引用稳定, 供 Tab 组件作为 useMemo 依赖) */
+  @computed get tabKeys() {
+    return freeze(this.tabs.map(item => item.key))
   }
 
   /** 标签页导航状态 */

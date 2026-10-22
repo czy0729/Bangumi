@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-04-18 13:03:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-08 23:30:49
+ * @Last Modified time: 2026-10-22 12:00:00
+ *
+ * 首页页面容器 (Page 包裹 + iOS 列表布局背景)
  */
 import { observer } from 'mobx-react'
 import { Page as PageComp } from '@components'

@@ -10,8 +10,8 @@ import type { OverrideNavigationState } from '@components/tab-view'
 import type { TabsKeys } from '../../types'
 
 export type Props = {
-  /** Tab 页签 keys */
-  keys: TabsKeys[]
+  /** Tab 页签 keys (需保持引用稳定, 作为场景缓存的 useMemo 依赖) */
+  keys: readonly TabsKeys[]
 }
 
 /** 场景渲染函数 */
