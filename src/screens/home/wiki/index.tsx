@@ -3,6 +3,8 @@
  * @Date: 2021-07-12 09:55:15
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-27 06:30:26
+ *
+ * 修订历史页面: 封面墙与修订记录
  */
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'

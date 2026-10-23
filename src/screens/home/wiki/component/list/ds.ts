@@ -3,6 +3,8 @@
  * @Date: 2024-06-02 15:59:57
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-12-07 15:54:56
+ *
+ * 修订列表组件标识与封面尺寸
  */
 import { rc } from '@utils/dev'
 import { IMG_HEIGHT, IMG_WIDTH } from '@constants'

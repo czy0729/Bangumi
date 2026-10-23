@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-06 01:12:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-28 09:00:00
+ * @Last Modified time: 2026-10-22 12:00:00
  *
  * 人物作品页面交互: 排序 / 筛选 / 布局
  */
@@ -15,13 +15,42 @@ import {
   TEXT_MENU_TOOLBAR
 } from '@constants'
 import Fetch from './fetch'
+import { EXCLUDE_STATE } from './ds'
 
+import type { ScrollToOffset } from '@components'
 import type { MonoFiltersItem } from '@stores/subject/types'
 import type { ToolBarKeys } from '../types'
 
+type ListRef = { scrollToOffset: ScrollToOffset }
+
 export default class Action extends Fetch {
+  protected listRef: ListRef | null = null
+
+  /** 收集长列表 ref */
+  forwardRef = (ref: ListRef | null) => {
+    this.listRef = ref?.scrollToOffset ? ref : null
+  }
+
+  /** 回到列表顶部 */
+  resetScrollView = () => {
+    this.setState({
+      visibleBottom: EXCLUDE_STATE.visibleBottom
+    })
+
+    setTimeout(() => {
+      const scrollToOffset = this.listRef?.scrollToOffset
+      if (typeof scrollToOffset === 'function') {
+        scrollToOffset({
+          offset: 0,
+          animated: false
+        })
+      }
+    }, 0)
+  }
+
   /** 排序选择 */
   onOrderSelect = (label: string) => {
+    this.resetScrollView()
     this.setState({
       order: MODEL_MONO_WORKS_ORDERBY.getValue(label)
     })
@@ -35,6 +64,8 @@ export default class Action extends Fetch {
 
   /** 职位选择 */
   onFilterSelect = (label: string, data: MonoFiltersItem['data']) => {
+    this.resetScrollView()
+
     const { value = '' } = data.find(item => item.title === label) || {}
     this.setState({
       position: value

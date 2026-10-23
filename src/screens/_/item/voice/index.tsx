@@ -28,6 +28,12 @@ import { memoStyles } from './styles'
 import type { Props as ItemVoiceProps } from './types'
 export type { ItemVoiceProps }
 
+// 带前缀导出, 避免 @_ 聚合时与其它条目重名
+export {
+  ITEM_HEIGHT as ITEM_VOICE_HEIGHT,
+  ITEM_HEIGHT_WITH_COLLECTED as ITEM_VOICE_HEIGHT_COLLECTED
+} from './ds'
+
 export const ItemVoice = observer(
   ({
     style,

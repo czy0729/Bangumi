@@ -29,6 +29,7 @@ export default class ScreenWorks extends Action {
   }
 
   unmount = () => {
+    this.listRef = null
     this.setState(RESET_STATE)
   }
 }

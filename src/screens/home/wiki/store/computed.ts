@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2024-09-16 20:17:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-07 15:24:39
+ * @Last Modified time: 2026-10-22 12:00:00
+ *
+ * 派生: 条目信息、wiki 修订历史与页面地址
  */
 import { computed } from 'mobx'
 import { subjectStore } from '@stores'
-import { HOST } from '@constants'
+import { HTML_SUBJECT } from '@constants'
 import State from './state'
 
 export default class Computed extends State {
@@ -24,10 +26,10 @@ export default class Computed extends State {
   }
 
   @computed get url() {
-    return `${HOST}/subject/${this.subjectId}/edit`
+    return `${HTML_SUBJECT(this.subjectId)}/edit`
   }
 
   @computed get hm() {
-    return [this.url, 'SubjectWiki']
+    return [this.url, 'SubjectWiki'] as const
   }
 }

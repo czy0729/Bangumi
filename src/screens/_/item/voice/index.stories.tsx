@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 06:33:06
  */
-import React from 'react'
 import { Flex, StorybookList, StorybookPage } from '@components'
 import { ItemVoice as Component } from './index'
 import { list } from './index.mock'

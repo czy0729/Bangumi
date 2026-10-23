@@ -11,8 +11,10 @@ import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'ItemVoice')
 
+/** 默认条目高度 (含作品行) */
 export const ITEM_HEIGHT = 132
 
+/** 收藏筛选态的高度 (隐藏作品行后更矮) */
 export const ITEM_HEIGHT_WITH_COLLECTED = 72
 
 export const AVATAR_SIZE = _.r(40)

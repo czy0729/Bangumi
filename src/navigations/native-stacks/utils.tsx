@@ -8,7 +8,6 @@ import { useCallback, useEffect, useState } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import * as SplashScreen from 'expo-splash-screen'
 import { _, systemStore } from '@stores'
-import { urlStringify } from '@utils'
 import { useMount } from '@utils/hooks'
 import { IOS } from '@constants'
 import { ANIMATIONS, DEFAULT_SCREEN_OPTIONS } from './ds'
@@ -99,11 +98,6 @@ export function getOptions(name: string) {
   return {
     statusBarStyle
   }
-}
-
-/** unique ID for this screen */
-export function getId({ params }: { params?: Record<string, string | number | boolean> }) {
-  return params ? urlStringify(params) : undefined
 }
 
 /** 空占位组件 */

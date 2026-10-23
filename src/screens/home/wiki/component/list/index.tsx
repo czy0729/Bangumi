@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-03-15 20:50:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-06 07:34:04
+ * @Last Modified time: 2026-10-22 12:00:00
+ *
+ * 修订历史列表: 封面墙 + 修订记录
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, HorizontalList, ScrollView, Text } from '@components'
@@ -16,10 +17,12 @@ import { COMPONENT, COVER_HEIGHT, COVER_WIDTH } from './ds'
 
 import type { Ctx } from '../../types'
 
-class List extends React.Component<Ctx> {
-  renderCovers() {
-    const { $, navigation } = this.props
-    const { covers } = $.wiki
+function List({ $, navigation }: Ctx) {
+  r(COMPONENT)
+
+  const { covers, edits } = $.wiki
+
+  const renderCovers = () => {
     if (!covers?.length) return null
 
     return (
@@ -44,14 +47,14 @@ class List extends React.Component<Ctx> {
               height={COVER_HEIGHT}
               radius
               cdn={false}
-              onPress={() => {
+              onPress={() =>
                 showImageViewer(
                   covers.map(item => ({
                     url: `https:${getCoverLarge(item.cover)}`
                   })),
                   index
                 )
-              }}
+              }
             />
             <Text
               style={_.mt.sm}
@@ -76,9 +79,7 @@ class List extends React.Component<Ctx> {
     )
   }
 
-  renderEdits() {
-    const { $, navigation } = this.props
-    const { edits } = $.wiki
+  const renderEdits = () => {
     if (!edits?.length) return null
 
     return (
@@ -127,16 +128,12 @@ class List extends React.Component<Ctx> {
     )
   }
 
-  render() {
-    r(COMPONENT)
-
-    return (
-      <ScrollView contentContainerStyle={_.container.bottom}>
-        {this.renderCovers()}
-        {this.renderEdits()}
-      </ScrollView>
-    )
-  }
+  return (
+    <ScrollView contentContainerStyle={_.container.bottom}>
+      {renderCovers()}
+      {renderEdits()}
+    </ScrollView>
+  )
 }
 
 export default observer(List)
