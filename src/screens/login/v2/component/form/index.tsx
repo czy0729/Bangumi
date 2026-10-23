@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-07-17 09:28:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-15 20:55:47
+ * @Last Modified time: 2026-10-23 10:00:00
+ *
+ * 账号密码表单: 输入框 / 验证码 / 配置项 / 提交按钮
  */
 import React from 'react'
 import { Image as RNImage, View } from 'react-native'
@@ -19,7 +21,7 @@ import {
   Touchable
 } from '@components'
 import { _ } from '@stores'
-import { alert } from '@utils'
+import { alert, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { FROZEN_FN, WEB } from '@constants'
 import i18n from '@constants/i18n'
@@ -29,6 +31,7 @@ import { memoStyles } from './styles'
 import type { InputInstance } from '@components'
 import type { Props } from './types'
 
+/** 账号密码表单 */
 class Form extends React.Component<Props> {
   static defaultProps = {
     host: '',
@@ -301,7 +304,7 @@ class Form extends React.Component<Props> {
           </Touchable>
         </Flex>
         <Touchable
-          style={[_.mt.xs, _.mb.sm]}
+          style={stl(_.mt.xs, _.mb.sm)}
           onPress={() => {
             navigation.push('Setting', {
               open: 'Worker'

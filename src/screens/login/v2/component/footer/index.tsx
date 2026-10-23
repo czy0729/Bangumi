@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-03-22 19:59:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:13:05
+ * @Last Modified time: 2026-10-23 10:00:00
+ *
+ * 页面底部入口: 注册 / 隐私政策 / 授权登录
  */
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
@@ -15,7 +17,10 @@ import i18n from '@constants/i18n'
 import { COMPONENT, TEXT_REGISTER } from './ds'
 import { memoStyles } from './styles'
 
-function Footer({ navigation }) {
+import type { Props } from './types'
+
+/** 页面底部入口 */
+function Footer({ navigation }: Props) {
   r(COMPONENT)
 
   const styles = memoStyles()

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-03-22 19:42:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:13:21
+ * @Last Modified time: 2026-10-23 10:00:00
+ *
+ * 密码输入框: 明暗文切换
  */
 import { useState } from 'react'
 import { observer } from 'mobx-react'
@@ -49,7 +51,7 @@ function InputPassword({
           name={visible ? 'md-visibility' : 'md-visibility-off'}
           size={18}
           onPress={() => {
-            setVisible(!visible)
+            setVisible(prev => !prev)
             feedback(true)
           }}
         />
