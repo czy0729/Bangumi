@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-05-16 19:56:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-31 05:19:56
+ * @Last Modified time: 2026-10-24 10:00:00
  */
 import { rakuenStore } from '@stores'
 import { confirm, feedback, info, updateVisibleBottom } from '@utils'
 import { getBucketId } from '@utils/bucket'
 import { logger } from '@utils/dev'
 import { t } from '@utils/fetch'
+import { parseReplies } from '@screens/rakuen/utils'
 import {
   LIMIT_TOPIC_PUSH,
   MODEL_RAKUEN_TYPE_GROUP,
@@ -204,8 +205,8 @@ export default class Action extends Fetch {
       try {
         // 需要检查回复数是否小于LIMIT_TOPIC_PUSH
         // replies: (+1)
-        const count = parseInt(String(item.replies || '0').replace(/\(\+|\)/g, ''))
-        if (count <= LIMIT_TOPIC_PUSH) {
+        const count = parseReplies(item.replies)
+        if (count !== undefined && count <= LIMIT_TOPIC_PUSH) {
           const id = String(item.href).replace('/rakuen/topic/', '') as TopicId
           // 桶可能尚未读回, 先同步 init 再判, 避免已缓存帖子被误判未读
           await rakuenStore.init(`topic${getBucketId(id)}`)

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-04-24 14:24:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-31 05:28:21
+ * @Last Modified time: 2026-10-24 10:00:00
+ *
+ * 超展开派生数据: 列表 / 帖子 / 已读记录 / 云快照
  */
 import { computed } from 'mobx'
 import { desc } from '@utils'
@@ -111,7 +113,14 @@ export default class Computed extends State implements StoreConstructor<typeof S
   /** 帖子历史查看信息 */
   private _readed = computedFn((topicId: TopicId) => {
     const last = getBucketId(topicId)
-    return (this.state?.[`readed${last}`]?.[topicId] || INIT_READED_ITEM) as Readed
+    const readed = (this.state?.[`readed${last}`]?.[topicId] || INIT_READED_ITEM) as Readed
+    if (typeof readed.replies === 'number') return readed
+
+    // 存量数据可能把 replies 存成了带后缀的字符串
+    return {
+      ...readed,
+      replies: Number.parseInt(String(readed.replies), 10) || 0
+    }
   })
 
   /** 帖子内容 */

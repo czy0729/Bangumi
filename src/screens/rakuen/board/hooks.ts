@@ -1,14 +1,17 @@
 /*
  * @Author: czy0729
  * @Date: 2024-11-17 12:30:54
- * @Last Modified by:   czy0729
- * @Last Modified time: 2024-11-17 12:30:54
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-10-24 10:00:00
+ *
+ * 页面初始化 hook
  */
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'
-import { NavigationProps } from '@types'
 import store from './store'
-import { Ctx } from './types'
+
+import type { NavigationProps } from '@types'
+import type { Ctx } from './types'
 
 /** 讨论版页面逻辑 */
 export function useBoardPage(props: NavigationProps) {

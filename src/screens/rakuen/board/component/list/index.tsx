@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-04-07 10:23:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:15:31
+ * @Last Modified time: 2026-10-24 10:00:00
+ *
+ * 帖子列表: 空状态与滚动列表
  */
 import { observer } from 'mobx-react'
 import { Flex, Mesume, ScrollView, Text } from '@components'

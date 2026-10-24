@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-06-23 05:22:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:13:42
+ * @Last Modified time: 2026-10-24 10:00:00
+ *
+ * 帖子列表项
  */
-
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Text, Touchable } from '@components'
@@ -13,6 +14,7 @@ import { _, rakuenStore, useStore } from '@stores'
 import { appNavigate, getIsBlockedUser, HTMLDecode, info, open, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
+import { parseReplies } from '@screens/rakuen/utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -29,6 +31,7 @@ function Item({ title, href, replies, time, userId, userName }: BoardItem) {
   const topicId = href.replace('/subject/topic/', 'subject/') as TopicId
   const readed = $.readed(topicId)
   const isReaded = !!readed.time
+  const repliesCount = parseReplies(replies)
   const replyText = `+${replies.replace(' replies', '')}`
 
   return (
@@ -37,7 +40,7 @@ function Item({ title, href, replies, time, userId, userName }: BoardItem) {
       style={stl(styles.item, isReaded && styles.readed)}
       animate
       onPress={() => {
-        if (Number(replies) > LIMIT_TOPIC_PUSH) {
+        if (repliesCount !== undefined && repliesCount > LIMIT_TOPIC_PUSH) {
           const url = `${HOST}${href}`
           t('讨论版.跳转', {
             to: 'WebBrowser',
@@ -50,7 +53,7 @@ function Item({ title, href, replies, time, userId, userName }: BoardItem) {
           }, 1600)
         } else {
           // 记录帖子查看历史详情
-          $.onItemPress(topicId, replies)
+          if (repliesCount !== undefined) $.onItemPress(topicId, repliesCount)
           appNavigate(
             href,
             navigation,

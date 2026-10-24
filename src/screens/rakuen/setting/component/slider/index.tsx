@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-17 02:37:48
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { SegmentedControl, SwitchPro } from '@components'
 import { ItemSetting } from '@_'
@@ -13,7 +13,11 @@ import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { MODEL_RAKUEN_SCROLL_DIRECTION, RAKUEN_SCROLL_DIRECTION } from '@constants'
 import Block from '@screens/user/setting/component/block'
-import { IconAnimation, IconSlider, IconSwapHorizontal } from '@screens/user/setting/component/icons'
+import {
+  IconAnimation,
+  IconSlider,
+  IconSwapHorizontal
+} from '@screens/user/setting/component/icons'
 import { styles } from '../styles'
 import { useAsyncSetSetting, useAsyncSwitchSetting } from '../../hooks'
 import { getYuqueThumbs } from '../utils'
