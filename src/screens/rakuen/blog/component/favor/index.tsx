@@ -1,10 +1,12 @@
-import { View } from 'react-native'
 /*
  * @Author: czy0729
  * @Date: 2024-07-01 07:23:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-06 21:36:24
+ * @Last Modified time: 2026-10-23 11:00:00
+ *
+ * 头部收藏按钮与收藏人数
  */
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { IconHeader } from '@_'

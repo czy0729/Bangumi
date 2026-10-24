@@ -2,12 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-12-17 06:54:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-25 07:16:56
+ * @Last Modified time: 2026-10-23 11:00:00
+ *
+ * 页面 Store 状态定义: 持久化 / 瞬态 / 初始值
  */
 import { COMPONENT } from '../ds'
 
 import type { Blog } from '@stores/rakuen/types'
 import type { CompletionItem, Id, Loaded } from '@types'
+import type { ResultData } from '@utils/kv/type'
 import type { SnapshotId } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
@@ -36,7 +39,7 @@ export const EXCLUDE_STATE = {
   message: '',
 
   /** 云快照 */
-  ota: {} as Record<SnapshotId, Blog>,
+  ota: {} as Record<SnapshotId, ResultData<Blog>>,
 
   /** 是否显示锐评框 */
   chatModalVisible: false,
@@ -51,7 +54,7 @@ export const STATE = {
   ...EXCLUDE_STATE,
 
   /** 展开的子楼层 ID */
-  expands: [],
+  expands: [] as Id[],
 
   /** 锐评 */
   chat: {

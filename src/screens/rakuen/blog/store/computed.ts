@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-06-21 05:06:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-04 20:20:28
+ * @Last Modified time: 2026-10-23 11:00:00
+ *
+ * 页面派生数据
  */
 import { computed } from 'mobx'
 import { rakuenStore, systemStore, usersStore, userStore } from '@stores'
@@ -60,10 +62,6 @@ export default class Computed extends State {
   /** 是否登录 (web) */
   @computed get isWebLogin() {
     return userStore.isWebLogin
-  }
-
-  @computed get readed() {
-    return true
   }
 
   /** 自己用户 Id (改过后的) */

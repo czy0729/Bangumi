@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-03-04 10:51:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 20:48:10
+ * @Last Modified time: 2026-10-23 11:00:00
+ *
+ * 列表头部: 作者信息 / 日志正文 / 关联条目
  */
 import { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -29,6 +31,7 @@ import { getHtmlTextLength } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { Blog } from '@stores/rakuen/types'
 import type { Ctx } from '../../types'
 
 function Top() {
@@ -54,7 +57,7 @@ function Top() {
     [memoEvent, navigation]
   )
   const handlePress = useCallback(
-    ({ id, name, image }) => {
+    ({ id, name, image }: NonNullable<Blog['related']>[number]) => {
       navigation.push('Subject', {
         subjectId: id,
         _jp: name,
@@ -69,6 +72,8 @@ function Top() {
     },
     [navigation]
   )
+
+  const htmlLength = useMemo(() => getHtmlTextLength($.html), [$.html])
 
   const styles = memoStyles()
 
@@ -138,7 +143,7 @@ function Top() {
               </Text>
               <Text type='sub' size={13} lineHeight={20}>
                 {' '}
-                · 约 {getHtmlTextLength($.html)}字
+                · 约 {htmlLength}字
               </Text>
             </Flex>
           )}
@@ -148,10 +153,7 @@ function Top() {
           {!!$.html && (
             <RenderHtml
               style={_.mt.md}
-              html={
-                $.html
-                // .replace(/(<br\s*\/?>[\s\n]*)+/gi, '<br>').replace(/<br>/g, '\n\n')
-              }
+              html={$.html}
               baseFontStyle={{
                 lineHeight: 28
               }}

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-16 20:20:54
  */
-import type { FixedTextareaInstance, ListViewInstance, ListViewProps } from '@components'
+import type { FixedTextareaInstance, ListViewInstance } from '@components'
 import type { GetRouteParams, Id, Ref, RouteTopic, WithNavigation } from '@types'
 import type Store from './store'
 
@@ -49,7 +49,7 @@ export type HandleScrollTo = (
 export type HandleScrollToTop = () => void
 
 /** 滚动失败后尝试使用保守的方法再次滚动 */
-export type HandleScrollToIndexFailed = ListViewProps['onScrollToIndexFailed']
+export type { HandleScrollToIndexFailed } from '../types'
 
 /** 提醒页面进入跳转到指定提醒楼层 */
 export type HandleJumpTo = (postId?: Id) => void

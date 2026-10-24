@@ -2,13 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-06-21 05:13:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-09-08 21:46:49
+ * @Last Modified time: 2026-10-23 11:00:00
+ *
+ * 日志内容与云快照请求
  */
 import { rakuenStore } from '@stores'
 import { getTimestamp, omit } from '@utils'
 import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
 import Computed from './computed'
+
+import type { Blog } from '@stores/rakuen/types'
+import type { ResultData } from '@utils/kv/type'
 
 /** 若更新过则不会再主动更新 */
 const THIRD_PARTY_UPDATED = []
@@ -36,7 +41,7 @@ export default class Fetch extends Computed {
   /** 获取云快照 */
   fetchThirdParty = async () => {
     if (!this.ota && !this.blog._loaded) {
-      const data = await get(this.thirdPartyKey)
+      const data = await get<ResultData<Blog>>(this.thirdPartyKey)
       if (!data) {
         // 就算没有数据也插入 key, 用于判断是否需要更新云数据
         this.setState({

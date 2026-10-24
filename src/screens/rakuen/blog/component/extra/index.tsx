@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-12-19 16:56:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-06 21:36:08
+ * @Last Modified time: 2026-10-23 11:00:00
+ *
+ * 调试面板: 锐评弹窗与埋点热区
  */
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'

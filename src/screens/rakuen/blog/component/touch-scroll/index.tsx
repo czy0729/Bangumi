@@ -2,20 +2,24 @@
  * @Author: czy0729
  * @Date: 2019-10-14 22:46:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-06 21:38:24
+ * @Last Modified time: 2026-10-23 11:00:00
+ *
+ * 楼层进度条: 点击跳转楼层
  */
 import { TouchableWithoutFeedback } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
-import { _, useStore } from '@stores'
+import { useStore } from '@stores'
 import { stl, titleCase } from '@utils'
 import { FROZEN_FN, MODEL_RAKUEN_SCROLL_DIRECTION, WEB } from '@constants'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { Props } from './types'
 import type { Ctx } from '../../types'
 
-function TouchScroll({ onPress = FROZEN_FN }: { onPress?: (floor: number) => void }) {
+/** 楼层进度条 */
+function TouchScroll({ onPress = FROZEN_FN }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   if (WEB) return null
@@ -52,24 +56,13 @@ function TouchScroll({ onPress = FROZEN_FN }: { onPress?: (floor: number) => voi
         </TouchableWithoutFeedback>
       </Flex.Item>
       {list.map((_item, index) => {
-        const isNew = false
         const showFloorText = showFloor.includes(index)
         return (
           <Flex.Item key={index} flex={isVertical ? 1 : showFloorText ? 3 : 1}>
             <TouchableWithoutFeedback onPressIn={() => onPress(index)}>
-              <Flex
-                style={stl(
-                  isVertical ? styles.itemVertical : styles.itemHorizontal,
-                  isNew && styles.itemNew
-                )}
-              >
+              <Flex style={stl(isVertical ? styles.itemVertical : styles.itemHorizontal)}>
                 {showFloorText && (
-                  <Text
-                    style={styles.text}
-                    type={isNew ? _.select('plain', 'icon') : 'icon'}
-                    size={8}
-                    align='center'
-                  >
+                  <Text style={styles.text} type='icon' size={8} align='center'>
                     {String(list[index].floor || '').replace('#', '')}
                   </Text>
                 )}
