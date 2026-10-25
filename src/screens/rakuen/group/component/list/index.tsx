@@ -2,125 +2,83 @@
  * @Author: czy0729
  * @Date: 2019-07-12 22:44:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 07:14:17
+ * @Last Modified time: 2026-10-25 00:00:00
+ *
+ * 帖子列表
  */
-import React from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Heatmap, Mesume, Text, Touchable } from '@components'
-import { _, useStore } from '@stores'
-import {
-  appNavigate,
-  correctAgo,
-  getTimestamp,
-  getVisualLength,
-  HTMLDecode,
-  info,
-  lastDate,
-  open,
-  stl
-} from '@utils'
-import { t } from '@utils/fetch'
-import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
-import { COMPONENT } from './ds'
-import { memoStyles } from './styles'
+import { ListView } from '@components'
+import { useStore } from '@stores'
+import { LIST_EMPTY, WEB } from '@constants'
+import Empty from '../empty'
+import Info from '../info'
+import Item from '../item'
+import { useScrollToHeader } from './hooks'
+import { COMPONENT, ENTERING_ANIMATIONS_NUM } from './ds'
+import { styles } from './styles'
 
-import type { TopicId } from '@types'
+import type { Group, GroupItem } from '@stores/rakuen/types'
+import type { RenderItem } from '@types'
 import type { Ctx } from '../../types'
 
 function List() {
-  const { $, navigation } = useStore<Ctx>(COMPONENT)
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  const styles = memoStyles()
-
-  const { title: group } = $.groupInfo
   const { list, _loaded } = $.group
-  if (_loaded && !list.length) {
-    return (
-      <Flex style={styles.empty} direction='column' justify='center'>
-        <Mesume />
-        <Text style={_.mt.sm} type='sub'>
-          好像什么都没有
-        </Text>
-      </Flex>
-    )
-  }
+  const { title: group } = $.groupInfo
+  const { page, showLastDate } = $.state
 
-  const { showLastDate } = $.state
+  const { handleRef, handleHeaderLayout, handleScroll, handleContentSizeChange } =
+    useScrollToHeader({
+      page,
+      loaded: !!_loaded,
+      listLength: list.length,
+      onScroll: $.onScroll
+    })
+
+  /** 首帧渲染空数据, 让列表容器与 cell 分两批挂载 (同批挂载的 cell 会被 skipEntering 跳过进场动画) */
+  const [ready, setReady] = useState(false)
+  useEffect(() => setReady(true), [])
+
+  const elEmpty = useMemo(() => <Empty />, [])
+
+  /** web 列表不渲染 ListEmptyComponent, 空态挂在头部 */
+  const elHeader = useMemo(
+    () => (
+      <View onLayout={handleHeaderLayout}>
+        <Info />
+        {WEB ? <Empty /> : null}
+      </View>
+    ),
+    [handleHeaderLayout]
+  )
+
+  const handleRenderItem = useCallback(
+    ({ item, index }: RenderItem<GroupItem>) => (
+      <Item {...item} index={index} group={group} showLastDate={showLastDate} />
+    ),
+    [group, showLastDate]
+  )
+
+  /** GroupItem 没有 id, 通用 keyExtractor 会全部返回空串, 导致 cell 复用且进场动画失效 */
+  const handleKeyExtractor = useCallback((item: GroupItem) => item.href, [])
 
   return (
-    <View>
-      {list.map(({ title, href, replies, time, userName }, index) => {
-        const topicId = href.replace('/group/topic/', 'group/') as TopicId
-        const readed = $.readed(topicId)
-        const isReaded = !!readed.time
-
-        // 处理 (+30) +10 样式
-        const replyText = `+${replies}`
-        let replyAdd: string
-        if (isReaded) {
-          if (Number(replies) > readed.replies) {
-            replyAdd = `+${Number(replies) - readed.replies}`
-          }
-        }
-
-        const text = HTMLDecode(title)
-        const visualLength = getVisualLength(text)
-        const size = visualLength >= 20 ? 13 : 14
-
-        return (
-          <Touchable
-            key={href}
-            style={stl(styles.item, !!index && styles.border, isReaded && styles.readed)}
-            animate
-            onPress={() => {
-              if (Number(replies) > LIMIT_TOPIC_PUSH) {
-                const url = `${HOST}${href}`
-                t('小组.跳转', { to: 'WebBrowser', url })
-
-                info('该帖评论多, 自动使用浏览器打开')
-                setTimeout(() => open(url), 1500)
-                return
-              }
-
-              // 记录帖子查看历史详情
-              $.onItemPress(topicId, replies)
-              appNavigate(
-                href,
-                navigation,
-                {
-                  _title: title,
-                  _replies: `+${replies}`,
-                  _group: group,
-                  _time: time
-                },
-                { id: '小组.跳转' }
-              )
-            }}
-          >
-            <View style={styles.wrap}>
-              <Text size={size} lineHeight={14}>
-                {HTMLDecode(title)}
-                <Text type={isReaded ? 'sub' : 'main'} size={12} lineHeight={14}>
-                  {' '}
-                  {replyText}
-                </Text>
-                {!!replyAdd && (
-                  <Text type='main' size={12} lineHeight={14}>
-                    {' '}
-                    {replyAdd}
-                  </Text>
-                )}
-              </Text>
-              <Text style={_.mt.xs} type='sub' size={12} lineHeight={14} bold>
-                {userName} / {showLastDate ? lastDate(getTimestamp(time)) : correctAgo(time)}
-              </Text>
-            </View>
-            {!index && <Heatmap id='小组.跳转' />}
-          </Touchable>
-        )
-      })}
-    </View>
+    <ListView
+      ref={handleRef}
+      contentContainerStyle={styles.container}
+      keyExtractor={handleKeyExtractor}
+      skipEnteringExitingAnimations={ENTERING_ANIMATIONS_NUM}
+      data={ready ? $.group : (LIST_EMPTY as Group)}
+      ListHeaderComponent={elHeader}
+      ListEmptyComponent={elEmpty}
+      onContentSizeChange={handleContentSizeChange}
+      renderItem={handleRenderItem}
+      showFooter={false}
+      onScroll={handleScroll}
+    />
   )
 }
 

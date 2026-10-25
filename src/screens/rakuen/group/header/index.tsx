@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-03-15 22:00:27
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 06:48:39
+ * @Last Modified time: 2026-10-24 10:00:00
+ *
+ * 页面头部: 标题、发帖入口与右上角菜单
  */
 import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -72,12 +74,12 @@ function Header() {
     async (title: string) => {
       if (title === 'TEXT_MENU_SPLIT') return
 
-      const actions = {
+      const actions: Record<string, () => unknown> = {
         [TEXT_MENU_BROWSER]: () => open(url),
         [TEXT_MENU_GROUP_MEMBER]: () => open(`${HOST}/group/${groupId}/members`),
         [TEXT_MENU_GROUP_JOIN]: () => $.doJoin(),
         [TEXT_MENU_GROUP_QUIT]: () => $.doBye()
-      } as const
+      }
 
       if (title.startsWith(TEXT_MENU_TIME_FORMAT)) {
         $.onToggleShowLastDate()

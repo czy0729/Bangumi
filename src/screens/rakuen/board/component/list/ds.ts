@@ -8,3 +8,6 @@ import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'List')
+
+/** 需进场动画的列表项数量 */
+export const ENTERING_ANIMATIONS_NUM = 10

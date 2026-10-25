@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-12-08 06:47:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 06:49:24
+ * @Last Modified time: 2026-10-24 10:00:00
+ *
+ * 调试面板: 埋点热区
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'

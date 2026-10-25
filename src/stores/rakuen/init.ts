@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-07-13 01:59:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-31 05:23:29
+ * @Last Modified time: 2026-10-24 10:00:00
+ *
+ * 超展开 Store 初始状态与常量
  */
 import { removeItem } from '@utils/storage/utils'
 import {
@@ -33,6 +35,7 @@ import type {
   BookmarksItem,
   Comments,
   Group,
+  GroupInfo,
   Likes,
   Mine,
   Notify,
@@ -180,7 +183,7 @@ export const INIT_SETTING = {
   bigEmojiSize: MODEL_BIG_EMOJI_SIZE.getValue('中')
 }
 
-export const INIT_GROUP_INFO = {
+export const INIT_GROUP_INFO: GroupInfo = {
   /** 小组名字 */
   title: '',
 
@@ -197,7 +200,10 @@ export const INIT_GROUP_INFO = {
   joinUrl: '',
 
   /** 退出小组 */
-  byeUrl: ''
+  byeUrl: '',
+
+  /** 是否已请求 */
+  _loaded: 0
 }
 
 export const INIT_GROUP_ITEM = {
@@ -271,12 +277,12 @@ const STATE = {
   /** 小组信息 */
   groupInfo: {
     0: INIT_GROUP_INFO
-  },
+  } as Record<Id, GroupInfo>,
 
   /** 小组缩略图缓存 */
   groupThumb: {
     0: ''
-  },
+  } as Record<string, string>,
 
   /** 我的小组 */
   mine: LIST_EMPTY as Mine,

@@ -14,7 +14,7 @@ import { _, rakuenStore, useStore } from '@stores'
 import { appNavigate, getIsBlockedUser, HTMLDecode, info, open, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
-import { parseReplies } from '@screens/rakuen/utils'
+import { formatReplies, parseReplies } from '@screens/rakuen/utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
@@ -32,7 +32,7 @@ function Item({ title, href, replies, time, userId, userName }: BoardItem) {
   const readed = $.readed(topicId)
   const isReaded = !!readed.time
   const repliesCount = parseReplies(replies)
-  const replyText = `+${replies.replace(' replies', '')}`
+  const replyText = formatReplies(repliesCount)
 
   return (
     <Touchable

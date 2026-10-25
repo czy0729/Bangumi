@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-12-08 10:42:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 06:52:16
+ * @Last Modified time: 2026-10-24 10:00:00
+ *
+ * 分页器
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Pagination as PaginationComp } from '@components'
 import { _, useStore } from '@stores'
