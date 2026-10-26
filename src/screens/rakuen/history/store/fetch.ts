@@ -20,10 +20,10 @@ let topicQueueTimer: TimerRef = null
 
 export default class Fetch extends Computed {
   /** 小组帖子列表 (我的回复跟小组是一个性质的) */
-  fetchGroup = async () => {
-    await rakuenStore.fetchGroup({
+  fetchGroup = async (page: number) => {
+    const data = await rakuenStore.fetchGroup({
       groupId: 'my_reply',
-      page: this.state.replyPage
+      page
     })
 
     if (topicQueueTimer !== null) {
@@ -34,7 +34,7 @@ export default class Fetch extends Computed {
       this.fetchTopicQueue()
     }, 4000)
 
-    return true
+    return data
   }
 
   /** 获取帖子内容和留言 */

@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-06-10 22:17:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-01 18:27:59
+ * @Last Modified time: 2026-10-25 00:00:00
  */
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Text } from '@components'
 
 import type { TextProps } from '@components'

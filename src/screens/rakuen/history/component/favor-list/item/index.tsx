@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2022-11-28 05:50:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-31 05:50:56
+ * @Last Modified time: 2026-10-25 00:00:00
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Loading, Text, Touchable, UserStatus } from '@components'

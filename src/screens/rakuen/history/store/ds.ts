@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-07-03 10:54:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-01 18:36:12
+ * @Last Modified time: 2026-10-25 00:00:00
  */
 import { COMPONENT } from '../ds'
 
@@ -15,9 +15,8 @@ export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const STATE = {
   page: 0,
-  replyPage: 0,
+  replyPage: 1,
   ipt: '1',
-  show: true,
   topics: {} as Record<`favor_${string}`, Topic>,
   collectRank: [] as CollectRankItem[],
   collectRankSort: '收藏数' as CollectRankSort,

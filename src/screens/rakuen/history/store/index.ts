@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-04 15:35:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-31 06:01:44
+ * @Last Modified time: 2026-10-26 00:00:00
  */
 import { rakuenStore } from '@stores'
 import { queue } from '@utils'
@@ -22,13 +22,18 @@ export default class ScreenRakuenHistory extends Action {
     )
     const storageData = await this.getStorageOnce<typeof STATE>(NAMESPACE)
 
+    /** 页码统一 1-based, 旧版本存储的 0 或非法值兜回第 1 页 */
+    const replyPage = Math.max(1, Number(storageData.replyPage) || 1)
+
     this.setState({
       ...storageData,
+      replyPage,
+      ipt: String(replyPage),
       _loaded: true
     })
 
     rakuenStore.getFavor()
-    this.fetchGroup()
+    this.fetchPage(replyPage, replyPage)
     this.fetchCollectRank()
 
     return true

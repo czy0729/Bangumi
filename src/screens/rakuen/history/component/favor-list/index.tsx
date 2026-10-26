@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2022-11-27 15:32:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-31 05:18:48
+ * @Last Modified time: 2026-10-25 00:00:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { SegmentedControl } from '@components'
 import { PaginationList } from '@_'
@@ -19,10 +18,10 @@ import type { Ctx } from '../../types'
 function FavorList() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const styles = memoStyles()
+
   const { _loaded, type } = $.state
   if (!_loaded) return null
-
-  const styles = memoStyles()
 
   return (
     <>
@@ -38,6 +37,7 @@ function FavorList() {
         contentContainerStyle={_.container.bottom}
         data={$.list}
         limit={12}
+        skipEnteringExitingAnimations={12}
         renderItem={renderItem}
         onPage={$.onPage}
       />
