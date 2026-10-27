@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-07-13 18:49:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-24 10:00:00
+ * @Last Modified time: 2026-10-28 00:00:00
  *
  * 页面 Store 入口: init() / unmount()
  */
@@ -28,7 +28,7 @@ export default class ScreenGroup extends Action {
       _loaded: true
     })
 
-    this.fetchGroup()
+    this.fetchPage(this.state.page, this.state.page)
     return this.fetchGroupInfo()
   }
 

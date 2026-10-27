@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-10-25 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-25 00:00:00
+ * @Last Modified time: 2026-10-28 00:00:00
  *
  * 列表滚动: 翻页后回到头部底部
  */
@@ -10,7 +10,7 @@ import { useCallback, useEffect, useRef } from 'react'
 import { useInsets } from '@utils/hooks'
 import { WEB } from '@constants'
 
-import type { ListViewScrollMethods } from '@components'
+import type { ListViewInstance } from '@components'
 import type { LayoutChangeEvent } from 'react-native'
 import type { ScrollEvent } from '@types'
 
@@ -36,7 +36,7 @@ type Options = {
 export function useScrollToHeader({ page, loaded, listLength, onScroll }: Options) {
   const { headerHeight: headerInset } = useInsets()
 
-  const listRef = useRef<ListViewScrollMethods | null>(null)
+  const listRef = useRef<ListViewInstance | null>(null)
 
   /** 头部高度 */
   const headerHeightRef = useRef(0)
@@ -56,8 +56,8 @@ export function useScrollToHeader({ page, loaded, listLength, onScroll }: Option
   /** 等待滚动的页码 */
   const targetPageRef = useRef<number | null>(null)
 
-  const handleRef = useCallback((ref: unknown) => {
-    listRef.current = ref as ListViewScrollMethods | null
+  const handleRef = useCallback((ref?: ListViewInstance | null) => {
+    listRef.current = ref || null
   }, [])
 
   const handleHeaderLayout = useCallback(({ nativeEvent }: LayoutChangeEvent) => {

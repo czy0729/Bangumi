@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2020-09-21 17:57:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-18 05:56:02
+ * @Last Modified time: 2026-10-28 00:00:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { TabsV2 } from '@components'
 import { _, useStore } from '@stores'

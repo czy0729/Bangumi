@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2019-05-21 04:14:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-18 07:51:50
+ * @Last Modified time: 2026-10-28 00:00:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, Page } from '@components'
 import { StoreContext } from '@stores'

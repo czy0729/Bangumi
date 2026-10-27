@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-10-24 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-24 10:00:00
+ * @Last Modified time: 2026-10-28 00:00:00
  *
  * 小组信息 / 帖子列表 / 云快照请求
  */
@@ -28,10 +28,9 @@ export default class Fetch extends Computed {
   }
 
   /** 小组帖子列表 */
-  fetchGroup = async () => {
+  fetchGroup = async (page: number) => {
     if (ENABLE_SNAPSHOT) this.fetchThirdParty()
 
-    const { page } = this.state
     const data = await rakuenStore.fetchGroup({
       groupId: this.groupId,
       page
