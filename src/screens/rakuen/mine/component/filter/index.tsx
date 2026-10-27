@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-12-31 02:37:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 16:36:40
+ * @Last Modified time: 2026-10-27 00:00:00
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Input } from '@components'

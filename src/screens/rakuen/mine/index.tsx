@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2020-05-02 15:54:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-17 16:36:07
+ * @Last Modified time: 2026-10-27 00:00:00
+ *
+ * 我的小组
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { StoreContext } from '@stores'
 import List from './component/list'
-import ListAll from './component/list-all'
 import Header from './header'
 import { useMinePage } from './hooks'
 
@@ -24,7 +24,7 @@ function Mine(props: NavigationProps) {
       <StoreContext.Provider value={id}>
         <Page loaded={$.state._loaded}>
           <HeaderPlaceholder />
-          {$.state.type === 'mine' ? <List /> : <ListAll />}
+          <List />
         </Page>
         <Header />
       </StoreContext.Provider>

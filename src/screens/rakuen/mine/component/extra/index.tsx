@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2022-02-24 18:55:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 02:20:49
+ * @Last Modified time: 2026-10-27 00:00:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { SegmentedControl } from '@components'
 import { useStore } from '@stores'

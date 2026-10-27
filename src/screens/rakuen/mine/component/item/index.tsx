@@ -2,36 +2,47 @@
  * @Author: czy0729
  * @Date: 2020-05-02 16:30:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-12 03:23:58
+ * @Last Modified time: 2026-10-27 00:00:00
+ *
+ * 小组项
  */
 import { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Cover, Flex, flexStyle, Highlight, Text, Touchable } from '@components'
+import { Tag } from '@_'
 import { _, systemStore, useStore } from '@stores'
 import { getGroupThumbStatic, getVisualLength } from '@utils'
 import { CDN_OSS_MAGMA_PIC } from '@utils/cdn'
 import { t } from '@utils/fetch'
 import { HOST_IMAGE } from '@constants'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-function Item({ id, cover, name, num }) {
+function Item({ id, cover, name, num, joined }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
+  const styles = memoStyles()
+
+  const { type, filter } = $.state
+
   const handlePress = useCallback(() => {
+    if (!id) return
+
     navigation.push('Group', {
-      groupId: id
+      groupId: String(id)
     })
 
     t('我的小组.跳转', {
-      groupId: id
+      groupId: id,
+      type
     })
-  }, [id, navigation])
+  }, [id, navigation, type])
 
-  let src = getGroupThumbStatic(cover)
+  let src = getGroupThumbStatic(cover || '')
   if (
     typeof src === 'string' &&
     src.includes(HOST_IMAGE) &&
@@ -41,9 +52,7 @@ function Item({ id, cover, name, num }) {
     src = CDN_OSS_MAGMA_PIC(src)
   }
 
-  const { type, filter } = $.state
-
-  const visualLength = getVisualLength(name)
+  const visualLength = getVisualLength(name || '')
   const size = visualLength >= 10 ? 10 : 11
 
   return (
@@ -61,12 +70,17 @@ function Item({ id, cover, name, num }) {
             >
               {name}
             </Highlight>
-            <Text style={_.mt.xs} type='sub' size={10}>
-              <Text type='sub' size={10} bold>
-                {num}
-              </Text>{' '}
-              位成员
-            </Text>
+            <Flex style={_.mt.xs}>
+              {!!joined && <Tag style={_.mr.xs} type='warning' size={9} value='已加入' />}
+              <Flex.Item>
+                <Text type='sub' size={10}>
+                  <Text type='sub' size={10} bold>
+                    {num}
+                  </Text>{' '}
+                  位成员
+                </Text>
+              </Flex.Item>
+            </Flex>
           </Flex>
         </Flex.Item>
       </Touchable>

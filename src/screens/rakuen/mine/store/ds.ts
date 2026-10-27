@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-17 10:44:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 20:23:27
+ * @Last Modified time: 2026-10-27 00:00:00
  */
 import { WEB } from '@constants'
 import { COMPONENT } from '../ds'
@@ -13,8 +13,7 @@ export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
   ipt: '',
-  filter: '',
-  isFocused: true
+  filter: ''
 }
 
 export const STATE = {
