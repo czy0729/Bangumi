@@ -24,9 +24,11 @@ export default class ScreenGroup extends Action {
     this.setState({
       ...storageData,
       ...RESET_STATE,
-      ota: {},
       _loaded: true
     })
+
+    // setState 对 observable 对象是逐键合并, 空对象清不掉旧快照, 需要整体置换
+    this.clearState('ota')
 
     this.fetchPage(this.state.page, this.state.page)
     return this.fetchGroupInfo()

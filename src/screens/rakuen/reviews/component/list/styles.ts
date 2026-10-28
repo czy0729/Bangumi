@@ -2,12 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-26 21:21:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-06-22 17:37:05
+ * @Last Modified time: 2026-10-28 00:00:00
  */
-import { _ } from '@stores'
-
-export const styles = _.create({
+export const styles = {
   empty: {
     minHeight: 240
   }
-})
+}

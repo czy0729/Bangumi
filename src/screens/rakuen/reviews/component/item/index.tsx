@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-06-22 16:48:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:24:03
+ * @Last Modified time: 2026-10-28 00:00:00
  */
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
@@ -29,9 +29,9 @@ function Item({
 }: WithIndex<ReviewsItem>) {
   const navigation = useNavigation(COMPONENT)
 
-  if (getIsBlockedUser(rakuenStore.blockUserIds, userName, userId, `Reviews|${id}`)) return null
-
   const styles = memoStyles()
+
+  if (getIsBlockedUser(rakuenStore.blockUserIds, userName, userId, `Reviews|${id}`)) return null
 
   return (
     <Touchable

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-07-15 17:18:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:23:48
+ * @Last Modified time: 2026-10-28 00:00:00
+ *
+ * 影评 (同条目中的评论)
  */
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
