@@ -2,20 +2,26 @@
  * @Author: czy0729
  * @Date: 2022-09-29 17:38:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-05-16 07:21:46
+ * @Last Modified time: 2026-10-29 00:00:00
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
-  item: {
-    paddingHorizontal: _.wind
+  history: {
+    paddingHorizontal: _.wind,
+    paddingTop: _.sm
   },
-  content: {
-    paddingVertical: _.sm
+  chip: {
+    paddingLeft: _.sm,
+    paddingRight: 4,
+    paddingVertical: 6,
+    marginRight: _.sm,
+    marginBottom: _.sm,
+    borderRadius: 6,
+    backgroundColor: _.colorBg
   },
   close: {
-    padding: _.sm,
-    marginLeft: _.md,
-    marginRight: -_.sm
+    paddingHorizontal: 4,
+    paddingVertical: 2
   }
 }))

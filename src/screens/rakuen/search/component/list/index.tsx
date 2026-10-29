@@ -2,55 +2,65 @@
  * @Author: czy0729
  * @Date: 2019-05-15 15:35:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-04 05:58:34
+ * @Last Modified time: 2026-10-29 00:00:00
+ *
+ * 搜索结果列表
  */
-import React from 'react'
+import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
-import { ListView, Loading, Text } from '@components'
-import { _ } from '@stores'
+import { ListView, Text } from '@components'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { r } from '@utils/dev'
 import Item from '../item'
-import { COMPONENT } from './ds'
+import { COMPONENT, ENTERING_ANIMATIONS_NUM } from './ds'
 
+import type { RakuenSearchItem } from '@stores/search/types'
+import type { RenderItem } from '@types'
 import type { Ctx } from '../../types'
 
-class List extends React.Component<Ctx> {
-  renderItem = ({ item, index }) => <Item index={index} {...item} />
+function List() {
+  const { $ } = useStore<Ctx>(COMPONENT)
 
-  render() {
-    r(COMPONENT)
+  r(COMPONENT)
 
-    const { $ } = this.props
-    const { searching } = $.state
-    if (searching) return <Loading style={_.container.flex} />
+  const { _loaded, _filter = 0 } = $.search
 
-    if (!$.search._loaded) return null
+  const handleRenderItem = useCallback(
+    ({ item, index }: RenderItem<RakuenSearchItem>) => <Item index={index} {...item} />,
+    []
+  )
 
-    const { _filter = 0 } = $.search
-    const ListFooterComponent =
+  /** 非会员不能翻页的提示 */
+  const elFooter = useMemo(
+    () =>
       _filter > 0 ? (
         <>
           <Text style={_.mt.lg} type='sub' align='center' size={13} bold>
-            非会员仅显示 8 条结果
+            非会员仅显示第 1 页
           </Text>
           <Text style={_.mt.xs} type='sub' align='center' size={13} bold>
-            高级会员显示 20 条结果
+            高级会员可继续翻页
           </Text>
         </>
-      ) : undefined
+      ) : undefined,
+    [_filter]
+  )
 
-    return (
-      <ListView
-        keyExtractor={keyExtractor}
-        contentContainerStyle={_.container.bottom}
-        data={$.search}
-        renderItem={this.renderItem}
-        ListFooterComponent={ListFooterComponent}
-        onScroll={$.onScroll}
-      />
-    )
-  }
+  if (!_loaded) return null
+
+  return (
+    <ListView
+      keyExtractor={keyExtractor}
+      contentContainerStyle={_.container.bottom}
+      skipEnteringExitingAnimations={ENTERING_ANIMATIONS_NUM}
+      data={$.search}
+      renderItem={handleRenderItem}
+      ListFooterComponent={elFooter}
+      onScroll={$.onScroll}
+      onFooterRefresh={$.onFooterRefresh}
+    />
+  )
 }
 
 export default observer(List)

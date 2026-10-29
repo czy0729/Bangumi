@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 04:40:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-05 20:32:27
+ * @Last Modified time: 2026-10-29 00:00:00
  */
 
 /** Rakuen */
@@ -99,6 +99,7 @@ export default {
   '帖子搜索.选择历史': 'RakuenSearch.selectHistory',
   '帖子搜索.删除历史': 'RakuenSearch.deleteHistory',
   '帖子搜索.搜索': 'RakuenSearch.doSearch',
+  '帖子搜索.排序': 'RakuenSearch.sort',
 
   讨论版: 'Board',
   '讨论版.跳转': 'Board.to',

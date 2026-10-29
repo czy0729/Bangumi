@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-05-15 02:18:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:24:37
+ * @Last Modified time: 2026-10-29 00:00:00
+ *
+ * 小组搜索
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
@@ -11,6 +13,7 @@ import { _, StoreContext } from '@stores'
 import History from './component/history'
 import List from './component/list'
 import SearchBar from './component/search-bar'
+import Sort from './component/sort'
 import { useRakuenSearchPage } from './hooks'
 import { HM } from './ds'
 import { memoStyles } from './styles'
@@ -26,21 +29,22 @@ function RakuenSearch(props: NavigationProps) {
   return (
     <Component id='screen-rakuen-search'>
       <StoreContext.Provider value={id}>
-        <Page>
+        <Page loading={$.state.searching}>
           <HeaderPlaceholder />
           <Flex style={styles.searchBar}>
+            <Sort />
             <Flex.Item>
               <SearchBar />
             </Flex.Item>
             <View style={_.ml.sm}>
-              <Button style={styles.btn} type='ghostPlain' size='sm' onPress={$.doSearch}>
+              <Button style={styles.btn} type='ghostPlain' size='sm' onPress={() => $.doSearch()}>
                 查询
               </Button>
               <Heatmap id='帖子搜索.搜索' />
             </View>
           </Flex>
-          <History style={_.mt.sm} />
-          <List $={$} />
+          <History />
+          <List />
         </Page>
         <HeaderV2 title='小组搜索' hm={HM} />
       </StoreContext.Provider>

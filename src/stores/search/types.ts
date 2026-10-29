@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-07-01 18:53:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-08 09:30:00
+ * @Last Modified time: 2026-10-29 00:00:00
  */
-import type { Id, ListEmpty, SubjectType, UserId } from '@types'
+import type { Id, ListEmpty, SubjectType } from '@types'
 
 export type SearchItem = {
   /** 条目 ID（href） */
@@ -49,9 +49,13 @@ export type RakuenSearchItem = {
   id: number
   title: string
   message: string
-  avatar: string
-  userId: UserId
   userName: string
   time: string
   group: string
+
+  /** 回复数 */
+  replies?: number
 }
+
+/** 帖子搜索结果 */
+export type RakuenSearch = ListEmpty<RakuenSearchItem>

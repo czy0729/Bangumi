@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-23 01:47:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-22 06:44:52
+ * @Last Modified time: 2026-10-29 00:00:00
  */
 import Constants from 'expo-constants'
 import { WEB } from '@constants/device'
@@ -40,7 +40,15 @@ import type {
   ResultPicList,
   ResultPicListResponse,
   ResultRecommendTopics,
-  ResultTemp
+  ResultSearch,
+  ResultTemp,
+  SearchBlogItem,
+  SearchGroupItem,
+  SearchGroupTopicItem,
+  SearchIndexItem,
+  SearchReplyItem,
+  SearchSubjectTopicItem,
+  SearchUserItem
 } from './type'
 
 let userAgent = ''
@@ -307,32 +315,6 @@ export function download(downloadKey: string) {
   if (isDevtoolsOpen()) return Promise.reject('denied')
 
   return `${HOST}/v1/temp/download/${downloadKey}`
-}
-
-/** 搜索 */
-export async function search<T = unknown>(
-  q: string,
-  withMessage: boolean = false
-): Promise<Result<T> | null> {
-  if (isDevtoolsOpen()) return Promise.reject('denied')
-
-  try {
-    const { data } = await axios<string>({
-      method: 'post',
-      url: `${HOST}/v1/topic/search`,
-      headers: HEADERS,
-      data: {
-        search: q,
-        withMessage
-      }
-    })
-
-    return Crypto.get<Result<T>>(data)
-  } catch (error) {
-    err('search', error)
-  }
-
-  return null
 }
 
 /**
@@ -647,7 +629,7 @@ export async function groupTopics(
     minReplies?: number
     includeBlocked?: boolean
     exact?: boolean
-    sort?: 'match' | 'newest' | 'oldest' | 'replies'
+    sort?: SearchSort
     limit?: number
     offset?: number
   } = {}
@@ -686,7 +668,7 @@ export async function searchGroupTopics(
     minReplies?: number
     includeBlocked?: boolean
     exact?: boolean
-    sort?: 'match' | 'newest' | 'oldest' | 'replies'
+    sort?: SearchSort
     after?: string
     limit?: number
     offset?: number
@@ -730,6 +712,111 @@ export async function searchGroupTopics(
   }
 
   return null
+}
+
+/**
+ * 搜索端点: v1/search 系列返回扁平字段 (creatorName / parentName), 与上面
+ * v1/group-topics 的嵌套结构 (creator / group) 不是同一个端点
+ */
+const SEARCH_ENDPOINTS = {
+  groupTopics: 'group-topics',
+  subjectTopics: 'subject-topics',
+  users: 'users',
+  groups: 'groups',
+  blogs: 'blogs',
+  indexes: 'indexes',
+  replies: 'replies'
+} as const
+
+type SearchEndpoint = (typeof SEARCH_ENDPOINTS)[keyof typeof SEARCH_ENDPOINTS]
+
+/** 搜索排序 */
+export type SearchSort = 'match' | 'newest' | 'oldest' | 'replies'
+
+export type SearchOptions = {
+  /** 关键词, 支持 exact:/include:nsfw/user:/group: 等指令 */
+  q?: string
+
+  /** 排序 */
+  sort?: SearchSort
+
+  /** 每页条数 */
+  limit?: number
+
+  /** 偏移 */
+  offset?: number
+
+  /** 回复来源, 仅 replies 端点使用 */
+  source?: string
+}
+
+/** 通用搜索请求 */
+async function searchEncore<T>(
+  endpoint: SearchEndpoint,
+  options: SearchOptions = {}
+): Promise<ResultSearch<T> | null> {
+  if (isDevtoolsOpen()) return Promise.reject('denied')
+
+  const { q = '', sort = 'match', limit = 20, offset = 0, source } = options
+
+  try {
+    const query = [
+      `q=${encodeURIComponent(q)}`,
+      `sort=${sort}`,
+      `limit=${limit}`,
+      `offset=${offset}`,
+      source ? `source=${source}` : ''
+    ]
+      .filter(Boolean)
+      .join('&')
+
+    const { data } = await axios<ResultSearch<T>>({
+      method: 'get',
+      url: `${HOST_RY_MK}/v1/search/${endpoint}?${query}`
+    })
+
+    // 空结果也算成功, 只有异常才返回 null
+    if (data?.pagination) return data
+  } catch (error) {
+    err('searchEncore', endpoint, error)
+  }
+
+  return null
+}
+
+/** 搜索帖子 */
+export function searchEncoreGroupTopics(options?: SearchOptions) {
+  return searchEncore<SearchGroupTopicItem>(SEARCH_ENDPOINTS.groupTopics, options)
+}
+
+/** 搜索讨论 */
+export function searchEncoreSubjectTopics(options?: SearchOptions) {
+  return searchEncore<SearchSubjectTopicItem>(SEARCH_ENDPOINTS.subjectTopics, options)
+}
+
+/** 搜索用户 */
+export function searchEncoreUsers(options?: SearchOptions) {
+  return searchEncore<SearchUserItem>(SEARCH_ENDPOINTS.users, options)
+}
+
+/** 搜索小组 */
+export function searchEncoreGroups(options?: SearchOptions) {
+  return searchEncore<SearchGroupItem>(SEARCH_ENDPOINTS.groups, options)
+}
+
+/** 搜索日志 */
+export function searchEncoreBlogs(options?: SearchOptions) {
+  return searchEncore<SearchBlogItem>(SEARCH_ENDPOINTS.blogs, options)
+}
+
+/** 搜索目录 */
+export function searchEncoreIndexes(options?: SearchOptions) {
+  return searchEncore<SearchIndexItem>(SEARCH_ENDPOINTS.indexes, options)
+}
+
+/** 搜索回复 */
+export function searchEncoreReplies(options?: SearchOptions) {
+  return searchEncore<SearchReplyItem>(SEARCH_ENDPOINTS.replies, options)
 }
 
 export async function recommendTopics(

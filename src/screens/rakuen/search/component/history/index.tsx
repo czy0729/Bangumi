@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-05-17 00:06:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-18 02:14:36
+ * @Last Modified time: 2026-10-29 00:00:00
+ *
+ * 搜索历史: 关键字标签流
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
@@ -13,29 +15,29 @@ import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 
-function History({ style }) {
+function History() {
   const { $ } = useStore<Ctx>(COMPONENT)
-  if ($.state.value !== '') return null
 
   const styles = memoStyles()
+  const { history, value } = $.state
+  if (!history.length || value !== '') return null
 
   return (
-    <View style={style}>
-      {$.state.history.map(item => (
-        <View key={item} style={styles.item}>
-          <Flex style={styles.content}>
-            <Flex.Item>
-              <Text size={15} bold onPress={() => $.selectHistory(item)}>
-                {item}
-              </Text>
-            </Flex.Item>
+    <View>
+      <Flex style={styles.history} wrap='wrap'>
+        {history.map(item => (
+          <Flex key={item} style={styles.chip} align='center'>
+            <Text size={14} onPress={() => $.selectHistory(item)}>
+              {item}
+            </Text>
             <Touchable style={styles.close} onPress={() => $.deleteHistory(item)}>
-              <Iconfont name='md-close' />
+              <Iconfont name='md-close' size={14} />
             </Touchable>
           </Flex>
-        </View>
-      ))}
-      <Heatmap right={52} id='帖子搜索.选择历史' />
+        ))}
+      </Flex>
+
+      <Heatmap id='帖子搜索.选择历史' />
       <Heatmap id='帖子搜索.删除历史' transparent />
     </View>
   )

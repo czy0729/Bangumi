@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2022-07-30 17:33:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 16:19:31
+ * @Last Modified time: 2026-10-29 00:00:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { t2s as t2sUtils } from '@utils'
@@ -14,6 +13,36 @@ import { COMPONENT } from './ds'
 
 import type { Props as HighlightProps } from './types'
 export type { HighlightProps }
+
+/** 多关键词: 按命中区间切分文本片段 */
+function splitByValues(text: string, values: string[]) {
+  const upperText = text.toLocaleUpperCase()
+  const ranges: [number, number][] = []
+
+  values.forEach(value => {
+    let index = upperText.indexOf(value)
+    while (index !== -1) {
+      ranges.push([index, index + value.length])
+      index = upperText.indexOf(value, index + value.length)
+    }
+  })
+
+  const segments: { text: string; hit: boolean }[] = []
+  let cursor = 0
+  ranges
+    .sort((a, b) => a[0] - b[0])
+    .forEach(([start, end]) => {
+      if (end <= cursor) return
+
+      if (start > cursor) segments.push({ text: text.slice(cursor, start), hit: false })
+
+      segments.push({ text: text.slice(Math.max(start, cursor), end), hit: true })
+      cursor = end
+    })
+  if (cursor < text.length) segments.push({ text: text.slice(cursor), hit: false })
+
+  return segments
+}
 
 /** 文字高亮 */
 export const Highlight = observer(
@@ -35,10 +64,45 @@ export const Highlight = observer(
       lineHeight,
       bold
     }
-    if (typeof children !== 'string' || !value || typeof value !== 'string') {
+    const values = (Array.isArray(value) ? value : [value]).filter(
+      item => typeof item === 'string' && !!item.trim()
+    )
+    if (typeof children !== 'string' || !values.length) {
       return (
         <Text style={style} type={type} {...props} {...other}>
           {children}
+        </Text>
+      )
+    }
+
+    // 多关键词: 逐个标出所有命中位置
+    if (typeof value !== 'string') {
+      const segments = splitByValues(
+        children,
+        values.map(item => {
+          const keyword = item.toLocaleUpperCase()
+          return (t2s ? t2sUtils(keyword) : keyword).trim()
+        })
+      )
+      if (!segments.length) {
+        return (
+          <Text style={style} type={type} {...props} {...other}>
+            {children}
+          </Text>
+        )
+      }
+
+      return (
+        <Text style={style} {...props} {...other}>
+          {segments.map((segment, index) => (
+            <Text
+              key={`${index}-${segment.hit}`}
+              type={segment.hit ? _.select('main', 'warning') : type}
+              {...props}
+            >
+              {segment.text}
+            </Text>
+          ))}
         </Text>
       )
     }
