@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-02 11:29:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-15 05:57:59
+ * @Last Modified time: 2026-10-30 05:13:41
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
@@ -19,6 +19,7 @@ export type { PopoverProps, PopoverData }
 /** 点击位置弹出层 (iOS: react-native-hold-menu) */
 function Popover<Data extends PopoverData>({
   data,
+  value,
   title = '',
   style,
   activateOn,
@@ -31,6 +32,7 @@ function Popover<Data extends PopoverData>({
 
   const { items, activateOn: popoverActivateOn } = usePopoverItems({
     data,
+    value,
     title,
     onSelect,
     onLongPress,

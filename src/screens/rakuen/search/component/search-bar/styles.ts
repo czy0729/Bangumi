@@ -13,7 +13,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingRight: 20,
     paddingLeft: 20,
     ..._.fontSize12,
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
+    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
     // 左侧与排序按钮拼接, 只保留右侧圆角
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,

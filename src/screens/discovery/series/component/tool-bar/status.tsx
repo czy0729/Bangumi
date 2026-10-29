@@ -25,6 +25,7 @@ function Status() {
   return (
     <ToolBar.Popover
       data={DATA_STATUS}
+      value={status || '全部'}
       text={status || '状态'}
       type={status ? 'desc' : undefined}
       onSelect={$.onStatusSelect}

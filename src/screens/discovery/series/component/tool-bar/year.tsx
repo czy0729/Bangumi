@@ -25,6 +25,7 @@ function Year() {
   return (
     <ToolBar.Popover
       data={DATA_AIRTIME}
+      value={airtime || '全部'}
       text={airtime || '年'}
       type={airtime ? 'desc' : undefined}
       onSelect={$.onAirtimeSelect}

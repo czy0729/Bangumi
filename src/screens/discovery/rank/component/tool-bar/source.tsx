@@ -28,6 +28,7 @@ function Source() {
     <ToolBar.Popover
       key={typeCn}
       data={data}
+      value={$.state.source}
       text={$.source || '来源'}
       type={$.source === '' ? undefined : 'desc'}
       onSelect={$.onSourceSelect}

@@ -25,6 +25,7 @@ function Filter() {
   return (
     <ToolBar.Popover
       data={DATA_FILTER}
+      value={filter || '全部'}
       text={filter || '类型'}
       type={filter ? 'desc' : undefined}
       onSelect={$.onFilterSelect}

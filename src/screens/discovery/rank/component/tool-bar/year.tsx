@@ -24,6 +24,7 @@ function Year() {
   return (
     <ToolBar.Popover
       data={DATA_AIRTIME}
+      value={$.state.airtime}
       text={$.airtime || '时间'}
       type={$.airtime === '' ? undefined : 'desc'}
       onSelect={$.onAirdateSelect}

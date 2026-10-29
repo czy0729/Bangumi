@@ -26,6 +26,7 @@ function Sort() {
   return (
     <ToolBar.Popover
       data={DATA_SORT}
+      value={sort ? MODEL_TAG_ORDERBY.getLabel(sort) : '收藏'}
       icon='md-sort'
       iconColor={_.colorDesc}
       text={sort ? MODEL_TAG_ORDERBY.getLabel(sort) : '收藏'}

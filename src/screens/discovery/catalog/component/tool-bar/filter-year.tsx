@@ -30,6 +30,7 @@ function FilterYear() {
   return (
     <ToolBar.Popover
       data={FILTER_YEAR_DS}
+      value={String(filterYear)}
       iconColor={_.colorDesc}
       text={filterYear === '不限' ? '年份' : String(filterYear)}
       type='desc'

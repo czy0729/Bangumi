@@ -47,6 +47,7 @@ function FilterSub() {
     <ToolBar.Popover
       key={typeCn}
       data={memoData}
+      value={text}
       text={text === '全部' ? TEXT_FILTER_SUB[typeCn] : text}
       type={filterSub === '' ? undefined : 'desc'}
       onSelect={handleSelect}

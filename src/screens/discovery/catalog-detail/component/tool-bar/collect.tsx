@@ -22,6 +22,7 @@ function Collect() {
   return (
     <ToolBar.Popover
       data={COLLECT_DATA}
+      value={text}
       icon='md-bookmark-outline'
       iconColor={_.colorDesc}
       iconSize={17}

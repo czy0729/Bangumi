@@ -28,6 +28,7 @@ function Pagination({ pageCurrent, pageTotal }: PaginationProps) {
   return (
     <ToolBar.Popover
       data={memoData}
+      value={String(pageCurrent)}
       icon='md-notes'
       iconColor={_.colorDesc}
       text={pageCurrent}

@@ -28,6 +28,7 @@ function Theme() {
     <ToolBar.Popover
       key={typeCn}
       data={data}
+      value={$.state.theme}
       text={$.theme || '题材'}
       type={$.theme === '' ? undefined : 'desc'}
       onSelect={$.onThemeSelect}

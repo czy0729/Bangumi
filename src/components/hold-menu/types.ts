@@ -5,7 +5,8 @@
  * @Last Modified time: 2026-09-10 11:00:00
  */
 import type { PropsWithChildren } from 'react'
-import type { ViewStyle } from '@types'
+import type { IconfontNames, ViewStyle } from '@types'
+import type { TextType } from '../text'
 
 /** 菜单项点击事件 */
 export type MenuPressEvent = {
@@ -20,6 +21,15 @@ export type MenuPressEvent = {
 export type MenuItemProps = {
   /** 文本 */
   text: string
+
+  /** 最右侧图标 (标题项不显示, 与 checked 同传时 checked 优先) */
+  icon?: IconfontNames
+
+  /** 是否为选中项 (最右侧渲染勾图标, 标题项不显示) */
+  checked?: boolean
+
+  /** 文字颜色类型 (全局 Text 语义色, 显式指定时优先于 isDestructive; 标题项忽略) */
+  type?: TextType
 
   /** 是否为标题 (标题项不显示点击反馈, 参与布局但不参与选中) */
   isTitle?: boolean

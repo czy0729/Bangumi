@@ -27,6 +27,7 @@ function Type({ type }: Props) {
   return (
     <ToolBar.Popover
       data={DATA}
+      value={type}
       icon='icon-more-grid'
       iconColor={_.colorDesc}
       text={type}

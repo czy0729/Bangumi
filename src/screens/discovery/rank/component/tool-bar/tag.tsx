@@ -28,6 +28,7 @@ function Tag() {
     <ToolBar.Popover
       key={typeCn}
       data={data}
+      value={$.state.tag}
       text={$.tag || '公共标签'}
       type={$.tag === '' ? undefined : 'desc'}
       onSelect={$.onTagSelect}

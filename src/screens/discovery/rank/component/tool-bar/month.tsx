@@ -26,6 +26,7 @@ function Month() {
   return (
     <ToolBar.Popover
       data={DATA_MONTH}
+      value={$.state.month}
       text={$.month ? `${$.month}月` : '月'}
       type={$.month === '' ? undefined : 'desc'}
       onSelect={$.onMonthSelect}

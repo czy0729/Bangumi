@@ -21,6 +21,7 @@ function Month() {
   return (
     <ToolBar.Popover
       data={DATA_MONTH}
+      value={month}
       text={month ? `${month}月` : '月'}
       type={month ? 'desc' : 'sub'}
       heatmap='用户标签.月选择'

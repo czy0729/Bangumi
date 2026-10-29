@@ -28,6 +28,7 @@ function Target() {
     <ToolBar.Popover
       key={typeCn}
       data={data}
+      value={$.state.target}
       text={$.target || '受众'}
       type={$.target === '' ? undefined : 'desc'}
       onSelect={$.onTargetSelect}

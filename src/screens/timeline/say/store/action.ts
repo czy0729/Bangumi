@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-08-23 10:43:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 12:31:00
+ * @Last Modified time: 2026-10-30 00:00:00
  */
 import { timelineStore, userStore } from '@stores'
 import { feedback, info, updateVisibleBottom } from '@utils'
@@ -17,7 +17,7 @@ import type { Navigation, UserId } from '@types'
 
 export default class Action extends Fetch {
   /** 滚动到底 */
-  scrollToBottom = (scrollView: ListViewInstance, animated = false) => {
+  scrollToBottom = (scrollView: ListViewInstance | null, animated = false) => {
     if (scrollView?.scrollToIndex) {
       setTimeout(() => {
         try {
@@ -32,7 +32,7 @@ export default class Action extends Fetch {
   }
 
   /** 滚动到顶 */
-  scrollToTop = (scrollView: ListViewInstance, animated = false) => {
+  scrollToTop = (scrollView: ListViewInstance | null, animated = false) => {
     if (scrollView?.scrollToEnd) {
       setTimeout(() => {
         try {
@@ -91,7 +91,7 @@ export default class Action extends Fetch {
   }
 
   /** 提交 */
-  doSubmit = (content: string, scrollView: ListViewInstance, navigation: Navigation) => {
+  doSubmit = (content: string, scrollView: ListViewInstance | null, navigation: Navigation) => {
     if (this.isNew) {
       if (!this.formhash) {
         info(`获取表单授权码失败, 请检查${i18n.login()}状态`)
@@ -103,7 +103,7 @@ export default class Action extends Fetch {
     }
 
     const { list = [] } = this.say
-    if (!list.length && !list[0].formhash) {
+    if (!list.length || !list[0]?.formhash) {
       info('获取表单授权码失败')
       return
     }
@@ -163,7 +163,7 @@ export default class Action extends Fetch {
   }
 
   /** 回复吐槽 */
-  doReply = (content: string, scrollView: ListViewInstance) => {
+  doReply = (content: string, scrollView: ListViewInstance | null) => {
     const { list = [] } = timelineStore.say(this.id)
     timelineStore.doReply(
       {

@@ -21,6 +21,7 @@ function Meta() {
   return (
     <ToolBar.Popover
       data={DATA_META}
+      value={meta ? '公共标签' : '用户标签'}
       text={meta ? '公共标签' : '用户标签'}
       type={meta ? 'desc' : 'sub'}
       heatmap='用户标签.公共标签'

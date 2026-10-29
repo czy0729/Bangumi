@@ -21,6 +21,7 @@ function Year() {
   return (
     <ToolBar.Popover
       data={DATA_AIRTIME}
+      value={airtime}
       text={airtime || '年'}
       type={airtime ? 'desc' : 'sub'}
       heatmap='用户标签.年选择'

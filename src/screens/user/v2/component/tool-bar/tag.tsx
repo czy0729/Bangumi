@@ -32,6 +32,7 @@ function Tag({ page }: TagProps) {
   return (
     <ToolBar.Popover
       data={memoData}
+      value={tag}
       icon='md-bookmark-outline'
       iconSize={17}
       iconColor={_.colorDesc}

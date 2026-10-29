@@ -27,6 +27,7 @@ function Tag() {
       icon='md-bookmark-outline'
       iconSize={17}
       iconColor={_.colorDesc}
+      value={subjectTags.length ? `${subjectTags[0]} (${tagsCount[subjectTags[0]]})` : '全部'}
       text={subjectTags.length ? subjectTags[0] : '标签'}
       type='desc'
       onSelect={title => {

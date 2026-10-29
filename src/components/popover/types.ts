@@ -2,15 +2,32 @@
  * @Author: czy0729
  * @Date: 2022-05-28 07:39:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-15 06:18:39
+ * @Last Modified time: 2026-10-30 05:13:35
  */
 import type { ReactElement, ReactNode, RefObject } from 'react'
 import type { Insets, TouchableWithoutFeedbackProps, View } from 'react-native'
-import type { ViewStyle, WithViewStyles } from '@types'
+import type { IconfontNames, ViewStyle, WithViewStyles } from '@types'
 import type { TouchableHandlePress } from '../touchable'
 
+import type { TextType } from '@components/text/types'
+
+/** 菜单项 (iOS hold-menu 渲染最右侧图标与文字颜色, Android / Web 降级为纯文本) */
+export type PopoverItem = {
+  /** 文本 */
+  text: string
+
+  /** 最右侧图标 */
+  icon?: IconfontNames
+
+  /** 是否为选中项 (最右侧渲染勾图标) */
+  checked?: boolean
+
+  /** 文字颜色类型 (全局 Text 语义色, 显式指定时优先于 isDestructive) */
+  type?: TextType
+}
+
 /** 菜单项数据 */
-export type PopoverData = readonly string[]
+export type PopoverData = readonly (string | PopoverItem)[]
 
 /** 激活方式 (tap-hold 为点击与长按共存, 长按优先) */
 export type PopoverActivateOn = 'tap' | 'hold' | 'tap-hold'
@@ -43,6 +60,14 @@ export type PopoverOnSelect<Data extends PopoverData = PopoverData> = (
 export type PopoverImplProps<Data extends PopoverData = PopoverData> = {
   /** 菜单项 */
   data?: Data
+
+  /**
+   * 当前选中项 (选择型菜单)
+   *  - 按原始文案匹配, 命中项自动渲染勾, 且不再查通用图标映射
+   *  - 不传即为操作型菜单, 按文案查通用图标映射
+   *  - 类型放宽为全局条目 (string | PopoverItem), 匹配是运行时按文本进行的
+   */
+  value?: PopoverData[number]
 
   /** 菜单标题 (web 生效) */
   title?: string
@@ -84,6 +109,9 @@ export type PopoverIOSItems = {
   text: string
   onPress?: (evt?: PopoverEvent) => void
   isTitle?: boolean
+  icon?: IconfontNames
+  checked?: boolean
+  type?: TextType
 }[]
 
 /**
@@ -98,6 +126,14 @@ export interface PopoverComponent {
 export type UsePopoverItemsOptions<Data extends PopoverData = PopoverData> = {
   /** 菜单项 */
   data?: Data
+
+  /**
+   * 当前选中项 (选择型菜单)
+   *  - 按原始文案匹配, 命中项自动渲染勾, 且不再查通用图标映射
+   *  - 不传即为操作型菜单, 按文案查通用图标映射
+   *  - 类型放宽为全局条目 (string | PopoverItem), 匹配是运行时按文本进行的
+   */
+  value?: PopoverData[number]
 
   /** 菜单标题 (置顶为不可选标题项) */
   title?: string

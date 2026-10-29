@@ -68,6 +68,9 @@ export const MENU_ITEM_PADDING_VERTICAL = 10
 /** 菜单项文字大小 */
 export const MENU_ITEM_TEXT_SIZE = 16
 
+/** 菜单项右侧图标大小 (图标字形小于同字号文本, 取大一档与文字视觉等大) */
+export const MENU_ITEM_ICON_SIZE = MENU_ITEM_TEXT_SIZE + 2
+
 /** 菜单标题项文字大小 */
 export const MENU_ITEM_TITLE_SIZE = 14
 

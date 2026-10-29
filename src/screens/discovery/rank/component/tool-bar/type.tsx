@@ -23,6 +23,7 @@ function Type() {
   return (
     <ToolBar.Popover
       data={DATA_TYPE}
+      value={$.typeCn}
       icon='md-filter-list'
       iconColor={_.colorDesc}
       text={$.typeCn}

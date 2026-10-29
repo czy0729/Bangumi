@@ -19,6 +19,7 @@ function Year() {
   return (
     <ToolBar.Popover
       data={DATA_BROWSER_AIRTIME}
+      value={String($.state.airtime)}
       text={$.state.airtime || '年'}
       type='desc'
       heatmap='索引.年选择'

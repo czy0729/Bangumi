@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2026-09-15 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-15 07:27:09
+ * @Last Modified time: 2026-10-30 05:48:29
  */
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { findNodeHandle, UIManager } from 'react-native'
-import { systemStore } from '@stores'
 import { globalWarn } from '@utils/dev'
-import { FROZEN_FN } from '@constants'
+import { FROZEN_FN, MENU_ICONS, MENU_ICONS_ENABLED, MENU_TYPES } from '@constants'
 import { toMenuLabel, toMenuLabels, usePopoverList } from './utils'
 import { ANDROID_DELAY_PRESS_IN, MENU_CLOSE_DELAY, WEB_SELECT_DELAY } from './ds'
 
@@ -32,6 +31,7 @@ let warnedMissingPopupMenu = false
 /** iOS: 把菜单数据派生为 hold-menu 菜单项 */
 export function usePopoverItems<Data extends PopoverData>({
   data,
+  value,
   title = '',
   onSelect = FROZEN_FN,
   onLongPress,
@@ -39,24 +39,44 @@ export function usePopoverItems<Data extends PopoverData>({
 }: UsePopoverItemsOptions<Data>): UsePopoverItemsResult {
   const list = usePopoverList(data)
 
-  /** 简繁开关变化需要重新派生菜单文案, 故读出作为 memo 依赖 */
-  const s2tEnabled = systemStore.setting.s2t
-
   // 外部传了 onLongPress 说明长按语义归调用方, 菜单自动降级为纯点击激活, 不抢占长按
   const hasExternalLongPress = typeof onLongPress === 'function'
 
   const items = useMemo<PopoverIOSItems>(() => {
     // 显式引用开关: 简繁设置变化时 memo 需重算 (toMenuLabels / toMenuLabel 读取的是同一个开关)
-    const labels = s2tEnabled ? toMenuLabels(list) : list.slice()
-    const itemsValue: PopoverIOSItems = labels.map((text, index) => ({
-      text,
-      onPress: (evt?: PopoverEvent) => {
-        // 等菜单收起动画结束再触发动作, 避免跳转/弹窗与关闭动画重叠
-        setTimeout(() => {
-          onSelect(list[index], index, evt)
-        }, MENU_CLOSE_DELAY)
+    const labels = toMenuLabels(list)
+    const valueText = typeof value === 'string' ? value : value?.text
+
+    const itemsValue: PopoverIOSItems = labels.map((text, index) => {
+      const entry = list[index]
+      const rawText = typeof entry === 'string' ? entry : entry.text
+
+      /**
+       * 操作型菜单 (未传 value) 按原始文案查通用图标映射, 显式 icon 优先;
+       * 选择型菜单 (传 value) 只派生勾, 不查表, 两类菜单互不干扰;
+       * 查表受 MENU_ICONS_ENABLED 总开关控制
+       */
+      const mappedIcon = value === undefined && MENU_ICONS_ENABLED ? MENU_ICONS[rawText] : undefined
+
+      /** 危险动作按文案查表标红 (danger), 显式 type 优先; 选择型菜单不查表 */
+      const mappedType = value === undefined ? MENU_TYPES[rawText] : undefined
+
+      return {
+        text,
+        icon: typeof entry === 'string' ? mappedIcon : entry.icon ?? mappedIcon,
+        checked:
+          typeof entry === 'string'
+            ? rawText === valueText
+            : entry.checked ?? rawText === valueText,
+        type: typeof entry === 'string' ? mappedType : entry.type ?? mappedType,
+        onPress: (evt?: PopoverEvent) => {
+          // 等菜单收起动画结束再触发动作, 避免跳转/弹窗与关闭动画重叠
+          setTimeout(() => {
+            onSelect(entry, index, evt)
+          }, MENU_CLOSE_DELAY)
+        }
       }
-    }))
+    })
 
     if (title) {
       itemsValue.unshift({
@@ -66,7 +86,7 @@ export function usePopoverItems<Data extends PopoverData>({
     }
 
     return itemsValue
-  }, [title, list, onSelect, s2tEnabled])
+  }, [value, title, list, onSelect])
 
   return {
     items,

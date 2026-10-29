@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-10-29 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-29 00:00:00
+ * @Last Modified time: 2026-10-30 05:14:05
  *
  * 搜索排序选择
  */
@@ -21,15 +21,20 @@ function Sort() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const handleSelect = useCallback(
-    (title: string) => {
-      $.onSortChange(title)
+    (label?: string) => {
+      if (label) $.onSortChange(label)
     },
     [$]
   )
 
   return (
-    <Popover style={styles.touch} data={SORT_DS} onSelect={handleSelect}>
-      <Button style={styles.btn} styleText={styles.text} type='ghostPlain' size='sm'>
+    <Popover
+      style={styles.touch}
+      data={SORT_DS}
+      value={SORT_LABELS[$.state.sort]}
+      onSelect={handleSelect}
+    >
+      <Button style={styles.btn} styleText={styles.text} type='ghostMain' size='sm'>
         {SORT_LABELS[$.state.sort] || SORT_DS[0]}
       </Button>
       <Heatmap id='帖子搜索.排序' />

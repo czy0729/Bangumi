@@ -19,6 +19,7 @@ function Sort() {
   return (
     <ToolBar.Popover
       data={ACTIONS_SORT}
+      value={sort}
       icon='md-sort'
       iconColor={_.colorDesc}
       text={sort}

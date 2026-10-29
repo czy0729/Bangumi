@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-15 23:56:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:25:20
+ * @Last Modified time: 2026-10-30 00:00:00
  */
 import { useCallback, useEffect, useRef } from 'react'
 import { View } from 'react-native'
@@ -25,7 +25,7 @@ function Say() {
   const scrollViewRef = useRef<ListViewInstance>(null)
 
   const connectRefScrollView = useCallback(
-    (ref: ListViewInstance) => {
+    (ref: ListViewInstance | null) => {
       if (ref) {
         $.scrollViewRef = ref
         scrollViewRef.current = ref

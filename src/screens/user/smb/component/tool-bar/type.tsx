@@ -19,6 +19,7 @@ function Type() {
   return (
     <ToolBar.Popover
       data={['全部', ...$.memoTags.map(item => `${item} (${tagsCount[item]})`)]}
+      value={tags.length ? `${tags[0]} (${tagsCount[tags[0]]})` : '全部'}
       icon='md-folder-open'
       iconSize={17}
       iconColor={_.colorDesc}

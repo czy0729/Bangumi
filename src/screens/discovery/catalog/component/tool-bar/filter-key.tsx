@@ -29,9 +29,13 @@ function FilterKey() {
     [$]
   )
 
+  /** 菜单项文案带计数, 反查当前关键字对应的完整文案用于勾选 */
+  const value = DATA.find(item => item.split(' (')[0] === filterKey)
+
   return (
     <ToolBar.Popover
       data={DATA}
+      value={value}
       iconColor={_.colorDesc}
       text={filterKey.includes('不限') ? '关键字' : filterKey}
       type='desc'

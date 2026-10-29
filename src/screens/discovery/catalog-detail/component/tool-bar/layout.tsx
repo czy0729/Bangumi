@@ -22,6 +22,7 @@ function Layout() {
   return (
     <ToolBar.Popover
       data={LAYOUT_DATA}
+      value={text}
       icon={$.state.layout === 'grid' ? 'md-grid-view' : 'md-menu'}
       iconColor={_.colorDesc}
       iconSize={17}

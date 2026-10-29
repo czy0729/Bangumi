@@ -17,8 +17,6 @@ export const styles = _.create({
     width: _.r(84),
     height: 40,
     paddingLeft: _.r(4),
-    // 与输入框同底色, 拼接成一整块
-    backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel1),
     borderTopLeftRadius: 40,
     borderBottomLeftRadius: 40,
     borderTopRightRadius: 0,

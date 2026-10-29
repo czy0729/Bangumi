@@ -28,6 +28,7 @@ function Classification() {
     <ToolBar.Popover
       key={typeCn}
       data={data}
+      value={$.state.classification}
       text={$.classification || '分级'}
       type={$.classification === '' ? undefined : 'desc'}
       onSelect={$.onClassificationSelect}

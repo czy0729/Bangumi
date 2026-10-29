@@ -28,6 +28,7 @@ function Area() {
     <ToolBar.Popover
       key={typeCn}
       data={data}
+      value={$.state.area}
       text={$.area || '地区'}
       type={$.area === '' ? undefined : 'desc'}
       onSelect={$.onAreaSelect}

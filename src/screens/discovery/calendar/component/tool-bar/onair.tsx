@@ -25,6 +25,7 @@ function Onair({ list, adapt, tag, origin }: Props) {
         <ToolBar.Popover
           itemStyle={styles.item}
           data={adapts}
+          value={adapt ? adapts.find(item => item.split(' (')[0] === adapt) : '全部'}
           text={adapt || '改编'}
           type='desc'
           onSelect={$.onAdapt}
@@ -34,6 +35,7 @@ function Onair({ list, adapt, tag, origin }: Props) {
         <ToolBar.Popover
           itemStyle={styles.item}
           data={tags}
+          value={tag ? tags.find(item => item.split(' (')[0] === tag) : '全部'}
           text={tag || '标签'}
           type='desc'
           onSelect={$.onTag}
@@ -43,6 +45,7 @@ function Onair({ list, adapt, tag, origin }: Props) {
         <ToolBar.Popover
           itemStyle={styles.item}
           data={origins}
+          value={origin ? origins.find(item => item.split(' (')[0] === origin) : '全部'}
           text={origin || '制作'}
           type='desc'
           onSelect={$.onOrigin}

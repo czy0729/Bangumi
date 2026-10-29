@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-05 19:38:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-02 23:13:52
+ * @Last Modified time: 2026-10-30 05:13:54
  */
 import type { EventKeys } from '@constants'
 import type { ColorValue, ViewStyle } from '@types'
@@ -20,6 +20,9 @@ export type Props<T extends PopoverData> = {
 
   /** 下拉选项数据源 */
   data: T
+
+  /** 当前选中项 (选择型菜单, 命中项 iOS 右侧自动渲染勾; 按原始文案运行时匹配) */
+  value?: PopoverData[number]
 
   /** 左侧图标名称，不传不显示 */
   icon?: IconfontNames

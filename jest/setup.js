@@ -315,6 +315,12 @@ jest.mock(
       URL_DEFAULT_MONO: '/info_only.png',
       LIST_EMPTY: { list: [], pagination: { page: 0, pageTotal: 0 } },
       FROZEN_FN: () => {},
+
+      // 通用「菜单动作文案 → 图标」映射 (空表即单测不派生图标)
+      MENU_ICONS: {},
+
+      // 危险动作「菜单文案 → 文字颜色类型」映射 (空表即单测不派生颜色)
+      MENU_TYPES: {},
       LIKE_TYPE_RAKUEN: 8,
       LIKE_TYPE_TIMELINE: 40,
       LIKE_TYPE_SAY: 50,

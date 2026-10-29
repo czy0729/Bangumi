@@ -25,6 +25,7 @@ function Sort() {
   return (
     <ToolBar.Popover
       data={DATA_SORT}
+      value={sort || DATA_SORT[0]}
       icon='md-sort'
       iconColor={sort ? _.colorDesc : _.colorSub}
       text={sort || '排序'}

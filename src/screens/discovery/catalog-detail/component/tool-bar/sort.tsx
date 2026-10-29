@@ -20,6 +20,7 @@ function Sort() {
   return (
     <ToolBar.Popover
       data={SORT_DATA}
+      value={SORT_DS.find(item => item.key === $.state.sort)?.title}
       icon='md-sort'
       iconColor={_.colorDesc}
       text={SORT_DS.find(item => item.key === $.state.sort)?.title}

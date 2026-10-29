@@ -14,11 +14,13 @@ import type { PopoverData } from './types'
  * 菜单文案列表
  *  - 按设置做简繁转换, 返回新数组 (调用方可安全增删)
  *  - 转换只作用于展示文案, 选中回调仍回传原始数据
+ *  - 对象项取 text, Android / Web 等只支持文本的实现依赖此归一化
  */
-export function toMenuLabels(data: readonly string[] = []): string[] {
-  if (!systemStore.setting.s2t) return data.slice()
+export function toMenuLabels(data: PopoverData = []): string[] {
+  const labels = data.map(item => (typeof item === 'string' ? item : item.text))
+  if (!systemStore.setting.s2t) return labels
 
-  return data.map(item => s2t(item))
+  return labels.map(item => s2t(item))
 }
 
 /** 单个文案的简繁转换 (非字符串原样返回, 兼容历史调用点传入的数组) */

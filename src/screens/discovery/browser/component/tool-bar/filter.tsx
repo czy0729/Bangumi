@@ -23,6 +23,7 @@ function Filter() {
   return (
     <ToolBar.Popover
       data={DATA_FILTER}
+      value={typeCn}
       icon='md-filter-list'
       iconColor={_.colorDesc}
       text={typeCn}

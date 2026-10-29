@@ -23,6 +23,7 @@ function Sort() {
   return (
     <ToolBar.Popover
       data={memoData}
+      value={order ? MODEL_COLLECTIONS_ORDERBY.getLabel<CollectionsOrderCn>(order) : '收藏时间'}
       icon='md-sort'
       iconColor={_.colorDesc}
       text={order ? MODEL_COLLECTIONS_ORDERBY.getLabel<CollectionsOrderCn>(order) : '收藏时间'}

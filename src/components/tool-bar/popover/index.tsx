@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-05 19:38:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-15 06:19:31
+ * @Last Modified time: 2026-10-30 05:13:51
  */
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
@@ -22,6 +22,7 @@ function ToolBarPopover<Data extends PopoverData>({
   style,
   itemStyle,
   data,
+  value,
   icon,
   iconColor,
   iconSize = 18,
@@ -34,7 +35,7 @@ function ToolBarPopover<Data extends PopoverData>({
   const styles = memoStyles()
 
   return (
-    <Popover style={stl(styles.touch, style)} data={data} onSelect={onSelect}>
+    <Popover style={stl(styles.touch, style)} data={data} value={value} onSelect={onSelect}>
       <Flex
         style={stl(styles.item, transparent && opacityStyles.opacity, itemStyle)}
         justify='center'

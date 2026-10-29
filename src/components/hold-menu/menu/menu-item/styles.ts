@@ -32,6 +32,16 @@ export const memoStyles = _.memoStyles(() => ({
   text: {
     color: _.select(MENU_TEXT_LIGHT_COLOR, MENU_TEXT_DARK_COLOR)
   },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  flex: {
+    flex: 1
+  },
+  icon: {
+    marginLeft: _.r(8)
+  },
   title: {
     color: MENU_TITLE_COLOR
   },
