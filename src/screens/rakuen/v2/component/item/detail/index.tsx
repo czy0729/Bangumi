@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-01-21 19:23:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-22 20:27:43
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'

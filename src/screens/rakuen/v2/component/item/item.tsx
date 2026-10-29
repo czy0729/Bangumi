@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-12 03:24:25
+ * @Last Modified time: 2026-10-30 00:00:00
  */
 import { Flex, flexStyle, Touchable, UserStatus } from '@components'
 import { InView, PreventTouchPlaceholder } from '@_'
@@ -99,7 +99,7 @@ const Item = memo(
     ...props,
 
     /** 减少重渲染次数: index 只用于 InView, 若之后更新比之前小, 就没有意义 */
-    index: Math.min(prevProps.index, nextProps.index),
+    index: Math.min(prevProps.index || 0, nextProps.index || 0),
 
     /** 减少重渲染次数: "...19h 52m ago" => "...19h 55m ago" 只判断前几个字符 */
     time: props.time.slice(0, 4)

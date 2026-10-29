@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2020-12-16 01:24:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 02:54:21
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'

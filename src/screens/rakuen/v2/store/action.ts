@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-16 19:56:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-24 10:00:00
+ * @Last Modified time: 2026-10-30 00:00:00
  */
 import { rakuenStore } from '@stores'
 import { confirm, feedback, info, updateVisibleBottom } from '@utils'
@@ -22,6 +22,7 @@ import Fetch from './fetch'
 import { INIT_PREFETCH_STATE } from './ds'
 
 import type { ScrollToIndex } from '@components'
+import type { RakuenItem } from '@stores/rakuen/types'
 import type {
   MonoId,
   Navigation,
@@ -29,7 +30,8 @@ import type {
   RakuenTypeGroupCn,
   RakuenTypeMono,
   RakuenTypeMonoCn,
-  TopicId
+  TopicId,
+  UserId
 } from '@types'
 
 export default class Action extends Fetch {
@@ -78,11 +80,6 @@ export default class Action extends Fetch {
     this.save()
   }
 
-  /** 更新帖子历史查看信息 */
-  onItemPress = (topicId: TopicId, replies: any) => {
-    rakuenStore.updateTopicReaded(topicId, replies)
-  }
-
   /** 项额外点击 */
   onExtraSelect = (
     title: string,
@@ -90,8 +87,8 @@ export default class Action extends Fetch {
       groupHref?: string
       groupCn?: string
       topicId?: string
-      userName?: any
-      userId?: any
+      userName?: string
+      userId?: UserId
       href?: string
     },
     navigation: Navigation
@@ -198,8 +195,8 @@ export default class Action extends Fetch {
     }
   }
 
-  /** 获取未读帖子的id */
-  getUnreadTopicIds = async (list: any[] = []) => {
+  /** 获取未读帖子的id, 数据来自网页解析, 逐条防御脏数据 */
+  getUnreadTopicIds = async (list: RakuenItem[] = []) => {
     const ids = []
     for (const item of list) {
       try {

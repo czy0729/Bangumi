@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-03-15 17:58:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 03:00:31
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { TabBar as TabViewTabBar } from '@components'
 import { r } from '@utils/dev'
@@ -13,7 +12,10 @@ import { renderLabel } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-function TabBar(props) {
+import type { TabBarProps } from '@components'
+import type { TabRoute } from './ds'
+
+function TabBar(props: TabBarProps<TabRoute>) {
   r(COMPONENT)
 
   const { headerHeight } = useInsets()

@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-03-15 17:35:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 03:00:43
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { useStore } from '@stores'
@@ -14,9 +13,10 @@ import Label from '../label'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
+import type { RenderLabelProps } from '../tab-bar/ds'
 import type { Ctx } from '../../../types'
 
-function TabBarLabel({ route, focused }) {
+function TabBarLabel({ route, focused }: RenderLabelProps) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   if (route.title === '小组' && TABS[$.state.page].title === '小组') {

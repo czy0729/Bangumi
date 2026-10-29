@@ -2,11 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-01-26 20:36:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-26 20:38:38
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React from 'react'
 import TabBar from './tab-bar'
 
-export function renderTabBar(props) {
-  return <TabBar {...props} />
+import type { TabBarProps } from '@components'
+import type { RenderTabBar, TabRoute } from './tab-bar/ds'
+
+export function renderTabBar(props: Parameters<RenderTabBar>[0]) {
+  // Route 的 title 可选, 这里按 TABS 收窄后传给 TabBar
+  return <TabBar {...(props as TabBarProps<TabRoute>)} />
 }
