@@ -337,15 +337,6 @@ export default class Actions extends Fetch {
     this.save(key)
   }
 
-  /** 同意社区指导原则 */
-  updateUGCAgree = (value: boolean = true) => {
-    const STATE_KEY = 'iosUGCAgree'
-    this.setState({
-      [STATE_KEY]: value
-    })
-    this.save(STATE_KEY)
-  }
-
   /** 追踪特定用户条目类型吐槽 */
   trackUsersCollection = (userName: UserId, type: SubjectType = 'anime') => {
     const ITEM_KEY = `comment${titleCase(type)}` as const

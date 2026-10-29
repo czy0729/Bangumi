@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2019-07-14 14:12:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 23:58:44
+ * @Last Modified time: 2026-10-29 00:00:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page, ScrollView } from '@components'
 import { _ } from '@stores'

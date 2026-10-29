@@ -84,7 +84,6 @@ export const RakuenSearch = lazy(() => import('./rakuen/search'))
 export const RakuenSetting = lazy(() => import('./rakuen/setting'))
 export const Reviews = lazy(() => import('./rakuen/reviews'))
 export const Topic = lazy(() => import('./rakuen/topic'))
-export const UGCAgree = lazy(() => import('./rakuen/ugc-agree'))
 
 // User
 export { default as User } from './user/v2'

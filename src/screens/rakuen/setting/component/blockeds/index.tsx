@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2023-02-14 03:22:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-12-25 15:22:51
+ * @Last Modified time: 2026-10-29 00:00:00
  */
-import React, { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { rakuenStore } from '@stores'
 import { r } from '@utils/dev'
@@ -21,10 +20,6 @@ import type { Props } from './types'
 function Blockeds({ onNavigate }: Props) {
   r(COMPONENT)
 
-  const handleDelete = useCallback((item: string) => {
-    handleDeleteBlockGroup(item)
-  }, [])
-
   return (
     <>
       <BlockedUsers onNavigate={onNavigate} />
@@ -33,7 +28,7 @@ function Blockeds({ onNavigate }: Props) {
         <History
           data={rakuenStore.setting.blockGroups}
           information='对帖子所属小组名生效'
-          onDelete={handleDelete}
+          onDelete={handleDeleteBlockGroup}
         />
       </Block>
     </>
