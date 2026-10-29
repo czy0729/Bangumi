@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-07-28 02:00:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 12:19:43
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap, Text } from '@components'
 import { IconReverse, SectionTitle as SectionTitleComp } from '@_'

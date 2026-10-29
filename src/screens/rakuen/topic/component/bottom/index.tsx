@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2022-03-14 22:47:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 05:35:12
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { FixedTextarea, Flex, SafeAreaBottom, Text } from '@components'
 import { _, userStore, useStore } from '@stores'

@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2020-06-12 10:43:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-07 21:32:35
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { useStore } from '@stores'
 import { IMG_DEFAULT_AVATAR } from '@constants'

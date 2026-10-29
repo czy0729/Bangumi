@@ -104,7 +104,7 @@ export const STATE = {
   ...EXCLUDE_STATE,
 
   /** 展开的子楼层 ID */
-  expands: [] as Id[],
+  expands: [] as string[],
 
   /**
    * 评论是否只看

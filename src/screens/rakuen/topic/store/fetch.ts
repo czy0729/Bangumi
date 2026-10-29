@@ -11,6 +11,9 @@ import { decodeHTMLEntities } from '@utils/thirdParty/html'
 import { H } from '@constants'
 import Computed from './computed'
 
+import type { Comments, Topic } from '@stores/rakuen/types'
+import type { TopicSnapshot } from './types'
+
 export default class Fetch extends Computed {
   /** 获取帖子内容和留言 */
   fetchTopic = () => {
@@ -30,7 +33,7 @@ export default class Fetch extends Computed {
     if (this.topic._loaded) return
 
     try {
-      const data: any = await get(`topic_${this.topicId.replace('/', '_')}`)
+      const data = await get<TopicSnapshot>(`topic_${this.topicId.replace('/', '_')}`)
 
       // 云端没有数据存在, 本地计算后上传
       if (!data) {
@@ -41,11 +44,11 @@ export default class Fetch extends Computed {
       const { ts, topic, comments } = data
       const _loaded = getTimestamp()
       if (typeof topic === 'object' && typeof comments === 'object') {
-        const state: any = {
+        const state: Partial<{ topic: Topic; comments: Comments }> = {
           topic: {
             ...topic,
             _loaded
-          }
+          } as Topic
         }
 
         // 网页版修改了帖子回复的样式导致楼层获取失败, 需要排除这部分的缓存
@@ -58,14 +61,15 @@ export default class Fetch extends Computed {
             state.comments = {
               ...comments,
               _loaded
-            }
+            } as Comments
           }
         }
 
         this.setState(state)
       }
 
-      if (_loaded - ts >= H * 4) this.updateTopicThirdParty()
+      // 旧快照没有 ts, 补写一次让后续走 4 小时节流
+      if (typeof ts !== 'number' || _loaded - ts >= H * 4) this.updateTopicThirdParty()
     } catch {}
   }
 
@@ -123,7 +127,9 @@ export default class Fetch extends Computed {
       if (!_loaded || !formhash) return
 
       try {
-        update(`topic_${this.topicId.replace('/', '_')}`, {
+        // 快照为裁剪后的数据, 字段比 Topic / Comments 少, 这里按快照形状收口
+        const snapshot: TopicSnapshot = {
+          ts: getTimestamp(),
           topic: omit(this.topic, ['formhash', 'lastview', 'close', '_loaded']),
           comments: {
             ...this.comments,
@@ -139,8 +145,9 @@ export default class Fetch extends Computed {
                     message: decodeHTMLEntities(i.message)
                   }))
               }))
-          }
-        })
+          } as Comments
+        }
+        update(`topic_${this.topicId.replace('/', '_')}`, snapshot)
       } catch {}
     }, 10000)
   }

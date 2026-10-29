@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2024-01-03 20:09:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-30 05:24:52
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Loading, RenderHtml, Text } from '@components'
 import { IconTouchable, Likes } from '@_'

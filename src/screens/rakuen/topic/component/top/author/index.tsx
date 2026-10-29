@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-04-23 09:34:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 05:46:19
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
 import { Avatar, Flex, Heatmap, Text, UserStatus } from '@components'
 import { Name, UserAge } from '@_'

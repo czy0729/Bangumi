@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-05-19 09:58:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 05:36:49
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, SafeAreaBottom, Touchable } from '@components'
 import { _, rakuenStore } from '@stores'

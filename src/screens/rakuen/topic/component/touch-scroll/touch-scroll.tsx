@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-07-04 13:00:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-27 16:44:12
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { TouchableWithoutFeedback, View } from 'react-native'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'

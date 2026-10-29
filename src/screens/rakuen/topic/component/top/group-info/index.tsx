@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2025-04-23 08:26:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-15 23:36:16
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Cover, Flex, Heatmap, Text, Touchable } from '@components'

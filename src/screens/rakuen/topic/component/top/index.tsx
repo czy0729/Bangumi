@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2019-05-01 20:14:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-02 05:53:07
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Divider, Expand, HeaderPlaceholder, Text } from '@components'

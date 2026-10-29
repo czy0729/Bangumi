@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-01-20 19:55:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-20 12:14:05
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { SegmentedControl } from '@components'
 import { _, rakuenStore, userStore, useStore } from '@stores'

@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-28 17:24:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-15 23:32:38
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { Flex, Text, Touchable, UserStatus } from '@components'
 import { Avatar, Cover, VerticalAlign } from '@_'
 import { _ } from '@stores'

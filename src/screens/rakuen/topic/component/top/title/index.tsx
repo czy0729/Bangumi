@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2025-04-23 08:54:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 05:52:42
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Text, Touchable } from '@components'
 import { _, useStore } from '@stores'

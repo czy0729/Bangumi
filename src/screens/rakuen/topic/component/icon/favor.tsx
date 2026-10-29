@@ -2,9 +2,8 @@
  * @Author: czy0729
  * @Date: 2019-11-28 21:56:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 05:40:43
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Heatmap, Text } from '@components'

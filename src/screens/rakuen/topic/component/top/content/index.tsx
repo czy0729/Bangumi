@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-03-19 00:38:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 04:11:37
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { useStore } from '@stores'
 import { appNavigate } from '@utils'
@@ -19,7 +19,7 @@ function ContentWrap() {
   const { topicId } = $
 
   const handleLinkPress = useCallback(
-    (href: string, passProps: Record<string, any>) => {
+    (href: string, passProps: object) => {
       appNavigate(href, navigation, passProps, {
         id: '帖子.跳转',
         data: {

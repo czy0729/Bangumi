@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-12-21 15:06:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 06:20:24
+ * @Last Modified time: 2026-10-30 00:00:00
  */
 import { useCallback, useRef } from 'react'
 import { layoutHeightMap } from '@_/item/post/utils'
@@ -17,7 +17,7 @@ import { HEADER_HEIGHT } from '@styles'
 import store from './store'
 import { PRE_OFFSET } from './ds'
 
-import type { NavigationProps } from '@types'
+import type { Id, NavigationProps } from '@types'
 import type {
   Ctx,
   HandleDirect,
@@ -30,6 +30,13 @@ import type {
   HandleScrollViewRef,
   HandleShowFixedTextarea
 } from './types'
+
+/** ListView / PaginationList 已装载的 data 长度, 依赖组件内部 data.list 结构 */
+function getLoadedLength(ref: HandleScrollViewRef['current']): number | undefined {
+  const data = (ref as unknown as { props?: { data?: { list?: unknown[] } } } | null)?.props
+    ?.data
+  return Array.isArray(data?.list) ? data.list.length : undefined
+}
 
 export function useTopicPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
@@ -180,7 +187,7 @@ export function useTopicPage(props: NavigationProps) {
               scrollIndex = index
               logger.info('topic/hooks', 'scrollIndex', scrollIndex)
             } else if (item.sub) {
-              item.sub.forEach((i: { id: any }) => {
+              item.sub.forEach((i: { id: Id }) => {
                 if (i.id === value) {
                   // 父楼层强制展开
                   $.onExpand(item.id)
@@ -206,7 +213,7 @@ export function useTopicPage(props: NavigationProps) {
     (index = 0) => {
       try {
         const { list } = $.comments
-        const loadedLength = (scrollViewRef.current as any)?.props?.data?.list?.length
+        const loadedLength = getLoadedLength(scrollViewRef.current)
         if (
           typeof loadedLength === 'number' &&
           typeof list.length === 'number' &&

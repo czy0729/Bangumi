@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-12-21 15:17:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 05:43:06
+ * @Last Modified time: 2026-10-30 00:00:00
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ItemPost } from '@_'
