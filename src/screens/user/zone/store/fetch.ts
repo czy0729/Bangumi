@@ -12,8 +12,13 @@ import Computed from './computed'
 
 export default class Fetch extends Computed {
   /** 用户信息 (自己视角) */
-  fetchUsersInfo = () => {
-    return userStore.fetchUsersInfo(this.userId)
+  fetchUsersInfo = async () => {
+    const data = await userStore.fetchUsersInfo(this.userId)
+
+    const avatar = this.usersInfo?.avatar?.large
+    if (avatar) usersStore.autoUpdateAvatars([{ userId: this.userId, avatar }])
+
+    return data
   }
 
   /** 装载云端数据 */

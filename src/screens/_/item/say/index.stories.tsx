@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 05:44:04
  */
-import React from 'react'
 import { Flex, StorybookList, StorybookPage } from '@components'
 import { _ } from '@stores'
 import { ItemSay as Component } from './index'

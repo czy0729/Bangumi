@@ -3,6 +3,8 @@
  * @Date: 2023-04-12 00:31:18
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 吐槽页 Storybook 入口
  */
 import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
 import { Say as Component } from '@screens'

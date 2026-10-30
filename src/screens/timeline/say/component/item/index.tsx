@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-06-17 11:17:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 04:34:22
+ * @Last Modified time: 2026-10-30 19:07:48
+ *
+ * 吐槽对话条目
  */
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -13,11 +15,10 @@ import { confirm, getAvatarLocal } from '@utils'
 import { API_AVATAR } from '@constants'
 import { COMPONENT, EVENT } from './ds'
 
-import type { SayItem } from '@stores/timeline/types'
 import type { Ctx } from '../../types'
 import type { Props } from './types'
 
-function Item({ item, index }: Props) {
+function Item({ item, index, showName, isLast }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const { id, name } = item
@@ -46,9 +47,6 @@ function Item({ item, index }: Props) {
 
   if (!id) return null
 
-  const { list } = $.say
-  const prevItem: Partial<SayItem> = list[index - 1] || {}
-
   return (
     <>
       <ItemSay
@@ -61,10 +59,10 @@ function Item({ item, index }: Props) {
           getAvatarLocal(id) ||
           (systemStore.setting.workerApiProxy ? '' : API_AVATAR(id))
         }
-        showName={prevItem.name !== name}
+        showName={showName}
         onLongPress={handleLongPress}
       />
-      {index + 1 === list.length && !!item.date && (
+      {isLast && !!item.date && (
         <Text size={12} type='sub' align='center'>
           {item.date}
         </Text>

@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-16 00:00:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:25:27
+ * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 吐槽页头部
  */
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2, HeaderV2Popover } from '@components'
 import { IconTouchable } from '@_'
@@ -12,7 +14,7 @@ import { _, useStore } from '@stores'
 import { feedback, open } from '@utils'
 import { t } from '@utils/fetch'
 import { TEXT_MENU_BROWSER, WEB } from '@constants'
-import { COMPONENT, DATA } from './ds'
+import { COMPONENT, DATA, LIST_COUNT_SCROLL } from './ds'
 
 import type { Ctx } from '../types'
 
@@ -20,12 +22,12 @@ function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const handleScrollToTop = useCallback(() => {
-    $.scrollToTop($.scrollViewRef, true)
+    $.scrollToTop(true)
     feedback(true)
   }, [$])
 
   const handleScrollToBottom = useCallback(() => {
-    $.scrollToBottom($.scrollViewRef, true)
+    $.scrollToBottom(true)
     feedback(true)
   }, [$])
 
@@ -41,22 +43,17 @@ function Header() {
   )
 
   const { isNew, say, hm } = $
-  const list = say.list || []
-  const lastDate = list.length ? list[list.length - 1]?.date?.split(' ')?.[0] : ''
-
-  const title = useMemo(() => {
-    if (isNew) return '新吐槽'
-
-    const count = list.length
-    return `吐槽 (${count})${lastDate ? ` · ${lastDate}` : ''}`
-  }, [isNew, list.length, lastDate])
+  const { list } = say
+  const lastDate = list.length ? list[list.length - 1]?.date?.split(' ')[0] : ''
+  const suffix = lastDate ? ` · ${lastDate}` : ''
+  const title = isNew ? '新吐槽' : `吐槽 (${list.length})${suffix}`
 
   const headerRight = useCallback(() => {
     if (isNew) return null
 
     return (
       <>
-        {!WEB && list.length >= 10 && (
+        {!WEB && list.length >= LIST_COUNT_SCROLL && (
           <>
             <IconTouchable
               style={_.mr._xs}

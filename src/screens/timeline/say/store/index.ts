@@ -2,21 +2,17 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:38:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-30 00:00:00
+ * @Last Modified time: 2026-10-30 19:08:13
+ *
+ * 吐槽页 Store 入口: 初始化与卸载
  */
 import { timelineStore, userStore } from '@stores'
 import { info } from '@utils'
 import Action from './action'
 import { RESET_STATE } from './ds'
 
-import type { ListViewInstance } from '@components'
-
 export default class ScreenSay extends Action {
-  scrollViewRef: ListViewInstance | null = null
-
-  init = async (scrollView?: ListViewInstance) => {
-    if (scrollView) this.scrollViewRef = scrollView
-
+  init = async () => {
     if (this.isNew) {
       if (!userStore.isWebLogin) {
         info('请先登录')
@@ -25,8 +21,6 @@ export default class ScreenSay extends Action {
 
       return timelineStore.fetchFormHash()
     }
-
-    if (this.say._loaded) this.scrollToBottom(this.scrollViewRef)
 
     await this.fetchSay()
     if (userStore.isWebLogin) timelineStore.fetchFormHash()

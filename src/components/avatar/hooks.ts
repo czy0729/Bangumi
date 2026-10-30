@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-18 11:00:00
  */
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { systemStore, tinygrailStore } from '@stores'
 import { navigationReference } from '@utils'
 import { cacheManager } from '@utils/cache'
@@ -36,6 +36,9 @@ export function useAvatar(src: Props['src'], userId: Props['userId']) {
   })
   const isFromApi = typeof url === 'string' && url.includes(API_V0)
 
+  /** 最新外部地址, 供异步回填时判断是否已过期 */
+  const srcRef = useRef(src)
+
   useMount(() => {
     if (!isFromApi) return
 
@@ -44,15 +47,44 @@ export function useAvatar(src: Props['src'], userId: Props['userId']) {
       return
     }
 
+    const requestSrc = src
     setTimeout(() => {
       ;(async () => {
         let responseURL = await head(url)
         if (typeof responseURL !== 'string') responseURL = url
 
-        setUrl(cacheManager.set(key, responseURL))
+        const resolved = cacheManager.set(key, responseURL)
+
+        // 请求期间外部地址已更新, 丢弃本次回填, 避免覆盖新头像
+        if (srcRef.current !== requestSrc) return
+
+        setUrl(resolved)
       })()
     }, 0)
   })
+
+  /** 外部头像地址变化时同步 (如用户修改了头像) */
+  useEffect(() => {
+    srcRef.current = src
+
+    if (typeof src !== 'string') {
+      setUrl(src)
+      return
+    }
+
+    if (!src) {
+      setUrl('')
+      return
+    }
+
+    if (src.includes(API_V0)) {
+      const cached = cacheManager.get(key)
+      if (cached) setUrl(cached)
+      return
+    }
+
+    setUrl(src.indexOf('//') === 0 ? `https:${src}` : src)
+  }, [key, src])
 
   return url
 }

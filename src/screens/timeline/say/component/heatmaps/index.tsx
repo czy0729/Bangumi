@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-12-20 03:15:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:24:59
+ * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 吐槽页埋点
  */
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-12-17 10:59:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 12:31:26
+ * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 吐槽页状态与常量
  */
 import { _ } from '@stores'
 
@@ -22,11 +24,16 @@ export const EXCLUDE_STATE = {
 
 export const STATE = {
   ...EXCLUDE_STATE,
+
+  /** 输入框内容 */
   value: '',
-  placeholder: '',
-  replySub: '',
-  message: '',
 
   /** 页面初始化完成 */
   _loaded: false as Loaded
 }
+
+/** 滚动与内容恢复的交互延时 */
+export const DELAY_SCROLL = 160
+
+/** 新吐槽成功后拉取时间线的延时 */
+export const DELAY_FETCH_TIMELINE = 4000

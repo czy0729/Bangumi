@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-08-23 10:43:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-30 00:00:00
+ * @Last Modified time: 2026-10-30 19:08:04
+ *
+ * 吐槽页业务逻辑
  */
 import { timelineStore, userStore } from '@stores'
 import { feedback, info, updateVisibleBottom } from '@utils'
@@ -11,28 +13,30 @@ import { webhookSay } from '@utils/webhooks'
 import { IOS } from '@constants'
 import i18n from '@constants/i18n'
 import Fetch from './fetch'
+import { parseStatus } from './utils'
+import { DELAY_FETCH_TIMELINE, DELAY_SCROLL } from './ds'
 
-import type { ListViewInstance } from '@components'
 import type { Navigation, UserId } from '@types'
 
 export default class Action extends Fetch {
   /** 滚动到底 */
-  scrollToBottom = (scrollView: ListViewInstance | null, animated = false) => {
-    if (scrollView?.scrollToIndex) {
+  scrollToBottom = (animated = false) => {
+    const scrollView = this.scrollViewRef
+    if (scrollView?.scrollToOffset) {
       setTimeout(() => {
         try {
-          scrollView.scrollToIndex({
+          scrollView.scrollToOffset({
             animated,
-            index: 0,
-            viewOffset: 200
+            offset: 0
           })
         } catch {}
-      }, 160)
+      }, DELAY_SCROLL)
     }
   }
 
   /** 滚动到顶 */
-  scrollToTop = (scrollView: ListViewInstance | null, animated = false) => {
+  scrollToTop = (animated = false) => {
+    const scrollView = this.scrollViewRef
     if (scrollView?.scrollToEnd) {
       setTimeout(() => {
         try {
@@ -40,18 +44,12 @@ export default class Action extends Fetch {
             animated
           })
         } catch {}
-      }, 160)
+      }, DELAY_SCROLL)
     }
   }
 
   /** 收起评论框 */
   closeFixedTextarea = () => {
-    this.setState({
-      placeholder: '',
-      replySub: '',
-      message: ''
-    })
-
     t('吐槽.显示评论框')
   }
 
@@ -85,30 +83,24 @@ export default class Action extends Fetch {
       this.setState({
         value: content
       })
-    }, 160)
+    }, DELAY_SCROLL)
 
     t('吐槽.回复失败')
   }
 
   /** 提交 */
-  doSubmit = (content: string, scrollView: ListViewInstance | null, navigation: Navigation) => {
-    if (this.isNew) {
-      if (!this.formhash) {
-        info(`获取表单授权码失败, 请检查${i18n.login()}状态`)
-        return
-      }
+  doSubmit = (content: string, navigation: Navigation) => {
+    if (!this.formhash) {
+      info(`获取表单授权码失败, 请检查${i18n.login()}状态`)
+      return
+    }
 
+    if (this.isNew) {
       this.doSay(content, navigation)
       return
     }
 
-    const { list = [] } = this.say
-    if (!list.length || !list[0]?.formhash) {
-      info('获取表单授权码失败')
-      return
-    }
-
-    this.doReply(content, scrollView)
+    this.doReply(content)
   }
 
   /** 新吐槽 */
@@ -119,15 +111,7 @@ export default class Action extends Fetch {
         formhash: this.formhash
       },
       async (responseText: string) => {
-        let res: {
-          status?: string
-        } = {}
-
-        try {
-          res = JSON.parse(responseText)
-        } catch {}
-
-        if (IOS && res.status !== 'ok') {
+        if (IOS && parseStatus(responseText) !== 'ok') {
           this.recoveryContent(content)
           return
         }
@@ -155,7 +139,7 @@ export default class Action extends Fetch {
               userStore.userInfo
             )
           }
-        }, 4000)
+        }, DELAY_FETCH_TIMELINE)
       }
     )
 
@@ -163,24 +147,15 @@ export default class Action extends Fetch {
   }
 
   /** 回复吐槽 */
-  doReply = (content: string, scrollView: ListViewInstance | null) => {
-    const { list = [] } = timelineStore.say(this.id)
+  doReply = (content: string) => {
     timelineStore.doReply(
       {
         id: String(this.id).split('#')[0],
         content,
-        formhash: list[0].formhash
+        formhash: this.formhash
       },
       async responseText => {
-        let res: {
-          status?: string
-        } = {}
-
-        try {
-          res = JSON.parse(responseText)
-        } catch {}
-
-        if (IOS && res.status !== 'ok') {
+        if (IOS && parseStatus(responseText) !== 'ok') {
           this.recoveryContent(content)
           return
         }
@@ -191,9 +166,6 @@ export default class Action extends Fetch {
 
         await this.fetchSay()
         feedback()
-        setTimeout(() => {
-          this.scrollToBottom(scrollView, true)
-        }, 80)
       }
     )
 

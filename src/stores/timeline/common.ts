@@ -23,7 +23,7 @@ import { LIKE_TYPE_TIMELINE } from '@constants'
 import type { CheerioNode, CheerioSelection } from '@utils/thirdParty/html/types'
 import type { TimeLineScopeCn, TopicId } from '@types'
 import type { Likes } from '../rakuen/types'
-import type { TimelineItem } from './types'
+import type { SayItem, TimelineItem } from './types'
 
 const NODE_TYPE_RAW_TEXT = 3
 
@@ -221,7 +221,7 @@ function cheerioTimelineItem(
 }
 
 /** 吐槽 */
-export function cheerioSay(html: string) {
+export function cheerioSay(html: string): SayItem[] {
   const $ = cheerio(htmlMatch(html, '<div class="columnsApp', '<div id="footer">'))
   const id = cText($('div.statusHeader p.tip')).replace('@', '')
   const avatar = $('img.avatar').attr('src')

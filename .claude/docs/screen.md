@@ -10,6 +10,7 @@ screen-name/
 ├── types.ts            # Ctx / Params 类型
 ├── hooks.ts            # useXxxPage() 初始化 hook
 ├── ds.ts               # COMPONENT 名称常量
+├── styles.ts           # 页面级共享样式 (可选, 页面根 index 使用)
 ├── store/
 │   ├── index.ts        # ScreenXxx 类（extends Action），定义 init() / unmount()
 │   ├── state.ts        # State extends Store<typeof STATE>，observable(STATE)
@@ -24,6 +25,8 @@ screen-name/
 ├── component/          # 页面私有子组件（访问 Store）
 │   └── xxx/
 │       ├── index.tsx
+│       ├── hooks.tsx   # 组件内逻辑（含 JSX 用 .tsx，纯逻辑用 .ts）
+│       ├── utils.ts    # 组件内纯函数
 │       ├── ds.ts
 │       └── styles.ts
 └── components/         # 页面内纯 UI 小组件（不访问 Store）
@@ -72,6 +75,9 @@ export function useXxxPage(props: NavigationProps) {
   return context
 }
 ```
+
+- 默认用 `onEnterComplete`（等切页动画结束再拉数据，避免与转场争抢）
+- 需要「挂载即请求」的场景用 `onEnter`：如新建吐槽页要在用户立即提交前拿到表单授权码，`onEnterComplete` 的 240ms 延后会落进「获取表单授权码失败」分支
 
 ## index.tsx
 

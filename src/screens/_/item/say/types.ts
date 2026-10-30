@@ -4,13 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-26 10:32:36
  */
+import type { ImageRequireSource } from 'react-native'
 import type { EventType, UserId } from '@types'
 
 export type Props = {
   index?: number
   event?: EventType
   position?: 'left' | 'right'
-  avatar?: string
+  avatar?: string | ImageRequireSource
   showName?: boolean
   name?: string
   text?: string

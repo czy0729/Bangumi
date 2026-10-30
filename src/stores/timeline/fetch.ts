@@ -20,10 +20,12 @@ import type { Id, SubjectId, TimeLineScope, TimeLineScopeCn, UserId } from '@typ
 import type { INIT_USER_INFO } from '../user/init'
 import type {
   CollectionTimelines,
+  FetchSayArgs,
   FetchTimelineArgs,
   FetchTimelineHTMLReturn,
   FetchUsersCollectionsTimelineArgs,
   FetchUsersTimelineArgs,
+  Say,
   Timeline
 } from './types'
 
@@ -180,31 +182,36 @@ export default class Fetch extends Computed {
   }
 
   /** 吐槽 */
-  fetchSay = async (args: { userId?: UserId; id: Id }) => {
+  fetchSay = async (args: FetchSayArgs) => {
     const { userId = 0, id = 0 } = args || {}
-    const html = await fetchHTML({
-      url: HTML_SAY(userId, id)
-    })
+    const STATE_KEY = 'say'
+    const ITEM_KEY = String(id).split('#')[0]
 
-    const data = {
-      list: cheerioSay(html),
-      pagination: {
-        page: 1,
-        pageTotal: 1
-      },
-      _loaded: getTimestamp()
-    }
+    try {
+      const html = await fetchHTML({
+        url: HTML_SAY(userId, id)
+      })
 
-    const key = 'say'
-    const sayId = String(id).split('#')[0]
-    this.setState({
-      [key]: {
-        [sayId]: data
+      const data: Say = {
+        list: cheerioSay(html),
+        pagination: {
+          page: 1,
+          pageTotal: 1
+        },
+        _loaded: getTimestamp()
       }
-    })
-    this.save(key)
 
-    return data
+      this.setState({
+        [STATE_KEY]: {
+          [ITEM_KEY]: data
+        }
+      })
+      this.save(STATE_KEY)
+
+      return data
+    } catch (error) {
+      this.error('fetchSay', error)
+    }
   }
 
   /** 吐槽表单授权码 (https://bgm.tv/timeline?type=say) */

@@ -2,36 +2,38 @@
  * @Author: czy0729
  * @Date: 2019-10-08 17:37:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 15:27:21
+ * @Last Modified time: 2026-10-31 00:00:00
+ *
+ * 吐槽对话列表
  */
 import { observer } from 'mobx-react'
-import { PaginationList } from '@_'
+import { ListView } from '@components'
 import { _, useStore } from '@stores'
-import { keyExtractor, renderItem } from './utils'
-import { COMPONENT } from './ds'
+import { useListScroll, useRenderItem } from './hooks'
+import { keyExtractor } from './utils'
+import { COMPONENT, ENTERING_EXITING_ANIMATIONS_NUM } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
-import type { Props } from './types'
 
-function Chat({ forwardRef }: Props) {
+function Chat() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const styles = memoStyles()
-  const { list } = $.say
+  const { handleListViewRef } = useListScroll()
+  const renderItem = useRenderItem()
 
   return (
-    <PaginationList
-      key={list.length}
-      forwardRef={forwardRef}
+    <ListView
+      ref={handleListViewRef}
       keyExtractor={keyExtractor}
+      skipEnteringExitingAnimations={ENTERING_EXITING_ANIMATIONS_NUM}
       style={_.container.screen}
       contentContainerStyle={styles.container}
-      data={list}
+      data={$.say}
       inverted
       renderItem={renderItem}
       showFooter={false}
-      ListFooterComponent={null}
       onScroll={$.onScroll}
     />
   )

@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 05:43:36
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Avatar, Component, Flex, RenderHtml, Text, UserStatus } from '@components'

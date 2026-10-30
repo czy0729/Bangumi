@@ -143,6 +143,15 @@ export type FetchUsersCollectionsTimelineArgs = {
   userId?: UserId
 }
 
+/** 获取吐槽楼层参数 */
+export type FetchSayArgs = {
+  /** 用户 ID */
+  userId?: UserId
+
+  /** 吐槽 ID (允许带 # 楼层锚点) */
+  id: Id
+}
+
 /** 请求并解析时间胶囊 HTML 返回值 */
 export type FetchTimelineHTMLReturn = Override<
   Timeline,
@@ -173,14 +182,14 @@ export type SayItem = {
   /** 吐槽内容 */
   text: string
 
-  /** 发布时间 */
-  date: string
+  /** 发布时间 (仅主吐槽) */
+  date?: string
 
-  /** 用户数字 ID */
-  uid: string
+  /** 回复行 Id (解析自 `reply_xxx`, 主吐槽没有) */
+  uid?: string
 
-  /** 表单授权码 */
-  formhash: string
+  /** 表单授权码 (仅主吐槽) */
+  formhash?: string
 }
 
 /** 吐槽 */

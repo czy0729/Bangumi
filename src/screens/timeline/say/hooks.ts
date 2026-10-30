@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-01-18 07:00:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-24 12:30:33
+ * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 吐槽页 Store 的初始化与卸载
  */
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'
@@ -18,6 +20,13 @@ export function useSayPage(props: NavigationProps) {
 
   usePageLifecycle(
     {
+      onEnter() {
+        // 新建吐槽要尽快拿到表单授权码, 等转场结束会来不及
+        if ($.isNew) $.init()
+      },
+      onEnterComplete() {
+        if (!$.isNew) $.init()
+      },
       onLeaveComplete() {
         $.unmount()
       }
