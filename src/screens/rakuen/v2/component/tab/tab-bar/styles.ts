@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-03-15 17:59:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 20:37:38
+ * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * TabBar 样式
  */
 import { _ } from '@stores'
 

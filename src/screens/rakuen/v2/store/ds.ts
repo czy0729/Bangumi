@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-03 05:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-16 22:49:06
+ * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 超展开页状态与常量
  */
 import { _ } from '@stores'
 import {
@@ -18,8 +20,13 @@ import type { Loaded, RakuenScope, RakuenTypeGroup, RakuenTypeMono } from '@type
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const INIT_PREFETCH_STATE = {
+  /** 是否正在预读取 */
   prefetching: false,
+
+  /** 预读取总数 */
   prefetchTotal: 0,
+
+  /** 已预读取数量 */
   prefetchCurrent: 0
 }
 
@@ -30,7 +37,8 @@ export const RESET_STATE = {
 
 export const EXCLUDE_STATE = {
   ...RESET_STATE,
-  isFocused: true,
+
+  /** 首批之外条目是否已延迟挂载 */
   _mounted: WEB
 }
 
@@ -55,3 +63,9 @@ export const STATE = {
   /** 页面初始化完成 */
   _loaded: false as Loaded
 }
+
+/** 延迟加载标记的延时 */
+export const DELAY_MOUNTED = 80
+
+/** 刷新到顶时的列表偏移 */
+export const VIEW_OFFSET_TOP = 8000

@@ -3,6 +3,8 @@
  * @Date: 2022-09-03 10:48:07
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 板块 Tab 场景渲染 hook
  */
 import { useMemo } from 'react'
 import { TABS } from '../../ds'

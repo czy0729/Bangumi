@@ -3,6 +3,8 @@
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 帖子条目容器: 解析数据与屏蔽判断
  */
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -12,7 +14,7 @@ import { t } from '@utils/fetch'
 import { HOST, LIMIT_TOPIC_PUSH } from '@constants'
 import Item from './item'
 import { getIsGroup, getReplyCount, getTopicId, getUserId, isTopicBlocked } from './utils'
-import { COMPONENT, LIMIT_HEAVY } from './ds'
+import { COMPONENT, DELAY_OPEN_URL, DELAY_UPDATE_READED, LIMIT_HEAVY } from './ds'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
@@ -55,7 +57,7 @@ function ItemWrap({
 
     setTimeout(() => {
       rakuenStore.updateTopicReaded(topicId, replyCount)
-    }, 400)
+    }, DELAY_UPDATE_READED)
   }, [avatar, group, href, navigation, replyCount, time, title, topicId, userId, userName])
 
   const handlePress = useCallback(() => {
@@ -73,7 +75,7 @@ function ItemWrap({
 
           setTimeout(() => {
             open(url)
-          }, 800)
+          }, DELAY_OPEN_URL)
         }
       )
       return

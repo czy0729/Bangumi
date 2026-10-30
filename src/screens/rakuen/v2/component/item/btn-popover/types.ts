@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-10-17 23:40:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-22 20:36:18
+ * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 条目操作菜单属性
  */
 import type { TopicId } from '@types'
 import type { Props as ParentProps } from '../types'

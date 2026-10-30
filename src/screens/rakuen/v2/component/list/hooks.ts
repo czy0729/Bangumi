@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-08-22 10:20:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-22 10:20:00
+ * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 板块列表样式 hook
  */
 import { useMemo } from 'react'
 import { _ } from '@stores'

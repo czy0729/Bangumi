@@ -3,6 +3,8 @@
  * @Date: 2023-03-15 17:58:28
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 悬浮 TabBar
  */
 import { observer } from 'mobx-react'
 import { TabBar as TabViewTabBar } from '@components'

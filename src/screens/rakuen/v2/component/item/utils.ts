@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-03 11:16:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-29 00:00:00
+ * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 帖子条目解析工具
  */
 import { rakuenStore } from '@stores'
 import { getIsBlocked, getIsBlockedUser } from '@utils'

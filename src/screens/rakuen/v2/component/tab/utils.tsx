@@ -3,6 +3,8 @@
  * @Date: 2025-01-26 20:36:16
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * TabView 自定义 TabBar 渲染
  */
 import TabBar from './tab-bar'
 

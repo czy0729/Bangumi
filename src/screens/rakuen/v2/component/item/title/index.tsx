@@ -3,6 +3,8 @@
  * @Date: 2021-01-21 17:40:59
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 条目标题
  */
 import { observer } from 'mobx-react'
 import { Text } from '@components'
@@ -16,15 +18,15 @@ import type { Props } from './types'
 function Title({ topicId, title, replyCount, isGroup }: Props) {
   const { $ } = useStore<Ctx>()
 
-  const isReaded = $.readed(topicId).time
+  const readed = $.readed(topicId)
+  const isReaded = readed.time
   const isBlog = String(topicId).includes('blog/')
 
   // 处理 (+30) +10 样式
   const replyText = `+${replyCount}`
   let replyAdd: string
-  if (isReaded) {
-    const readed = $.readed(topicId)
-    if (replyCount > readed.replies) replyAdd = `+${replyCount - readed.replies}`
+  if (isReaded && replyCount > readed.replies) {
+    replyAdd = `+${replyCount - readed.replies}`
   }
 
   // 标记坟贴

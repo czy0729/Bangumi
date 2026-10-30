@@ -3,6 +3,8 @@
  * @Date: 2020-12-16 01:24:53
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 页面埋点
  */
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'

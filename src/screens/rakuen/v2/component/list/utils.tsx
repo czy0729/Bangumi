@@ -3,6 +3,8 @@
  * @Date: 2024-02-04 01:09:53
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 板块列表 key 与渲染函数
  */
 import Item from '../item'
 

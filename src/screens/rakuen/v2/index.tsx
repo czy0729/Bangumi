@@ -3,6 +3,8 @@
  * @Date: 2019-04-26 13:40:51
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 超展开页面入口与布局
  */
 import { observer } from 'mobx-react'
 import { Component } from '@components/component'

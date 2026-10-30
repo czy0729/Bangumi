@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-01-04 22:39:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-17 11:54:02
+ * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 超展开页面逻辑
  */
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'

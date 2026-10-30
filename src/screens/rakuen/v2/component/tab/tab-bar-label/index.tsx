@@ -3,23 +3,26 @@
  * @Date: 2023-03-15 17:35:53
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * TabBar 标签
  */
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { useStore } from '@stores'
 import { MODEL_RAKUEN_TYPE_GROUP, MODEL_RAKUEN_TYPE_MONO } from '@constants'
-import { TABS } from '../../../ds'
 import Label from '../label'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-import type { RenderLabelProps } from '../tab-bar/ds'
 import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
-function TabBarLabel({ route, focused }: RenderLabelProps) {
+function TabBarLabel({ route, focused }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  if (route.title === '小组' && TABS[$.state.page].title === '小组') {
+  const { title } = $
+
+  if (route.title === '小组' && title === '小组') {
     return (
       <Label
         focused={focused}
@@ -31,7 +34,7 @@ function TabBarLabel({ route, focused }: RenderLabelProps) {
     )
   }
 
-  if (route.title === '人物' && TABS[$.state.page].title === '人物') {
+  if (route.title === '人物' && title === '人物') {
     return (
       <Label
         focused={focused}

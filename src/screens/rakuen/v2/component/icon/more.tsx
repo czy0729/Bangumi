@@ -3,8 +3,10 @@
  * @Date: 2020-03-29 14:23:27
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 头部「更多」菜单
  */
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Iconfont, Link } from '@components'
 import { Popover } from '@_'
@@ -21,16 +23,10 @@ const TEXT_SEARCH = '小组搜索'
 const TEXT_SETTING = '超展开设置'
 const TEXT_POST = '添加新讨论'
 
+const DATA = WEB ? [TEXT_SETTING, TEXT_POST] : [TEXT_SEARCH, TEXT_SETTING, TEXT_POST]
+
 function IconMore({ style }: WithViewStyles) {
   const navigation = useNavigation()
-
-  const memoData = useMemo(() => {
-    const list = []
-    if (!WEB) list.push(TEXT_SEARCH)
-    list.push(TEXT_SETTING, TEXT_POST)
-
-    return list
-  }, [])
 
   const handleSelect = useCallback(
     (key: string) => {
@@ -70,7 +66,7 @@ function IconMore({ style }: WithViewStyles) {
         </Flex>
       </Link>
 
-      <Popover style={stl(styles.more, style)} data={memoData} onSelect={handleSelect}>
+      <Popover style={stl(styles.more, style)} data={DATA} onSelect={handleSelect}>
         <Flex style={styles.moreIcon} justify='center'>
           <Iconfont name='md-more-horiz' color={_.colorTitle} />
         </Flex>

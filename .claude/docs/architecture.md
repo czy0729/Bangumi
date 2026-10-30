@@ -54,6 +54,20 @@
 | `@assets` | `src/assets/` |
 | `@src` | `src/` |
 
+## 导入约定（首屏）
+
+6 个底部 tab 的根页面入口一律用**深路径**引 `Component` / `Page`，不要用 `@components` barrel：
+
+```ts
+import { Component } from '@components/component'
+import { Page } from '@components/page'
+```
+
+- 涉及页面：`discovery/index`、`timeline/v2`、`home/v2`、`rakuen/v2`、`user/v2`、`tinygrail/index`
+- 原因：`src/components/index.ts` 是 ~80 个 `export *` 的 barrel，走 barrel 会把这套组件全部纳入模块图；这些页面在导航初始化时就被加载（不走 `React.lazy`），是冷启动路径的一部分
+- 其余页面都是懒加载，页面加载时 barrel 早已就绪，照常写 `@components` 即可
+- 同理，这些入口页不要为了「导入整齐」把深路径合并成 barrel，属于有意的性能约定
+
 ## 导航结构
 
 - **Root Stack**: `createNativeStackNavigator()` — 所有页面作为 Stack.Screen

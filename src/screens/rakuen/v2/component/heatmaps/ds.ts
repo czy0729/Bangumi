@@ -1,8 +1,10 @@
 /*
  * @Author: czy0729
  * @Date: 2024-01-04 17:47:45
- * @Last Modified by:   czy0729
- * @Last Modified time: 2024-01-04 17:47:45
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 埋点标识
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'

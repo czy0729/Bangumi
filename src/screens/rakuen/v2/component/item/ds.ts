@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-03 11:13:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-22 20:24:27
+ * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 帖子条目标识与常量
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
@@ -23,6 +25,12 @@ export const ITEM_HEIGHT = 64
 
 /** 回复数少于的数字, 判断为广告姬 */
 export const AD_REPLIES_COUNT = 4
+
+/** 打开帖子后更新已读记录的延时 */
+export const DELAY_UPDATE_READED = 400
+
+/** 跳转外部浏览器前的延时 */
+export const DELAY_OPEN_URL = 800
 
 export const DEFAULT_PROPS = {
   index: 0 as number,

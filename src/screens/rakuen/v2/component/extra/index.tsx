@@ -3,11 +3,13 @@
  * @Date: 2024-01-04 17:45:12
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 额外层: 统计与埋点
  */
 import { observer } from 'mobx-react'
 import { Track } from '@components'
 import { r } from '@utils/dev'
-import Heatmaps from '../heapmaps'
+import Heatmaps from '../heatmaps'
 import { COMPONENT, HM } from './ds'
 
 function Extra() {

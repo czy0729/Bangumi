@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-06-29 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-29 00:00:00
+ * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 超展开页列表筛选工具
  */
 import { systemStore, userStore } from '@stores'
 import { URL_DEFAULT_AVATAR } from '@constants'

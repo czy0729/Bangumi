@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-10-17 11:20:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-17 11:31:16
+ * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 分类标签属性
  */
 import type { ModelItem } from '@types'
 

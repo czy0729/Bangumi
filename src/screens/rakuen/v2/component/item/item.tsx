@@ -3,6 +3,8 @@
  * @Date: 2019-04-27 20:21:08
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 帖子条目内容组件
  */
 import { Flex, flexStyle, Touchable, UserStatus } from '@components'
 import { InView, PreventTouchPlaceholder } from '@_'

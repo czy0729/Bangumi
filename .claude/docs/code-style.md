@@ -64,6 +64,7 @@
 - Store 访问：页面通过 hooks 解构 `{ id, $ }`，子组件通过 `useStore<Ctx>(COMPONENT)` 获取
 - `StoreContext.Provider` 在页面 index.tsx 中提供，子组件通过 context 消费
 - **JSX 文件不要写 `import React from 'react'`**：项目使用 automatic JSX runtime（expo `jsx: react-jsx`），多余的 React 导入会触发 `noUnusedLocals` 的 TS6133
+- **6 个底部 tab 根页面入口用深路径引 `Component` / `Page`**（`@components/component`、`@components/page`），不要为了导入整齐合并成 `@components` barrel：这些页面在冷启动时加载，barrel 会拉入整个组件库。详见 [architecture.md](./architecture.md)「导入约定（首屏）」
 
 # React Native 规范
 

@@ -3,6 +3,8 @@
  * @Date: 2019-10-20 20:42:54
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 头部预读取入口
  */
 import { observer } from 'mobx-react'
 import { ActivityIndicator, Flex, Text, Touchable } from '@components'

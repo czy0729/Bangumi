@@ -3,6 +3,8 @@
  * @Date: 2021-01-21 19:23:54
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 条目元信息: 时间与小组
  */
 import { useCallback, useState } from 'react'
 import { View } from 'react-native'
@@ -26,9 +28,11 @@ function Detail({ time, epoch, groupCn, userName, userId, avatar }: Props) {
     [setName]
   )
 
+  const { userAge } = systemStore.setting
+
   return (
     <Flex style={_.mt.xs}>
-      <View style={systemStore.setting.userAge && styles.name}>
+      <View style={userAge && styles.name}>
         <VerticalAlign {...BASE_TEXT_PROPS} text={userName} onHit={handleHit}>
           <Text {...BASE_TEXT_PROPS}>
             {epoch ? lastDate(epoch, false) : time ? correctAgo(time) : ''}
@@ -45,7 +49,7 @@ function Detail({ time, epoch, groupCn, userName, userId, avatar }: Props) {
           )}
         </VerticalAlign>
       </View>
-      {systemStore.setting.userAge && !!(userId || avatar) && (
+      {userAge && !!(userId || avatar) && (
         <Flex.Item>
           <UserAge style={styles.userAge} value={userId} avatar={avatar} />
         </Flex.Item>

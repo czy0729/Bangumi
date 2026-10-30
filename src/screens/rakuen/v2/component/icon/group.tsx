@@ -3,6 +3,8 @@
  * @Date: 2021-01-21 19:56:09
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 头部「我的小组」图标
  */
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'

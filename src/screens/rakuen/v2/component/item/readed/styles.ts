@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-01-05 16:02:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 00:13:09
+ * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 已读条目样式
  */
 import { _ } from '@stores'
 import { ITEM_HEIGHT } from '../ds'

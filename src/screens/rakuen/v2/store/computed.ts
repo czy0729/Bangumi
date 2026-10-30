@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-05-16 19:51:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 20:38:15
+ * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 超展开页派生数据
  */
 import { computed } from 'mobx'
 import { _, rakuenStore } from '@stores'
@@ -72,12 +74,6 @@ export default class Computed extends State {
   /** 导航栏标题 */
   @computed get title() {
     return TABS[this.state.page].title
-  }
-
-  /** 获取虚拟人物Id */
-  characterId(href: string) {
-    if (href.includes('/crt/')) return href.split('/crt/')[1]
-    return 0
   }
 
   /** 是否收藏 */

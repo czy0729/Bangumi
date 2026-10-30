@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-11-15 03:19:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-17 23:47:26
+ * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 头部图标样式
  */
 import { _ } from '@stores'
 
@@ -27,10 +29,6 @@ export const styles = _.create({
   },
   prefetch: {
     marginRight: -6,
-    marginBottom: 0
-  },
-  search: {
-    marginRight: -12,
     marginBottom: 0
   }
 })

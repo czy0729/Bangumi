@@ -3,6 +3,8 @@
  * @Date: 2021-01-21 19:41:38
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-30 00:00:00
+ *
+ * 条目收藏标记
  */
 import { observer } from 'mobx-react'
 import { Iconfont } from '@components'
