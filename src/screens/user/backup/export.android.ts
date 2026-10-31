@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-07-02 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 12:00:00
+ * @Last Modified time: 2026-11-01 04:03:41
+ *
+ * 本地保存文件实现 (Android)
  */
 import { Alert, Linking, PermissionsAndroid, Platform } from 'react-native'
 import RNFS from 'react-native-fs'

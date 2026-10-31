@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-07-02 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 21:01:16
+ * @Last Modified time: 2026-11-01 04:03:41
+ *
+ * 条目属性
  */
 import type { WithNavigation } from '@types'
 import type { Ctx, Item } from '../../types'

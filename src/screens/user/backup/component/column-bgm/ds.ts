@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-05-06 13:38:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 16:20:42
+ * @Last Modified time: 2026-11-01 04:03:41
+ *
+ * bgm 列标识
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'

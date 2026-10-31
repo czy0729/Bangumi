@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-12-08 10:47:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 16:20:58
+ * @Last Modified time: 2026-11-01 04:03:41
+ *
+ * bgm 列当前值与同步值
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { _ } from '@stores'

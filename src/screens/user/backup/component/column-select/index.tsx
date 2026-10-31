@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-12-08 10:47:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 21:00:33
+ * @Last Modified time: 2026-11-01 04:03:41
+ *
+ * 列同步开关
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Touchable } from '@components'

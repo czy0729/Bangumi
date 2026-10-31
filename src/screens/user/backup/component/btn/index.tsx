@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-12-18 16:41:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 20:42:32
+ * @Last Modified time: 2026-11-01 04:03:41
+ *
+ * 通用小按钮
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Loading, Text, Touchable } from '@components'
 import { stl } from '@utils'

@@ -80,11 +80,8 @@ export type Navigation = {
   /** 动态设置路由参数 */
   setOptions: (params?: object) => void
 
-  /** 订阅 */
-  addListener: (
-    eventType: string,
-    callback: (event?: NavigationEvent) => void
-  ) => { remove: () => void }
+  /** 订阅 (返回取消订阅函数) */
+  addListener: (eventType: string, callback: (event?: NavigationEvent) => void) => () => void
 
   /** 触发订阅事件 */
   emit: (event: NavigationEvent) => void

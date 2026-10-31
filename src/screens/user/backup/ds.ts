@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-12-06 05:47:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 07:17:38
+ * @Last Modified time: 2026-11-01 04:03:41
+ *
+ * 本地备份页面常量
  */
 export const COMPONENT = 'Backup'
 

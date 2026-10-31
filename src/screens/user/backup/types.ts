@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-12-03 10:16:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 22:43:46
+ * @Last Modified time: 2026-11-01 04:03:41
+ *
+ * 本地备份页类型
  */
 import type {
   CollectionStatus,

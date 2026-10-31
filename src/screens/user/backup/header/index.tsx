@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-12-03 10:17:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 06:00:00
+ * @Last Modified time: 2026-11-01 04:03:41
+ *
+ * 页面头部
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'

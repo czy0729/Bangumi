@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-09-10 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-08 22:47:47
+ * @Last Modified time: 2026-11-01 04:32:51
  *
- * 遮罩显隐: 淡入淡出, 淡出结束后把 showValue 置为 false (组件常驻挂载, showValue 仅用于触摸拦截判定)
+ * 遮罩显隐: 淡入淡出, 淡出结束后把 showValue 置为 false (调用方常驻挂载时, showValue 仅用于触摸拦截判定)
  */
 import { useEffect, useRef, useState } from 'react'
 import { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'

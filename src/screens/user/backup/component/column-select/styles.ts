@@ -1,8 +1,10 @@
 /*
  * @Author: czy0729
  * @Date: 2022-12-08 10:48:15
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-12-08 10:48:15
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-11-01 04:03:41
+ *
+ * 列同步开关样式
  */
 import { _ } from '@stores'
 

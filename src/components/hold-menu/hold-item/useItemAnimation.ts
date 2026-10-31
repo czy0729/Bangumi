@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-08-09 06:05:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-10 12:00:00
+ * @Last Modified time: 2026-11-01 04:32:51
  */
-import { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import {
   useAnimatedProps,
   useAnimatedReaction,
@@ -180,15 +180,7 @@ export const useItemAnimation = ({
     } else {
       scaleHold()
     }
-  }, [
-    active,
-    isAnimating,
-    wasActivated,
-    prepare,
-    activateOn,
-    scaleTap,
-    scaleHold
-  ])
+  }, [active, isAnimating, wasActivated, prepare, activateOn, scaleTap, scaleHold])
 
   // 全局菜单关闭时复位本 item 的展开状态
   useAnimatedReaction(
@@ -199,6 +191,13 @@ export const useItemAnimation = ({
       }
     }
   )
+
+  // 卸载时若菜单仍由本 item 展开 (切页 / 列表回收), 主动收起, 避免菜单与遮罩残留
+  useEffect(() => {
+    return () => {
+      if (isActive.value) close()
+    }
+  }, [isActive, close])
 
   const animatedContainerStyle = useAnimatedStyle(() => {
     return {
@@ -217,9 +216,10 @@ export const useItemAnimation = ({
       // 与菜单同步位移, 菜单放不下时整体向合适方向挤开
       // 位置须在 active=1 后才读取, 避免展开瞬间使用上一菜单的旧 tY
       {
-        translateY: isActive.value && active.value === 1
-          ? withSpring(position.value?.tY ?? 0, SPRING_CONFIGURATION)
-          : withTiming(0, { duration: MENU_ANIMATION_DURATION })
+        translateY:
+          isActive.value && active.value === 1
+            ? withSpring(position.value?.tY ?? 0, SPRING_CONFIGURATION)
+            : withTiming(0, { duration: MENU_ANIMATION_DURATION })
       },
       { scale: itemScale.value }
     ] as TransformArrayItem[]

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-09 05:48:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-19 10:24:38
+ * @Last Modified time:  2026-11-01 04:38:24
  */
 import { memo, useContext } from 'react'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
@@ -14,19 +14,22 @@ import { useMask } from '../../mask'
 import { MenuShowContext, useHoldMenu } from '../context'
 import { styles } from './styles'
 
-/** 全屏遮罩, 点击关闭, 淡入淡出, 常驻挂载 */
+/** 全屏遮罩, 点击关闭, 淡入淡出, 随菜单层挂载/卸载 */
 function BackdropComponent() {
   const show = useContext(MenuShowContext)
   const { theme, close } = useHoldMenu()
 
   const { maskStyle, disabled, staticMaskStyle } = useMask(show, MENU_ANIMATION_DURATION)
 
-  /** 隐藏时禁用手势, 常驻遮罩不拦截触摸 */
-  const tapGesture = Gesture.Tap().enabled(show).onEnd(close)
+  /**
+   * 常驻遮罩不拦截触摸由样式 pointerEvents 控制, 手势本身不再按 show 开关
+   * 避免 show 与视觉状态不一致时遮罩点不掉 (只能杀进程恢复)
+   */
+  const tapGesture = Gesture.Tap().onEnd(close)
 
   /**
-   * 常驻挂载: show 首次变为 true 若属于首次挂载, 首帧会直接落到目标透明度,
-   * 与挂载合并成最终态, 遮罩出现没有淡入过渡
+   * 遮罩在 open() 提交内容时挂载 (此时 show 仍为 false, opacity 从 0 起步),
+   * 到 activate() 置 show=true 时已有挂载帧, 淡入因此正常发生, 不会直接落到终态
    */
   return (
     <GestureDetector gesture={tapGesture}>

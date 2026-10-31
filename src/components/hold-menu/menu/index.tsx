@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-09 07:22:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-15 07:05:57
+ * @Last Modified time: 2026-11-01 04:32:51
  */
 import { memo } from 'react'
 import { GestureDetector } from 'react-native-gesture-handler'
@@ -20,7 +20,7 @@ import { useMenuDragSelect } from './useMenuDragSelect'
 import { styles } from './styles'
 
 /**
- * 菜单本体, 常驻挂载, 由 active/position 驱动展开/收起动画
+ * 菜单本体, 随菜单层挂载/卸载, 由 active/position 驱动展开/收起动画
  * 长按拖选由菜单层手势负责, 普通滑动仍交还原生 ScrollView 滚动
  */
 function MenuComponent() {
@@ -56,7 +56,7 @@ function MenuComponent() {
         animatedProps={animatedProps}
         style={[styles.menuContainer, animatedStyle]}
       >
-        {/* 常驻挂载保证冷启动首次展开即有毛玻璃, 关闭时以零透明度/零缩放隐藏 */}
+        {/* 展开时挂载, 收起动画结束后随菜单层卸载 (blur 首次展开可能没有预热) */}
         <BlurView
           intensity={80}
           tint={theme}

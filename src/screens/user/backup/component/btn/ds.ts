@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-05-06 20:39:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 20:42:18
+ * @Last Modified time: 2026-11-01 04:03:41
+ *
+ * 小按钮标识
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'

@@ -53,7 +53,7 @@ export function useNavigationRef() {
       lastPath = currentPath
     })
 
-    return () => subscription.remove()
+    return () => subscription()
   }, [])
 
   /**

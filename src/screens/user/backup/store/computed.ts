@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-09-14 07:08:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-14 23:16:11
+ * @Last Modified time: 2026-11-01 04:03:41
+ *
+ * 本地备份页派生数据与导出内容
  */
 import { computed } from 'mobx'
 import { userStore } from '@stores'
@@ -24,69 +26,63 @@ export default class Computed extends State {
     return userStore.usersInfo(userStore.myUserId).username || userStore.myUserId
   }
 
-  /** 构建完整行 */
+  /** 构建完整行 (列名与 CSV_HEADS 一一对应) */
   private _buildRow(item: Item) {
+    const [
+      ID,
+      COVER,
+      URL,
+      TYPE,
+      CN,
+      JP,
+      DATE,
+      RANK,
+      SCORE,
+      EPS,
+      EP_STATUS,
+      STATUS,
+      TAGS,
+      RATE,
+      COMMENT,
+      PRIVATE,
+      UPDATED_AT
+    ] = CSV_HEADS
+
     const { subject } = item
     const row: CsvRecord = {
-      [CSV_HEADS[0]]: subject.id,
-      [CSV_HEADS[1]]: restoreNativeUrl(applyLainProxy(subject.image)),
-      [CSV_HEADS[2]]: restoreNativeUrl(applyProxy(`${HOST}/subject/${subject.id}`).url),
-      [CSV_HEADS[3]]: MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type),
-      [CSV_HEADS[4]]: subject.cn,
-      [CSV_HEADS[5]]: subject.jp,
-      [CSV_HEADS[6]]: subject.date,
-      [CSV_HEADS[7]]: subject.rank || '',
-      [CSV_HEADS[8]]: subject.score || '',
-      [CSV_HEADS[9]]: subject.eps || '',
-      [CSV_HEADS[10]]: item.ep_status || '',
-      [CSV_HEADS[11]]: MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(item.type),
-      [CSV_HEADS[12]]: item.tags.join(' '),
-      [CSV_HEADS[13]]: item.rate || '',
-      [CSV_HEADS[14]]: item.comment || '',
-      [CSV_HEADS[15]]: item.private ? '是' : '',
-      [CSV_HEADS[16]]: item.updated_at
+      [ID]: subject.id,
+      [COVER]: restoreNativeUrl(applyLainProxy(subject.image)),
+      [URL]: restoreNativeUrl(applyProxy(`${HOST}/subject/${subject.id}`).url),
+      [TYPE]: MODEL_SUBJECT_TYPE.getTitle<SubjectTypeCn>(subject.type),
+      [CN]: subject.cn,
+      [JP]: subject.jp,
+      [DATE]: subject.date,
+      [RANK]: subject.rank || '',
+      [SCORE]: subject.score || '',
+      [EPS]: subject.eps || '',
+      [EP_STATUS]: item.ep_status || '',
+      [STATUS]: MODEL_COLLECTION_STATUS.getLabel<CollectionStatusCn>(item.type),
+      [TAGS]: (item.tags || []).join(' '),
+      [RATE]: item.rate || '',
+      [COMMENT]: item.comment || '',
+      [PRIVATE]: item.private ? '是' : '',
+      [UPDATED_AT]: item.updated_at
     }
 
-    const typeCn = row[CSV_HEADS[3]]
+    const typeCn = row[TYPE]
     if (typeCn === '书籍') {
-      row[CSV_HEADS[11]] = String(row[CSV_HEADS[11]]).replace('看', '读')
+      row[STATUS] = String(row[STATUS]).replace('看', '读')
     } else if (typeCn === '游戏') {
-      row[CSV_HEADS[11]] = String(row[CSV_HEADS[11]]).replace('看', '玩')
+      row[STATUS] = String(row[STATUS]).replace('看', '玩')
     } else if (typeCn === '音乐') {
-      row[CSV_HEADS[11]] = String(row[CSV_HEADS[11]]).replace('看', '听')
+      row[STATUS] = String(row[STATUS]).replace('看', '听')
     }
 
     return row
   }
 
-  /** 导出的列头 (根据选择过滤) */
-  @computed get exportHeads() {
-    const { includeColumns } = this.state
-    if (!includeColumns.length) return [...CSV_HEADS]
-    const includeColumnsSet = new Set(includeColumns)
-    return CSV_HEADS.filter(head => includeColumnsSet.has(head))
-  }
-
-  /** 导出的 CSV */
-  @computed get csv() {
-    if (this.state.progress.fetching || !this.data.length) return ''
-
-    const heads = this.exportHeads
-    const data = this.data.map(item => {
-      const row = this._buildRow(item)
-      const filtered: CsvRecord = {}
-      heads.forEach(head => {
-        filtered[head] = row[head]
-      })
-      return filtered
-    })
-    return toCsv(heads, data)
-  }
-
-  /** 导出的 JSON (扁平化) */
-  @computed get json() {
-    if (this.state.progress.fetching || !this.data.length) return []
-
+  /** 按选中列裁剪后的导出行 */
+  private _exportRows() {
     const heads = this.exportHeads
     return this.data.map(item => {
       const row = this._buildRow(item)
@@ -96,6 +92,32 @@ export default class Computed extends State {
       })
       return filtered
     })
+  }
+
+  /** 已选中的导出列 */
+  @computed get includeColumnsSet() {
+    return new Set(this.state.includeColumns)
+  }
+
+  /** 导出的列头 (根据选择过滤) */
+  @computed get exportHeads() {
+    if (!this.state.includeColumns.length) return [...CSV_HEADS]
+
+    return CSV_HEADS.filter(head => this.includeColumnsSet.has(head))
+  }
+
+  /** 导出的 CSV */
+  @computed get csv() {
+    if (this.state.progress.fetching || !this.data.length) return ''
+
+    return toCsv(this.exportHeads, this._exportRows())
+  }
+
+  /** 导出的 JSON (扁平化) */
+  @computed get json() {
+    if (this.state.progress.fetching || !this.data.length) return []
+
+    return this._exportRows()
   }
 
   /** 导入的收藏项 */
@@ -111,7 +133,7 @@ export default class Computed extends State {
 
   /** 收藏列表映射 */
   @computed get listMap() {
-    const map = {}
+    const map: Record<SubjectId, boolean> = {}
     this.list.forEach(item => {
       map[item.subject.id] = true
     })
@@ -145,7 +167,6 @@ export default class Computed extends State {
 
       const { bottom } = this.state
       return data
-        .slice()
         .sort((a, b) => asc(upload[a.subject.id] ? 0 : 1, upload[b.subject.id] ? 0 : 1))
         .sort((a, b) => asc(bottom[a.subject.id] || 0, bottom[b.subject.id] || 0))
     }

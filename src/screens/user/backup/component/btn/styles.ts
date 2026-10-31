@@ -1,8 +1,10 @@
 /*
  * @Author: czy0729
  * @Date: 2022-09-29 17:50:21
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-09-29 17:50:21
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-11-01 04:03:41
+ *
+ * 小按钮样式
  */
 import { _ } from '@stores'
 

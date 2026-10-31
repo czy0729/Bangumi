@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-29 19:18:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 20:52:52
+ * @Last Modified time:  2026-11-01 04:45:48
+ *
+ * 条目标识与默认属性
  */
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
@@ -13,6 +15,9 @@ import type { Item } from '../../types'
 import type { Props } from './types'
 
 export const COMPONENT = rc(PARENT, 'Item')
+
+/** 条目高度预估 (封面高度 + 上下内边距 + 行间距) */
+export const ITEM_HEIGHT = 178
 
 export const HIT_SLOP = {
   top: 4,

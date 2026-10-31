@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-12-06 05:47:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 22:44:04
+ * @Last Modified time: 2026-11-01 04:03:41
+ *
+ * 本地备份页状态与常量
  */
 import { COMPONENT, CSV_HEADS } from '../ds'
 

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-09-14 07:13:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 07:14:03
+ * @Last Modified time:  2026-11-01 04:45:48
+ *
+ * 本地备份页请求
  */
 import { toJS } from 'mobx'
 import { getTimestamp } from '@utils'
@@ -89,7 +91,7 @@ export default class Fetch extends Computed {
     subjectType: SubjectTypeValue,
     type: CollectionStatusValue,
     page: number = 1
-  ) => {
+  ): Promise<boolean> => {
     const data = await request<Collection>(
       API_COLLECTIONS(this.userId, subjectType, page, LIMIT, type)
     )

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-07-02 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 20:52:52
+ * @Last Modified time: 2026-11-01 04:03:41
+ *
+ * 小按钮属性
  */
 import type { ViewStyle, WithViewStyles } from '@types'
 

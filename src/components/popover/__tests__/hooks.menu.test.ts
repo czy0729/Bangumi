@@ -43,7 +43,6 @@ const { usePopoverItems } = require('../hooks')
 
 function renderHook<T>(useHook: () => T) {
   const result = { current: undefined as T }
-  let renderer: any
 
   function Probe() {
     result.current = useHook()
@@ -51,7 +50,7 @@ function renderHook<T>(useHook: () => T) {
   }
 
   TestRenderer.act(() => {
-    renderer = TestRenderer.create(React.createElement(Probe))
+    TestRenderer.create(React.createElement(Probe))
   })
 
   return { result }

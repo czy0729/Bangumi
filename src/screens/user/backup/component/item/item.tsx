@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-09-29 19:17:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 21:01:47
+ * @Last Modified time: 2026-11-01 04:03:41
+ *
+ * 条目主体: 收藏与导入数据对比
  */
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { View } from 'react-native'
 import { Flex, Text } from '@components'
 import { Cover } from '@_'

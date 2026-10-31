@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-05-06 13:38:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-06 16:18:37
+ * @Last Modified time: 2026-11-01 04:03:41
+ *
+ * 列同步开关标识与常量
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'

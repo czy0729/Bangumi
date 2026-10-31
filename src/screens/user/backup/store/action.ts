@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-09-14 07:14:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 21:20:00
+ * @Last Modified time: 2026-11-01 04:03:41
+ *
+ * 本地备份页业务逻辑
  */
 import { date, feedback, getTimestamp, info, open } from '@utils'
 import { t } from '@utils/fetch'
@@ -11,24 +13,17 @@ import { download, temp } from '@utils/kv'
 import { parseCsv } from '@utils/thirdParty/csv'
 import { API_COLLECTION_ACTION, API_SUBJECT_UPDATE_WATCHED, MODEL_SUBJECT_TYPE } from '@constants'
 import { exportLocal } from '../export'
+import { toNum } from '../utils'
 import Fetch from './fetch'
 
 import type { CollectionStatusValue, SubjectId, SubjectTypeValue } from '@types'
 import type { CollectionPayload, EpPayload, Item } from '../types'
 
-/** CSV 数值列转数字，空值返回 '' */
-function toNum(value: string): number | '' {
-  if (!value) return ''
-  const num = Number(value)
-  return Number.isNaN(num) ? '' : num
-}
-
 export default class Action extends Fetch {
   /** 切换导出列 */
   onToggleColumn = (column: string) => {
     const { includeColumns } = this.state
-    const includeColumnsSet = new Set(includeColumns)
-    const next = includeColumnsSet.has(column)
+    const next = this.includeColumnsSet.has(column)
       ? includeColumns.filter(c => c !== column)
       : [...includeColumns, column]
     this.setState({
@@ -134,7 +129,7 @@ export default class Action extends Fetch {
       const data = parseCsv(text)
       if (data.length) {
         const upload: Record<SubjectId, Item> = {}
-        data.map(item => {
+        data.forEach(item => {
           if (item.ID) {
             const status = item['状态'] || ''
             let type: CollectionStatusValue | '' = ''
@@ -177,7 +172,7 @@ export default class Action extends Fetch {
           data: `${this.userId}|${data.length}`
         })
       }
-    } catch (error) {
+    } catch {
       info('解析CSV出错，请重新导入')
     }
   }

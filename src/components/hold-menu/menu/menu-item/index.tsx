@@ -7,8 +7,8 @@
 import { memo } from 'react'
 import { View } from 'react-native'
 import Animated, { useAnimatedStyle } from 'react-native-reanimated'
-import { getTextStyle, Text } from '@components/text'
 import { Iconfont } from '@components/iconfont'
+import { getTextStyle, Text } from '@components/text'
 import { Touchable } from '@components/touchable'
 import { stl } from '@utils'
 import { MENU_ITEM_ICON_SIZE, MENU_ITEM_TEXT_SIZE, MENU_ITEM_TITLE_SIZE } from '../../ds'
@@ -44,10 +44,10 @@ function MenuItemComponent({ item, index, isLast, actionParams }: Props) {
   const colorStyle = item.isTitle
     ? styles.title
     : item.type
-      ? { color: getTypeColor(item.type) }
-      : item.isDestructive
-        ? styles.destructive
-        : styles.text
+    ? { color: getTypeColor(item.type) }
+    : item.isDestructive
+    ? styles.destructive
+    : styles.text
 
   const handlePress = (evt?: MenuPressEvent) => {
     item.onPress?.(evt, ...(actionParams?.[item.text] || []))

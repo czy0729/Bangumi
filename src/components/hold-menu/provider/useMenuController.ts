@@ -2,14 +2,13 @@
  * @Author: czy0729
  * @Date: 2026-08-09 07:26:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-10 10:30:00
+ * @Last Modified time: 2026-11-01 04:32:51
  */
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-
-import type { ScrollView } from 'react-native'
 import { useAnimatedRef, useSharedValue } from 'react-native-reanimated'
 import { getMenuPosition } from '../utils'
 
+import type { ScrollView } from 'react-native'
 import type { MenuContextValue, MenuParamsContextValue } from '../context'
 import type { MenuOpenParams, MenuPosition } from '../types'
 
@@ -36,6 +35,14 @@ export const useMenuController = (
   const contentHeight = useSharedValue(0)
   const safePaddingBottom = (paddingBottom || 0) + 24
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  /**
+   * 当前有效的菜单内容 (state 提交是异步的, 激活判定需要同步值)
+   * close 立即置空, 使「收起后才到达的 activate」失效, 避免展开一个没有内容的空菜单
+   */
+  const paramsRef = useRef<MenuOpenParams | null>(null)
+
+  /** 是否处于展开态 (state 提交是异步的, 关闭前的短路判定需要同步值) */
+  const shownRef = useRef(false)
 
   const open = useCallback((_params: MenuOpenParams) => {
     if (closeTimeoutRef.current) {
@@ -43,15 +50,25 @@ export const useMenuController = (
       closeTimeoutRef.current = null
     }
     // 仅提交菜单内容并计算位置, 展开动画由 activate 单独激活
+    paramsRef.current = _params
     setParams(_params)
   }, [])
 
   const activate = useCallback(() => {
+    // 长按缩放动画期间用户已松手/页面切换时, 会先 close 再收到激活, 此处必须丢弃
+    if (!paramsRef.current) return
+
+    shownRef.current = true
     setShow(true)
     active.value = 1
   }, [active])
 
   const close = useCallback(() => {
+    // 既无内容也未展开时直接返回: 导航等外部事件会频繁调用, 没必要重置一轮 shared value 与定时器
+    if (!paramsRef.current && !shownRef.current) return
+
+    shownRef.current = false
+    paramsRef.current = null
     setShow(false)
     active.value = 0
     // 复位拖动选择状态, 避免下次展开残留高亮

@@ -10,6 +10,7 @@ import { useSharedValue } from 'react-native-reanimated'
 import { scheduleOnRN } from '@utils'
 import { useHoldMenu } from '../context'
 import { hapticFeedback, resolveHoverIndex } from '../utils'
+
 import type { ItemGestureProps } from './types'
 
 /** 手势触摸事件最小结构 */
@@ -162,16 +163,7 @@ export const useItemGesture = ({
         scheduleOnRN(close)
       }
     },
-    [
-      isLongPressActive,
-      active,
-      isActive,
-      highlightIndex,
-      selectItem,
-      isAnimating,
-      scaleBack,
-      close
-    ]
+    [isLongPressActive, active, isActive, highlightIndex, selectItem, isAnimating, scaleBack, close]
   )
 
   const gesture = useMemo(() => {
@@ -187,10 +179,7 @@ export const useItemGesture = ({
         .onFinalize(onLongPressFinalize)
 
     const tap = (numberOfTaps: number) =>
-      Gesture.Tap()
-        .numberOfTaps(numberOfTaps)
-        .onStart(onStart)
-        .onFinalize(cancelBeforeOpen)
+      Gesture.Tap().numberOfTaps(numberOfTaps).onStart(onStart).onFinalize(cancelBeforeOpen)
 
     if (activateOn === 'double-tap') return tap(2)
     if (activateOn === 'tap') return tap(1)

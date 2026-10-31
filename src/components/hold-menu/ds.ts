@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-09 07:27:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-15 06:58:23
+ * @Last Modified time:  2026-11-01 04:38:24
  */
 
 /** 菜单打开/关闭动画时长 (ms) */
@@ -98,3 +98,9 @@ export const MENU_BLUR_LIGHT_BACKGROUND_COLOR = 'rgba(255, 255, 255, 0.56)'
 /** 菜单项拖动悬停高亮背景 */
 export const MENU_ITEM_HIGHLIGHT_LIGHT_COLOR = 'rgba(0, 0, 0, 0.08)'
 export const MENU_ITEM_HIGHLIGHT_DARK_COLOR = 'rgba(255, 255, 255, 0.12)'
+
+/** 等待导航容器就绪的重试间隔 (ms) */
+export const NAVIGATION_RETRY_INTERVAL = 500
+
+/** 导航容器就绪的重试上限 (用满后放弃, 避免无限轮询) */
+export const NAVIGATION_RETRY_MAX = 10
