@@ -2,8 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-11-24 05:43:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-28 21:24:14
+ * @Last Modified time: 2026-11-01 00:00:00
+ *
+ * 设置项与跳转列表
  */
+import { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Divider, Flex, SwitchPro, Text } from '@components'
@@ -15,10 +18,22 @@ import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
+/** 可切换的设置项 */
+type SettingKey = 'focusOrigin' | 'focusAction'
+
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const { focusOrigin, focusAction } = systemStore.setting
+
+  const handleSwitch = useCallback((key: SettingKey, title: string, checked: boolean) => {
+    t('设置.切换', {
+      title,
+      checked: !checked
+    })
+
+    systemStore.switchSetting(key)
+  }, [])
 
   return (
     <View>
@@ -31,14 +46,7 @@ function List() {
         <SwitchPro
           style={styles.switch}
           value={focusOrigin}
-          onSyncPress={() => {
-            t('设置.切换', {
-              title: ' 突出源头按钮',
-              checked: !focusOrigin
-            })
-
-            systemStore.switchSetting('focusOrigin')
-          }}
+          onSyncPress={() => handleSwitch('focusOrigin', ' 突出源头按钮', focusOrigin)}
         />
       </Flex>
       <Flex style={styles.setting}>
@@ -53,14 +61,7 @@ function List() {
         <SwitchPro
           style={styles.switch}
           value={focusAction}
-          onSyncPress={() => {
-            t('设置.切换', {
-              title: '隐藏通用源头按钮',
-              checked: !focusAction
-            })
-
-            systemStore.switchSetting('focusAction')
-          }}
+          onSyncPress={() => handleSwitch('focusAction', '隐藏通用源头按钮', focusAction)}
         />
       </Flex>
       <Divider />

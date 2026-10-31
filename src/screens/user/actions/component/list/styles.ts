@@ -1,8 +1,10 @@
 /*
  * @Author: czy0729
  * @Date: 2023-06-29 17:27:08
- * @Last Modified by:   czy0729
- * @Last Modified time: 2023-06-29 17:27:08
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-11-01 00:00:00
+ *
+ * 列表样式
  */
 import { _ } from '@stores'
 

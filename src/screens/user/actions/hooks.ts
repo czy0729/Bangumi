@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-11-18 06:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-28 20:22:26
+ * @Last Modified time: 2026-11-01 00:00:00
+ *
+ * 自定义跳转页面逻辑
  */
 import { useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'

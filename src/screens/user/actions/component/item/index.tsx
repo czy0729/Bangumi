@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-11-24 05:47:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-28 21:23:19
+ * @Last Modified time: 2026-11-01 00:00:00
+ *
+ * 单条自定义跳转
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
@@ -11,20 +13,17 @@ import { Popover, Tag } from '@_'
 import { _, useStore } from '@stores'
 import { confirm, stl } from '@utils'
 import Form from '../form'
-import { COMPONENT } from './ds'
+import { COMPONENT, MENU_ACTIVE, MENU_INACTIVE } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-function Item({ uuid, active, name, url, sort }) {
+function Item({ uuid, active, name, url, sort }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const actions = []
   const isActive = !!active
-  actions.push('编辑', isActive ? '停用' : '启用', '删除', '测试')
-
-  const { edit } = $.state
-  const isEdit = edit.show && uuid && edit.uuid === uuid
+  const isEdit = !!uuid && $.editingUuid === uuid
 
   return (
     <>
@@ -34,7 +33,7 @@ function Item({ uuid, active, name, url, sort }) {
             {name}
           </Text>
           <Flex style={_.mt.sm}>
-            {sort >= 0 && <Tag style={_.mr.sm} value={sort} />}
+            <Tag style={_.mr.sm} value={sort} />
             <Flex.Item>
               <Text size={12} type='sub' numberOfLines={1}>
                 {url}
@@ -45,7 +44,7 @@ function Item({ uuid, active, name, url, sort }) {
         {isActive && <Tag style={_.ml.md} value='生效' />}
         <Popover
           style={_.ml.md}
-          data={actions}
+          data={isActive ? MENU_ACTIVE : MENU_INACTIVE}
           onSelect={title => {
             switch (title) {
               case '编辑':
@@ -94,7 +93,7 @@ function Item({ uuid, active, name, url, sort }) {
           </View>
         </Popover>
       </Flex>
-      {isEdit && <Form name={name} url={url} />}
+      {isEdit && <Form />}
     </>
   )
 }

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-03-23 13:44:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-28 20:45:40
+ * @Last Modified time: 2026-11-01 00:00:00
+ *
+ * 编辑与新建表单
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
@@ -14,8 +16,9 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-function Form({ style = undefined, name = '', url = '' }) {
+function Form({ style }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const styles = memoStyles()
@@ -28,8 +31,8 @@ function Form({ style = undefined, name = '', url = '' }) {
           描述
         </Text>
         <Input
-          style={[styles.input, _.mt.sm]}
-          defaultValue={String(name)}
+          style={stl(styles.input, _.mt.sm)}
+          defaultValue={String(edit.name)}
           placeholder='在菜单上显示，唯一'
           onChangeText={text => $.onChangeText('name', text)}
         />
@@ -44,7 +47,7 @@ function Form({ style = undefined, name = '', url = '' }) {
         </Text>
         <Input
           style={_.mt.sm}
-          defaultValue={String(url)}
+          defaultValue={String(edit.url)}
           multiline
           numberOfLines={3}
           textAlignVertical='top'
@@ -55,8 +58,8 @@ function Form({ style = undefined, name = '', url = '' }) {
           排序
         </Text>
         <Input
-          style={[styles.input, _.mt.sm]}
-          value={String(edit.sort)}
+          style={stl(styles.input, _.mt.sm)}
+          defaultValue={String(edit.sort)}
           placeholder='数字，越大越前，选填'
           keyboardType='number-pad'
           onChangeText={text => $.onChangeText('sort', text)}

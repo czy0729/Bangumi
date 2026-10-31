@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-11-22 22:39:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:07:52
+ * @Last Modified time: 2026-11-01 00:00:00
+ *
+ * 自定义跳转页面入口与布局
  */
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page, ScrollView } from '@components'

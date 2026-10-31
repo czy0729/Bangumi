@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-09-14 07:41:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-28 20:22:45
+ * @Last Modified time: 2026-11-01 00:00:00
+ *
+ * 自定义跳转页 observable 状态
  */
 import { observable } from 'mobx'
 import Store from '@utils/store'

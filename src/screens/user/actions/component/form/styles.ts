@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-11-23 09:56:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-11-23 11:02:23
+ * @Last Modified time: 2026-11-01 00:00:00
+ *
+ * 表单样式
  */
 import { _ } from '@stores'
 

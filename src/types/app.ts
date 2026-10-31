@@ -206,7 +206,9 @@ export type ActionsItem = {
   name: string
   url: string
   sort: Id
-  active: number
+
+  /** 是否生效 */
+  active: 0 | 1
 }[]
 
 /** 自定义跳转数据 */

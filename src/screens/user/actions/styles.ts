@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-11-23 10:00:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:07:38
+ * @Last Modified time: 2026-11-01 00:00:00
+ *
+ * 自定义跳转页面样式
  */
 import { _ } from '@stores'
 
