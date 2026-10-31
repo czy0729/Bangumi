@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-14 06:25:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-27 10:58:52
+ * @Last Modified time: 2026-10-31 00:00:00
+ *
+ * 时间胶囊页状态与常量
  */
 import { _ } from '@stores'
 import { MODEL_TIMELINE_SCOPE } from '@constants'
@@ -42,4 +44,7 @@ export const HIDDEN_DAYS: Record<string, number> = {
   '1天不看TA': 1,
   '3天不看TA': 3,
   '7天不看TA': 7
-} as const
+}
+
+/** 刷新到顶时的列表偏移 */
+export const VIEW_OFFSET_TOP = 8000

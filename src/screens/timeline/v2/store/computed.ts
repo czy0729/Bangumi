@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-05-27 10:43:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-03 20:38:15
+ * @Last Modified time: 2026-10-31 00:00:00
+ *
+ * 时间胶囊页派生数据
  */
 import { computed } from 'mobx'
 import { systemStore, timelineStore, userStore } from '@stores'

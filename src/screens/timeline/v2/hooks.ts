@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-01-04 16:41:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 16:42:12
+ * @Last Modified time: 2026-10-31 00:00:00
+ *
+ * 时间胶囊页面逻辑
  */
 import { uiStore, useInitStore } from '@stores'
 import { usePageLifecycle } from '@utils/hooks'

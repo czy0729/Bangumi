@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-12 13:56:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-22 18:13:37
+ * @Last Modified time: 2026-10-31 00:00:00
+ *
+ * 时间胶囊页面入口与布局
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component } from '@components/component'
 import { Page } from '@components/page'

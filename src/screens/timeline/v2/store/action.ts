@@ -2,19 +2,22 @@
  * @Author: czy0729
  * @Date: 2024-05-27 10:55:37
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-27 00:00:00
+ * @Last Modified time: 2026-10-31 00:00:00
+ *
+ * 时间胶囊页业务逻辑
  */
 import { timelineStore, uiStore } from '@stores'
 import { feedback, updateVisibleBottom } from '@utils'
 import { logger } from '@utils/dev'
 import { fetchHTML, t } from '@utils/fetch'
-import { MODEL_TIMELINE_SCOPE, TIMELINE_TYPE } from '@constants'
+import { MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE } from '@constants'
 import { TABS } from '../ds'
 import Fetch from './fetch'
-import { HIDDEN_DAYS, NAMESPACE } from './ds'
+import { HIDDEN_DAYS, NAMESPACE, VIEW_OFFSET_TOP } from './ds'
 
 import type { ScrollToIndex } from '@components'
-import type { TimeLineScope, UserId } from '@types'
+import type { TimeLineScope, TimeLineType, UserId } from '@types'
+import type { ScrollHandle } from '../types'
 
 export default class Action extends Fetch {
   /** 保存滚动到顶方法的引用 */
@@ -37,7 +40,9 @@ export default class Action extends Fetch {
     })
 
     const { scope } = this.state
-    if (!this.timeline(scope, TIMELINE_TYPE[page].value)._loaded) {
+    if (
+      !this.timeline(scope, MODEL_TIMELINE_TYPE.getValue<TimeLineType>(TABS[page].title))._loaded
+    ) {
       this.fetchTimeline(true)
     }
     this.save()
@@ -67,7 +72,7 @@ export default class Action extends Fetch {
   }
 
   /** 底部 TabBar 再次点击滚动到顶并刷新数据 */
-  forwardRef = (ref: { scrollToIndex: ScrollToIndex }, index: number) => {
+  forwardRef = (ref: ScrollHandle, index: number) => {
     this._scrollToIndex[index] = ref?.scrollToIndex
   }
 
@@ -79,7 +84,7 @@ export default class Action extends Fetch {
         this._scrollToIndex[page]({
           animated: true,
           index: 0,
-          viewOffset: 8000
+          viewOffset: VIEW_OFFSET_TOP
         })
 
         await this.onHeaderRefresh()
@@ -121,7 +126,7 @@ export default class Action extends Fetch {
     feedback()
 
     try {
-      if (JSON.parse(responseText)?.status === 'ok') {
+      if ((JSON.parse(responseText) as { status?: string })?.status === 'ok') {
         timelineStore.removeTimeline(clearHref, scope, TABS[page].key)
 
         t('时间胶囊.删除时间线', {

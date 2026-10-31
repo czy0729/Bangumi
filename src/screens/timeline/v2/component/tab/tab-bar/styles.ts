@@ -2,15 +2,17 @@
  * @Author: czy0729
  * @Date: 2022-08-14 07:07:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:04:57
+ * @Last Modified time: 2026-10-31 00:00:00
+ *
+ * TabBar 样式
  */
 import { _ } from '@stores'
 import { window } from '@styles'
 
 export const memoStyles = _.memoStyles(() => {
   const W_TAB_BAR_LEFT = _.r(68)
-  const TAB_LENTH = _.device(5, _.isLandscape ? 6 : 7)
-  const W_TAB = (window.width - W_TAB_BAR_LEFT) / TAB_LENTH
+  const TAB_LENGTH = _.device(5, _.isLandscape ? 6 : 7)
+  const W_TAB = (window.width - W_TAB_BAR_LEFT) / TAB_LENGTH
   const W_INDICATOR = _.r(16)
 
   return {

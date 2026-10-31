@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-05-27 10:54:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-31 16:52:25
+ * @Last Modified time: 2026-10-31 00:00:00
+ *
+ * 时间胶囊页请求
  */
 import { timelineStore } from '@stores'
 import { MODEL_TIMELINE_TYPE } from '@constants'

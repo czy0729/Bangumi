@@ -1,24 +1,25 @@
 /*
  * @Author: czy0729
  * @Date: 2019-04-14 00:51:13
- * @Last Modified by: imagebuilder1837
- * @Last Modified time: 2026-05-22 07:08:28
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-10-31 00:00:00
+ *
+ * 分页列表
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { ListView, Loading } from '@components'
 import { ITEM_TIMELINE_HEIGHT, Login } from '@_'
 import { _, uiStore, userStore, useStore } from '@stores'
 import { useInsets } from '@utils/hooks'
 import { IOS, MODEL_TIMELINE_SCOPE, MODEL_TIMELINE_TYPE, PAD } from '@constants'
-import { TABS } from '../../ds'
+import { H_TABBAR, TABS } from '../../ds'
 import Item from '../item'
 import { keyExtractor } from './utils'
 import { COMPONENT, ENTERING_EXITING_ANIMATIONS_NUM } from './ds'
 
-import type { ScrollToIndex } from '@components'
 import type { RenderItem, ScrollEvent } from '@types'
-import type { Ctx } from '../../types'
+import type { Ctx, ScrollHandle } from '../../types'
 import type { Props } from './types'
 import type { TimelineItem } from '@stores/timeline/types'
 
@@ -26,18 +27,18 @@ function List({ title }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const { statusBarHeight, headerHeight } = useInsets()
-  const tabBarheight = 48 + (IOS && PAD ? statusBarHeight - 8 : 0)
+  const tabBarHeight = H_TABBAR + (IOS && PAD ? statusBarHeight - 8 : 0)
 
   const contentContainerStyle = useMemo(
     () => ({
-      paddingTop: headerHeight + tabBarheight,
+      paddingTop: headerHeight + tabBarHeight,
       paddingBottom: _.bottom
     }),
-    [headerHeight, tabBarheight]
+    [headerHeight, tabBarHeight]
   )
 
   const handleForwardRef = useCallback(
-    (ref: { scrollToIndex: ScrollToIndex }) =>
+    (ref: ScrollHandle) =>
       $.forwardRef(
         ref,
         TABS.findIndex(item => item.title === title)

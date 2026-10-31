@@ -77,7 +77,8 @@ export function useXxxPage(props: NavigationProps) {
 ```
 
 - 默认用 `onEnterComplete`（等切页动画结束再拉数据，避免与转场争抢）
-- 需要「挂载即请求」的场景用 `onEnter`：如新建吐槽页要在用户立即提交前拿到表单授权码，`onEnterComplete` 的 240ms 延后会落进「获取表单授权码失败」分支
+- 6 个底部 tab 根页面（`discovery/index`、`timeline/v2`、`home/v2`、`rakuen/v2`、`user/v2`、`tinygrail/index`）用 `onEnter`：这些页面要靠 `init()` 里的本地存储恢复上次的 tab/板块，延后 240ms 会先渲染默认板块再跳转
+- 其它需要「挂载即请求」的场景也用 `onEnter`：如新建吐槽页要在用户立即提交前拿到表单授权码，`onEnterComplete` 的 240ms 延后会落进「获取表单授权码失败」分支
 
 ## index.tsx
 

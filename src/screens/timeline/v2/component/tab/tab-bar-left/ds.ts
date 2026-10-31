@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-01-04 16:49:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 16:57:56
+ * @Last Modified time: 2026-10-31 00:00:00
+ *
+ * 范围切换标识与选项
  */
 import { rc } from '@utils/dev'
 import { TIMELINE_SCOPE } from '@constants'

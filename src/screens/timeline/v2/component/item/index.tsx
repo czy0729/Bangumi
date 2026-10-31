@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-02-14 02:14:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-09 00:18:03
+ * @Last Modified time: 2026-10-31 00:00:00
+ *
+ * 时间胶囊条目容器: 屏蔽判断与事件组装
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemTimeline, SectionHeader } from '@_'
 import { rakuenStore, useStore } from '@stores'

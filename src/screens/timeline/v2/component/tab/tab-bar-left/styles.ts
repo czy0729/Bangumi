@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-14 07:05:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 20:37:21
+ * @Last Modified time: 2026-10-31 00:00:00
+ *
+ * 范围切换样式
  */
 import { _ } from '@stores'
 

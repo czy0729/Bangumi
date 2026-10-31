@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-06-27 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-27 00:00:00
+ * @Last Modified time: 2026-10-31 00:00:00
+ *
+ * 时间胶囊页列表筛选工具
  */
 import { x18 } from '@utils'
 import { HOST, URL_DEFAULT_AVATAR } from '@constants'

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-01-21 20:21:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-31 14:37:23
+ * @Last Modified time: 2026-10-31 00:00:00
+ *
+ * 条目埋点
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'

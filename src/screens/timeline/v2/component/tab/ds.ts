@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-01-04 16:49:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-16 19:45:31
+ * @Last Modified time: 2026-10-31 00:00:00
+ *
+ * 板块 Tab 标识
  */
 import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'

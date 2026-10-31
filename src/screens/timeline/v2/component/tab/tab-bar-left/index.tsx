@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-14 20:26:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 20:37:28
+ * @Last Modified time: 2026-10-31 00:00:00
+ *
+ * TabBar 左侧范围切换
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Button, Flex, Heatmap } from '@components'
 import { Popover } from '@_'
