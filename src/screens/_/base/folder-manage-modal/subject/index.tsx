@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-03-19 22:20:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-15 06:20:16
+ * @Last Modified time: 2026-11-02 04:00:00
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Cover, Flex, Iconfont, Input, Text, TextareaItem } from '@components'
+import { Cover, Flex, Iconfont, Text } from '@components'
 import { _, collectionStore, uiStore } from '@stores'
 import { getAction, HTMLDecode } from '@utils'
 import { MODEL_COLLECTION_STATUS } from '@constants'
@@ -14,6 +14,7 @@ import { CONTROL_DS, HEIGHT, WIDTH } from '../ds'
 import { IconTouchable } from '../../../icon'
 import { Manage } from '../../manage'
 import { Popover } from '../../popover'
+import EditForm from './edit-form'
 import { memoStyles } from './styles'
 
 import type { CollectionStatus } from '@types'
@@ -120,46 +121,23 @@ function Subject({
               onSelect={(title: string) => onSubjectControl(title, item, pItem)}
             >
               <Flex style={styles.touch} justify='center'>
-                <Iconfont name='md-menu' size={18} />
+                <Iconfont name='md-more-vert' size={20} />
               </Flex>
             </Popover>
           )}
         </View>
       </Flex>
       {isEditing && (
-        <View style={styles.control}>
-          <TextareaItem
-            ref={forwardRef}
-            style={styles.textarea}
-            defaultValue={content}
-            placeholder='输入评价'
-            placeholderTextColor={_.colorDisabled}
-            rows={4}
-            selectionColor={_.colorMain}
-            clear
-            onChange={text => onChange(text, 'content')}
-          />
-          <Flex style={_.mt.md}>
-            <Flex.Item>
-              <Input
-                style={styles.textarea}
-                defaultValue={String(order == '0' ? '' : order)}
-                keyboardType='number-pad'
-                placeholder='输入排序 (数字越小越前)'
-                onChangeText={onOrder}
-              />
-            </Flex.Item>
-            <IconTouchable
-              style={styles.check}
-              name='md-check'
-              size={18}
-              color={_.colorSub}
-              onPress={() => {
-                onSubmit(item, pItem)
-              }}
-            />
-          </Flex>
-        </View>
+        <EditForm
+          forwardRef={forwardRef}
+          content={content}
+          order={order}
+          item={item}
+          pItem={pItem}
+          onChange={onChange}
+          onOrder={onOrder}
+          onSubmit={onSubmit}
+        />
       )}
     </View>
   )

@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-19 16:50:47
  */
-import React from 'react'
 import Subject from '../subject'
 
 import type { Props as ItemProps } from '../subject/types'

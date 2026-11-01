@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-14 13:46:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 16:51:39
+ * @Last Modified time: 2026-11-01 16:30:50
  */
 import type { TextInput } from 'react-native'
 import type { CatalogDetail, CatalogDetailItem } from '@stores/discovery/types'
@@ -16,24 +16,29 @@ export type SortType = (typeof SORT_DS)[number]['value']
 
 export type SortOrder = (typeof ORDER_DS)[number]['value']
 
+/** 目录隐私, 与网页表单的 privacy radio 值一致 */
+export type Privacy = '0' | '1'
+
 export type Props = {
   id?: SubjectId
   defaultExpand?: Id
   defaultEditItem?: CatalogDetailItem
   visible?: boolean
   title?: string
-  onClose?: () => any
+  onClose?: () => void
 }
 
 export type State = {
-  visible: boolean
   expand: Id[]
   list: CatalogsItem[]
 
   /** 是否正在新建目录, 目录编辑 */
-  create: boolean | string
+  create: boolean | Id
   title: string
   desc: string
+
+  /** 隐私设置 */
+  privacy: Privacy
 
   /** 条目编辑 */
   edit: Id
@@ -52,13 +57,13 @@ export type TextareaRef = {
 
 export type HandleForwardRef = (ref: TextareaRef | null) => void
 
-export type HandleChange = (value: string, key?: 'title' | 'desc' | 'content') => void
+export type HandleChange = (value: string, key?: 'title' | 'desc' | 'privacy' | 'content') => void
 
 export type HandleExpand = (item: { id: Id }) => void
 
-export type HandleToggle = (item: { id: any }, detail: { list: any[] }, isIn: boolean) => void
+export type HandleToggle = (item: CatalogsItem, detail: CatalogDetail, isIn: boolean) => void
 
-export type HandleControl = (title: string, item: { id: any; title: any }) => void
+export type HandleControl = (title: string, item: CatalogsItem) => void
 
 export type HandleCreate = (isNew: boolean) => void
 

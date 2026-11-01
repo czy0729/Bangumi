@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-19 05:04:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-11 12:00:00
+ * @Last Modified time: 2026-11-01 16:22:00
  *
  * 缓存命名空间与状态初始值
  */
@@ -15,7 +15,13 @@ export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const RESET_STATE = {
   /** 可视范围底部 y */
-  visibleBottom: _.window.height
+  visibleBottom: _.window.height,
+
+  /** 是否显示目录管理弹窗 */
+  modal: false,
+
+  /** 是否显示新建目录表单 */
+  form: false
 }
 
 export const EXCLUDE_STATE = {

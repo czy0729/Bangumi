@@ -2,16 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-03-07 16:06:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-15 06:20:03
+ * @Last Modified time: 2026-11-02 04:00:00
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Iconfont, Input, Text, TextareaItem, Touchable } from '@components'
+import { Flex, Iconfont, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { CONTROL_DS } from '../ds'
 import { IconTouchable } from '../../../icon'
 import { Popover } from '../../popover'
 import { decodeContent } from '../utils'
+import EditForm from './edit-form'
 import { memoStyles } from './styles'
 
 import type { Props } from './types'
@@ -22,6 +23,7 @@ function Catalog({
   create,
   edit,
   desc,
+  privacy,
   item,
   detail,
   onChange,
@@ -39,26 +41,7 @@ function Catalog({
     <Flex style={styles.catalog}>
       <Flex.Item>
         {create == item.id ? (
-          <View style={_.mb.sm}>
-            <Text bold>编辑目录</Text>
-            <Input
-              style={styles.textarea}
-              defaultValue={item.title}
-              placeholder='输入标题'
-              showClear
-              onChangeText={text => onChange(text, 'title')}
-            />
-            <TextareaItem
-              style={styles.textarea}
-              defaultValue={desc}
-              placeholder='输入介绍'
-              placeholderTextColor={_.colorDisabled}
-              rows={4}
-              selectionColor={_.colorMain}
-              clear
-              onChange={text => onChange(text, 'desc')}
-            />
-          </View>
+          <EditForm title={item.title} desc={desc} privacy={privacy} onChange={onChange} />
         ) : (
           <Touchable onPress={() => onExpand(item)}>
             <Flex>
@@ -89,7 +72,7 @@ function Catalog({
             {!!id && (
               <IconTouchable
                 style={styles.star}
-                name={isIn ? 'md-star' : 'md-star-outline'}
+                name={isIn ? 'md-check-circle' : 'md-check-circle-outline'}
                 size={20}
                 color={isIn ? _.colorWarning : _.colorIcon}
                 onPress={() => onToggle(item, detail, isIn)}
@@ -101,7 +84,7 @@ function Catalog({
               onSelect={title => onControl(title, item)}
             >
               <Flex style={styles.touch} justify='center'>
-                <Iconfont name='md-menu' size={18} />
+                <Iconfont name='md-more-vert' size={18} />
               </Flex>
             </Popover>
           </>

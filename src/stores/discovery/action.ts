@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-23 15:53:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-10 17:59:55
+ * @Last Modified time: 2026-11-02 04:06:00
  */
 import { xhr } from '@utils/fetch'
 import {
@@ -39,10 +39,11 @@ export default class Action extends Fetch {
       formhash: string
       title: string
       desc: string
+      privacy?: string | number
     },
-    success?: (responseText?: string, request?: XMLHttpRequest) => any
+    success?: (responseText?: string, request?: XMLHttpRequest) => void
   ) => {
-    const { formhash, title, desc } = args || {}
+    const { formhash, title, desc, privacy } = args || {}
     xhr(
       {
         url: HTML_ACTION_CATALOG_CREATE(),
@@ -50,6 +51,7 @@ export default class Action extends Fetch {
           formhash,
           title,
           desc,
+          privacy: privacy || 0,
           submit: '创建目录'
         }
       },
@@ -63,7 +65,7 @@ export default class Action extends Fetch {
       catalogId: Id
       formhash: string
     },
-    success?: () => any
+    success?: () => void
   ) => {
     const { catalogId, formhash } = args || {}
     xhr(
@@ -85,10 +87,11 @@ export default class Action extends Fetch {
       formhash: string
       title: string
       desc: string
+      privacy?: string | number
     },
-    success?: () => any
+    success?: () => void
   ) => {
-    const { catalogId, formhash, title, desc } = args || {}
+    const { catalogId, formhash, title, desc, privacy } = args || {}
     xhr(
       {
         url: HTML_ACTION_CATALOG_EDIT(catalogId),
@@ -96,6 +99,7 @@ export default class Action extends Fetch {
           formhash,
           title,
           desc,
+          privacy: privacy || 0,
           submit: '保存修改'
         }
       },
@@ -111,7 +115,8 @@ export default class Action extends Fetch {
       formhash: string
       noConsole?: boolean
     },
-    success?: () => any
+    success?: () => void,
+    fail?: () => void
   ) => {
     const { catalogId, subjectId, formhash, noConsole } = args || {}
     xhr(
@@ -125,7 +130,8 @@ export default class Action extends Fetch {
         },
         noConsole
       },
-      success
+      success,
+      fail
     )
   }
 
@@ -134,14 +140,16 @@ export default class Action extends Fetch {
     args: {
       erase: string
     },
-    success?: () => any
+    success?: () => void,
+    fail?: () => void
   ) => {
     const { erase } = args || {}
     xhr(
       {
         url: `${HOST}${erase}&ajax=1`
       },
-      success
+      success,
+      fail
     )
   }
 
@@ -153,7 +161,7 @@ export default class Action extends Fetch {
       content: string
       order: string | number
     },
-    success?: () => any
+    success?: () => void
   ) => {
     const { modify, formhash, content, order } = args || {}
     xhr(

@@ -53,3 +53,15 @@ export const ORDER_DS = [
     value: 'asc'
   }
 ] as const
+
+/** 目录隐私, 值与网页表单的 privacy radio 一致 */
+export const PRIVACY_DS = [
+  {
+    label: '公开',
+    value: '0'
+  },
+  {
+    label: '私密',
+    value: '1'
+  }
+] as const

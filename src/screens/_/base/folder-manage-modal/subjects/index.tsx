@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-19 16:50:31
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
@@ -14,6 +14,7 @@ import { PaginationList } from '../../pagination-list'
 import { renderItem } from './utils'
 import { memoStyles } from './styles'
 
+import type { CatalogDetailItem } from '../types'
 import type { Props } from './types'
 
 function Subjects({
@@ -36,7 +37,7 @@ function Subjects({
   const { list } = detail
   const { length } = list
   const handleRenderItem = useCallback(
-    ({ item, index }) =>
+    ({ item, index }: { item: CatalogDetailItem; index: number }) =>
       renderItem({
         forwardRef,
         id,

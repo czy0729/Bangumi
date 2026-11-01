@@ -34,3 +34,9 @@ export type Props = {
   onOrder: HandleOrder
   onSubmit: HandleSubmit
 }
+
+/** 条目编辑表单参数 */
+export type EditFormProps = Pick<
+  Props,
+  'forwardRef' | 'content' | 'order' | 'item' | 'pItem' | 'onChange' | 'onOrder' | 'onSubmit'
+>

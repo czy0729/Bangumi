@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-10-01 15:44:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-11 12:00:00
+ * @Last Modified time: 2026-11-01 16:36:00
  *
  * 目录列表
  */
@@ -23,15 +23,16 @@ import type { Props } from './types'
 function List({ id }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const { userId } = $
   const handleRenderItem = useCallback(
-    (arg: RenderItem<CatalogsItem>) => renderItem(arg, $.userId),
-    [$]
+    (arg: RenderItem<CatalogsItem>) => renderItem(arg, userId),
+    [userId]
   )
   const handleHeaderRefresh = useCallback(() => $.fetchCatalogs(id, true), [$, id])
   const handleFooterRefresh = useCallback(() => $.fetchCatalogs(id), [$, id])
 
   const catalogs = $.catalogs(id)
-  if (!catalogs._loaded) return <Loading style={_.container.plain} />
+  if (!catalogs._loaded) return <Loading style={_.container.flex} />
 
   return (
     <ListView

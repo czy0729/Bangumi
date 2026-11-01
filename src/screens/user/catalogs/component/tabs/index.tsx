@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-03-22 19:44:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-11 12:00:00
+ * @Last Modified time: 2026-11-01 15:16:22
  *
  * 标签页
  */
@@ -25,6 +25,7 @@ function Tabs() {
     <TabsV2
       key={_.orientation}
       style={headerStyle}
+      backgroundColor={_.colorPlain}
       routes={TABS}
       page={$.state.page}
       renderItem={renderItem}
