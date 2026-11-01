@@ -16,11 +16,12 @@ import { HOST, WEB } from '@constants'
 import i18n from '@constants/i18n'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+import Passkey from '../passkey'
 
 import type { Props } from './types'
 
 /** 登录预览 */
-function Preview({ onLogin, onTour }: Props) {
+function Preview({ onLogin, onTour, passkey, blocked }: Props) {
   r(COMPONENT)
 
   const Container = WEB ? Page : View
@@ -28,10 +29,15 @@ function Preview({ onLogin, onTour }: Props) {
     <Container style={_.container.column}>
       <Mesume />
       <View style={styles.bottomContainer}>
-        <Button type='main' shadow onPress={onLogin}>
+        <Button
+          type={passkey.loading || blocked ? 'disabled' : 'main'}
+          shadow
+          onPress={passkey.loading || blocked ? undefined : onLogin}
+        >
           {WEB ? '' : '账号'}
           {i18n.login()}
         </Button>
+        <Passkey passkey={passkey} blocked={blocked} />
         <View style={_.mt.md}>
           {WEB ? (
             <Button
@@ -44,7 +50,11 @@ function Preview({ onLogin, onTour }: Props) {
               注册
             </Button>
           ) : (
-            <Button type='plain' shadow onPress={onTour}>
+            <Button
+              type={passkey.loading || blocked ? 'disabled' : 'plain'}
+              shadow
+              onPress={passkey.loading || blocked ? undefined : onTour}
+            >
               游客预览
             </Button>
           )}

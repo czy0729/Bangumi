@@ -4,7 +4,8 @@ buildscript {
   ext {
     buildToolsVersion = findProperty('android.buildToolsVersion') ?: '33.0.0'
     minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '21')
-    compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '33')
+    // API 34 Credential Manager is guarded at runtime; minSdk/targetSdk stay unchanged.
+    compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '34')
     targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '33')
     kotlinVersion = findProperty('android.kotlinVersion') ?: '1.8.10'
     frescoVersion = findProperty('expo.frescoVersion') ?: '2.5.0'
