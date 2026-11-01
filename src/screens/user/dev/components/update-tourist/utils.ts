@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-19 02:49:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-14 09:03:31
+ * @Last Modified time: 2026-11-02 05:52:07
+ *
+ * 游客账号登录流程
  */
 import { getFormhash, getTimestamp, urlStringify } from '@utils'
 import {
@@ -65,7 +67,10 @@ export async function getConfig() {
   }
 }
 
-export async function doLogin({ ua = '', cookie = '', formhash = '' }, captcha) {
+export async function doLogin(
+  { ua = '', cookie = '', formhash = '' }: { ua?: string; cookie?: string; formhash?: string },
+  captcha: string
+) {
   // login web
   const { headers } = await axiosWithProxy<any>(
     axios,

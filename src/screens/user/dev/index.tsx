@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-01-13 11:23:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-15 05:59:29
+ * @Last Modified time: 2026-11-02 05:52:07
+ *
+ * 开发调试工具页面入口
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, HeaderV2, ScrollView } from '@components'
@@ -23,7 +24,7 @@ import type { NavigationProps } from '@types'
 import type { Params } from './types'
 
 /** 开发调试工具 */
-const DEV = ({ route }: NavigationProps<Params>) => {
+function DEV({ route }: NavigationProps<Params>) {
   const { handleForwardRef, handleScrollTo } = useDEVPage()
 
   const styles = memoStyles()

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-19 03:16:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 05:38:31
+ * @Last Modified time: 2026-11-02 05:52:07
+ *
+ * KV 数据维护工具样式
  */
 import { _ } from '@stores'
 

@@ -1,8 +1,10 @@
 /*
  * @Author: czy0729
  * @Date: 2022-08-19 02:49:14
- * @Last Modified by:   czy0729
- * @Last Modified time: 2022-08-19 02:49:14
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-11-02 05:52:07
+ *
+ * 游客账号维护工具样式
  */
 import { _ } from '@stores'
 

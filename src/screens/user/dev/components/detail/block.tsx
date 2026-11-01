@@ -2,23 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-08-19 02:18:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:57:24
+ * @Last Modified time: 2026-11-02 05:52:07
+ *
+ * 可展开的调试数据展示块
  */
 import { useState } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { _ } from '@stores'
-import { logger } from '@utils/dev'
+import { logger, r } from '@utils/dev'
+import { COMPONENT_BLOCK } from './ds'
 import { memoStyles } from './styles'
 
-type Props = {
-  title?: string
-  value: string | any[]
-  defaultOpen?: boolean
-  children?: any
-}
+import type { BlockProps } from './types'
 
-function Block({ title, value = [], defaultOpen = false, children }: Props) {
+function Block({ title, value = [], defaultOpen = false, children }: BlockProps) {
+  r(COMPONENT_BLOCK)
+
   const [open, setOpen] = useState(defaultOpen)
 
   const styles = memoStyles()

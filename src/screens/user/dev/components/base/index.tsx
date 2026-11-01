@@ -2,29 +2,33 @@
  * @Author: czy0729
  * @Date: 2022-03-01 11:45:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 05:39:20
+ * @Last Modified time: 2026-11-02 05:52:07
+ *
+ * 开发模式开关与调试入口
  */
-import React, { useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Switch, Text, Touchable } from '@components'
 import { IconTouchable, ItemSetting } from '@_'
 import { _, systemStore, userStore } from '@stores'
+import { r } from '@utils/dev'
 import { useNavigation } from '@utils/hooks'
+import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 function Base() {
+  r(COMPONENT)
+
   const navigation = useNavigation()
 
   const { dev, devEvent } = systemStore.state
 
-  const elFt = useMemo(
-    () => <Switch style={styles.switch} checked={dev} onChange={systemStore.toggleDev} />,
-    [dev]
-  )
-
   return (
     <>
-      <ItemSetting hd='Dev Mode' ft={elFt} withoutFeedback />
+      <ItemSetting
+        hd='Dev Mode'
+        ft={<Switch style={styles.switch} checked={dev} onChange={systemStore.toggleDev} />}
+        withoutFeedback
+      />
       {userStore.isDeveloper && (
         <ItemSetting
           style={_.mt._sm}

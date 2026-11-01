@@ -2,14 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-03-01 11:35:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-15 06:18:34
+ * @Last Modified time: 2026-11-02 05:52:07
+ *
+ * 屏幕旋转解锁
  */
 import { observer } from 'mobx-react'
 import * as orientation from 'expo-screen-orientation'
 import { Text, Touchable } from '@components'
 import { ItemSetting } from '@_'
+import { r } from '@utils/dev'
+import { COMPONENT } from './ds'
 
 function ScreenOrientation() {
+  r(COMPONENT)
+
   return (
     <ItemSetting
       hd='Screen Orientation Lock'

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-02-27 12:19:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-15 20:55:49
+ * @Last Modified time: 2026-11-02 05:52:07
+ *
+ * 游客账号维护工具
  */
 import { useCallback, useEffect, useState } from 'react'
 import { Image as RNImage } from 'react-native'
@@ -11,11 +13,15 @@ import { ActivityIndicator, Flex, Iconfont, Input, Text, Touchable } from '@comp
 import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { info } from '@utils'
+import { r } from '@utils/dev'
 import { update } from '@utils/kv'
-import { doLogin, getConfig } from './utils'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
+import { doLogin, getConfig } from './utils'
 
 function UpdateTourist() {
+  r(COMPONENT)
+
   const [show, setShow] = useState(false)
   const [config, setConfig] = useState<{
     ua?: string
@@ -25,28 +31,24 @@ function UpdateTourist() {
   }>({})
   const [captcha, setCaptcha] = useState('')
 
-  const handleChange = useCallback(
-    evt => {
-      const { nativeEvent } = evt
-      const { text } = nativeEvent
-      setCaptcha(text)
-    },
-    [setCaptcha]
-  )
-  const handleGetCofig = useCallback(async () => {
+  const handleGetConfig = useCallback(async () => {
     if (!show) return
 
     setConfig(await getConfig())
     setCaptcha('')
   }, [show])
+
   const handleLogin = useCallback(async () => {
     try {
       info('do login')
 
       const data = await doLogin(config, captcha)
-      if (!data) info('login fail')
+      if (!data) {
+        info('login fail')
+        return
+      }
 
-      await update('tourist', data as object)
+      await update('tourist', data)
       info('update db success')
     } catch (error) {
       info('catch error: login fail')
@@ -54,8 +56,8 @@ function UpdateTourist() {
   }, [config, captcha])
 
   useEffect(() => {
-    handleGetCofig()
-  }, [handleGetCofig])
+    handleGetConfig()
+  }, [handleGetConfig])
 
   const styles = memoStyles()
 
@@ -77,10 +79,10 @@ function UpdateTourist() {
               style={styles.input}
               value={captcha}
               placeholder='验证码'
-              onChange={handleChange}
+              onChangeText={setCaptcha}
             />
           </Flex.Item>
-          <Touchable style={styles.captchaTouch} onPress={handleGetCofig}>
+          <Touchable style={styles.captchaTouch} onPress={handleGetConfig}>
             <Flex style={styles.captchaContainer} justify='center'>
               {config.base64 ? (
                 <RNImage

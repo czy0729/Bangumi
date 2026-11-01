@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-03-01 10:16:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-15 06:19:32
+ * @Last Modified time: 2026-11-02 05:52:07
+ *
+ * 无偿额度维护工具
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Input, SegmentedControl, Text, Touchable } from '@components'
@@ -12,43 +14,39 @@ import { ItemSetting } from '@_'
 import { _ } from '@stores'
 import { getData } from '@stores/system/utils'
 import { info } from '@utils'
+import { r } from '@utils/dev'
 import { useMount, useNavigation } from '@utils/hooks'
 import { get, update } from '@utils/kv'
-import { PAYTYPE_DS } from './ds'
+import { COMPONENT, PAYTYPE_DS } from './ds'
 import { memoStyles } from './styles'
 
-function UpdateAdvance({ onScrollTo }: { onScrollTo?: (deltaY: number) => void }) {
+import type { Advance } from '@stores/system/types'
+import type { Props } from './types'
+
+function UpdateAdvance({ onScrollTo }: Props) {
+  r(COMPONENT)
+
   const navigation = useNavigation()
 
   const [show, setShow] = useState(true)
   const [uid, setUid] = useState('')
   const [val, setVal] = useState('10')
   const [payType, setPayType] = useState('w')
-  const [data, setData] = useState({})
+  const [data, setData] = useState<Record<string, Advance>>({})
 
   const fetchData = useCallback(async () => {
-    const data = await getData()
-    setData(data)
+    setData(await getData())
   }, [])
 
-  const handleUidChange = useCallback(
-    (text: string) => {
-      setUid(text)
-    },
-    [setUid]
-  )
-  const handleValChange = useCallback(
-    (text: string) => {
-      setVal(text)
-    },
-    [setVal]
-  )
   const handlePayTypeChange = useCallback((label: string) => {
     setPayType(label === PAYTYPE_DS[0] ? 'w' : 'a')
   }, [])
+
   const handleSubmit = useCallback(async () => {
+    if (!uid) return
+
     // 确保每次保存前都获取到最新的数据
-    const data = await get('advance')
+    const data = (await get<Record<string, Advance>>('advance')) || {}
     data[uid] = `${payType}|${val}`
 
     await update('advance', data)
@@ -57,9 +55,7 @@ function UpdateAdvance({ onScrollTo }: { onScrollTo?: (deltaY: number) => void }
     fetchData()
   }, [fetchData, payType, uid, val])
 
-  useMount(() => {
-    fetchData()
-  })
+  useMount(fetchData)
 
   const styles = memoStyles()
 
@@ -82,7 +78,7 @@ function UpdateAdvance({ onScrollTo }: { onScrollTo?: (deltaY: number) => void }
                 style={styles.input}
                 value={uid}
                 placeholder='uid'
-                onChangeText={handleUidChange}
+                onChangeText={setUid}
                 onScrollIntoViewIfNeeded={onScrollTo}
               />
             </Flex.Item>
@@ -99,7 +95,8 @@ function UpdateAdvance({ onScrollTo }: { onScrollTo?: (deltaY: number) => void }
                 value={val}
                 keyboardType='decimal-pad'
                 placeholder='val'
-                onChangeText={handleValChange}
+                onChangeText={setVal}
+                onScrollIntoViewIfNeeded={onScrollTo}
               />
             </Flex.Item>
           </Flex>

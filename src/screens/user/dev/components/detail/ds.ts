@@ -1,7 +1,18 @@
 /*
  * @Author: czy0729
- * @Date: 2026-03-15 06:28:59
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-03-15 06:28:59
+ * @Date: 2026-11-02 05:52:07
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-11-02 05:52:07
+ *
+ * 用户数据调试块标识
  */
+import { rc } from '@utils/dev'
+import { COMPONENT as PARENT } from '../../ds'
+
+export const COMPONENT = rc(PARENT, 'Detail')
+
+/** 数据展示块 */
+export const COMPONENT_BLOCK = rc(COMPONENT, 'Block')
+
+/** 快照白名单字段 */
 export const KEYS = ['v', 'a', 'n', 't', 'ipa']
