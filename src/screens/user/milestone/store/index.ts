@@ -2,13 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:54:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 04:56:27
+ * @Last Modified time: 2026-11-02 06:25:58
+ *
+ * 照片墙页面 Store: 初始化与路由参数校验
  */
 import { COLLECTION_STATUS, COLLECTIONS_ORDERBY, SUBJECT_TYPE } from '@constants'
 import { LIMIT, NUM_COLUMNS, NUMBER_OF_LINES } from '../ds'
 import Action from './action'
-import { isSubTitle, parseBool } from './utils'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
+import { isSubTitle, parseBool } from './utils'
 
 import type { STATE } from './ds'
 

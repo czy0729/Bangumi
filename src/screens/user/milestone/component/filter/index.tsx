@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-10-11 08:12:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 01:46:28
+ * @Last Modified time: 2026-11-02 06:25:58
+ *
+ * 照片墙筛选行
  */
-import React, { useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { IconTouchable, Popover } from '@_'
@@ -45,101 +46,79 @@ function Filter() {
     orderText = ORDER_DS[2]
   }
 
-  const memoCollectionStatus = useMemo(
-    () => COLLECTION_STATUS.map(item => item.label.replace('看', action) as CollectionStatusCn),
-    [action]
+  const collectionStatus = COLLECTION_STATUS.map(
+    item => item.label.replace('看', action) as CollectionStatusCn
   )
-  const memoTags = useMemo(
-    () => ['全部', ...userCollectionsTags.map(item => `${item.tag} (${item.count})`)],
-    [userCollectionsTags]
-  )
+  const tags = ['全部', ...userCollectionsTags.map(item => `${item.tag} (${item.count})`)]
 
-  const elSplit = useMemo(
-    () => (
-      <Text
-        style={stl(
-          styles.split,
-          !userInfo && {
-            marginHorizontal: 1
-          }
-        )}
-        size={12}
-        bold
-      >
-        ·
+  const elSplit = (
+    <Text
+      style={stl(
+        styles.split,
+        !userInfo && {
+          marginHorizontal: 1
+        }
+      )}
+      size={12}
+      bold
+    >
+      ·
+    </Text>
+  )
+  const elSubjectType = (
+    <Popover
+      style={stl(styles.item, !userInfo && styles.itemLg)}
+      data={DATA}
+      onSelect={selectSubjectType}
+    >
+      <Text size={12} bold noWrap>
+        {MODEL_SUBJECT_TYPE.getTitle(subjectType)}
       </Text>
-    ),
-    [styles, userInfo]
+    </Popover>
   )
-  const elSubjectType = useMemo(
-    () => (
-      <Popover
-        style={stl(styles.item, !userInfo && styles.itemLg)}
-        data={DATA}
-        onSelect={selectSubjectType}
-      >
-        <Text size={12} bold noWrap>
-          {MODEL_SUBJECT_TYPE.getTitle(subjectType)}
-        </Text>
-      </Popover>
-    ),
-    [selectSubjectType, styles, subjectType, userInfo]
+  const elCollectionStatus = (
+    <Popover
+      style={stl(styles.item, !userInfo && styles.itemLg)}
+      data={collectionStatus}
+      onSelect={selectType}
+    >
+      <Text size={12} bold noWrap>
+        {MODEL_COLLECTION_STATUS.getLabel(type).replace('看', action)}
+      </Text>
+    </Popover>
   )
-  const elCollectionStatus = useMemo(
-    () => (
-      <Popover
-        style={stl(styles.item, !userInfo && styles.itemLg)}
-        data={memoCollectionStatus}
-        onSelect={selectType}
-      >
-        <Text size={12} bold noWrap>
-          {MODEL_COLLECTION_STATUS.getLabel(type).replace('看', action)}
-        </Text>
-      </Popover>
-    ),
-    [styles, userInfo, memoCollectionStatus, selectType, type, action]
+  const elOrder = (
+    <Popover
+      style={stl(styles.item, !userInfo && styles.itemLg)}
+      data={ORDER_DS}
+      onSelect={selectOrder}
+    >
+      <Text size={12} bold noWrap>
+        按{orderText}
+      </Text>
+    </Popover>
   )
-  const elOrder = useMemo(
-    () => (
-      <Popover
-        style={stl(styles.item, !userInfo && styles.itemLg)}
-        data={ORDER_DS}
-        onSelect={selectOrder}
-      >
-        <Text size={12} bold noWrap>
-          按{orderText}
-        </Text>
-      </Popover>
-    ),
-    [orderText, selectOrder, styles, userInfo]
+  const elTag = (
+    <Popover
+      style={stl(styles.item, !userInfo && styles.itemLg)}
+      data={tags}
+      onSelect={selectTag}
+    >
+      <Text size={12} bold noWrap>
+        {tag || '标签'}
+      </Text>
+    </Popover>
   )
-  const elTag = useMemo(
-    () => (
-      <Popover
-        style={stl(styles.item, !userInfo && styles.itemLg)}
-        data={memoTags}
-        onSelect={selectTag}
-      >
-        <Text size={12} bold noWrap>
-          {tag || '标签'}
-        </Text>
-      </Popover>
-    ),
-    [memoTags, selectTag, styles, tag, userInfo]
-  )
-  const elScore = useMemo(
-    () => (
-      <Popover
-        style={stl(styles.item, !userInfo && styles.itemLg)}
-        data={DATA_SCORE}
-        onSelect={selectScore}
-      >
-        <Text size={12} bold noWrap>
-          {!score || score === '全部' ? '评分' : `★ ${score}`}
-        </Text>
-      </Popover>
-    ),
-    [score, selectScore, styles, userInfo]
+  const elScore = (
+    <Popover
+      style={stl(styles.item, !userInfo && styles.itemLg)}
+      data={DATA_SCORE}
+      onSelect={selectScore}
+    >
+      <Text size={12} bold noWrap>
+        {!score || score === '全部' ? '评分' : `★ ${score}`}
+      </Text>
+    </Popover>
   )
 
   return (

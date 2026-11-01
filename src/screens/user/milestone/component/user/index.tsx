@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-10-10 12:41:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-16 21:54:48
+ * @Last Modified time: 2026-11-02 06:25:58
+ *
+ * 照片墙用户信息区
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Avatar, Flex, Text, Touchable } from '@components'
 import { IconBack } from '@_'

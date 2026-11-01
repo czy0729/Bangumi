@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-10-11 22:59:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 04:54:00
+ * @Last Modified time: 2026-11-02 06:25:58
+ *
+ * 照片墙列表渲染与首屏数量工具
  */
-import React from 'react'
 import Item from '../item'
 
 import type { MilestoneItemData } from '../../types'

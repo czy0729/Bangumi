@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:54:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 04:55:56
+ * @Last Modified time: 2026-11-02 06:25:58
+ *
+ * 照片墙页面用户操作
  */
 import { MODEL_COLLECTION_STATUS, MODEL_SUBJECT_TYPE } from '@constants'
 import Fetch from './fetch'
@@ -52,7 +54,7 @@ export default class Action extends Fetch {
   }
 
   selectTag = (title: string = '') => {
-    const tag = (title === '全部' ? '' : title.split(' (')?.[0]) || ''
+    const tag = (title === '全部' ? '' : title.split(' (')[0]) || ''
     this.setState({
       tag
     })

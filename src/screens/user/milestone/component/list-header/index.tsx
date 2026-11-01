@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-10-11 23:21:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 04:54:15
+ * @Last Modified time: 2026-11-02 06:25:58
+ *
+ * 照片墙列表头部: 用户信息区与空态
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Loading, Text } from '@components'
 import { _, useStore } from '@stores'

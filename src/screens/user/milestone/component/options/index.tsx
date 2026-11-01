@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-10-12 15:31:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 04:54:25
+ * @Last Modified time: 2026-11-02 06:25:58
+ *
+ * 照片墙设置面板
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActionSheet, Divider } from '@components'

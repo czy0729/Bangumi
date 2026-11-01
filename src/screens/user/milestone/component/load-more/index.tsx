@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2026-03-24 19:42:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-04 06:07:33
+ * @Last Modified time: 2026-11-02 06:25:58
+ *
+ * 照片墙加载更多
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Loading, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
@@ -20,14 +22,8 @@ function LoadMore() {
   const { list, pagination } = $.data
   const { page, pageTotal } = pagination
 
-  const isLoadedEnd = useMemo(() => {
-    if (!page || !pageTotal) return false
-    return page >= pageTotal
-  }, [page, pageTotal])
-
-  const isLimitReached = useMemo(() => {
-    return !!limit && list.length >= limit
-  }, [limit, list.length])
+  const isLoadedEnd = !!page && !!pageTotal && page >= pageTotal
+  const isLimitReached = !!limit && list.length >= limit
 
   const handlePress = useCallback(async () => {
     if (fetching || isLoadedEnd || isLimitReached) return

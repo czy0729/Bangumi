@@ -21,8 +21,9 @@ function List({ title }: Props) {
   const styles = memoStyles()
   const numColumns = _.isMobileLanscape ? 9 : _.device(4, 5)
 
-  // 网格模式暂不启用 estimatedItemHeight：FlatList numColumns>1 时 getItemLayout 按「行」索引调用，
-  // 现有高度缓存按条目索引存储会整体错位，需按行改造后才支持（components/list-view/hooks/useItemHeights）
+  // 网格 numColumns>1 时 getItemLayout 按「行」索引调用, estimatedItemHeight 须传「行高」估算值
+  // (高度缓存前 ceil(len/numColumns) 个槽位与行索引一一对应, 可正常工作, 先例见 discovery/character);
+  // 此处暂未接入
   return (
     <PaginationList
       key={`${_.orientation}${numColumns}`}

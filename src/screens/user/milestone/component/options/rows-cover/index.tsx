@@ -1,10 +1,11 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-29 04:54:31
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-29 04:54:31
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-11-02 06:25:58
+ *
+ * 封面与评分设置行
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { useStore } from '@stores'
 import { COMPONENT } from '../ds'

@@ -1,10 +1,11 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-29 04:55:07
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-29 04:55:07
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-11-02 06:25:58
+ *
+ * 列表展示设置行
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { SegmentedControl, Touchable } from '@components'
 import { ItemSetting } from '@_'

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-10-10 13:04:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-23 06:27:06
+ * @Last Modified time: 2026-11-02 06:25:58
+ *
+ * 照片墙渐变背景
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { _, useStore } from '@stores'

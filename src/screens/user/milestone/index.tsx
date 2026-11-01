@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-10-10 11:55:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-23 20:50:27
+ * @Last Modified time: 2026-11-02 06:25:58
+ *
+ * 照片墙页面入口
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import './styles'
