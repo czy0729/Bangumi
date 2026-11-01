@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-03-22 14:18:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-27 06:35:49
+ * @Last Modified time: 2026-11-01 14:43:56
+ *
+ * 用户日志页面入口与布局
  */
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Heatmap, Page } from '@components'
