@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-03-16 01:23:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-21 11:30:10
+ * @Last Modified time: 2026-11-02 06:09:48
+ *
+ * 好友页面头部
  */
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -33,7 +35,7 @@ function Header() {
             }
 
             confirm(
-              `批量获取所有好友最近一次的时间胶囊创建时间（单次最大400个），确定？`,
+              '批量获取所有好友最近一次的时间胶囊创建时间（单次最大400个），确定？',
               $.fetchFriendsActive,
               '提示'
             )

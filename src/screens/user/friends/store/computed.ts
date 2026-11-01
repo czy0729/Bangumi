@@ -2,12 +2,15 @@
  * @Author: czy0729
  * @Date: 2024-09-13 04:54:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-21 11:18:42
+ * @Last Modified time: 2026-11-02 06:09:48
+ *
+ * 好友页面派生数据
  */
 import { computed } from 'mobx'
 import { _, usersStore, userStore } from '@stores'
 import { computedFn } from '@utils/computed-fn'
 import { HTML_FRIENDS, HTML_REV_FRIENDS } from '@constants'
+import { GROUP_TITLES } from './ds'
 import State from './state'
 
 import type { UserId } from '@types'
@@ -77,18 +80,7 @@ export default class Computed extends State {
     }
 
     // 遍历 friendGroup 的中文 key 顺序
-    const groupOrder = [
-      '一小时内',
-      '一天内',
-      '三天内',
-      '一周内',
-      '一月内',
-      '半年内',
-      '一年内',
-      '超过一年'
-    ] as const
-
-    groupOrder.forEach(title => {
+    GROUP_TITLES.forEach(title => {
       const ids = group[title]
       if (ids?.length) {
         pushHeader(title)
@@ -117,7 +109,7 @@ export default class Computed extends State {
 
   /** 网址 */
   @computed get url() {
-    const userId = this.params?.userId || userStore.myId
+    const userId = this.params.userId || userStore.myId
     return this.isRevFriends ? HTML_REV_FRIENDS(userId) : HTML_FRIENDS(userId)
   }
 

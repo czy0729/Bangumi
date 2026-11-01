@@ -2,11 +2,14 @@
  * @Author: czy0729
  * @Date: 2024-09-13 05:00:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-21 11:24:44
+ * @Last Modified time: 2026-11-02 06:09:48
+ *
+ * 好友页面异步请求
  */
 import { timelineStore, usersStore } from '@stores'
 import { throttle } from '@utils'
 import Computed from './computed'
+import { GROUP_TITLES } from './ds'
 
 import type { UserId } from '@types'
 
@@ -89,31 +92,18 @@ export default class Fetch extends Computed {
 
   /** 计算活跃度分组数据 */
   setFriendGroupByActive = async () => {
-    const groups: Record<string, UserId[]> = {
-      一小时内: [],
-      一天内: [],
-      三天内: [],
-      一周内: [],
-      一月内: [],
-      半年内: [],
-      一年内: [],
-      超过一年: []
-    }
+    const groups: Record<string, UserId[]> = {}
+    const temp: Record<string, { id: UserId; lastActive: number }[]> = {}
+
+    // 预初始化全部分组, 保证 key 完整且顺序与 GROUP_TITLES 一致
+    GROUP_TITLES.forEach(title => {
+      groups[title] = []
+      temp[title] = []
+    })
 
     const now = Date.now() / 1000 // 当前时间戳秒
 
     // 先把每个好友分组，并保存 lastActive
-    const temp: Record<string, { id: UserId; lastActive: number }[]> = {
-      一小时内: [],
-      一天内: [],
-      三天内: [],
-      一周内: [],
-      一月内: [],
-      半年内: [],
-      一年内: [],
-      超过一年: []
-    }
-
     this.friends.list.forEach(item => {
       const lastActive = timelineStore.active[item.userId]
 

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-08-07 03:57:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-21 11:16:55
+ * @Last Modified time: 2026-11-02 06:09:48
+ *
+ * 好友页面 Store 状态与常量
  */
 import { _ } from '@stores'
 import { COMPONENT } from '../ds'
@@ -10,6 +12,18 @@ import { COMPONENT } from '../ds'
 import type { Loaded, UserId } from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
+
+/** 活跃度分组名 (按从近到远排序; 「未知」不在接口分组内, 由 computed 单独归堆) */
+export const GROUP_TITLES = [
+  '一小时内',
+  '一天内',
+  '三天内',
+  '一周内',
+  '一月内',
+  '半年内',
+  '一年内',
+  '超过一年'
+] as const
 
 export const RESET_STATE = {
   /** 可视范围底部 y */

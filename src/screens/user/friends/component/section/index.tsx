@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-01-21 08:42:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-21 11:14:01
+ * @Last Modified time: 2026-11-02 06:09:48
+ *
+ * 好友活跃度分组头
  */
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -12,10 +14,9 @@ import { useStore } from '@stores'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { WithIndex } from '@types'
 import type { Ctx } from '../../types'
 
-function Section({ title }: WithIndex<{ title: string }>) {
+function Section({ title }: { title: string }) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const handlePress = useCallback(() => {
