@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-03-22 16:58:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-23 19:33:25
+ * @Last Modified time: 2026-11-02 20:34:29
+ *
+ * 自定义源头页面入口与布局
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'

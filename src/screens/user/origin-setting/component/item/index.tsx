@@ -2,16 +2,20 @@
  * @Author: czy0729
  * @Date: 2022-03-23 09:54:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 04:14:52
+ * @Last Modified time: 2026-11-02 20:34:29
+ *
+ * 单条源头 (预设或自定义), 点击弹出操作菜单, 编辑时在下方展开表单
  */
+import { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text } from '@components'
 import { Popover } from '@_'
 import { _, useStore } from '@stores'
 import { confirm, stl } from '@utils'
+import { getItemKey } from '../../utils'
 import Form from '../form'
-import { COMPONENT } from './ds'
+import { COMPONENT, MENUS } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
@@ -33,85 +37,69 @@ function Item({
 
   const styles = memoStyles()
 
-  const actions: string[] = []
-  const isBase = !!id
+  const menu = !!id ? MENUS.base : MENUS.custom
   const isActive = !!active
-  actions.push(isActive ? '停用' : '启用', isBase ? '编辑排序' : '编辑')
-  if (!isBase) actions.push('删除')
-  actions.push('预览')
+  const isEdit = getItemKey(type, id, uuid) === $.editingKey
+  const isClient = (url || '').indexOf('http') !== 0
 
-  const { edit } = $.state
-  const isEdit =
-    edit.type === type && ((id && edit.item.id === id) || (uuid && edit.item.uuid === uuid))
+  const handleSelect = useCallback(
+    (title?: string) => {
+      switch (title) {
+        case '编辑':
+        case '编辑排序':
+          $.openEdit(type, {
+            id: id || '',
+            uuid: uuid || '',
+            name,
+            url,
+            sort,
+            active
+          })
+          break
 
-  const isClient = !((url || '').indexOf('http') === 0)
+        case '删除':
+          confirm(`确定删除 [${name}] ?`, () => {
+            $.deleteItem({
+              uuid,
+              type
+            })
+          })
+          break
+
+        case '停用':
+          $.disableItem({
+            id,
+            uuid,
+            type
+          })
+          break
+
+        case '启用':
+          $.activeItem({
+            id,
+            uuid,
+            type
+          })
+          break
+
+        case '预览':
+          $.go({
+            type,
+            url
+          })
+          break
+
+        default:
+          break
+      }
+    },
+    [$, type, id, uuid, name, url, sort, active]
+  )
 
   return (
     <>
       <View style={styles.container}>
-        <Popover
-          data={actions}
-          onSelect={title => {
-            switch (title) {
-              case '编辑排序':
-                $.openEdit(type, {
-                  id,
-                  uuid: '',
-                  name,
-                  url,
-                  sort,
-                  active
-                })
-                break
-
-              case '编辑':
-                $.openEdit(type, {
-                  id: '',
-                  uuid,
-                  name,
-                  url,
-                  sort,
-                  active
-                })
-                break
-
-              case '删除':
-                confirm(`确定删除 [${name}] ?`, () => {
-                  $.deleteItem({
-                    uuid,
-                    type
-                  })
-                })
-                break
-
-              case '停用':
-                $.disableItem({
-                  id,
-                  uuid,
-                  type
-                })
-                break
-
-              case '启用':
-                $.activeItem({
-                  id,
-                  uuid,
-                  type
-                })
-                break
-
-              case '预览':
-                $.go({
-                  type,
-                  url
-                })
-                break
-
-              default:
-                break
-            }
-          }}
-        >
+        <Popover data={isActive ? menu.active : menu.inactive} onSelect={handleSelect}>
           <Flex
             style={stl(styles.item, isActive && styles.itemActive, !isActive && styles.itemDisable)}
             direction='column'
@@ -146,7 +134,7 @@ function Item({
                 客户端
               </Text>
             )}
-            {(!!sort || !isBase) && (
+            {(!!sort || !id) && (
               <Text type='sub' size={8} lineHeight={12} bold>
                 {sort ? `[${sort}] ` : ''}
                 自定义
@@ -159,7 +147,7 @@ function Item({
         <Form
           name={name}
           url={url}
-          isBase={isBase}
+          isBase={!!id}
           onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
         />
       )}

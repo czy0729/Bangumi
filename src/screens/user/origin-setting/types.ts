@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-19 07:13:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-26 21:47:54
+ * @Last Modified time: 2026-11-02 20:34:29
  *
  * 页面类型: Store 上下文、源头分类、源头条目与编辑表单
  */
-import type { ImageSource, WithNavigation } from '@types'
+import type { ImageSource, Origin, WithNavigation } from '@types'
 import type Store from './store'
 
 export type Ctx = WithNavigation<{
@@ -15,6 +15,27 @@ export type Ctx = WithNavigation<{
 
 /** 源头分类 */
 export type Keys = 'anime' | 'hanime' | 'manga' | 'wenku' | 'music' | 'game' | 'real'
+
+/** 页面维护的源头数据 */
+export type Data = {
+  /** 预设项的自定义设置 */
+  base: NonNullable<Origin['base']>
+
+  /** 自定义的源头数据 */
+  custom: NonNullable<Origin['custom']>
+}
+
+/** 表单可编辑字段 */
+export type FormKey = 'name' | 'url' | 'sort'
+
+/** 输入框光标位置 */
+export type Selection = {
+  /** 起点 */
+  start: number
+
+  /** 终点 */
+  end: number
+}
 
 /** 源头条目 */
 export type OriginItem = {

@@ -2,14 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-03-23 18:16:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-23 19:48:09
+ * @Last Modified time: 2026-11-03 04:12:23
+ *
+ * 分类标题: 名称、启用数量与测试入口
  */
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
 import { _, useStore } from '@stores'
-import { COMPONENT } from './ds'
+import { COMPONENT, EMPTY_MENU } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx, OriginItem } from '../../types'
@@ -20,21 +22,20 @@ function Title({ type, name }: Props) {
 
   const styles = memoStyles()
 
-  const data = $.data[type] as OriginItem[]
+  const data = $.data[type]
   const activeData = data.filter(item => item.active === 1)
-  const activeNames = activeData.map(item => item.name)
 
+  /** 菜单项带上原始条目, 按引用取值 (Web 端按文案去重, 回调下标不可靠) */
   const handleSelect = useCallback(
-    (label: string) => {
-      if (label === '空') return
+    (entry?: { text: string; item?: OriginItem }) => {
+      if (!entry?.item) return
 
-      const item = activeData.find(item => item.name === label)
       $.go({
         type,
-        url: item.url
+        url: entry.item.url
       })
     },
-    [$, activeData, type]
+    [$, type]
   )
 
   return (
@@ -48,7 +49,7 @@ function Title({ type, name }: Props) {
       <Flex.Item />
       <Popover
         style={styles.test}
-        data={activeNames.length ? activeNames : ['空']}
+        data={activeData.length ? activeData.map(item => ({ text: item.name, item })) : EMPTY_MENU}
         onSelect={handleSelect}
       >
         <Flex>

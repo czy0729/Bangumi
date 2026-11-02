@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-08-19 07:09:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 04:40:42
+ * @Last Modified time: 2026-11-02 20:34:29
+ *
+ * Store 命名空间、初始状态与不落库的瞬时状态
  */
 import { COMPONENT } from '../ds'
 
-import type { Loaded, Origin } from '@types'
-import type { EditItem, Keys } from '../types'
+import type { Loaded } from '@types'
+import type { Data, EditItem, Keys } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -24,7 +26,7 @@ export const EMPTY_EDIT_ITEM: EditItem = {
 export const EXCLUDE_STATE = {
   data: {
     /** 预设数据是否启用 */
-    base: {} as Origin['base'],
+    base: {} as Data['base'],
 
     /** 自定义的源头数据 */
     custom: {
@@ -35,7 +37,7 @@ export const EXCLUDE_STATE = {
       music: [],
       game: [],
       real: []
-    } as Origin['custom']
+    } as Data['custom']
   },
 
   /** 编辑表单 */

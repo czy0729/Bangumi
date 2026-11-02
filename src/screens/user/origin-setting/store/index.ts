@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:56:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 04:45:46
+ * @Last Modified time: 2026-11-02 20:34:29
+ *
+ * 页面生命周期: 从本地存储恢复显示状态, 并从 subjectStore 同步源头数据
  */
 import { toJS } from 'mobx'
 import { subjectStore } from '@stores'

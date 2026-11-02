@@ -2,8 +2,12 @@
  * @Author: czy0729
  * @Date: 2026-09-25 20:30:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-25 20:30:00
+ * @Last Modified time: 2026-11-02 20:34:29
  */
+
+/** 云端设置区内可切换的开关 */
+export type SwitchKey = 'focusOrigin' | 'showLegalSource'
+
 export type Props = {
   /** 是否已登录 */
   isLogin: boolean

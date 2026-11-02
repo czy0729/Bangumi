@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-13 03:43:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-13 03:46:40
+ * @Last Modified time: 2026-11-02 20:34:29
  *
  * 用户操作: 编辑表单、预设/自定义源头的启停与删除、测试跳转
  */
@@ -15,8 +15,7 @@ import { replaceOriginUrl } from '../utils'
 import Computed from './computed'
 import { EMPTY_EDIT_ITEM } from './ds'
 
-import type { EditItem, ItemParams, Keys } from '../types'
-import type { STATE } from './ds'
+import type { Data, EditItem, FormKey, ItemParams, Keys } from '../types'
 
 export default class Action extends Computed {
   onToggle = () => {
@@ -64,7 +63,7 @@ export default class Action extends Computed {
   }
 
   /** 输入框变化 */
-  onChangeText = (key: 'name' | 'url' | 'sort', val: string) => {
+  onChangeText = (key: FormKey, val: string) => {
     const { edit } = this.state
     const item = { ...edit.item }
     if (key === 'sort') {
@@ -86,7 +85,7 @@ export default class Action extends Computed {
    *
    * @param apply 对拷贝数据的原地修改
    */
-  applyDataChange = (apply: (data: (typeof STATE)['data']) => void) => {
+  applyDataChange = (apply: (data: Data) => void) => {
     const _data = toJS(this.state.data)
     apply(_data)
 

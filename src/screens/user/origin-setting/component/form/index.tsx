@@ -2,111 +2,55 @@
  * @Author: czy0729
  * @Date: 2022-03-23 13:44:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-23 19:40:45
+ * @Last Modified time: 2026-11-02 20:34:29
+ *
+ * 编辑与新建表单 (名字、网址、排序, 含参数快捷插入)
  */
-import React, { useCallback, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Input, Text, Touchable } from '@components'
 import { IconTouchable } from '@_'
-import { _, useStore } from '@stores'
-import { feedback, stl } from '@utils'
+import { _ } from '@stores'
+import { stl } from '@utils'
 import { IOS } from '@constants'
-import { COMPONENT, PARAMS } from './ds'
+import { PARAMS_KEY, PARAMS_TEXT, TEXT_PROPS } from './ds'
+import { useForm } from './hooks'
 import { memoStyles } from './styles'
 
-import type { InputInstance, TextProps } from '@components'
-import type { Ctx } from '../../types'
-import type { Props } from './types'
+import type { Params, Props } from './types'
 
 function Form({ style, name, url, isBase = false, onScrollIntoViewIfNeeded }: Props) {
-  const { $ } = useStore<Ctx>(COMPONENT)
-
-  const urlInputRef = useRef<InputInstance>(null)
-  const sortInputRef = useRef<InputInstance>(null)
-
-  const [selection, setSelection] = useState({ start: 0, end: 0 })
-
-  const handleChange = useCallback(
-    (key: 'name' | 'url' | 'sort') => (text: string) => {
-      $.onChangeText(key, text)
-    },
-    [$]
-  )
-  const handleSelectionChange = useCallback(
-    (e: { nativeEvent: { selection: React.SetStateAction<{ start: number; end: number }> } }) => {
-      setSelection(e.nativeEvent.selection)
-    },
-    []
-  )
-  const handleInsert = useCallback(
-    (key: string, insert: boolean) => {
-      const current = String(url || '')
-      const { start, end } = selection
-
-      const insertText = insert ? key : `[${key}]`
-      const newValue = current.slice(0, start) + insertText + current.slice(end)
-
-      const newCursor = start + insertText.length
-
-      $.onChangeText('url', newValue)
-      feedback(true)
-
-      setSelection({
-        start: newCursor,
-        end: newCursor
-      })
-
-      urlInputRef.current?.inputRef?.focus()
-    },
-    [url, selection, $]
-  )
-
-  const handleSubmitEditing = useCallback(
-    (key: 'name' | 'url' | 'sort') => () => {
-      try {
-        if (key === 'name') {
-          urlInputRef.current.inputRef.focus()
-          return
-        }
-
-        if (key === 'url') {
-          sortInputRef.current.inputRef.focus()
-          return
-        }
-
-        if (key === 'sort') {
-          $.submitEdit()
-          return
-        }
-      } catch {}
-    },
-    [$]
-  )
+  const {
+    urlInputRef,
+    sortInputRef,
+    selection,
+    sortValue,
+    handleChange,
+    handleSelectionChange,
+    handleInsert,
+    handleSubmitEditing,
+    submitEdit,
+    closeEdit
+  } = useForm()
 
   const styles = memoStyles()
 
   const editable = !isBase
-  const textProps: TextProps = {
-    size: 10,
-    lineHeight: 11,
-    bold: true
-  } as const
 
   const renderLockTip = () =>
     !editable ? (
-      <Text type='sub' {...textProps}>
+      <Text type='sub' {...TEXT_PROPS}>
         {'  '}
         默认项不允许修改
       </Text>
     ) : null
 
-  const renderParams = (list: typeof PARAMS) => (
+  const renderParams = (list: Params) => (
     <Flex style={styles.params} wrap='wrap'>
       {list.map(({ key, label, insert }) => (
         <Touchable key={key} style={_.mb.sm} onPress={() => handleInsert(key, insert)}>
-          <Text style={_.mr.sm} type='sub' {...textProps}>
-            <Text type={insert ? 'sub' : 'warning'} {...textProps} underline={insert}>
+          <Text style={_.mr.sm} type='sub' {...TEXT_PROPS}>
+            <Text type={insert ? 'sub' : 'warning'} {...TEXT_PROPS} underline={insert}>
               {insert ? key : `[${key}]`}
             </Text>{' '}
             {label}
@@ -143,10 +87,11 @@ function Form({ style, name, url, isBase = false, onScrollIntoViewIfNeeded }: Pr
           {renderLockTip()}
         </Text>
 
-        <Text style={_.mt.xs} type='sub' {...textProps}>
+        <Text style={_.mt.xs} type='sub' {...TEXT_PROPS}>
           支持参数 (下列选项可点击粘贴)：
         </Text>
-        {[true, false].map(flag => renderParams(PARAMS.filter(item => !!item.insert === flag)))}
+        {renderParams(PARAMS_TEXT)}
+        {renderParams(PARAMS_KEY)}
 
         <Input
           ref={urlInputRef}
@@ -169,13 +114,13 @@ function Form({ style, name, url, isBase = false, onScrollIntoViewIfNeeded }: Pr
         <Text style={_.mt.md} size={13} bold>
           排序
         </Text>
-        <Text style={_.mt.xs} type='sub' {...textProps}>
+        <Text style={_.mt.xs} type='sub' {...TEXT_PROPS}>
           数字，越大越前，选填
         </Text>
         <Input
           ref={sortInputRef}
           style={styles.input}
-          value={String($.state.edit.item.sort)}
+          value={sortValue}
           keyboardType='number-pad'
           autoCapitalize='none'
           autoCorrect={false}
@@ -193,10 +138,10 @@ function Form({ style, name, url, isBase = false, onScrollIntoViewIfNeeded }: Pr
         name='md-check'
         size={22}
         color={_.colorDesc}
-        onPress={$.submitEdit}
+        onPress={submitEdit}
       />
       <View style={styles.close}>
-        <IconTouchable name='md-close' size={22} color={_.colorDesc} onPress={$.closeEdit} />
+        <IconTouchable name='md-close' size={22} color={_.colorDesc} onPress={closeEdit} />
       </View>
     </Flex>
   )

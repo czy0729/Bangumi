@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-03-23 13:51:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-23 19:39:56
+ * @Last Modified time: 2026-11-02 20:34:29
+ *
+ * 新增源头入口, 新建时原位展开表单
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
@@ -20,9 +22,9 @@ function Create({ type, name, onScrollIntoViewIfNeeded }: Props) {
 
   const styles = memoStyles()
 
-  const { edit } = $.state
-  const isCreate = edit.type === type && edit.item.id === '' && edit.item.uuid === ''
-  if (isCreate) {
+  if ($.creatingType === type) {
+    const { item } = $.state.edit
+
     return (
       <View style={styles.form}>
         <Text size={15} bold>
@@ -30,8 +32,8 @@ function Create({ type, name, onScrollIntoViewIfNeeded }: Props) {
         </Text>
         <Form
           style={_.mt.sm}
-          name={edit.item.name}
-          url={edit.item.url}
+          name={item.name}
+          url={item.url}
           onScrollIntoViewIfNeeded={onScrollIntoViewIfNeeded}
         />
       </View>

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-11-18 06:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-03 15:50:30
+ * @Last Modified time: 2026-11-02 20:34:29
+ *
+ * 自定义源头页面逻辑: 初始化、滚动位置与输入框回滚定位
  */
 import { useCallback, useRef } from 'react'
 import { _, useInitStore } from '@stores'
@@ -18,30 +20,21 @@ export function useOriginSettingPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
   const { id, $ } = context
 
-  /** ScrollTo 函数引用 */
   const scrollToRef = useRef<ScrollTo>(null)
-
-  /** 当前 ScrollView 的滚动位置 */
   const scrollYRef = useRef(0)
 
-  /** 供 ScrollView 绑定的 forwardRef */
   const handleForwardRef = useCallback((scrollTo: ScrollTo) => {
     scrollToRef.current = scrollTo
   }, [])
 
-  /** 供 ScrollView 绑定的 onScroll */
   const handleOnScroll = useCallback((evt: ScrollEvent) => {
     scrollYRef.current = evt?.nativeEvent?.contentOffset?.y || 0
   }, [])
 
-  /**
-   * Input 传上来的值是「还需要往上滚多少」
-   * 这里必须转换成「滚到哪个绝对位置」
-   */
+  /** 输入框上报的是还需要往上滚多少, 这里换算成绝对位置 */
   const handleScrollIntoViewIfNeeded = useCallback((deltaY: number) => {
     if (typeof scrollToRef.current === 'function') {
-      const currentY = scrollYRef.current
-      const targetY = Math.max(0, currentY + deltaY)
+      const targetY = Math.max(0, scrollYRef.current + deltaY)
 
       scrollToRef.current({
         x: 0,

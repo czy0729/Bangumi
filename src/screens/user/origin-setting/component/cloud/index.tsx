@@ -2,34 +2,43 @@
  * @Author: czy0729
  * @Date: 2022-04-12 11:12:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-23 19:36:56
+ * @Last Modified time: 2026-11-02 20:34:29
+ *
+ * 云端同步设置与源头相关开关
  */
+import { useCallback } from 'react'
+import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Divider, SwitchPro } from '@components'
+import { SwitchPro } from '@components'
 import { ItemSetting, ItemSettingBlock } from '@_'
-import { _, subjectStore, systemStore } from '@stores'
-import { confirm, feedback, info, loading } from '@utils'
-import { r } from '@utils/dev'
+import { _, systemStore } from '@stores'
 import { t } from '@utils/fetch'
 import i18n from '@constants/i18n'
-import { getYuqueThumbs } from '../../utils'
-import { useCloud } from './hooks'
-import { COMPONENT } from './ds'
+import { useCloudSync, useCloudText } from './hooks'
+import { THUMBS } from './ds'
 import { memoStyles } from './styles'
 
-import type { Props } from './types'
-
+import type { Props, SwitchKey } from './types'
 function Cloud({ isLogin, active, onToggle, onDownloaded }: Props) {
-  r(COMPONENT)
-
   const styles = memoStyles()
 
-  const text = useCloud()
+  const text = useCloudText()
+  const { handleDownload, handleUpload } = useCloudSync({ isLogin, onDownloaded })
 
   const { focusOrigin, showLegalSource } = systemStore.setting
 
+  const handleSwitch = useCallback((key: SwitchKey, title: string) => {
+    const checked = !systemStore.setting[key]
+    systemStore.switchSetting(key)
+
+    t('设置.切换', {
+      title,
+      checked
+    })
+  }, [])
+
   return (
-    <>
+    <View style={_.mb.md}>
       {/* 同步设置 */}
       <ItemSettingBlock style={styles.container} title='同步设置' size={20}>
         <ItemSettingBlock.Item
@@ -42,46 +51,15 @@ function Cloud({ isLogin, active, onToggle, onDownloaded }: Props) {
             ]
           }}
           title='下载'
-          information={text ? text : !isLogin && `需${i18n.login()}`}
-          onPress={() => {
-            if (!isLogin) return info(`下载需先${i18n.login()}`)
-
-            setTimeout(() => {
-              confirm('确定恢复到云端的设置?', async () => {
-                const hide = loading('下载中...')
-                const flag = await subjectStore.downloadOrigin()
-                hide()
-                feedback()
-                info(flag ? '已恢复' : '下载失败')
-                if (flag) {
-                  onDownloaded()
-                  t('自定义源头.下载')
-                }
-              })
-            }, 160)
-          }}
+          information={text || (!isLogin ? `需${i18n.login()}` : undefined)}
+          onPress={handleDownload}
         />
         <ItemSettingBlock.Item
           style={_.ml.md}
           icon='md-ios-share'
           title='上传'
-          information={!isLogin && `需${i18n.login()}`}
-          onPress={() => {
-            if (!isLogin) return info(`上传需先${i18n.login()}`)
-
-            setTimeout(() => {
-              confirm('确定上传当前设置到云端?', async () => {
-                const hide = loading('上传中...')
-                const flag = await subjectStore.uploadOrigin()
-                hide()
-                feedback()
-                info(flag ? '已上传' : '上传失败，云服务异常，请待作者修复')
-                if (flag) {
-                  t('自定义源头.上传')
-                }
-              })
-            }, 160)
-          }}
+          information={isLogin ? undefined : `需${i18n.login()}`}
+          onPress={handleUpload}
         />
       </ItemSettingBlock>
 
@@ -94,20 +72,10 @@ function Cloud({ isLogin, active, onToggle, onDownloaded }: Props) {
           <SwitchPro
             style={styles.switch}
             value={focusOrigin}
-            onSyncPress={() => {
-              t('设置.切换', {
-                title: '突出源头按钮',
-                checked: !focusOrigin
-              })
-
-              systemStore.switchSetting('focusOrigin')
-            }}
+            onSyncPress={() => handleSwitch('focusOrigin', '突出源头按钮')}
           />
         }
-        thumb={getYuqueThumbs([
-          '0/2024/png/386799/1705044747998-45792520-30b5-4079-8889-1eb471b977b1.png',
-          '0/2024/png/386799/1705044615611-9e2bf83f-d563-4e85-89c8-5a1136a08e6d.png'
-        ])}
+        thumb={THUMBS}
       />
 
       {/* 显示正版播放源 */}
@@ -120,14 +88,7 @@ function Cloud({ isLogin, active, onToggle, onDownloaded }: Props) {
           <SwitchPro
             style={styles.switch}
             value={showLegalSource}
-            onSyncPress={() => {
-              t('设置.切换', {
-                title: '显示正版播放源',
-                checked: !showLegalSource
-              })
-
-              systemStore.switchSetting('showLegalSource')
-            }}
+            onSyncPress={() => handleSwitch('showLegalSource', '显示正版播放源')}
           />
         }
       />
@@ -146,8 +107,7 @@ function Cloud({ isLogin, active, onToggle, onDownloaded }: Props) {
           />
         }
       />
-      <Divider />
-    </>
+    </View>
   )
 }
 

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-22 17:49:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-26 12:06:47
+ * @Last Modified time: 2026-11-02 20:34:29
  *
  * 构造自定义播放源头数据
  * 包括APP自维护数据 + 用户自定义数据
@@ -23,7 +23,7 @@ import {
   SITES_NSFW,
   SITES_REAL,
   SITES_WENKU
-} from './ds'
+} from './sites'
 
 import type { ImageSource, Origin, SubjectId } from '@types'
 import type { Keys, OriginItem } from './types'
@@ -168,6 +168,11 @@ export function replaceOriginUrl(
   } catch {
     return ''
   }
+}
+
+/** 源头条目定位 key (预设项用 id, 自定义项用 uuid) */
+export function getItemKey(type: Keys, id?: string, uuid?: string) {
+  return `${type}|${id || uuid}`
 }
 
 export function getYuqueThumbs(src: string[] | readonly string[] | false) {
