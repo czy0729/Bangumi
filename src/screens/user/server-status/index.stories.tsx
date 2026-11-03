@@ -4,8 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-11 19:54:58
  */
-import React from 'react'
-import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
+import { StorybookList, StorybookSPA } from '@components'
 import { ServerStatus as Component } from '@screens'
 
 export default {
@@ -15,13 +14,8 @@ export default {
 
 export const ServerStatus = () => (
   <StorybookSPA>
-    <StorybookList
-      style={{
-        // @ts-expect-error
-        overflowY: 'scroll'
-      }}
-    >
-      <Component {...getStorybookArgs('ServerStatus')} />
+    <StorybookList>
+      <Component />
     </StorybookList>
   </StorybookSPA>
 )

@@ -43,7 +43,7 @@ function Zhinan({ filter }: WithFilterProps) {
       <ActionSheet show={state} title='更多' height={580} onClose={setFalse}>
         {shows.topic && <RepoTopic filter={filter} setFalse={setFalse} />}
         {shows.tips && <Tips filter={filter} setFalse={setFalse} />}
-        {shows.serverStatus && <ServerStatus filter={filter} />}
+        {shows.serverStatus && <ServerStatus filter={filter} setFalse={setFalse} />}
         {shows.github && <RepoGithub filter={filter} />}
         {shows.zhinan && <AppZhinan filter={filter} setFalse={setFalse} />}
         {/* {shows.notion && <Roadmap filter={filter} setFalse={setFalse} />} */}

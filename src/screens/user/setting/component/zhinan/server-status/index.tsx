@@ -2,21 +2,20 @@
  * @Author: czy0729
  * @Date: 2024-04-25 04:15:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-07-24 23:15:57
+ * @Last Modified time: 2026-11-04 12:00:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSetting } from '@_'
-import { useNavigation } from '@utils/hooks'
 import { t } from '@utils/fetch'
-import { IconWifi } from '../../icons'
+import { useNavigation } from '@utils/hooks'
 import { TEXTS } from '../ds'
+import { IconWifi } from '../../icons'
 
-import type { WithFilterProps } from '../../../types'
+import type { Props } from './types'
 
 /** 网络探针 */
-function ServerStatus({ filter }: WithFilterProps) {
+function ServerStatus({ filter, setFalse }: Props) {
   const navigation = useNavigation()
 
   return (
@@ -26,7 +25,12 @@ function ServerStatus({ filter }: WithFilterProps) {
       highlight
       filter={filter}
       onPress={() => {
-        navigation.push('ServerStatus')
+        setFalse()
+
+        /** 等弹层收起再推页, 否则返回时弹层还在 */
+        setTimeout(() => {
+          navigation.push('ServerStatus')
+        }, 240)
 
         t('设置.跳转', {
           title: '网络探针',

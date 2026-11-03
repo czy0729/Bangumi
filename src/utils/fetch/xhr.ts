@@ -161,46 +161,58 @@ export function xhrTimeout(
   ]).finally(() => clearTimeout(timer))
 }
 
-/** 请求收到返回数据马上结束 */
-export function ping(url: string, headers = {}): Promise<number> {
+/**
+ * 延迟探测, 失败与超时返回 0
+ *
+ * @param url 请求地址
+ * @param headers 额外请求头
+ * @param timeout 超时 (毫秒)
+ * @param until 结算时机: headers 收到响应头即结束, complete 等响应体下载完
+ */
+export function ping(
+  url: string,
+  headers: Record<string, string> = {},
+  timeout: number = 3000,
+  until: 'headers' | 'complete' = 'complete'
+): Promise<number> {
   return new Promise(resolve => {
     const start = Date.now()
     const xhr = new XMLHttpRequest()
+    let settled = false
 
-    const cb = function (res: XMLHttpRequest) {
-      // 只在请求完成时检查
-      if (res.readyState !== 4) return
+    /** HEADERS_RECEIVED 与 DONE, 用 >= 兼容跳过中间状态的实现 */
+    const targetReadyState = until === 'headers' ? 2 : 4
 
-      // 必须是 200 状态码才算成功
-      if (res.status !== 200) {
-        resolve(0)
-        return xhr.abort()
-      }
+    const finish = (latency: number) => {
+      if (settled) return
 
-      // 200 即视为成功，直接返回延迟
-      resolve(Date.now() - start)
-      return xhr.abort()
+      settled = true
+      resolve(latency)
+      xhr.abort()
     }
 
-    xhr.onreadystatechange = function () {
-      cb(this)
-    }.bind(xhr)
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState < targetReadyState) return
 
-    xhr.onerror = () => resolve(0)
-    xhr.ontimeout = () => resolve(0)
+      finish(xhr.status === 200 ? Date.now() - start : 0)
+    }
 
-    xhr.open('GET', url, true)
-    xhr.withCredentials = false
+    xhr.onerror = () => finish(0)
+    xhr.ontimeout = () => finish(0)
 
-    Object.keys(headers).forEach(key => {
-      xhr.setRequestHeader(key, headers[key])
-    })
+    try {
+      xhr.open('GET', url, true)
+      xhr.timeout = timeout
+      xhr.withCredentials = false
 
-    xhr.send()
+      Object.keys(headers).forEach(key => {
+        xhr.setRequestHeader(key, headers[key])
+      })
 
-    setTimeout(() => {
-      resolve(0)
-      xhr.abort()
-    }, 3000)
+      xhr.send()
+    } catch {
+      /** 非法地址等同步异常按失败处理, 不向调用方抛 */
+      finish(0)
+    }
   })
 }

@@ -2,15 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-08-20 10:30:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:08:06
+ * @Last Modified time: 2026-11-04 12:00:00
+ *
+ * 网络探针: 列表行、状态点与底部按钮
  */
 import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => ({
-  contentContainerStyle: {
-    paddingHorizontal: _.wind,
-    paddingBottom: _.bottom + _.lg
-  },
   desc: {
     width: '52%'
   },
@@ -29,13 +27,13 @@ export const memoStyles = _.memoStyles(() => ({
     marginRight: _.md,
     borderRadius: 4
   },
-  statusSuccess: {
+  success: {
     backgroundColor: _.colorSuccess
   },
-  statusWarning: {
+  warning: {
     backgroundColor: _.colorWarning
   },
-  statusDanger: {
+  danger: {
     backgroundColor: _.colorDanger
   },
   loading: {
