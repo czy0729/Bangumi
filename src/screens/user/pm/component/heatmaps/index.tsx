@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-12-20 17:38:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-05-07 22:07:01
+ * @Last Modified time: 2026-11-03 06:39:21
+ *
+ * 埋点热区
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'

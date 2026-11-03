@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-08-19 11:16:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 19:13:38
+ * @Last Modified time: 2026-11-03 06:39:21
+ *
+ * 顶栏: 标题与右侧操作
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { HeaderV2 } from '@components'
 import { useStore } from '@stores'
@@ -35,7 +37,9 @@ function Header() {
     <HeaderV2
       title={$.headerTitle}
       headerTitleStyle={styles.headerTitle}
-      headerTitleTextStyle={getVisualLength($.headerTitle) >= 10 && styles.headerTitleText}
+      headerTitleTextStyle={
+        getVisualLength($.headerTitle) >= 10 ? styles.headerTitleText : undefined
+      }
       hm={HM}
       headerTitleAlign='left'
       headerRight={handleHeaderRight}

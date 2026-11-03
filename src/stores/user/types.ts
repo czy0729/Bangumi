@@ -129,6 +129,33 @@ export type PmItem = {
 /** 短信列表 */
 export type Pm = ListEmpty<PmItem>
 
+/** 发短信 / 回复短信的提交数据 */
+export type PMParams = {
+  /** 标题 */
+  msg_title?: string
+
+  /** 内容 */
+  msg_body?: string
+
+  /** 表单校验值 */
+  formhash?: string
+
+  /** 收件人 */
+  msg_receivers?: string
+
+  /** 同时发送到聊天室 */
+  chat?: 'on'
+
+  /** 提交按钮文案 */
+  submit?: '发送' | '回复'
+
+  /** 关联会话 */
+  related?: string
+
+  /** 回复到指定线程 */
+  redirect_thread?: string
+}
+
 /** 短信详情项 */
 export type PmDetailItem = {
   /** 消息项类型，'label' 为日期分隔标签，'message' 为消息 */

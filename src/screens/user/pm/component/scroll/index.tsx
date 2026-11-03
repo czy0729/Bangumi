@@ -2,35 +2,34 @@
  * @Author: czy0729
  * @Date: 2022-03-16 01:46:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-08 04:11:31
+ * @Last Modified time: 2026-11-03 06:39:21
+ *
+ * 消息滚动区: 新建短信的表单与聊天列表, 挂载时初始化页面数据
  */
-import React, { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { ScrollView, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { FixedTextarea, Input, Loading, Text } from '@components'
 import { _, useStore } from '@stores'
-import { r } from '@utils/dev'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import Chat from '../chat'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { ScrollView as RNScrollView } from 'react-native'
+import type { FixedTextareaInstance } from '@components'
 import type { Ctx } from '../../types'
 
 function Scroll() {
-  r(COMPONENT)
-
   const { $, navigation } = useStore<Ctx>(COMPONENT)
-  const scrollViewRef = useRef<any>(null)
-  const fixedTextareaRef = useRef<any>(null)
+
   const styles = memoStyles()
 
+  const fixedTextareaRef = useRef<FixedTextareaInstance>(null)
+
   const handleRef = useCallback(
-    (ref: any) => {
-      if (ref) {
-        scrollViewRef.current = ref
-        $.scrollViewRef = ref
-      }
+    (ref: RNScrollView) => {
+      if (ref) $.scrollViewRef = ref
     },
     [$]
   )
@@ -43,7 +42,7 @@ function Scroll() {
   )
 
   useEffect(() => {
-    $.init(scrollViewRef.current)
+    $.init()
 
     return () => {
       $.scrollViewRef = null

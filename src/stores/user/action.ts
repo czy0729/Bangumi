@@ -33,7 +33,7 @@ import { INIT_ACCESS_TOKEN, INIT_USER_COOKIE, INIT_USER_INFO } from './init'
 import type { ProxyAxiosResponse } from '@utils/proxy/types'
 import type { EpId, EpStatus, SubjectId } from '@types'
 import type { STATE } from './init'
-import type { AccessToken } from './types'
+import type { AccessToken, PMParams } from './types'
 
 export default class Action extends Fetch {
   /** 登出 */
@@ -232,14 +232,7 @@ export default class Action extends Fetch {
 
   /** 发短信 */
   doPM = async (
-    data: {
-      msg_title?: string
-      msg_body?: string
-      formhash?: string
-      msg_receivers?: string
-      chat?: 'on'
-      submit?: '发送' | '回复'
-    },
+    data: PMParams,
     success?: (responseText?: string, request?: XMLHttpRequest) => unknown,
     fail?: () => void
   ) => {

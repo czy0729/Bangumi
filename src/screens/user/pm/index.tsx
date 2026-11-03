@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2020-02-02 05:03:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-06 04:08:22
+ * @Last Modified time: 2026-11-03 06:39:21
+ *
+ * 短信页面入口与布局
  */
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'

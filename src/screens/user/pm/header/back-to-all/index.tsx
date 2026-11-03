@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2026-07-08 04:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-08 04:00:00
+ * @Last Modified time: 2026-11-03 06:39:21
+ *
+ * 返回「全部」视图
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'

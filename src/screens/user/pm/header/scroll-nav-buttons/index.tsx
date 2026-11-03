@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2025-07-22 20:36:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-29 19:13:32
+ * @Last Modified time: 2026-11-03 06:39:21
+ *
+ * 上下跳转按钮: 线程标签间跳转, 长按到顶/到底
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
