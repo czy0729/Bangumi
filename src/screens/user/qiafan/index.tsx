@@ -3,10 +3,13 @@
  * @Date: 2019-10-05 16:48:42
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-27 06:37:04
+ *
+ * 关于客户端页面: 固定文案 + GitHub 统计图表
  */
 import { observer } from 'mobx-react'
 import { Component, Divider, HeaderPlaceholder, HeaderV2, ScrollView } from '@components'
 import { _, userStore } from '@stores'
+import { stl } from '@utils'
 import Section1 from './component/section-1'
 import Section2 from './component/section-2'
 import Section3 from './component/section-3'
@@ -20,7 +23,7 @@ function Qiafan() {
       <HeaderPlaceholder />
       <ScrollView
         style={_.container.plain}
-        contentContainerStyle={[_.container.bottom, _.container.wind]}
+        contentContainerStyle={stl(_.container.bottom, _.container.wind)}
       >
         <Section1 />
         {!userStore.isLimit && (

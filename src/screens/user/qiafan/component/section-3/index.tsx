@@ -3,6 +3,8 @@
  * @Date: 2024-03-25 23:32:14
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-24 11:27:52
+ *
+ * 支持者的额外权益列表
  */
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'

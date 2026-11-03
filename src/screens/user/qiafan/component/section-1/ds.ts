@@ -3,6 +3,8 @@
  * @Date: 2026-09-23 12:00:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-24 13:53:21
+ *
+ * GitHub 深色图表配色与柱状图几何常量
  */
 
 /** 还原 GitHub 深色图表配色 */
@@ -60,6 +62,11 @@ export const BAR_GAP = 1
 
 /** 触摸探查 badge 高度 */
 export const BADGE_HEIGHT = 36
+
+/** 触摸探查 badge 宽度: 固定宽度, 避免文案长度变化导致居中位置抖动 */
+export const BADGE_WIDTH = 100
+
+export const BADGE_HALF_WIDTH = BADGE_WIDTH / 2
 
 /** 缩略图上下留白 */
 export const MINI_PADDING_TOP = 3

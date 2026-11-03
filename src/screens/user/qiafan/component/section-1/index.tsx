@@ -3,6 +3,8 @@
  * @Date: 2024-03-25 20:22:37
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-16 00:27:55
+ *
+ * 关于客户端正文与两张 GitHub 统计卡片
  */
 import { useMemo } from 'react'
 import { View } from 'react-native'

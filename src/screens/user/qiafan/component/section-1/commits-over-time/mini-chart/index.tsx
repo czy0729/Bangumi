@@ -3,14 +3,16 @@
  * @Date: 2026-09-23 12:00:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-24 13:16:40
+ *
+ * 总览缩略图: 折线 + 可拖动的区间选择框
  */
-import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef } from 'react'
 import { View } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import Svg, { Path, Polyline, Rect } from 'react-native-svg'
-import { observer } from 'mobx-react'
 import { Text } from '@components'
+import { stl } from '@utils'
 import { scheduleOnRN } from '@utils/worklets'
 import { COLOR, MINI_HANDLE_INSET, MINI_PADDING_BOTTOM, MINI_PADDING_TOP } from '../../ds'
 import { getEvenYearLabels, getMaxCount } from '../../utils'
@@ -51,20 +53,23 @@ function MiniChart({ weeks, width, height, start, end, onMove }: MiniChartProps)
   const widthSV = useSharedValue(width)
   const maxSelectXSV = useSharedValue(maxSelectX)
   const spanSV = useSharedValue(span)
-  widthSV.value = width
-  maxSelectXSV.value = maxSelectX
-  spanSV.value = span
+  useEffect(() => {
+    widthSV.value = width
+    maxSelectXSV.value = maxSelectX
+    spanSV.value = span
+  }, [width, maxSelectX, span, widthSV, maxSelectXSV, spanSV])
 
   /** 手势基准: 拖动开始时的选择框左偏移 */
   const dragStartX = useSharedValue(0)
   const isDragging = useSharedValue(false)
   const translateX = useSharedValue(restX)
+  const restXSV = useSharedValue(restX)
 
   /** 数据刷新或外部 start 变化时, 非拖动态下选择框归位到对应周 */
   useEffect(() => {
+    restXSV.value = restX
     if (!isDragging.value) translateX.value = restX
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [restX])
+  }, [isDragging, restX, translateX, restXSV])
 
   /** 松手提交: worklet 里只能捕获稳定引用, 内部再读最新的 onMove */
   const onMoveRef = useRef(onMove)
@@ -84,13 +89,17 @@ function MiniChart({ weeks, width, height, start, end, onMove }: MiniChartProps)
       translateX.value = Math.max(0, Math.min(next, maxSelectXSV.value))
     })
     .onEnd(() => {
-      isDragging.value = false
-
       /** 像素位置 -> 起始周下标, 吸附到整格后提交给 JS 侧更新大图 */
       const nextStart = Math.round((translateX.value / widthSV.value) * spanSV.value)
       const snappedX = Math.min((nextStart / spanSV.value) * widthSV.value, maxSelectXSV.value)
       translateX.value = withTiming(snappedX, { duration: 120 })
       scheduleOnRN(submit, nextStart)
+    })
+    .onFinalize((_event, success) => {
+      isDragging.value = false
+
+      /** 被外层滚动抢走而取消时 onEnd 不执行, 选择框回到当前区间对应的位置 */
+      if (!success) translateX.value = withTiming(restXSV.value, { duration: 120 })
     })
 
   /** 选择框位置完全由 translateX 驱动: 拖动中跟手, 松手时已吸附 */
@@ -103,69 +112,27 @@ function MiniChart({ weeks, width, height, start, end, onMove }: MiniChartProps)
   const handleHeight = height - MINI_HANDLE_INSET * 2 - 2
 
   return (
-    <View
-      style={[
-        styles.mini,
-        {
-          width,
-          height
-        }
-      ]}
-    >
+    <View style={stl(styles.mini, { width, height })}>
       <Svg width={width} height={height}>
         <Rect x={0} y={0} width={width} height={height} rx={2} fill={COLOR.miniBg} />
         <Path d={stat.area} fill={COLOR.miniArea} />
         <Polyline points={stat.line} fill='none' stroke={COLOR.miniLine} strokeWidth={1} />
       </Svg>
       {stat.years.map(item => (
-        <Text
-          key={item.label}
-          style={[
-            styles.miniYear,
-            {
-              left: item.left - 14
-            }
-          ]}
-        >
+        <Text key={item.label} style={stl(styles.miniYear, { left: item.left - 14 })}>
           {item.label}
         </Text>
       ))}
       <GestureDetector gesture={panGesture}>
         <Animated.View
-          style={[
-            styles.selectBox,
-            {
-              top: 1,
-              width: selectWidth,
-              height: height - 2
-            },
-            selectStyle
-          ]}
+          style={stl(styles.selectBox, { width: selectWidth, height: height - 2 }, selectStyle)}
         >
-          <View
-            style={[
-              styles.handle,
-              {
-                left: 0,
-                top: MINI_HANDLE_INSET - 1,
-                height: handleHeight
-              }
-            ]}
-          />
-          <View
-            style={[
-              styles.handle,
-              {
-                right: 0,
-                top: MINI_HANDLE_INSET - 1,
-                height: handleHeight
-              }
-            ]}
-          />
+          <View style={stl(styles.handle, styles.handleLeft, { height: handleHeight })} />
+          <View style={stl(styles.handle, styles.handleRight, { height: handleHeight })} />
         </Animated.View>
       </GestureDetector>
     </View>
   )
 }
 
-export default observer(MiniChart)
+export default memo(MiniChart)

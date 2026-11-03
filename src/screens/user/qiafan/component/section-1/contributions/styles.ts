@@ -3,17 +3,17 @@
  * @Date: 2026-09-23 12:00:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-23 12:00:00
+ *
+ * 作者贡献卡片: 深色卡片、头像行与统计数字
  */
 import { _ } from '@stores'
 import { CARD_WIND, COLOR } from '../ds'
 
-export const CHART_HEIGHT = 96
-
 export const styles = _.create({
   card: {
     padding: CARD_WIND,
-    borderRadius: _.radiusSm,
-    backgroundColor: COLOR.card
+    backgroundColor: COLOR.card,
+    borderRadius: _.radiusSm
   },
   login: {
     fontSize: 13,

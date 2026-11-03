@@ -3,75 +3,36 @@
  * @Date: 2026-09-23 12:00:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-24 13:35:17
+ *
+ * 每周提交数柱状图: 触摸平移查看某周明细
  */
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import Svg, { Line, Rect } from 'react-native-svg'
-import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
-import { feedback } from '@utils'
+import { feedback, stl } from '@utils'
 import { scheduleOnRN } from '@utils/worklets'
-import {
-  BADGE_HEIGHT,
-  BAR_BOTTOM,
-  BAR_GAP,
-  BAR_INSET,
-  BAR_MIN_HEIGHT,
-  BAR_MIN_WIDTH,
-  COLOR,
-  TICK_TEXT_MIN_BOTTOM,
-  YEAR_MIN_GAP
-} from '../ds'
-import { formatWeek, getEvenMonthLabels, getMaxCount, getMonthLabels, getTicks } from '../utils'
+import { BADGE_HALF_WIDTH, BAR_BOTTOM, COLOR, TICK_TEXT_MIN_BOTTOM } from '../ds'
+import { formatWeek, getBarStat } from '../utils'
 import { styles } from './styles'
 
 import type { Props } from './types'
 
-/** badge 半宽估算, 用于跟手平移时居中 */
-const BADGE_HALF_WIDTH = 52
+/** 触点横坐标换算为柱位下标, 超出范围收敛到首尾柱 (worklet) */
+function toBarIndex(x: number, barWidth: number, count: number) {
+  'worklet'
+  return Math.max(0, Math.min(Math.floor(x / barWidth), count - 1))
+}
 
 /** 每周提交数柱状图, 触摸平移查看某周明细 */
 function BarChart({ weeks, width, height, label, withYearLabel }: Props) {
   /** 刻度、年份、柱子位置只与数据尺寸有关 */
-  const stat = useMemo(() => {
-    if (!weeks.length) return null
-
-    const max = getMaxCount(weeks)
-    const barWidth = width / weeks.length
-
-    /** 坐标系底部抬离图表下缘, 0 刻度与柱子不再贴底 */
-    const bottom = height - BAR_BOTTOM
-    const usableHeight = bottom - BAR_INSET
-
-    /** 每格给右侧留 BAR_GAP 缝, 密集时柱子之间仍有分割 */
-    const gap = Math.min(BAR_GAP, Math.max(barWidth - BAR_MIN_WIDTH, 0))
-    const w = Math.max(BAR_MIN_WIDTH, barWidth - gap)
-
-    return {
-      max,
-      bottom,
-      barWidth,
-      ticks: getTicks(max),
-      months: withYearLabel
-        ? getEvenMonthLabels(weeks, width, 5, true)
-        : getMonthLabels(weeks, width, YEAR_MIN_GAP),
-      bars: weeks.map((item, index) => {
-        const barHeight = Math.max(BAR_MIN_HEIGHT, (item.c / max) * usableHeight)
-        return {
-          key: item.w,
-          w: item.w,
-          c: item.c,
-          index,
-          x: index * barWidth,
-          y: bottom - barHeight,
-          width: w,
-          height: barHeight
-        }
-      })
-    }
-  }, [weeks, width, height, withYearLabel])
+  const stat = useMemo(
+    () => getBarStat(weeks, width, height, withYearLabel),
+    [weeks, width, height, withYearLabel]
+  )
 
   /** 当前探查的周下标, -1 表示未触摸 */
   const [active, setActive] = useState(-1)
@@ -83,12 +44,14 @@ function BarChart({ weeks, width, height, label, withYearLabel }: Props) {
   const showBadge = useSharedValue(false)
 
   /** worklet 里读不到组件变量, 用 shared value 传图表参数 */
-  const barWidthSV = useSharedValue(0)
+  const barWidthSV = useSharedValue(stat?.barWidth || 0)
   const widthSV = useSharedValue(width)
-  const countSV = useSharedValue(0)
-  barWidthSV.value = stat?.barWidth || 0
-  widthSV.value = width
-  countSV.value = stat?.bars.length || 0
+  const countSV = useSharedValue(stat?.bars.length || 0)
+  useEffect(() => {
+    barWidthSV.value = stat?.barWidth || 0
+    widthSV.value = width
+    countSV.value = stat?.bars.length || 0
+  }, [stat, width, barWidthSV, widthSV, countSV])
 
   /** index 变化时更新 state + 震动; 稳定引用供 worklet 调用 */
   const applyIndex = useCallback((index: number) => {
@@ -105,13 +68,13 @@ function BarChart({ weeks, width, height, label, withYearLabel }: Props) {
   const panGesture = Gesture.Pan()
     .activeOffsetX([-2, 2])
     .onStart(event => {
-      const index = Math.max(0, Math.min(Math.floor(event.x / barWidthSV.value), countSV.value - 1))
+      const index = toBarIndex(event.x, barWidthSV.value, countSV.value)
       showBadge.value = true
       badgeX.value = (index + 0.5) * barWidthSV.value
       scheduleOnRN(applyIndex, index)
     })
     .onUpdate(event => {
-      const index = Math.max(0, Math.min(Math.floor(event.x / barWidthSV.value), countSV.value - 1))
+      const index = toBarIndex(event.x, barWidthSV.value, countSV.value)
       badgeX.value = (index + 0.5) * barWidthSV.value
       scheduleOnRN(applyIndex, index)
     })
@@ -142,26 +105,23 @@ function BarChart({ weeks, width, height, label, withYearLabel }: Props) {
 
   return (
     <Flex>
-      <View style={[styles.axis, { height }]}>
+      <View style={stl(styles.axis, { height })}>
         {stat.ticks.map(tick => (
           <Text
             key={tick}
-            style={[
-              styles.tick,
-              {
-                /** 0 刻度兜底上移, 避免文字中心压底边线被裁 */
-                bottom: Math.max(
-                  BAR_BOTTOM + (tick / stat.max) * stat.bottom - 5,
-                  TICK_TEXT_MIN_BOTTOM
-                )
-              }
-            ]}
+            style={stl(styles.tick, {
+              /** 0 刻度兜底上移, 避免文字中心压底边线被裁 */
+              bottom: Math.max(
+                BAR_BOTTOM + (tick / stat.max) * stat.bottom - 5,
+                TICK_TEXT_MIN_BOTTOM
+              )
+            })}
           >
             {tick}
           </Text>
         ))}
       </View>
-      <View style={{ flex: 1 }}>
+      <View style={styles.main}>
         <GestureDetector gesture={panGesture}>
           <View>
             <Svg width={width} height={height}>
@@ -183,7 +143,7 @@ function BarChart({ weeks, width, height, label, withYearLabel }: Props) {
               })}
               {stat.bars.map(item => (
                 <Rect
-                  key={item.key}
+                  key={item.w}
                   x={item.x}
                   y={item.y}
                   width={item.width}
@@ -200,16 +160,7 @@ function BarChart({ weeks, width, height, label, withYearLabel }: Props) {
                 strokeWidth={1}
               />
             </Svg>
-            <Animated.View
-              style={[
-                styles.badge,
-                {
-                  height: BADGE_HEIGHT
-                },
-                badgeStyle
-              ]}
-              pointerEvents='none'
-            >
+            <Animated.View style={stl(styles.badge, badgeStyle)} pointerEvents='none'>
               {!!activeBar && (
                 <>
                   <Text style={styles.badgeValue} bold>
@@ -223,15 +174,7 @@ function BarChart({ weeks, width, height, label, withYearLabel }: Props) {
         </GestureDetector>
         <View style={styles.months}>
           {stat.months.map(item => (
-            <Text
-              key={item.label}
-              style={[
-                styles.month,
-                {
-                  left: item.left - 22
-                }
-              ]}
-            >
+            <Text key={item.label} style={stl(styles.month, { left: item.left - 22 })}>
               {item.label}
             </Text>
           ))}
@@ -246,4 +189,4 @@ function BarChart({ weeks, width, height, label, withYearLabel }: Props) {
   )
 }
 
-export default observer(BarChart)
+export default memo(BarChart)

@@ -3,6 +3,8 @@
  * @Date: 2026-09-23 12:00:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-24 11:31:23
+ *
+ * 仓库统计: 快照兜底 + 进程内只请求一次
  */
 import { useState } from 'react'
 import { useMount } from '@utils/hooks'
@@ -62,9 +64,7 @@ export function useGithubStats() {
 
   useMount(() => {
     if (cache) return
-    ;(async () => {
-      setStats(await fetchOnce())
-    })()
+    fetchOnce().then(setStats)
   })
 
   return stats

@@ -3,8 +3,10 @@
  * @Date: 2026-09-23 12:00:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-23 12:00:00
+ *
+ * 图表显示区间的平移状态
  */
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { WEEKS_DEFAULT_COUNT } from './ds'
 
 import type { Week } from '../../github'
@@ -19,16 +21,24 @@ export function useWeekRange(weeks: Week[]) {
     setStart(Math.max(weeks.length - WEEKS_DEFAULT_COUNT, 0))
   }, [weeks])
 
+  const moveTo = useCallback(
+    (index: number) => {
+      setStart(Math.min(Math.max(index, 0), maxStart))
+    },
+    [maxStart]
+  )
+
   /** 渲染期收敛, 不依赖额外一次 setStart 才生效 */
   const clampedStart = Math.min(start, maxStart)
 
   return {
+    /** 区间起始周下标 */
     start: clampedStart,
+
+    /** 区间结束周下标 */
     end: Math.min(clampedStart + WEEKS_DEFAULT_COUNT - 1, weeks.length - 1),
 
-    /** 平移到指定起始下标 (超出的部分在内部收敛) */
-    moveTo(index: number) {
-      setStart(Math.min(Math.max(index, 0), maxStart))
-    }
+    /** 平移到指定起始周下标 (超出的部分在内部收敛) */
+    moveTo
   }
 }

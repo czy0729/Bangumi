@@ -3,21 +3,17 @@
  * @Date: 2026-09-23 12:00:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-23 12:00:00
+ *
+ * 提交趋势卡片: 深色卡片与标题排版
  */
 import { _ } from '@stores'
 import { CARD_WIND, COLOR } from '../ds'
 
-/** 图表区高度 */
-export const CHART_HEIGHT = 110
-
-/** 总览缩略图高度 */
-export const MINI_HEIGHT = 34
-
 export const styles = _.create({
   card: {
     padding: CARD_WIND,
-    borderRadius: _.radiusSm,
-    backgroundColor: COLOR.card
+    backgroundColor: COLOR.card,
+    borderRadius: _.radiusSm
   },
   title: {
     fontSize: 13,

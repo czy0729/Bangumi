@@ -14,12 +14,7 @@ export default {
 
 export const Qiafan = () => (
   <StorybookSPA>
-    <StorybookList
-      style={{
-        // @ts-ignore
-        overflowY: 'scroll'
-      }}
-    >
+    <StorybookList>
       <Component />
     </StorybookList>
   </StorybookSPA>

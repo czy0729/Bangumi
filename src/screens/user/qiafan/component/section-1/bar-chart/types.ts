@@ -3,10 +3,13 @@
  * @Date: 2026-09-23 12:00:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-24 13:16:36
+ *
+ * 柱状图 Props
  */
 import type { Week } from '../../../github'
 
 export type Props = {
+  /** 每周提交数 */
   weeks: Week[]
 
   /** 图表区宽度 */

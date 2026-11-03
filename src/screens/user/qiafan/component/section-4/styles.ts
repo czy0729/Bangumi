@@ -3,6 +3,8 @@
  * @Date: 2022-08-20 10:22:51
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-23 12:00:00
+ *
+ * 收款码区块间距
  */
 import { _ } from '@stores'
 

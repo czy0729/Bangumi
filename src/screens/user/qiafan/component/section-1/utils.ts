@@ -3,22 +3,26 @@
  * @Date: 2026-09-23 12:00:00
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-24 13:51:28
+ *
+ * 图表刻度与柱状图几何计算
  */
 import { date } from '@utils'
-import { AXIS_WIDTH, CARD_WIND, SIDE_WIDTH, TICK_MAX_COUNT, TICK_STEPS, YEAR_MIN_GAP } from './ds'
+import {
+  AXIS_WIDTH,
+  BAR_BOTTOM,
+  BAR_GAP,
+  BAR_INSET,
+  BAR_MIN_HEIGHT,
+  BAR_MIN_WIDTH,
+  CARD_WIND,
+  SIDE_WIDTH,
+  TICK_MAX_COUNT,
+  TICK_STEPS,
+  YEAR_MIN_GAP
+} from './ds'
 
 import type { Week } from '../../github'
-import type { Label } from './types'
-
-/** 纵轴刻度值, 从 0 起按步长递增 */
-export function getTicks(max: number) {
-  const step =
-    TICK_STEPS.find(item => max / item <= TICK_MAX_COUNT) || Math.ceil(max / TICK_MAX_COUNT)
-
-  const ticks: number[] = []
-  for (let tick = 0; tick <= max; tick += step) ticks.push(tick)
-  return ticks
-}
+import type { BarStat, Label } from './types'
 
 /** 英文月份缩写 */
 const MONTH_NAMES = [
@@ -35,6 +39,66 @@ const MONTH_NAMES = [
   'Nov',
   'Dec'
 ] as const
+
+/** 纵轴刻度值, 从 0 起按步长递增 */
+export function getTicks(max: number) {
+  const step =
+    TICK_STEPS.find(item => max / item <= TICK_MAX_COUNT) || Math.ceil(max / TICK_MAX_COUNT)
+
+  const ticks: number[] = []
+  for (let tick = 0; tick <= max; tick += step) ticks.push(tick)
+  return ticks
+}
+
+/**
+ * 柱状图渲染数据, 空数据返回 null
+ *
+ * @param weeks 每周提交数
+ * @param width 图表区宽度
+ * @param height 图表区高度
+ * @param withYearLabel 横轴月份刻度带年份后两位
+ */
+export function getBarStat(
+  weeks: Week[],
+  width: number,
+  height: number,
+  withYearLabel?: boolean
+): BarStat | null {
+  if (!weeks.length) return null
+
+  const max = getMaxCount(weeks)
+  const barWidth = width / weeks.length
+
+  /** 坐标系底部抬离图表下缘, 0 刻度与柱子不再贴底 */
+  const bottom = height - BAR_BOTTOM
+  const usableHeight = bottom - BAR_INSET
+
+  /** 每格给右侧留 BAR_GAP 缝, 密集时柱子之间仍有分割 */
+  const gap = Math.min(BAR_GAP, Math.max(barWidth - BAR_MIN_WIDTH, 0))
+  const w = Math.max(BAR_MIN_WIDTH, barWidth - gap)
+
+  return {
+    max,
+    bottom,
+    barWidth,
+    ticks: getTicks(max),
+    months: withYearLabel
+      ? getEvenMonthLabels(weeks, width, 5, true)
+      : getMonthLabels(weeks, width),
+    bars: weeks.map((item, index) => {
+      const barHeight = Math.max(BAR_MIN_HEIGHT, (item.c / max) * usableHeight)
+      return {
+        w: item.w,
+        c: item.c,
+        index,
+        x: index * barWidth,
+        y: bottom - barHeight,
+        width: w,
+        height: barHeight
+      }
+    })
+  }
+}
 
 /** 月份标注, withYear 时带年份后两位 (Jul 26) */
 function formatMonth(timestamp: number, withYear: boolean = false) {

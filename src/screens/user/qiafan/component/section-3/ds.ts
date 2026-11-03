@@ -1,8 +1,10 @@
 /*
  * @Author: czy0729
  * @Date: 2026-09-24 11:27:31
- * @Last Modified by:   czy0729
+ * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-24 11:27:31
+ *
+ * 支持者权益列表数据
  */
 import type { Item } from './types'
 
@@ -20,4 +22,4 @@ export const ITEMS: Item[] = [
   { label: '豆瓣同步', desc: '完整同步功能' },
   { label: '翻译功能', desc: '支持多个翻译源' },
   { label: '小圣杯', desc: '通用玩法功能' }
-] as const
+]
