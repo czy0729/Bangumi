@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-11-18 06:22:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-01 10:15:00
+ * @Last Modified time: 2026-11-05 12:00:00
+ *
+ * 支持者页面逻辑与 treemap 排布状态
  */
 import { useCallback, useMemo, useState } from 'react'
 import { useInitStore } from '@stores'
@@ -14,6 +16,7 @@ import { LIST } from './ds'
 
 import type { NavigationProps } from '@types'
 import type { Ctx } from './types'
+
 /** 赞助者页面逻辑 */
 export function useSponsorPage(props: NavigationProps) {
   const context = useInitStore<Ctx['$']>(props, store)
@@ -35,16 +38,11 @@ export function useSponsorPage(props: NavigationProps) {
 }
 
 /** treemap 数据与筛选状态, 尺寸由布局测量给出 */
-export function useTreemapSquarify(
-  width: number,
-  height: number,
-  myUserId: string,
-  myId: string
-) {
+export function useTreemapSquarify(width: number, height: number, myUserId: string, myId: string) {
   const [filterUserIds, setFilterUserIds] = useState<string[]>([])
 
   /** 自己在名单里的下标, -1 为未上榜 */
-  const myIndex = useMemo(() => getMyIndex(myUserId, myId), [myUserId, myId])
+  const myIndex = getMyIndex(myUserId, myId)
 
   /** 隐藏一格 */
   const handleFilter = useCallback((id: string) => {
@@ -62,8 +60,7 @@ export function useTreemapSquarify(
 
     const before = LIST.slice(0, myIndex).map(item => item.data)
     const filterSet = new Set(filterUserIds)
-    const located =
-      filterUserIds.length === before.length && before.every(id => filterSet.has(id))
+    const located = filterUserIds.length === before.length && before.every(id => filterSet.has(id))
 
     setFilterUserIds(located ? [] : before)
     feedback()
@@ -74,6 +71,7 @@ export function useTreemapSquarify(
     setFilterUserIds([])
   }, [])
 
+  /** 按筛选结果缓存排布节点 */
   const { nodes, hiddenCount } = useMemo(() => buildNodes(filterUserIds), [filterUserIds])
   const data = useMemo(
     () => (width && height ? squarifyNodes(nodes, width, height) : []),
@@ -81,14 +79,31 @@ export function useTreemapSquarify(
   )
 
   return {
+    /** 排布后的节点 */
     data,
+
+    /** 已隐藏的格子数 */
     filterLength: filterUserIds.length,
+
+    /** 因占比过小未排布的格子数 */
     hiddenCount,
+
+    /** 自己在名单里的下标, -1 为未上榜 */
     myIndex,
+
+    /** 自己的 key, 未上榜为空字符串 */
     myData: myIndex >= 0 ? LIST[myIndex].data : '',
+
+    /** 隐藏一格 */
     handleFilter,
+
+    /** 只显示某一档 */
     handleBatchFilter,
+
+    /** 定位到自己 */
     handleLocate,
+
+    /** 重置全部隐藏 */
     handleResetFilter
   }
 }

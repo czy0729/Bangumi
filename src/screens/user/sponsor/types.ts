@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-01-07 17:25:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-01 10:14:57
+ * @Last Modified time: 2026-11-05 12:00:00
+ *
+ * 支持者页面类型定义
  */
 import type { WithNavigation } from '@types'
 import type Store from './store'
@@ -25,13 +27,7 @@ export type User = {
 }
 
 /** 支持者条目 */
-export type ListItemType = {
-  /** 用户 id, 同时是 USERS_MAP 的键 */
-  data: string
-
-  /** 支持额 */
-  weight: number
-}
+export type ListItemType = Pick<Node, 'data' | 'weight'>
 
 /** 参与排布的节点 */
 export type Node = {

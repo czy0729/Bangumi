@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-01-07 21:53:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-07 21:53:19
+ * @Last Modified time: 2026-11-05 12:00:00
+ *
+ * 奖牌图标类型
  */
 import type { ViewStyle } from '@types'
 
@@ -24,8 +26,10 @@ export type IconProps = {
   style?: ViewStyle
 }
 
+/** 奖牌档次 */
 export type LevelIconType = 'gold' | 'silver' | 'bronze'
 
+/** 奖牌图标属性 */
 export type Props = {
   /** 奖牌档次 */
   type: LevelIconType
@@ -34,6 +38,7 @@ export type Props = {
   size?: number
 }
 
+/** 奖牌图元属性 */
 export type MedalProps = {
   /** 边长 */
   size?: number

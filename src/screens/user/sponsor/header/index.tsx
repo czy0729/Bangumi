@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-07 15:16:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:58:32
+ * @Last Modified time: 2026-11-05 12:00:00
+ *
+ * 支持者头部: 布局切换与说明入口
  */
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -14,6 +16,7 @@ import { COMPONENT, HM, getInfoTexts } from './ds'
 
 import type { Ctx } from '../types'
 
+/** 支持者头部: 切换布局与说明入口 */
 function Header() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 

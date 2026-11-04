@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-09-07 02:44:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-21 19:06:32
+ * @Last Modified time: 2026-11-05 12:00:00
+ *
+ * treemap 单个色块
  */
-import { memo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, flexStyle, Text, Touchable, UserStatus } from '@components'
@@ -49,15 +50,7 @@ function Item({ w, h, x, y, data, percent, price, isMine, onPress, onLongPress }
   )
 
   return (
-    <View
-      style={[
-        styles.item,
-        {
-          top: y,
-          left: x
-        }
-      ]}
-    >
+    <View style={stl(styles.item, { top: y, left: x })}>
       <Touchable
         style={stl(
           flexStyle({ direction: 'column', justify: 'center' }),
@@ -108,4 +101,4 @@ function Item({ w, h, x, y, data, percent, price, isMine, onPress, onLongPress }
   )
 }
 
-export default memo(observer(Item))
+export default observer(Item)

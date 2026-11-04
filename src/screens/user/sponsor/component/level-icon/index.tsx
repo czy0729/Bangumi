@@ -7,7 +7,7 @@
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { MEDAL_COLORS } from './ds'
-import { IconMedal } from './icons'
+import IconMedal from './icons'
 
 import type { Props } from './types'
 

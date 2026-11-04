@@ -2,13 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-09-07 03:01:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-10 13:51:27
+ * @Last Modified time: 2026-11-05 12:00:00
+ *
+ * 图表顶部筛选条
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { IconTouchable } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { LEVEL_LABELS, LEVELS } from '../../../ds'
 import { memoStyles } from './styles'
 
@@ -53,7 +56,7 @@ function FilterBar({
                 accessibilityLabel={`只显示 ${LEVEL_LABELS[index]}`}
               >
                 <Flex>
-                  <View style={[styles.l, styles[item.level]]} />
+                  <View style={stl(styles.l, styles[item.level])} />
                   <Text style={_.mr.xs} size={11} bold>
                     {LEVEL_LABELS[index]}
                   </Text>

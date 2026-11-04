@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-07 03:01:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-10 13:51:27
+ * @Last Modified time: 2026-11-05 12:00:00
+ *
+ * treemap 网格与空态
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
@@ -14,16 +16,7 @@ import { memoStyles } from './styles'
 import type { Props } from './types'
 
 /** treemap 网格: 尺寸由容器布局测量后交给上层排布 */
-function Treemap({
-  data,
-  measured,
-  isDark,
-  myData,
-  onLayout,
-  onPress,
-  onLongPress,
-  onReset
-}: Props) {
+function Treemap({ data, measured, myData, onLayout, onPress, onLongPress, onReset }: Props) {
   const styles = memoStyles()
 
   return (
@@ -34,7 +27,6 @@ function Treemap({
             <Item
               key={item.data}
               {...item}
-              isDark={isDark}
               isMine={item.data === myData}
               onPress={onPress}
               onLongPress={onLongPress}

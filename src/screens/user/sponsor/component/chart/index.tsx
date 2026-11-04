@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2019-11-27 21:50:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-21 15:12:51
+ * @Last Modified time: 2026-11-05 12:00:00
+ *
+ * 支持额加权 treemap 图表容器
  */
 import { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
-import { _, systemStore, userStore } from '@stores'
+import { systemStore, userStore } from '@stores'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { USERS_MAP } from '../../ds'
@@ -77,7 +79,6 @@ function Chart() {
       <Treemap
         data={data}
         measured={!!frame.height}
-        isDark={_.isDark}
         myData={myData}
         onLayout={handleLayout}
         onPress={handleFilter}

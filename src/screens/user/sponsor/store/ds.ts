@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-07 14:38:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 04:35:43
+ * @Last Modified time: 2026-11-05 12:00:00
+ *
+ * 支持者页面 store 常量与初始状态
  */
 import { _ } from '@stores'
 import { COMPONENT } from '../ds'
@@ -22,6 +24,7 @@ export const EXCLUDE_STATE = {
 
 export const STATE = {
   ...EXCLUDE_STATE,
+  /** 列表布局, false 为按打赏金额分布 */
   list: true,
 
   /** 页面初始化完成 */

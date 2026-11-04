@@ -2,14 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-01-07 21:53:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2023-01-07 21:53:19
+ * @Last Modified time: 2026-11-05 12:00:00
+ *
+ * 奖牌 svg 图元
  */
 import Svg, { Circle, Path } from 'react-native-svg'
+import { observer } from 'mobx-react'
 
 import type { MedalProps } from './types'
 
 /** 奖牌: 挂带 + 牌面 + 内圈 + 高光弧 */
-export function IconMedal({ size = 20, main, edge, ribbon }: MedalProps) {
+function IconMedal({ size = 20, main, edge, ribbon }: MedalProps) {
   return (
     <Svg width={size} height={size} viewBox='0 0 24 24'>
       <Path d='M12 1 L8.4 8.6 L10.6 12 L12 10.4 L13.4 12 L15.6 8.6 Z' fill={ribbon} />
@@ -25,3 +28,5 @@ export function IconMedal({ size = 20, main, edge, ribbon }: MedalProps) {
     </Svg>
   )
 }
+
+export default observer(IconMedal)

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-07 00:56:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-04 19:16:51
+ * @Last Modified time: 2026-11-05 12:00:00
+ *
+ * 支持者名单查询、档位与 treemap 排布计算
  */
 import { toFixed } from '@utils'
 import dayjs from '@utils/thirdParty/dayjs'
@@ -28,6 +30,7 @@ const treemap = treemapRaw as unknown as {
   ) => void
 }
 
+/** 从项目开始至今的存活时间文案 */
 export function timeDiff() {
   const start = dayjs('2019-03-30')
   const now = dayjs()

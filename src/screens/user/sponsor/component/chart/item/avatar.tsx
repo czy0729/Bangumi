@@ -2,9 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-09-07 02:44:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-21 19:06:32
+ * @Last Modified time: 2026-11-05 12:00:00
+ *
+ * 色块内头像
  */
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { UserStatus } from '@components'
 import { Avatar } from '@_'
 import { USERS_MAP } from '../../../ds'
@@ -28,4 +31,4 @@ function ItemAvatar({ data, size, marginBottom, style }: AvatarProps) {
   )
 }
 
-export default ItemAvatar
+export default observer(ItemAvatar)

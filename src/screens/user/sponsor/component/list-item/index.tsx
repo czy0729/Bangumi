@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2023-01-07 21:53:19
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-01 05:34:24
+ * @Last Modified time: 2026-11-05 12:00:00
+ *
+ * 两列列表项
  */
 import { observer } from 'mobx-react'
 import { Flex, Text, UserStatus } from '@components'
@@ -13,7 +15,7 @@ import { useNavigation } from '@utils/hooks'
 import { LEVELS, USERS_MAP } from '../../ds'
 import { getLevelIndex, getSponsorAvatar } from '../../utils'
 import LevelIcon from '../level-icon'
-import { COMPONENT } from './ds'
+import { COMPONENT, IN_VIEW_ROW_HEIGHT } from './ds'
 import { styles } from './styles'
 
 import type { Props } from './types'
@@ -30,7 +32,7 @@ function ListItem({ item, index }: Props) {
 
   return (
     <Flex style={styles.item}>
-      <InView style={styles.inView} y={48 * (Math.floor(index / 2) + 1)}>
+      <InView style={styles.inView} y={IN_VIEW_ROW_HEIGHT * (Math.floor(index / 2) + 1)}>
         <UserStatus userId={userId}>
           <Avatar
             navigation={navigation}

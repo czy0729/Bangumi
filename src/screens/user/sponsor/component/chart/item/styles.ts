@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-07 02:44:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-08-21 19:06:32
+ * @Last Modified time: 2026-11-05 12:00:00
+ *
+ * 色块样式
  */
 import { _ } from '@stores'
 import { levelStyles } from '../../levels'
@@ -28,6 +30,7 @@ export const memoStyles = _.memoStyles(() => ({
   content: {
     width: '92%'
   },
+
   /** 自己的格子: 橙色底, 覆盖档位色阶 */
   mine: {
     backgroundColor: _.colorDepthAsk
