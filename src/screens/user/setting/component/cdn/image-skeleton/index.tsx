@@ -4,16 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 05:40:49
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Skeleton } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { t } from '@utils/fetch'
-import { IconImageOff } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSwitchSetting } from '../../../hooks'
+import { IconImageOff } from '../../icons'
 import { memoStyles } from './styles'
 
 import type { WithFilterProps } from '../../../types'
@@ -54,7 +54,7 @@ function ImageSkeleton({ filter }: WithFilterProps) {
 
       <ItemSettingBlock.Item style={_.ml.md} {...genItemProps(false)}>
         <Flex style={styles.container} justify='center'>
-          <View style={[styles.content, styles.placeholder]} />
+          <View style={stl(styles.content, styles.placeholder)} />
         </Flex>
       </ItemSettingBlock.Item>
 

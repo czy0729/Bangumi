@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-22 23:46:05
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { ActionSheet, Flex, SegmentedControl, SwitchPro, Text, Touchable } from '@components'
 import { BreathingLight, ItemSetting } from '@_'

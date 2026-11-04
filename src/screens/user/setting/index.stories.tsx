@@ -4,9 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-06 03:26:46
  */
-import React from 'react'
 import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
 import { Setting as Component } from '@screens'
+
+import type { Params } from './types'
 
 export default {
   title: 'screens/Setting',
@@ -16,8 +17,7 @@ export default {
 export const Setting = () => (
   <StorybookSPA>
     <StorybookList>
-      {/* @ts-expect-error */}
-      <Component {...getStorybookArgs('Setting')} />
+      <Component {...getStorybookArgs<Params>('Setting')} />
     </StorybookList>
   </StorybookSPA>
 )

@@ -11,7 +11,7 @@ export const COMPONENT = rc(PARENT, 'Katakana')
 
 export const TEXTS = {
   other: {
-    hd: '翻译',
+    hd: '翻译'
     // information: '翻译引擎、片假名终结者'
   },
   engine: {

@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-05 22:38:04
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemSettingBlock } from '@_'
 import { _, userStore } from '@stores'

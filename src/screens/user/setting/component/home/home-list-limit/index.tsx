@@ -8,6 +8,7 @@ import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { ItemSetting } from '@_'
 import { _, systemStore } from '@stores'
+import { stl } from '@utils'
 import { TEXTS } from '../ds'
 import { IconListCount } from '../../icons'
 
@@ -17,7 +18,7 @@ import type { WithFilterProps } from '../../../types'
 function HomeListLimit({ filter }: WithFilterProps) {
   return (
     <ItemSetting
-      style={[_.mt.sm, _.mb.md]}
+      style={stl(_.mt.sm, _.mb.md)}
       icon={<IconListCount />}
       ft={
         <Text style={_.mt.md} size={13} bold>

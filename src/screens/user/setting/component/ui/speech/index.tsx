@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-01-15 12:59:42
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap, Text } from '@components'
 import { randomSpeech } from '@components/mesume/utils'

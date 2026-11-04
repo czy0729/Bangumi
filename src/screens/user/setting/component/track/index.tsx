@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-29 20:27:41
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'

@@ -4,11 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-28 02:23:59
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActionSheet, Flex, Text } from '@components'
 import { _, systemStore } from '@stores'
+import { stl } from '@utils'
 import { t } from '@utils/fetch'
 import { useBoolean } from '@utils/hooks'
 import { MENU_MAP } from '@constants'
@@ -77,7 +78,7 @@ function CustomBtn() {
       </Flex>
 
       <ActionSheet show={state} height={552} onClose={handleCloseActionSheet}>
-        <Text style={[_.mt.sm, _.mb.xs]} bold align='center'>
+        <Text style={stl(_.mt.sm, _.mb.xs)} bold align='center'>
           选择一个功能作为入口
         </Text>
         <Flex style={_.mt.md} wrap='wrap' justify='center'>

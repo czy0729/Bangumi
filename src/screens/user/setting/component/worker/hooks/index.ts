@@ -38,10 +38,20 @@ export function useWorkerSettings() {
     ...workerFields,
     ...pingTests,
     ...proxyMode,
+
+    /** Worker 日志 */
     workerLogs,
+
+    /** ECH 是否开启 */
     echRunning: echProxy.echRunning,
+
+    /** ECH 操作中 */
     echLoading: echProxy.echLoading,
+
+    /** ECH 端口 */
     echPort: proxyMode.echPort || echProxy.echPort,
+
+    /** 保存字段到设置 */
     saveFields: workerFields.saveFields
   }
 }

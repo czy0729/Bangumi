@@ -1,4 +1,3 @@
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'

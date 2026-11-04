@@ -56,7 +56,16 @@ function usePingTest(buildRequest: BuildRequest) {
     [buildRequest]
   )
 
-  return { ...state, handlePing }
+  return {
+    /** 测速状态 */
+    status: state.status,
+
+    /** 耗时 (毫秒) */
+    ms: state.ms,
+
+    /** 触发测速 */
+    handlePing
+  }
 }
 
 /** Ping 测试集合 */
@@ -93,8 +102,13 @@ export function usePingTests() {
   )
 
   return {
+    /** 主站代理测速 */
     pingWorkerProxy,
+
+    /** 主站 API 代理测速 */
     pingWorkerApiProxy,
+
+    /** 图片代理测速 */
     pingWorkerLainProxy
   }
 }

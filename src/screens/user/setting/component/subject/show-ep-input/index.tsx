@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-28 02:52:22
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { IconSignal } from '../../icons'
 import { LAYOUT_VALUES, TEXTS } from '../ds'
 import ItemSettingSegmented from '../../item-setting-segmented'
@@ -26,4 +26,4 @@ function ShowEpInput({ filter }: WithFilterProps) {
   )
 }
 
-export default ShowEpInput
+export default observer(ShowEpInput)

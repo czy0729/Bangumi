@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-28 05:39:04
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { IconUsers } from '../../icons'
 import { LAYOUT_VALUES, TEXTS } from '../ds'
 import ItemSettingSegmented from '../../item-setting-segmented'
@@ -26,4 +26,4 @@ function ShowCount({ filter }: WithFilterProps) {
   )
 }
 
-export default ShowCount
+export default observer(ShowCount)

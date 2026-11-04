@@ -4,11 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-15 22:53:07
  */
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Text, Touchable } from '@components'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { formatTime } from './utils'
 import { LEVEL_COLORS, LEVEL_PREFIX, WORKER_TYPE_FILTERS } from './ds'
 import { styles } from './styles'
@@ -48,7 +49,7 @@ function LogConsole({ title, logs, showFilters = false, typeFilters }: Props) {
           {showFilters &&
             filters.map(({ key, label }) => (
               <Touchable key={key} onPress={() => toggleType(key)}>
-                <View style={[styles.filterBtn, activeTypes.has(key) && styles.filterBtnActive]}>
+                <View style={stl(styles.filterBtn, activeTypes.has(key) && styles.filterBtnActive)}>
                   <Text type={activeTypes.has(key) ? 'main' : 'sub'} size={9} bold>
                     {label}
                   </Text>
@@ -62,12 +63,12 @@ function LogConsole({ title, logs, showFilters = false, typeFilters }: Props) {
       </View>
 
       {/* 日志内容 */}
-      <View style={[styles.content, !filteredLogs.length && styles.empty]}>
+      <View style={stl(styles.content, !filteredLogs.length && styles.empty)}>
         {filteredLogs.length ? (
           filteredLogs.reverse().map((log, index) => (
             <View
               key={`${log.time}|${log.message}`}
-              style={[styles.row, index === filteredLogs.length - 1 && styles.rowLast]}
+              style={stl(styles.row, index === filteredLogs.length - 1 && styles.rowLast)}
             >
               {/* 时间 */}
               <Text style={styles.time} size={10}>

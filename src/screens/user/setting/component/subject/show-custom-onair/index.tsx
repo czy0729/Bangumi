@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-28 05:39:05
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import i18n from '@constants/i18n'
 import { IconTimer } from '../../icons'
 import { LAYOUT_VALUES, TEXTS } from '../ds'
@@ -28,4 +28,4 @@ function ShowCustomOnair({ filter }: WithFilterProps) {
   )
 }
 
-export default ShowCustomOnair
+export default observer(ShowCustomOnair)

@@ -4,17 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 21:50:17
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { t } from '@utils/fetch'
 import { useAsyncSetSetting } from '@utils/hooks'
 import { MODEL_SETTING_TRANSITION } from '@constants'
-import { IconAnimation } from '../../icons'
 import { TEXTS } from '../ds'
+import { IconAnimation } from '../../icons'
 import { memoStyles } from './styles'
 
 import type { WithFilterProps } from '../../../types'
@@ -50,37 +50,22 @@ function Transition({ filter }: WithFilterProps) {
     <ItemSettingBlock icon={<IconAnimation />} filter={filter} {...TEXTS.transition.setting}>
       <ItemSettingBlock.Item {...genItemProps('horizontal')}>
         <Flex style={styles.container} justify='center'>
-          <View
-            style={[
-              styles.page,
-              {
-                left: 2
-              }
-            ]}
-          />
-          <View
-            style={[
-              styles.page,
-              styles.pageCurrent,
-              {
-                right: 2
-              }
-            ]}
-          />
+          <View style={stl(styles.page, { left: 2 })} />
+          <View style={stl(styles.page, styles.pageCurrent, { right: 2 })} />
         </Flex>
       </ItemSettingBlock.Item>
 
       <ItemSettingBlock.Item style={_.ml.md} {...genItemProps('vertical')}>
         <Flex style={styles.container} direction='column' justify='center'>
-          <View style={[styles.page, styles.pageVertical]} />
-          <View style={[styles.page, styles.pageVertical, styles.pageCurrent]} />
+          <View style={stl(styles.page, styles.pageVertical)} />
+          <View style={stl(styles.page, styles.pageVertical, styles.pageCurrent)} />
         </Flex>
       </ItemSettingBlock.Item>
 
       <ItemSettingBlock.Item style={_.ml.md} {...genItemProps('scale')}>
         <Flex style={styles.container} justify='center'>
           <View style={styles.page} />
-          <View style={[styles.page, styles.pageSlideFade]} />
+          <View style={stl(styles.page, styles.pageSlideFade)} />
         </Flex>
       </ItemSettingBlock.Item>
 

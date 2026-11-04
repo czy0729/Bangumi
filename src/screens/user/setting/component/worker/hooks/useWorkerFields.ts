@@ -117,25 +117,64 @@ export function useWorkerFields() {
   })
 
   return {
+    /** 主站代理地址 */
     workerProxy,
+
+    /** 主站代理密钥 */
     workerSecret,
+
+    /** 图片代理地址 */
     workerLainProxy,
+
+    /** 图片代理密钥 */
     workerLainSecret,
+
+    /** 主站 API 代理地址 */
     workerApiProxy,
+
+    /** 是否禁用 Worker 代理 */
     workerProxyDisabled: systemStore.setting.workerProxyDisabled,
+
+    /** 是否直连 */
     workerProxyDirect: systemStore.setting.workerProxyDirect,
+
+    /** 各字段的锁定状态 */
     lockedFields,
+
+    /** 当前聚焦的字段 */
     focusedField,
+
+    /** 更新主站代理地址 */
     setWorkerProxy: handleSetWorkerProxy,
+
+    /** 更新主站代理密钥 */
     setWorkerSecret: handleSetWorkerSecret,
+
+    /** 更新图片代理地址 */
     setWorkerLainProxy: handleSetWorkerLainProxy,
+
+    /** 更新图片代理密钥 */
     setWorkerLainSecret: handleSetWorkerLainSecret,
+
+    /** 更新主站 API 代理地址 */
     setWorkerApiProxy: handleSetWorkerApiProxy,
+
+    /** 切换禁用 Worker 代理 */
     setWorkerProxyDisabled,
+
+    /** 切换直连 */
     setWorkerProxyDirect,
+
+    /** 切换字段锁定 */
     toggleLock,
+
+    /** 字段聚焦 */
     handleFocus,
+
+    /** 字段失焦 */
     handleBlur,
+
+    /** 保存字段到设置 */
     saveFields
   }
 }

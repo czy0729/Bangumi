@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-13 22:20:00
  */
-import React from 'react'
 import Svg from 'react-native-svg'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
@@ -18,7 +17,7 @@ import type { ViewStyle } from '@types'
  *  - 参考 web/test/umami 的 Lucide 风格: 24 viewBox、fill none、stroke、round linecap/linejoin
  *  - 颜色由基座订阅主题, 主题切换时父级 (行组件) 不需要重渲染
  * */
-export interface IconProps {
+export type IconProps = {
   /** 图标边长 (px) */
   size?: number
 

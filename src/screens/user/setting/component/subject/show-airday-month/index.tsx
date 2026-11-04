@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-28 05:38:45
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { IconCalendar } from '../../icons'
 import { TEXTS } from '../ds'
 import ItemSettingSwitch from '../../item-setting-switch'
@@ -25,4 +25,4 @@ function ShowAirdayMonth({ filter }: WithFilterProps) {
   )
 }
 
-export default ShowAirdayMonth
+export default observer(ShowAirdayMonth)

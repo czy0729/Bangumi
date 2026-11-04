@@ -49,9 +49,16 @@ export function useSettingPage({ navigation, route }: NavigationProps<Params>) {
   })
 
   return {
+    /** 导航对象 */
     navigation,
+
+    /** 当前筛选关键字 */
     filter,
+
+    /** 更新筛选关键字 */
     setFilter,
+
+    /** 当前展开的分组 */
     open,
 
     /** 收集 ScrollView.ref */
@@ -81,7 +88,10 @@ export function useAsyncSwitchSetting(key: SwitchSettingKeys) {
   }, [key, value])
 
   return {
+    /** 开关当前值 */
     value,
+
+    /** 切换开关 (本地先行, 延迟写入设置) */
     handleSwitch
   }
 }
@@ -102,7 +112,10 @@ export function useAsyncSetSetting<T extends SetSettingKeys>(key: T) {
   )
 
   return {
+    /** 设置当前值 */
     value,
+
+    /** 更新设置 (本地先行, 延迟写入) */
     handleSet
   }
 }

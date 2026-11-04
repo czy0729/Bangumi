@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 21:15:07
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { r } from '@utils/dev'

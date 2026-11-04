@@ -136,12 +136,21 @@ export function getStorybookRoute(routeName: string) {
   }
 }
 
-export function getStorybookArgs(routeName: string): NavigationProps {
+/** NavigationProps 默认的页面参数, 从类型自身推导, 不重复声明 */
+type StorybookParams = NonNullable<NavigationProps['route']>['params']
+
+/**
+ * Storybook 版页面 props
+ *  - 只注入路由名, 页面参数为空, 页面取值需容忍 params 不存在
+ *
+ * @param routeName 路由名
+ */
+export function getStorybookArgs<T = StorybookParams>(routeName: string): NavigationProps<T> {
   const route = getStorybookRoute(routeName)
 
   // storybook 仿导航对象与 react-navigation 的 Navigation 只有鸭子类型层面的兼容, 在此定型到页面 props 边界
   return {
     navigation: StorybookNavigation,
     route
-  } as unknown as NavigationProps
+  } as unknown as NavigationProps<T>
 }

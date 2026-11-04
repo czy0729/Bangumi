@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-03 23:25:15
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
 import { ActionSheet, Heatmap, Text } from '@components'
 import { clearCache } from '@components/image/image'

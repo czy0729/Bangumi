@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-16 21:42:18
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap, SegmentedControl } from '@components'
 import { ItemSetting } from '@_'

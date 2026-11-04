@@ -4,12 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-13 23:30:00
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Button, Flex, Heatmap } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { t } from '@utils/fetch'
 import { IconFlame } from '../../icons'
 import { TEXTS } from '../ds'
@@ -55,19 +55,19 @@ function HomeHeatMap({ filter }: WithFilterProps) {
             <Button type='ghostPlain' size='sm'>
               1
             </Button>
-            <View style={[styles.bar, styles.bar3]} />
+            <View style={stl(styles.bar, styles.bar3)} />
           </View>
           <View style={_.ml.xs}>
             <Button type='ghostPlain' size='sm'>
               2
             </Button>
-            <View style={[styles.bar, styles.bar2]} />
+            <View style={stl(styles.bar, styles.bar2)} />
           </View>
           <View style={_.ml.xs}>
             <Button type='ghostPlain' size='sm'>
               3
             </Button>
-            <View style={[styles.bar, styles.bar1]} />
+            <View style={stl(styles.bar, styles.bar1)} />
           </View>
         </Flex>
       </ItemSettingBlock.Item>
@@ -92,19 +92,19 @@ function HomeHeatMap({ filter }: WithFilterProps) {
             <Button type='ghostPlain' size='sm'>
               1
             </Button>
-            <View style={[styles.bar, styles.bar0]} />
+            <View style={stl(styles.bar, styles.bar0)} />
           </View>
           <View style={_.ml.xs}>
             <Button type='ghostPlain' size='sm'>
               2
             </Button>
-            <View style={[styles.bar, styles.bar0]} />
+            <View style={stl(styles.bar, styles.bar0)} />
           </View>
           <View style={_.ml.xs}>
             <Button type='ghostPlain' size='sm'>
               3
             </Button>
-            <View style={[styles.bar, styles.bar0]} />
+            <View style={stl(styles.bar, styles.bar0)} />
           </View>
         </Flex>
       </ItemSettingBlock.Item>

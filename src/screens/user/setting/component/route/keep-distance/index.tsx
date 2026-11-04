@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-23 12:00:00
  */
+import { observer } from 'mobx-react'
 import { KEEP_DISTANCE, TEXTS } from '../ds'
 import { IconTabKeep } from '../../icons'
 import ItemSettingSegmented from '../../item-setting-segmented'
@@ -23,4 +24,4 @@ function KeepDistance({ filter }: WithFilterProps) {
   )
 }
 
-export default KeepDistance
+export default observer(KeepDistance)

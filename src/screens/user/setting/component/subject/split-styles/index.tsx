@@ -4,17 +4,18 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-09 22:37:51
  */
-import React, { useCallback, useRef } from 'react'
-import { observer } from 'mobx-react'
+import { useCallback, useRef } from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Flex, Heatmap, ScrollView, Text } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { t } from '@utils/fetch'
 import { useAsyncSetSetting, useMount } from '@utils/hooks'
 import { MODEL_SETTING_SUBJECT_SPLIT_STYLES, SETTING_SUBJECT_SPLIT_STYLES } from '@constants'
-import { IconDivider } from '../../icons'
 import { TEXTS } from '../ds'
+import { IconDivider } from '../../icons'
 import { ITEM_WIDTH } from './ds'
 import { memoStyles } from './styles'
 
@@ -69,9 +70,9 @@ function SplitStyles({ filter }: WithFilterProps) {
 
   const renderBlock = (text: string, ts?: object, us?: object) => (
     <View>
-      {!!us && <View style={[styles.underline, us]} />}
+      {!!us && <View style={stl(styles.underline, us)} />}
       <Flex justify='center'>
-        {!!ts && <View style={[styles.title, ts]} />}
+        {!!ts && <View style={stl(styles.title, ts)} />}
         <Text size={12} bold align='center' shadow>
           {text}
         </Text>

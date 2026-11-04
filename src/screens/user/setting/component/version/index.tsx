@@ -4,12 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-13 22:51:44
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
 import { IconTouchable, ItemSetting } from '@_'
 import { _, systemStore } from '@stores'
-import { open } from '@utils'
+import { open, stl } from '@utils'
 import { r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { GITHUB_RELEASE, URL_RELEASE, VERSION_GITHUB_RELEASE } from '@constants'
@@ -39,7 +38,7 @@ function Version({ filter }: WithFilterProps) {
       icon={<IconTag />}
       hd={TEXTS.version.hd}
       arrow
-      arrowStyle={[_.ml.sm, _.mr.xxs]}
+      arrowStyle={stl(_.ml.sm, _.mr.xxs)}
       arrowIcon='yuque'
       arrowSize={17}
       highlight

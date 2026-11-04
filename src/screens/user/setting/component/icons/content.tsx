@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-13 22:20:00
  */
-import React from 'react'
 import { Circle, Line, Path, Polygon, Polyline, Rect } from 'react-native-svg'
 import { IconBase } from './base'
 

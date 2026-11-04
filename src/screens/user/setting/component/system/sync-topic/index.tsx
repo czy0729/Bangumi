@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 18:31:24
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemSetting } from '@_'
 import { IconFileText } from '../../icons'

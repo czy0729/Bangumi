@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-04-20 20:31:14
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { View } from 'react-native'
 import { Avatar, Heatmap } from '@components'

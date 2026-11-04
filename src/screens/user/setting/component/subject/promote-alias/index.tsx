@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-28 05:38:37
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { IconPin } from '../../icons'
 import { TEXTS } from '../ds'
 import ItemSettingSwitch from '../../item-setting-switch'
@@ -25,4 +25,4 @@ function PromoteAlias({ filter }: WithFilterProps) {
   )
 }
 
-export default PromoteAlias
+export default observer(PromoteAlias)

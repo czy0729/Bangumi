@@ -78,9 +78,16 @@ export function useProxyMode() {
   )
 
   return {
+    /** 当前代理模式 */
     proxyMode,
+
+    /** 切换代理模式 */
     setProxyMode,
+
+    /** ECH 端口 */
     echPort,
+
+    /** 更新 ECH 端口 */
     setEchPort
   }
 }

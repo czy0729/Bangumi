@@ -4,16 +4,15 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 18:09:37
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _ } from '@stores'
 import { t } from '@utils/fetch'
 import { SETTING_HOME_COUNT_VIEW } from '@constants'
-import { IconHash } from '../../icons'
 import { HOME_COUNT_VIEW, TEXTS } from '../ds'
 import { useAsyncSetSetting } from '../../../hooks'
+import { IconHash } from '../../icons'
 
 import type { WithFilterProps } from '../../../types'
 
@@ -22,11 +21,7 @@ function HomeCountView({ filter }: WithFilterProps) {
   const { value, handleSet } = useAsyncSetSetting('homeCountView')
 
   return (
-    <ItemSettingBlock
-      icon={<IconHash />}
-      filter={filter}
-      {...TEXTS.homeCountView}
-    >
+    <ItemSettingBlock icon={<IconHash />} filter={filter} {...TEXTS.homeCountView}>
       {SETTING_HOME_COUNT_VIEW.map((item, index) => (
         <ItemSettingBlock.Item
           style={!!index && _.ml.md}

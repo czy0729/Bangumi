@@ -159,9 +159,7 @@ export const TEXTS = {
   },
   layout: {
     text: '页面布局',
-    search: (Object.keys(DATA) as (keyof typeof DATA)[])
-      .map(key => DATA[key])
-      .join()
+    search: (Object.keys(DATA) as (keyof typeof DATA)[]).map(key => DATA[key]).join()
   },
   commentSplit: {
     hd: '吐槽项自动换行',

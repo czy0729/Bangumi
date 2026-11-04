@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-01-25 14:44:06
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap, SwitchPro, Text } from '@components'
 import { ItemSetting, ItemSettingBlock } from '@_'

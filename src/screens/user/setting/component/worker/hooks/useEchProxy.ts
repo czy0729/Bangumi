@@ -63,10 +63,19 @@ export function useEchProxy() {
   }, [echLoading])
 
   return {
+    /** ECH 是否开启 */
     echRunning: systemStore.setting.echProxyEnabled,
+
+    /** ECH 操作中 */
     echLoading,
+
+    /** ECH 端口 */
     echPort,
+
+    /** ECH 日志 */
     echLogs,
+
+    /** 开关 ECH */
     toggleEchProxy
   }
 }

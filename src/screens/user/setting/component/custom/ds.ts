@@ -11,7 +11,7 @@ export const COMPONENT = rc(PARENT, 'Custom')
 
 export const TEXTS = {
   custom: {
-    hd: '内容过滤',
+    hd: '内容过滤'
     // information: '隐藏评分、屏蔽类开关'
   },
   hideScore: {

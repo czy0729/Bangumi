@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-29 20:06:04
  */
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActionSheet } from '@components'

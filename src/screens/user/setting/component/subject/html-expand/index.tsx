@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-04-12 17:28:38
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { IconExternalLink } from '../../icons'
 import { TEXTS } from '../ds'
 import ItemSettingSwitch from '../../item-setting-switch'
@@ -26,4 +26,4 @@ function HtmlExpand({ filter }: WithFilterProps) {
   )
 }
 
-export default HtmlExpand
+export default observer(HtmlExpand)

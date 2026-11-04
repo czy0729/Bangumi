@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-24 21:16:26
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemSetting } from '@_'
 import { IconGauge } from '../../icons'

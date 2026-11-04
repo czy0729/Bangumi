@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { Input } from '@components'
 import { ItemSettingBlock } from '@_'
 import { _, systemStore } from '@stores'
-import { alert } from '@utils'
+import { alert, stl } from '@utils'
 import { useMount } from '@utils/hooks'
 import commonStyles from '../../../styles'
 import { TEXTS } from '../ds'
@@ -92,7 +92,7 @@ function TranslateEngine({ filter, onScrollIntoViewIfNeeded }: Props) {
               onChangeText={handleChangeAppId}
             />
             <Input
-              style={[commonStyles.input2, _.mt.md]}
+              style={stl(commonStyles.input2, _.mt.md)}
               defaultValue={appKey.current}
               placeholder='密钥'
               showClear

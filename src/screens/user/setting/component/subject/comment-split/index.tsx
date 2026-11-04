@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-12-09 20:13:23
  */
-import React from 'react'
+import { observer } from 'mobx-react'
 import { IconWrapText } from '../../icons'
 import { TEXTS } from '../ds'
 import ItemSettingSwitch from '../../item-setting-switch'
@@ -13,7 +13,7 @@ import { THUMB } from './ds'
 import type { WithFilterProps } from '../../../types'
 
 /** 条目对吐槽中的斜杠进行换行 */
-function HtmlExpand({ filter }: WithFilterProps) {
+function CommentSplit({ filter }: WithFilterProps) {
   return (
     <ItemSettingSwitch
       icon={<IconWrapText />}
@@ -25,4 +25,4 @@ function HtmlExpand({ filter }: WithFilterProps) {
   )
 }
 
-export default HtmlExpand
+export default observer(CommentSplit)

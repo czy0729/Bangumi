@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-02 02:45:56
  */
-import React from 'react'
 import { View } from 'react-native'
+import { observer } from 'mobx-react'
 import { Input, Text, Touchable } from '@components'
 import { info } from '@utils'
 import { memoStyles } from './styles'
@@ -64,4 +64,4 @@ function InputItem({
   )
 }
 
-export default InputItem
+export default observer(InputItem)

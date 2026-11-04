@@ -4,17 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-28 01:51:23
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Text } from '@components'
 import { ItemSettingBlock } from '@_'
 import { memoStyles } from '@_/base/user-age/styles'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { t } from '@utils/fetch'
-import { IconClock } from '../../icons'
 import { TEXTS } from '../ds'
 import { useAsyncSetSetting, useAsyncSwitchSetting } from '../../../hooks'
 import { getYuqueThumbs } from '../../../utils'
+import { IconClock } from '../../icons'
 
 import type { WithFilterProps } from '../../../types'
 
@@ -77,7 +77,7 @@ function UserAge({ filter }: WithFilterProps) {
           <Text type='sub' size={11} lineHeight={13} align='center'>
             班友
           </Text>
-          <Text style={[styles.text, _.ml.xs]} size={9} noWrap>
+          <Text style={stl(styles.text, _.ml.xs)} size={9} noWrap>
             0.5 年
           </Text>
         </Flex>
@@ -103,7 +103,7 @@ function UserAge({ filter }: WithFilterProps) {
           <Text type='sub' size={11} lineHeight={13} align='center'>
             班友
           </Text>
-          <Text style={[styles.text, _.ml.xs]} size={9} noWrap>
+          <Text style={stl(styles.text, _.ml.xs)} size={9} noWrap>
             6 月
           </Text>
         </Flex>
