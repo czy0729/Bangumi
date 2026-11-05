@@ -3,13 +3,10 @@
  * @Date: 2022-08-20 16:00:02
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-15 07:01:22
+ *
+ * 时间线条目样式
  */
 import { _ } from '@stores'
-import { IMG_HEIGHT, IMG_WIDTH } from '@constants'
-
-export const WIDTH = _.r(IMG_WIDTH / 1.1)
-
-export const HEIGHT = _.r(IMG_HEIGHT / 1.1)
 
 export const memoStyles = _.memoStyles(() => ({
   nodeDay: {

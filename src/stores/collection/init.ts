@@ -6,6 +6,7 @@
  */
 import { MODEL_COLLECTION_STATUS, MODEL_COLLECTIONS_ORDERBY, MODEL_SUBJECT_TYPE } from '@constants'
 
+import type { HeatmapType } from '@utils/kv/type'
 import type { SubjectId } from '@types'
 import type {
   Collection,
@@ -61,6 +62,9 @@ export const STATE = {
   /** 瓷砖进度 */
   mosaicTile: {} as MosaicTile,
 
+  /** 瓷砖数据类型 (全部 / 时间胶囊 / 社区 / Wiki), 全应用唯一且本地化 */
+  mosaicTileType: 'all' as HeatmapType,
+
   /** 特定用户特定条目的收藏信息 */
   usersSubjectCollection: {
     0: DEFAULT_USERS_SUBJECT_COLLECTION
@@ -72,6 +76,7 @@ export const LOADED = {
   collection: false,
   collectionStatus: false,
   mosaicTile: false,
+  mosaicTileType: false,
   userCollections: false,
   userCollectionsForMilestone: false,
   userCollectionsMap: false,

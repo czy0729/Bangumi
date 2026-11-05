@@ -20,7 +20,7 @@ import type { XHRArgs, XHRCustomArgs } from './types'
 /** 带登录信息的 XMLHttpRequest */
 export function xhr(
   args: XHRArgs,
-  success: (responseText?: string, request?: XMLHttpRequest) => any = FROZEN_FN,
+  success: (responseText?: string, request?: XMLHttpRequest) => void = FROZEN_FN,
   fail: (request: XMLHttpRequest) => void = FROZEN_FN
 ) {
   const { method = 'POST', url, data = {}, noConsole } = args || {}
@@ -45,16 +45,16 @@ export function xhr(
   const hide = noConsole ? 0 : loading()
   const request = new XMLHttpRequest()
 
-  request.onreadystatechange = function () {
-    if (this.readyState !== 4) return
+  request.onreadystatechange = () => {
+    if (request.readyState !== 4) return
     if (hide) hide()
-    if (this.status === 200) {
-      success(this.responseText, this)
+    if (request.status === 200) {
+      success(request.responseText, request)
     } else {
-      fail(this)
+      fail(request)
       err('xhr', 'fail:', { requestUrl })
     }
-  }.bind(request)
+  }
 
   request.open(method, requestUrl)
   request.withCredentials = false
@@ -89,35 +89,44 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{ _response: string }> {
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
 
-    request.onreadystatechange = function () {
-      if (this.readyState !== 4) return
+    request.onreadystatechange = () => {
+      if (request.readyState !== 4) return
 
-      if (this.status === 200 || this.status === 201) {
-        resolve(WEB ? { ...this, _response: this._response || this.responseText } : this)
+      /** web 端 XHR 被展开成普通对象, 响应体额外挂在 _response 上 */
+      const responseText =
+        (request as XMLHttpRequest & { _response?: string })._response || request.responseText
+
+      if (request.status === 200 || request.status === 201) {
+        /** 原生端返回 XHR 本体, 与 web 端的 _response 取值方式保持兼容 */
+        resolve(
+          (WEB ? { ...request, _response: responseText } : request) as unknown as {
+            _response: string
+          }
+        )
         return
       }
 
       err('xhrCustom', 'error:', {
-        status: this.status,
+        status: request.status,
         requestUrl,
-        responseText: this._response || this.responseText
+        responseText
       })
-      if (this.status === 404 || this.status === 500) {
-        reject(new TypeError(String(this.status)))
+      if (request.status === 404 || request.status === 500) {
+        reject(new TypeError(String(request.status)))
       }
-    }.bind(request)
+    }
 
-    request.onerror = function () {
+    request.onerror = () => {
       reject(new TypeError('xhrCustom onError'))
-    }.bind(request)
+    }
 
-    request.ontimeout = function () {
+    request.ontimeout = () => {
       reject(new TypeError('xhrCustom onTimeout'))
-    }.bind(request)
+    }
 
-    request.onabort = function () {
+    request.onabort = () => {
       reject(new TypeError('xhrCustom onAbort'))
-    }.bind(request)
+    }
 
     request.open(method, requestUrl, true)
     request.withCredentials = withCredentials
@@ -132,7 +141,7 @@ export function xhrCustom(args: XHRCustomArgs): Promise<{ _response: string }> {
     const body = data
       ? typeof data === 'string'
         ? JSON.stringify(data)
-        : urlStringify(data)
+        : urlStringify(data as Record<string, string | number | boolean>)
       : null
     request.send(body)
 

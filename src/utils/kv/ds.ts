@@ -3,7 +3,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 13:14:01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:30:32
+ * @Last Modified time: 2026-11-05 05:42:35
  */
 import { WEB } from '@constants/device'
 import { UA } from '@constants/env'
@@ -43,10 +43,6 @@ export const HOST_RY_MK = Crypto.get<string>(
 
 export const HOST_RY_MK_AI = Crypto.get<string>(
   'U2FsdGVkX19gchsnlABBsDYde7RVoeK7McnOMcJcw5KCXR0vf4zeX76q81QALgmw'
-)
-
-export const HOST_HM = Crypto.get<string>(
-  'U2FsdGVkX1+asNWQt7K0i6LxZhv5NatP0c1eETXeQ+rT/GnP8lXYoUxcXtiNHbw4oyAQrHI4IZC/E1jcpODKQQ=='
 )
 
 /**

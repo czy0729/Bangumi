@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-03-16 02:01:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:58:55
+ * @Last Modified time: 2026-11-05 12:00:00
+ *
+ * 用户时间线头部
  */
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -10,12 +12,13 @@ import { HeaderV2 } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { info } from '@utils'
-import { HM } from './ds'
+import { COMPONENT, HM } from './ds'
 
 import type { Ctx } from '../types'
 
+/** 用户时间线头部: 显示用户名与说明入口 */
 function Header() {
-  const { $ } = useStore<Ctx>()
+  const { $ } = useStore<Ctx>(COMPONENT)
 
   const handleHeaderRight = useCallback(
     () => (

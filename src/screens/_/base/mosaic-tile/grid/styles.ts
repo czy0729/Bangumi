@@ -3,12 +3,11 @@
  * @Date: 2022-08-20 15:53:15
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-20 12:33:29
+ *
+ * 热力图网格样式
  */
 import { _ } from '@stores'
-
-export const PX = _.r(12)
-
-export const MARGIN = _.r(3)
+import { MARGIN, PX } from './ds'
 
 export const memoStyles = _.memoStyles(() => ({
   container: {
@@ -57,8 +56,5 @@ export const memoStyles = _.memoStyles(() => ({
   itemToday: {
     borderWidth: 1,
     borderColor: _.colorTitle
-  },
-  footer: {
-    marginRight: _.wind - _._wind + _.sm
   }
 }))

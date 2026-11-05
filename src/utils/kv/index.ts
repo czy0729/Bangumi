@@ -19,7 +19,6 @@ import {
   HOST_C2,
   HOST_C2_CONFIG,
   HOST_COMPLETIONS,
-  HOST_HM,
   HOST_PIC_LIST,
   HOST_RY_MK,
   HOST_RY_MK_AI,
@@ -30,6 +29,7 @@ import {
 import type { TranslateResult, UserId } from '@types'
 import type {
   GenerateType,
+  HeatmapDataType,
   Result,
   ResultAvatarHistory,
   ResultCollectList,
@@ -602,19 +602,39 @@ export async function picList(prefix: string, maxKeys: number = 100): Promise<Re
   return null
 }
 
-export async function heatmap(username: UserId): Promise<false | ResultHeatmap> {
+/**
+ * 拉取单一类型的热力图数据
+ *
+ * @param username 用户名或用户 id
+ * @param type 数据类型
+ */
+async function heatmapByType(username: UserId, type: HeatmapDataType): Promise<ResultHeatmap> {
   if (!userAgent) userAgent = await Constants.getWebViewUserAgentAsync()
 
-  try {
-    const response = await axios<ResultHeatmap>({
-      method: 'get',
-      url: `${HOST_HM}/${username}`,
-      headers: {
-        'User-Agent': userAgent
-      }
-    })
+  const response = await axios<ResultHeatmap>({
+    method: 'get',
+    url: `${HOST_RY_MK}/heatmap/${type}/${username}`,
+    headers: {
+      'User-Agent': userAgent
+    }
+  })
 
-    return response?.data
+  return response?.data || []
+}
+
+/**
+ * 热力图数据
+ *  - 服务端没有 all 接口, 全部由调用方把时间胶囊与社区合并
+ *
+ * @param username 用户名或用户 id
+ * @param type 数据类型, 默认时间胶囊
+ */
+export async function heatmap(
+  username: UserId,
+  type: HeatmapDataType = 'timeline'
+): Promise<false | ResultHeatmap> {
+  try {
+    return await heatmapByType(username, type)
   } catch (error) {
     err('heatmap', error)
   }

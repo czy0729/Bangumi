@@ -349,7 +349,7 @@ export default class Fetch extends Computed {
     }
   }
 
-  /** 瓷砖进度数据 */
+  /** 瓷砖进度数据, 拉取的是时间胶囊类型 */
   fetchMosaicTile = async (userId: UserId = userStore.myId) => {
     const STATE_KEY = 'mosaicTile'
     const username = userId || userStore.myId

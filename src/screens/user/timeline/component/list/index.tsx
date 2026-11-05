@@ -2,18 +2,22 @@
  * @Author: czy0729
  * @Date: 2020-07-21 13:45:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-15 07:09:04
+ * @Last Modified time: 2026-11-05 12:00:00
+ *
+ * 时间线列表: 年 -> 月 -> 日 -> 条目 的分组渲染
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Text } from '@components'
 import { _, useStore } from '@stores'
 import Item from '../item'
-import { COMPONENT } from './ds'
+import { ACTIONS, COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { ActionsProps, DayProps, MonthProps, YearProps } from './types'
 import type { Ctx } from '../../types'
 
+/** 时间线列表 */
 function List() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
@@ -22,115 +26,112 @@ function List() {
   return (
     <View style={styles.container}>
       {$.yearsTimeline.map((item, index) => (
-        <View key={item.title}>
-          {/* 加入时长 */}
-          <View>
-            <View style={styles.lineBottom} />
-            <View style={styles.nodeYear} />
-            <Flex>
-              <Text size={18} lineHeight={48} type='title' bold>
-                {item.title}年{' '}
-              </Text>
-              {index === 0 && (
-                <Text style={_.ml.sm} size={12} bold>
-                  加入 Bangumi
-                  <Text type='main' size={12} bold>
-                    {' '}
-                    {$.days}{' '}
-                  </Text>
-                  天
-                </Text>
-              )}
-            </Flex>
-            <Heatmap id='时间线.跳转' />
-          </View>
-
-          {/* 活动列表 */}
-          {item.data.map(item => (
-            <View key={item.title}>
-              {/* 动作 */}
-              <View>
-                <View style={styles.line} />
-                <View style={styles.nodeMonth} />
-                <View style={styles.block}>
-                  <Text size={18} lineHeight={24} type='title' bold>
-                    {parseInt(item.title.slice(5, 7))}月
-                  </Text>
-                  <Flex style={_.mt.xs}>
-                    {!!item.actions['看过'] && (
-                      <Text style={_.mr.sm} size={13} lineHeight={20} type='sub'>
-                        看过{' '}
-                        <Text size={13} lineHeight={20} type='main' bold>
-                          {item.actions['看过']}{' '}
-                        </Text>
-                      </Text>
-                    )}
-                    {!!item.actions['在看'] && (
-                      <Text style={_.mr.sm} size={13} lineHeight={20} type='sub'>
-                        在看{' '}
-                        <Text size={13} lineHeight={20} type='main' bold>
-                          {item.actions['在看']}{' '}
-                        </Text>
-                      </Text>
-                    )}
-                    {!!item.actions['想看'] && (
-                      <Text style={_.mr.sm} size={13} lineHeight={20} type='sub'>
-                        想看{' '}
-                        <Text size={13} lineHeight={20} type='main' bold>
-                          {item.actions['想看']}{' '}
-                        </Text>
-                      </Text>
-                    )}
-                    {!!item.actions['搁置'] && (
-                      <Text style={_.mr.sm} size={13} lineHeight={20} type='sub'>
-                        搁置{' '}
-                        <Text size={13} lineHeight={20} type='main' bold>
-                          {item.actions['搁置']}{' '}
-                        </Text>
-                      </Text>
-                    )}
-                    {!!item.actions['抛弃'] && (
-                      <Text style={_.mr.sm} size={13} lineHeight={20} type='sub'>
-                        抛弃{' '}
-                        <Text size={13} lineHeight={20} type='main' bold>
-                          {item.actions['抛弃']}{' '}
-                        </Text>
-                      </Text>
-                    )}
-                  </Flex>
-                </View>
-              </View>
-
-              {/* 条目节点 */}
-              <View>
-                {item.data.map(item => {
-                  const splits = item.title.split('-')
-                  const label = `${Number(splits[1])}月${Number(splits[2])}日`
-
-                  return (
-                    <View key={item.title}>
-                      <View>
-                        <View style={styles.line} />
-                        <Text style={_.mv.md} size={16} bold>
-                          {label}
-                        </Text>
-                      </View>
-                      <View>
-                        <View style={styles.line} />
-                        {item.data.map(item => (
-                          <Item key={item.id} {...item} />
-                        ))}
-                      </View>
-                    </View>
-                  )
-                })}
-              </View>
-            </View>
-          ))}
-        </View>
+        <Year key={item.title} item={item} isFirst={index === 0} days={$.days} />
       ))}
     </View>
   )
 }
+
+/** 动作统计 */
+const Actions = observer(function Actions({ actions }: ActionsProps) {
+  return (
+    <Flex style={_.mt.xs}>
+      {ACTIONS.map(action =>
+        actions[action] ? (
+          <Text key={action} style={_.mr.sm} size={13} lineHeight={20} type='sub'>
+            {action}{' '}
+            <Text size={13} lineHeight={20} type='main' bold>
+              {actions[action]}{' '}
+            </Text>
+          </Text>
+        ) : null
+      )}
+    </Flex>
+  )
+})
+
+/** 某天的条目 */
+const Day = observer(function Day({ item }: DayProps) {
+  const styles = memoStyles()
+  const [, month, day] = item.title.split('-')
+
+  return (
+    <View>
+      <View>
+        <View style={styles.line} />
+        <Text style={_.mv.md} size={16} bold>
+          {Number(month)}月{Number(day)}日
+        </Text>
+      </View>
+      <View>
+        <View style={styles.line} />
+        {item.data.map(entry => (
+          <Item key={entry.id} subject={entry.subject} action={entry.action} />
+        ))}
+      </View>
+    </View>
+  )
+})
+
+/** 某月的动作统计与按天分组 */
+const Month = observer(function Month({ item }: MonthProps) {
+  const styles = memoStyles()
+
+  return (
+    <View>
+      <View>
+        <View style={styles.line} />
+        <View style={styles.nodeMonth} />
+        <View style={styles.block}>
+          <Text size={18} lineHeight={24} type='title' bold>
+            {Number(item.title.slice(5, 7))}月
+          </Text>
+          <Actions actions={item.actions} />
+        </View>
+      </View>
+      <View>
+        {item.data.map(day => (
+          <Day key={day.title} item={day} />
+        ))}
+      </View>
+    </View>
+  )
+})
+
+/** 某年的标题与按月分组 */
+const Year = observer(function Year({ item, isFirst, days }: YearProps) {
+  const styles = memoStyles()
+
+  return (
+    <View>
+      {/* 加入时长 */}
+      <View>
+        <View style={styles.lineBottom} />
+        <View style={styles.nodeYear} />
+        <Flex>
+          <Text size={18} lineHeight={48} type='title' bold>
+            {item.title}年{' '}
+          </Text>
+          {isFirst && (
+            <Text style={_.ml.sm} size={12} bold>
+              加入 Bangumi
+              <Text type='main' size={12} bold>
+                {' '}
+                {days}{' '}
+              </Text>
+              天
+            </Text>
+          )}
+        </Flex>
+        <Heatmap id='时间线.跳转' />
+      </View>
+
+      {/* 月份节点 */}
+      {item.data.map(month => (
+        <Month key={month.title} item={month} />
+      ))}
+    </View>
+  )
+})
 
 export default observer(List)

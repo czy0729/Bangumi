@@ -40,6 +40,12 @@ export type ResultHeatmap = {
   count: number
 }[]
 
+/** 热力图数据类型: 全部 / 时间胶囊 / 社区 / Wiki 贡献 */
+export type HeatmapType = 'all' | 'timeline' | 'community' | 'contributions'
+
+/** 热力图接口支持的类型, all 由调用方按需合并 */
+export type HeatmapDataType = Exclude<HeatmapType, 'all'>
+
 /** 用户超展开帖子项 */
 export type GroupTopicsItem = {
   id: number

@@ -29,9 +29,16 @@ import type {
   SubjectType,
   UserId
 } from '@types'
+import type { HeatmapType } from '@utils/kv/type'
 import type { UpdateCollectionPrivacy, UpdateCollectionStatus } from './types'
 
 export default class Action extends Fetch {
+  /** 设置瓷砖数据类型: 全应用唯一, 本地化保存 */
+  setMosaicTileType = (type: HeatmapType) => {
+    this.setState({ mosaicTileType: type })
+    this.save('mosaicTileType')
+  }
+
   /** 用户收藏按网站评分本地排序后入库 */
   sortUserCollectionsByScore = async (
     userId: UserId,

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-06 12:14:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-21 00:03:49
+ * @Last Modified time: 2026-11-05 05:40:22
  */
 
 /** 底层请求配置，直接传递给网络库 */
@@ -11,9 +11,7 @@ export type Config = {
   method?: 'GET' | 'POST'
 
   /** 请求头 */
-  headers?: {
-    [key: string]: any
-  }
+  headers?: Record<string, string>
 
   /** 超时时间（毫秒） */
   timeout?: number
@@ -43,7 +41,7 @@ export type FetchAPIArgs = {
   data?: Record<string, string | number | boolean>
 
   /** 失败重试回调 */
-  retryCb?: any
+  retryCb?: () => unknown
 
   /** 调试信息，打印在日志中 */
   info?: string

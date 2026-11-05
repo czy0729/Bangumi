@@ -105,6 +105,14 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.state[STATE_KEY]
   }
 
+  /** 瓷砖数据类型 */
+  @computed get mosaicTileType() {
+    const STATE_KEY = 'mosaicTileType'
+    this.init(STATE_KEY, true)
+
+    return this.state[STATE_KEY]
+  }
+
   /** @deprecated 条目的收藏状态 */
   private _collectionStatus = computedFn((subjectId: SubjectId) => {
     return (this.state.collectionStatus[subjectId] || '') as CollectionStatusCn | ''

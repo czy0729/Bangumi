@@ -6,6 +6,7 @@
  */
 import { _ } from '@stores'
 
+/** 工厂只在此处调用一次, List / Year / Month / Day 共用同一份样式缓存 */
 export const memoStyles = _.memoStyles(() => ({
   container: {
     paddingLeft: _.r(32),

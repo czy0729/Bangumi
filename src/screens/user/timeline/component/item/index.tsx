@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-03-26 15:28:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-02 15:45:57
+ * @Last Modified time: 2026-11-05 12:00:00
+ *
+ * 时间线条目: 封面 / 评分 / 吐槽
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
@@ -13,13 +15,14 @@ import { _ } from '@stores'
 import { findSubjectCn } from '@utils'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
-import { COMPONENT } from './ds'
-import { HEIGHT, memoStyles, WIDTH } from './styles'
+import { COMPONENT, HEIGHT, WIDTH } from './ds'
+import { memoStyles } from './styles'
 
 import type { SubjectTypeCn } from '@types'
-import type { TimelineViewItem } from '../../types'
+import type { Props } from './types'
 
-function Item({ subject, action }: TimelineViewItem) {
+/** 某天的一组条目 */
+function Item({ subject, action }: Props) {
   const navigation = useNavigation(COMPONENT)
 
   const styles = memoStyles()
@@ -28,7 +31,7 @@ function Item({ subject, action }: TimelineViewItem) {
     <Flex style={styles.subjects} align='start' wrap='wrap'>
       <View style={styles.nodeDay} />
 
-      {subject.map(i => {
+      {subject.map((i, idx) => {
         let type: SubjectTypeCn = '动画'
         if (action.includes('读')) type = '书籍'
         if (action.includes('听')) type = '音乐'
@@ -41,7 +44,7 @@ function Item({ subject, action }: TimelineViewItem) {
         const name = findSubjectCn(i.name, isAnime ? i.id : undefined)
 
         return (
-          <View key={String(i.id)} style={isHalf ? styles.subjectHalf : styles.subject}>
+          <View key={`${i.id}-${idx}`} style={isHalf ? styles.subjectHalf : styles.subject}>
             <Touchable
               animate
               onPress={() => {
@@ -54,7 +57,7 @@ function Item({ subject, action }: TimelineViewItem) {
                 })
 
                 t('时间线.跳转', {
-                  to: 'Suject',
+                  to: 'Subject',
                   subjectId: i.id
                 })
               }}
