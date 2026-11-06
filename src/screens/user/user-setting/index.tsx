@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-16 06:29:16
+ * @Last Modified time: 2026-11-06 18:08:58
+ *
+ * 个人设置 (头像 / 背景 / 昵称 / 签名)
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder } from '@components'
 import { StoreContext } from '@stores'

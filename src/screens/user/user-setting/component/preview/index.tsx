@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-01-22 01:06:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-16 06:56:45
+ * @Last Modified time: 2026-11-06 18:08:58
+ *
+ * 背景 + 头像 + 昵称的预览区
  */
-import React from 'react'
+import { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text, Touchable } from '@components'
@@ -18,6 +20,12 @@ import type { Props } from './types'
 
 function Preview({ bg, avatar, blurRadius }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
+
+  const handleExample = useCallback(() => {
+    navigation.push('Zone', {
+      userId: 'sukaretto'
+    })
+  }, [navigation])
 
   const styles = memoStyles()
   const { nickname, id, username } = $.usersInfo
@@ -59,13 +67,7 @@ function Preview({ bg, avatar, blurRadius }: Props) {
       </Flex>
 
       <View style={styles.example}>
-        <Touchable
-          onPress={() => {
-            navigation.push('Zone', {
-              userId: 'sukaretto'
-            })
-          }}
-        >
+        <Touchable onPress={handleExample}>
           <Text type='__plain__' size={10} lineHeight={16} bold shadow>
             [示例]
           </Text>

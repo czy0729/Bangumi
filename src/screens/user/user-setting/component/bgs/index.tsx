@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-01-22 09:33:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-16 04:36:22
+ * @Last Modified time: 2026-11-06 18:08:58
+ *
+ * 预设背景列表
  */
 import { observer } from 'mobx-react'
 import { Flex, Image, Squircle, Text, Touchable } from '@components'
@@ -16,8 +18,9 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-function Bgs({ avatar, more, onViewOrigin, onMore }) {
+function Bgs({ avatar, more, onViewOrigin, onMore }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const styles = memoStyles()
@@ -79,7 +82,7 @@ function Bgs({ avatar, more, onViewOrigin, onMore }) {
         ))}
       </Flex>
 
-      <Touchable style={[_.mt.md, _.mb.md]} onPress={onMore}>
+      <Touchable style={stl(_.mt.md, _.mb.md)} onPress={onMore}>
         <Text align='center' size={13} bold>
           {more ? '没有更多了' : '点击加载更多'}
         </Text>

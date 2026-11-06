@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2024-01-22 09:15:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-16 06:53:19
+ * @Last Modified time: 2026-11-06 18:08:58
+ *
+ * 可展开的昵称 / 签名 / 头像 / 背景表单
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Input, Text, Touchable } from '@components'
 import { IconTouchable, Notice } from '@_'
@@ -15,8 +17,9 @@ import { COMPONENT, FIELDS } from './ds'
 import { styles } from './styles'
 
 import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-function Form({ expand, onExpand, onScrollIntoViewIfNeeded }) {
+function Form({ expand, onExpand, onScrollIntoViewIfNeeded }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const handleShowTip = useCallback(
@@ -42,7 +45,7 @@ function Form({ expand, onExpand, onScrollIntoViewIfNeeded }) {
     <>
       {expand &&
         FIELDS.map((item, index) => (
-          <Flex key={item.key} style={[_.mt.md, index === FIELDS.length - 1 && _.mb.md]}>
+          <Flex key={item.key} style={stl(_.mt.md, index === FIELDS.length - 1 && _.mb.md)}>
             <Text>{item.label}</Text>
             <Flex.Item style={_.ml.md}>
               <Input
@@ -68,7 +71,7 @@ function Form({ expand, onExpand, onScrollIntoViewIfNeeded }) {
 
       <Touchable style={stl(styles.more, expand && _.mb.md)} onPress={onExpand}>
         <Flex justify='center'>
-          <Text style={[_.mt.sm, _.mb.sm]} size={13} type='sub' bold>
+          <Text style={stl(_.mt.sm, _.mb.sm)} size={13} type='sub' bold>
             {expand ? '收起资料' : '展开资料'}
           </Text>
         </Flex>

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-09-08 13:35:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-10 06:06:22
+ * @Last Modified time: 2026-11-06 18:08:58
+ *
+ * 页面状态常量: 持久化字段与签名匹配正则
  */
 import { _ } from '@stores'
 import { COMPONENT } from '../ds'
@@ -28,7 +30,6 @@ export const STATE = {
   bg: '',
   selectedIndex: 0,
   bgs: [],
-  pixivs: [],
   avatars: [],
 
   /** 页面初始化完成 */

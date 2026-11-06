@@ -18,7 +18,6 @@ export default class ScreenUserSetting extends Action {
       bg: storageData.bg || '',
       selectedIndex: storageData.selectedIndex || 0,
       bgs: storageData.bgs || [],
-      pixivs: storageData.pixivs || [],
       avatars: storageData.avatars || [],
       _loaded: getTimestamp()
     })

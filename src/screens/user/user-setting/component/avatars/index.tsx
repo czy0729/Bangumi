@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-01-22 13:12:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-16 06:20:09
+ * @Last Modified time: 2026-11-06 18:08:58
+ *
+ * 随机头像列表
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'

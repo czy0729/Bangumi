@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2020-09-05 15:53:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-16 06:32:32
+ * @Last Modified time: 2026-11-06 18:08:58
+ *
+ * 预览、资料表单、背景与头像列表的滚动容器
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ScrollView } from '@components'
@@ -23,8 +25,9 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-function Scroll({ forwardRef, onScroll, onScrollIntoViewIfNeeded, onRefresh }) {
+function Scroll({ forwardRef, onScroll, onScrollIntoViewIfNeeded, onRefresh }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const [expand, setExpand] = useState(false)
@@ -38,8 +41,8 @@ function Scroll({ forwardRef, onScroll, onScrollIntoViewIfNeeded, onRefresh }) {
     })
   }, [])
   const handleExpand = useCallback(() => {
-    setExpand(!expand)
-  }, [expand])
+    setExpand(prev => !prev)
+  }, [])
   const handleMore = useCallback(() => {
     setMore(true)
   }, [])
@@ -48,13 +51,13 @@ function Scroll({ forwardRef, onScroll, onScrollIntoViewIfNeeded, onRefresh }) {
   const { avatar: stateAvatar, bg: stateBg, selectedIndex } = $.state
   const userLargeAvatar = $.usersInfo.avatar?.large
 
-  const previewAvatarSrc = !stateAvatar
-    ? userLargeAvatar
-    : fixedRemote(stateAvatar, true) || userLargeAvatar
+  const previewAvatarSrc =
+    (!stateAvatar ? userLargeAvatar : fixedRemote(stateAvatar, true) || userLargeAvatar) || ''
 
-  const previewBgSrc = !stateBg
-    ? previewAvatarSrc
-    : fixedRemote(stateBg) || fixedRemote(stateAvatar, true) || userLargeAvatar
+  const previewBgSrc =
+    (!stateBg
+      ? previewAvatarSrc
+      : fixedRemote(stateBg) || fixedRemote(stateAvatar, true) || userLargeAvatar) || ''
 
   const blurRadius = stateBg ? 0 : IOS ? (stateBg === '' && stateAvatar ? 48 : 10) : 8
 
@@ -87,7 +90,7 @@ function Scroll({ forwardRef, onScroll, onScrollIntoViewIfNeeded, onRefresh }) {
             onMore={handleMore}
           />
         )}
-        {selectedIndex === 1 && <Avatars avatar={userLargeAvatar} />}
+        {selectedIndex === 1 && <Avatars avatar={userLargeAvatar || ''} />}
       </ScrollView>
 
       <Refresh onRefresh={onRefresh} />

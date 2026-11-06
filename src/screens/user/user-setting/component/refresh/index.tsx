@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2024-01-22 13:17:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-16 05:55:15
+ * @Last Modified time: 2026-11-06 18:08:58
+ *
+ * 随机头像页的刷新按钮
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Touchable } from '@components'
@@ -13,8 +14,9 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-function Refresh({ onRefresh }) {
+function Refresh({ onRefresh }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   if ($.state.selectedIndex !== 1) return null

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-11-18 07:46:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-16 06:29:59
+ * @Last Modified time: 2026-11-06 18:08:58
+ *
+ * 页面逻辑: 滚动定位、下拉刷新与生命周期
  */
 import { useCallback, useRef } from 'react'
 import { _, useInitStore } from '@stores'
@@ -10,7 +12,7 @@ import { usePageLifecycle } from '@utils/hooks'
 import store from './store'
 
 import type { ScrollTo } from '@components'
-import type { NavigationProps } from '@types'
+import type { NavigationProps, ScrollEvent } from '@types'
 import type { Ctx } from './types'
 
 /** 个人设置页面逻辑 */
@@ -19,22 +21,22 @@ export function useUserSettingPage(props: NavigationProps) {
   const { id, $ } = context
 
   /** ScrollTo 函数引用 */
-  const scrollToRef = useRef<ScrollTo>(null)
+  const scrollToRef = useRef<ScrollTo | null>(null)
 
   /** 当前 ScrollView 的滚动位置 */
   const scrollYRef = useRef(0)
 
   /** 供 ScrollView 绑定的 forwardRef */
-  const handleForwardRef = useCallback((scrollTo: ScrollTo) => {
+  const handleForwardRef = useCallback((scrollTo: ScrollTo | null) => {
     scrollToRef.current = scrollTo
   }, [])
 
   /** 供 ScrollView 绑定的 onScroll */
   const handleOnScroll = useCallback(
-    (evt: any) => {
-      scrollYRef.current = evt?.nativeEvent?.contentOffset?.y || 0
+    (e: ScrollEvent) => {
+      scrollYRef.current = e?.nativeEvent?.contentOffset?.y || 0
 
-      $.onScroll(evt)
+      $.onScroll(e)
     },
     [$]
   )
