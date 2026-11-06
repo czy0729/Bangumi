@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-08 05:27:33
+ * @Last Modified time: 2026-11-07 01:38:34
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { getBucketId } from '@utils/bucket'
@@ -60,7 +60,8 @@ import type {
   FetchMonoVoicesArgs,
   FetchMonoWorksArgs,
   FetchRatingArgs,
-  Subject
+  Subject,
+  SubjectRank
 } from './types'
 import type { ResultData } from '@utils/kv/type'
 
@@ -737,26 +738,28 @@ export default class Fetch extends Computed {
 
   /** 获取条目分数值 */
   fetchRanks = async (subjectIds: SubjectId[]) => {
-    const fetchs = []
-    const state = {}
-    const nsfw = {}
+    const fetchs: (() => Promise<boolean>)[] = []
+    const attempted: Record<string | number, true> = {}
+    const updates: Record<string | number, SubjectRank> = {}
+    const nsfwUpdates: Record<string | number, boolean> = {}
     const now = getTimestamp()
     subjectIds.forEach(subjectId => {
       const rank = this.rank(subjectId)
       if (!rank._loaded || now - Number(rank._loaded) >= 24 * 60 * 60) {
+        attempted[subjectId] = true
         fetchs.push(async () => {
           try {
             const data: any = await request(
               `${API_HOST}/v0/subjects/${subjectId}?responseGroup=small`
             )
             if (data?.rating) {
-              state[subjectId] = {
+              updates[subjectId] = {
                 r: data.rating.rank || undefined,
                 s: data.rating.score || undefined,
                 _loaded: now
               }
             }
-            if (data?.nsfw) nsfw[subjectId] = true
+            if (data?.nsfw) nsfwUpdates[subjectId] = true
           } catch {}
 
           return true
@@ -765,6 +768,35 @@ export default class Fetch extends Computed {
     })
 
     await queue(fetchs)
+
+    // 请求结束后再基于最新 state 合并, 避免并发调用用同一份旧快照互相覆盖
+    const state: Record<string | number, SubjectRank | undefined> = { ...this.state.rank }
+    const nsfw: Record<string | number, boolean | undefined> = { ...this.state.nsfw }
+    Object.entries(updates).forEach(([key, value]) => {
+      state[key] = value
+    })
+
+    // 丢弃过期项, 避免映射与本地存储无限增长
+    Object.keys(state).forEach(key => {
+      const item = state[key]
+      const expired = !item?._loaded || now - Number(item._loaded) >= 24 * 60 * 60
+      if (!expired) return
+
+      // 本次发起过请求但没拿到结果: 保留旧值, 下次再试
+      if (attempted[key] && !updates[key]) return
+
+      delete state[key]
+    })
+
+    Object.entries(nsfwUpdates).forEach(([key, value]) => {
+      nsfw[key] = value
+    })
+
+    // nsfw 无时间戳, 与保留下来的 rank 条目对齐
+    Object.keys(nsfw).forEach(key => {
+      if (!state[key]) delete nsfw[key]
+    })
+
     const key = 'rank'
     const key2 = 'nsfw'
     this.setState({

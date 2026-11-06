@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-22 06:06:43
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { useStore } from '@stores'
 import { MODEL_SUBJECT_TYPE } from '@constants'

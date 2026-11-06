@@ -2,13 +2,16 @@
  * @Author: czy0729
  * @Date: 2023-03-19 04:52:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-14 21:46:07
+ * @Last Modified time: 2026-11-06 18:20:00
+ *
+ * iOS / WEB 的 TabView 场景
  */
 import { useCallback, useMemo, useRef } from 'react'
 import { Animated } from 'react-native'
 import { observer } from 'mobx-react'
 import { SceneMap, TabView } from '@components'
 import { _, systemStore } from '@stores'
+import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { useInsets } from '@utils/hooks'
 import TabBarLeft from '../../component/tab-bar-left'
@@ -18,7 +21,7 @@ import TabBar from './tab-bar'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
-import type { Props } from './types'
+import type { Props, RenderTabBarProps } from './types'
 
 function Tab({ page, scrollY, onIndexChange, onScroll, onSwipeStart, onRefreshOffset }: Props) {
   r(COMPONENT)
@@ -76,8 +79,8 @@ function Tab({ page, scrollY, onIndexChange, onScroll, onSwipeStart, onRefreshOf
   )
 
   const renderTabBar = useCallback(
-    props => (
-      <Animated.View style={[styles.tabBarWrap, transform]}>
+    (props: RenderTabBarProps) => (
+      <Animated.View style={stl(styles.tabBarWrap, transform)}>
         <TabBar {...props} />
       </Animated.View>
     ),
@@ -97,7 +100,7 @@ function Tab({ page, scrollY, onIndexChange, onScroll, onSwipeStart, onRefreshOf
         onSwipeStart={onSwipeStart}
         onIndexChange={onIndexChange}
       />
-      <Animated.View style={[styles.tabBarLeft, transform]}>
+      <Animated.View style={stl(styles.tabBarLeft, transform)}>
         <TabBarLeft />
       </Animated.View>
     </>

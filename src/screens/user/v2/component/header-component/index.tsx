@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-14 19:29:41
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { SensorParallaxCard, VerticalAlign } from '@_'

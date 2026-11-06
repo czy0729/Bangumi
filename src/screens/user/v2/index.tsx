@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-22 05:59:28
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Component } from '@components/component'
 import { Page } from '@components/page'

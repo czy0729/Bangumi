@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-22 06:01:20
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Track } from '@components'
 import { useStore } from '@stores'

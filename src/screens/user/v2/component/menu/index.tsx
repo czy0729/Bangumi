@@ -2,14 +2,17 @@
  * @Author: czy0729
  * @Date: 2023-12-30 14:44:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-23 22:27:57
+ * @Last Modified time: 2026-11-06 18:20:00
+ *
+ * 头部返回 / 菜单 / 时间线 / 设置入口
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Iconfont } from '@components'
 import { IconBack, IconHeader, Popover } from '@_'
 import { _, useStore } from '@stores'
+import { stl } from '@utils'
 import { useInsets } from '@utils/hooks'
 import { IOS } from '@constants'
 import { IS_IOS_5_6_7_8 } from '@styles'
@@ -60,17 +63,17 @@ function Menu() {
   return (
     <>
       {!!paramsUserId && (
-        <View style={[header.left, styles.back]}>
+        <View style={stl(header.left, styles.back)}>
           <IconBack navigation={navigation} color={_.__colorPlain__} shadow />
         </View>
       )}
       <View
         style={
           paramsUserId
-            ? [header.right, styles.more]
+            ? stl(header.right, styles.more)
             : isMe
-            ? [header.left, styles.menu]
-            : [header.right, styles.more]
+            ? stl(header.left, styles.menu)
+            : stl(header.right, styles.more)
         }
       >
         <Popover style={styles.touch} data={isMe ? DATA_ME : DATA_OTHER} onSelect={handleSelect}>
@@ -80,7 +83,7 @@ function Menu() {
           <Heatmap right={-40} id='我的.右上角菜单' />
         </Popover>
       </View>
-      <View style={[header.right, styles.timeline]}>
+      <View style={stl(header.right, styles.timeline)}>
         <IconHeader
           name='md-image-aspect-ratio'
           color={_.__colorPlain__}
@@ -97,7 +100,7 @@ function Menu() {
         />
       </View>
       {!paramsUserId && (
-        <View style={[header.right, styles.setting]}>
+        <View style={stl(header.right, styles.setting)}>
           <IconHeader
             name='setting'
             shadow

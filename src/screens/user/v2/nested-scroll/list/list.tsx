@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-23 23:54:13
+ * @Last Modified time: 2026-11-06 18:20:00
+ *
+ * 收藏列表内容 (props 驱动, 浅比较)
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { ListView } from '@components'
 import { ITEM_COLLECTIONS_HEIGHT } from '@_'
 import { keyExtractor } from '@utils'
@@ -15,7 +17,9 @@ import Pagination from '../../component/pagination'
 import ToolBar from '../../component/tool-bar'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
-import type { ListViewProps } from '@components'
+import type { ListViewProps, ListViewScrollMethods } from '@components'
+import type { Props as ItemProps } from '../../component/item/types'
+import type { ListProps } from './types'
 
 const List = memo(
   ({
@@ -29,7 +33,7 @@ const List = memo(
     onScroll,
     onHeaderRefresh = FROZEN_FN,
     onFooterRefresh = FROZEN_FN
-  }) => {
+  }: ListProps) => {
     const { page: pageCurrent, pageTotal } = data.pagination
 
     const passProps: Pick<
@@ -51,14 +55,16 @@ const List = memo(
     )
 
     const handleRef = useCallback(
-      (ref: { scrollToIndex: any; scrollToOffset: any }) => {
+      (ref: ListViewScrollMethods) => {
         forwardRef(ref, page)
       },
       [forwardRef, page]
     )
 
     const handleRenderItem = useCallback(
-      ({ item, index }) => <Item item={item} index={index} page={page} />,
+      ({ item, index }: Pick<ItemProps, 'item' | 'index'>) => (
+        <Item item={item} index={index} page={page} />
+      ),
       [page]
     )
 

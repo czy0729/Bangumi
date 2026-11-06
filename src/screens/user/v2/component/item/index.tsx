@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-13 05:16:00
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { useStore } from '@stores'
 import ItemGrid from './item-grid'

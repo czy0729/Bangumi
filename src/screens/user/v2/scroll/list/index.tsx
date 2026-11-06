@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-15 05:47:44
+ * @Last Modified time: 2026-11-06 18:20:00
+ *
+ * iOS / WEB 收藏列表: 滚动联动、工具条与分页
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ListView } from '@components'
@@ -19,14 +21,18 @@ import Pagination from '../../component/pagination'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { ListViewProps, ListViewScrollMethods } from '@components'
 import type { CollectionStatus } from '@types'
 import type { Ctx } from '../../types'
+import type { Props as ItemProps } from '../../component/item/types'
 import type { Props } from './types'
 
 function List({ page, title, scrollY, onScroll, onRefreshOffset }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const handleHeaderRefresh = useCallback(() => $.fetchIsNeedToEnd(true), [$])
+  const handleHeaderRefresh = useCallback(async () => {
+    await $.fetchIsNeedToEnd(true)
+  }, [$])
 
   const handleScroll = useMemo(
     () =>
@@ -49,14 +55,16 @@ function List({ page, title, scrollY, onScroll, onRefreshOffset }: Props) {
   )
 
   const handleRef = useCallback(
-    (ref: { scrollToIndex: any; scrollToOffset: any }) => {
+    (ref: ListViewScrollMethods) => {
       $.forwardRef(ref, page)
     },
     [$, page]
   )
 
   const handleRenderItem = useCallback(
-    ({ item, index }) => <Item item={item} index={index} page={page} />,
+    ({ item, index }: Pick<ItemProps, 'item' | 'index'>) => (
+      <Item item={item} index={index} page={page} />
+    ),
     [page]
   )
 
@@ -96,7 +104,10 @@ function List({ page, title, scrollY, onScroll, onRefreshOffset }: Props) {
     </>
   )
 
-  const passProps: any = {}
+  const passProps: Pick<
+    ListViewProps,
+    'ListFooterComponent' | 'onHeaderRefresh' | 'onFooterRefresh'
+  > = {}
   if (userPagination) {
     passProps.ListFooterComponent = <Pagination pageTotal={pageTotal} />
   } else {

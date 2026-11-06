@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-22 06:02:51
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { _ } from '@stores'

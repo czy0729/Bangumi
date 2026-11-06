@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-14 08:40:19
  */
-import React, { useCallback, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { Animated } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, useStore } from '@stores'

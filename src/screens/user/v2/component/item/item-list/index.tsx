@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-24 11:12:11
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemCollections } from '@_'
 import { collectionStore, subjectStore, systemStore, timelineStore, useStore } from '@stores'

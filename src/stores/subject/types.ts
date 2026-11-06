@@ -370,6 +370,18 @@ export type SubjectSnapshot = {
   _loaded: number
 }
 
+/** 条目分数 (用于收藏按网站评分排序) */
+export type SubjectRank = {
+  /** 排名 */
+  r?: number
+
+  /** 分数 */
+  s?: number
+
+  /** 数据加载时间 */
+  _loaded?: Loaded
+}
+
 /** VIB 等评分数据 */
 export type Vib = {
   total: number

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2021-11-28 08:49:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:01:35
+ * @Last Modified time: 2026-11-07 01:38:34
+ *
+ * 搜索框外层: 读 store 状态与搜索结果计数
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { useStore } from '@stores'
 import { TABS } from '../../ds'
@@ -18,17 +19,17 @@ import type { Props } from './types'
 function FilterWrap({ page }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
+  const styles = memoStyles()
+
   const { subjectType, showFilter, fliterInputText } = $.state
   const { key: type } = TABS[page]
-  const isTabActive = $.isTabActive(subjectType, type, false)
   const isFiltering = $.isFiltering(subjectType, type)
 
   return (
     <Filter
-      styles={memoStyles()}
+      styles={styles}
       showFilter={showFilter}
       fliterInputText={fliterInputText}
-      isTabActive={isTabActive}
       isFiltering={isFiltering}
       onFilterChange={$.onFilterChange}
     />

@@ -21,7 +21,6 @@ export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
   showFilter: false as $['state']['showFilter'],
   fliterInputText: '' as $['state']['fliterInputText'],
-  isTabActive: false as ReturnType<$['isTabActive']>,
   isFiltering: false as ReturnType<$['isFiltering']>,
   onFilterChange: FROZEN_FN as $['onFilterChange']
 }

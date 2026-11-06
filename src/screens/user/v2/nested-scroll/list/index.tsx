@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:57:29
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-16 04:42:06
+ * @Last Modified time: 2026-11-06 18:20:00
+ *
+ * 安卓收藏列表外层: 读 store 守卫与数据, 组装内容组件 props
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Loading } from '@components'
 import { _, systemStore, useStore } from '@stores'
@@ -22,7 +24,9 @@ import type { Props } from './types'
 function ListWrap({ title }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const handleHeaderRefresh = useCallback(() => $.fetchIsNeedToEnd(true), [$])
+  const handleHeaderRefresh = useCallback(async () => {
+    await $.fetchIsNeedToEnd(true)
+  }, [$])
 
   const styles = memoStyles()
   const elLoading = <Loading style={styles.loading} />
