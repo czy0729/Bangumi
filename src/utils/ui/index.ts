@@ -11,7 +11,7 @@ import { FROZEN_FN } from '@constants/init'
 import { syncS2T, syncSystemStore } from '../async'
 import { log } from './utils'
 
-import type { View } from 'react-native'
+import type { ViewInstance } from 'react-native'
 import type { ActionSheetConfig, ActionSheetConfigOptions } from '@components/action-sheet'
 import type { TimerRef } from '@types'
 
@@ -246,8 +246,8 @@ export function copy(val: string | number, message: boolean | string = true, ms?
 /** ScrollView 中滑动到 View 的位置 */
 export function scrollToView(
   viewRef: {
-    measure: View['measure']
-    measureLayout: View['measureLayout']
+    measure: ViewInstance['measure']
+    measureLayout: ViewInstance['measureLayout']
   },
   scrollViewRef: {
     scrollTo: (options: { y: number; animated: boolean }) => void

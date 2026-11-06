@@ -13,6 +13,7 @@ import { createScenes, getTabWidth } from './utils'
 import { ANDROID_RIPPLE } from './ds'
 import { memoStyles, W_INDICATOR } from './styles'
 
+import type { JSX } from 'react'
 import type { Label, Route, TabBarSceneProps, UseRenderTabBarOptions } from './types'
 
 /** 渲染场景, 依赖变化时重建 */

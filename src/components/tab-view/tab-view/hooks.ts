@@ -10,6 +10,7 @@ import { JUMP_SETTLE_DURATION } from './ds'
 
 import type { LayoutChangeEvent } from 'react-native'
 import type { Layout } from 'react-native-tab-view/src/types'
+import type { TimerRef } from '@types'
 import type { UseTabViewKeepOptions, UseTabViewSwipeOptions } from './types'
 
 /** 页面布局测量 */
@@ -41,9 +42,9 @@ export function useTabViewIndexChange(index: number, onIndexChange: (index: numb
 /** 滑动状态（拦截点击 + 延时放行纵向拖动） */
 export function useTabViewSwipe({ onSwipeStart, onSwipeEnd }: UseTabViewSwipeOptions) {
   const [isSwiping, setIsSwiping] = useState(false)
-  const settleTimerRef = useRef<ReturnType<typeof setTimeout>>()
-  const endTimerRef = useRef<ReturnType<typeof setTimeout>>()
-  const unlockTimerRef = useRef<ReturnType<typeof setTimeout>>()
+  const settleTimerRef = useRef<TimerRef>(null)
+  const endTimerRef = useRef<TimerRef>(null)
+  const unlockTimerRef = useRef<TimerRef>(null)
 
   const clearTimers = useCallback(() => {
     clearTimeout(settleTimerRef.current)

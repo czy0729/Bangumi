@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-11-08 14:11:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-25 06:08:21
+ * @Last Modified time: 2026-11-06 00:06:48
  */
-import React from 'react'
 import { View } from 'react-native'
 
+import type { JSX } from 'react'
 import type { Props as ComponentProps } from './types'
 export type { ComponentProps }
 

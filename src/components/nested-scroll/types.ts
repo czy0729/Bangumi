@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-28 16:09:06
  */
+import type { JSX } from 'react'
 import type { ViewStyle } from '@types'
 
 export interface Layout {

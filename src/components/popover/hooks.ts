@@ -11,7 +11,8 @@ import { FROZEN_FN, MENU_ICONS, MENU_ICONS_ENABLED, MENU_TYPES } from '@constant
 import { toMenuLabel, toMenuLabels, usePopoverList } from './utils'
 import { ANDROID_DELAY_PRESS_IN, MENU_CLOSE_DELAY, WEB_SELECT_DELAY } from './ds'
 
-import type { GestureResponderEvent, View } from 'react-native'
+import type { GestureResponderEvent, ViewInstance } from 'react-native'
+import type { UIManagerWithPopupMenu } from '@types'
 import type { TouchablePressEvent } from '../touchable'
 import type {
   PopoverData,
@@ -102,7 +103,7 @@ export function usePopoverPress<Data extends PopoverData>({
   onLongPress = FROZEN_FN,
   activateOn = 'tap'
 }: UsePopoverPressOptions<Data>): UsePopoverPressResult {
-  const anchorRef = useRef<View>(null)
+  const anchorRef = useRef<ViewInstance>(null)
   const list = usePopoverList(data)
 
   const handlePopover = useCallback(
@@ -110,8 +111,11 @@ export function usePopoverPress<Data extends PopoverData>({
       const node = findNodeHandle(anchorRef.current)
       if (!node) return
 
+      /** RN 0.88 的 UIManager 类型未包含原生菜单 API, 交叉断言补齐 */
+      const manager = UIManager as typeof UIManager & UIManagerWithPopupMenu
+
       /** 部分安卓环境(新架构 / 定制 ROM)缺少此 API, 缺失时告警一次并静默降级 */
-      if (typeof UIManager.showPopupMenu !== 'function') {
+      if (typeof manager.showPopupMenu !== 'function') {
         if (!warnedMissingPopupMenu) {
           warnedMissingPopupMenu = true
           globalWarn('Popover', '当前环境不支持 UIManager.showPopupMenu, 菜单无法弹出')
@@ -121,7 +125,7 @@ export function usePopoverPress<Data extends PopoverData>({
       }
 
       // 展示文案按设置转简繁, 回调仍回传原始数据
-      UIManager.showPopupMenu(node, toMenuLabels(list), FROZEN_FN, (_, index) => {
+      manager.showPopupMenu(node, toMenuLabels(list), FROZEN_FN, (_, index) => {
         const i = Number(index)
         if (!Number.isNaN(i)) onSelect(list[i], i, evt as PopoverEvent)
       })

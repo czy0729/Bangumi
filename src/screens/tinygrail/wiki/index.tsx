@@ -12,18 +12,18 @@ import Menu from './component/menu'
 import Scroll from './component/scroll'
 import Header from './header'
 
-import type { ScrollView, View } from 'react-native'
+import type { ScrollViewInstance, ViewInstance } from 'react-native'
 
 /** 小圣杯游戏指南 */
 function TinygrailWiki() {
-  const scrollViewRef = useRef<ScrollView>(null)
-  const itemRefs = useRef<Record<string, View>>({})
+  const scrollViewRef = useRef<ScrollViewInstance>(null)
+  const itemRefs = useRef<Record<string, ViewInstance>>({})
   const [show, setShow] = useState(false)
 
-  const handleForwardRef = useCallback((_, scrollView: ScrollView) => {
+  const handleForwardRef = useCallback((_, scrollView: ScrollViewInstance) => {
     scrollViewRef.current = scrollView
   }, [])
-  const handleForwardItemRef = useCallback((ref: View, title: string) => {
+  const handleForwardItemRef = useCallback((ref: ViewInstance, title: string) => {
     itemRefs.current[title] = ref
   }, [])
 

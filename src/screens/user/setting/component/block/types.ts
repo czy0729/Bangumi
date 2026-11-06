@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-09-13 21:30:00
  */
 import type { ReactNode } from 'react'
-import type { View, ViewProps } from 'react-native'
+import type { ViewInstance, ViewProps } from 'react-native'
 import type { Override } from '@types'
 
 export type Props = Override<
@@ -21,6 +21,6 @@ export type Props = Override<
     title?: string
 
     /** 收集容器 View 实例, 用于页内定位 */
-    onBlockRef?: (ref: View | null, component: string) => void
+    onBlockRef?: (ref: ViewInstance | null, component: string) => void
   }
 >

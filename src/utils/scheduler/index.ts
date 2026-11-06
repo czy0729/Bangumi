@@ -2,9 +2,34 @@
  * @Author: czy0729
  * @Date: 2024-08-22 16:45:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-01-25 08:23:47
+ * @Last Modified time: 2026-11-06 18:02:14
+ *
+ * JS 任务调度: 空闲执行 (runWhenIdle) + 优先级延迟 (postTask)
  */
 import { WEB } from '@constants/device'
+
+/** RN 0.88 的 JSTimers 提供, 但未随包导出类型 */
+type RequestIdleCallback = (callback: () => void, options?: { timeout?: number }) => void
+
+/**
+ * JS 空闲时执行
+ *  - RN 0.88 移除了 InteractionManager, 官方建议改用 requestIdleCallback
+ *  - 与 runAfterInteractions 不等价: 只等 JS 空闲, 不感知导航动画
+ *  - 环境未提供时退回 setTimeout
+ *
+ * @param callback 要执行的回调
+ */
+export function runWhenIdle(callback: () => void) {
+  const requestIdle = (
+    globalThis as typeof globalThis & { requestIdleCallback?: RequestIdleCallback }
+  ).requestIdleCallback
+  if (typeof requestIdle === 'function') {
+    requestIdle(callback, { timeout: 1000 })
+    return
+  }
+
+  setTimeout(callback, 0)
+}
 
 /**
  * 执行一个任务，根据优先级和延迟调度

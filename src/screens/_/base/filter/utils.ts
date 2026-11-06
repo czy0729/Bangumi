@@ -4,10 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-10-05 00:00:00
  */
-import type { ScrollView } from 'react-native'
+import type { ScrollViewInstance } from 'react-native'
 
 export function scrollToX(
-  scrollView: ScrollView,
+  scrollView: ScrollViewInstance,
   data: readonly unknown[],
   value: unknown,
   width: number = 50,

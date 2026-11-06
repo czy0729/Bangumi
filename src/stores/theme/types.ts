@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-09-04 14:45:46
  */
-import type { StyleSheet, TextStyle } from 'react-native'
+import type { ImageStyle, TextStyle, ViewStyle } from 'react-native'
 import type { ORIENTATION_LANDSCAPE, ORIENTATION_PORTRAIT } from '@constants'
 import type { STYLES_DARK, STYLES_LIGHT } from './init'
 
@@ -23,7 +23,10 @@ type ColorKeys = keyof StylesLight | keyof StylesDark
 
 export type Color<K> = K extends ColorKeys ? StylesLight[K] | StylesDark[K] : never
 
-export type Styles<T> = StyleSheet.NamedStyles<T> | StyleSheet.NamedStyles<any>
+/** 样式表: RN 0.88 移除了 StyleSheet.NamedStyles, 这里等价声明 */
+export type Styles<T> = {
+  [P in keyof T]: ViewStyle | TextStyle | ImageStyle
+}
 
 export type MemoStylesItem = {
   _id: number

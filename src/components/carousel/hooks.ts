@@ -1,15 +1,15 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-12 10:00:00
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-12 10:00:00
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-11-06 00:06:21
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Platform } from 'react-native'
 import { runAfter } from '@utils'
 import { getInitialIndex, getNextOffset, getUpdatedIndex, getVisibleIndex } from './utils'
 
-import type { ScrollView, NativeSyntheticEvent } from 'react-native'
+import type { NativeSyntheticEvent, ScrollViewInstance } from 'react-native'
 import type { TimerRef } from '@types'
 import type { CarouselEvent, UseCarouselOptions } from './types'
 
@@ -33,12 +33,12 @@ export const useCarousel = ({
   const [isScrolling, setIsScrolling] = useState(false)
   const [autoplayEnd, setAutoplayEnd] = useState(false)
 
-  const scrollRef = useRef<ScrollView>(null)
+  const scrollRef = useRef<ScrollViewInstance>(null)
   const currentRef = useRef(current)
   const offsetRef = useRef({ x: 0, y: 0 })
   const isScrollingRef = useRef(false)
-  const autoplayTimerRef = useRef<TimerRef>()
-  const scrollEndTimerRef = useRef<TimerRef>()
+  const autoplayTimerRef = useRef<TimerRef>(null)
+  const scrollEndTimerRef = useRef<TimerRef>(null)
 
   const step = vertical ? size.height : size.width
 

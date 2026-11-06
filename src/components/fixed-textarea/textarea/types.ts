@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-27 08:24:07
  */
-import type { TextInput, TextInputSelectionChangeEvent } from 'react-native'
+import type { TextInputInstance, TextInputSelectionChangeEvent } from 'react-native'
 import type { Props as FixedTextareaProps, State as FixedTextareaState } from '../types'
 
 export type Props = Pick<
@@ -12,7 +12,7 @@ export type Props = Pick<
   'simple' | 'marks' | 'source' | 'placeholder' | 'onChange' | 'onSubmit'
 > &
   Pick<FixedTextareaState, 'value' | 'showSource' | 'showSourceText' | 'showTextarea'> & {
-    forwardRef: (ref: { textAreaRef: TextInput }) => void
+    forwardRef: (ref: { textAreaRef: TextInputInstance }) => void
     selection: FixedTextareaState['selection']
     editing: boolean
     onFocus: () => void

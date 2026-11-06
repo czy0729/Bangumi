@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-02 23:13:12
  */
+import type { JSX } from 'react'
 import type { Override, ReactNode, ViewStyle } from '@types'
 import type { Props as FlexProps } from '../flex/types'
 import type { PopoverData } from '../popover'

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-11-01 16:30:50
  */
-import type { TextInput } from 'react-native'
+import type { TextInputInstance } from 'react-native'
 import type { CatalogDetail, CatalogDetailItem } from '@stores/discovery/types'
 import type { CatalogsItem } from '@stores/users/types'
 import type { Id, SubjectId } from '@types'
@@ -52,7 +52,7 @@ export type State = {
 
 /** TextareaItem 通过 forwardRef 暴露的内部引用 */
 export type TextareaRef = {
-  textAreaRef: TextInput
+  textAreaRef: TextInputInstance
 }
 
 export type HandleForwardRef = (ref: TextareaRef | null) => void

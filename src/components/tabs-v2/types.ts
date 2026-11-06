@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-18 10:00:00
  */
-import type { ReactNode } from 'react'
+import type { ReactNode, JSX } from 'react'
 import type { ColorValue, WithViewStyles } from '@types'
 import type { SceneRendererProps } from '@components/tab-view'
 import type { OverrideNavigationState } from '@components/tab-view'

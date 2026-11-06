@@ -4,8 +4,8 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-25 06:32:47
  */
+import type { PropsWithChildren, JSX } from 'react'
 import type { Override, WithViewStyles } from '@types'
-import type { PropsWithChildren } from 'react'
 
 import type { ActivityIndicatorProps } from '../activity-indicator'
 

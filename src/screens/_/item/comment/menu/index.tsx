@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-17 23:57:56
  */
-import React, { useCallback, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont } from '@components'
@@ -13,10 +13,11 @@ import { IOS } from '@constants'
 import { Popover } from '../../../base'
 import { styles } from './styles'
 
+import type { ViewInstance } from 'react-native'
 import type { Props } from './types'
 
 function Menu({ data, avatar, userId, userName, comment, relatedId, onSelect }: Props) {
-  const viewRef = useRef<View>(null)
+  const viewRef = useRef<ViewInstance>(null)
 
   const handleSelect = useCallback(
     (title: string) => {
@@ -35,7 +36,14 @@ function Menu({ data, avatar, userId, userName, comment, relatedId, onSelect }: 
 
       if (title === '贴贴') {
         viewRef.current.measure(
-          (_x: any, _y: any, _width: any, _height: any, pageX: number, pageY: number) => {
+          (
+            _x: number,
+            _y: number,
+            _width: number,
+            _height: number,
+            pageX: number,
+            pageY: number
+          ) => {
             uiStore.setXY(pageX, pageY - (IOS ? 0 : 12))
             callback()
           }

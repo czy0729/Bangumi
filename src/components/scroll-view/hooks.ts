@@ -10,7 +10,7 @@ import { useMask } from './mask'
 import { getShowMaskValue, shouldLockScrolling } from './utils'
 import { SCROLL_IDLE_MS, SCROLL_RELEASE_MS } from './ds'
 
-import type { ScrollView as RNScrollView } from 'react-native'
+import type { ScrollViewInstance } from 'react-native'
 import type { TimerRef } from '@types'
 import type {
   ScrollEvent,
@@ -78,7 +78,7 @@ export function useHorizontalMask({
 /** ScrollView 实例引用, 按场景分配引用方式 (ScrollToTop / forwardRef / connectRef) */
 export function useScrollViewRef({ scrollToTop, forwardRef, connectRef }: UseScrollViewRefOptions) {
   /** ScrollView 实例引用 */
-  const scrollViewEl = useRef<RNScrollView['scrollTo'] | null>(null)
+  const scrollViewEl = useRef<ScrollViewInstance['scrollTo'] | null>(null)
 
   /**
    * ref 回调, 按场景分配引用方式
@@ -86,14 +86,13 @@ export function useScrollViewRef({ scrollToTop, forwardRef, connectRef }: UseScr
    *   会一直持有已销毁的实例
    */
   const ref = useCallback(
-    (node: RNScrollView | null) => {
+    (node: ScrollViewInstance | null) => {
       if (scrollToTop) {
         scrollViewEl.current = node ? node.scrollTo : null
         return
       }
 
       if (!(forwardRef || connectRef)) return
-
       ;(forwardRef || connectRef)?.(node ? (node.scrollTo as ScrollTo) : null, node)
     },
     [connectRef, forwardRef, scrollToTop]

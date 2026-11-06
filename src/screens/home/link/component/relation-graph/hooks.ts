@@ -17,7 +17,7 @@ import {
   TAIL_KEEP_COUNT
 } from './ds'
 
-import type { ScrollView } from 'react-native'
+import type { ScrollViewInstance } from 'react-native'
 import type { NodeLayout, RelationEdge, RelationGraphProps } from './types'
 import type { NodeItem } from '../../types'
 
@@ -161,7 +161,7 @@ export function useRelationGraph(props: RelationGraphProps) {
 
   const [renderWindow, setRenderWindow] = useState<RelationWindow | null>(null)
   const layoutsRef = useRef<Map<number, NodeLayout>>(new Map())
-  const scrollViewRef = useRef<ScrollView>(null)
+  const scrollViewRef = useRef<ScrollViewInstance>(null)
 
   // 引用稳定, 供 Node 的 handleLayout useCallback 生效 (后续给 Node 加 memo 的前提)
   const setLayout = useCallback(

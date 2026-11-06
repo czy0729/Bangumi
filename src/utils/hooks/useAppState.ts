@@ -15,7 +15,9 @@ import type { AppStateStatus } from 'react-native'
  * @returns 如果应用处于前台返回 true，否则返回 false。
  */
 export default function useAppState(): boolean {
-  const [appState, setAppState] = useState<AppStateStatus>(AppState.currentState)
+  const [appState, setAppState] = useState<AppStateStatus>(
+    (AppState.currentState || 'unknown') as AppStateStatus
+  )
 
   const handleAppStateChange = useCallback((nextAppState: AppStateStatus) => {
     setAppState(nextAppState)

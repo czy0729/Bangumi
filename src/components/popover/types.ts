@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-10-30 05:13:35
  */
 import type { ReactElement, ReactNode, RefObject } from 'react'
-import type { Insets, TouchableWithoutFeedbackProps, View } from 'react-native'
+import type { Insets, TouchableWithoutFeedbackProps, ViewInstance } from 'react-native'
 import type { IconfontNames, ViewStyle, WithViewStyles } from '@types'
 import type { TouchableHandlePress } from '../touchable'
 
@@ -178,7 +178,7 @@ export type UsePopoverPressOptions<Data extends PopoverData = PopoverData> = {
 /** Android 按压激活结果 */
 export type UsePopoverPressResult = {
   /** 弹窗锚点 (只挂载到 View, 读取留在事件回调内) */
-  anchorRef: RefObject<View | null>
+  anchorRef: RefObject<ViewInstance | null>
 
   /** 按压延迟 (tap 模式下与长按区分) */
   delayPressIn?: number

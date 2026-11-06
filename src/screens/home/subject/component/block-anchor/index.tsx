@@ -10,12 +10,13 @@ import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
 
+import type { ViewInstance } from 'react-native'
 import type { Props } from './types'
 
 /** 区块锚点: 注册 View ref, 供滚动定位到指定区块使用 */
 function BlockAnchor({ title, onBlockRef, style }: Props) {
   const handleBlockRef = useCallback(
-    (ref: View | null) => onBlockRef(ref, title),
+    (ref: ViewInstance | null) => onBlockRef(ref, title),
     [onBlockRef, title]
   )
 

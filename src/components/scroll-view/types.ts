@@ -7,7 +7,7 @@
 import type {
   NativeScrollEvent,
   NativeSyntheticEvent,
-  ScrollView,
+  ScrollViewInstance,
   ScrollViewProps
 } from 'react-native'
 import type { Expand, ViewStyle } from '@types'
@@ -28,10 +28,10 @@ export type Props = Expand<
     animated?: boolean
 
     /** 连接 ref.scrollTo (scrollTo 为 null 表示实例已卸载) */
-    forwardRef?: (scrollTo: ScrollTo | null, scrollViewRef?: ScrollView | null) => void
+    forwardRef?: (scrollTo: ScrollTo | null, scrollViewRef?: ScrollViewInstance | null) => void
 
     /** @deprecated 连接 ref.scrollTo (scrollTo 为 null 表示实例已卸载) */
-    connectRef?: (scrollTo: ScrollTo | null, scrollViewRef?: ScrollView | null) => void
+    connectRef?: (scrollTo: ScrollTo | null, scrollViewRef?: ScrollViewInstance | null) => void
 
     /** 是否显示左右溢出遮罩（仅水平模式有效） */
     showMask?: boolean

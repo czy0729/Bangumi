@@ -26,7 +26,7 @@ import { useHoldMenu } from '../context'
 import { hapticFeedback } from '../utils'
 
 import type { TransformArrayItem } from 'react-native-reanimated'
-import type { View, ViewProps } from 'react-native'
+import type { ViewInstance, ViewProps } from 'react-native'
 import type { ItemAnimationProps } from './types'
 
 /**
@@ -57,7 +57,7 @@ export const useItemAnimation = ({
   const itemRectWidth = useSharedValue(0)
   const itemRectHeight = useSharedValue(0)
   const itemScale = useSharedValue(1)
-  const containerRef = useRef<View>(null)
+  const containerRef = useRef<ViewInstance>(null)
 
   // 各菜单项是否可选 (title 项不可选), 供长按拖动的命中测试
   const selectable = useMemo(() => items.map(item => !item.isTitle), [items])

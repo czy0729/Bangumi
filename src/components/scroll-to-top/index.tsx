@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-12-04 16:23:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-11 20:26:54
+ * @Last Modified time: 2026-11-06 12:00:00
  */
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
@@ -17,7 +17,7 @@ export { scrollToTopCallback }
 export type { ScrollToToProps }
 
 /** [Android] 仿 iOS 点击头部列表滚动到顶 (已停用) */
-const ScrollToTop = observer(() => {
+const ScrollToTop: (props: ScrollToToProps) => null = observer(() => {
   r(COMPONENT)
 
   return null

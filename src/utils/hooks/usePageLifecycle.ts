@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-05-19 23:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-19 21:29:07
+ * @Last Modified time: 2026-11-06 18:02:14
+ *
+ * 页面生命周期回调: 进入 / 聚焦 / 失焦 / 退出, 切页动画完成后回调
  */
 import { useCallback } from 'react'
-import { InteractionManager } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import { logger } from '@utils/dev'
+import { runWhenIdle } from '@utils/scheduler'
 import useMount from './useMount'
 
 type Callbacks = {
@@ -55,7 +57,7 @@ export default function usePageLifecycle(callbacks: Callbacks, id: string) {
     }
 
     if (typeof callbacks?.onEnterComplete === 'function') {
-      InteractionManager.runAfterInteractions(() => {
+      runWhenIdle(() => {
         setTimeout(() => {
           callbacks.onEnterComplete()
           logger.success(id, 'onEnterComplete')
@@ -70,7 +72,7 @@ export default function usePageLifecycle(callbacks: Callbacks, id: string) {
       }
 
       if (typeof callbacks?.onLeaveComplete === 'function') {
-        InteractionManager.runAfterInteractions(() => {
+        runWhenIdle(() => {
           setTimeout(() => {
             callbacks.onLeaveComplete()
             logger.success(id, 'onLeaveComplete')

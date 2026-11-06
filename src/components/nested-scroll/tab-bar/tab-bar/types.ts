@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-28 16:23:46
  */
+import type { JSX } from 'react'
 import type { Animated } from 'react-native'
 import type { TextStyle, ViewStyle } from '@types'
 import type { Layout, RenderLabel } from '../../types'

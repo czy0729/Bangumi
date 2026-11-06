@@ -6,7 +6,7 @@
  *
  * 条目页面类型
  */
-import type { View } from 'react-native'
+import type { ViewInstance } from 'react-native'
 import type { ImageProps, ListViewScrollMethods } from '@components'
 import type {
   Crt as SourceCrt,
@@ -44,7 +44,7 @@ export type Params = GetRouteParams<RouteSubject>
 export type HandleForwardRef = (ref: ListViewScrollMethods) => void
 
 /** 收集子组件的 ref (卸载时为 null) */
-export type HandleBlockRef = (ref: View | null, componentName: string) => void
+export type HandleBlockRef = (ref: ViewInstance | null, componentName: string) => void
 
 /** 子组件可以调用此方法定位到指定 y 轴坐标 */
 export type HandleScrollIntoViewIfNeeded = (y: number) => void

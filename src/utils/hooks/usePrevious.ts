@@ -12,7 +12,7 @@ import { useEffect, useRef } from 'react'
  * @param value 需要追踪的值
  */
 export default function usePrevious<T>(value: T): T | undefined {
-  const ref = useRef<T>()
+  const ref = useRef<T | undefined>(undefined)
   useEffect(() => {
     ref.current = value
   })

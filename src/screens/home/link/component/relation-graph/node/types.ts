@@ -4,7 +4,7 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2025-12-15 05:13:23
  */
-import type { ScrollView } from 'react-native'
+import type { ScrollViewInstance } from 'react-native'
 import type { NodeLayout, RelationEdge, RelationNode } from '../types'
 
 export type Props = {
@@ -30,7 +30,7 @@ export type Props = {
   setActiveRelation: (r: RelationEdge | null) => void
 
   /** 外层滚动视图引用 (关联线点击后滚动定位) */
-  scrollViewRef: React.RefObject<ScrollView>
+  scrollViewRef: React.RefObject<ScrollViewInstance | null>
 
   /** 焦点节点的关联线 (用于判断与焦点相连的节点) */
   focusRelations: RelationEdge[]

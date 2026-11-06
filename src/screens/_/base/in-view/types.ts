@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-08 00:00:00
  */
+import type { JSX } from 'react'
 import type { ViewProps } from 'react-native'
 import type { DeepPartial, Override } from '@types'
 import type { computeInViewY } from './utils'

@@ -2,7 +2,7 @@
 
 ## 技术栈
 
-- **框架**: React Native + Expo SDK 54
+- **框架**: React Native 0.88 + Expo SDK 58（ios 为根目录当前环境；`packages/android` 备份环境为 RN 0.72.10 + Expo 49 + React 18.2，`packages/web` 为 RN 0.70.5 + Expo 47 + React 18.3.1）
 - **状态管理**: MobX 6 + mobx-react 9
 - **导航**: React Navigation 6（native-stack + bottom-tabs）
 - **样式**: StyleSheet + 自定义 memoStyles() 缓存

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 05:29:09
  */
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Avatar, Component, Flex, Link, Text } from '@components'
@@ -39,7 +39,7 @@ export const ItemPM = observer(
     const styles = memoStyles()
 
     // 延迟刷新的定时器, 卸载时清理, 避免组件销毁后仍触发 onRefresh
-    const refreshTimer = useRef<TimerRef>()
+    const refreshTimer = useRef<TimerRef>(null)
     useEffect(() => () => clearTimeout(refreshTimer.current), [])
 
     return (

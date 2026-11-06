@@ -26,7 +26,7 @@ import ToolBar from './tool-bar'
 import { getSubmitValue } from './utils'
 import { COMPONENT } from './ds'
 
-import type { TextInput } from 'react-native'
+import type { TextInputInstance } from 'react-native'
 import type { Props as FixedTextareaProps, FixedTextareaInstance } from './types'
 export type { Props as FixedTextareaProps, FixedTextareaInstance } from './types'
 
@@ -51,7 +51,7 @@ const FixedTextarea = observer(
     r(COMPONENT)
 
     /** 输入框内部 TextInput 引用 */
-    const textAreaRef = useRef<TextInput | null>(null)
+    const textAreaRef = useRef<TextInputInstance | null>(null)
     /** 最新输入值镜像, 供提交 / 卸载存草稿等非渲染期读取 */
     const valueRef = useRef('')
 
@@ -62,7 +62,7 @@ const FixedTextarea = observer(
       simpleRef.current = simple
     }, [simple])
 
-    const forwardTextareaRef = useCallback((handle: { textAreaRef: TextInput }) => {
+    const forwardTextareaRef = useCallback((handle: { textAreaRef: TextInputInstance }) => {
       textAreaRef.current = handle?.textAreaRef ?? null
     }, [])
 

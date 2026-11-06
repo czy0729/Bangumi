@@ -19,7 +19,7 @@ import { memoStyles } from './styles'
 
 import type {
   EmitterSubscription,
-  TextInput as RNTextInput,
+  TextInputInstance,
   FocusEvent,
   TextInputProps,
   TextInputSubmitEditingEvent
@@ -53,9 +53,9 @@ export const Input = observer(
       value: this.props.value
     }
 
-    inputRef: RNTextInput
+    inputRef: TextInputInstance | null = null
 
-    forwardRef = (ref: RNTextInput) => (this.inputRef = ref)
+    forwardRef = (ref: TextInputInstance | null) => (this.inputRef = ref)
 
     keyboardHeight: number = 0
 
@@ -127,10 +127,11 @@ export const Input = observer(
       const { onFocus, onScrollIntoViewIfNeeded } = this.props
       if (typeof onFocus === 'function') onFocus(evt)
 
-      const node = evt?.target || evt?.currentTarget
+      /** 事件里的 target 在 RN 0.88 是 node handle, 改用自身 ref 测量 */
+      const node = this.inputRef
       setTimeout(() => {
         try {
-          node.measureInWindow((_x: number, y: number, _width: number, height: number) => {
+          node?.measureInWindow((_x: number, y: number, _width: number, height: number) => {
             const inputBottomPosition = y + height
             const scrollViewHeight = _.window.height
             if (inputBottomPosition > scrollViewHeight - this.keyboardHeight) {
@@ -199,7 +200,7 @@ export const Input = observer(
       const props: Override<
         Partial<TextInputProps>,
         {
-          forwardRef: (ref: RNTextInput) => RNTextInput
+          forwardRef: (ref: TextInputInstance) => TextInputInstance
         }
       > = {
         forwardRef: this.forwardRef,
@@ -215,8 +216,7 @@ export const Input = observer(
         onChange: this.onChange,
         onFocus: typeof onScrollIntoViewIfNeeded === 'function' ? this.onFocus : onFocus
       }
-      if (inputStyle) props.style = inputStyle
-      return props
+      return inputStyle ? { ...props, style: inputStyle } : props
     }
 
     render() {

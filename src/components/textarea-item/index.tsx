@@ -16,6 +16,7 @@ import { fixControlledValue, getHeightByRows } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { TextInputInstance } from 'react-native'
 import type { Props as TextareaItemProps } from './types'
 export type { TextareaItemProps }
 
@@ -37,11 +38,11 @@ export const TextareaItem = observer(
       onContentSizeChange,
       ...restProps
     }: TextareaItemProps,
-    ref: React.Ref<{ textAreaRef: TextInput }>
+    ref: React.Ref<{ textAreaRef: TextInputInstance }>
   ) {
     r(COMPONENT)
 
-    const textAreaRef = useRef<TextInput>(null)
+    const textAreaRef = useRef<TextInputInstance>(null)
     // commit 阶段 textAreaRef 已挂载, 非空断言暴露给调用方 (fixed-textarea 通过 ?. 防御)
     useImperativeHandle(ref, () => ({
       textAreaRef: textAreaRef.current!

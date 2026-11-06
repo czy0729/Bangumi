@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-28 16:17:03
  */
-import type { PropsWithChildren } from 'react'
+import type { PropsWithChildren, JSX } from 'react'
 import type { ImageSourcePropType } from 'react-native'
 import type { ViewStyle } from '@types'
 import type { OverflowComponents, RenderLabel } from '../types'

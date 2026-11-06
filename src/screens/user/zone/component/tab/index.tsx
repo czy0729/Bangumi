@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-22 06:56:34
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Animated } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, SceneMap, TabBar, TabView } from '@components'
@@ -22,6 +22,7 @@ import Tinygrail from '../tinygrail'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
+import type { JSX } from 'react'
 import type { ScrollEvent } from '@types'
 import type { Ctx } from '../../types'
 import type { ZoneTabKey } from '../../ds'
@@ -42,16 +43,10 @@ function Tab() {
   const renderScene = useMemo(
     () =>
       SceneMap({
-        collection: () => (
-          <BangumiList ListHeaderComponent={ListHeader} onScroll={handleScroll} />
-        ),
+        collection: () => <BangumiList ListHeaderComponent={ListHeader} onScroll={handleScroll} />,
         stats: () => <Stats ListHeaderComponent={ListHeader} onScroll={handleScroll} />,
-        timeline: () => (
-          <TimelineList ListHeaderComponent={ListHeader} onScroll={handleScroll} />
-        ),
-        rakuen: () => (
-          <RakuenList ListHeaderComponent={ListHeader} onScroll={handleScroll} />
-        ),
+        timeline: () => <TimelineList ListHeaderComponent={ListHeader} onScroll={handleScroll} />,
+        rakuen: () => <RakuenList ListHeaderComponent={ListHeader} onScroll={handleScroll} />,
         about: () => <About onScroll={handleScroll} />,
         tinygrail: () => <Tinygrail onScroll={handleScroll} />
       } satisfies Record<ZoneTabKey, () => JSX.Element>),

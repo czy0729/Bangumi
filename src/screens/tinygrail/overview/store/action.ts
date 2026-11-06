@@ -42,7 +42,7 @@ export default class Action extends Fetch {
   }
 
   /** 列表等级筛选排序 */
-  onLevelSelect = (level: number) => {
+  onLevelSelect = (level: string) => {
     t('热门榜单.筛选', {
       level
     })

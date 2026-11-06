@@ -11,3 +11,5 @@ export * from './bangumi'
 export * from './utils'
 export * from './require'
 export * from './response'
+
+export type { ShowPopupMenu, UIManagerWithPopupMenu } from './react-native-extra'

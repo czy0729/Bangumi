@@ -16,6 +16,7 @@ import Subject from '../subject'
 import { COMPONENT as PARENT, SUB_ITEM_MAX } from './ds'
 import { styles } from './styles'
 
+import type { ViewInstance } from 'react-native'
 import type { Ctx } from '../../types'
 import type { SubListProps } from './types'
 
@@ -24,7 +25,7 @@ const COMPONENT = rc(PARENT, 'SubList')
 function SubList({ id, index, sub }: SubListProps) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const moreRef = useRef<View>(null)
+  const moreRef = useRef<ViewInstance>(null)
 
   /** 收起前的按钮位置, 用于收起后补偿滚动 */
   const collapseY = useRef(0)

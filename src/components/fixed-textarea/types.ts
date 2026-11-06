@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-09-10 00:16:58
  */
 import type { PropsWithChildren, ReactNode, RefObject } from 'react'
-import type { TextInput, TextInputSelectionChangeEvent } from 'react-native'
+import type { TextInputInstance, TextInputSelectionChangeEvent } from 'react-native'
 
 export type Props = PropsWithChildren<{
   /** 输入框值 */
@@ -95,7 +95,7 @@ export type UseTextareaValueOptions = Pick<Props, 'value' | 'cursorEnd' | 'onCha
   valueRef: RefObject<string>
 
   /** 输入框 TextInput 引用 (调用时懒读取) */
-  textAreaRef: RefObject<TextInput | null>
+  textAreaRef: RefObject<TextInputInstance | null>
 
   /** 插入符号 / 表情前聚焦输入框 */
   focusInput: () => void
@@ -134,7 +134,7 @@ export type UseTextareaValueReturn = {
 /** usePanelController 参数 */
 export type UsePanelControllerOptions = Pick<Props, 'simple' | 'onClose'> & {
   /** 输入框 TextInput 引用 (调用时懒读取) */
-  textAreaRef: RefObject<TextInput | null>
+  textAreaRef: RefObject<TextInputInstance | null>
 
   /** 收起输入框时保存草稿 */
   saveDraft: () => void

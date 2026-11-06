@@ -49,10 +49,9 @@ export default function useCancelablePromise(cancelable: CancelableFactory = mak
     throw new Error('promise wrapper argument must provide a cancel() function')
   }
 
-  const promises = useRef<CancelablePromise<unknown>[]>()
+  const promises = useRef<CancelablePromise<unknown>[]>([])
 
   useEffect(() => {
-    promises.current = promises.current || []
     return function cancel() {
       promises.current.forEach(p => p.cancel())
       promises.current = []

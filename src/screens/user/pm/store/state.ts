@@ -10,7 +10,7 @@ import { observable } from 'mobx'
 import Store from '@utils/store'
 import { STATE } from './ds'
 
-import type { ScrollView } from 'react-native'
+import type { ScrollViewInstance } from 'react-native'
 import type { Params } from '../types'
 
 export default class State extends Store<typeof STATE> {
@@ -19,5 +19,5 @@ export default class State extends Store<typeof STATE> {
   state = observable(STATE)
 
   /** 消息滚动区实例 (由 Scroll 组件挂载时注册) */
-  scrollViewRef: ScrollView = null
+  scrollViewRef: ScrollViewInstance | null = null
 }

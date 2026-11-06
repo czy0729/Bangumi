@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-21 04:28:30
  */
-import type { ReactNode } from 'react'
+import type { ReactNode, JSX } from 'react'
 import type { TextType } from '@components'
 import type { ColorValue, IconfontNames, TextStyle, ViewStyle, WithViewStyles } from '@types'
 import type { PropsWithChildren } from 'react'

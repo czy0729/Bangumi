@@ -86,3 +86,42 @@ describe('postTask', () => {
     expect(callback).toHaveBeenCalled()
   })
 })
+
+describe('runWhenIdle', () => {
+  let runWhenIdle: typeof import('../index').runWhenIdle
+
+  beforeEach(() => {
+    jest.useFakeTimers()
+    jest.resetModules()
+
+    runWhenIdle = require('../index').runWhenIdle
+  })
+
+  afterEach(() => {
+    jest.useRealTimers()
+    delete (global as any).requestIdleCallback
+  })
+
+  it('支持 requestIdleCallback 时使用 requestIdleCallback', () => {
+    const mockIdle = jest.fn()
+    ;(global as any).requestIdleCallback = mockIdle
+
+    const callback = jest.fn()
+
+    runWhenIdle(callback)
+
+    expect(mockIdle).toHaveBeenCalledWith(callback, { timeout: 1000 })
+  })
+
+  it('不支持 requestIdleCallback 时退回 setTimeout', () => {
+    const callback = jest.fn()
+
+    runWhenIdle(callback)
+
+    expect(callback).not.toHaveBeenCalled()
+
+    jest.advanceTimersByTime(0)
+
+    expect(callback).toHaveBeenCalled()
+  })
+})

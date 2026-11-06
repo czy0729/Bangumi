@@ -10,7 +10,7 @@ import { observer } from 'mobx-react'
 import { stl } from '@utils'
 import { styles } from './styles'
 
-import type { LayoutChangeEvent } from 'react-native'
+import type { LayoutChangeEvent, ScrollViewInstance } from 'react-native'
 import type { Layout, ScrollBarProps } from './types'
 
 function ScrollBar({ style, page, children, ...props }: ScrollBarProps) {
@@ -29,7 +29,7 @@ function ScrollBar({ style, page, children, ...props }: ScrollBarProps) {
     setScrollBarWidth(e.nativeEvent.layout.width)
   }, [])
 
-  const scrollRef = useRef<ScrollView>(null)
+  const scrollRef = useRef<ScrollViewInstance>(null)
 
   useEffect(() => {
     if (tabLayouts.length - 1 < page || contentWidth === 0 || scrollBarWidth === 0) return
@@ -60,7 +60,9 @@ function ScrollBar({ style, page, children, ...props }: ScrollBarProps) {
       onLayout={onLayout}
       {...props}
     >
-      {React.isValidElement(children) ? React.cloneElement(children, { onTabsLayout }) : children}
+      {React.isValidElement<{ onTabsLayout?: (layouts: Layout[]) => void }>(children)
+        ? React.cloneElement(children, { onTabsLayout })
+        : children}
     </ScrollView>
   )
 }

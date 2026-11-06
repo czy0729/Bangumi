@@ -10,7 +10,7 @@ import { feedback, scrollToView } from '@utils'
 import { useMount, useRunAfter } from '@utils/hooks'
 import { OPEN_GROUP } from './ds'
 
-import type { ScrollView, View } from 'react-native'
+import type { ScrollViewInstance, ViewInstance } from 'react-native'
 import type { ScrollTo } from '@components'
 import type { Setting } from '@stores/system/types'
 import type { NavigationProps } from '@types'
@@ -25,10 +25,10 @@ export function useSettingPage({ navigation, route }: NavigationProps<Params>) {
   const [open, setOpen] = useState('')
 
   /** ScrollView.ref */
-  const scrollViewRef = useRef<ScrollView | null>(null)
+  const scrollViewRef = useRef<ScrollViewInstance | null>(null)
 
   /** Block 容器 View 实例引用集合 */
-  const blockRefs = useRef<Record<string, View | null>>({})
+  const blockRefs = useRef<Record<string, ViewInstance | null>>({})
 
   useRunAfter(() => {
     systemStore.fetchAdvance()
@@ -62,12 +62,12 @@ export function useSettingPage({ navigation, route }: NavigationProps<Params>) {
     open,
 
     /** 收集 ScrollView.ref */
-    forwardRef: useCallback((_scrollTo: ScrollTo, ref?: ScrollView | null) => {
+    forwardRef: useCallback((_scrollTo: ScrollTo, ref?: ScrollViewInstance | null) => {
       scrollViewRef.current = ref ?? null
     }, []),
 
     /** 收集 Block 容器 View 的 ref */
-    onBlockRef: useCallback((ref: View | null, component: string) => {
+    onBlockRef: useCallback((ref: ViewInstance | null, component: string) => {
       setTimeout(() => {
         blockRefs.current[component] = ref
       }, 0)

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-05-05 20:35:56
  */
-import React, { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont } from '@components'
@@ -37,6 +37,7 @@ import {
 } from './ds'
 import { styles } from './styles'
 
+import type { ViewInstance } from 'react-native'
 import type { TopicId } from '@types'
 import type { Ctx, Props } from './types'
 
@@ -57,7 +58,7 @@ function IconExtra({
 }: Props) {
   const { $ } = useStore<Ctx>()
 
-  const viewRef = useRef<View>(null)
+  const viewRef = useRef<ViewInstance>(null)
 
   const memoData = useMemo(
     () =>

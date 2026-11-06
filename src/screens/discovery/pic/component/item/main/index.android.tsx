@@ -6,13 +6,13 @@
  */
 import { useCallback, useRef } from 'react'
 import { findNodeHandle, Image as RNImage, UIManager, View } from 'react-native'
-import { observer } from 'mobx-react'
 import Animated, {
   Easing,
   useAnimatedStyle,
   useSharedValue,
   withTiming
 } from 'react-native-reanimated'
+import { observer } from 'mobx-react'
 import { Touchable } from '@components'
 import { systemStore } from '@stores'
 import { s2t } from '@utils/thirdParty/open-cc'
@@ -20,10 +20,12 @@ import { FROZEN_FN } from '@constants'
 import { getURI } from '../../../utils'
 import { FADE_DURATION, styles } from './styles'
 
+import type { ViewInstance } from 'react-native'
+import type { UIManagerWithPopupMenu } from '@types'
 import type { Props } from './types'
 
 function Main({ width, height, data, image, onPress, onSelect, onError }: Props) {
-  const viewRef = useRef<View>(null)
+  const viewRef = useRef<ViewInstance>(null)
 
   const opacity = useSharedValue(systemStore.setting.imageFadeIn ? 0 : 1)
 
@@ -34,10 +36,13 @@ function Main({ width, height, data, image, onPress, onSelect, onError }: Props)
   const handleLongPress = useCallback(() => {
     if (!viewRef.current) return
 
-    // 部分安卓环境(新架构 / 定制 ROM)没有此 API, 缺失时静默降级, 避免抛 undefined is not a function
-    if (typeof UIManager.showPopupMenu !== 'function') return
+    /** RN 0.88 的 UIManager 类型未包含原生菜单 API, 交叉断言补齐 */
+    const manager = UIManager as typeof UIManager & UIManagerWithPopupMenu
 
-    UIManager.showPopupMenu(
+    // 部分安卓环境(新架构 / 定制 ROM)没有此 API, 缺失时静默降级, 避免抛 undefined is not a function
+    if (typeof manager.showPopupMenu !== 'function') return
+
+    manager.showPopupMenu(
       findNodeHandle(viewRef.current),
       systemStore.setting.s2t
         ? data.map((item: string) => (typeof item === 'string' ? s2t(item) : item))

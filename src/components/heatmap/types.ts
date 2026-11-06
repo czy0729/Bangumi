@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2022-10-19 13:57:01
  */
+import type { JSX } from 'react'
 import type { EventKeys } from '@constants'
 import type { EventType } from '@types'
 import type Control from './control'
