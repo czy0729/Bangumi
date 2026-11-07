@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-08 08:13:54
  */
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Image, ScrollView, Text, Touchable } from '@components'

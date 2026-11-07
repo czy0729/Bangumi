@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-22 06:57:19
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { ItemTimeline } from '@_'
 import { useStore } from '@stores'

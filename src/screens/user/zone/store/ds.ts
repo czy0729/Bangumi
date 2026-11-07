@@ -93,7 +93,7 @@ export const EXCLUDE_STATE = {
   /** 云端快照 */
   users: {
     ...INIT_USERS,
-    _loaded: false
+    _loaded: false as Loaded
   },
 
   /** 时间线类型 */

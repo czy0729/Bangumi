@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-22 06:50:36
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { Animated } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'

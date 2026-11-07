@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-01-29 12:45:09
  */
-import React from 'react'
 import { SectionHeader } from '@_'
 import Item from './item'
 

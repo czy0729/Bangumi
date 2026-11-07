@@ -9,6 +9,7 @@ import { Animated } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, SceneMap, TabBar, TabView } from '@components'
 import { _, uiStore, useStore } from '@stores'
+import { stl } from '@utils'
 import { useInsets } from '@utils/hooks'
 import { H_HEADER } from '../../ds'
 import About from '../about'
@@ -118,23 +119,17 @@ function Tab() {
       const width = _.window.width / $.tabs.length
 
       return (
-        <Animated.View style={[styles.tabBarWrap, transform]}>
+        <Animated.View style={stl(styles.tabBarWrap, transform)}>
           <TabBar
             {...props}
             style={styles.tabBar}
-            tabStyle={[
-              styles.tab,
-              {
-                width
-              }
-            ]}
+            tabStyle={stl(styles.tab, {
+              width
+            })}
             labelStyle={styles.label}
-            indicatorStyle={[
-              styles.indicator,
-              {
-                marginLeft: (width - styles.indicator.width) / 2
-              }
-            ]}
+            indicatorStyle={stl(styles.indicator, {
+              marginLeft: (width - styles.indicator.width) / 2
+            })}
             pressOpacity={1}
             pressColor='transparent'
             scrollEnabled

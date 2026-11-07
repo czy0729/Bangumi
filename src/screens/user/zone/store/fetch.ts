@@ -5,10 +5,13 @@
  * @Last Modified time: 2025-06-11 22:26:03
  */
 import { rakuenStore, timelineStore, tinygrailStore, usersStore, userStore } from '@stores'
+import { INIT_USERS } from '@stores/users/init'
 import { getTimestamp, omit, optimize } from '@utils'
 import { get, update } from '@utils/kv'
 import { D7 } from '@constants'
 import Computed from './computed'
+
+import type { ResultData } from '@utils/kv/type'
 
 export default class Fetch extends Computed {
   /** 用户信息 (自己视角) */
@@ -26,7 +29,7 @@ export default class Fetch extends Computed {
     if (this.users._loaded) return
 
     try {
-      const data = await get(`zone_${this.userId}`)
+      const data = await get<ResultData<typeof INIT_USERS>>(`zone_${this.userId}`)
       if (!data) {
         this.updateThirdParty()
         return
@@ -43,7 +46,7 @@ export default class Fetch extends Computed {
         })
       }
 
-      if (_loaded - ts >= D7) this.updateThirdParty()
+      if (!ts || _loaded - ts >= D7) this.updateThirdParty()
     } catch {}
   }
 
@@ -95,7 +98,7 @@ export default class Fetch extends Computed {
     const { username } = this.usersInfo
     if (!username) return
 
-    const data: any = await get(`u_${username}`)
+    const data = await get<{ ts?: number }>(`u_${username}`)
     this.setState({
       recent: {
         [username]: data?.ts ? getTimestamp() - Number(data.ts || 0) <= 60 * 60 * 30 : false

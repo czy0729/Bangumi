@@ -13,7 +13,7 @@ import { ANDROID, USE_NATIVE_DRIVER } from '@constants'
 import { TAB_PAGE } from '../../ds'
 import { COMPONENT, DEFAULT_AMOUNT, MAX_AMOUNT, MIN_AMOUNT, STEP_AMOUNT } from './ds'
 
-import type { Ctx } from '../../types'
+import type { Ctx, ForwardRefTarget } from '../../types'
 import type { Props } from './types'
 
 /** 红包相关状态和操作 */
@@ -170,7 +170,7 @@ export function useTinygrailScroll({ onScroll }: Props) {
 
   /** iOS 才需要 ref 转发 */
   const handleRef = useCallback(
-    (ref: any) => {
+    (ref: ForwardRefTarget | null) => {
       if (ANDROID) return
 
       $.forwardRef(ref, TAB_PAGE.tinygrail)

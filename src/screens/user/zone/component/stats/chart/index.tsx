@@ -4,11 +4,11 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-22 06:54:15
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
+import { stl } from '@utils'
 import { getHeight } from './utils'
 import { memoStyles } from './styles'
 
@@ -34,20 +34,14 @@ function Chart() {
             <Flex.Item key={item} style={index > 0 && _.ml.xs}>
               <Flex style={styles.item} justify='center' align='end'>
                 <View
-                  style={[
-                    styles.itemFill,
-                    {
-                      height
-                    }
-                  ]}
+                  style={stl(styles.itemFill, {
+                    height
+                  })}
                 />
                 <Text
-                  style={[
-                    styles.count,
-                    {
-                      bottom: height
-                    }
-                  ]}
+                  style={stl(styles.count, {
+                    bottom: height
+                  })}
                   type='sub'
                   size={11}
                   align='center'

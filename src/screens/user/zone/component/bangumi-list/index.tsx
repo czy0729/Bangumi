@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2019-05-06 00:28:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:36:14
+ * @Last Modified time: 2026-11-07 01:38:34
+ *
+ * 收藏分组列表
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component, ListView, Loading } from '@components'
@@ -17,8 +19,16 @@ import { renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { Ctx } from '../../types'
+import type { ReactElement } from 'react'
+import type { SectionListViewProps } from '@components/list-view/types'
+import type { Ctx, ForwardRefTarget } from '../../types'
 import type { Props } from './types'
+import type { Section, SectionItem } from './utils'
+
+/** 分组列表, 列表库的 Props 只按 FlatList 建模, 这里补上 SectionList 的 render props 类型 */
+const SectionListView = ListView as unknown as (
+  props: SectionListViewProps<SectionItem, Section>
+) => ReactElement
 
 function BangumiList({ ListHeaderComponent, onScroll }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
@@ -48,13 +58,10 @@ function BangumiList({ ListHeaderComponent, onScroll }: Props) {
 
   /** iOS 才需要 ref 转发 */
   const handleRef = useCallback(
-    (ref: any) => {
+    (ref: ForwardRefTarget | null) => {
       if (ANDROID) return
 
-      $.forwardRef(
-        ref,
-        TAB_PAGE.collection
-      )
+      $.forwardRef(ref, TAB_PAGE.collection)
     },
     [$]
   )
@@ -75,7 +82,7 @@ function BangumiList({ ListHeaderComponent, onScroll }: Props) {
 
   return (
     <Component id='screen-zone-tab-view' data-type='bangumi-list'>
-      <ListView
+      <SectionListView
         ref={handleRef}
         nestedScrollEnabled={ANDROID}
         keyExtractor={keyExtractor}
@@ -84,7 +91,6 @@ function BangumiList({ ListHeaderComponent, onScroll }: Props) {
         sections={$.sections}
         showFooter={false}
         renderSectionHeader={renderSectionHeader}
-        // @ts-ignore
         renderItem={renderItem}
         ListHeaderComponent={!ANDROID ? ListHeaderComponent : undefined}
         ListFooterComponent={elFooter}

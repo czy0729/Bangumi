@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2024-08-23 00:45:08
  */
-import React from 'react'
 import { SectionHeader } from '@_'
 import { t } from '@utils/fetch'
 import Item from './item'

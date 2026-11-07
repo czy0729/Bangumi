@@ -8,6 +8,9 @@ import type { CollectionsItem } from '@stores/user/types'
 import type { CollectionStatusCn } from '@types'
 
 export type Props = {
-  item: CollectionsItem
+  /** 该状态下的收藏条目 */
+  item: Pick<CollectionsItem, 'list'>
+
+  /** 收藏状态 */
   status: CollectionStatusCn
 }

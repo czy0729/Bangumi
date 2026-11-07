@@ -4,12 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-17 19:11:08
  */
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { Animated, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component, Flex, Heatmap, Input, Modal, ScrollView, Text, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { decimal } from '@utils'
+import { decimal, stl } from '@utils'
 import { ANDROID, SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { useRedPacket, useRedPacketLog, useTinygrailScroll } from './hooks'
 import { parseDescription } from './utils'
@@ -142,7 +142,7 @@ function Tinygrail({ onScroll }: Props) {
             祝福留言
           </Text>
           <Input
-            style={[styles.input, _.mt.sm]}
+            style={stl(styles.input, _.mt.sm)}
             value={message}
             placeholder='请输入祝福留言 (0-20字)'
             onChangeText={handleChangeMessage}

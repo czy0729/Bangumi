@@ -4,13 +4,37 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-28 13:03:34
  */
-import type { FlatList, FlatListProps, SectionListScrollParams } from 'react-native'
+import type { FlatList, FlatListProps } from 'react-native'
 import type { ListEmpty, MaybeReadonly, Override, ReactNode, Ref, Sections } from '@types'
 import type { TextProps } from '../text'
 import type { REFRESH_STATE } from './ds'
 
 /** 提取出 FlatList 类的实例类型，用于 ref 暴露滚动方法 */
 export type ListViewInstance = InstanceType<typeof FlatList>
+
+/** 分组数据项 */
+export type SectionItem<ItemT = unknown> = {
+  /** 分组标题 */
+  title: string
+
+  /** 分组内的数据 */
+  data: ItemT[]
+}
+
+/** 分组模式 (SectionList) 下的 Props, 允许分组携带额外字段 */
+export type SectionListViewProps<
+  ItemT = unknown,
+  SectionT extends SectionItem<ItemT> = SectionItem<ItemT>
+> = Omit<Props<ItemT>, 'sections' | 'renderSectionHeader' | 'renderItem'> & {
+  /** 分组数据 */
+  sections: SectionT[]
+
+  /** 渲染分组头部 */
+  renderSectionHeader?: (info: { section: SectionT }) => ReactNode
+
+  /** 渲染条目 */
+  renderItem?: (info: { item: ItemT; index: number; section: SectionT }) => ReactNode
+}
 
 /** ListView 主组件属性，基于 FlatListProps 扩展 */
 export type Props<ItemT = unknown> = Override<
@@ -200,7 +224,22 @@ export type ScrollToEnd = (params?: {
 }) => void
 
 /** 滚动到 SectionList 指定分组的位 */
-export type ScrollToLocation = (params: SectionListScrollParams) => void
+export type ScrollToLocation = (params: {
+  /** 分组索引 */
+  sectionIndex: number
+
+  /** 分组内条目索引 */
+  itemIndex: number
+
+  /** 是否使用动画 */
+  animated?: boolean
+
+  /** 视口偏移 */
+  viewOffset?: number
+
+  /** 视口位置 */
+  viewPosition?: number
+}) => void
 
 /** 通过 useImperativeHandle 暴露给外部的滚动控制方法合集 */
 export type ListViewScrollMethods = {

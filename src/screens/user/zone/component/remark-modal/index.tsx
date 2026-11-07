@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-22 06:52:40
  */
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Input, Modal, Text, Touchable } from '@components'

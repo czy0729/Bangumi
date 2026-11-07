@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-14 21:02:18
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component, ListView, Loading } from '@components'
@@ -17,7 +17,7 @@ import { renderItem, renderSectionHeader } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { Ctx } from '../../types'
+import type { Ctx, ForwardRefTarget } from '../../types'
 import type { Props } from './types'
 
 function TimelineList(props: Props) {
@@ -46,7 +46,7 @@ function TimelineList(props: Props) {
 
   /** iOS 才需要 ref 转发 */
   const handleRef = useCallback(
-    (ref: any) => {
+    (ref: ForwardRefTarget | null) => {
       if (ANDROID) return
 
       $.forwardRef(ref, TAB_PAGE.timeline)

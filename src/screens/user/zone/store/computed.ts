@@ -26,7 +26,7 @@ import { COLLECTION_TYPES, H_HEADER, TABS, TABS_WITH_TINYGRAIL } from '../ds'
 import State from './state'
 import { COLLECTION_STATUS_MAP, COLLECTION_STATUS_TEXT, EXCLUDE_STATE, NAMESPACE } from './ds'
 
-import type { CollectionStatusCn, ImageSource } from '@types'
+import type { CollectionStatusCn } from '@types'
 
 export default class Computed extends State {
   /** 本地化 */
@@ -35,12 +35,12 @@ export default class Computed extends State {
   }
 
   /** 开发调试 */
-  log(...arg: any) {
+  log(...arg: unknown[]) {
     logger.info(this.namespace, ...arg)
   }
 
   /** 开发调试 */
-  warn(...arg: any) {
+  warn(...arg: unknown[]) {
     logger.warn(this.namespace, ...arg)
   }
 
@@ -190,18 +190,13 @@ export default class Computed extends State {
   @computed get imageSource() {
     const { _image } = this.params
     const { avatar } = this.usersInfo
-    let source: ImageSource = {
-      uri: avatar?.large
-    }
 
-    if (TEXT_ONLY) {
-      source = IMG_EMPTY_DARK
-    } else {
-      if (typeof _image === 'string' && !!_image) source.uri = _image
-      source.uri = resolveImageUri(fixedHD(this.bg || this.avatar || source.uri))
-    }
+    if (TEXT_ONLY) return IMG_EMPTY_DARK
 
-    return source
+    const uri = typeof _image === 'string' && !!_image ? _image : avatar?.large
+    return {
+      uri: resolveImageUri(fixedHD(this.bg || this.avatar || uri))
+    }
   }
 
   /** 背景模糊像素 */

@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-22 06:37:40
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap } from '@components'
 import { ItemBangumiList } from '@_'

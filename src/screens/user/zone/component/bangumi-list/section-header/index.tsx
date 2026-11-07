@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-22 06:37:55
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Heatmap, Iconfont, Text, Touchable } from '@components'
 import { SectionHeader as SectionHeaderComp } from '@_'
@@ -13,8 +13,9 @@ import { stl } from '@utils'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../../types'
+import type { Props } from './types'
 
-function SectionHeader({ title, status, count }) {
+function SectionHeader({ title, status, count }: Props) {
   const { $ } = useStore<Ctx>()
 
   const handlePress = useCallback(() => {

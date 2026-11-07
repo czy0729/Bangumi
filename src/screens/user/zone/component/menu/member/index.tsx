@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-22 06:42:24
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Touchable } from '@components'
 import { _, useStore } from '@stores'

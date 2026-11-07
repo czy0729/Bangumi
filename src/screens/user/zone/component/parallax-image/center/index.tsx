@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-22 06:50:05
  */
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { Animated, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _, useStore } from '@stores'
@@ -60,7 +60,7 @@ function Center({ style }: WithViewStyles) {
     <Animated.View style={stl(styles.parallaxWrap, style)}>
       <Animated.View style={memoHeadStyle}>
         <Head style={styles.head} />
-        <Sensor style={[memoHeaderStyle.right, styles.sensor]} />
+        <Sensor style={stl(memoHeaderStyle.right, styles.sensor)} />
       </Animated.View>
       <View style={styles.parallaxLine} />
     </Animated.View>

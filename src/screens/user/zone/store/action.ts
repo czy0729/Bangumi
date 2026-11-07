@@ -20,7 +20,9 @@ import { DEFAULT_COLLECTION_EXPAND } from './ds'
 
 import type { ScrollTo, ScrollToOffset } from '@components'
 import type { UserStatsTitle } from '@stores/users/ds'
+import type { ResultData } from '@utils/kv/type'
 import type { CollectionTypeTitle } from '../ds'
+import type { ForwardRefTarget } from '../types'
 import type {
   CompletionItem,
   CollectionStatusCn,
@@ -42,7 +44,7 @@ export default class Action extends Fetch {
   private scrollTo: Record<number, ScrollTo> = {}
 
   /** 收集 ListView | ScrollView 引用 */
-  forwardRef = (ref: any, index: number) => {
+  forwardRef = (ref: ForwardRefTarget | null, index: number) => {
     if (typeof ref?.scrollToOffset === 'function') {
       this.scrollToOffset[index] = ref.scrollToOffset
     }
@@ -449,7 +451,7 @@ export default class Action extends Fetch {
 
     const now = getTimestamp()
     if (!this.currentChatValues.length) {
-      const data = await get(id)
+      const data = await get<ResultData<{ data: CompletionItem[] }>>(id)
       if (Array.isArray(data?.data) && data.data.length) {
         this.setState({
           chat: {

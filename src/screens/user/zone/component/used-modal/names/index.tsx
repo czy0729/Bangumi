@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-08 08:17:24
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Loading, RenderHtml, ScrollView, Text } from '@components'
 import { styles } from './styles'

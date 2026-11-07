@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-14 21:11:10
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Animated } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component, ListView, Loading, ScrollView, Text } from '@components'
@@ -15,7 +15,7 @@ import { handleToQiafan, keyExtractor, renderItem, renderSectionHeader } from '.
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { Ctx } from '../../types'
+import type { Ctx, ForwardRefTarget } from '../../types'
 import type { Props } from './types'
 
 function RakuenList({ ListHeaderComponent, onScroll }: Props) {
@@ -49,7 +49,7 @@ function RakuenList({ ListHeaderComponent, onScroll }: Props) {
 
   /** iOS 才需要 ref 转发 */
   const handleRef = useCallback(
-    (ref: any) => {
+    (ref: ForwardRefTarget | null) => {
       if (ANDROID) return
 
       $.forwardRef(ref, TAB_PAGE.rakuen)
