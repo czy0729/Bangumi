@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-04-26 17:33:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 16:41:44
+ * @Last Modified time: 2026-11-07 01:38:34
+ *
+ * 同步项勾选框
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
@@ -11,7 +13,9 @@ import { r } from '@utils/dev'
 import { COLOR_SUCCESS, COMPONENT, HIT_SLOP } from './ds'
 import { styles } from './styles'
 
-function ColumnSelect({ select, disabled, onPress }) {
+import type { Props } from './types'
+
+function ColumnSelect({ select, disabled, onPress }: Props) {
   r(COMPONENT)
 
   if (disabled) {

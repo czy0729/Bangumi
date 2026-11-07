@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-12 10:37:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-08-06 03:29:29
+ * @Last Modified time: 2026-11-07 01:38:34
+ *
+ * Storybook 入口 (web 端提示页)
  */
-import React from 'react'
-import { getStorybookArgs, Page, StorybookList, StorybookSPA, Text } from '@components'
+import { Page, StorybookList, StorybookSPA, Text } from '@components'
 import { _ } from '@stores'
 
 const Component = () => (
@@ -24,7 +25,7 @@ export default {
 export const BilibiliSync = () => (
   <StorybookSPA>
     <StorybookList>
-      <Component {...getStorybookArgs('BilibiliSync')} />
+      <Component />
     </StorybookList>
   </StorybookSPA>
 )

@@ -2,15 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-09-29 18:18:35
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-10 02:33:03
+ * @Last Modified time: 2026-11-07 01:38:34
+ *
+ * WebView 注入脚本: 检查登录 / 读取番剧列表与评价
  */
 import { HOST_AC_API } from '@constants'
-
-export const TYPE_CHECK_LOGIN = 'CHECK_LOGIN'
-
-export const TYPE_GET_LIST = 'GET_LIST'
-
-export const TYPE_GET_REVIEW = 'GET_REVIEW'
+import { TYPE_CHECK_LOGIN, TYPE_GET_LIST, TYPE_GET_REVIEW } from './ds'
 
 export function injectedJavaScript() {
   return `(function() {

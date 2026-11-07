@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2022-04-27 06:53:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:59:34
+ * @Last Modified time: 2026-11-07 19:05:02
+ *
+ * 页面头部: 登录框展开 / 收起与说明入口
  */
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'
-import { HeaderV2 } from '@components'
+import { Flex, HeaderV2, Iconfont, Text, Touchable } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { t } from '@utils/fetch'
@@ -18,17 +20,32 @@ import type { Ctx } from '../types'
 function Header() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
-  const { hide } = $.state
+  const { hide, isLogin } = $.state
+
+  // 无数据时由列表空态提供登录按钮, 头部不再重复
+  const showToggle = !hide || !!$.data.length
+
+  // 已登录时入口的语义是展开登录框, 未登录才是登录
+  const toggleIcon = hide
+    ? isLogin
+      ? 'md-keyboard-arrow-down'
+      : 'md-person-outline'
+    : 'md-keyboard-arrow-up'
+  const toggleLabel = hide ? (isLogin ? '展开' : '登录') : '收起'
 
   const handleHeaderRight = useCallback(
     () => (
       <>
-        <IconTouchable
-          style={_.mr.xs}
-          name={hide ? 'md-refresh' : 'md-close'}
-          color={_.colorDesc}
-          onPress={$.onToggleHide}
-        />
+        {showToggle && (
+          <Touchable style={_.mr.sm} onPress={$.onToggleHide}>
+            <Flex>
+              <Iconfont name={toggleIcon} size={19} color={_.colorDesc} />
+              <Text style={_.ml.xs} size={13} type='desc'>
+                {toggleLabel}
+              </Text>
+            </Flex>
+          </Touchable>
+        )}
         <IconTouchable
           name='md-info-outline'
           color={_.colorDesc}
@@ -50,7 +67,7 @@ function Header() {
         />
       </>
     ),
-    [hide]
+    [toggleIcon, toggleLabel, showToggle, $, navigation]
   )
 
   return <HeaderV2 title='bilibili 同步' hm={HM} headerRight={handleHeaderRight} />

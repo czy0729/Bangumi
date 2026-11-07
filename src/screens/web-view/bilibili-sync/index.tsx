@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-02-23 06:46:59
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-26 22:31:14
+ * @Last Modified time: 2026-11-07 19:05:02
  */
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
@@ -28,6 +28,7 @@ function BilibiliSync(props: NavigationProps) {
             onToggleHide={$.onToggleHide}
             setData={$.setData}
             setReviews={$.setReviews}
+            setIsLogin={$.setIsLogin}
           />
           <List />
         </Page>

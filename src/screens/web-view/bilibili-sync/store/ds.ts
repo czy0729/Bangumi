@@ -2,18 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-04-28 11:48:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 15:41:39
+ * @Last Modified time: 2026-11-07 19:05:02
+ *
+ * 页面状态与常量
  */
 import { COMPONENT } from '../ds'
 
-import type { Loaded } from '@types'
-import type { BilibiliItem, Reviews } from '../types'
+import type { Loaded, SubjectId } from '@types'
+import type { BilibiliItem, CollectionInfo, Reviews } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}`
 
 export const EXCLUDE_STATE = {
   /** 是否加载 bangumi-data */
-  loadedBangumiData: false
+  loadedBangumiData: false,
+
+  /** 是否已登录 bilibili, null 表示尚未检查 */
+  isLogin: null as boolean | null
 }
 
 export const STATE = {
@@ -29,12 +34,12 @@ export const STATE = {
   reviews: {} as Reviews,
 
   /** 收藏信息 (bgm) */
-  collections: {},
+  collections: {} as Record<SubjectId, CollectionInfo>,
 
   /** 置底数据 */
   bottom: {
     current: 0
-  },
+  } as { current: number } & Partial<Record<SubjectId, number>>,
 
   /** 收起 (弹窗) */
   hide: false,

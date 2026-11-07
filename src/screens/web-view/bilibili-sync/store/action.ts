@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-14 15:48:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 18:06:47
+ * @Last Modified time: 2026-11-07 19:05:02
  */
 import { feedback, getTimestamp } from '@utils'
 import { t } from '@utils/fetch'
@@ -23,6 +23,13 @@ export default class Action extends Fetch {
     })
   }
 
+  /** 设置 bilibili 登录状态 */
+  setIsLogin = (isLogin: boolean) => {
+    this.setState({
+      isLogin
+    })
+  }
+
   onHeaderRefresh = () => {
     return this.fetchCollections(this.data.map(item => item.subjectId).slice(0, 80))
   }
@@ -34,6 +41,8 @@ export default class Action extends Fetch {
 
   setData = (list: BilibiliItem[]) => {
     this.setState({
+      // 读取完成后自动收起登录框, 直接展示列表
+      hide: true,
       data: {
         list: list.map(item => ({
           subjectId: (MEDIA_SUBJECT[item.id] ||
@@ -86,13 +95,18 @@ export default class Action extends Fetch {
 
   onSubmit = async (
     subjectId: SubjectId,
-    collectionData?: {
-      status?: any
-      rating?: any
-      comment?: any
-      ep?: any
+    collectionData: {
+      /** 收藏状态 */
+      status?: string | number
+
+      /** 评分 */
+      rating?: string | number
+
+      /** 评价 */
+      comment?: string
     },
-    epData?: {
+    epData: {
+      /** 看到第几话 */
       ep?: number
     }
   ) => {

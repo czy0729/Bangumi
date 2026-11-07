@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-09-14 15:44:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 15:47:20
+ * @Last Modified time: 2026-11-07 19:05:02
  */
 import { getTimestamp, info } from '@utils'
 import { queue } from '@utils/fetch'
@@ -14,6 +14,7 @@ import { LOADED } from '../ds'
 import Computed from './computed'
 
 import type { SubjectId } from '@types'
+import type { CollectionInfo, CollectionResponse } from '../types'
 
 export default class Fetch extends Computed {
   /** 加载 bangumi-data */
@@ -27,8 +28,8 @@ export default class Fetch extends Computed {
   }
 
   fetchCollection = async (subjectId: SubjectId) => {
-    const collections = {}
-    const data: any = await request(API_COLLECTION(subjectId))
+    const collections: Record<SubjectId, CollectionInfo> = {}
+    const data = await request<CollectionResponse>(API_COLLECTION(subjectId))
     if (data?.status) {
       collections[subjectId] = {
         status: data.status.type,
@@ -55,14 +56,14 @@ export default class Fetch extends Computed {
       return false
     }
 
-    const collections = {}
-    const fetchs = []
+    const collections: Record<SubjectId, CollectionInfo> = {}
+    const fetchs: (() => Promise<boolean>)[] = []
     subjectIds.forEach(subjectId => {
       if (LOADED[subjectId]) return
 
       LOADED[subjectId] = true
       fetchs.push(async () => {
-        const data: any = await request(API_COLLECTION(subjectId))
+        const data = await request<CollectionResponse>(API_COLLECTION(subjectId))
         if (data?.status) {
           collections[subjectId] = {
             status: data.status.type,

@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-02-18 06:37:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-26 22:40:39
+ * @Last Modified time: 2026-11-07 19:05:02
+ *
+ * B 站登录框 (WebView 注入脚本读取番剧列表与评价)
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
-import { observer } from 'mobx-react'
 import { WebView } from 'react-native-webview'
+import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
@@ -16,49 +18,69 @@ import { t } from '@utils/fetch'
 import { useInsets } from '@utils/hooks'
 import i18n from '@constants/i18n'
 import Btn from '../btn'
-import { injectedJavaScript, TYPE_CHECK_LOGIN, TYPE_GET_LIST, TYPE_GET_REVIEW } from './utils'
-import { COMPONENT, URL_ZONE } from './ds'
+import { injectedJavaScript } from './utils'
+import { COMPONENT, TYPE_CHECK_LOGIN, TYPE_GET_LIST, TYPE_GET_REVIEW, URL_ZONE } from './ds'
 import { memoStyles } from './styles'
+
+import type { BilibiliItem, Reviews } from '../../types'
+import type { Props } from './types'
 
 let length: number
 
-function Login({ hide, onToggleHide, setData, setReviews }) {
+function Login({ hide, onToggleHide, setData, setReviews, setIsLogin }: Props) {
   r(COMPONENT)
 
   const { headerHeight } = useInsets()
   const [key, setKey] = useState(0)
   const [message, setMessage] = useState('检查状态中...')
 
+  /** 展开过才挂载 WebView, 初始收起时不发起请求 */
+  const [inited, setInited] = useState(false)
+  useEffect(() => {
+    if (!hide) setInited(true)
+  }, [hide])
+
   const handleMessage = useCallback(
     (event: { nativeEvent: { data: string } }) => {
-      const { type, data } = JSON.parse(event.nativeEvent.data)
+      const { type, data } = JSON.parse(event.nativeEvent.data) as {
+        type: string
+        data?: unknown
+      }
 
       switch (type) {
-        case TYPE_CHECK_LOGIN:
+        case TYPE_CHECK_LOGIN: {
+          const isLogin = !!(data as { data?: { isLogin?: boolean } })?.data?.isLogin
+          setIsLogin(isLogin)
           setMessage(
-            data?.data?.isLogin
-              ? `已${i18n.login()}`
-              : `检查${i18n.login()}状态失败，请先${i18n.login()}`
+            isLogin ? `已${i18n.login()}` : `检查${i18n.login()}状态失败，请先${i18n.login()}`
           )
           break
+        }
 
-        case TYPE_GET_LIST:
+        case TYPE_GET_LIST: {
+          const list = (data || []) as BilibiliItem[]
           setMessage('已获取番剧列表')
-          setData(data)
-          length = data.length
+          setData(list)
+          length = list.length
           break
+        }
 
         case TYPE_GET_REVIEW:
           setMessage(`已获取 ${length} 个番剧信息，请收起${i18n.login()}框进行操作`)
-          setReviews(data)
+          setReviews(data as Reviews)
           break
 
         default:
           break
       }
     },
-    [setData, setReviews]
+    [setData, setReviews, setIsLogin]
   )
+
+  /** 拦截 B 站深链, 其余 (含 about:blank / blob:) 正常放行, 避免唤起外部客户端 */
+  const handleShouldStartLoad = useCallback((request: { url: string }) => {
+    return !/^(bilibili|bilibilihd|bstar):\/\//i.test(request.url)
+  }, [])
 
   const handleRefresh = useCallback(() => {
     setMessage('检查状态中...')
@@ -81,18 +103,22 @@ function Login({ hide, onToggleHide, setData, setReviews }) {
         )}
       >
         <View style={styles.container}>
-          <WebView
-            key={key}
-            source={{
-              uri: URL_ZONE
-            }}
-            containerStyle={[styles.webview, hide && styles.webviewHide]}
-            androidHardwareAccelerationDisabled
-            androidLayerType='software'
-            javaScriptEnabled
-            injectedJavaScript={injectedJavaScript()}
-            onMessage={handleMessage}
-          />
+          {inited && (
+            <WebView
+              key={key}
+              source={{
+                uri: URL_ZONE
+              }}
+              containerStyle={stl(styles.webview, hide && styles.webviewHide)}
+              androidHardwareAccelerationDisabled
+              androidLayerType='software'
+              javaScriptEnabled
+              injectedJavaScript={injectedJavaScript()}
+              originWhitelist={['*']}
+              onShouldStartLoadWithRequest={handleShouldStartLoad}
+              onMessage={handleMessage}
+            />
+          )}
         </View>
         <View style={styles.body}>
           <Text type={message.includes('个番剧信息') ? 'warning' : undefined} bold size={15}>
@@ -118,7 +144,7 @@ function Login({ hide, onToggleHide, setData, setReviews }) {
               onPress={handleRefresh}
             />
             <Btn
-              style={[styles.btn, _.ml.lg]}
+              style={stl(styles.btn, _.ml.lg)}
               btnStyle={styles.btnStyle}
               text={`收起${i18n.login()}框`}
               size={13}

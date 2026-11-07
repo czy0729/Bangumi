@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-04-26 17:06:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 16:41:59
+ * @Last Modified time: 2026-11-07 01:38:34
+ *
+ * bangumi 侧状态与将写入的值
  */
 import { observer } from 'mobx-react'
 import { Text } from '@components'
@@ -10,7 +12,9 @@ import { _ } from '@stores'
 import { r } from '@utils/dev'
 import { COMPONENT } from './ds'
 
-function ColumnBgm({ select, text, next }) {
+import type { Props } from './types'
+
+function ColumnBgm({ select, text, next }: Props) {
   r(COMPONENT)
 
   return (

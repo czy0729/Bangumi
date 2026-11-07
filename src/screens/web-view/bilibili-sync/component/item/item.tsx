@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-09-29 19:17:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 18:06:12
+ * @Last Modified time: 2026-11-07 01:38:34
+ *
+ * 收藏对照行: bilibili 与 bangumi 的状态 / 集数 / 评分 / 评价
  */
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
@@ -90,7 +92,7 @@ export default memo(
 
     const next = {
       status: BILIBILI_STATUS[item.status],
-      ep: epSelect.value as string | number,
+      ep: epSelect.value,
       score: scoreSelect.value,
       comment: commentSelect.value
     }
@@ -216,7 +218,7 @@ export default memo(
                       />
                       <ColumnSelect
                         select={selectEp}
-                        disabled={next.ep === ''}
+                        disabled={!next.ep}
                         onPress={setSelectEp}
                       />
                       <ColumnSelect
@@ -280,10 +282,9 @@ export default memo(
                       } = {}
 
                       const collectionData: {
-                        status?: any
-                        rating?: any
-                        comment?: any
-                        ep?: any
+                        status?: string
+                        rating?: string | number
+                        comment?: string
                       } = {}
 
                       if (selectStatus) {
@@ -315,7 +316,7 @@ export default memo(
                       }
 
                       const epData: {
-                        ep?: any
+                        ep?: number
                       } = {}
 
                       if (selectEp) {

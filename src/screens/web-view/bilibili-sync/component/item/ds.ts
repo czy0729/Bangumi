@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-29 19:18:07
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-14 16:12:21
+ * @Last Modified time: 2026-11-07 19:05:02
+ *
+ * 组件常量与默认 props
  */
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
@@ -14,11 +16,11 @@ import type { memoStyles } from './styles'
 
 export const COMPONENT = rc(PARENT, 'Item')
 
-export const BILIBILI_STATUS = {
+export const BILIBILI_STATUS: Record<number, '想看' | '在看' | '看过'> = {
   1: '想看',
   2: '在看',
   3: '看过'
-} as const
+}
 
 export const HIT_SLOP = {
   top: 4,
