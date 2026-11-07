@@ -214,7 +214,7 @@ export function useLoginV2Page({ navigation }: NavigationProps) {
       }
 
       logger.error(NAMESPACE, 'onLogin', ex)
-      onLoginRef.current()
+      await onLoginRef.current()
     }
   }, [inStore, login, loginFail, patch, service])
 

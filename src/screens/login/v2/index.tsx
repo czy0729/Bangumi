@@ -6,6 +6,7 @@
  *
  * 账号密码登录页: 只做渲染, 状态与交互见 ./hooks, 请求链路见 ./service
  */
+import { useCallback, useRef } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Component, KeyboardSpacer } from '@components'
@@ -20,6 +21,7 @@ import Form from './component/form'
 import Notify from './component/notify'
 import Preview from './component/preview'
 import { useLoginV2Page } from './hooks'
+import { usePasskeyLogin } from './passkey/hooks'
 
 import type { NavigationProps } from '@types'
 
@@ -54,6 +56,22 @@ function LoginV2({ navigation }: NavigationProps) {
     failed,
     networkFailed
   } = state
+  const loginLock = useRef(false)
+  const passkey = usePasskeyLogin({
+    blocked: loading,
+    loginLock,
+    navigation,
+    isSyncSetting
+  })
+  const runOtherLogin = useCallback(async (action: () => Promise<void>) => {
+    if (loginLock.current) return
+    loginLock.current = true
+    try {
+      await action()
+    } finally {
+      loginLock.current = false
+    }
+  }, [])
 
   return (
     <Component id='screen-login-v2' style={_.container.plain}>
@@ -73,6 +91,7 @@ function LoginV2({ navigation }: NavigationProps) {
             isCommonUA={isCommonUA}
             isSyncSetting={isSyncSetting}
             loading={loading}
+            passkey={passkey}
             info={info}
             host={host}
             failed={failed}
@@ -84,22 +103,27 @@ function LoginV2({ navigation }: NavigationProps) {
             onSelect={onSelect}
             onUAChange={onUAChange}
             onSyncSettingChange={onSyncSettingChange}
-            onLogin={onLogin}
+            onLogin={() => runOtherLogin(onLogin)}
           />
         ) : (
           <Preview
-            onLogin={onPreviewLogin}
+            passkey={passkey}
+            blocked={loading}
+            onLogin={() => {
+              if (!loginLock.current) onPreviewLogin()
+            }}
             onTour={() => {
+              if (loginLock.current) return
               confirm(
                 `将使用开发者的测试账号, 提供大部分功能预览, 确定${i18n.login()}? (可以在设置里面退出${i18n.login()})`,
-                onTour,
+                () => runOtherLogin(onTour),
                 '提示'
               )
             }}
           />
         )}
       </View>
-      {clicked ? !focus && <Notify /> : <Footer navigation={navigation} />}
+      {!passkey.loading && (clicked ? !focus && <Notify /> : <Footer navigation={navigation} />)}
       <KeyboardSpacer topSpacing={_.ios(-120, 0)} />
       <Extra />
     </Component>

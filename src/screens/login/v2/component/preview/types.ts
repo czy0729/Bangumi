@@ -6,7 +6,9 @@
  *
  * 登录预览 Props
  */
-export type Props = {
+import type { Props as PasskeyProps } from '../passkey/types'
+
+export type Props = Pick<PasskeyProps, 'passkey' | 'blocked'> & {
   /** 账号登录 */
   onLogin: () => void
 

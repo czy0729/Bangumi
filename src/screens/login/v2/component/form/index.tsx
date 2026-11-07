@@ -26,6 +26,7 @@ import { t } from '@utils/fetch'
 import { FROZEN_FN, WEB } from '@constants'
 import i18n from '@constants/i18n'
 import InputPassword from '../input-password'
+import Passkey from '../passkey'
 import { memoStyles } from './styles'
 
 import type { InputInstance } from '@components'
@@ -338,7 +339,7 @@ class Form extends React.Component<Props> {
   }
 
   render() {
-    const { loading, onLogin } = this.props
+    const { loading, onLogin, passkey } = this.props
     const { focusPassword } = this.state
     return (
       <View style={_.container.column}>
@@ -348,9 +349,16 @@ class Form extends React.Component<Props> {
           </Flex>
           {this.renderForm()}
           {!WEB && this.renderConfig()}
-          <Button style={_.mt.lg} type='main' shadow loading={loading} onPress={onLogin}>
+          <Button
+            style={_.mt.lg}
+            type={passkey.loading ? 'disabled' : 'main'}
+            shadow
+            loading={loading}
+            onPress={passkey.loading ? undefined : onLogin}
+          >
             {i18n.login()}
           </Button>
+          <Passkey passkey={passkey} blocked={loading} />
           {this.renderError()}
         </View>
       </View>
