@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2021-07-10 16:08:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-24 21:55:00
+ * @Last Modified time: 2026-11-08 12:00:00
+ *
+ * Android: 写入应用缓存目录后存入系统相册
  */
 import { PermissionsAndroid, Platform } from 'react-native'
 import RNFS from 'react-native-fs'
@@ -12,50 +14,43 @@ import { FROZEN_FN } from '@constants/init'
 
 import type { OnFail, OnSuccess } from './types'
 
-/** 保存 base64 图片到本地 (iOS 空实现) */
-export async function saveBase64ImageToShareSheet(
-  _base64Img: string,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _success: OnSuccess = FROZEN_FN,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _fail: OnFail = FROZEN_FN
-) {}
+/** 保存成功提示 */
+export const SAVE_SUCCESS_TIP = '已保存到相册'
+
+/** 无存储权限时的提示 */
+const PERMISSION_TIP = '保存失败，请确保给予存储权限'
 
 /**
- * 将 Base64 格式的图片保存至系统相册
+ * 保存 base64 图片到系统相册
  *
- * @param base64Img - Base64 编码的图片字符串
- * @param success - 成功回调函数
- * @param fail - 失败回调函数
- * @returns 是否触发保存流程或写入结果的 Promise
+ * @param base64Img base64 编码的图片
+ * @param success 保存成功回调
+ * @param fail 保存失败回调
  */
-export async function saveBase64ImageToCameraRoll(
+export async function saveBase64Image(
   base64Img: string,
   success: OnSuccess = FROZEN_FN,
   fail: OnFail = FROZEN_FN
 ) {
-  if (!(await hasAndroidPermission())) return false
-
-  // 使用应用私有缓存目录存储临时文件，避免跨版本的分区存储权限限制
-  const dirs = RNFS.CachesDirectoryPath
-  const downloadDest = `${dirs}/bangumi_${new Date().getTime()}.jpg`
-  const imageData = base64Img.split(';base64,')[1]
-
-  return RNFetchBlob.fs.writeFile(downloadDest, imageData, 'base64').then(() => {
-    try {
-      CameraRoll.saveToCameraRoll(downloadDest)
-        .then(res => {
-          // 保存成功后异步清理临时缓存文件
-          RNFS.unlink(downloadDest).catch(() => {})
-          success(res)
-        })
-        .catch(error => {
-          fail(error)
-        })
-    } catch (error) {
-      fail(error)
+  try {
+    if (!(await hasAndroidPermission())) {
+      fail(PERMISSION_TIP)
+      return
     }
-  })
+
+    // 使用应用私有缓存目录存储临时文件，避免跨版本的分区存储权限限制
+    const downloadDest = `${RNFS.CachesDirectoryPath}/bangumi_${Date.now()}.jpg`
+    const imageData = base64Img.split(';base64,')[1]
+
+    await RNFetchBlob.fs.writeFile(downloadDest, imageData, 'base64')
+    const res = await CameraRoll.saveToCameraRoll(downloadDest)
+
+    // 保存成功后清理临时缓存文件
+    RNFS.unlink(downloadDest).catch(() => {})
+    success(res)
+  } catch {
+    fail('保存失败，请重试')
+  }
 }
 
 /**

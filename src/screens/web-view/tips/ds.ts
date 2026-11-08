@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-06-23 14:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-14 09:21:16
+ * @Last Modified time: 2026-11-09 12:00:00
+ *
+ * 页面标识 + 功能页配置 (key 对应云文档)
  */
 import type { Loaded } from '@types'
 
 export const COMPONENT = 'Tips'
-
-export const NAMESPACE = `Screen${COMPONENT}`
 
 export const TABS = [
   {
@@ -70,8 +70,7 @@ export const TABS = [
 ] as const
 
 export const STATE = {
-  /** @deprecated */
-  page: 0,
+  /** 当前展示的功能页 key */
   uri: TABS[0].key as string,
 
   /** 页面初始化完成 */
