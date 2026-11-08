@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-02-19 06:19:16
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 14:00:37
+ * @Last Modified time: 2026-11-08 11:40:00
  */
 import { observer } from 'mobx-react'
 import { Avatar, Flex, Loading, Text, Touchable, UserStatus } from '@components'
@@ -18,8 +18,9 @@ import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-function Item({ i, d, o, u, r }) {
+function Item({ i, d, o, u, r }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const users = $.users(u)
@@ -34,7 +35,7 @@ function Item({ i, d, o, u, r }) {
   const isTour = id === '0'
   const isCurrent = String(infos?.v).slice(0, 4) === VERSION_GITHUB_RELEASE.slice(0, 4)
   const text = isTour ? '未登录' : users?.n || ''
-  const amount = AdvanceData[id]
+  const amount = (AdvanceData as unknown as Record<string, string | number>)[id]
 
   return (
     <Flex style={stl(styles.item, isCurrent && styles.active)} align='start'>

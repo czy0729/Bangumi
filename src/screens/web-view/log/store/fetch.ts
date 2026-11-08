@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-02-19 07:51:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-29 07:22:16
+ * @Last Modified time: 2026-11-08 11:40:00
+ *
+ * 数据请求: 错误上报事件与客户端信息
  */
 import { usersStore } from '@stores'
 import { getTimestamp, omit } from '@utils'
@@ -12,48 +14,103 @@ import Computed from './computed'
 
 import type { UserId } from '@types'
 
+/** 错误上报事件 */
+type RawEvent = {
+  /** 事件类型 */
+  __type?: string
+
+  /** 会话 ID */
+  sessionId?: string
+
+  /** 系统 */
+  os?: string
+
+  /** 页面地址 */
+  urlPath?: string
+
+  /** 来源页面 */
+  referrerDomain?: string
+
+  /** 上报时间 */
+  createdAt?: string
+}
+
+/** 客户端信息快照 */
+type InfoValue = {
+  /** 版本 */
+  v?: string
+
+  /** 是否管理员 */
+  a?: boolean
+
+  /** 数量 */
+  n?: number
+
+  /** 是否 IPA */
+  ipa?: boolean
+
+  /** 品牌 */
+  b?: string
+
+  /** 设备 */
+  d?:
+    | {
+        /** 品牌 */
+        brand?: string
+
+        /** 型号 */
+        name?: string
+      }
+    | string
+}
+
 export default class Fetch extends Computed {
   getData = async () => {
     const { url, authorization } = this.state
     if (!url || !authorization) return false
 
-    const response = await axios({
+    const response = (await axios({
       url,
       headers: {
         Authorization: authorization
       }
-    })
+    })) as {
+      data?: {
+        events?: RawEvent[]
+        series?: Record<string, { y: number }[]>
+      }
+    }
 
     const data = response?.data?.events || []
     this.setState({
       data: {
         list: data
-          .filter((item: any) => item.__type === 'pageview')
-          .map((item: any) => ({
-            i: item.sessionId,
-            o: item.os,
-            u: item.urlPath,
-            r: item.referrerDomain,
-            d: item.createdAt
+          .filter(item => item.__type === 'pageview')
+          .map(item => ({
+            i: item.sessionId || '',
+            o: item.os || '',
+            u: item.urlPath || '',
+            r: item.referrerDomain || '',
+            d: item.createdAt || ''
           }))
-          .filter(
-            (item: { u: any }, index: any, self: any[]) =>
-              index === self.findIndex(t => t.u === item.u)
-          ),
+          .filter((item, index, self) => index === self.findIndex(t => t.u === item.u)),
         _loaded: getTimestamp()
       }
     })
 
     if (response?.data?.series) {
-      const keys = Object.keys(response.data.series).sort((a, b) => a.localeCompare(b))
-      this.setState({
-        series: {
-          a: response.data.series[keys[0]].map(item => item.y),
-          // b: response.data[keys[1]],
-          _loaded: getTimestamp()
-        }
-      })
-      this.save()
+      const series = response.data.series
+      const keys = Object.keys(series).sort((a, b) => a.localeCompare(b))
+      if (keys.length) {
+        this.setState({
+          series: {
+            a: series[keys[0]].map(item => item.y),
+            // b: response.data[keys[1]],
+            _loaded: getTimestamp()
+          }
+        })
+        this.save()
+      }
     }
 
     await this.getUsers()
@@ -62,7 +119,7 @@ export default class Fetch extends Computed {
     return true
   }
 
-  private _hasGetUsers = {} as Record<any, true>
+  private _hasGetUsers = {} as Record<string | number, true>
 
   getUsers = async () => {
     const { usersPrefixed, data, users } = this.state
@@ -84,11 +141,11 @@ export default class Fetch extends Computed {
     ]
     if (!ids.length) return false
 
-    const datas = await gets(ids)
+    const datas = await gets<{ avatar?: string; userName?: string }>(ids)
     if (datas) {
       const newUsers: typeof users = {}
       const now = getTimestamp()
-      const nullIds = []
+      const nullIds: string[] = []
       Object.entries(datas).forEach(([key, value]) => {
         const id = key.replace(`${prefix}_`, '')
         if (value) {
@@ -163,7 +220,7 @@ export default class Fetch extends Computed {
     ]
     if (!ids.length) return false
 
-    const datas = await gets(ids, ['v', 'a', 'n', 'ipa', 'b', 'd'])
+    const datas = await gets<InfoValue>(ids, ['v', 'a', 'n', 'ipa', 'b', 'd'])
     if (datas) {
       const newInfos: typeof infos = {}
       const now = getTimestamp()
@@ -171,12 +228,13 @@ export default class Fetch extends Computed {
         const id = key.replace(`${prefix}_`, '')
         if (value) {
           let b = ''
-          if (value?.d?.brand) {
-            b = value.d.brand
-            if (value.d.name) b += ` (${value.d.name})`
+          const device = value?.d
+          if (typeof device === 'object' && device?.brand) {
+            b = device.brand
+            if (device.name) b += ` (${device.name})`
           } else if (value?.b) {
             b = value.b
-            if (value.d) b += ` (${value.d})`
+            if (typeof device === 'string') b += ` (${device})`
           }
 
           newInfos[id] = {
@@ -215,26 +273,29 @@ export default class Fetch extends Computed {
     const endAt = new Date(now)
     endAt.setHours(23, 59, 59, 999)
 
-    const response = await axios({
+    const response = (await axios({
       url: `${url2}&url=${encodeURIComponent(
         u
       )}&unit=day&startAt=${startAt.getTime()}&endAt=${endAt.getTime()}`,
       headers: {
         Authorization: authorization
       }
-    })
+    })) as { data?: Record<string, { y: number }[]> }
     if (response?.data) {
-      const keys = Object.keys(response.data).sort((a, b) => a.localeCompare(b))
-      this.setState({
-        stats: {
-          [u]: {
-            a: response.data[keys[0]].map(item => item.y),
-            // b: response.data[keys[1]],
-            _loaded: getTimestamp()
+      const series = response.data
+      const keys = Object.keys(series).sort((a, b) => a.localeCompare(b))
+      if (keys.length) {
+        this.setState({
+          stats: {
+            [u]: {
+              a: series[keys[0]].map(item => item.y),
+              // b: response.data[keys[1]],
+              _loaded: getTimestamp()
+            }
           }
-        }
-      })
-      this.save()
+        })
+        this.save()
+      }
     }
   }
 

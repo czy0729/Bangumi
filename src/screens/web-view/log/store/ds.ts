@@ -2,18 +2,18 @@
  * @Author: czy0729
  * @Date: 2025-02-19 07:03:02
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-04 04:26:44
+ * @Last Modified time: 2026-11-08 11:40:00
  */
-import { Loaded, UserId } from '@types'
 import { COMPONENT } from '../ds'
-import { Stats } from '../types'
+
+import type { Loaded, UserId } from '@types'
+import type { LogItem, Stats } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const EXCLUDE_STATE = {
   show: false,
   showStats: false,
-  data2: {},
   detail: ''
 }
 
@@ -40,13 +40,7 @@ export const STATE = {
 
   /** 错误报告列表 */
   data: {
-    list: [] as {
-      i: string
-      o: string
-      u: string
-      r: string
-      d: string
-    }[],
+    list: [] as LogItem[],
     _loaded: false as Loaded
   },
 

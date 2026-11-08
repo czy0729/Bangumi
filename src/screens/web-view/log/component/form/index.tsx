@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-17 11:43:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 14:00:15
+ * @Last Modified time: 2026-11-08 11:40:00
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
@@ -90,7 +90,7 @@ function Form() {
               </Text>
             </Touchable>
             <Touchable
-              style={[styles.touch, _.ml.sm]}
+              style={stl(styles.touch, _.ml.sm)}
               onPress={() => {
                 confirm('应用?', $.onPaste)
               }}

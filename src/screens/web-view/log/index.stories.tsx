@@ -4,7 +4,6 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2025-02-21 11:21:20
  */
-import React from 'react'
 import { getStorybookArgs, StorybookList, StorybookSPA } from '@components'
 import { Log as Component } from '@screens'
 

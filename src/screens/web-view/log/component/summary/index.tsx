@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-03-14 07:47:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 14:00:52
+ * @Last Modified time: 2026-11-08 11:40:00
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
@@ -53,7 +53,7 @@ function Summary() {
         <ScrollView style={styles.row} horizontal>
           <Flex>
             {Object.entries(v)
-              .sort((a: any[], b: any[]) => desc(a[1], b[1]))
+              .sort((a, b) => desc(a[1], b[1]))
               .map(item => (
                 <Tag key={item[0]} style={_.mr.sm} value={`${item[0]} (${item[1]})`} />
               ))}
@@ -62,7 +62,7 @@ function Summary() {
         <ScrollView style={styles.row} horizontal>
           <Flex>
             {Object.entries(b)
-              .sort((a: any[], b: any[]) => desc(a[1], b[1]))
+              .sort((a, b) => desc(a[1], b[1]))
               .map(item => (
                 <Tag key={item[0]} style={_.mr.sm} value={`${item[0]} (${item[1]})`} />
               ))}

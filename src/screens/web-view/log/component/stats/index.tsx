@@ -2,28 +2,30 @@
  * @Author: czy0729
  * @Date: 2025-02-22 11:32:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-14 20:53:10
+ * @Last Modified time: 2026-11-08 11:40:00
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { _, useStore } from '@stores'
+import { stl } from '@utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { Ctx, Stats as StatsType } from '../../types'
+import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-function Stats({ u }: any) {
+function Stats({ u }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const data: StatsType = u ? $.stats(u) : $.state.series
+  const data = u ? $.stats(u) : $.state.series
   if (!data) return null
 
   const styles = memoStyles()
 
   const { length } = data.a
-  const max = Math.max(...data.a.map(item => item))
+  // 全为 0 时用 1 兜底, 避免算高度时出现 NaN
+  const max = Math.max(1, ...data.a)
   const sum = data.a.reduce((acc, num) => acc + num, 0)
 
   return (
@@ -32,12 +34,9 @@ function Stats({ u }: any) {
         {data.a.map((item, index) => (
           <View
             key={index}
-            style={[
-              styles.block,
-              {
-                height: `${(item / max) * 100}%`
-              }
-            ]}
+            style={stl(styles.block, {
+              height: `${(item / max) * 100}%`
+            })}
           />
         ))}
         <Text style={styles.max} type='sub' size={10} noWrap>
@@ -54,13 +53,10 @@ function Stats({ u }: any) {
       <Flex.Item />
       {length >= 11 && (
         <View
-          style={[
-            styles.badge,
-            {
-              backgroundColor:
-                length >= 29 ? _.colorSuccess : length >= 21 ? _.colorPrimary : _.colorWarning
-            }
-          ]}
+          style={stl(styles.badge, {
+            backgroundColor:
+              length >= 29 ? _.colorSuccess : length >= 21 ? _.colorPrimary : _.colorWarning
+          })}
         />
       )}
     </Flex>

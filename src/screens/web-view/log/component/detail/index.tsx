@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-02-20 16:37:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 13:59:55
+ * @Last Modified time: 2026-11-08 11:40:00
+ *
+ * 客户端错误详情: 事件统计与原始数据
  */
 import { useState } from 'react'
 import { View } from 'react-native'
@@ -13,39 +15,36 @@ import { _, useStore } from '@stores'
 import { desc } from '@utils'
 import { useMount } from '@utils/hooks'
 import { get } from '@utils/kv'
-import { EVENTS as events, WEB } from '@constants'
-import { COMPONENT } from './ds'
+import { WEB } from '@constants'
+import { COMPONENT, FLIPPED } from './ds'
 import { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
+import type { Props } from './types'
 
-const flipped = Object.fromEntries(Object.entries(events).map(([key, value]) => [value, key]))
-
-function Detail({ id }) {
+function Detail({ id }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const [value, setValue] = useState({})
+  const [value, setValue] = useState<Record<string, number>>({})
   const [source, setSource] = useState(false)
   const [filter, setFilter] = useState(true)
   const [highlight, setHighlight] = useState('')
 
   useMount(() => {
     async function update() {
-      const data = await get(`${$.state.infosPrefixed}_${id}`)
-      setValue(data.e)
+      const data = await get<{ e?: Record<string, number> }>(`${$.state.infosPrefixed}_${id}`)
+      setValue(data?.e || {})
     }
     update()
   })
 
-  if (!value) return null
-
   const styles = memoStyles()
-  const tags = {}
+  const tags: Record<string, number> = {}
   let sum = 0
-  Object.entries<number>(value).forEach(([key, value]) => {
+  Object.entries(value).forEach(([key, count]) => {
     const [path] = key.split('.')
-    tags[path] = tags[path] ? tags[path] + value : value
-    sum += value
+    tags[path] = tags[path] ? tags[path] + count : count
+    sum += count
   })
 
   const elContent = (
@@ -58,11 +57,11 @@ function Detail({ id }) {
             <Text style={styles.tag} size={10}>
               总（{sum}）
             </Text>
-            {Object.entries<number>(tags)
-              .filter(([, value]) => (filter ? value >= 10 : true))
+            {Object.entries(tags)
+              .filter(([, count]) => (filter ? count >= 10 : true))
               .sort((a, b) => desc(a[1], b[1]))
-              .map(([key, value]) => {
-                const label = flipped[key] || key
+              .map(([key, count]) => {
+                const label = FLIPPED[key] || key
                 return (
                   <Text
                     key={key}
@@ -73,21 +72,21 @@ function Detail({ id }) {
                       setHighlight(label)
                     }}
                   >
-                    {label}（{value}）
+                    {label}（{count}）
                   </Text>
                 )
               })}
           </Flex>
           <View style={_.mt.sm}>
-            {Object.entries<number>(value)
-              .filter(([, value]) => (filter ? value >= 10 : true))
+            {Object.entries(value)
+              .filter(([, count]) => (filter ? count >= 10 : true))
               .sort((a, b) => desc(a[1], b[1]))
-              .map(([key, value]) => (
+              .map(([key, count]) => (
                 <Flex key={key} style={styles.tag}>
                   <Highlight style={styles.label} size={10} value={highlight}>
-                    {`${flipped[key].replace('.', '（')}）`}
+                    {`${(FLIPPED[key] || key).replace('.', '（')}）`}
                   </Highlight>
-                  <Text size={10}>{value}</Text>
+                  <Text size={10}>{count}</Text>
                 </Flex>
               ))}
           </View>

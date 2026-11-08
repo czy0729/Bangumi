@@ -2,12 +2,28 @@
  * @Author: czy0729
  * @Date: 2025-02-19 07:52:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-10 06:20:33
+ * @Last Modified time: 2026-11-08 11:40:00
  */
 import { Clipboard } from 'react-native'
 import { copy, info, pick } from '@utils'
 import Fetch from './fetch'
-import { STATE } from './ds'
+
+import type { STATE } from './ds'
+
+/** 可复制 / 粘贴的字段白名单 */
+const KEYS: (keyof typeof STATE)[] = [
+  'url',
+  'url2',
+  'navigate',
+  'referer',
+  'event',
+  'authorization',
+  'usersPrefixed',
+  'infosPrefixed',
+  'distance',
+  'unitDay',
+  'showName'
+]
 
 export default class Action extends Fetch {
   onToggleForm = () => {
@@ -57,38 +73,23 @@ export default class Action extends Fetch {
   }
 
   onCopy = () => {
-    copy(
-      JSON.stringify(
-        pick(this.state, [
-          'url',
-          'url2',
-          'navigate',
-          'referer',
-          'event',
-          'authorization',
-          'usersPrefixed',
-          'infosPrefixed',
-          'distance',
-          'unitDay',
-          'showName'
-        ])
-      ),
-      '已复制'
-    )
+    copy(JSON.stringify(pick(this.state, KEYS)), '已复制')
   }
 
   onPaste = async () => {
     try {
       const content = await Clipboard.getString()
       if (content) {
-        const state = JSON.parse(content)
-        this.setState({
-          ...state
-        })
-        this.save()
-        info('应用成功')
+        const state = pick(JSON.parse(content) as Partial<typeof STATE>, KEYS)
+        if (Object.keys(state).length) {
+          this.setState({
+            ...state
+          })
+          this.save()
+          info('应用成功')
 
-        return
+          return
+        }
       }
     } catch {}
 

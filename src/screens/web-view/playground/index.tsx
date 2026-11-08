@@ -2,56 +2,44 @@
  * @Author: czy0729
  * @Date: 2022-07-07 07:57:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-28 00:14:16
+ * @Last Modified time: 2026-11-08 12:00:00
+ *
+ * 表情一览: 用原生字体渲染全部 BGM 表情, 便于比对字形与尺寸
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import {
-  BGM_MAP,
   BgmText,
   Component,
   Flex,
   HeaderPlaceholder,
   HeaderV2,
   Page,
+  ScrollView,
   Text
 } from '@components'
-import { ScrollView } from '@_'
 import { _ } from '@stores'
+import { ITEMS, SIZE } from './ds'
+import { styles } from './styles'
 
+/** 表情一览 */
 function Playground() {
   return (
     <Component id='screen-playground'>
       <Page>
         <HeaderPlaceholder />
-        <ScrollView contentContainerStyle={[_.container.bottom, _.container.wind]}>
-          <Flex justify='between' wrap='wrap'>
-            {Object.entries(BGM_MAP).map(([key]) => {
-              const index = Number(key)
-              const isNewEmoji = index >= 600
-              const size = isNewEmoji ? 40 : 24
-              return (
-                <View key={key} style={[_.mr.sm, _.mb.xs]}>
-                  <Text size={12} lineHeight={20} bold align='center'>
-                    {key}
-                  </Text>
-                  <View
-                    style={{
-                      width: size,
-                      height: size
-                    }}
-                  >
-                    <BgmText index={index} size={size} />
-                  </View>
+        <ScrollView style={_.container.wind} contentContainerStyle={_.container.bottom}>
+          <Flex wrap='wrap'>
+            {ITEMS.map(({ index, size }) => (
+              <View key={index} style={styles.item}>
+                <Text size={12} lineHeight={20} bold align='center'>
+                  {index}
+                </Text>
+                <View style={size === SIZE.large ? styles.iconLarge : styles.icon}>
+                  <BgmText index={index} size={size} />
                 </View>
-              )
-            })}
-            <View />
-            <View />
-            <View />
-            <View />
-            <View />
-            <View />
+              </View>
+            ))}
           </Flex>
         </ScrollView>
       </Page>
