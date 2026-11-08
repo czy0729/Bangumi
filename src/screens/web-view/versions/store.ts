@@ -2,11 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:41:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-07-21 19:40:56
+ * @Last Modified time: 2026-11-09 18:00:00
+ *
+ * 当前展示的更新文档 key: 不做持久化, 每次以默认项进入
  */
 import { observable } from 'mobx'
 import store from '@utils/store'
-import { NAMESPACE, STATE, TABS } from './ds'
+import { STATE, TABS } from './ds'
 
 export default class ScreenVersions extends store<typeof STATE> {
   state = observable(STATE)
@@ -15,16 +17,6 @@ export default class ScreenVersions extends store<typeof STATE> {
     this.setState({
       _loaded: true
     })
-  }
-
-  /** 标签页切换 */
-  onChange = (page: number) => {
-    if (page === this.state.page) return
-
-    this.setState({
-      page
-    })
-    this.saveStorage(NAMESPACE)
   }
 
   /** 菜单切换 */

@@ -2,8 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-03-10 18:42:06
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-24 19:14:03
+ * @Last Modified time: 2026-11-09 18:00:00
+ *
+ * Webhook: 开关 + 地址配置 + 请求日志
  */
+import { useCallback } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import {
@@ -21,12 +24,21 @@ import { _, systemStore } from '@stores'
 import { date } from '@utils'
 import { logs } from '@utils/webhooks'
 import Header from './header'
+import { PLACEHOLDER } from './ds'
 import { memoStyles } from './styles'
 
 /** Webhook */
 function Webhook() {
   const styles = memoStyles()
   const { webhook, webhookUrl } = systemStore.setting
+
+  const handleSwitch = useCallback(() => {
+    systemStore.switchSetting('webhook')
+  }, [])
+
+  const handleChangeText = useCallback((text: string) => {
+    systemStore.setSetting('webhookUrl', text.trim())
+  }, [])
 
   return (
     <Component id='screen-webhook'>
@@ -41,13 +53,7 @@ function Webhook() {
               </Text>
             </Text>
           </Flex.Item>
-          <SwitchPro
-            style={styles.switch}
-            value={webhook}
-            onSyncPress={() => {
-              systemStore.switchSetting('webhook')
-            }}
-          />
+          <SwitchPro style={styles.switch} value={webhook} onSyncPress={handleSwitch} />
         </Flex>
         <View style={_.mt.md}>
           <Text size={15} bold>
@@ -55,19 +61,17 @@ function Webhook() {
           </Text>
           <Input
             style={styles.input}
-            placeholder={'输入你的 webhook 地址\n默认：https://postman-echo.com/post'}
+            placeholder={PLACEHOLDER}
             multiline
             numberOfLines={3}
             defaultValue={webhookUrl || ''}
-            onChangeText={text => {
-              systemStore.setSetting('webhookUrl', String(text).trim())
-            }}
+            onChangeText={handleChangeText}
           />
         </View>
         <ScrollView style={_.mt.md} contentContainerStyle={styles.scrollView}>
-          {logs.map((item, index) => (
-            <View style={styles.item}>
-              <Expand key={`${index}|${item.ts}`} ratio={2} linearGradient={false}>
+          {logs.map(item => (
+            <View key={item.id} style={styles.item}>
+              <Expand ratio={2} linearGradient={false}>
                 <Flex>
                   <Text
                     type={

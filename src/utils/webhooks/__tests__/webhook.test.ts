@@ -22,7 +22,7 @@ jest.mock('mobx', () => ({
   runInAction: (fn: () => void) => fn()
 }))
 
-jest.mock('../../thirdParty', () => ({
+jest.mock('@utils/thirdParty', () => ({
   axios: jest.fn()
 }))
 
@@ -36,10 +36,10 @@ jest.mock('../../utils', () => ({
   getTimestamp: jest.fn(() => 1700000000)
 }))
 
-import { logs, webhook } from '../webhook'
+import { logs, resetLogs, webhook } from '../webhook'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const axiosMock: any = require('../../thirdParty').axios
+const axiosMock: any = require('@utils/thirdParty').axios
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const syncSystemStoreMock: any = require('../../async').syncSystemStore
 
@@ -63,7 +63,7 @@ beforeEach(() => {
   syncSystemStoreMock.mockImplementation(() => ({
     setting: { webhook: true, webhookUrl: '' }
   }))
-  logs.replace([])
+  resetLogs()
 })
 
 describe('开关控制', () => {
@@ -124,6 +124,8 @@ describe('日志记录', () => {
     expect(logs[0].label).toBe('RESULT')
     expect(logs[0].content).toContain('"status": 200')
     expect(logs[0].content).toContain('"ok": 1')
+    expect(logs[1].id).toBe(1)
+    expect(logs[0].id).toBe(2)
   })
 
   it('响应为字符串时走 _response 分支', async () => {

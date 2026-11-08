@@ -8,6 +8,9 @@ import type { WebHooksTypes } from './types'
 
 /** 发送日志项 */
 export type LogItem = {
+  /** 唯一标识, 列表渲染用 */
+  id: number
+
   /** 日志类型 */
   label: 'POST' | 'RESULT' | 'ERROR'
 
@@ -19,10 +22,22 @@ export type LogItem = {
 /** 发送日志 */
 export const logs = observable<LogItem>([])
 
+/** 自增 id */
+let logId = 0
+
+/** 清空日志并复位自增 id */
+export function resetLogs() {
+  runInAction(() => {
+    logs.replace([])
+    logId = 0
+  })
+}
+
 /** 追加一条日志, 超出上限丢弃最早的一条 */
 function pushLog(label: LogItem['label'], content: string) {
   runInAction(() => {
     logs.unshift({
+      id: (logId += 1),
       label,
       content,
       ts: getTimestamp()

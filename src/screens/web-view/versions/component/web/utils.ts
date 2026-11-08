@@ -2,11 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-06-23 04:59:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-08 17:40:06
+ * @Last Modified time: 2026-11-09 18:00:00
+ *
+ * 注入脚本: 隐藏云文档原生的无关按钮, 暗色下反色
  */
 import { _ } from '@stores'
 import { HTMLTrim } from '@utils'
 
+/** 生成注入脚本 */
 export function injectedJavaScript() {
   let appStyles = `
     #openInAppBtn,
@@ -37,7 +40,7 @@ export function injectedJavaScript() {
       var resetStyle = document.createElement("style");
       try {
         resetStyle.appendChild(document.createTextNode("${HTMLTrim(appStyles)}"));
-      } catch (ex) {}
+      } catch (e) {}
       document.body.append(resetStyle);
     }());
   `

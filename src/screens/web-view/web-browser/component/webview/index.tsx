@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2025-08-07 00:18:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-21 15:52:40
+ * @Last Modified time: 2026-11-09 18:00:00
+ *
+ * WebView: 注入脚本带去重 guard, ref 未就绪时按指数退避重试
  */
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import RNWebView from 'react-native-webview'
 import { observer } from 'mobx-react'
 import { Flex, KeyboardSpacer } from '@components'
@@ -12,14 +14,18 @@ import { userStore } from '@stores'
 import { r } from '@utils/dev'
 import { hashString, wrapWithGuard } from './utils'
 import { COMPONENT } from './ds'
+import { styles } from './styles'
 
 import type { TimerRef } from '@types'
+import type { WebView } from 'react-native-webview'
 import type { Props } from './types'
 
-function WebView({ uri, injectedJavaScript = '' }: Props) {
+/** 浏览器 WebView */
+function WebViewComp({ uri, injectedJavaScript = '' }: Props) {
   r(COMPONENT)
 
-  const webViewRef = useRef<RNWebView>(null)
+  // WebView<{}>: 显式补齐泛型参数, 保留 ref 的 props 类型
+  const webViewRef = useRef<WebView<{}>>(null)
   const pageReadyRef = useRef(false)
   const didTryInjectThisLoadRef = useRef(false)
   const retryTimerRef = useRef<TimerRef>(null)
@@ -34,12 +40,12 @@ function WebView({ uri, injectedJavaScript = '' }: Props) {
     [injectedJavaScript, guardNameMemo]
   )
 
-  const clearRetryTimer = () => {
+  const clearRetryTimer = useCallback(() => {
     if (retryTimerRef.current) {
       clearTimeout(retryTimerRef.current)
       retryTimerRef.current = null
     }
-  }
+  }, [])
 
   const handleInject = useCallback(() => {
     if (!guardedCodeMemo) return true
@@ -47,7 +53,6 @@ function WebView({ uri, injectedJavaScript = '' }: Props) {
     const inst = webViewRef.current
     if (!inst) return false
 
-    // 调用注入
     inst.injectJavaScript(guardedCodeMemo)
     didTryInjectThisLoadRef.current = true
     return true
@@ -64,7 +69,7 @@ function WebView({ uri, injectedJavaScript = '' }: Props) {
         handleTryInjectWithRetry(retries - 1, Math.min(Math.floor(delay * 1.5), 600))
       }, delay)
     },
-    [handleInject]
+    [clearRetryTimer, handleInject]
   )
 
   // 页面开始加载：重置标记
@@ -72,7 +77,7 @@ function WebView({ uri, injectedJavaScript = '' }: Props) {
     pageReadyRef.current = false
     didTryInjectThisLoadRef.current = false
     clearRetryTimer()
-  }, [])
+  }, [clearRetryTimer])
 
   // 页面加载完成：尝试注入（若 ref 不在，带重试）
   const handleLoadEnd = useCallback(() => {
@@ -82,23 +87,21 @@ function WebView({ uri, injectedJavaScript = '' }: Props) {
     }
   }, [handleTryInjectWithRetry])
 
-  // 当脚本变化且页面已 ready 时，尝试再次注入
+  // 当脚本变化且页面已 ready 时，尝试再次注入; 卸载时清理重试定时器
   useEffect(() => {
     if (pageReadyRef.current) {
       didTryInjectThisLoadRef.current = false
       handleTryInjectWithRetry()
     }
     return clearRetryTimer
-  }, [guardedCodeMemo, handleTryInjectWithRetry])
-
-  useEffect(() => clearRetryTimer, [])
+  }, [clearRetryTimer, guardedCodeMemo, handleTryInjectWithRetry])
 
   return (
     <Flex.Item>
       <RNWebView
         ref={webViewRef}
-        style={{ backgroundColor: 'transparent' }}
-        containerStyle={{ backgroundColor: 'transparent' }}
+        style={styles.webview}
+        containerStyle={styles.container}
         originWhitelist={['*']}
         source={{ uri }}
         sharedCookiesEnabled
@@ -113,4 +116,4 @@ function WebView({ uri, injectedJavaScript = '' }: Props) {
   )
 }
 
-export default observer(WebView)
+export default observer(WebViewComp)

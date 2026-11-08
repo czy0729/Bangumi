@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-12-30 20:54:54
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-14 23:16:24
+ * @Last Modified time: 2026-11-09 18:00:00
+ *
+ * 内置浏览器: 说明条 + WebView, 支持代理地址还原与刷新
  */
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
 import { usePreventBack } from '@utils/hooks'
@@ -16,6 +18,7 @@ import { SCRIPTS } from './ds'
 
 import type { Props } from './types'
 
+/** 本次会话是否还需要展示说明 */
 let show = true
 
 /** 浏览器 */
@@ -31,8 +34,8 @@ function WebBrowser({ route }: Props) {
     show = false
   }, [])
   const handleRefresh = useCallback(() => {
-    setKey(key + 1)
-  }, [key])
+    setKey(value => value + 1)
+  }, [])
 
   usePreventBack({
     enabled: !gestureEnabled

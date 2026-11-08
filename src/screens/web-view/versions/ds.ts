@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-06-10 05:42:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-13 23:31:24
+ * @Last Modified time: 2026-11-09 18:00:00
+ *
+ * 页面标识 + 版本文档配置 (key 对应云文档)
  */
 import type { Loaded } from '@types'
 
 export const COMPONENT = 'Versions'
-
-export const NAMESPACE = `Screen${COMPONENT}` as const
 
 export const TABS = [
   {
@@ -126,8 +126,7 @@ export const TABS = [
 ].slice(0, 10)
 
 export const STATE = {
-  /** @deprecated */
-  page: 0,
+  /** 当前展示的版本文档 key */
   uri: TABS[0].key as string,
 
   /** 页面初始化完成 */

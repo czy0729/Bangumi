@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2025-08-06 15:52:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 14:01:18
+ * @Last Modified time: 2026-11-09 18:00:00
+ *
+ * 头部: 刷新 + 浏览器打开
  */
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'
@@ -14,8 +16,15 @@ import { r } from '@utils/dev'
 import { COMPONENT, HM } from './ds'
 import { styles } from './styles'
 
-function Header({ title, url, onRefresh }) {
+import type { Props } from './types'
+
+/** 头部 */
+function Header({ title, url, onRefresh }: Props) {
   r(COMPONENT)
+
+  const handleOpen = useCallback(() => {
+    open(url)
+  }, [url])
 
   const handleHeaderRight = useCallback(
     () => (
@@ -26,13 +35,11 @@ function Header({ title, url, onRefresh }) {
           name='md-open-in-new'
           color={_.colorTitle}
           size={19}
-          onPress={() => {
-            open(url)
-          }}
+          onPress={handleOpen}
         />
       </>
     ),
-    [onRefresh, url]
+    [handleOpen, onRefresh]
   )
 
   return (
