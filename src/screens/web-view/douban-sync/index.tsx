@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-10-16 16:48:33
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-26 22:34:47
+ * @Last Modified time: 2026-11-07 20:30:00
  */
 import { observer } from 'mobx-react'
 import { Component, HeaderPlaceholder, Page } from '@components'
@@ -15,7 +15,7 @@ import { useDoubanSyncPage } from './hooks'
 
 import type { NavigationProps } from '@types'
 
-/** 豆瓣同步 */
+/** 影视同步 */
 function DoubanSync(props: NavigationProps) {
   const { id, $ } = useDoubanSyncPage(props)
 

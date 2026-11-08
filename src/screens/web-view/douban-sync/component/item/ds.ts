@@ -2,23 +2,23 @@
  * @Author: czy0729
  * @Date: 2022-10-17 00:02:09
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-02 15:51:22
+ * @Last Modified time: 2026-11-07 20:30:00
  */
 import { rc } from '@utils/dev'
 import { FROZEN_FN } from '@constants'
-import { InferArray, Navigation } from '@types'
+import type { InferArray, Navigation } from '@types'
 import { COMPONENT as PARENT } from '../ds'
-import { memoStyles } from './styles'
+import type { memoStyles } from './styles'
 
 import type { Ctx } from '../../types'
 
 export const COMPONENT = rc(PARENT, 'Item')
 
-export const BILIBILI_STATUS = {
+export const BILIBILI_STATUS: Record<number, '想看' | '在看' | '看过'> = {
   1: '想看',
   2: '在看',
   3: '看过'
-} as const
+}
 
 export const HIT_SLOP = {
   top: 4,

@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-09-16 14:17:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 14:18:55
+ * @Last Modified time: 2026-11-07 20:30:00
+ *
+ * 页面交互: 切换、置底、提交同步
  */
 import { feedback } from '@utils'
 import { t } from '@utils/fetch'
@@ -47,13 +49,18 @@ export default class Action extends Fetch {
 
   onSubmit = async (
     subjectId: SubjectId,
-    collectionData?: {
-      status?: any
-      rating?: any
-      comment?: any
-      ep?: any
+    collectionData: {
+      /** 收藏状态 */
+      status?: string
+
+      /** 评分 */
+      rating?: number
+
+      /** 短评 */
+      comment?: string
     },
-    epData?: {
+    epData: {
+      /** 看到第几话 */
       ep?: number
     }
   ) => {

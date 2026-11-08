@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-04-28 11:48:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-07 19:05:02
+ * @Last Modified time: 2026-11-07 20:30:00
  *
  * 页面状态与常量
  */
@@ -18,7 +18,10 @@ export const EXCLUDE_STATE = {
   loadedBangumiData: false,
 
   /** 是否已登录 bilibili, null 表示尚未检查 */
-  isLogin: null as boolean | null
+  isLogin: null as boolean | null,
+
+  /** 登录框默认收起, 启动时不恢复上次状态, 因此不持久化 */
+  hide: true
 }
 
 export const STATE = {
@@ -40,9 +43,6 @@ export const STATE = {
   bottom: {
     current: 0
   } as { current: number } & Partial<Record<SubjectId, number>>,
-
-  /** 收起 (弹窗) */
-  hide: false,
 
   /** 隐藏看过的条目 */
   hideWatched: false,

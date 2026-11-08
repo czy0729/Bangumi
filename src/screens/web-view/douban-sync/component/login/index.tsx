@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-10-17 11:43:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-12-26 22:40:09
+ * @Last Modified time: 2026-11-07 19:30:00
+ *
+ * 豆瓣 ID 填写与数据获取窗口
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
@@ -107,7 +109,7 @@ function Login() {
               }}
             />
             <Btn
-              style={[styles.btn, _.ml.md]}
+              style={stl(styles.btn, _.ml.md)}
               btnStyle={styles.btnStyle}
               text='收起窗口'
               size={13}

@@ -2,9 +2,11 @@
  * @Author: czy0729
  * @Date: 2022-10-17 00:02:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-04-08 11:01:07
+ * @Last Modified time: 2026-11-07 20:30:00
+ *
+ * 收藏对照行: 两边状态 / 进度 / 评分 / 评论
  */
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { View } from 'react-native'
 import { Flex, Iconfont, Loading, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
@@ -20,7 +22,6 @@ import {
   IMG_WIDTH_SM,
   MODEL_COLLECTION_STATUS
 } from '@constants'
-import { CollectionStatus, CollectionStatusCn } from '@types'
 import Btn from '../../../bilibili-sync/component/btn'
 import Column from '../../../bilibili-sync/component/column'
 import ColumnBgm from '../../../bilibili-sync/component/column-bgm'
@@ -35,6 +36,8 @@ import {
   useSelectStatus
 } from '../../../bilibili-sync/utils'
 import { BILIBILI_STATUS, DEFAULT_PROPS, HIT_SLOP } from './ds'
+
+import type { CollectionStatus, CollectionStatusCn } from '@types'
 
 export default memo(
   ({
@@ -96,7 +99,7 @@ export default memo(
     // 若提交确认用的值
     const next = {
       status: BILIBILI_STATUS[item.status],
-      ep: getSelectEp(progress, collection?.ep_status).value as string | number,
+      ep: getSelectEp(progress, collection?.ep_status).value,
       score: getSelectScore(score, collection?.rating).value,
       comment: getSelectComment(content, collection?.comment).value
     }
@@ -201,11 +204,7 @@ export default memo(
                         disabled={!next.status}
                         onPress={setSelectStatus}
                       />
-                      <ColumnSelect
-                        select={selectEp}
-                        disabled={next.ep === ''}
-                        onPress={setSelectEp}
-                      />
+                      <ColumnSelect select={selectEp} disabled={!next.ep} onPress={setSelectEp} />
                       <ColumnSelect
                         select={selectScore}
                         disabled={!next.score}
@@ -267,10 +266,9 @@ export default memo(
                       } = {}
 
                       const collectionData: {
-                        status?: any
-                        rating?: any
-                        comment?: any
-                        ep?: any
+                        status?: string
+                        rating?: number
+                        comment?: string
                       } = {}
                       if (selectStatus) {
                         if (next.status === '想看') {
@@ -301,7 +299,7 @@ export default memo(
                       }
 
                       const epData: {
-                        ep?: any
+                        ep?: number
                       } = {}
                       if (selectEp) {
                         flag.ep = true

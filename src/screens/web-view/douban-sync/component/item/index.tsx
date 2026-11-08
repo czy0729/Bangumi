@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-10-17 00:02:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-19 05:41:50
+ * @Last Modified time: 2026-11-07 19:30:00
+ *
+ * 条目外层: 读 store 守卫显隐与数据
  */
 import { observer } from 'mobx-react'
 import { useStore } from '@stores'
@@ -10,9 +12,10 @@ import Item from './item'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { Ctx } from '../../types'
+import type { RenderItem } from '@types'
+import type { Ctx, DoubanItem } from '../../types'
 
-export default observer(({ item }) => {
+function ItemWrap({ item }: RenderItem<DoubanItem>) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const { subjectId } = item
@@ -25,10 +28,12 @@ export default observer(({ item }) => {
   if ($.state.hideWatched && collection?.status === 'collect') return null
 
   const totalEps = $.totalEps(subjectId)
+  const styles = memoStyles()
+
   return (
     <Item
       navigation={navigation}
-      styles={memoStyles()}
+      styles={styles}
       item={item}
       collection={collection}
       totalEps={totalEps ? `${totalEps}话` : ''}
@@ -40,4 +45,6 @@ export default observer(({ item }) => {
       onSubmit={$.onSubmit}
     />
   )
-})
+}
+
+export default observer(ItemWrap)

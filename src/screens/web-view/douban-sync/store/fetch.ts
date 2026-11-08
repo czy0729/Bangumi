@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2024-09-16 14:13:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 21:43:47
+ * @Last Modified time: 2026-11-07 20:00:00
+ *
+ * 数据请求: 影视收藏抓取与条目补全
  */
 import { desc, feedback, getTimestamp, info, sleep } from '@utils'
 import { queue, t, xhrCustom } from '@utils/fetch'
@@ -15,6 +17,7 @@ import Computed from './computed'
 import { EXCLUDE_STATE } from './ds'
 
 import type { SubjectId } from '@types'
+import type { CollectionInfo, CollectionResponse } from '../types'
 import type { DoubanCollection, DoubanStatus } from '../types'
 
 export default class Fetch extends Computed {
@@ -107,8 +110,8 @@ export default class Fetch extends Computed {
   }
 
   fetchCollection = async (subjectId: SubjectId) => {
-    const collections = {}
-    const data: any = await request(API_COLLECTION(subjectId))
+    const collections: Record<SubjectId, CollectionInfo> = {}
+    const data = await request<CollectionResponse>(API_COLLECTION(subjectId))
     if (data?.status) {
       collections[subjectId] = {
         status: data.status.type,
@@ -135,14 +138,14 @@ export default class Fetch extends Computed {
       return false
     }
 
-    const collections = {}
-    const fetchs = []
+    const collections: Record<SubjectId, CollectionInfo> = {}
+    const fetchs: (() => Promise<boolean>)[] = []
     subjectIds.forEach(subjectId => {
       if (LOADED[subjectId]) return
 
       LOADED[subjectId] = true
       fetchs.push(async () => {
-        const data: any = await request(API_COLLECTION(subjectId))
+        const data = await request<CollectionResponse>(API_COLLECTION(subjectId))
         if (data?.status) {
           collections[subjectId] = {
             status: data.status.type,
@@ -168,10 +171,10 @@ export default class Fetch extends Computed {
     this.save()
   }
 
-  /** 豆瓣数据没有总集数，若条目为看过，需要额外获取条目的总集数然后一并全部标记 */
+  /** 站点数据没有总集数，若条目为看过，需要额外获取条目的总集数然后一并全部标记 */
   fetchTotalEps = async (subjectIds: SubjectId[] = []) => {
-    const totalEps = {}
-    const fetchs = []
+    const totalEps: Record<SubjectId, number> = {}
+    const fetchs: (() => Promise<boolean>)[] = []
 
     subjectIds.forEach(subjectId => {
       if (LOADED_TOTAL_EPS[subjectId]) return
@@ -179,9 +182,13 @@ export default class Fetch extends Computed {
       LOADED_TOTAL_EPS[subjectId] = true
       fetchs.push(async () => {
         try {
-          const data: any = await request(
-            `${API_V0}/subjects/${subjectId}?responseGroup=small`
-          )
+          const data = await request<{
+            /** 总集数 */
+            total_episodes?: number
+
+            /** 集数 */
+            eps?: number
+          }>(`${API_V0}/subjects/${subjectId}?responseGroup=small`)
           if (data?.total_episodes || data?.eps) {
             totalEps[subjectId] = data?.total_episodes || data?.eps || 0
           }

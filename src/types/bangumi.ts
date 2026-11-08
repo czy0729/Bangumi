@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-27 13:10:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:26:36
+ * @Last Modified time: 2026-11-08 10:30:00
  *
  * 与 bgm.tv 有关的数据结构
  */
@@ -20,6 +20,7 @@ import type {
   DATA_THEME
 } from '@constants/data'
 import type {
+  CollectionStatus,
   RankAnimeFilter,
   RankBookFilter,
   RankBookFilterSub,
@@ -209,3 +210,45 @@ export type Classification = (typeof DATA_CLASSIFICATION)[number]
 
 /** 题材 */
 export type Theme = (typeof DATA_THEME)[number]
+
+/** 收藏接口返回 (API_COLLECTION) */
+export type ApiCollectionResponse = {
+  /** 收藏状态 */
+  status?: {
+    /** 状态值 */
+    type?: CollectionStatus
+  }
+
+  /** 看到第几话 */
+  ep_status?: string | number
+
+  /** 是否私密 */
+  private?: boolean | 0 | 1
+
+  /** 评分 */
+  rating?: string | number
+
+  /** 短评 */
+  comment?: string
+}
+
+/** 条目的收藏信息 (对照用) */
+export type CollectionInfo = {
+  /** 收藏状态 */
+  status?: CollectionStatus
+
+  /** 看到第几话 */
+  ep_status?: string | number
+
+  /** 是否私密 */
+  private?: boolean | 0 | 1
+
+  /** 评分 */
+  rating?: string | number
+
+  /** 短评 */
+  comment?: string
+
+  /** 加载时间 */
+  loaded: number
+}

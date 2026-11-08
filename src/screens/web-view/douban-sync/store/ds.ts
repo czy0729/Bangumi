@@ -2,12 +2,14 @@
  * @Author: czy0729
  * @Date: 2022-10-17 00:00:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-09-16 14:09:05
+ * @Last Modified time: 2026-11-07 20:30:00
+ *
+ * 页面状态与常量
  */
 import { COMPONENT } from '../ds'
 
-import type { CollectionStatus, Loaded, SubjectId } from '@types'
-import type { StateData } from '../types'
+import type { Id, Loaded, SubjectId } from '@types'
+import type { CollectionInfo, StateData } from '../types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -17,11 +19,16 @@ export const EXCLUDE_STATE = {
     message: '',
     current: 0,
     total: 0
-  }
+  },
+
+  /** 窗口默认收起, 启动时不恢复上次状态, 因此不持久化 */
+  hide: true
 }
 
 export const STATE = {
   ...EXCLUDE_STATE,
+
+  /** 用户地址或 Id */
   doubanId: '',
 
   /** 追番记录 (douban) */
@@ -31,17 +38,7 @@ export const STATE = {
   } as StateData,
 
   /** 收藏信息 (bgm) */
-  collections: {} as Record<
-    SubjectId,
-    {
-      comment?: string
-      ep_status?: number
-      rating?: number
-      status?: CollectionStatus
-      private?: 0 | 1
-      loaded: number
-    }
-  >,
+  collections: {} as Record<SubjectId, CollectionInfo>,
 
   /** 补充条目的总集数 (bgm) */
   totalEps: {} as Record<SubjectId, number>,
@@ -49,10 +46,7 @@ export const STATE = {
   /** 置底数据 */
   bottom: {
     current: 0
-  },
-
-  /** 收起 (弹窗) */
-  hide: false,
+  } as { current: number } & Partial<Record<Id, number>>,
 
   /** 隐藏看过的条目 */
   hideWatched: false,
