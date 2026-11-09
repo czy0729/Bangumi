@@ -30,7 +30,8 @@ function ItemWrap({
   title,
   time,
   epoch,
-  replies
+  replies,
+  _placeholder
 }: Props) {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
 
@@ -108,6 +109,7 @@ function ItemWrap({
       replyCount={replyCount}
       isGroup={getIsGroup(topicId)}
       onPress={handlePress}
+      _placeholder={!!_placeholder}
     />
   )
 }

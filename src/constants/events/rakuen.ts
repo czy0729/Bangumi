@@ -13,6 +13,7 @@ export default {
   '超展开.标签页点击': 'Rakuen.tabsPress',
   '超展开.标签页切换': 'Rakuen.tabsChange',
   '超展开.小组菜单点击': 'Rakuen.onGroupMenuPress',
+  '超展开.条目菜单点击': 'Rakuen.onSubjectMenuPress',
   '超展开.人物菜单点击': 'Rakuen.onMonoMenuPress',
   '超展开.项额外点击': 'Rakuen.onExtraSelect',
   '超展开.预读取': 'Rakuen.prefetch',

@@ -8,8 +8,16 @@
  */
 import { _ } from '@stores'
 
-export const styles = _.create({
+export const memoStyles = _.memoStyles(() => ({
   avatar: {
     marginTop: _.web(8, _.md - 5)
+  },
+  placeholder: {
+    width: _.r(40),
+    height: _.r(40),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: _.select(_.colorBg, _.colorDarkModeLevel1),
+    overflow: 'hidden'
   }
-})
+}))

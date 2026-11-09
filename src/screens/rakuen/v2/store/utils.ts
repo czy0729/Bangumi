@@ -2,14 +2,22 @@
  * @Author: czy0729
  * @Date: 2026-06-29 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-30 00:00:00
+ * @Last Modified time: 2026-11-10 04:05:46
  *
- * 超展开页列表筛选工具
+ * 超展开页列表筛选与数据映射工具
  */
 import { systemStore, userStore } from '@stores'
+import { lastDate } from '@utils'
 import { URL_DEFAULT_AVATAR } from '@constants'
 
 import type { RakuenItem } from '@stores/rakuen/types'
+import type { SearchReplyItem } from '@utils/kv/type'
+
+/** 我回复的条目讨论取数上限 */
+export const SUBJECT_REPLY_LIMIT = 50
+
+/** 搜索结果命中词标记 */
+const HIGHLIGHT_RE = /[\uE000\uE001]/g
 
 /** 18x 关键字列表 */
 const BLOCKED_KEYWORDS = ['gal', '性', '癖', '里番'] as const
@@ -51,4 +59,37 @@ export function filterRakuenList(list: RakuenItem[]): RakuenItem[] {
 
     return true
   })
+}
+
+/** 去掉服务端命中词标记 */
+function stripHighlight(text: string) {
+  return String(text || '').replace(HIGHLIGHT_RE, '')
+}
+
+/** 搜索回复转成超展开列表项, 同一讨论只保留最新一条 */
+export function mapSubjectReplies(data: SearchReplyItem[] = []): RakuenItem[] {
+  const items = Array.isArray(data) ? data : []
+  const seen = new Set<number>()
+  const list: RakuenItem[] = []
+  for (const item of items) {
+    if (!item?.containerID || seen.has(item.containerID)) continue
+    seen.add(item.containerID)
+
+    const createdAt = item.createdAt > 1e11 ? Math.floor(item.createdAt / 1000) : item.createdAt
+    list.push({
+      group: stripHighlight(item.parentName || ''),
+      groupHref: '',
+      avatar: '',
+      userId: '',
+      userName: '',
+      title: stripHighlight(item.containerTitle || `#${item.containerID}`),
+      href: `/rakuen/topic/subject/${item.containerID}`,
+      // v1/search/replies 不返回容器回复数 (replyCount 仅存在于 subject-topics 端点), 列表 +N 无数据源
+      replies: '',
+      time: lastDate(createdAt, false),
+      epoch: createdAt,
+      _placeholder: true
+    })
+  }
+  return list
 }

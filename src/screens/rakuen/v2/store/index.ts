@@ -6,6 +6,7 @@
  *
  * 超展开页 Store 入口: 初始化
  */
+import { userStore } from '@stores'
 import Action from './action'
 import { DELAY_MOUNTED, EXCLUDE_STATE, INIT_PREFETCH_STATE, NAMESPACE } from './ds'
 
@@ -14,8 +15,13 @@ import type { STATE } from './ds'
 export default class ScreenRakuen extends Action {
   init = async () => {
     const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
+    const { subjectReplies, ...rest } = storageData
+    const cached =
+      subjectReplies && subjectReplies._userId === userStore.myId ? { subjectReplies } : {}
+
     this.setState({
-      ...storageData,
+      ...rest,
+      ...cached,
       ...INIT_PREFETCH_STATE,
       ...EXCLUDE_STATE,
       _loaded: true

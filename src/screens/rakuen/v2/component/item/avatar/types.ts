@@ -8,4 +8,7 @@
  */
 import type { AvatarProps } from '@components'
 
-export type Props = Pick<AvatarProps, 'src' | 'userId' | 'name' | 'priority'>
+export type Props = Pick<AvatarProps, 'src' | 'userId' | 'name' | 'priority'> & {
+  /** 无头像时的占位字符 */
+  text?: string
+}

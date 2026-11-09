@@ -34,7 +34,8 @@ const Item = memo(
     topicId = 'group/0',
     replyCount = 0,
     isGroup = false,
-    onPress = FROZEN_FN
+    onPress = FROZEN_FN,
+    _placeholder = false
   }) => {
     let src = avatar || IMG_INFO_ONLY
     if (src && typeof src === 'string') {
@@ -55,10 +56,11 @@ const Item = memo(
               <UserStatus userId={userId}>
                 <InView style={styles.inView} index={index} y={InView.y(index, ITEM_HEIGHT)}>
                   <Avatar
-                    src={src}
+                    src={_placeholder ? '' : src}
                     name={userName}
                     userId={userId}
                     priority={index < 10 ? 'high' : 'normal'}
+                    text={String(groupCn || title || '').slice(0, 1)}
                   />
                 </InView>
               </UserStatus>

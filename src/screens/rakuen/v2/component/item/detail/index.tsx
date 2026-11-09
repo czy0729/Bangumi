@@ -6,7 +6,7 @@
  *
  * 条目元信息: 时间与小组
  */
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
@@ -21,6 +21,10 @@ import type { Props } from './types'
 function Detail({ time, epoch, groupCn, userName, userId, avatar }: Props) {
   const [name, setName] = useState(userName)
 
+  useEffect(() => {
+    setName(userName)
+  }, [userName])
+
   const handleHit = useCallback(
     (removeSpecText: string) => {
       setName(removeSpecText)
@@ -32,7 +36,7 @@ function Detail({ time, epoch, groupCn, userName, userId, avatar }: Props) {
 
   return (
     <Flex style={_.mt.xs}>
-      <View style={userAge && styles.name}>
+      <View style={userAge && !!(userId || avatar) && styles.name}>
         <VerticalAlign {...BASE_TEXT_PROPS} text={userName} onHit={handleHit}>
           <Text {...BASE_TEXT_PROPS}>
             {epoch ? lastDate(epoch, false) : time ? correctAgo(time) : ''}

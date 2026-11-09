@@ -2,14 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-05-16 19:51:39
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-30 00:00:00
+ * @Last Modified time: 2026-11-10 04:05:36
  *
  * 超展开页派生数据
  */
 import { computed } from 'mobx'
 import { _, rakuenStore } from '@stores'
 import { computedFn } from '@utils/computed-fn'
-import { MODEL_RAKUEN_TYPE, MODEL_RAKUEN_TYPE_GROUP, MODEL_RAKUEN_TYPE_MONO } from '@constants'
+import {
+  MODEL_RAKUEN_TYPE,
+  MODEL_RAKUEN_TYPE_GROUP,
+  MODEL_RAKUEN_TYPE_MONO,
+  MODEL_RAKUEN_TYPE_SUBJECT
+} from '@constants'
 import { TABS } from '../ds'
 import { filterRakuenList, shouldFilterRakuen } from './utils'
 import State from './state'
@@ -20,6 +25,8 @@ import type {
   RakuenTypeGroupCn,
   RakuenTypeMono,
   RakuenTypeMonoCn,
+  RakuenTypeSubject,
+  RakuenTypeSubjectCn,
   TopicId
 } from '@types'
 
@@ -38,8 +45,13 @@ export default class Computed extends State {
   }
 
   /** 超展开列表 */
-  rakuen = computedFn((type: RakuenType | RakuenTypeMono | RakuenTypeGroup) => {
-    const rakuen = type === 'hot' ? rakuenStore.hot : rakuenStore.rakuen(this.state.scope, type)
+  rakuen = computedFn((type: RakuenType | RakuenTypeMono | RakuenTypeGroup | RakuenTypeSubject) => {
+    const rakuen =
+      type === 'subject_reply'
+        ? this.state.subjectReplies
+        : type === 'hot'
+        ? rakuenStore.hot
+        : rakuenStore.rakuen(this.state.scope, type)
     if (!shouldFilterRakuen()) return rakuen
 
     return {
@@ -60,6 +72,12 @@ export default class Computed extends State {
       const { group } = this.state
       const label = MODEL_RAKUEN_TYPE_GROUP.getLabel<RakuenTypeGroupCn>(group)
       return MODEL_RAKUEN_TYPE_GROUP.getValue<RakuenTypeGroup>(label)
+    }
+
+    if (title === '条目') {
+      const { subject } = this.state
+      const label = MODEL_RAKUEN_TYPE_SUBJECT.getLabel<RakuenTypeSubjectCn>(subject)
+      return MODEL_RAKUEN_TYPE_SUBJECT.getValue<RakuenTypeSubject>(label)
     }
 
     if (title === '人物') {

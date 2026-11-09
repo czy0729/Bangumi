@@ -65,6 +65,9 @@ export type RakuenItem = {
 
   /** 绝对时间戳（秒），用于缓存冷启动后重新计算相对时间 */
   epoch?: number
+
+  /** 无头像时显示文字占位 */
+  _placeholder?: boolean
 }
 
 /** 超展开 */

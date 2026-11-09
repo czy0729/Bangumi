@@ -6,7 +6,7 @@
  *
  * 超展开页业务逻辑
  */
-import { rakuenStore } from '@stores'
+import { rakuenStore, userStore } from '@stores'
 import { confirm, feedback, info, updateVisibleBottom } from '@utils'
 import { getBucketId } from '@utils/bucket'
 import { logger } from '@utils/dev'
@@ -16,6 +16,7 @@ import {
   LIMIT_TOPIC_PUSH,
   MODEL_RAKUEN_TYPE_GROUP,
   MODEL_RAKUEN_TYPE_MONO,
+  MODEL_RAKUEN_TYPE_SUBJECT,
   TEXT_MENU_BLOCK,
   TEXT_MENU_IGNORE
 } from '@constants'
@@ -32,6 +33,8 @@ import type {
   RakuenTypeGroupCn,
   RakuenTypeMono,
   RakuenTypeMonoCn,
+  RakuenTypeSubject,
+  RakuenTypeSubjectCn,
   TopicId,
   UserId
 } from '@types'
@@ -51,7 +54,20 @@ export default class Action extends Fetch {
 
   /** 超展开列表 */
   shouldFetchRakuen = (page: number) => {
-    const { _loaded, list } = this.rakuen(this.type(page))
+    const type = this.type(page)
+    if (type === 'subject_reply') {
+      if (!userStore.myId) {
+        this.save()
+        return
+      }
+
+      const { _loaded, _error, _userId } = this.state.subjectReplies
+      if (!_loaded || _error || _userId !== userStore.myId) this.fetchRakuen()
+      this.save()
+      return
+    }
+
+    const { _loaded, list } = this.rakuen(type)
     if (!_loaded || list.length === 0) this.fetchRakuen()
     this.save()
   }
@@ -64,6 +80,19 @@ export default class Action extends Fetch {
 
     this.setState({
       group: MODEL_RAKUEN_TYPE_GROUP.getValue<RakuenTypeGroup>(title)
+    })
+    this.fetchRakuen()
+    this.save()
+  }
+
+  /** 条目菜单点击 */
+  onSubjectMenuPress = (title: RakuenTypeSubjectCn) => {
+    t('超展开.条目菜单点击', {
+      title
+    })
+
+    this.setState({
+      subject: MODEL_RAKUEN_TYPE_SUBJECT.getValue<RakuenTypeSubject>(title)
     })
     this.fetchRakuen()
     this.save()
@@ -115,7 +144,9 @@ export default class Action extends Fetch {
         break
 
       case `${TEXT_PREFIX_ENTER}条目`:
-        subjectId = values.groupHref.replace('/subject/', '')
+        subjectId = values.groupHref?.replace('/subject/', '')
+        if (!subjectId) break
+
         t(eventId, {
           title,
           subjectId

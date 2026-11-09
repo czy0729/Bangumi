@@ -46,5 +46,6 @@ export const DEFAULT_PROPS = {
   topicId: '' as TopicId,
   replyCount: 0 as number,
   isGroup: false as boolean,
-  onPress: FROZEN_FN
+  onPress: FROZEN_FN,
+  _placeholder: false as boolean
 }

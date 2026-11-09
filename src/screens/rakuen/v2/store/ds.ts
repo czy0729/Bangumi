@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-03 05:05:22
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-30 00:00:00
+ * @Last Modified time: 2026-11-10 04:05:43
  *
  * 超展开页状态与常量
  */
@@ -11,11 +11,19 @@ import {
   MODEL_RAKUEN_SCOPE,
   MODEL_RAKUEN_TYPE_GROUP,
   MODEL_RAKUEN_TYPE_MONO,
+  MODEL_RAKUEN_TYPE_SUBJECT,
   WEB
 } from '@constants'
 import { COMPONENT } from '../ds'
 
-import type { Loaded, RakuenScope, RakuenTypeGroup, RakuenTypeMono } from '@types'
+import type { Rakuen } from '@stores/rakuen/types'
+import type {
+  Loaded,
+  RakuenScope,
+  RakuenTypeGroup,
+  RakuenTypeMono,
+  RakuenTypeSubject
+} from '@types'
 
 export const NAMESPACE = `Screen${COMPONENT}` as const
 
@@ -33,6 +41,24 @@ export const INIT_PREFETCH_STATE = {
 export const RESET_STATE = {
   /** 可视范围底部 y */
   visibleBottom: _.window.height
+}
+
+/** 条目下我回复过的讨论 */
+export type SubjectReplies = Rakuen & {
+  /** 缓存所属账号 */
+  _userId?: string | number
+
+  /** 上次请求是否失败 */
+  _error?: boolean
+}
+
+export const INIT_SUBJECT_REPLIES: SubjectReplies = {
+  list: [],
+  pagination: {
+    page: 1,
+    pageTotal: 1
+  },
+  _loaded: false
 }
 
 export const EXCLUDE_STATE = {
@@ -54,8 +80,14 @@ export const STATE = {
   /** 小组范围 */
   group: MODEL_RAKUEN_TYPE_GROUP.getValue<RakuenTypeGroup>('全部'),
 
+  /** 条目范围 */
+  subject: MODEL_RAKUEN_TYPE_SUBJECT.getValue<RakuenTypeSubject>('全部'),
+
   /** 人物类型 */
   mono: MODEL_RAKUEN_TYPE_MONO.getValue<RakuenTypeMono>('全部'),
+
+  /** 条目下我回复过的讨论 */
+  subjectReplies: INIT_SUBJECT_REPLIES,
 
   /** Prefetch */
   ...INIT_PREFETCH_STATE,

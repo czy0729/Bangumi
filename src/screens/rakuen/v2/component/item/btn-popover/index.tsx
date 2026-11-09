@@ -24,8 +24,10 @@ function BtnPopover({ groupCn, groupHref, href, topicId, userId, userName, isGro
   const isSubject = topicId.includes('subject/')
   const type = isGroup ? '小组' : isSubject || topicId.includes('ep/') ? '条目' : '人物'
 
-  const data = [`${TEXT_PREFIX_ENTER}${type}`, `${TEXT_PREFIX_BLOCK}${type}`]
-  if (isGroup || isSubject) data.push(TEXT_MENU_IGNORE)
+  const data = []
+  if (groupHref || type === '人物') data.push(`${TEXT_PREFIX_ENTER}${type}`)
+  data.push(`${TEXT_PREFIX_BLOCK}${type}`)
+  if ((isGroup || isSubject) && userId) data.push(TEXT_MENU_IGNORE)
 
   const handleSelect = useCallback(
     (title: string) => {

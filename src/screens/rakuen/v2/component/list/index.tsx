@@ -6,11 +6,11 @@
  *
  * 板块列表
  */
-import { useCallback } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { observer } from 'mobx-react'
-import { ListView, Loading } from '@components'
+import { ListView, Loading, Text } from '@components'
 import { Login } from '@_'
-import { userStore, useStore } from '@stores'
+import { _, userStore, useStore } from '@stores'
 import i18n from '@constants/i18n'
 import { ITEM_HEIGHT } from '../item/ds'
 import { useListStyle } from './hooks'
@@ -21,7 +21,7 @@ import type { Ctx } from '../../types'
 import type { HandleRef, Props } from './types'
 
 function List({ index }: Props) {
-  const { $ } = useStore<Ctx>(COMPONENT)
+  const { $, navigation } = useStore<Ctx>(COMPONENT)
 
   const style = useListStyle()
 
@@ -32,13 +32,51 @@ function List({ index }: Props) {
     [$, index]
   )
 
+  const elPoweredBy = useMemo(
+    () => (
+      <Text
+        style={_.mt.lg}
+        type='icon'
+        size={11}
+        align='center'
+        onPress={() =>
+          navigation.push('Zone', {
+            userId: 'wataame'
+          })
+        }
+      >
+        Powered by ry.mk · @wataame
+      </Text>
+    ),
+    [navigation]
+  )
+
   const type = $.type(index)
+  const page = $.state.page
+  const subjectUserId = $.state.subjectReplies._userId
+  useEffect(() => {
+    if (
+      type === 'subject_reply' &&
+      index === page &&
+      userStore.myId &&
+      subjectUserId !== userStore.myId
+    ) {
+      $.shouldFetchRakuen(index)
+    }
+  }, [$, type, index, page, subjectUserId, userStore.myId])
+
   if (type === 'hot' && !userStore.isWebLogin) {
     return <Login text={`热门帖子需${i18n.login()}才能显示`} btnText={`去${i18n.login()}`} />
   }
 
+  if (type === 'subject_reply' && !userStore.myId) {
+    return <Login text={`我回复需${i18n.login()}才能显示`} btnText={`去${i18n.login()}`} />
+  }
+
   const rakuen = $.rakuen(type)
   if (!rakuen._loaded) return <Loading />
+
+  const isSubjectReply = type === 'subject_reply'
 
   return (
     <ListView
@@ -53,6 +91,9 @@ function List({ index }: Props) {
       initialNumToRender={INITIAL_NUM_TO_RENDER}
       estimatedItemHeight={ITEM_HEIGHT}
       scrollEventThrottle={16}
+      showMesume={!isSubjectReply}
+      footerEmptyDataComponent={isSubjectReply ? elPoweredBy : undefined}
+      footerNoMoreDataComponent={isSubjectReply ? elPoweredBy : undefined}
       onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
     />

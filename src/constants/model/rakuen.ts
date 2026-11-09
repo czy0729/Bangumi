@@ -93,6 +93,22 @@ export const RAKUEN_TYPE_GROUP = [
 /** 小组范围 */
 export const MODEL_RAKUEN_TYPE_GROUP = new Model(RAKUEN_TYPE_GROUP, 'RAKUEN_TYPE_GROUP')
 
+/** 条目范围 */
+
+export const RAKUEN_TYPE_SUBJECT = [
+  {
+    label: '全部',
+    value: 'subject'
+  },
+  {
+    label: '我回复',
+    value: 'subject_reply'
+  }
+] as const
+
+/** 条目范围 */
+export const MODEL_RAKUEN_TYPE_SUBJECT = new Model(RAKUEN_TYPE_SUBJECT, 'RAKUEN_TYPE_SUBJECT')
+
 /** 人物类型 */
 
 export const RAKUEN_TYPE_MONO = [

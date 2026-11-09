@@ -23,6 +23,7 @@ import type {
   RAKUEN_TYPE,
   RAKUEN_TYPE_GROUP,
   RAKUEN_TYPE_MONO,
+  RAKUEN_TYPE_SUBJECT,
   RANK_ANIME_FILTER,
   RANK_BOOK_FILTER,
   RANK_BOOK_FILTER_SUB,
@@ -136,6 +137,12 @@ export type RakuenTypeGroup = ModelValueOf<typeof RAKUEN_TYPE_GROUP>
 
 /** 超展开小组范围中文名称 */
 export type RakuenTypeGroupCn = ModelValueOf<typeof RAKUEN_TYPE_GROUP, 'label'>
+
+/** 超展开条目范围 */
+export type RakuenTypeSubject = ModelValueOf<typeof RAKUEN_TYPE_SUBJECT>
+
+/** 超展开条目范围中文名称 */
+export type RakuenTypeSubjectCn = ModelValueOf<typeof RAKUEN_TYPE_SUBJECT, 'label'>
 
 /** 超展开人物类型 */
 export type RakuenTypeMono = ModelValueOf<typeof RAKUEN_TYPE_MONO>

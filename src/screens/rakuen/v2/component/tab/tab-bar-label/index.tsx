@@ -9,7 +9,11 @@
 import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { useStore } from '@stores'
-import { MODEL_RAKUEN_TYPE_GROUP, MODEL_RAKUEN_TYPE_MONO } from '@constants'
+import {
+  MODEL_RAKUEN_TYPE_GROUP,
+  MODEL_RAKUEN_TYPE_MONO,
+  MODEL_RAKUEN_TYPE_SUBJECT
+} from '@constants'
 import Label from '../label'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
@@ -30,6 +34,18 @@ function TabBarLabel({ route, focused }: Props) {
         label='小组'
         value={$.state.group}
         onSelect={$.onGroupMenuPress}
+      />
+    )
+  }
+
+  if (route.title === '条目' && title === '条目') {
+    return (
+      <Label
+        focused={focused}
+        model={MODEL_RAKUEN_TYPE_SUBJECT}
+        label='条目'
+        value={$.state.subject}
+        onSelect={$.onSubjectMenuPress}
       />
     )
   }

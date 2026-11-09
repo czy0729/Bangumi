@@ -8,15 +8,34 @@
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Avatar as AvatarComp } from '@components'
-import { useStore } from '@stores'
-import { styles } from './styles'
+import { Avatar as AvatarComp, Text } from '@components'
+import { _, systemStore, useStore } from '@stores'
+import { memoStyles } from './styles'
 
 import type { Ctx } from '../../../types'
 import type { Props } from './types'
 
-function Avatar({ src, name, userId, priority }: Props) {
+function Avatar({ src, name, userId, priority, text }: Props) {
   const { navigation } = useStore<Ctx>()
+
+  const styles = memoStyles()
+
+  if (!src) {
+    return (
+      <View style={styles.avatar}>
+        <View
+          style={[
+            styles.placeholder,
+            { borderRadius: systemStore.setting.avatarRound ? _.r(40) : _.radiusSm }
+          ]}
+        >
+          <Text size={16} bold type='sub'>
+            {text}
+          </Text>
+        </View>
+      </View>
+    )
+  }
 
   return (
     <View style={styles.avatar}>
