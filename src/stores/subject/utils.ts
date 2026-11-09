@@ -21,6 +21,9 @@ export const SUBJECT_V2_BUCKET_LIMIT = 300
 /** 条目吐槽箱桶容量上限 (每桶): 内含留言列表 */
 export const SUBJECT_COMMENTS_BUCKET_LIMIT = 20
 
+/** 条目页板块布局覆盖桶容量上限 (每桶): 单条极轻, 覆盖被淘汰后回退全局默认 */
+export const LAYOUT_BUCKET_LIMIT = 300
+
 /** 条目云缓存容量上限: 单条体量大 (整个条目数据), 淘汰后走 v2 / HTML 重新组装 */
 export const SUBJECT_FROM_OSS_LIMIT = 30
 

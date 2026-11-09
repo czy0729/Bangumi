@@ -6,10 +6,8 @@
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'
-import { FROZEN_FN } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
-import type { systemStore } from '@stores'
 import type { SubjectId } from '@types'
 import type { Ctx } from '../../types'
 import type { memoStyles } from './styles'
@@ -22,10 +20,9 @@ export const COMPONENT_MAIN = rc(COMPONENT)
 
 export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
-  showAnitabi: true as typeof systemStore.setting.showAnitabi,
+  showAnitabi: true as boolean,
   subjectId: 0 as SubjectId,
-  data: {} as $['state']['anitabi'],
-  onSwitchBlock: FROZEN_FN as $['onSwitchBlock']
+  data: {} as $['state']['anitabi']
 }
 
 export const THUMB_WIDTH = _.r(180)

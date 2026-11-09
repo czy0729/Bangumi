@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-03-23 23:09:51
  */
-import { calendarStore, rakuenStore, systemStore, userStore } from '@stores'
+import { calendarStore, rakuenStore, subjectStore, systemStore, userStore } from '@stores'
 import { confirm, feedback, info, loading } from '@utils'
 import { t } from '@utils/fetch'
 import i18n from '@constants/i18n'
@@ -27,16 +27,20 @@ export async function confirmDownloadSetting() {
     label: '下载'
   })
 
-  let hide = loading('下载设置(1/3)...')
+  let hide = loading('下载设置(1/4)...')
   const flag = await systemStore.downloadSetting()
   hide()
 
-  hide = loading('超展开设置(2/3)...')
+  hide = loading('超展开设置(2/4)...')
   await rakuenStore.downloadSetting()
   hide()
 
-  hide = loading('自定义放送数据(3/3)')
+  hide = loading('自定义放送数据(3/4)')
   await calendarStore.downloadSetting()
+  hide()
+
+  hide = loading('条目布局设置(4/4)')
+  await subjectStore.downloadLayoutSetting()
   hide()
 
   feedback(true)
@@ -56,16 +60,20 @@ export function handleUpload() {
         label: '上传'
       })
 
-      let hide = loading('上传设置(1/3)...')
+      let hide = loading('上传设置(1/4)...')
       const flag = await systemStore.uploadSetting()
       hide()
 
-      hide = loading('超展开设置(2/3)...')
+      hide = loading('超展开设置(2/4)...')
       await rakuenStore.uploadSetting()
       hide()
 
-      hide = loading('自定义放送数据(3/3)')
+      hide = loading('自定义放送数据(3/4)')
       await calendarStore.uploadSetting()
+      hide()
+
+      hide = loading('条目布局设置(4/4)')
+      await subjectStore.uploadLayoutSetting()
       hide()
 
       feedback()
@@ -77,15 +85,18 @@ export function handleUpload() {
 /** 恢复默认设置 */
 export function handleRestore() {
   setTimeout(() => {
-    confirm(`仅会恢复${i18n.initial()}设置，不包含超展开设置和自定义放送数据，确定?`, () => {
-      t('设置.恢复默认设置', {
-        label: '恢复默认'
-      })
+    confirm(
+      `仅会恢复${i18n.initial()}设置，不包含超展开设置、自定义放送数据和条目布局设置，确定?`,
+      () => {
+        t('设置.恢复默认设置', {
+          label: '恢复默认'
+        })
 
-      systemStore.resetSetting()
-      setTimeout(() => {
-        info('已恢复')
-      }, 160)
-    })
+        systemStore.resetSetting()
+        setTimeout(() => {
+          info('已恢复')
+        }, 160)
+      }
+    )
   }, 160)
 }

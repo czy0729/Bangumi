@@ -6,14 +6,13 @@
  */
 import { useCallback, useMemo } from 'react'
 import { Heatmap, HorizontalList } from '@components'
-import { InView, SectionTitle } from '@_'
+import { InView } from '@_'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { FROZEN_FN } from '@constants'
 import { TITLE_STAFF } from '../../ds'
-import IconHidden from '../icon/hidden'
+import BlockTitle from '../block-title'
 import IconStaff from '../icon/staff'
 import { removeDuplicateItemsById } from './utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
@@ -22,13 +21,8 @@ import { styles } from './styles'
 import type { Staff as StaffType } from '../../types'
 
 const Staff = memo(
-  ({ navigation, showStaff = true, subjectId = 0, staff, onSwitchBlock = FROZEN_FN }) => {
-    const elRight = useMemo(
-      () => (showStaff ? <IconStaff /> : <IconHidden name={TITLE_STAFF} value='showStaff' />),
-      [showStaff]
-    )
-
-    const handleToggle = useCallback(() => onSwitchBlock('showStaff'), [onSwitchBlock])
+  ({ navigation, showStaff = true, subjectId = 0, staff }) => {
+    const elRight = useMemo(() => (showStaff ? <IconStaff /> : null), [showStaff])
 
     const handleNavigate = useCallback(
       ({ id, name, nameJP, _image }: StaffType) => {
@@ -50,15 +44,15 @@ const Staff = memo(
 
     return (
       <InView style={stl(styles.container, !showStaff && styles.containerNotShow)}>
-        <SectionTitle
+        <BlockTitle
+          layoutKey='showStaff'
           style={_.container.wind}
           right={elRight}
           icon={!showStaff && 'md-navigate-next'}
           splitStyles
-          onPress={handleToggle}
         >
           {TITLE_STAFF}
-        </SectionTitle>
+        </BlockTitle>
 
         {showStaff && (
           <>

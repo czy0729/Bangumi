@@ -5,7 +5,6 @@
  * @Last Modified time: 2025-04-12 17:32:37
  */
 import { rc } from '@utils/dev'
-import { FROZEN_FN } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
 import type { systemStore } from '@stores'
@@ -23,9 +22,8 @@ export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
   styles: {} as ReturnType<typeof memoStyles>,
   subjectId: 0 as $['subjectId'],
-  showInfo: true as typeof systemStore.setting.showInfo,
+  showInfo: true as boolean,
   subjectHtmlExpand: true as typeof systemStore.setting.subjectHtmlExpand,
   info: '' as $['info'],
-  name: '',
-  onSwitchBlock: FROZEN_FN as $['onSwitchBlock']
+  name: ''
 }

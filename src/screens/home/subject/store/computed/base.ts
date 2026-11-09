@@ -7,7 +7,7 @@
  * 条目基础派生数据 (条目信息 / 收藏 / 标签 / 名称 / 源头)
  */
 import { computed } from 'mobx'
-import { calendarStore, collectionStore, subjectStore, userStore } from '@stores'
+import { calendarStore, collectionStore, subjectStore, systemStore, userStore } from '@stores'
 import {
   desc,
   findSubjectCn,
@@ -32,11 +32,22 @@ import {
   getValidPlaySources
 } from '../utils'
 
+import type { LayoutKey } from '@stores/subject/types'
 import type { SubjectType, SubjectTypeCn } from '@types'
 import type { SubjectCommentValue } from '../../types'
 
 /** 条目基础派生数据 */
 export default class Base extends State {
+  /**
+   * 条目覆盖后的板块布局值: 条目显式设置 > 全局默认
+   *  - 条目操作过就只认自己, 之后全局改动 (含永久隐藏的 -1) 只对未覆盖的条目生效
+   *  - 覆盖值可为 true 展开 / false 折叠 / -1 隐藏
+   */
+  layoutValue(key: LayoutKey): boolean | -1 {
+    const override = subjectStore.layoutBlocks(this.subjectId)[key]
+    return override ?? systemStore.setting[key]
+  }
+
   /** 本地化 */
   save = () => {
     return this.saveStorage(this.namespace, EXCLUDE_STATE)
@@ -120,7 +131,11 @@ export default class Base extends State {
       subjectComments = this.state.comments
     }
 
-    const filteredList = filterSubjectComments(subjectComments.list, this.state.filterScores)
+    const filteredList = filterSubjectComments(
+      subjectComments.list,
+      this.state.filterScores,
+      this.layoutValue('showComment')
+    )
     if (!filteredList.length) {
       const { pageTotal } = subjectComments.pagination
       return {

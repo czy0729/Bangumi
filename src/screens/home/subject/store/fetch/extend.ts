@@ -24,11 +24,12 @@ let globalFetchAnitabiCount = 0
 export default class Extend extends Game {
   /** 获取圣地巡游信息 */
   fetchAnitabi = async () => {
+    const showAnitabi = this.layoutValue('showAnitabi')
     if (
       this.type !== '动画' ||
       this.nsfw ||
-      systemStore.setting.showAnitabi === -1 ||
-      !systemStore.setting.showAnitabi ||
+      showAnitabi === -1 ||
+      !showAnitabi ||
       optimize(this.state.anitabi, D7)
     ) {
       return false
@@ -101,7 +102,7 @@ export default class Extend extends Game {
   fetchVIB = async () => {
     if (
       systemStore.setting.hideScore ||
-      systemStore.setting.showRating !== true ||
+      this.layoutValue('showRating') !== true ||
       optimize(this.vib, D1)
     ) {
       return false

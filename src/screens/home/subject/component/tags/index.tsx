@@ -30,13 +30,12 @@ function TagsWrap({ onBlockRef }: Props) {
 
       <Tags
         styles={styles}
-        show={systemStore.setting.showTags && !!$.tags.length}
-        showTags={systemStore.setting.showTags}
+        show={$.showTags[0] && !!$.tags.length}
+        showTags={$.showTags[0]}
         showTyperank={!!$.rank && systemStore.setting.subjectTagsRec}
         subjectTagsExpand={systemStore.setting.subjectTagsExpand}
         rank={$.rank}
         focusOrigin={systemStore.setting.focusOrigin}
-        onSwitchBlock={$.onSwitchBlock}
       />
 
       <Split style={styles.split} />

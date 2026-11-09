@@ -10,8 +10,9 @@
  *    大键 (记忆长度 >= LAZY_SET_STORAGE_SIZE) 由定时 flush 统一序列化 (间隔内多次保存合并为一次)
  */
 import { AppState } from 'react-native'
+import { WEB } from '@constants/device'
 import pLimit from '@utils/thirdParty/p-limit'
-import { getItem, setItem } from './utils'
+import { getItem, multiGet, setItem } from './utils'
 import {
   CACHE_MAP,
   LAZY_SET_STORAGE_INTERVAL,
@@ -37,6 +38,19 @@ export async function getStorage<T = unknown>(key: string) {
   } catch (error) {
     return null
   }
+}
+
+/**
+ * 批量读取原始字符串, 与 keys 顺序一致
+ *  - web 的 multiGet 只返回值数组 (IndexedDB 实现), 这里统一成按 key 取值
+ */
+export async function getStorageValues(keys: readonly string[]): Promise<(string | null)[]> {
+  if (!keys.length) return []
+
+  if (WEB) return Promise.all(keys.map(key => getItem(key)))
+
+  const pairs = await multiGet(keys)
+  return pairs.map(([, value]) => value)
 }
 
 /**

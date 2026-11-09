@@ -7,7 +7,7 @@
 import { observer } from 'mobx-react'
 import { CircularProgress } from '@components'
 import { IconTouchable } from '@_'
-import { _, systemStore, useStore } from '@stores'
+import { _, useStore } from '@stores'
 import { feedback, info } from '@utils'
 import { WEB } from '@constants'
 import { COMPONENT_THUMBS_REFRESH, HIT_SLOP } from './ds'
@@ -19,7 +19,7 @@ import type { Ctx } from '../../types'
 function IconThumbsRefresh() {
   const { $ } = useStore<Ctx>(COMPONENT_THUMBS_REFRESH)
 
-  if (WEB || !systemStore.setting.showThumbs) return null
+  if (WEB || !$.showThumbs[0]) return null
 
   const loading = $.state.thumbsRefreshing
 

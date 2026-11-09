@@ -4,22 +4,21 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-03 22:36:59
  */
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 import { View } from 'react-native'
 import { Expand, Heatmap } from '@components'
-import { InView, ItemArticle, PreventTouchPlaceholder, SectionTitle } from '@_'
+import { InView, ItemArticle, PreventTouchPlaceholder } from '@_'
 import { _, rakuenStore } from '@stores'
 import { getIsBlockedUser, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useExpandLazy } from '@utils/hooks'
-import { FROZEN_FN } from '@constants'
 import { TITLE_BLOG } from '../../ds'
+import BlockTitle from '../block-title'
 import IconBlog from '../icon/blog'
-import IconHidden from '../icon/hidden'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Blog = memo(
-  ({ navigation, styles, showBlog = true, subjectId = 0, blog, onSwitchBlock = FROZEN_FN }) => {
+  ({ navigation, styles, showBlog = true, subjectId = 0, blog }) => {
     const filterBlog = blog.filter(item => {
       const { nickname, username } = item.user
       return !getIsBlockedUser(
@@ -31,12 +30,7 @@ const Blog = memo(
     })
     const { list, onExpand } = useExpandLazy(filterBlog)
 
-    const elRight = useMemo(
-      () => (showBlog ? <IconBlog /> : <IconHidden name={TITLE_BLOG} value='showBlog' />),
-      [showBlog]
-    )
-
-    const handleToggle = useCallback(() => onSwitchBlock('showBlog'), [onSwitchBlock])
+    const elRight = useMemo(() => (showBlog ? <IconBlog /> : null), [showBlog])
 
     const elList = useMemo(
       () => (
@@ -76,15 +70,15 @@ const Blog = memo(
           !showBlog && styles.containerNotShow
         )}
       >
-        <SectionTitle
+        <BlockTitle
+          layoutKey='showBlog'
           style={styles.sectionTitle}
           right={elRight}
           icon={!showBlog && 'md-navigate-next'}
           splitStyles
-          onPress={handleToggle}
         >
           {TITLE_BLOG}
-        </SectionTitle>
+        </BlockTitle>
 
         {showBlog && !!list.length && (
           <View style={_.mt.sm}>

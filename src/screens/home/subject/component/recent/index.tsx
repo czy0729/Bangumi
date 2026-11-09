@@ -22,7 +22,7 @@ function RecentWrap({ onBlockRef }: Props) {
 
   if (!$.showRecent[1]) return null
 
-  const { showRecent, hideScore, subjectRecentType } = systemStore.setting
+  const { hideScore, subjectRecentType } = systemStore.setting
 
   return (
     <Suspense fallback={null}>
@@ -31,12 +31,11 @@ function RecentWrap({ onBlockRef }: Props) {
 
         <Recent
           navigation={navigation}
-          showRecent={showRecent}
+          showRecent={$.showRecent[0]}
           subjectId={$.subjectId}
           who={subjectRecentType === '好友' ? $.friendsRating : $.filterRecent}
           hideScore={hideScore}
           subjectRecentType={subjectRecentType}
-          onSwitchBlock={$.onSwitchBlock}
           onSwitchSubjectRecentType={$.onSwitchSubjectRecentType}
         />
 

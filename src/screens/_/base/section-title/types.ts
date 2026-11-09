@@ -5,6 +5,7 @@
  * @Last Modified time: 2026-03-19 20:25:16
  */
 import type { PropsWithChildren } from 'react'
+import type { PopoverData, PopoverOnSelect } from '@components/popover/types'
 import type { IconfontNames, ReactNode, WithViewStyles } from '@types'
 
 export type Props = PropsWithChildren<
@@ -23,5 +24,14 @@ export type Props = PropsWithChildren<
 
     /** 标题点击回调 */
     onPress?: () => void
+
+    /** 标题 Popover 菜单 (传入时标题成为触发器, 优先于 onPress, right 不在菜单手势区内) */
+    popover?: {
+      /** 菜单项 */
+      data: PopoverData
+
+      /** 菜单选择 */
+      onSelect: PopoverOnSelect
+    }
   }>
 >

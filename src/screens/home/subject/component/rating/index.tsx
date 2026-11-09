@@ -29,7 +29,7 @@ function RatingWrap({ onBlockRef }: Props) {
         <BlockAnchor title={TITLE_RATING} onBlockRef={onBlockRef} />
         <Rating
           styles={memoStyles()}
-          showRating={systemStore.setting.showRating}
+          showRating={$.showRating[0]}
           hideScore={systemStore.setting.hideScore}
         />
         <Split />

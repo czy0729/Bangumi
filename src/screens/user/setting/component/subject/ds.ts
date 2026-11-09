@@ -158,7 +158,7 @@ export const TEXTS = {
     information: `收藏状态为在看的动画，章节的右下方，${i18n.initial()}值为线上放送时间，手动更改后首页收藏排序以此为准`
   },
   layout: {
-    text: '页面布局',
+    text: '页面布局 (默认值, 可在条目页点板块标题单独调整)',
     search: (Object.keys(DATA) as (keyof typeof DATA)[]).map(key => DATA[key]).join()
   },
   commentSplit: {

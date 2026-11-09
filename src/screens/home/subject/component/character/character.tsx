@@ -6,15 +6,15 @@
  */
 import { useCallback, useMemo } from 'react'
 import { Heatmap, HorizontalList } from '@components'
-import { InView, SectionTitle } from '@_'
+import { InView } from '@_'
 import { _ } from '@stores'
 import { desc, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { FROZEN_FN, FROZEN_OBJECT, HOST_BGM_STATIC } from '@constants'
+import { FROZEN_OBJECT, HOST_BGM_STATIC } from '@constants'
 import { TITLE_CHARACTER } from '../../ds'
 import IconCharacter from '../icon/character'
-import IconHidden from '../icon/hidden'
+import BlockTitle from '../block-title'
 import { getSortValue } from './utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
@@ -28,8 +28,7 @@ const Character = memo(
     subjectId = 0,
     crt,
     crtCounts = FROZEN_OBJECT as Record<string, number>,
-    subjectName,
-    onSwitchBlock = FROZEN_FN
+    subjectName
   }) => {
     // 处理角色图片，避免重复逻辑
     const processedCrt = (crt || [])
@@ -48,16 +47,9 @@ const Character = memo(
       .sort((a, b) => desc(getSortValue(a), getSortValue(b)))
 
     const elRight = useMemo(
-      () =>
-        showCharacter ? (
-          <IconCharacter />
-        ) : (
-          <IconHidden name={TITLE_CHARACTER} value='showCharacter' />
-        ),
+      () => (showCharacter ? <IconCharacter /> : null),
       [showCharacter]
     )
-
-    const handleToggle = useCallback(() => onSwitchBlock('showCharacter'), [onSwitchBlock])
 
     const handleNavigate = useCallback(
       ({ id, name, nameJP, _image }: Crt) => {
@@ -97,15 +89,15 @@ const Character = memo(
 
     return (
       <InView style={stl(styles.container, !showCharacter && styles.containerNotShow)}>
-        <SectionTitle
+        <BlockTitle
+          layoutKey='showCharacter'
           style={_.container.wind}
           right={elRight}
           icon={!showCharacter && 'md-navigate-next'}
           splitStyles
-          onPress={handleToggle}
         >
           {TITLE_CHARACTER}
-        </SectionTitle>
+        </BlockTitle>
 
         {showCharacter && (
           <>

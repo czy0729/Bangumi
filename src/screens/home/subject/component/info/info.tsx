@@ -7,13 +7,11 @@
 import { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { Expand, Heatmap, RenderHtml } from '@components'
-import { SectionTitle } from '@_'
 import { _ } from '@stores'
 import { appNavigate, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { FROZEN_FN } from '@constants'
-import IconHidden from '../icon/hidden'
+import BlockTitle from '../block-title'
 import IconHtmlExpand from '../icon/html-expand'
 import IconWiki from '../icon/wiki'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
@@ -26,8 +24,7 @@ const Info = memo(
     showInfo = true,
     subjectHtmlExpand = true,
     info = '',
-    name = '',
-    onSwitchBlock = FROZEN_FN
+    name = ''
   }) => {
     const [expand, setExpand] = useState(false)
 
@@ -40,12 +37,7 @@ const Info = memo(
       }
     }, [expand, info])
 
-    const elRight = useMemo(
-      () => (showInfo ? <IconWiki /> : <IconHidden name='详情' value='showInfo' />),
-      [showInfo]
-    )
-
-    const handleToggle = useCallback(() => onSwitchBlock('showInfo'), [onSwitchBlock])
+    const elRight = useMemo(() => (showInfo ? <IconWiki /> : null), [showInfo])
 
     const handleExpand = useCallback(() => {
       setExpand(true)
@@ -85,15 +77,15 @@ const Info = memo(
 
     return (
       <View style={stl(styles.container, !showInfo && styles.containerNotShow)}>
-        <SectionTitle
+        <BlockTitle
+          layoutKey='showInfo'
           style={_.container.wind}
           right={elRight}
           icon={!showInfo && 'md-navigate-next'}
           splitStyles
-          onPress={handleToggle}
         >
           详情
-        </SectionTitle>
+        </BlockTitle>
 
         {showInfo && !!info && (
           <Expand

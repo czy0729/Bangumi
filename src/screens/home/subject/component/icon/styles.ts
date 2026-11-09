@@ -73,11 +73,6 @@ export const styles = _.create({
     borderRadius: 20,
     overflow: 'hidden'
   },
-  hidden: {
-    paddingVertical: 0,
-    marginRight: -_.sm,
-    marginLeft: 4
-  },
   refresh: {
     paddingVertical: 0,
     paddingHorizontal: _.xs,

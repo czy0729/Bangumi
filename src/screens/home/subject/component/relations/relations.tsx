@@ -7,42 +7,35 @@
 import { useCallback, useMemo } from 'react'
 import { Heatmap, HorizontalList } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { InView, SectionTitle } from '@_'
+import { InView } from '@_'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { FROZEN_FN } from '@constants'
 import { TITLE_RELATIONS } from '../../ds'
-import IconHidden from '../icon/hidden'
+import BlockTitle from '../block-title'
 import IconRelation from '../icon/relation'
 import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
 import type { SubjectTypeCn } from '@types'
+import type { Ctx } from '../../types'
+
 const Relations = memo(
   ({
     navigation,
     showRelations = true,
     subjectId = 0,
     relations,
-    typeCn = '' as SubjectTypeCn,
-    onSwitchBlock = FROZEN_FN
+    typeCn = '' as SubjectTypeCn
   }) => {
     const elRight = useMemo(
-      () =>
-        showRelations ? (
-          <IconRelation title='关联' list={relations} />
-        ) : (
-          <IconHidden name={TITLE_RELATIONS} value='showRelations' />
-        ),
+      () => (showRelations ? <IconRelation title='关联' list={relations} /> : null),
       [relations, showRelations]
     )
 
-    const handleToggle = useCallback(() => onSwitchBlock('showRelations'), [onSwitchBlock])
-
     const handleNavigate = useCallback(
-      ({ id, name, image }, type: string) => {
+      ({ id, name, image }: Ctx['$']['relations'][number], type: string) => {
         navigation.push('Subject', {
           subjectId: id,
           _jp: name,
@@ -61,15 +54,15 @@ const Relations = memo(
 
     return (
       <InView style={stl(styles.container, !showRelations && styles.containerNotShow)}>
-        <SectionTitle
+        <BlockTitle
+          layoutKey='showRelations'
           style={_.container.wind}
           right={elRight}
           icon={!showRelations && 'md-navigate-next'}
           splitStyles
-          onPress={handleToggle}
         >
           {TITLE_RELATIONS}
-        </SectionTitle>
+        </BlockTitle>
 
         {showRelations && (
           <>

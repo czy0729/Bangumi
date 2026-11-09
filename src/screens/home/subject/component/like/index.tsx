@@ -7,7 +7,7 @@
 import { Suspense } from 'react'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { systemStore, useStore } from '@stores'
+import { useStore } from '@stores'
 import { TITLE_LIKE } from '../../ds'
 import BlockAnchor from '../block-anchor'
 import Split from '../split'
@@ -29,11 +29,10 @@ function LikeWrap({ onBlockRef }: Props) {
 
         <Like
           navigation={navigation}
-          showLike={systemStore.setting.showLike}
+          showLike={$.showLike[0]}
           subjectId={$.subjectId}
           like={$.like}
           typeCn={$.type}
-          onSwitchBlock={$.onSwitchBlock}
         />
 
         <Split />

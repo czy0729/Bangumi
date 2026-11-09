@@ -9,8 +9,6 @@ import { View } from 'react-native'
 import { Flex, Text, Touchable } from '@components'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { TITLE_RATING } from '../../ds'
-import IconHidden from '../icon/hidden'
 import Chart from './chart'
 import Title from './title'
 import VIB from './vib'
@@ -32,7 +30,6 @@ const Rating = memo(
           <Flex.Item>
             <Title showScore={showScore} />
           </Flex.Item>
-          {!showRating && <IconHidden name={TITLE_RATING} value='showRating' />}
         </Flex>
 
         {showRating && (

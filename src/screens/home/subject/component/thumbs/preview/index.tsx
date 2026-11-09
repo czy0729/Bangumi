@@ -6,7 +6,7 @@
  */
 import { observer } from 'mobx-react'
 import { Image, Touchable } from '@components'
-import { systemStore, useStore } from '@stores'
+import { useStore } from '@stores'
 import { showImageViewer, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { WEB } from '@constants'
@@ -20,7 +20,7 @@ import type { Props } from './types'
 function Preview({ item, index, thumbs, epsThumbsHeader }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  if (!systemStore.setting.showThumbs) return null
+  if (!$.showThumbs[0]) return null
 
   return (
     <Touchable

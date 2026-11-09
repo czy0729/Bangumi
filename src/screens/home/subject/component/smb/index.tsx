@@ -6,11 +6,11 @@
  */
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { FolderSMB, SectionTitle } from '@_'
-import { smbStore, systemStore, useStore } from '@stores'
+import { FolderSMB } from '@_'
+import { smbStore, useStore } from '@stores'
 import { IOS, WEB } from '@constants'
-import IconHidden from '../icon/hidden'
 import IconSMB from '../icon/smb'
+import BlockTitle from '../block-title'
 import Split from '../split'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
@@ -25,21 +25,22 @@ function SMB() {
   const item = smbStore.subject($.subjectId)
   if (!item) return null
 
-  const { showSMB } = systemStore.setting
-  if (showSMB === -1) return null
+  if (!$.showSMB[1]) return null
+
+  const showSMB = $.showSMB[0]
 
   const styles = memoStyles()
 
   return (
     <Component id='screen-subject-smb' style={styles.container}>
-      <SectionTitle
-        right={showSMB ? <IconSMB /> : <IconHidden name='本地' value='showSMB' />}
+      <BlockTitle
+        layoutKey='showSMB'
+        right={showSMB ? <IconSMB /> : null}
         icon={!showSMB && 'md-navigate-next'}
         splitStyles
-        onPress={() => $.onSwitchBlock('showSMB')}
       >
         本地
-      </SectionTitle>
+      </BlockTitle>
       {showSMB && <FolderSMB smb={item.smb} folder={item.folder} />}
       <Split />
     </Component>

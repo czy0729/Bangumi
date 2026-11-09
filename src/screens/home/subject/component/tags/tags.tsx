@@ -4,17 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-03 19:15:09
  */
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Iconfont, ScrollView, Touchable } from '@components'
-import { PreventTouchPlaceholder, SectionTitle } from '@_'
+import { PreventTouchPlaceholder } from '@_'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
-import { FROZEN_FN } from '@constants'
 import { TITLE_TAGS } from '../../ds'
 import IconGame from '../icon/game'
-import IconHidden from '../icon/hidden'
+import BlockTitle from '../block-title'
 import RecSegement from './rec-segment'
 import TagsList from './tags-list'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
@@ -27,8 +26,7 @@ const Tags = memo(
     showTyperank = false,
     subjectTagsExpand = true,
     rank = 0,
-    focusOrigin = false,
-    onSwitchBlock = FROZEN_FN
+    focusOrigin = false
   }) => {
     const elRight = useMemo(
       () =>
@@ -37,13 +35,9 @@ const Tags = memo(
             {!focusOrigin && <IconGame />}
             {!!rank && <RecSegement />}
           </>
-        ) : (
-          <IconHidden name={TITLE_TAGS} value='showTags' />
-        ),
+        ) : null,
       [focusOrigin, rank, showTags]
     )
-
-    const handleToggle = useCallback(() => onSwitchBlock('showTags'), [onSwitchBlock])
 
     return (
       <View
@@ -53,15 +47,15 @@ const Tags = memo(
           !showTags && styles.containerNotShow
         )}
       >
-        <SectionTitle
+        <BlockTitle
+          layoutKey='showTags'
           style={_.container.wind}
           right={elRight}
           icon={!showTags && 'md-navigate-next'}
           splitStyles
-          onPress={handleToggle}
         >
           {TITLE_TAGS}
-        </SectionTitle>
+        </BlockTitle>
 
         {show && (
           <>

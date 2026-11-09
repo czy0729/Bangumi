@@ -5,10 +5,8 @@
  * @Last Modified time: 2024-09-02 15:58:01
  */
 import { rc } from '@utils/dev'
-import { FROZEN_FN } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
-import type { systemStore } from '@stores'
 import type { Navigation } from '@types'
 import type { Ctx } from '../../types'
 
@@ -20,8 +18,7 @@ export const COMPONENT_MAIN = rc(COMPONENT)
 
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
-  showStaff: true as typeof systemStore.setting.showStaff,
+  showStaff: true as boolean,
   subjectId: 0 as $['subjectId'],
-  staff: [] as $['staff'],
-  onSwitchBlock: FROZEN_FN as $['onSwitchBlock']
+  staff: [] as $['staff']
 }

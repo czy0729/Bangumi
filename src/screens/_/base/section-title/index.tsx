@@ -6,7 +6,7 @@
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Component, Flex, flexStyle, Iconfont, Text, Touchable } from '@components'
+import { Component, Flex, flexStyle, Iconfont, Popover, Text, Touchable } from '@components'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
@@ -19,23 +19,43 @@ export type { SectionTitleProps }
 
 /** 块 (章节) 标题 */
 export const SectionTitle = observer(
-  ({ style, icon = '', left, right, splitStyles, children, onPress }: SectionTitleProps) => {
+  ({
+    style,
+    icon = '',
+    left,
+    right,
+    splitStyles,
+    children,
+    onPress,
+    popover
+  }: SectionTitleProps) => {
     r(COMPONENT)
 
     const styles = memoStyles()
     const { splitStylesTitle, splitStylesUnderline } = getSplitStyles(splitStyles)
 
-    const titleEl = onPress ? (
-      <Touchable style={stl(flexStyle(), styles.touch)} onPress={onPress}>
-        <Text type='title' size={20} bold shadow={!!splitStylesUnderline}>
-          {children}
-        </Text>
-        {!!icon && <Iconfont name={icon} color={_.colorIcon} />}
-      </Touchable>
-    ) : (
+    const title = (
       <Text type='title' size={20} bold shadow={!!splitStylesUnderline}>
         {children}
       </Text>
+    )
+    const titleText = (
+      <>
+        {title}
+        {!!icon && <Iconfont name={icon} color={_.colorIcon} />}
+      </>
+    )
+
+    const titleEl = popover ? (
+      <Popover data={popover.data} onSelect={popover.onSelect}>
+        <Flex style={styles.touch}>{titleText}</Flex>
+      </Popover>
+    ) : onPress ? (
+      <Touchable style={stl(flexStyle(), styles.touch)} onPress={onPress}>
+        {titleText}
+      </Touchable>
+    ) : (
+      title
     )
 
     return (

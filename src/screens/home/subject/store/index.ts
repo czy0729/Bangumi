@@ -7,6 +7,7 @@
  * 条目页面状态机: 初始化、分区请求与退出拦截
  */
 import { _, collectionStore, rakuenStore, subjectStore, userStore } from '@stores'
+import { getBucketId } from '@utils/bucket'
 import { getTimestamp } from '@utils'
 import { queue } from '@utils/fetch'
 import { M15, SHARE_MODE, WEB } from '@constants'
@@ -29,9 +30,13 @@ export default class ScreenSubject extends Action {
     const loadedTime = needRefresh ? now : _loaded
 
     try {
-      const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(
-        this.namespace
-      )
+      // 板块布局覆盖与页面缓存并行读回, 避免覆盖值晚于首帧到达造成闪跳
+      // (storage 读取失败走外层 catch 静默降级: 本会话无覆盖、无重置过滤, 下次进入恢复)
+      const [storageData] = await Promise.all([
+        this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(this.namespace),
+        subjectStore.init(`layout${getBucketId(this.subjectId)}`),
+        subjectStore.init('layoutResetAt')
+      ])
       this.setState({
         ...storageData,
         ...EXCLUDE_STATE,

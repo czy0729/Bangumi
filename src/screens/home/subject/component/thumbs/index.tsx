@@ -16,13 +16,13 @@ import {
   Text,
   Touchable
 } from '@components'
-import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
-import { _, systemStore, useStore } from '@stores'
+import { InView, PreventTouchPlaceholder } from '@_'
+import { _, useStore } from '@stores'
 import { findSubjectCn, openSearch, stl } from '@utils'
 import { HOST_DB_REFERER } from '@constants'
 import { TITLE_THUMBS } from '../../ds'
 import BlockAnchor from '../block-anchor'
-import IconHidden from '../icon/hidden'
+import BlockTitle from '../block-title'
 import IconPic from '../icon/pic'
 import IconPreview from '../icon/preview'
 import IconThumbsRefresh from '../icon/refresh'
@@ -56,15 +56,13 @@ function Thumbs({ onBlockRef }: Props) {
     )
   }
 
-  const { showThumbs } = systemStore.setting
+  const showThumbs = $.showThumbs[0]
   const { epsThumbsHeader, videos = [] } = $.state
   const { thumbsData, thumbsList, thumbsReference, thumbsReferenceUrl, thumbsTitle } = $
 
   // 右侧按钮
   let elRight: ReactNode
-  if (!showThumbs) {
-    elRight = <IconHidden name={thumbsTitle} value='showThumbs' />
-  } else if (thumbsReference === HOST_DB_REFERER) {
+  if (showThumbs && thumbsReference === HOST_DB_REFERER) {
     elRight = <IconPreview data={thumbsData} headers={epsThumbsHeader} />
   } else {
     elRight = null
@@ -83,15 +81,15 @@ function Thumbs({ onBlockRef }: Props) {
           !showThumbs && styles.containerNotShow
         )}
       >
-        <SectionTitle
+        <BlockTitle
+          layoutKey='showThumbs'
           style={_.container.wind}
           right={elRight}
           icon={!showThumbs && 'md-navigate-next'}
           splitStyles
-          onPress={() => $.onSwitchBlock('showThumbs')}
         >
           {thumbsTitle}
-        </SectionTitle>
+        </BlockTitle>
 
         {showThumbs && (
           <ScrollViewHorizontal

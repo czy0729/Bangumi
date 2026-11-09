@@ -5,7 +5,6 @@
  * @Last Modified time: 2026-04-03 19:15:15
  */
 import { rc } from '@utils/dev'
-import { FROZEN_FN } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
 import type { systemStore } from '@stores'
@@ -21,10 +20,9 @@ export const COMPONENT_MAIN = rc(COMPONENT)
 export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
   show: true as boolean,
-  showTags: true as typeof systemStore.setting.showTags,
+  showTags: true as boolean,
   showTyperank: false as typeof systemStore.setting.subjectTagsRec,
   subjectTagsExpand: true as typeof systemStore.setting.subjectTagsExpand,
   rank: 0 as $['subject']['rank'],
-  focusOrigin: false as typeof systemStore.setting.focusOrigin,
-  onSwitchBlock: FROZEN_FN as $['onSwitchBlock']
+  focusOrigin: false as typeof systemStore.setting.focusOrigin
 }

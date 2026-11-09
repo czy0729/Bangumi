@@ -6,7 +6,7 @@
  */
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Link, Text } from '@components'
-import { systemStore, useStore } from '@stores'
+import { useStore } from '@stores'
 import { COMPONENT_BLOG } from './ds'
 import styles from './styles'
 
@@ -15,7 +15,7 @@ import type { Ctx } from '../../types'
 function IconBlog() {
   const { $ } = useStore<Ctx>(COMPONENT_BLOG)
 
-  if (!systemStore.setting.showBlog) return null
+  if (!$.showBlog[0]) return null
 
   return (
     <Link

@@ -7,7 +7,7 @@
 import { Suspense } from 'react'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { systemStore, useStore } from '@stores'
+import { useStore } from '@stores'
 import { TITLE_STAFF } from '../../ds'
 import BlockAnchor from '../block-anchor'
 import Split from '../split'
@@ -29,10 +29,9 @@ function StaffWrap({ onBlockRef }: Props) {
 
         <Staff
           navigation={navigation}
-          showStaff={systemStore.setting.showStaff}
+          showStaff={$.showStaff[0]}
           subjectId={$.subjectId}
           staff={$.staff}
-          onSwitchBlock={$.onSwitchBlock}
         />
 
         <Split

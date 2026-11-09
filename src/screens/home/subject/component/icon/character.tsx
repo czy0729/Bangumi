@@ -6,7 +6,7 @@
  */
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Link, Text } from '@components'
-import { systemStore, useStore } from '@stores'
+import { useStore } from '@stores'
 import { COMPONENT_CHARACTER } from './ds'
 import styles from './styles'
 
@@ -15,7 +15,7 @@ import type { Ctx } from '../../types'
 function IconCharacter() {
   const { $ } = useStore<Ctx>(COMPONENT_CHARACTER)
 
-  if (!systemStore.setting.showCharacter) return null
+  if (!$.showCharacter[0]) return null
 
   return (
     <Link

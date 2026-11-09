@@ -7,7 +7,7 @@
 import { Suspense } from 'react'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { systemStore, useStore } from '@stores'
+import { useStore } from '@stores'
 import { TITLE_BLOG } from '../../ds'
 import BlockAnchor from '../block-anchor'
 import Split from '../split'
@@ -31,10 +31,9 @@ function BlogWrap({ onBlockRef }: Props) {
         <Blog
           navigation={navigation}
           styles={memoStyles()}
-          showBlog={systemStore.setting.showBlog}
+          showBlog={$.showBlog[0]}
           subjectId={$.subjectId}
           blog={$.filterBlog}
-          onSwitchBlock={$.onSwitchBlock}
         />
 
         <Split />

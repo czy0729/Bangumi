@@ -7,14 +7,12 @@
 import { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { Expand, Text } from '@components'
-import { SectionTitle } from '@_'
 import { _, systemStore } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { FROZEN_FN } from '@constants'
 import { TITLE_SUMMARY } from '../../ds'
-import IconHidden from '../icon/hidden'
+import BlockTitle from '../block-title'
 import IconHtmlExpand from '../icon/html-expand'
 import IconTranslate from '../icon/translate'
 import { fixedTranslateResult } from '../utils'
@@ -29,8 +27,7 @@ const Summary = memo(
     subjectHtmlExpand = true,
     translateResult,
     content = '',
-    name = '',
-    onSwitchBlock = FROZEN_FN
+    name = ''
   }) => {
     const results = useMemo(
       () => (translateResult?.length ? fixedTranslateResult(translateResult, content) : []),
@@ -38,16 +35,9 @@ const Summary = memo(
     )
 
     const elRight = useMemo(
-      () =>
-        showSummary ? (
-          <IconTranslate content={content} />
-        ) : (
-          <IconHidden name={TITLE_SUMMARY} value='showSummary' />
-        ),
+      () => (showSummary ? <IconTranslate content={content} /> : null),
       [content, showSummary]
     )
-
-    const handleToggle = useCallback(() => onSwitchBlock('showSummary'), [onSwitchBlock])
 
     const handleNavigate = useCallback(() => {
       navigation.push('SubjectInfo', {
@@ -65,14 +55,14 @@ const Summary = memo(
 
     return (
       <View style={stl(styles.container, !showSummary && styles.containerNotShow)}>
-        <SectionTitle
+        <BlockTitle
+          layoutKey='showSummary'
           right={elRight}
           icon={!showSummary && 'md-navigate-next'}
           splitStyles
-          onPress={handleToggle}
         >
           {TITLE_SUMMARY}
-        </SectionTitle>
+        </BlockTitle>
 
         {showSummary && (
           <View>

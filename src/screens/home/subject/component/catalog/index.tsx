@@ -7,7 +7,7 @@
 import { Suspense } from 'react'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { systemStore, useStore } from '@stores'
+import { useStore } from '@stores'
 import { TITLE_CATALOG } from '../../ds'
 import BlockAnchor from '../block-anchor'
 import Split from '../split'
@@ -29,9 +29,8 @@ function CatalogWrap({ onBlockRef }: Props) {
         <BlockAnchor title={TITLE_CATALOG} onBlockRef={onBlockRef} />
         <Catalog
           styles={memoStyles()}
-          showCatalog={systemStore.setting.showCatalog}
+          showCatalog={$.showCalalog[0]}
           catalog={$.filterCatalog}
-          onSwitchBlock={$.onSwitchBlock}
         />
         <Split />
       </Component>

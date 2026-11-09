@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-08-26 20:59:22
  */
 import { computed } from 'mobx'
-import { systemStore, userStore } from '@stores'
+import { userStore } from '@stores'
 import { freeze, randomizeImgHost } from '@utils'
 import { getVideoSearchUrl } from '@utils/bilibili'
 import { HOST_AC_REFERER, HOST_DB_REFERER } from '@constants'
@@ -99,18 +99,18 @@ export default class Show extends Relations {
 
   /** 是否显示标签 */
   @computed get showTags() {
-    return settingTuple(systemStore.setting.showTags)
+    return settingTuple(this.layoutValue('showTags'))
   }
 
   /** 是否显示简介 */
   @computed get showSummary() {
     if (this.subject._loaded && !this.summary) return NON_SHOW
-    return settingTuple(systemStore.setting.showSummary)
+    return settingTuple(this.layoutValue('showSummary'))
   }
 
   /** 是否显示预览 */
   @computed get showThumbs() {
-    const { showThumbs } = systemStore.setting
+    const showThumbs = this.layoutValue('showThumbs')
     if (showThumbs === -1) return NON_SHOW
 
     const { epsThumbs, videos } = this.state
@@ -121,14 +121,14 @@ export default class Show extends Relations {
 
   /** 是否显示详情 */
   @computed get showInfo() {
-    return settingTuple(systemStore.setting.showInfo)
+    return settingTuple(this.layoutValue('showInfo'))
   }
 
   /** 是否显示游戏 */
   @computed get showGame() {
     if (this.nsfw && userStore.isExtremeLimit) return NON_SHOW
 
-    const { showGameInfo } = systemStore.setting
+    const showGameInfo = this.layoutValue('showGameInfo')
     if (
       showGameInfo === -1 ||
       (!this.gameInfo?.i &&
@@ -144,31 +144,31 @@ export default class Show extends Relations {
 
   /** 是否显示评分 */
   @computed get showRating() {
-    return settingTuple(systemStore.setting.showRating)
+    return settingTuple(this.layoutValue('showRating'))
   }
 
   /** 是否显示角色 */
   @computed get showCharacter() {
     if (!this.crt.length) return NON_SHOW
-    return settingTuple(systemStore.setting.showCharacter)
+    return settingTuple(this.layoutValue('showCharacter'))
   }
 
   /** 是否显示制作人员 */
   @computed get showStaff() {
     if (!this.staff.length) return NON_SHOW
-    return settingTuple(systemStore.setting.showStaff)
+    return settingTuple(this.layoutValue('showStaff'))
   }
 
   /** 是否显示取景地标 */
   @computed get showAnitabi() {
     if (!this.state.anitabi.pointsLength) return NON_SHOW
-    return settingTuple(systemStore.setting.showAnitabi)
+    return settingTuple(this.layoutValue('showAnitabi'))
   }
 
   /** 是否显示关联 */
   @computed get showRelations() {
     if (!this.relations.length) return NON_SHOW
-    return settingTuple(systemStore.setting.showRelations)
+    return settingTuple(this.layoutValue('showRelations'))
   }
 
   /** 是否显示单行本 */
@@ -180,31 +180,41 @@ export default class Show extends Relations {
   /** 是否显示目录 */
   @computed get showCalalog() {
     if (!this.filterCatalog.length) return NON_SHOW
-    return settingTuple(systemStore.setting.showCatalog)
+    return settingTuple(this.layoutValue('showCatalog'))
   }
 
   /** 是否显示猜你喜欢 */
   @computed get showLike() {
     if (!this.like.length) return NON_SHOW
-    return settingTuple(systemStore.setting.showLike)
+    return settingTuple(this.layoutValue('showLike'))
   }
 
   /** 是否显示日志 */
   @computed get showBlog() {
     if (!this.filterBlog.length) return NON_SHOW
-    return settingTuple(systemStore.setting.showBlog)
+    return settingTuple(this.layoutValue('showBlog'))
   }
 
   /** 是否显示帖子 */
   @computed get showTopic() {
     if (!this.filterTopic.length) return NON_SHOW
-    return settingTuple(systemStore.setting.showTopic)
+    return settingTuple(this.layoutValue('showTopic'))
   }
 
   /** 是否显示动态 */
   @computed get showRecent() {
     if (!this.filterRecent.length) return NON_SHOW
-    return settingTuple(systemStore.setting.showRecent)
+    return settingTuple(this.layoutValue('showRecent'))
+  }
+
+  /** 是否显示本地目录 */
+  @computed get showSMB() {
+    return settingTuple(this.layoutValue('showSMB'))
+  }
+
+  /** 是否显示吐槽 */
+  @computed get showComment() {
+    return settingTuple(this.layoutValue('showComment'))
   }
 
   /** 右上角跳转到目标块菜单 */

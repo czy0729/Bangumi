@@ -7,14 +7,13 @@
 import { useCallback, useMemo } from 'react'
 import { Heatmap, HorizontalList } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
-import { InView, SectionTitle } from '@_'
+import { InView } from '@_'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { t } from '@utils/fetch'
-import { FROZEN_FN } from '@constants'
 import { TITLE_LIKE } from '../../ds'
-import IconHidden from '../icon/hidden'
+import BlockTitle from '../block-title'
 import IconRelation from '../icon/relation'
 import { COMPONENT_MAIN, COVER_HEIGHT, COVER_WIDTH, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
@@ -23,25 +22,11 @@ import type { SubjectFromHtmlLikeItem } from '@stores/subject/types'
 import type { SubjectTypeCn } from '@types'
 
 const Like = memo(
-  ({
-    navigation,
-    showLike = true,
-    subjectId = 0,
-    like,
-    typeCn = '' as SubjectTypeCn,
-    onSwitchBlock = FROZEN_FN
-  }) => {
+  ({ navigation, showLike = true, subjectId = 0, like, typeCn = '' as SubjectTypeCn }) => {
     const elRight = useMemo(
-      () =>
-        showLike ? (
-          <IconRelation title='猜你喜欢' list={like} />
-        ) : (
-          <IconHidden name={TITLE_LIKE} value='showLike' />
-        ),
+      () => (showLike ? <IconRelation title='猜你喜欢' list={like} /> : null),
       [like, showLike]
     )
-
-    const handleToggle = useCallback(() => onSwitchBlock('showLike'), [onSwitchBlock])
 
     const handleNavigate = useCallback(
       ({ id, name, image }: SubjectFromHtmlLikeItem, type: string) => {
@@ -63,15 +48,15 @@ const Like = memo(
 
     return (
       <InView style={stl(styles.container, !showLike && styles.containerNotShow)}>
-        <SectionTitle
+        <BlockTitle
+          layoutKey='showLike'
           style={_.container.wind}
           right={elRight}
           icon={!showLike && 'md-navigate-next'}
           splitStyles
-          onPress={handleToggle}
         >
           {TITLE_LIKE}
-        </SectionTitle>
+        </BlockTitle>
 
         {showLike && (
           <>

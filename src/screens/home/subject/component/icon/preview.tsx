@@ -6,7 +6,7 @@
  */
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Link, Text } from '@components'
-import { systemStore, useStore } from '@stores'
+import { useStore } from '@stores'
 import { COMPONENT_PREVIEW } from './ds'
 import styles from './styles'
 
@@ -23,7 +23,7 @@ type Props = {
 function IconPreview({ data, headers }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT_PREVIEW)
 
-  if (!systemStore.setting.showThumbs) return null
+  if (!$.showThumbs[0]) return null
 
   return (
     <Link

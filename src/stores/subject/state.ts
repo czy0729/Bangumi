@@ -12,6 +12,7 @@ import Store from '@utils/store'
 import { LOADED, NAMESPACE, STATE } from './init'
 import {
   EP_V2_LIMIT,
+  LAYOUT_BUCKET_LIMIT,
   RANK_LIMIT,
   SUBJECT_BUCKET_LIMIT,
   SUBJECT_COMMENTS_BUCKET_LIMIT,
@@ -29,20 +30,22 @@ type CacheKey =
   | `subjectFormHTML${number}`
   | `subjectV2${number}`
   | `subjectComments${number}`
+  | `layout${number}`
 
 export default class State extends Store<typeof STATE> {
   private _namespace = NAMESPACE
-  private _loaded = LOADED
+  private _loaded: Record<string, boolean> = LOADED
 
   state = observable(STATE)
 
-  init = async (key: CacheKey, isAsync: boolean = false) => {
+  init = async (key: CacheKey, isAsync: boolean = false): Promise<boolean> => {
     if (!key) return false
     if (this._loaded[key]) return true
 
     if (!isAsync) {
       this._loaded[key] = true
-      return this.readStorage([key], NAMESPACE)
+      await this.readStorage([key], NAMESPACE)
+      return true
     }
 
     postTask(() => {
@@ -71,6 +74,7 @@ export default class State extends Store<typeof STATE> {
     if (/^subjectFormHTML\d+$/.test(key)) return SUBJECT_FORM_HTML_BUCKET_LIMIT
     if (/^subjectComments\d+$/.test(key)) return SUBJECT_COMMENTS_BUCKET_LIMIT
     if (/^subjectV2\d+$/.test(key)) return SUBJECT_V2_BUCKET_LIMIT
+    if (/^layout\d+$/.test(key)) return LAYOUT_BUCKET_LIMIT
     if (/^subject\d+$/.test(key)) return SUBJECT_BUCKET_LIMIT
 
     /**

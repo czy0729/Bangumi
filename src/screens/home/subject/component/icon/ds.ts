@@ -37,8 +37,6 @@ export const COMPONENT_FOLDER = rc(COMPONENT, 'Folder')
 
 export const COMPONENT_GAME = rc(COMPONENT, 'Game')
 
-export const COMPONENT_HIDDEN = rc(COMPONENT, 'Hidden')
-
 export const COMPONENT_MANGA = rc(COMPONENT, 'Manga')
 
 export const COMPONENT_ONLINE = rc(COMPONENT, 'Online')
@@ -56,6 +54,8 @@ export const COMPONENT_REVERSE = rc(COMPONENT, 'Reverse')
 export const COMPONENT_SEARCH = rc(COMPONENT, 'Search')
 
 export const COMPONENT_SEARCH_DISC = rc(COMPONENT, 'SearchDisc')
+
+export const COMPONENT_SMB = rc(COMPONENT, 'SMB')
 
 export const COMPONENT_STAFF = rc(COMPONENT, 'Staff')
 

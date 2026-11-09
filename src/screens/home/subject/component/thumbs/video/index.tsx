@@ -7,19 +7,21 @@
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Image, Text, Touchable } from '@components'
-import { _, systemStore } from '@stores'
+import { _, useStore } from '@stores'
 import { getVisualLength, HTMLDecode, openVideo } from '@utils'
 import { r } from '@utils/dev'
 import { THUMB_HEIGHT, THUMB_WIDTH } from '../ds'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
+import type { Ctx } from '../../../types'
 import type { Props } from './types'
 
 function Video({ item, epsThumbsHeader, showTitle = true }: Props) {
+  const { $ } = useStore<Ctx>(COMPONENT)
   r(COMPONENT)
 
-  if (!systemStore.setting.showThumbs) return null
+  if (!$.showThumbs[0]) return null
 
   const visualLength = getVisualLength(item.title)
   const size = visualLength >= 32 ? 9 : visualLength >= 24 ? 10 : 11

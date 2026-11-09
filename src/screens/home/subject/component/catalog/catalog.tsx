@@ -4,43 +4,36 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-07 20:36:33
  */
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 import { Heatmap, ScrollView } from '@components'
-import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
+import { InView, PreventTouchPlaceholder } from '@_'
 import { _ } from '@stores'
 import { stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useHorizontalLazy } from '@utils/hooks'
-import { FROZEN_FN } from '@constants'
 import { TITLE_CATALOG } from '../../ds'
+import BlockTitle from '../block-title'
 import IconCatalog from '../icon/catalog'
-import IconHidden from '../icon/hidden'
 import Item from './item'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Catalog = memo(
-  ({ styles, showCatalog = true, catalog, onSwitchBlock = FROZEN_FN }) => {
+  ({ styles, showCatalog = true, catalog }) => {
     const { list, onScroll } = useHorizontalLazy(catalog)
 
-    const elRight = useMemo(
-      () =>
-        showCatalog ? <IconCatalog /> : <IconHidden name={TITLE_CATALOG} value='showCatalog' />,
-      [showCatalog]
-    )
-
-    const handleToggle = useCallback(() => onSwitchBlock('showCatalog'), [onSwitchBlock])
+    const elRight = useMemo(() => (showCatalog ? <IconCatalog /> : null), [showCatalog])
 
     return (
       <InView style={stl(styles.container, !showCatalog && _.short)}>
-        <SectionTitle
+        <BlockTitle
+          layoutKey='showCatalog'
           style={_.container.wind}
           right={elRight}
           icon={!showCatalog && 'md-navigate-next'}
           splitStyles
-          onPress={handleToggle}
         >
           {TITLE_CATALOG}
-        </SectionTitle>
+        </BlockTitle>
 
         {showCatalog && (
           <ScrollView

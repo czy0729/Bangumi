@@ -4,17 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-17 00:12:01
  */
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, Iconfont, Image, Link, ScrollView, Squircle, Text } from '@components'
-import { InView, PreventTouchPlaceholder, SectionTitle } from '@_'
+import { InView, PreventTouchPlaceholder } from '@_'
 import { _ } from '@stores'
 import { date, showImageViewer, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useHorizontalLazy } from '@utils/hooks'
-import { FROZEN_FN } from '@constants'
 import { TITLE_ANITABI } from '../../ds'
-import IconHidden from '../icon/hidden'
+import BlockTitle from '../block-title'
 import { fixAnitabiImageUrl } from './utils'
 import { COMPONENT_MAIN, DEFAULT_PROPS, THUMB_HEIGHT, THUMB_WIDTH } from './ds'
 
@@ -30,8 +29,7 @@ const Anitabi = memo(
       pointsLength: 0,
       imagesLength: 0,
       litePoints: []
-    } as AnitabiData,
-    onSwitchBlock = FROZEN_FN
+    } as AnitabiData
   }) => {
     // DEFAULT_PROPS 的 data 为 {}, litePoints 运行期可能为 undefined, 需要默认值兜底
     const { city, pointsLength, imagesLength, litePoints = [] } = data
@@ -62,44 +60,38 @@ const Anitabi = memo(
 
     const elRight = useMemo(
       () =>
-        showAnitabi === false ? (
-          <IconHidden name={TITLE_ANITABI} value='showAnitabi' />
-        ) : (
-          showAnitabi !== -1 && (
-            <Link
-              style={styles.touch}
-              path={`https://anitabi.cn/map?bangumiId=${subjectId}`}
-              eventId='条目.跳转'
-              eventData={{
-                to: 'anitabi.cn',
-                from: TITLE_ANITABI,
-                subjectId
-              }}
-            >
-              <Flex>
-                <Text type='sub'>巡礼地图</Text>
-                <Iconfont style={_.ml.xs} name='md-open-in-new' size={17} />
-              </Flex>
-              <Heatmap id='条目.跳转' from={TITLE_ANITABI} />
-            </Link>
-          )
+        showAnitabi && (
+          <Link
+            style={styles.touch}
+            path={`https://anitabi.cn/map?bangumiId=${subjectId}`}
+            eventId='条目.跳转'
+            eventData={{
+              to: 'anitabi.cn',
+              from: TITLE_ANITABI,
+              subjectId
+            }}
+          >
+            <Flex>
+              <Text type='sub'>巡礼地图</Text>
+              <Iconfont style={_.ml.xs} name='md-open-in-new' size={17} />
+            </Flex>
+            <Heatmap id='条目.跳转' from={TITLE_ANITABI} />
+          </Link>
         ),
       [showAnitabi, styles.touch, subjectId]
     )
 
-    const handleToggle = useCallback(() => onSwitchBlock('showAnitabi'), [onSwitchBlock])
-
     return (
       <InView style={stl(styles.container, !showAnitabi && styles.containerNotShow)}>
-        <SectionTitle
+        <BlockTitle
+          layoutKey='showAnitabi'
           style={_.container.wind}
           right={elRight}
           icon={!showAnitabi && 'md-navigate-next'}
           splitStyles
-          onPress={handleToggle}
         >
           {TITLE_ANITABI}
-        </SectionTitle>
+        </BlockTitle>
 
         {showAnitabi && (
           <>

@@ -30,6 +30,7 @@ import type {
   UrlSubjectTopic,
   UserId
 } from '@types'
+import type { LayoutValue } from '../system/types'
 
 /** 日志 */
 type Blog = {
@@ -876,4 +877,33 @@ export type FetchRatingArgs = {
   subjectId: SubjectId
   status: RatingStatus
   isFriend?: boolean
+}
+
+/** 条目页支持独立展开/收起的板块 key (对应 systemStore.setting.showXxx 的子集) */
+export type LayoutKey =
+  | 'showAnitabi'
+  | 'showBlog'
+  | 'showCatalog'
+  | 'showCharacter'
+  | 'showComment'
+  | 'showGameInfo'
+  | 'showInfo'
+  | 'showLike'
+  | 'showRating'
+  | 'showRecent'
+  | 'showRelations'
+  | 'showSMB'
+  | 'showStaff'
+  | 'showSummary'
+  | 'showTags'
+  | 'showThumbs'
+  | 'showTopic'
+
+/** 条目页板块布局覆盖 (只存显式改过的板块, 未覆盖的跟随全局默认) */
+export type SubjectLayout = {
+  /** 板块覆盖值: true 展开 / false 折叠 / -1 隐藏 (有条目覆盖后不再跟随全局) */
+  blocks: Partial<Record<LayoutKey, LayoutValue>>
+
+  /** 最后一次修改时间, 用于桶容量淘汰 */
+  _loaded: Loaded
 }

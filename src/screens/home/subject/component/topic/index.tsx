@@ -7,7 +7,7 @@
 import { Suspense } from 'react'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { systemStore, useStore } from '@stores'
+import { useStore } from '@stores'
 import { TITLE_TOPIC } from '../../ds'
 import BlockAnchor from '../block-anchor'
 import Split from '../split'
@@ -31,10 +31,9 @@ function TopicWrap({ onBlockRef }: Props) {
         <Topic
           navigation={navigation}
           styles={memoStyles()}
-          showTopic={systemStore.setting.showTopic}
+          showTopic={$.showTopic[0]}
           subjectId={$.subjectId}
           topic={$.filterTopic}
-          onSwitchBlock={$.onSwitchBlock}
         />
 
         <Split />

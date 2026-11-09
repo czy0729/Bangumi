@@ -32,6 +32,7 @@ import type {
   SubjectComments,
   SubjectFormCDN,
   SubjectFromHTML,
+  SubjectLayout,
   SubjectV2
 } from './types'
 
@@ -339,7 +340,10 @@ const STATE = {
   actions: {} as Actions,
 
   /** 追踪TA的评论次数追踪 */
-  commentTrack: {} as Record<`${UserId}|${SubjectType}`, number>
+  commentTrack: {} as Record<`${UserId}|${SubjectType}`, number>,
+
+  /** 条目页板块布局覆盖重置时间 (layoutBlocks 读取时按 _loaded 过滤, 免去遍历清空 1000 个桶) */
+  layoutResetAt: 0
 }
 
 /**
@@ -360,6 +364,9 @@ for (let i = 0; i < 1000; i += 1) {
 
   /** 条目吐槽箱 */
   STATE[`subjectComments${i}`] = {} as Record<SubjectId, SubjectComments>
+
+  /** 条目页板块布局覆盖 */
+  STATE[`layout${i}`] = {} as Record<SubjectId, SubjectLayout>
 }
 
 export { STATE }
@@ -368,6 +375,7 @@ export const LOADED = {
   actions: false,
   epStatus: false,
   epV2: false,
+  layoutResetAt: false,
   mono: false,
   nsfw: false,
   origin: false,

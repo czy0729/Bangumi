@@ -4,22 +4,21 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-03 22:41:18
  */
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 import { View } from 'react-native'
 import { Expand, Heatmap } from '@components'
-import { InView, ItemArticle, PreventTouchPlaceholder, SectionTitle } from '@_'
+import { InView, ItemArticle, PreventTouchPlaceholder } from '@_'
 import { _, rakuenStore } from '@stores'
 import { getIsBlockedUser, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useExpandLazy } from '@utils/hooks'
-import { FROZEN_FN } from '@constants'
 import { TITLE_TOPIC } from '../../ds'
-import IconHidden from '../icon/hidden'
+import BlockTitle from '../block-title'
 import IconTopic from '../icon/topic'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
 
 const Topic = memo(
-  ({ navigation, styles, showTopic = true, subjectId = 0, topic, onSwitchBlock = FROZEN_FN }) => {
+  ({ navigation, styles, showTopic = true, subjectId = 0, topic }) => {
     const filterTopic = topic.filter(item => {
       const { nickname, username } = item.user
       return !getIsBlockedUser(
@@ -31,12 +30,7 @@ const Topic = memo(
     })
     const { list, onExpand } = useExpandLazy(filterTopic, 6)
 
-    const elRight = useMemo(
-      () => (showTopic ? <IconTopic /> : <IconHidden name={TITLE_TOPIC} value='showTopic' />),
-      [showTopic]
-    )
-
-    const handleToggle = useCallback(() => onSwitchBlock('showTopic'), [onSwitchBlock])
+    const elRight = useMemo(() => (showTopic ? <IconTopic /> : null), [showTopic])
 
     const elList = useMemo(
       () => (
@@ -86,15 +80,15 @@ const Topic = memo(
           !showTopic && styles.containerNotShow
         )}
       >
-        <SectionTitle
+        <BlockTitle
+          layoutKey='showTopic'
           style={_.container.wind}
           right={elRight}
           icon={!showTopic && 'md-navigate-next'}
           splitStyles
-          onPress={handleToggle}
         >
           {TITLE_TOPIC}
-        </SectionTitle>
+        </BlockTitle>
 
         {showTopic && !!list.length && (
           <View style={_.mt.sm}>

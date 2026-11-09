@@ -9,13 +9,13 @@
 import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Component, Expand, Flex, Iconfont, Text } from '@components'
-import { InView, Popover, PreventTouchPlaceholder, SectionTitle } from '@_'
-import { _, systemStore, useStore } from '@stores'
+import { InView, Popover, PreventTouchPlaceholder } from '@_'
+import { _, useStore } from '@stores'
 import { open, stl } from '@utils'
 import { getVideoSearchUrl } from '@utils/bilibili'
 import { TITLE_GAME } from '../../ds'
 import BlockAnchor from '../block-anchor'
-import IconHidden from '../icon/hidden'
+import BlockTitle from '../block-title'
 import IconPS from '../icon/ps'
 import Split from '../split'
 import Details from './details'
@@ -43,20 +43,20 @@ function Game({ onBlockRef }: Props) {
 
   if (!$.showGame[1]) return null
 
-  const { showGameInfo } = systemStore.setting
+  // 折叠态取纯布局值, 不混入 showGame 的 nsfw / 数据存在性判断
+  const showGameInfo = $.layoutValue('showGameInfo') === true
 
   const shouldWrapExpand = !!$.gameInfo?.i
   const elContent = (
     <>
-      <SectionTitle
+      <BlockTitle
+        layoutKey='showGameInfo'
         style={_.container.wind}
-        right={!showGameInfo && <IconHidden name={TITLE_GAME} value='showGameInfo' />}
         icon={!showGameInfo && 'md-navigate-next'}
         splitStyles
-        onPress={() => $.onSwitchBlock('showGameInfo')}
       >
         {TITLE_GAME}
-      </SectionTitle>
+      </BlockTitle>
 
       {showGameInfo && (
         <>

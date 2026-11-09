@@ -6,7 +6,7 @@
  */
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Link, Text } from '@components'
-import { systemStore, useStore } from '@stores'
+import { useStore } from '@stores'
 import { COMPONENT_WIKI } from './ds'
 import styles from './styles'
 
@@ -15,7 +15,7 @@ import type { Ctx } from '../../types'
 function IconWiki() {
   const { $ } = useStore<Ctx>(COMPONENT_WIKI)
 
-  if (!systemStore.setting.showInfo) return null
+  if (!$.showInfo[0]) return null
 
   return (
     <Link

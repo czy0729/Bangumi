@@ -7,7 +7,7 @@
 import { Suspense } from 'react'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { systemStore, useStore } from '@stores'
+import { useStore } from '@stores'
 import { TITLE_ANITABI } from '../../ds'
 import BlockAnchor from '../block-anchor'
 import Split from '../split'
@@ -29,10 +29,9 @@ function AnitabiWrap({ onBlockRef }: Props) {
         <BlockAnchor title={TITLE_ANITABI} onBlockRef={onBlockRef} />
         <Anitabi
           styles={memoStyles()}
-          showAnitabi={systemStore.setting.showAnitabi}
+          showAnitabi={$.showAnitabi[0]}
           subjectId={$.subjectId}
           data={$.state.anitabi}
-          onSwitchBlock={$.onSwitchBlock}
         />
         <Split />
       </Component>

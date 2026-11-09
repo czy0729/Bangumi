@@ -4,17 +4,17 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-07 20:34:40
  */
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 import { View } from 'react-native'
 import { Flex, Heatmap, ScrollView, Text, UserStatus } from '@components'
-import { Avatar, InView, PreventTouchPlaceholder, SectionTitle, Segment, Stars } from '@_'
+import { Avatar, InView, PreventTouchPlaceholder, Segment, Stars } from '@_'
 import { _ } from '@stores'
 import { getVisualLength, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { useHorizontalLazy } from '@utils/hooks'
 import { FROZEN_FN } from '@constants'
 import { TITLE_RECENT } from '../../ds'
-import IconHidden from '../icon/hidden'
+import BlockTitle from '../block-title'
 import { COMPONENT_MAIN, DATA, DEFAULT_PROPS } from './ds'
 import { styles } from './styles'
 
@@ -26,38 +26,33 @@ const Recent = memo(
     subjectRecentType,
     who,
     hideScore = false,
-    onSwitchBlock = FROZEN_FN,
     onSwitchSubjectRecentType = FROZEN_FN
   }) => {
     const { list, onScroll } = useHorizontalLazy(who)
 
     const elRight = useMemo(
       () =>
-        showRecent ? (
+        showRecent && (
           <Segment
             data={DATA}
             selectedIndex={DATA.findIndex(item => item === subjectRecentType)}
             onSelect={onSwitchSubjectRecentType}
           />
-        ) : (
-          <IconHidden name={TITLE_RECENT} value='showRecent' />
         ),
       [onSwitchSubjectRecentType, showRecent, subjectRecentType]
     )
 
-    const handleToggle = useCallback(() => onSwitchBlock('showRecent'), [onSwitchBlock])
-
     return (
       <InView style={stl(styles.container, !showRecent && styles.containerNotShow)}>
-        <SectionTitle
+        <BlockTitle
+          layoutKey='showRecent'
           style={_.container.wind}
           right={elRight}
           icon={!showRecent && 'md-navigate-next'}
           splitStyles
-          onPress={handleToggle}
         >
           {TITLE_RECENT}
-        </SectionTitle>
+        </BlockTitle>
 
         {showRecent && (
           <>

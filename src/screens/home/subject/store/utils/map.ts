@@ -172,9 +172,9 @@ export function filterUserAvatar<T extends { user?: { avatar?: { small?: string 
  */
 export function filterSubjectComments<T extends { avatar?: string; star?: string | number }>(
   list: T[],
-  filterScores: (string | number)[]
+  filterScores: (string | number)[],
+  showComment: boolean | -1
 ) {
-  const { showComment } = systemStore.setting
   if (!showComment || showComment === -1) return []
 
   const shouldFilterDefault = systemStore.setting.filterDefault || userStore.isLimit

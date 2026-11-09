@@ -6,12 +6,17 @@
  */
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Link, Text } from '@components'
-import { systemStore } from '@stores'
+import { useStore } from '@stores'
 import { WEB } from '@constants'
+import { COMPONENT_SMB } from './ds'
 import styles from './styles'
 
+import type { Ctx } from '../../types'
+
 function IconSMB() {
-  if (WEB || !systemStore.setting.showSMB) return null
+  const { $ } = useStore<Ctx>(COMPONENT_SMB)
+
+  if (WEB || !$.showSMB[0]) return null
 
   return (
     <Link

@@ -23,10 +23,9 @@ export const DATA = ['全站', '好友'] as const
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
   subjectId: 0 as $['subjectId'],
-  showRecent: true as typeof systemStore.setting.showRecent,
+  showRecent: true as boolean,
   who: [] as $['subjectFormHTML']['who'],
   hideScore: false as typeof systemStore.setting.hideScore,
   subjectRecentType: DATA[0] as typeof systemStore.setting.subjectRecentType,
-  onSwitchBlock: FROZEN_FN as $['onSwitchBlock'],
   onSwitchSubjectRecentType: FROZEN_FN as $['onSwitchSubjectRecentType']
 }

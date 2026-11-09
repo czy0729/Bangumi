@@ -5,10 +5,8 @@
  * @Last Modified time: 2024-09-02 15:58:10
  */
 import { rc } from '@utils/dev'
-import { FROZEN_FN } from '@constants'
 import { COMPONENT as PARENT } from '../ds'
 
-import type { systemStore } from '@stores'
 import type { Navigation } from '@types'
 import type { Ctx } from '../../types'
 
@@ -24,10 +22,9 @@ export const COVER_HEIGHT = COVER_WIDTH * 1.4
 
 export const DEFAULT_PROPS = {
   navigation: {} as Navigation,
-  showRelations: true as typeof systemStore.setting.showRelations,
+  showRelations: true as boolean,
   subjectId: 0 as $['subjectId'],
   relations: [] as $['relations'],
   typeCn: '' as $['type'],
-  name: '',
-  onSwitchBlock: FROZEN_FN as $['onSwitchBlock']
+  name: ''
 }

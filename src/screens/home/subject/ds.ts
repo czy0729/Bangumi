@@ -50,6 +50,9 @@ export const TITLE_RECENT = '动态'
 
 export const TITLE_COMMENT = '吐槽'
 
+/** 本地目录 */
+export const TITLE_SMB = '本地'
+
 export const TEXT_LIKES = '贴贴'
 
 export const TEXT_COPY_COMMENT = '复制吐槽'

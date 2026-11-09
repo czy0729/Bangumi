@@ -7,7 +7,7 @@
 import { Suspense } from 'react'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { _, systemStore, useStore } from '@stores'
+import { _, useStore } from '@stores'
 import { TITLE_COMMENT } from '../../ds'
 import BlockAnchor from '../block-anchor'
 import Comment from './comment'
@@ -20,19 +20,21 @@ import type { Props } from './types'
 function CommentWrap({ onBlockRef }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const { showComment } = systemStore.setting
-  const hidden = showComment === -1
+  const showComment = $.showComment
 
   return (
     <Suspense fallback={null}>
       <Component id='screen-subject-comment'>
-        <BlockAnchor title={TITLE_COMMENT} onBlockRef={onBlockRef} style={hidden && _.mt.lg} />
-        {!hidden && (
+        <BlockAnchor
+          title={TITLE_COMMENT}
+          onBlockRef={onBlockRef}
+          style={!showComment[1] && _.mt.lg}
+        />
+        {showComment[1] && (
           <Comment
             styles={memoStyles()}
-            showComment={showComment}
+            showComment={showComment[0]}
             commentLength={$.commentLength}
-            onSwitchBlock={$.onSwitchBlock}
           />
         )}
       </Component>

@@ -33,12 +33,11 @@ function SummaryWrap({ onBlockRef }: Props) {
         navigation={navigation}
         styles={memoStyles()}
         subjectId={$.subjectId}
-        showSummary={systemStore.setting.showSummary}
+        showSummary={$.showSummary[0]}
         subjectHtmlExpand={systemStore.setting.subjectHtmlExpand}
         translateResult={$.translateResult}
         content={content}
         name={cnjp($.cn, $.jp)}
-        onSwitchBlock={$.onSwitchBlock}
       />
       <Split />
     </Component>

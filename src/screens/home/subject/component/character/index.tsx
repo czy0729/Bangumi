@@ -7,7 +7,7 @@
 import { Suspense } from 'react'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { systemStore, useStore } from '@stores'
+import { useStore } from '@stores'
 import { TITLE_CHARACTER } from '../../ds'
 import BlockAnchor from '../block-anchor'
 import Split from '../split'
@@ -29,12 +29,11 @@ function CharacterWrap({ onBlockRef }: Props) {
 
         <Character
           navigation={navigation}
-          showCharacter={systemStore.setting.showCharacter}
+          showCharacter={$.showCharacter[0]}
           subjectId={$.subjectId}
           crt={$.crt}
           crtCounts={$.subjectFormHTML.crtCounts}
           subjectName={$.cn}
-          onSwitchBlock={$.onSwitchBlock}
         />
 
         <Split

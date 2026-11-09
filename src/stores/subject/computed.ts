@@ -47,9 +47,13 @@ import type {
   SubjectComments,
   SubjectFormCDN,
   SubjectFromHTML,
+  SubjectLayout,
   SubjectV2,
   Wiki
 } from './types'
+
+/** 空板块覆盖的共享常量, 保持未覆盖条目间的引用稳定 */
+const EMPTY_LAYOUT_BLOCKS = {} as SubjectLayout['blocks']
 
 export default class Computed extends State implements StoreConstructor<typeof STATE> {
   // -------------------- 纯计算 (直接 computedFn) --------------------
@@ -65,6 +69,19 @@ export default class Computed extends State implements StoreConstructor<typeof S
     this.init(`subjectV2${getBucketId(subjectId)}`, true)
     return this._subjectV2(subjectId)
   }
+
+  /** 条目页板块布局覆盖 (由条目页 init 显式读回对应桶, 不在此懒读) */
+  layoutBlocks = computedFn((subjectId: SubjectId = 0): SubjectLayout['blocks'] => {
+    const STATE_KEY = `layout${getBucketId(subjectId)}` as const
+    const bucket = this.state[STATE_KEY] as Record<SubjectId, SubjectLayout>
+    const item = bucket?.[subjectId]
+
+    // 重置布局只推进 layoutResetAt, 早于它的覆盖在读取时过滤 (含 storage 里未加载过的桶)
+    // 严格小于: getTimestamp 为秒级, 重置后同一秒内的新写入 (>) 不会被误判为过期
+    if (!item || Number(item._loaded) < this.state.layoutResetAt) return EMPTY_LAYOUT_BLOCKS
+
+    return item.blocks
+  })
 
   /** @deprecated 条目 (CDN) */
   subjectFormCDN = computedFn((subjectId: SubjectId = 0) => {

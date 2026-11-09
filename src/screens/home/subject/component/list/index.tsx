@@ -11,7 +11,7 @@ import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { FooterEmptyData, ListView } from '@components'
 import { ITEM_COMMENT_HEIGHT } from '@_'
-import { _, systemStore, useStore } from '@stores'
+import { _, useStore } from '@stores'
 import { keyExtractor } from '@utils'
 import { TEXT_18X } from '@constants'
 import HeaderComponent from '../header-component'
@@ -34,14 +34,12 @@ function List({ forwardRef, onScrollIntoViewIfNeeded, onBlockRef }: Props) {
     [onBlockRef, onScrollIntoViewIfNeeded]
   )
 
-  const { showComment } = systemStore.setting
   const { nsfw } = $
-  const elFooterEmpty =
-    showComment === -1 ? (
-      <View />
-    ) : (
-      <FooterEmptyData style={_.container.plain} text={nsfw ? TEXT_18X : undefined} />
-    )
+  const elFooterEmpty = !$.showComment[1] ? (
+    <View />
+  ) : (
+    <FooterEmptyData style={_.container.plain} text={nsfw ? TEXT_18X : undefined} />
+  )
 
   return (
     <ListView

@@ -36,11 +36,10 @@ function InfoWrap({ onBlockRef }: Props) {
           navigation={navigation}
           styles={memoStyles()}
           subjectId={$.subjectId}
-          showInfo={systemStore.setting.showInfo}
+          showInfo={$.showInfo[0]}
           subjectHtmlExpand={systemStore.setting.subjectHtmlExpand}
           info={info}
           name={cnjp($.cn, $.jp)}
-          onSwitchBlock={$.onSwitchBlock}
         />
 
         <Split />

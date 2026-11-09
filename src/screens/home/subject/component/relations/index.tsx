@@ -7,7 +7,7 @@
 import { Suspense } from 'react'
 import { observer } from 'mobx-react'
 import { Component } from '@components'
-import { systemStore, useStore } from '@stores'
+import { useStore } from '@stores'
 import { cnjp } from '@utils'
 import { TITLE_RELATIONS } from '../../ds'
 import BlockAnchor from '../block-anchor'
@@ -30,12 +30,11 @@ function RelationsWrap({ onBlockRef }: Props) {
 
         <Relations
           navigation={navigation}
-          showRelations={systemStore.setting.showRelations}
+          showRelations={$.showRelations[0]}
           subjectId={$.subjectId}
           relations={$.relations}
           typeCn={$.type}
           name={cnjp($.cn, $.jp)}
-          onSwitchBlock={$.onSwitchBlock}
         />
 
         <Split

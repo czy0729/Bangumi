@@ -7,7 +7,7 @@
 import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { IconTouchable } from '@_'
-import { systemStore, useStore } from '@stores'
+import { useStore } from '@stores'
 import { isChineseParagraph } from '@utils'
 import { COMPONENT_TRANSLATE } from './ds'
 import { styles } from './styles'
@@ -23,7 +23,7 @@ function IconTranslate({ content = '' }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT_TRANSLATE)
 
   if (
-    !systemStore.setting.showSummary ||
+    !$.showSummary[0] ||
     $.state.translateResult.length ||
     (content && isChineseParagraph(content))
   ) {

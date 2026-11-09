@@ -6,12 +6,12 @@
  *
  * 评分板块标题, 点击可切换评分显示
  */
-import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Text } from '@components'
-import { Rank, SectionTitle } from '@_'
-import { systemStore, useStore } from '@stores'
+import { Rank } from '@_'
+import { useStore } from '@stores'
 import { TITLE_RATING } from '../../../ds'
+import BlockTitle from '../../block-title'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -21,12 +21,11 @@ import type { Props } from './types'
 function Title({ showScore }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const { showRating } = systemStore.setting
-
-  const handleToggle = useCallback(() => $.onSwitchBlock('showRating'), [$])
+  const showRating = $.showRating[0]
 
   return (
-    <SectionTitle
+    <BlockTitle
+      layoutKey='showRating'
       left={
         showRating && (
           <Rank
@@ -38,7 +37,6 @@ function Title({ showScore }: Props) {
       }
       icon={!showRating && 'md-navigate-next'}
       splitStyles
-      onPress={handleToggle}
     >
       {TITLE_RATING}{' '}
       {showScore && (
@@ -46,7 +44,7 @@ function Title({ showScore }: Props) {
           {$.rating.score}
         </Text>
       )}
-    </SectionTitle>
+    </BlockTitle>
   )
 }
 

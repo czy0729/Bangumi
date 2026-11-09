@@ -6,7 +6,7 @@
  */
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Link, Text } from '@components'
-import { systemStore, useStore } from '@stores'
+import { useStore } from '@stores'
 import styles from './styles'
 
 import { COMPONENT_TOPIC } from './ds'
@@ -15,7 +15,7 @@ import type { Ctx } from '../../types'
 function IconTopic() {
   const { $ } = useStore<Ctx>(COMPONENT_TOPIC)
 
-  if (!systemStore.setting.showTopic) return null
+  if (!$.showTopic[0]) return null
 
   return (
     <Link

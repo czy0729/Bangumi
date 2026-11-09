@@ -17,5 +17,5 @@ export const COMPONENT_MAIN = rc(COMPONENT)
 export const DEFAULT_PROPS = {
   styles: {} as ReturnType<typeof memoStyles>,
   hideScore: false as typeof systemStore.setting.hideScore,
-  showRating: true as typeof systemStore.setting.showRating
+  showRating: true as boolean
 }

@@ -4,27 +4,38 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-28 03:18:44
  */
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Highlight, SegmentedControl, Text, Touchable } from '@components'
 import { ItemSetting } from '@_'
-import { systemStore } from '@stores'
+import { subjectStore, systemStore } from '@stores'
 import { confirm, feedback } from '@utils'
 import { t } from '@utils/fetch'
-import { IconLayout } from '../../icons'
+import { useMount } from '@utils/hooks'
 import commonStyles from '../../../styles'
 import { DATA, TEXTS, THUMBS, VALUES } from '../ds'
 import { getYuqueThumbs } from '../../../utils'
+import { IconLayout } from '../../icons'
 import { memoStyles } from './styles'
 
+import type { LayoutKey } from '@stores/subject/types'
 import type { WithFilterProps } from '../../../types'
 
 /** 页面布局 */
 function SubjectLayout({ filter }: WithFilterProps) {
   const [key, setKey] = useState(0)
+  const [layoutStats, setLayoutStats] = useState<Partial<Record<LayoutKey, number>>>({})
 
   const styles = memoStyles()
+
+  const refreshLayoutStats = useCallback(async () => {
+    setLayoutStats(await subjectStore.fetchLayoutStats())
+  }, [])
+
+  useMount(() => {
+    refreshLayoutStats()
+  })
 
   return (
     <>
@@ -37,15 +48,20 @@ function SubjectLayout({ filter }: WithFilterProps) {
         <Touchable
           style={styles.touch}
           onPress={() => {
-            confirm('确定重置布局?', () => {
-              systemStore.resetSubjectLayout()
-              feedback(true)
-              setKey(key + 1)
-            })
+            confirm(
+              '确定重置所有条目的布局?\n将清除每个条目单独调整的展开/收起/隐藏, 全部恢复为上面的默认值',
+              () => {
+                systemStore.resetSubjectLayout()
+                subjectStore.resetLayout()
+                feedback(true)
+                setKey(key + 1)
+                refreshLayoutStats()
+              }
+            )
           }}
         >
           <Text size={13} bold underline>
-            重置布局
+            重置所有条目
           </Text>
         </Touchable>
       </Flex>
@@ -60,11 +76,14 @@ function SubjectLayout({ filter }: WithFilterProps) {
             item === 'showEp' || item === 'showComic' ? undefined : systemStore.setting[item]
           const selectedIndex = value === -1 ? 2 : value ? 0 : 1
 
+          const customized = layoutStats[item as LayoutKey]
+
           return (
             <ItemSetting
               icon={<IconLayout />}
               key={item}
               hd={title}
+              information={customized ? `${customized} 个条目已单独设置` : undefined}
               ft={
                 item === 'showEp' || item === 'showComic' ? (
                   <Text
