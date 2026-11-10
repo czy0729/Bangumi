@@ -60,7 +60,7 @@ const Item = memo(
                     name={userName}
                     userId={userId}
                     priority={index < 10 ? 'high' : 'normal'}
-                    text={String(groupCn || title || '').slice(0, 1)}
+                    text={String(groupCn || title || '')}
                   />
                 </InView>
               </UserStatus>

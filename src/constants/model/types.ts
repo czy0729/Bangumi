@@ -21,6 +21,8 @@ import type {
   RAKUEN_SCROLL_DIRECTION,
   RAKUEN_SUB_EXPAND,
   RAKUEN_TYPE,
+  RAKUEN_TYPE_ALL,
+  RAKUEN_TYPE_EP,
   RAKUEN_TYPE_GROUP,
   RAKUEN_TYPE_MONO,
   RAKUEN_TYPE_SUBJECT,
@@ -131,6 +133,18 @@ export type RakuenScrollDirection = ModelValueOf<typeof RAKUEN_SCROLL_DIRECTION>
 
 /** 超展开全局聚合类型 */
 export type RakuenType = ModelValueOf<typeof RAKUEN_TYPE>
+
+/** 超展开全部范围 */
+export type RakuenTypeAll = ModelValueOf<typeof RAKUEN_TYPE_ALL>
+
+/** 超展开全部范围中文名称 */
+export type RakuenTypeAllCn = ModelValueOf<typeof RAKUEN_TYPE_ALL, 'label'>
+
+/** 超展开章节范围 */
+export type RakuenTypeEp = ModelValueOf<typeof RAKUEN_TYPE_EP>
+
+/** 超展开章节范围中文名称 */
+export type RakuenTypeEpCn = ModelValueOf<typeof RAKUEN_TYPE_EP, 'label'>
 
 /** 超展开小组范围 */
 export type RakuenTypeGroup = ModelValueOf<typeof RAKUEN_TYPE_GROUP>

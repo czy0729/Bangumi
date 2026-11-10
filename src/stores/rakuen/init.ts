@@ -73,6 +73,7 @@ export const INIT_TOPIC = {
   lastview: '',
   message: '',
   time: '',
+  replies: '',
   title: '',
   userId: '',
   userName: '',

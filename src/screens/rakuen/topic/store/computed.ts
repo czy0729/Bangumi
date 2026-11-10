@@ -369,6 +369,14 @@ export default class Computed extends State {
     return findIndex !== -1
   })
 
+  /** 回复数, 优先用列表传入的占位值, 没有则用详情页估算值 */
+  @computed get replies() {
+    const { _replies } = this.params
+    if (_replies) return _replies
+
+    return this.topic.replies || ''
+  }
+
   /** 帖子标题 */
   @computed get title() {
     return HTMLDecode(

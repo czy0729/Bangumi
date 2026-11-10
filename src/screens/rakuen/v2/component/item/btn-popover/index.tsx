@@ -23,11 +23,21 @@ function BtnPopover({ groupCn, groupHref, href, topicId, userId, userName, isGro
 
   const isSubject = topicId.includes('subject/')
   const type = isGroup ? '小组' : isSubject || topicId.includes('ep/') ? '条目' : '人物'
+  const isTopicItem =
+    href.includes('/topic/') ||
+    topicId.startsWith('group/') ||
+    topicId.startsWith('subject/') ||
+    topicId.startsWith('ep/') ||
+    topicId.startsWith('crt/') ||
+    topicId.startsWith('prsn/')
+  const isMonoItem = topicId.startsWith('crt/') || topicId.startsWith('prsn/')
 
   const data = []
-  if (groupHref || type === '人物') data.push(`${TEXT_PREFIX_ENTER}${type}`)
-  data.push(`${TEXT_PREFIX_BLOCK}${type}`)
-  if ((isGroup || isSubject) && userId) data.push(TEXT_MENU_IGNORE)
+  if (isTopicItem) {
+    if (groupHref || (type === '人物' && isMonoItem)) data.push(`${TEXT_PREFIX_ENTER}${type}`)
+    data.push(`${TEXT_PREFIX_BLOCK}${type}`)
+    if ((isGroup || isSubject) && userId) data.push(TEXT_MENU_IGNORE)
+  }
 
   const handleSelect = useCallback(
     (title: string) => {
@@ -46,6 +56,8 @@ function BtnPopover({ groupCn, groupHref, href, topicId, userId, userName, isGro
     },
     [$, navigation, topicId, href, groupCn, groupHref, userId, userName]
   )
+
+  if (!data.length) return null
 
   return (
     <Popover style={styles.touch} data={data} onSelect={handleSelect}>

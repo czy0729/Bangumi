@@ -10,3 +10,6 @@ import { rc } from '@utils/dev'
 import { COMPONENT as PARENT } from '../ds'
 
 export const COMPONENT = rc(PARENT, 'Tab')
+
+/** tab item 高度, 使用时乘平板缩放 */
+export const H_TAB_ITEM = 48

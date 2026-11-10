@@ -12,6 +12,7 @@ import { ListView, Loading, Text } from '@components'
 import { Login } from '@_'
 import { _, userStore, useStore } from '@stores'
 import i18n from '@constants/i18n'
+import { getDataSourceKey, isMyReplyType, isWataameType } from '../../store/utils'
 import { ITEM_HEIGHT } from '../item/ds'
 import { useListStyle } from './hooks'
 import { keyExtractor, renderItem } from './utils'
@@ -52,31 +53,60 @@ function List({ index }: Props) {
   )
 
   const type = $.type(index)
+  const isWataame = isWataameType(type)
+  const needsAccount = isMyReplyType(type)
+  const wataameError = isWataame && $.state.wataame._error
+  const wataameMoreError = isWataame && $.state.wataame._moreError
+  const wataameEmpty = !$.state.wataame.list.length
+  const elWataameFooter = wataameError || wataameMoreError ? (
+    <Text
+      style={_.mt.lg}
+      type='icon'
+      size={11}
+      align='center'
+      onPress={wataameMoreError && !wataameEmpty ? $.onFooterRefresh : $.onHeaderRefresh}
+    >
+      加载失败，点击重试
+    </Text>
+  ) : (
+    elPoweredBy
+  )
+
   const page = $.state.page
-  const subjectUserId = $.state.subjectReplies._userId
+  const myId = userStore.myId
+  const wataameUserId = $.state.wataame._userId
+  const wataameSource = $.state.wataame._source
   useEffect(() => {
     if (
-      type === 'subject_reply' &&
+      isWataame &&
       index === page &&
-      userStore.myId &&
-      subjectUserId !== userStore.myId
+      (!needsAccount || !!myId) &&
+      ((wataameError && wataameEmpty) ||
+        wataameSource !== getDataSourceKey(type) ||
+        (needsAccount && wataameUserId !== myId))
     ) {
-      $.shouldFetchRakuen(index)
+      void $.shouldFetchRakuen(index)
     }
-  }, [$, type, index, page, subjectUserId, userStore.myId])
+  }, [
+    $,
+    type,
+    index,
+    page,
+    isWataame,
+    needsAccount,
+    myId,
+    wataameError,
+    wataameEmpty,
+    wataameUserId,
+    wataameSource
+  ])
 
-  if (type === 'hot' && !userStore.isWebLogin) {
-    return <Login text={`热门帖子需${i18n.login()}才能显示`} btnText={`去${i18n.login()}`} />
-  }
-
-  if (type === 'subject_reply' && !userStore.myId) {
+  if (needsAccount && !myId) {
     return <Login text={`我回复需${i18n.login()}才能显示`} btnText={`去${i18n.login()}`} />
   }
 
   const rakuen = $.rakuen(type)
   if (!rakuen._loaded) return <Loading />
-
-  const isSubjectReply = type === 'subject_reply'
 
   return (
     <ListView
@@ -91,11 +121,12 @@ function List({ index }: Props) {
       initialNumToRender={INITIAL_NUM_TO_RENDER}
       estimatedItemHeight={ITEM_HEIGHT}
       scrollEventThrottle={16}
-      showMesume={!isSubjectReply}
-      footerEmptyDataComponent={isSubjectReply ? elPoweredBy : undefined}
-      footerNoMoreDataComponent={isSubjectReply ? elPoweredBy : undefined}
+      showMesume={!isWataame}
+      footerEmptyDataComponent={isWataame ? elWataameFooter : undefined}
+      footerNoMoreDataComponent={isWataame ? elWataameFooter : undefined}
       onScroll={$.onScroll}
       onHeaderRefresh={$.onHeaderRefresh}
+      onFooterRefresh={isWataame ? $.onFooterRefresh : undefined}
     />
   )
 }

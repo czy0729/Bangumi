@@ -19,4 +19,13 @@ export type Props<T extends Model> = {
   label: string
   value: T['data'][number]['value']
   onSelect: (label: T['data'][number]['label']) => void
+
+  /** 副标题短文案 */
+  subLabel?: string
+
+  /** 菜单激活方式, 未选中的 tab 用 hold 让点击归切换 */
+  activateOn?: 'tap' | 'hold' | 'tap-hold'
+
+  /** 点击回调, hold 模式下与菜单共存 */
+  onPress?: () => void
 }

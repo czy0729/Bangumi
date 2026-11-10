@@ -17,7 +17,6 @@ export const memoStyles = _.memoStyles(() => ({
     height: _.r(40),
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: _.select(_.colorBg, _.colorDarkModeLevel1),
     overflow: 'hidden'
   }
 }))

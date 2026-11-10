@@ -15,7 +15,7 @@ import type { Ctx } from '../../../types'
 function Title() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
-  const { _replies: replies } = $.params
+  const replies = $.replies
 
   return (
     <>

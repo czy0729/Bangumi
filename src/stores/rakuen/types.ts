@@ -120,6 +120,9 @@ export type Topic = {
   /** 发帖时间 */
   time: string
 
+  /** 回复数, 由详情页分页信息估算, 取不到时为空 */
+  replies: string
+
   /** 帖子标题 */
   title: string
 
@@ -323,6 +326,30 @@ export type Mine = ListEmpty<
     num: string
   }>
 >
+
+/** CDN 用户历史帖子原始项 */
+export type UserTopicsFromCDNRaw = {
+  /** 帖子 id */
+  id: Id
+
+  /** 标题 */
+  t: string
+
+  /** 小组 */
+  g: string
+
+  /** 时间 */
+  ti: string
+
+  /** 头像 */
+  av: string
+
+  /** 用户 id */
+  uid: UserId
+
+  /** 用户名 */
+  un: string
+}
 
 /** 用户历史超展开帖子项 */
 export type UserTopicsFromCDNItem = {

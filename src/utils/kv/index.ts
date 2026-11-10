@@ -673,7 +673,8 @@ export async function groupTopics(
     })
 
     const response = data
-    if (response?.data?.length) return response
+    // 空结果也算成功, 只有异常才返回 null
+    if (response?.pagination) return response
   } catch (error) {
     err('groupTopics', error)
   }
@@ -726,7 +727,8 @@ export async function searchGroupTopics(
     })
 
     const response = data
-    if (response?.data?.length) return response
+    // 空结果也算成功, 只有异常才返回 null
+    if (response?.pagination) return response
   } catch (error) {
     err('searchGroupTopics', error)
   }

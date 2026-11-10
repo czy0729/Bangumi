@@ -43,7 +43,8 @@ import type {
   RakuenItem,
   ReviewsItem,
   Topic,
-  UserTopicsFromCDNItem
+  UserTopicsFromCDNItem,
+  UserTopicsFromCDNRaw
 } from './types'
 
 /** 超展开聚合列表 */
@@ -216,7 +217,7 @@ export function cheerioNotify(html: string) {
 /** 帖子和留言 */
 export function cheerioTopic(html: string) {
   let topic: Topic = INIT_TOPIC
-  let comments: CommentsItem[] = []
+  let comments: CommentsItemWithSub[] = []
   let likes: Likes = {}
 
   try {
@@ -250,6 +251,7 @@ export function cheerioTopic(html: string) {
       lastview: '',
       message: HTMLTrim($('div.topic_content').html()),
       time,
+      replies: '',
       title,
       userId: matchUserId($user.attr('href')),
       userName: $user.text().trim(),
@@ -321,8 +323,22 @@ export function cheerioTopic(html: string) {
         })
         .get() || []
 
+    // 回复数: 页面不直接给出总数, 主楼层按分页页数估算, 子楼层只统计当前页
+    const pageTotal = Number(
+      (cText($('.page_inner .p_edge')).split('/')?.[1] || '').replace(/[^\d]/g, '')
+    )
+    let subCount = 0
+    comments.forEach(item => {
+      subCount += item.sub?.length || 0
+    })
+    if (comments.length) {
+      const replies = pageTotal > 1 ? pageTotal * comments.length : comments.length
+      topic.replies = String(replies + subCount)
+    }
+
     try {
-      likes = JSON.parse(html.match(/data_likes_list\s*=\s*(\{.*?\});/)?.[1])
+      const matched = html.match(/data_likes_list\s*=\s*(\{.*?\});/)?.[1]
+      if (matched) likes = JSON.parse(matched) as Likes
     } catch {}
   } catch (ex) {}
 
@@ -545,7 +561,7 @@ export function cheerioPrivacy(html: string) {
 
 /** 用户历史超展开帖子 */
 export function getUserTopicsFromCDN(response: string) {
-  return Crypto.get<any[]>(response).map<UserTopicsFromCDNItem>(item => ({
+  return Crypto.get<UserTopicsFromCDNRaw[]>(response).map<UserTopicsFromCDNItem>(item => ({
     topicId: `group/${item.id}`,
     title: item.t,
     group: item.g,

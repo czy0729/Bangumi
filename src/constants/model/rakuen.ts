@@ -8,6 +8,7 @@
  */
 import { Model } from './utils'
 
+/** 超展开板块 */
 export const RAKUEN_SCOPE = [
   {
     label: '全局聚合',
@@ -53,10 +54,6 @@ export const RAKUEN_TYPE = [
     value: 'subject'
   },
   {
-    label: '热门',
-    value: 'hot'
-  },
-  {
     label: '章节',
     value: 'ep'
   },
@@ -69,8 +66,46 @@ export const RAKUEN_TYPE = [
 /** 超展开全局聚合类型 */
 export const MODEL_RAKUEN_TYPE = new Model(RAKUEN_TYPE, 'RAKUEN_TYPE')
 
-/** 小组范围 */
+/** 全部范围: wataame 数据源 */
+export const RAKUEN_TYPE_ALL = [
+  {
+    label: '全部',
+    value: ''
+  },
+  {
+    label: '热门',
+    value: 'all_hot'
+  },
+  {
+    label: '我回复·小组',
+    value: 'all_reply_group'
+  },
+  {
+    label: '我回复·条目',
+    value: 'all_reply_subject'
+  },
+  {
+    label: '我回复·章节',
+    value: 'all_reply_episode'
+  },
+  {
+    label: '我回复·虚拟',
+    value: 'all_reply_character'
+  },
+  {
+    label: '我回复·现实',
+    value: 'all_reply_person'
+  },
+  {
+    label: '我回复·日志',
+    value: 'all_reply_blog'
+  }
+] as const
 
+/** 全部范围 */
+export const MODEL_RAKUEN_TYPE_ALL = new Model(RAKUEN_TYPE_ALL, 'RAKUEN_TYPE_ALL')
+
+/** 小组范围 */
 export const RAKUEN_TYPE_GROUP = [
   {
     label: '全部',
@@ -94,7 +129,6 @@ export const RAKUEN_TYPE_GROUP = [
 export const MODEL_RAKUEN_TYPE_GROUP = new Model(RAKUEN_TYPE_GROUP, 'RAKUEN_TYPE_GROUP')
 
 /** 条目范围 */
-
 export const RAKUEN_TYPE_SUBJECT = [
   {
     label: '全部',
@@ -109,8 +143,22 @@ export const RAKUEN_TYPE_SUBJECT = [
 /** 条目范围 */
 export const MODEL_RAKUEN_TYPE_SUBJECT = new Model(RAKUEN_TYPE_SUBJECT, 'RAKUEN_TYPE_SUBJECT')
 
-/** 人物类型 */
+/** 章节范围 */
+export const RAKUEN_TYPE_EP = [
+  {
+    label: '全部',
+    value: 'ep'
+  },
+  {
+    label: '我回复',
+    value: 'ep_reply'
+  }
+] as const
 
+/** 章节范围 */
+export const MODEL_RAKUEN_TYPE_EP = new Model(RAKUEN_TYPE_EP, 'RAKUEN_TYPE_EP')
+
+/** 人物类型 */
 export const RAKUEN_TYPE_MONO = [
   {
     label: '全部',
@@ -123,6 +171,14 @@ export const RAKUEN_TYPE_MONO = [
   {
     label: '现实',
     value: 'mono&filter=person'
+  },
+  {
+    label: '我回复·虚拟',
+    value: 'mono_reply_character'
+  },
+  {
+    label: '我回复·现实',
+    value: 'mono_reply_person'
   }
 ] as const
 
@@ -130,7 +186,6 @@ export const RAKUEN_TYPE_MONO = [
 export const MODEL_RAKUEN_TYPE_MONO = new Model(RAKUEN_TYPE_MONO, 'RAKUEN_TYPE_MONO')
 
 /** 人物排序 */
-
 export const RAKUEN_SCROLL_DIRECTION = [
   {
     label: '隐藏',
@@ -157,7 +212,6 @@ export const MODEL_RAKUEN_SCROLL_DIRECTION = new Model(
 )
 
 /** [设置] 楼层中图片自动加载 */
-
 export const RAKUEN_AUTO_LOAD_IMAGE = [
   {
     label: '不加载',
@@ -184,7 +238,6 @@ export const MODEL_RAKUEN_AUTO_LOAD_IMAGE = new Model(
 )
 
 /** [设置] 子楼层折叠 */
-
 export const RAKUEN_SUB_EXPAND = [
   {
     label: '0',
@@ -208,7 +261,6 @@ export const RAKUEN_SUB_EXPAND = [
 export const MODEL_RAKUEN_SUB_EXPAND = new Model(RAKUEN_SUB_EXPAND, 'RAKUEN_SUB_EXPAND')
 
 /** [设置] 帖子新楼层样式 */
-
 export const RAKUEN_NEW_FLOOR_STYLE = [
   {
     label: '角标',
@@ -235,7 +287,6 @@ export const MODEL_RAKUEN_NEW_FLOOR_STYLE = new Model(
 )
 
 /** [设置] 大表情尺寸 */
-
 export const BIG_EMOJI_SIZE = [
   {
     label: '小',
@@ -253,5 +304,3 @@ export const BIG_EMOJI_SIZE = [
 
 /** [设置] 帖子新楼层样式 */
 export const MODEL_BIG_EMOJI_SIZE = new Model(BIG_EMOJI_SIZE, 'BIG_EMOJI_SIZE')
-
-/** 收藏排序 */

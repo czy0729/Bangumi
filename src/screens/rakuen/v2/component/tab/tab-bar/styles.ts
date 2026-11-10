@@ -7,6 +7,7 @@
  * TabBar 样式
  */
 import { _ } from '@stores'
+import { H_TAB_ITEM } from '../ds'
 
 export const memoStyles = _.memoStyles(() => {
   const W_TAB_BAR_LEFT = 0
@@ -26,7 +27,7 @@ export const memoStyles = _.memoStyles(() => {
     },
     tab: {
       width: W_TAB,
-      height: _.r(48)
+      height: _.r(H_TAB_ITEM)
     },
     label: {
       padding: 0
