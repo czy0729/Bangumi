@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-07-20 01:55:52
  */
 import { StatusBar } from 'react-native'
-import { confirm, queue } from '@utils'
+import { confirm, postTask, queue } from '@utils'
 import { getBucketId } from '@utils/bucket'
 import { clear } from '@utils/storage/utils'
 import { DEV, WEB } from '@constants'
@@ -92,6 +92,10 @@ class GlobalStores {
         RAKUEN_STORE_KEYS.map(key => () => rakuenStore.init(key)),
         4
       )
+      // 数据量可能较大, 延后读取, 不阻塞启动队列
+      postTask(() => {
+        rakuenStore.init('epReplied').catch(() => {})
+      }, 800)
 
       /** ==================== smbStore ==================== */
       await queue(

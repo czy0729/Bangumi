@@ -94,6 +94,7 @@ export type SubjectSnapshot = Override<
     character: Crt[]
     staff: Staff[]
     titleLabel: string
+    nsfw?: boolean
     _loaded: Loaded
   }
 >

@@ -134,7 +134,11 @@ export default class Oss extends Computed {
         rank: this.subject.rank || '',
         character: this.crt,
         staff: this.staff,
-        titleLabel: this.titleLabel
+        titleLabel: this.titleLabel,
+        // 与本地 fetchRanks 的判定保持一致: v0 兜底请求失败(name 为空)不算 NSFW
+        nsfw:
+          subjectStore.subjectV2(this.subjectId)?.nsfw ||
+          (this.subject.v0 === true && !!this.subject.name)
       })
     }, 10000)
   }

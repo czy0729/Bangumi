@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-06-06 06:10:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-22 06:13:47
+ * @Last Modified time: 2026-11-12 03:59:40
  */
 import { useMemo } from 'react'
 import { observer } from 'mobx-react'
@@ -18,7 +18,7 @@ function Sort() {
 
   const memoData = useMemo(() => COLLECTIONS_ORDERBY.map(item => item.label), [])
 
-  const { order } = $.state
+  const { order, scoreFetching } = $.state
 
   return (
     <ToolBar.Popover
@@ -27,7 +27,9 @@ function Sort() {
       icon='md-sort'
       iconColor={_.colorDesc}
       text={order ? MODEL_COLLECTIONS_ORDERBY.getLabel<CollectionsOrderCn>(order) : '收藏时间'}
+      loading={scoreFetching}
       type='desc'
+      disabled={scoreFetching}
       heatmap='我的.筛选选择'
       onSelect={$.onOrderSelect}
     />

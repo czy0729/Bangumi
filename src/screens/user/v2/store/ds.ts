@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-04 17:12:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-22 22:55:41
+ * @Last Modified time: 2026-11-12 00:50:19
  */
 import { _ } from '@stores'
 import { COMPONENT, DEFAULT_ORDER, DEFAULT_SUBJECT_TYPE } from '../ds'
@@ -24,7 +24,10 @@ export const EXCLUDE_STATE = {
   filter: '',
   fliterInputText: '',
   fetching: false,
-  loadedPage: [] as number[]
+  loadedPage: [] as number[],
+
+  /** 网站评分全量获取中 */
+  scoreFetching: false
 }
 
 export const STATE = {

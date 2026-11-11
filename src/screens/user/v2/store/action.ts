@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-04 06:26:51
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-14 21:16:14
+ * @Last Modified time: 2026-11-12 02:51:15
  */
 import { _, collectionStore, uiStore } from '@stores'
 import { debounce, feedback, updateVisibleBottom } from '@utils'
@@ -19,7 +19,8 @@ import type {
   CollectionsOrderCn,
   ScrollEvent,
   SubjectType,
-  SubjectTypeCn
+  SubjectTypeCn,
+  TextInputChangeEvent
 } from '@types'
 import type { STATE } from './ds'
 
@@ -225,7 +226,7 @@ export default class Action extends Fetch {
     this._onFilterChange(_filter)
   }
 
-  onManagePress = args => {
+  onManagePress = (args: Parameters<typeof uiStore.showManageModal>[0]) => {
     uiStore.showManageModal(args, '时光机', values => {
       // 状态不相同需要手动更新列表数据
       if (this.isMe && this.type && values?.status && this.type !== values?.status) {
@@ -256,7 +257,7 @@ export default class Action extends Fetch {
   }
 
   /** 输入框改变 */
-  onPageChange = ({ nativeEvent }) => {
+  onPageChange = ({ nativeEvent }: TextInputChangeEvent) => {
     const { text } = nativeEvent
     this.setState({
       ipt: text
@@ -265,10 +266,13 @@ export default class Action extends Fetch {
   }
 
   /** 刷新页 */
-  onPage = (value: any) => {
+  onPage = (value: number | string) => {
+    const next = Number(value)
+    if (!next || next < 1) return
+
     const { page } = this.state
     this.setState({
-      ipt: String(value)
+      ipt: String(next)
     })
     this.save()
 
@@ -278,7 +282,7 @@ export default class Action extends Fetch {
         animated: true
       })
     } catch {}
-    this.fetchUserCollectionsNormal(value)
+    this.fetchUserCollectionsNormal(next)
   }
 
   updateVisibleBottom = updateVisibleBottom.bind(this)

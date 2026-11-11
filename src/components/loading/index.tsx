@@ -4,7 +4,6 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-26 04:19:30
  */
-import React from 'react'
 import { ActivityIndicator } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
@@ -25,10 +24,10 @@ const Raw = observer(({ color, size = 'large' }: LoadingProps) => {
 })
 
 /** Loading (中) */
-const Normal = observer(({ color, size = 'small' }: LoadingProps) => {
+const Normal = observer(({ style, color, size = 'small' }: LoadingProps) => {
   r(COMPONENT)
 
-  return <ActivityIndicator color={color || _.colorSub} size={size} />
+  return <ActivityIndicator style={style} color={color || _.colorSub} size={size} />
 })
 
 /** Loading (中) */

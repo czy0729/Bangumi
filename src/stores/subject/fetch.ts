@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-04-16 13:33:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-07 01:38:34
+ * @Last Modified time: 2026-11-12 05:23:23
  */
 import { getTimestamp, HTMLTrim, omit, queue } from '@utils'
 import { getBucketId } from '@utils/bucket'
 import { fetchHTML, xhrCustom } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
-import { get } from '@utils/kv'
+import { get, gets } from '@utils/kv'
 import {
   API_HOST,
   API_SUBJECT,
@@ -51,18 +51,23 @@ import {
   INIT_SUBJECT_FROM_CDN_ITEM,
   INIT_SUBJECT_V2
 } from './init'
-import { mapV0Episodes, uniqById } from './utils'
+import { isRankFresh, isSnapshotFresh, mapV0Episodes, RANK_KV_LIMIT, uniqById } from './utils'
 
 import type { EpId, MonoId, RatingStatus, ResponseV0Episodes, SubjectId } from '@types'
 import type { STATE } from './init'
 import type {
   ApiSubjectResponse,
+  Ep,
   FetchMonoVoicesArgs,
   FetchMonoWorksArgs,
   FetchRatingArgs,
+  Mono,
+  RankSnapshot,
   Subject,
+  SubjectFormCDN,
   SubjectRank
 } from './types'
+import type { V0Subject } from '@utils/fetch.v0/types'
 import type { ResultData } from '@utils/kv/type'
 
 export default class Fetch extends Computed {
@@ -75,13 +80,13 @@ export default class Fetch extends Computed {
     const STATE_KEY = `subject${last}` as const
     const ITEM_KEY = subjectId
 
-    const response = await this.fetch({
+    const response = (await this.fetch({
       url: API_SUBJECT(subjectId),
       data: {
         responseGroup
       },
       info: '条目信息'
-    })
+    })) as ApiSubjectResponse
 
     let data: Subject
     if (responseGroup === 'large') {
@@ -91,7 +96,7 @@ export default class Fetch extends Computed {
         ...response,
 
         // 章节数据可能会很巨大, 减少储存用不上的数据
-        eps: (response?.eps || []).map((item: any) => {
+        eps: (response?.eps || []).map((item: Ep) => {
           if (item.name_cn) item.name = ''
           return {
             ...item,
@@ -168,7 +173,9 @@ export default class Fetch extends Computed {
   fetchSubjectV2 = async (subjectId: SubjectId) => {
     try {
       await this.initSubjectV2([subjectId])
-      const data: any = await request(`${API_HOST}/v0/subjects/${subjectId}?responseGroup=small`)
+      const data = await request<V0Subject>(
+        `${API_HOST}/v0/subjects/${subjectId}?responseGroup=small`
+      )
 
       const key = `subjectV2${getBucketId(subjectId)}` as `subjectV2${number}`
       const now = getTimestamp()
@@ -190,7 +197,7 @@ export default class Fetch extends Computed {
           [subjectId]: {
             id: data.id || '',
             date: data.date || '',
-            image: data.images.medium || '',
+            image: data.images?.medium || '',
             jp: data.name || '',
             cn: data.name_cn || '',
             tags: data.tags || [],
@@ -279,8 +286,8 @@ export default class Fetch extends Computed {
 
       const data = {
         ...INIT_SUBJECT_FROM_CDN_ITEM,
-        ...JSON.parse(_response)
-      }
+        ...(JSON.parse(_response) as object)
+      } as unknown as SubjectFormCDN
       const key = 'subjectFormCDN'
       this.setState({
         [key]: {
@@ -499,7 +506,7 @@ export default class Fetch extends Computed {
         3
       )) || []
     const success = results.filter(
-      (item): item is Exclude<(typeof results)[number], null> => item !== null
+      (item): item is Exclude<typeof results[number], null> => item !== null
     )
     success.sort((a, b) => a.page - b.page)
     if (!success.length) return this.subjectComments(subjectId)
@@ -592,8 +599,8 @@ export default class Fetch extends Computed {
 
       const data = {
         ...INIT_MONO,
-        ...JSON.parse(_response)
-      }
+        ...(JSON.parse(_response) as object)
+      } as unknown as Mono
       const key = 'monoFormCDN'
       this.setState({
         [key]: {
@@ -736,54 +743,131 @@ export default class Fetch extends Computed {
     return this[key](subjectId)
   }
 
-  /** 获取条目分数值 */
+  /** 获取条目分数值: 优先批量读云端快照, 缺失或过期的回退请求 v0 */
   fetchRanks = async (subjectIds: SubjectId[]) => {
-    const fetchs: (() => Promise<boolean>)[] = []
     const attempted: Record<string | number, true> = {}
     const updates: Record<string | number, SubjectRank> = {}
     const nsfwUpdates: Record<string | number, boolean> = {}
+    const pending: SubjectId[] = []
     const now = getTimestamp()
-    subjectIds.forEach(subjectId => {
-      const rank = this.rank(subjectId)
-      if (!rank._loaded || now - Number(rank._loaded) >= 24 * 60 * 60) {
-        attempted[subjectId] = true
-        fetchs.push(async () => {
-          try {
-            const data: any = await request(
-              `${API_HOST}/v0/subjects/${subjectId}?responseGroup=small`
-            )
-            if (data?.rating) {
-              updates[subjectId] = {
-                r: data.rating.rank || undefined,
-                s: data.rating.score || undefined,
-                _loaded: now
-              }
-            }
-            if (data?.nsfw) nsfwUpdates[subjectId] = true
-          } catch {}
 
-          return true
-        })
+    // 收藏列表可能含重复 id, 去重避免重复请求
+    Array.from(new Set(subjectIds)).forEach(subjectId => {
+      const rank = this.rank(subjectId)
+      if (isRankFresh(rank, now)) return
+
+      attempted[subjectId] = true
+      pending.push(subjectId)
+
+      // 完全没有旧分数时才用本地数据兜底, 不写 _loaded, 刷新失败后下次重试
+      if (!rank.s && !rank.r) {
+        const score = Number(this.ratingScore(subjectId)) || 0
+        if (score) {
+          updates[subjectId] = {
+            r: Number(this.ratingRank(subjectId)) || undefined,
+            s: score
+          }
+        }
+      }
+
+      if (this.subjectV2(subjectId)?.nsfw) {
+        nsfwUpdates[subjectId] = true
+      } else {
+        // v0 兜底且拿到有效条目时, 按既有约定视为 NSFW; name 为空说明兜底请求本身失败
+        const subject = this.subject(subjectId)
+        if (subject?.v0 === true && !!subject.name) nsfwUpdates[subjectId] = true
       }
     })
 
-    await queue(fetchs)
+    const total = pending.length
+
+    if (total) {
+      const missed: SubjectId[] = []
+      const chunks: SubjectId[][] = []
+      for (let index = 0; index < total; index += RANK_KV_LIMIT) {
+        chunks.push(pending.slice(index, index + RANK_KV_LIMIT))
+      }
+
+      await queue(
+        chunks.map(chunk => async () => {
+          let data: Record<string, RankSnapshot | null> | null = null
+          try {
+            data = await gets<RankSnapshot>(
+              chunk.map(subjectId => `subject_${subjectId}`),
+              ['rating', 'rank', 'ts', 'nsfw']
+            )
+          } catch {
+            // 读取失败时整批回退 v0
+          }
+
+          chunk.forEach(subjectId => {
+            const item = data?.[`subject_${subjectId}`]
+            const score = Number(item?.rating?.score) || 0
+            if (!score) {
+              missed.push(subjectId)
+              return
+            }
+
+            if (item?.nsfw) nsfwUpdates[subjectId] = true
+
+            const ts = Number(item?.ts) || 0
+            // 缺少时间或明确过旧都回退 v0, 避免把年龄未知的数据当新鲜
+            if (!isSnapshotFresh(ts, now)) {
+              missed.push(subjectId)
+              return
+            }
+
+            updates[subjectId] = {
+              r: Number(item?.rating?.rank) || Number(item?.rank) || undefined,
+              s: score,
+              _loaded: ts
+            }
+          })
+        }),
+        3
+      )
+
+      if (missed.length) {
+        await queue(
+          missed.map(subjectId => async () => {
+            try {
+              const data = await request<V0Subject>(
+                `${API_HOST}/v0/subjects/${subjectId}?responseGroup=small`
+              )
+              if (data?.rating) {
+                updates[subjectId] = {
+                  r: data.rating.rank || undefined,
+                  s: data.rating.score || undefined,
+                  _loaded: now
+                }
+              }
+              if (data?.nsfw) nsfwUpdates[subjectId] = true
+            } catch {}
+
+            return true
+          }),
+          2
+        )
+      }
+    }
 
     // 请求结束后再基于最新 state 合并, 避免并发调用用同一份旧快照互相覆盖
     const state: Record<string | number, SubjectRank | undefined> = { ...this.state.rank }
     const nsfw: Record<string | number, boolean | undefined> = { ...this.state.nsfw }
     Object.entries(updates).forEach(([key, value]) => {
+      // 兜底值(无 _loaded)不覆盖已有的旧分数
+      if (!value._loaded && state[key]?._loaded) return
+
       state[key] = value
     })
 
     // 丢弃过期项, 避免映射与本地存储无限增长
     Object.keys(state).forEach(key => {
       const item = state[key]
-      const expired = !item?._loaded || now - Number(item._loaded) >= 24 * 60 * 60
-      if (!expired) return
+      if (isRankFresh(item, now)) return
 
-      // 本次发起过请求但没拿到结果: 保留旧值, 下次再试
-      if (attempted[key] && !updates[key]) return
+      // 本次发起过请求但没拿到有效结果: 保留旧值, 下次再试
+      if (attempted[key] && (!updates[key] || !updates[key]._loaded)) return
 
       delete state[key]
     })
@@ -792,9 +876,9 @@ export default class Fetch extends Computed {
       nsfw[key] = value
     })
 
-    // nsfw 无时间戳, 与保留下来的 rank 条目对齐
+    // nsfw 无时间戳, 与保留下来的 rank 条目对齐; 本次尝试过的条目保留, 下次重试
     Object.keys(nsfw).forEach(key => {
-      if (!state[key]) delete nsfw[key]
+      if (!state[key] && !attempted[key]) delete nsfw[key]
     })
 
     const key = 'rank'
@@ -809,7 +893,7 @@ export default class Fetch extends Computed {
     return true
   }
 
-  updateVIB = (subjectId: SubjectId, data: Partial<(typeof STATE.vib)[0]>) => {
+  updateVIB = (subjectId: SubjectId, data: Partial<typeof STATE.vib[0]>) => {
     const key = 'vib'
     this.setState({
       [key]: {
@@ -852,8 +936,17 @@ export default class Fetch extends Computed {
       })
 
       // #682
-      let startDate = null
-      const { items } = JSON.parse(_response).categories[0]
+      let startDate: Date | null = null
+      const { items } = (
+        JSON.parse(_response) as {
+          categories: {
+            items: {
+              url?: string
+              payload: { aired: string }
+            }[]
+          }[]
+        }
+      ).categories[0]
       let pageUrl = ''
       const date = this.date(subjectId)
 
@@ -862,7 +955,7 @@ export default class Fetch extends Computed {
         startDate = new Date(date)
         for (let i = 0; i < items.length; i += 1) {
           const item = items[i]
-          let aired = null
+          let aired: Date | null = null
           if (item.payload.aired.match('to')) {
             aired = parseDate(item.payload.aired.split('to')[0])
           } else {
@@ -929,7 +1022,13 @@ export default class Fetch extends Computed {
 
       // #765
       // [{"desc": "TV Series, 28 eps, 9.16 (414)", "hit": "葬送のフリーレン", "id": 17617, "link": "https://anidb.net/a17617", "name": "Sousou no Frieren"}]
-      const info = JSON.parse(_response)
+      const info = JSON.parse(_response) as {
+        desc?: string
+        hit?: string
+        id?: number
+        link?: string
+        name?: string
+      }[]
       if (info?.[0]?.desc) {
         const arr = info[0].desc.split(',')
         const data = {
@@ -964,7 +1063,7 @@ export default class Fetch extends Computed {
  *  - Sep 29, 2023
  * */
 function parseDate(str: string) {
-  const months = {
+  const months: Record<string, number> = {
     Jan: 0,
     Feb: 1,
     Mar: 2,

@@ -39,6 +39,12 @@ export type Props<T extends PopoverData> = {
   /** 按钮文本，false 时不显示文本 */
   text?: string | number | false
 
+  /** 替换左侧图标显示加载指示器 */
+  loading?: boolean
+
+  /** 禁止展开菜单 */
+  disabled?: boolean
+
   /** 埋点事件 key */
   heatmap?: EventKeys
 

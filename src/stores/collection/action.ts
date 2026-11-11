@@ -43,18 +43,23 @@ export default class Action extends Fetch {
   sortUserCollectionsByScore = async (
     userId: UserId,
     subjectType: SubjectType,
-    type: CollectionStatus
+    type: CollectionStatus,
+    shouldAbort?: () => boolean
   ) => {
-    const data = this.userCollections(userId, subjectType, type)
-    const subjectIds = data.list.map(item => item.id)
+    const subjectIds = this.userCollections(userId, subjectType, type).list.map(item => item.id)
 
     await subjectStore.init('rank')
     await subjectStore.init('nsfw')
     await subjectStore.fetchRanks(subjectIds)
 
+    // 评分获取期间列表可能被刷新, 排序必须基于最新数据
+    const data = this.userCollections(userId, subjectType, type)
     const list = data.list
       .slice()
       .sort((a, b) => SORT.rating(subjectStore.rank(a.id), subjectStore.rank(b.id), 's', 'r'))
+
+    // 已有更新的请求链时放弃写回, 避免覆盖新结果
+    if (shouldAbort?.()) return false
 
     const key = 'userCollections'
     const stateKey = `${userId}|${subjectType}|${type}`
@@ -71,6 +76,8 @@ export default class Action extends Fetch {
     if (userId === userStore.userInfo.username || userId === userStore.myUserId) {
       this.saveUserCollections()
     }
+
+    return true
   }
 
   /** 主动删除列表中一个条目数据 */

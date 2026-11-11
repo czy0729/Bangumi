@@ -383,6 +383,17 @@ export type SubjectRank = {
   _loaded?: Loaded
 }
 
+/** 云端快照中的条目分数 */
+export type RankSnapshot = {
+  rating?: {
+    score?: number
+    rank?: number
+  }
+  rank?: number | ''
+  ts?: number
+  nsfw?: boolean
+}
+
 /** VIB 等评分数据 */
 export type Vib = {
   total: number
@@ -821,16 +832,16 @@ export type ApiSubjectResponse = {
   collection: Collection
 
   /** responseGroup: medium */
-  crt?: Crt
+  crt?: Crt[]
 
   /** responseGroup: medium */
-  staff?: Staff
+  staff?: Staff[]
 
   /** responseGroup: large */
-  topic?: Topic
+  topic?: Topic[]
 
   /** responseGroup: large */
-  blog?: Blog
+  blog?: Blog[]
 
   /** v0 mark */
   v0?: true

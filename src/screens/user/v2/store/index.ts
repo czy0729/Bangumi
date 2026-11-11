@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-05-25 22:03:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-22 22:55:55
+ * @Last Modified time: 2026-11-12 00:53:44
  */
 import { systemStore, timelineStore, userStore } from '@stores'
 import { queue } from '@utils'
@@ -28,13 +28,13 @@ export default class ScreenUser extends Action {
       () => this.fetchUsersInfo(),
       () => userStore.fetchUserCollectionsStatus(this.userId),
       () => {
-        if (
-          MODEL_COLLECTIONS_ORDERBY.getLabel<CollectionsOrderCn>(this.state.order) !== '网站评分'
-        ) {
-          return systemStore.setting.userPagination
-            ? this.fetchUserCollectionsNormal(Number(this.state.ipt))
-            : this.fetchUserCollections(true)
+        const isSortByScore =
+          MODEL_COLLECTIONS_ORDERBY.getLabel<CollectionsOrderCn>(this.state.order) === '网站评分'
+        if (systemStore.setting.userPagination && !isSortByScore) {
+          return this.fetchUserCollectionsNormal(Number(this.state.ipt))
         }
+
+        return this.fetchUserCollections(true)
       },
       () => this.fetchUsers(),
       () => timelineStore.fetchUsersCollectionsTimelineQueue(this.username || this.userId)

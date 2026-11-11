@@ -40,7 +40,7 @@ type Subject = {
   volumes: number
   locked: boolean
   nsfw: boolean
-  type: CollectionStatusValue
+  type: SubjectTypeValue
 }
 
 export type CollectionItem = {
@@ -67,15 +67,23 @@ export type Collection = {
 /** v0 条目详情响应的最小类型 (仅声明用到的字段, 全部可选: 请求失败时响应体为空对象) */
 export type V0Subject = {
   id?: SubjectId
-  type?: CollectionStatusValue
+  type?: SubjectTypeValue
   name?: string
   name_cn?: string
   summary?: string
   eps?: number
+  volumes?: number
   date?: string
   rating?: Rating
   images?: Images
   collection?: Collection
+  tags?: {
+    name: string
+    count: number
+    total_count?: number
+  }[]
+  locked?: boolean
+  nsfw?: boolean
 }
 
 export type V0Episodes = {

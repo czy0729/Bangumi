@@ -7,7 +7,7 @@
 import { HOST } from '@constants'
 
 import type { Id, ResponseV0Episodes } from '@types'
-import type { SubjectSnapshot } from './types'
+import type { SubjectRank, SubjectSnapshot } from './types'
 
 /** 条目信息桶容量上限 (每桶): 内含 eps / staff / crt / collection 等大数组 */
 export const SUBJECT_BUCKET_LIMIT = 30
@@ -33,8 +33,24 @@ export const EP_V2_LIMIT = 20
 /** 条目 VIB 数据容量上限: 单条最轻, 但被条目页高频读取, 上界放宽避免频繁重取 */
 export const VIB_LIMIT = 100
 
-/** 条目分数容量上限: 单条最轻, 但被列表高频读取, 上界放宽避免频繁重取 */
-export const RANK_LIMIT = 300
+/** 条目分数容量上限: 单条最轻, 覆盖常见大收藏量级 */
+export const RANK_LIMIT = 3000
+
+/** 条目分数批量读取云端快照的分批大小 */
+export const RANK_KV_LIMIT = 100
+
+/** 条目分数与云端快照的有效期 */
+export const RANK_TTL = 24 * 60 * 60
+
+/** 条目分数缓存是否仍新鲜 */
+export function isRankFresh(rank: SubjectRank | undefined, now: number) {
+  return !!(rank?._loaded && now - Number(rank._loaded) < RANK_TTL)
+}
+
+/** 云端快照是否仍新鲜: 缺少时间视为过期 */
+export function isSnapshotFresh(ts: number, now: number) {
+  return !!ts && now - ts < RANK_TTL
+}
 
 /**
  * 组装条目快照
