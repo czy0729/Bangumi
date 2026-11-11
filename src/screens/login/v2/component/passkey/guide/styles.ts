@@ -1,30 +1,15 @@
 /*
+ * @Author: Q16KBreak
  * @Date: 2026-11-01
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-11-11 21:16:46
  *
- * 与主题设置一致的 info 入口及三图占位布局
+ * 说明入口样式
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   icon: {
     paddingHorizontal: _.sm
-  },
-  images: {
-    marginTop: _.md,
-    marginBottom: _.sm
-  },
-  slot: {
-    flex: 1,
-    aspectRatio: 9 / 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderStyle: 'dashed',
-    borderColor: _.colorBorder,
-    borderRadius: _.radiusSm,
-    backgroundColor: _.select(_.colorBg, _.colorPlain)
-  },
-  gap: {
-    marginRight: _.sm
   }
-}))
+})

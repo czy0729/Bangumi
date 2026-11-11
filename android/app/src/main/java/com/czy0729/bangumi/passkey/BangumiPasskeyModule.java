@@ -58,8 +58,8 @@ public final class BangumiPasskeyModule extends ReactContextBaseJavaModule
             if (!invalidated && Build.VERSION.SDK_INT >= 34) {
                 try {
                     supported = PasskeyPlatform.isAvailable(getReactApplicationContext());
-                } catch (RuntimeException ignored) {
-                    // ROM differences or an unavailable system service cannot establish support.
+                } catch (RuntimeException | LinkageError ignored) {
+                    // ROM differences, missing classes or an unavailable system service cannot establish support.
                 }
             }
             promise.resolve(supported);
@@ -102,7 +102,7 @@ public final class BangumiPasskeyModule extends ReactContextBaseJavaModule
         pending = operation;
         // A provider that never calls back must not retain a Promise or block all later requests.
         operation.timeout = () -> finish(operation, null, "E_PASSKEY_FAILED");
-        mainHandler.postDelayed(operation.timeout, 180000);
+        mainHandler.postDelayed(operation.timeout, request.timeout);
         PasskeyPlatform.get(activity, request, operation.cancellation,
                 command -> mainHandler.post(command), new PasskeyPlatform.Callback() {
                     @Override

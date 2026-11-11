@@ -1,15 +1,23 @@
 /*
+ * @Author: Q16KBreak
  * @Date: 2026-11-01
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-11-11 21:16:27
  *
- * Passkey 登录编排: 独立会话、单次用户交互、取消和离页后作废
+ * Passkey 登录编排：独立会话、单次用户交互、取消和离页后作废
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { passkeyErrorMessage, passkeyFailure } from './errors'
-import { cancelPasskeyAssertion, canUsePasskey } from './native'
+import { cancelPasskeyAssertion, canUsePasskey, isPasskeyModuleAvailable } from './native'
 import { runPasskeyLogin } from './run'
 
-import type { PasskeyLoginParams, PasskeyLoginView } from './ui-types'
+import type { PasskeyLoginParams, PasskeyLoginView } from './types'
 
+/**
+ * Passkey 登录控制器
+ *
+ * @param params 登录页传入的互斥状态与导航
+ */
 export function usePasskeyLogin(params: PasskeyLoginParams): PasskeyLoginView {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
@@ -17,11 +25,12 @@ export function usePasskeyLogin(params: PasskeyLoginParams): PasskeyLoginView {
   const mounted = useRef(true)
   const runId = useRef(0)
   const busy = useRef(false)
+  const done = useRef(false)
   const nativeRun = useRef<number | null>(null)
   latest.current = params
 
   const onCancel = useCallback(() => {
-    if (!busy.current) return
+    if (!busy.current || done.current) return
     runId.current += 1
     busy.current = false
     latest.current.loginLock.current = false
@@ -58,6 +67,7 @@ export function usePasskeyLogin(params: PasskeyLoginParams): PasskeyLoginView {
     if (latest.current.loginLock.current) return
     latest.current.loginLock.current = true
     busy.current = true
+    done.current = false
     const id = ++runId.current
     const assertActive = () => {
       if (!mounted.current || runId.current !== id) {
@@ -77,6 +87,12 @@ export function usePasskeyLogin(params: PasskeyLoginParams): PasskeyLoginView {
         },
         onNativeRequest: pending => {
           if (runId.current === id) nativeRun.current = pending ? id : null
+        },
+        onSuccess: () => {
+          if (runId.current === id) {
+            done.current = true
+            setMessage('')
+          }
         }
       })
     } catch (error) {
@@ -94,9 +110,9 @@ export function usePasskeyLogin(params: PasskeyLoginParams): PasskeyLoginView {
 
   return {
     /** 是否展示当前平台的登录入口 */
-    visible: canUsePasskey(),
+    visible: canUsePasskey() && isPasskeyModuleAvailable(),
 
-    /** 是否正在认证, 用于与密码登录互斥 */
+    /** 是否正在认证，用于与密码登录互斥 */
     loading,
 
     /** 不包含认证数据的流程提示 */
@@ -105,7 +121,7 @@ export function usePasskeyLogin(params: PasskeyLoginParams): PasskeyLoginView {
     /** 只在用户点击时发起凭据请求 */
     onLogin,
 
-    /** 不自动重试, 取消后保持原登录状态 */
+    /** 不自动重试，取消后保持原登录状态 */
     onCancel
   }
 }

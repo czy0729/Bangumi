@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-10-23 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-23 10:00:00
+ * @Last Modified time: 2026-11-11 21:14:06
  *
  * 登录链路请求: User-Agent / 表单码 / 验证码 / 密码登录 / 授权 code / access_token
  */
@@ -18,9 +18,15 @@ import {
 } from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
 import { APP_ID, APP_SECRET, URL_OAUTH_REDIRECT, WEB } from '@constants'
+import { sanitizeServiceError, serviceError } from './passkey/errors'
+import {
+  accessTokenResponse,
+  assertRequestOrigin,
+  directOAuthCode,
+  isSameOrigin,
+  isSameOriginPath
+} from './passkey/protocol'
 import { UA_EKIBUN_BANGUMI_APP } from './ds'
-import { accessTokenResponse, assertRequestOrigin, directOAuthCode } from './passkey/protocol'
-import { sanitizeServiceError, serviceError } from './passkey/service-errors'
 
 import type { AccessToken } from '@stores/user/types'
 import type { ProxyRequestConfig } from '@utils/proxy/types'
@@ -35,6 +41,39 @@ const COOKIE_KEYS: CookieKey[] = [
   'chii_sid',
   'chii_theme'
 ]
+
+/** 直连响应可能把多条 Set-Cookie 折叠成一条，按 `, key=` 继续拆分 */
+const DIRECT_COOKIE_SEPARATOR = /,\s*(?=[A-Za-z_][\w-]*=)/
+
+/** 直连请求默认超时，全局 axios 的 8s 对登录链路偏紧 */
+const DIRECT_TIMEOUT_MS = 20000
+
+/** 登录请求的传输模式 */
+type LoginTransport = {
+  /** 直连主站并自行管理 Cookie，绕过节点反代 */
+  direct?: boolean
+
+  /** 每次异步操作后检查本次登录是否仍有效 */
+  assertActive?: () => void
+}
+
+/**
+ * 解析单条 cookie 的键值
+ *
+ * @param cookie Set-Cookie 片段
+ * @param direct 直连模式下值里可能包含 `=`
+ */
+function parseCookiePair(cookie: string, direct: boolean): [string, string] {
+  const [keyValue] = cookie.split(';')
+  if (!direct) {
+    const [key, value] = keyValue.trim().split('=')
+
+    return [key, value]
+  }
+  const index = keyValue.indexOf('=')
+
+  return [keyValue.slice(0, index).trim(), keyValue.slice(index + 1).trim()]
+}
 
 /** 一次登录流程内的请求状态 (cookie / 表单码 / code / token) */
 export class LoginService {
@@ -52,16 +91,20 @@ export class LoginService {
 
   private _accessToken: AccessToken = INIT_ACCESS_TOKEN
 
+  /** 直连模式下请求必须归属的来源 */
   private readonly directOrigin: string
 
-  constructor(
-    host: string,
-    private readonly transport: { direct?: boolean; assertActive?: () => void } = {}
-  ) {
+  constructor(host: string, private readonly transport: LoginTransport = {}) {
     this.host = host
     this.directOrigin = host
   }
 
+  /** 是否直连主站 */
+  protected get isDirect(): boolean {
+    return !!this.transport.direct
+  }
+
+  /** 检查本次登录是否仍有效，密码链路为空操作 */
   protected assertActive() {
     try {
       this.transport.assertActive?.()
@@ -70,14 +113,23 @@ export class LoginService {
     }
   }
 
-  /** 密码路径仍走原代理；直连路径隔离原生 Cookie jar，不输出网络错误详情。 */
-  protected async request<T = string>(config: ProxyRequestConfig): Promise<LoginResponse<T>> {
-    if (!this.transport.direct) return axiosWithProxy<LoginResponse<T>>(axios, config, true)
+  /**
+   * 发送一次登录请求
+   *
+   * @param config 请求配置
+   * @param options 是否允许最终地址换路径
+   */
+  protected async request<T = string>(
+    config: ProxyRequestConfig,
+    options: { allowPathChange?: boolean } = {}
+  ): Promise<LoginResponse<T>> {
+    if (!this.isDirect) return axiosWithProxy<LoginResponse<T>>(axios, config, true)
     this.assertActive()
     try {
       assertRequestOrigin(config.url, this.directOrigin)
       const response = await axios<T>({
         ...config,
+        timeout: typeof config.timeout === 'number' ? config.timeout : DIRECT_TIMEOUT_MS,
         withCredentials: false,
         validateStatus: () => true,
         headers: {
@@ -89,13 +141,35 @@ export class LoginService {
         }
       } as never)
       this.assertActive()
+      // 自动跟随的 302 没有逐跳校验；最终地址缺失或跨出主站都不接受响应
       const finalUrl = (response as LoginResponse<T>).request?.responseURL
-      if (finalUrl) assertRequestOrigin(finalUrl, this.directOrigin)
+      if (!finalUrl) throw serviceError('E_PASSKEY_FINAL_URL')
+      if (!isSameOrigin(finalUrl, this.directOrigin)) {
+        throw serviceError('E_PASSKEY_REDIRECT')
+      }
+      if (!options.allowPathChange && !this.isSameTarget(finalUrl, config.url)) {
+        throw serviceError('E_PASSKEY_REDIRECT')
+      }
       this.updateCookie(parseSetCookieHeader(response.headers))
+
       return response
     } catch (error) {
       this.assertActive()
       throw sanitizeServiceError(error, 'E_PASSKEY_NETWORK')
+    }
+  }
+
+  /**
+   * 最终地址是否仍是同一个接口
+   *
+   * @param finalUrl 最终地址
+   * @param requestUrl 请求地址
+   */
+  private isSameTarget(finalUrl: string, requestUrl: string): boolean {
+    try {
+      return isSameOriginPath(finalUrl, requestUrl)
+    } catch {
+      return false
     }
   }
 
@@ -115,16 +189,16 @@ export class LoginService {
       .join('; ')
   }
 
-  /** 重建本次登录的 cookie, 表单码与 code 保留给下一次登录流程复用 */
+  /** 重建本次登录的 cookie；直连会话同时清空表单码、code 与 token */
   reset() {
     this._cookie = {
       chii_theme: 'dark'
     }
-    if (this.transport.direct) {
-      this._formhash = ''
-      this._code = ''
-      this._accessToken = { ...INIT_ACCESS_TOKEN }
-    }
+    if (!this.isDirect) return
+
+    this._formhash = ''
+    this._code = ''
+    this._accessToken = { ...INIT_ACCESS_TOKEN }
   }
 
   /**
@@ -150,8 +224,7 @@ export class LoginService {
     })
     this.assertActive()
     this.updateCookie(parseSetCookieHeader(headers))
-    if (this.transport.direct && typeof data !== 'string')
-      throw serviceError('E_PASSKEY_INVALID_RESPONSE')
+    if (this.isDirect && typeof data !== 'string') throw serviceError('E_PASSKEY_INVALID_RESPONSE')
 
     const match = data.match(/<input type="hidden" name="formhash" value="(.+?)">/)
     if (match) this._formhash = match[1]
@@ -252,24 +325,21 @@ export class LoginService {
       method: 'get',
       url: `${this.host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
       headers: this.getHeaders(['User-Agent', 'Cookie'])
-    })
+    }, { allowPathChange: true })
     this.assertActive()
-    if (this.transport.direct) {
-      const redirect =
-        response.headers?.location || response.headers?.Location || response.request?.responseURL
-      if (redirect && !redirect.startsWith(`${this.directOrigin}/oauth/authorize?`)) {
-        this._code = directOAuthCode(redirect, URL_OAUTH_REDIRECT)
-        return
-      }
-    }
+    if (this.isDirect && this.resolveDirectCode(response)) return
     this._formhash = getFormhash(response.data)
-    if (this.transport.direct && !this._formhash) throw serviceError('E_PASSKEY_OAUTH')
+    if (this.isDirect && !this._formhash) throw serviceError('E_PASSKEY_OAUTH')
   }
 
   /** 授权获取 code */
   async authorize() {
     this.assertActive()
-    if (this.transport.direct && this._code) return
+    if (this.isDirect) {
+      if (this._code) return
+      await this.authorizeDirect()
+      return
+    }
     const config = {
       method: 'post',
       maxRedirects: 0,
@@ -284,27 +354,71 @@ export class LoginService {
         submit: '授权'
       })
     }
-    if (this.transport.direct) {
-      const response = await this.request({ ...config, responseType: 'text' })
-      this.assertActive()
-      const redirect =
-        response.headers?.location ||
-        response.headers?.Location ||
-        response.request?.responseURL ||
-        ''
-      this._code = directOAuthCode(redirect, URL_OAUTH_REDIRECT)
-      return
-    }
     try {
       const { redirectUrl } = await axiosWithProxyRedirect(axios, config, true)
       this._code = parseOAuthCode(redirectUrl)
     } catch (error) {
-      // 密码路径保留原有节点重定向兜底。
+      // 密码路径保留原有节点重定向兜底
       this._code = parseOAuthCode(
         getRedirectFromHeaders((error as { response?: LoginResponse })?.response?.headers)
       )
     }
     if (!this._code) throw new Error('授权失败: 无法从重定向 URL 提取 code')
+  }
+
+  /**
+   * 直连提交授权表单；XHR 会自行跟随 302，从最终地址取 code
+   */
+  private async authorizeDirect() {
+    const response = await this.request({
+      method: 'post',
+      timeout: 12000,
+      url: `${this.host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
+      headers: this.getHeaders(['User-Agent', 'Cookie', 'Content-Type']),
+      data: urlStringify({
+        formhash: this._formhash,
+        redirect_uri: '',
+        client_id: APP_ID,
+        submit: '授权'
+      }),
+      responseType: 'text'
+    }, { allowPathChange: true })
+    this.assertActive()
+    const redirect =
+      response.headers?.location ||
+      response.headers?.Location ||
+      response.request?.responseURL ||
+      ''
+    this._code = directOAuthCode(redirect, URL_OAUTH_REDIRECT)
+  }
+
+  /**
+   * 直连在已授权时会直达 redirect_uri，直接从最终地址取 code
+   *
+   * @param response 授权页响应
+   */
+  private resolveDirectCode(response: LoginResponse): boolean {
+    const redirect =
+      response.headers?.location || response.headers?.Location || response.request?.responseURL
+    if (!redirect || this.isAuthorizePage(redirect)) return false
+    this._code = directOAuthCode(redirect, URL_OAUTH_REDIRECT)
+
+    return true
+  }
+
+  /**
+   * 地址是否仍停留在授权页
+   *
+   * @param url 重定向或最终地址
+   */
+  private isAuthorizePage(url: string): boolean {
+    const absolute =
+      url.startsWith('/') && !url.startsWith('//') ? `${this.directOrigin}${url}` : url
+    try {
+      return isSameOriginPath(absolute, `${this.directOrigin}/oauth/authorize`)
+    } catch {
+      return false
+    }
   }
 
   /** code 换 access_token */
@@ -326,7 +440,7 @@ export class LoginService {
     })
     this.assertActive()
     if (status !== 200) throw new TypeError(String(status))
-    this._accessToken = this.transport.direct ? accessTokenResponse(data) : data
+    this._accessToken = this.isDirect ? accessTokenResponse(data) : data
   }
 
   /**
@@ -351,13 +465,8 @@ export class LoginService {
    */
   protected updateCookie(setCookie: string = '') {
     if (!setCookie) return
-    const separator = this.transport.direct ? /,\s*(?=[A-Za-z_][\w-]*=)/ : /,\s*/
-    setCookie.split(separator).forEach(cookie => {
-      const [keyValue] = cookie.split(';')
-      const index = keyValue.indexOf('=')
-      const [key, value] = this.transport.direct
-        ? [keyValue.slice(0, index).trim(), keyValue.slice(index + 1).trim()]
-        : keyValue.trim().split('=')
+    setCookie.split(this.isDirect ? DIRECT_COOKIE_SEPARATOR : /,\s*/).forEach(cookie => {
+      const [key, value] = parseCookiePair(cookie, this.isDirect)
       if (!COOKIE_KEYS.includes(key as CookieKey)) return
 
       if (value === 'delete' || value === 'deleted') {

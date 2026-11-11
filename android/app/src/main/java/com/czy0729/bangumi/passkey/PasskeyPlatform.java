@@ -27,6 +27,8 @@ final class PasskeyPlatform {
     private static final String KEY_CLIENT_DATA_HASH = "androidx.credentials.BUNDLE_KEY_CLIENT_DATA_HASH";
     private static final String KEY_RESPONSE_JSON =
             "androidx.credentials.BUNDLE_KEY_AUTHENTICATION_RESPONSE_JSON";
+    private static final String KEY_AUTO_SELECT = "androidx.credentials.BUNDLE_KEY_IS_AUTO_SELECT_ALLOWED";
+    private static final String KEY_TYPE_PRIORITY = "androidx.credentials.BUNDLE_KEY_TYPE_PRIORITY_VALUE";
 
     interface Callback {
         void onSuccess(String authenticationResponseJson);
@@ -52,8 +54,8 @@ final class PasskeyPlatform {
             optionData.putString(KEY_SUBTYPE, GET_SUBTYPE);
             optionData.putString(KEY_REQUEST_JSON, request.optionsJson);
             optionData.putByteArray(KEY_CLIENT_DATA_HASH, request.clientDataHash.clone());
-            optionData.putBoolean("androidx.credentials.BUNDLE_KEY_IS_AUTO_SELECT_ALLOWED", false);
-            optionData.putInt("androidx.credentials.BUNDLE_KEY_TYPE_PRIORITY_VALUE", 100);
+            optionData.putBoolean(KEY_AUTO_SELECT, false);
+            optionData.putInt(KEY_TYPE_PRIORITY, 100);
             // Default selection lets CredentialManager query the user's enabled providers.
             // Delegated-origin support and trust for this calling app remain provider requirements.
             CredentialOption option = new CredentialOption.Builder(
