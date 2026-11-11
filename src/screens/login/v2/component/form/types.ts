@@ -9,8 +9,9 @@
 import type { InputInstance } from '@components'
 import type { Navigation } from '@types'
 import type { ChangeField } from '../../types'
+import type { Props as PasskeyProps } from '../passkey/types'
 
-export type Props = {
+export type Props = Pick<PasskeyProps, 'passkey'> & {
   /** 导航 */
   navigation: Navigation
 

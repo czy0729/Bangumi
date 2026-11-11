@@ -2,6 +2,8 @@
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
   <uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS"/>
   <uses-permission android:name="android.permission.INTERNET"/>
+  <!-- Normal permission; each provider must separately trust the calling package/signature. -->
+  <uses-permission android:name="android.permission.CREDENTIAL_MANAGER_SET_ORIGIN"/>
   <uses-permission android:name="android.permission.READ_CALENDAR"/>
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -58,6 +60,13 @@
         <data android:host="bgm.tv"/>
         <data android:host="bangumi.tv"/>
         <data android:host="chii.in"/>
+      </intent-filter>
+      <!-- KeePassDX trusted-app discovery only; not a website DAL binding or default browser. -->
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="https" android:host="www.keepassdx.com"/>
       </intent-filter>
     </activity>
 
