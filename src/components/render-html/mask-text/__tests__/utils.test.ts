@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-31 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-05 20:29:45
+ * @Last Modified time: 2026-11-12 06:48:48
  */
 import React from 'react'
 import { getMaskTextStyle, MASK_BACKGROUND_COLOR, MASK_TEXT_COLOR, maskRichText } from '../utils'
@@ -93,6 +93,16 @@ describe('maskRichText', () => {
     expect(lastStyle(result)).toEqual({ color: MASK_TEXT_COLOR })
   })
 
+  it('展开时给表情 span 固定行高', () => {
+    const emoji = React.createElement(EmojiText, { index: 38, size: 24 }, '38')
+
+    const result = maskRichText([emoji], true, 30) as any[]
+    const styles = result[0].props.style as any[]
+
+    expect(styles[styles.length - 1]).toEqual({ lineHeight: 30 })
+    expect(styles[styles.length - 2]).toEqual({ color: MASK_TEXT_COLOR })
+  })
+
   it('收起时混合内容中表情替换为全角空白', () => {
     const children = [
       '前缀',
@@ -110,7 +120,7 @@ describe('maskRichText', () => {
   it('收起与展开保持相同结构', () => {
     const children = [
       '前缀',
-      React.createElement('Text', { key: 'link', onPress: jest.fn() }, '链接'),
+      React.createElement('Text', { key: 'link', onPress: jest.fn() } as any, '链接'),
       React.createElement('Text', { key: 'br' }, '\n'),
       React.createElement('Text', { key: 'text' }, '正文')
     ]
@@ -119,8 +129,10 @@ describe('maskRichText', () => {
     const visible = maskRichText(children, true) as any[]
 
     expect(hidden).toHaveLength(visible.length)
-    expect(hidden.map(item => (React.isValidElement(item) ? item.props.children : item))).toEqual(
-      visible.map(item => (React.isValidElement(item) ? item.props.children : item))
+    expect(
+      hidden.map((item: any) => (React.isValidElement(item) ? (item as any).props.children : item))
+    ).toEqual(
+      visible.map((item: any) => (React.isValidElement(item) ? (item as any).props.children : item))
     )
   })
 })

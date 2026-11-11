@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-02-26 21:45:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-05 20:29:39
+ * @Last Modified time: 2026-11-12 06:48:53
  */
 import React from 'react'
 import { IOS, MEIZU } from '@constants'
@@ -24,8 +24,12 @@ export function getMaskTextStyle(show: boolean): TextStyle {
   }
 }
 
-export function maskRichText(children: ReactNode, show: boolean): ReactNode {
-  return maskChildren(children, show, getMaskTextStyle(show))
+export function maskRichText(
+  children: ReactNode,
+  show: boolean,
+  lineHeight: number = 0
+): ReactNode {
+  return maskChildren(children, show, getMaskTextStyle(show), lineHeight)
 }
 
 /** 元素 props 的可访问字段 */
@@ -35,7 +39,12 @@ type ElementProps = {
   children?: ReactNode
 }
 
-function maskChildren(children: ReactNode, show: boolean, style: TextStyle): ReactNode {
+function maskChildren(
+  children: ReactNode,
+  show: boolean,
+  style: TextStyle,
+  lineHeight: number
+): ReactNode {
   if (children == null || typeof children === 'boolean') return children
 
   if (typeof children === 'string' || typeof children === 'number') {
@@ -47,7 +56,7 @@ function maskChildren(children: ReactNode, show: boolean, style: TextStyle): Rea
   }
 
   if (Array.isArray(children))
-    return (children as ReactNode[]).map(item => maskChildren(item, show, style))
+    return (children as ReactNode[]).map(item => maskChildren(item, show, style, lineHeight))
 
   if (React.isValidElement(children)) {
     const element = children as ReactElement<ElementProps>
@@ -64,8 +73,15 @@ function maskChildren(children: ReactNode, show: boolean, style: TextStyle): Rea
     } = {}
 
     if (element.type !== React.Fragment) nextProps.style = [props.style, style]
+
+    // 安卓展开态固定表情 span 行高
+    if (show && !IOS && element.type === EmojiText && lineHeight > 0) {
+      nextProps.style = [props.style, style, { lineHeight }]
+    }
+
     if (!show && props.onPress) nextProps.onPress = undefined
-    if ('children' in props) nextProps.children = maskChildren(props.children, show, style)
+    if ('children' in props)
+      nextProps.children = maskChildren(props.children, show, style, lineHeight)
 
     return React.cloneElement(element, nextProps as Record<string, unknown>)
   }

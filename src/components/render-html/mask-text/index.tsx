@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 10:03:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-16 22:33:44
+ * @Last Modified time: 2026-11-12 06:48:42
  */
 import React, { useCallback, useState } from 'react'
 import { observer } from 'mobx-react'
@@ -22,17 +22,17 @@ function MaskText({ style, children }: Props) {
   }, [])
 
   const flattenStyle = _.flatten(style)
-  const childrenValue = maskRichText(children, show)
+  const lineHeight =
+    flattenStyle?.lineHeight ||
+    (flattenStyle?.fontSize ? Math.floor(flattenStyle.fontSize * 1.5) : 0)
+  const childrenValue = maskRichText(children, show, lineHeight)
 
   return (
     <Text
       style={stl(
         flattenStyle,
         show ? styles.blockTextShow : styles.blockText,
-        flattenStyle?.fontSize &&
-          !flattenStyle?.lineHeight && {
-            lineHeight: Math.floor(flattenStyle.fontSize * 1.5)
-          }
+        lineHeight ? { lineHeight } : undefined
       )}
       onPress={handlePress}
     >
