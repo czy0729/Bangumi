@@ -123,6 +123,15 @@ export default class Fetch extends Computed {
         if (!result) return null
 
         const data = result.data || []
+
+        // 章节列表顺带更新「用户回复过的章节」映射
+        if (key === 'episode') {
+          void rakuenStore.mergeEpReplied(
+            data.map(item => item.containerID).filter(Boolean),
+            offset === 0 ? data.reduce((max, item) => Math.max(max, item.createdAt || 0), 0) : 0
+          )
+        }
+
         return {
           list: mapReplies(data),
           total: result.pagination?.total || 0,

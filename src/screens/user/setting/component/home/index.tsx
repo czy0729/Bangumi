@@ -20,6 +20,7 @@ import HomeEpStartAtLast from './home-ep-start-at-last'
 import HomeFilter from './home-filter'
 import HomeGridCoverLayout from './home-grid-cover-layout'
 import HomeGridEpAutoAdjust from './home-grid-ep-auto-adjust'
+import HomeEpRepliedDot from './home-ep-replied-dot'
 import HomeGridTitle from './home-grid-title'
 import HomeHeatMap from './home-heat-map'
 import HomeICS from './home-ics'
@@ -67,6 +68,7 @@ function Home({ filter }: WithFilterProps) {
         {shows.homeGridTitle && !isList && <HomeGridTitle filter={filter} />}
         {shows.homeGridEpAutoAdjust && !isList && <HomeGridEpAutoAdjust filter={filter} />}
         {shows.homeHeatMap && <HomeHeatMap filter={filter} />}
+        {shows.homeEpRepliedDot && <HomeEpRepliedDot filter={filter} />}
         {shows.homeSorting && <HomeSorting filter={filter} />}
         {shows.homeSortSink &&
           systemStore.setting.homeSorting !== MODEL_SETTING_HOME_SORTING.getValue('网页') && (

@@ -107,5 +107,9 @@ export const TEXTS = {
   homeHeatMap: {
     title: '章节讨论热力图',
     information: '按钮下方不同透明度橙色条块，可快速了解讨论的激烈程度'
+  },
+  homeEpRepliedDot: {
+    title: '章节标记参与过的讨论',
+    information: '你回复过的章节，按钮右上角显示白点'
   }
 } as const

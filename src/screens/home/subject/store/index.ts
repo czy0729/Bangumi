@@ -7,8 +7,8 @@
  * 条目页面状态机: 初始化、分区请求与退出拦截
  */
 import { _, collectionStore, rakuenStore, subjectStore, userStore } from '@stores'
-import { getBucketId } from '@utils/bucket'
 import { getTimestamp } from '@utils'
+import { getBucketId } from '@utils/bucket'
 import { queue } from '@utils/fetch'
 import { M15, SHARE_MODE, WEB } from '@constants'
 import Action from './action'
@@ -43,6 +43,9 @@ export default class ScreenSubject extends Action {
         focused: true,
         _loaded: loadedTime
       })
+
+      // 章节格子标记: 读回本地映射后按冷却增量同步
+      void rakuenStore.syncEpReplied()
 
       // 请求条目快照
       this.fetchSubjectFromOSS()

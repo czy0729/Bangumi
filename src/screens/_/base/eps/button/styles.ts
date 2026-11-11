@@ -15,6 +15,17 @@ export const memoStyles = _.memoStyles(() => ({
   textThrough: {
     textDecorationLine: 'line-through'
   },
+  replied: {
+    position: 'absolute',
+    zIndex: 1,
+    top: 5,
+    right: 5,
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: _.__colorPlain__,
+    opacity: _.select(0.75, 0.64)
+  },
   flip: {
     marginTop: -8
   }

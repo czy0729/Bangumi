@@ -8,7 +8,7 @@ import { getTimestamp } from '@utils'
 import { D7, DEV, MODEL_SETTING_SERVER_STATUS, WEB } from '@constants'
 import UserStore from '../user'
 import Action from './action'
-import { NAMESPACE } from './init'
+import { INIT_SETTING, NAMESPACE } from './init'
 
 class SystemStore extends Action {
   private _serverStatusId = null
@@ -29,6 +29,14 @@ class SystemStore extends Action {
       ],
       NAMESPACE
     )
+
+    // 补全版本升级后新增设置项的默认值
+    this.setState({
+      setting: {
+        ...INIT_SETTING,
+        ...this.setting
+      }
+    })
 
     if (!WEB) {
       if (MODEL_SETTING_SERVER_STATUS.getLabel(this.setting.serverStatus) !== '不显示') {

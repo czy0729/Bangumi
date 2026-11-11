@@ -73,6 +73,18 @@ export type RakuenItem = {
 /** 超展开 */
 export type Rakuen = ListEmpty<RakuenItem>
 
+/** 用户回复过的章节 */
+export type EpReplied = {
+  /** 已同步到的最新回复时间 */
+  syncedAt: number
+
+  /** 上次同步时间, 用于冷却 */
+  checkedAt: number
+
+  /** 回复过的章节 id */
+  eps: number[]
+}
+
 /** 帖子历史查看信息 */
 export type Readed = {
   /** 帖子查看时的回复数 */

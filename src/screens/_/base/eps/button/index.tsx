@@ -8,7 +8,7 @@ import { useMemo } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Button as ButtonComp, Popover } from '@components'
-import { _, systemStore } from '@stores'
+import { _, rakuenStore, systemStore, userStore } from '@stores'
 import { WSA } from '@constants'
 import FlipButton from '../flip-button'
 import { getPopoverData, getType } from './utils'
@@ -38,6 +38,10 @@ function Button({ props, item, epStatus = '', isSp = false, num = 0 }: Props) {
 
   const type = getType(userProgress[item.id], item.status)
   const isSide = num % numbersOfLine === 0
+  const replied =
+    userStore.isLogin &&
+    systemStore.setting.epRepliedDot !== false &&
+    rakuenStore.epReplied(userStore.myUserId).has(Number(item.id))
 
   const containerStyle = {
     marginBottom: margin - 4
@@ -101,6 +105,7 @@ function Button({ props, item, epStatus = '', isSp = false, num = 0 }: Props) {
     <View style={containerStyle}>
       {flip && <View style={styles.flip} />}
       <View style={itemStyle}>
+        {replied && <View style={styles.replied} />}
         {flip ? (
           <View>
             <FlipButton {...btnPassProps} text={item.sort} onAnimated={onFliped} />

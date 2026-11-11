@@ -8,19 +8,22 @@ import { confirm, getTimestamp, info } from '@utils'
 import { syncSystemStore, syncUserStore } from '@utils/async'
 import { getBucketId } from '@utils/bucket'
 import { fetchHTML, xhr } from '@utils/fetch'
-import { collect, collectList, get, is, update } from '@utils/kv'
+import { collect, collectList, get, is, searchEncoreReplies, update } from '@utils/kv'
 import { plainClone } from '@utils/store/utils'
 import {
   API_TOPIC_COMMENT_LIKE,
   APP_ADVANCE_TRACK_COMMENT,
   APP_FREE_TRACK_COMMENT,
+  H6,
   HOST,
   HTML_ACTION_BLOG_REPLY,
   HTML_ACTION_RAKUEN_REPLY,
   HTML_PRIVACY,
-  HTML_TOPIC_EDIT
+  HTML_TOPIC_EDIT,
+  M5
 } from '@constants'
 import Fetch from './fetch'
+import { EP_REPLIED_FULL_PAGES, EP_REPLIED_INC_PAGES, EP_REPLIED_LIMIT, EP_REPLIED_MAX } from './ds'
 
 import type { RakuenReplyType } from '@constants/html/types'
 import type {
@@ -363,6 +366,139 @@ export default class Action extends Fetch {
       time,
       _time: readed.time === 0 ? time : readed.time
     })
+  }
+
+  // -------------------- 回复过的章节 --------------------
+
+  /** 正在同步的账号, 避免并发重复请求 */
+  private _epRepliedSyncing: Record<UserId, boolean> = {}
+
+  /** 同步回复过的章节: 首次全量, 之后按游标增量 */
+  syncEpReplied = async (force: boolean = false) => {
+    const { myUserId: userId } = syncUserStore()
+    if (!userId || this._epRepliedSyncing[userId]) return
+
+    await this.init('epReplied')
+
+    const now = getTimestamp()
+    const current = this.state.epReplied[userId]
+    if (!force && current && now - (current.checkedAt || 0) < H6) {
+      this.log('syncEpReplied', 'skip cooldown', userId)
+      return
+    }
+
+    this._epRepliedSyncing[userId] = true
+    try {
+      const start = Date.now()
+      const eps = new Set(current?.eps || [])
+      const cursor = current?.syncedAt || 0
+      const mode = current?.eps?.length ? 'inc' : 'full'
+      const pages = mode === 'full' ? EP_REPLIED_FULL_PAGES : EP_REPLIED_INC_PAGES
+      let syncedAt = cursor
+      let offset = 0
+      let added = 0
+      let changed = false
+      let failed = false
+
+      this.log('syncEpReplied', `${mode} start`, userId, `cursor ${cursor}`)
+
+      for (let page = 0; page < pages; page += 1) {
+        const result = await searchEncoreReplies({
+          q: `user:${userId} exclude:nsfw`,
+          source: 'episode',
+          sort: 'newest',
+          limit: EP_REPLIED_LIMIT,
+          offset
+        })
+        if (!result) {
+          failed = true
+          this.log('syncEpReplied', `${mode} fail`, `page ${page + 1}`, `offset ${offset}`)
+          break
+        }
+
+        const data = result.data || []
+        let reached = false
+        for (const item of data) {
+          // 命中游标之前的时间说明这一页已经覆盖到已同步的区间
+          if (cursor && item.createdAt <= cursor - M5) reached = true
+          if (item.createdAt > syncedAt) syncedAt = item.createdAt
+          if (item.containerID && !eps.has(item.containerID)) {
+            eps.add(item.containerID)
+            added += 1
+            changed = true
+          }
+        }
+
+        this.log(
+          'syncEpReplied',
+          `${mode} page ${page + 1}`,
+          `count ${data.length}`,
+          `add ${added}`,
+          `reach ${reached}`
+        )
+
+        offset += data.length
+        if (data.length < EP_REPLIED_LIMIT || reached) break
+      }
+
+      // 请求失败且没有任何新数据时不写回, 保留下次重试
+      if (failed && !changed && syncedAt === cursor) return
+
+      this.setState({
+        epReplied: {
+          [userId]: {
+            syncedAt,
+            checkedAt: now,
+            eps: [...eps].slice(-EP_REPLIED_MAX)
+          }
+        }
+      })
+      this.save('epReplied')
+      this.log(
+        'syncEpReplied',
+        `${mode} done`,
+        `add ${added}`,
+        `size ${eps.size}`,
+        `syncedAt ${syncedAt}`,
+        `${Date.now() - start}ms`
+      )
+    } finally {
+      this._epRepliedSyncing[userId] = false
+    }
+  }
+
+  /** 合并列表拿到的章节回复, 不额外请求 */
+  mergeEpReplied = async (epIds: number[] = [], newestAt: number = 0) => {
+    const { myUserId: userId } = syncUserStore()
+    if (!userId || !epIds.length) return
+
+    await this.init('epReplied')
+
+    const current = this.state.epReplied[userId]
+    const eps = new Set(current?.eps || [])
+    let added = 0
+    epIds.forEach(epId => {
+      if (!epId || eps.has(epId)) return
+
+      eps.add(epId)
+      added += 1
+    })
+
+    const syncedAt = Math.max(current?.syncedAt || 0, newestAt)
+    if (!added && syncedAt === (current?.syncedAt || 0)) return
+
+    this.setState({
+      epReplied: {
+        [userId]: {
+          syncedAt,
+          // 保持原有冷却时间: 列表只是顺带补充, 不代替全量同步
+          checkedAt: current?.checkedAt || 0,
+          eps: [...eps].slice(-EP_REPLIED_MAX)
+        }
+      }
+    })
+    this.save('epReplied')
+    this.log('mergeEpReplied', `add ${added}`, `size ${eps.size}`, `syncedAt ${syncedAt}`)
   }
 
   /** 设置`自动加载楼层中的图片` */

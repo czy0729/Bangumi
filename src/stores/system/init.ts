@@ -154,6 +154,9 @@ export const INIT_SETTING = {
   /** 章节热力图 */
   heatMap: true,
 
+  /** 章节标记参与过的讨论 */
+  epRepliedDot: true,
+
   /** 打开外部浏览器前复制网址 */
   openInfo: true,
 

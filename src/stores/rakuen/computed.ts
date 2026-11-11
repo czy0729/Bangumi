@@ -101,6 +101,11 @@ export default class Computed extends State implements StoreConstructor<typeof S
     return this.setting.commentTrack.includes(userName)
   })
 
+  /** 回复过的章节集合 */
+  epReplied = computedFn((userId: UserId) => {
+    return new Set(this.state.epReplied[userId]?.eps || [])
+  })
+
   // -------------------- 有副作用 (分离 init + computedFn) --------------------
   /** 超展开列表 */
   private _rakuen = computedFn(
