@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-07-15 16:37:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-13 04:27:12
+ * @Last Modified time: 2026-11-13 07:29:17
  *
  * 发现频道通用筛选面板
  */
@@ -88,7 +88,16 @@ export const Filter = observer(
         <FilterSwitch title={title} name={name} />
 
         {!!selectedItems.length && (
-          <Selected items={selectedItems} eventId={eventId} onReset={handleResetAll} />
+          <Selected
+            items={selectedItems}
+            eventId={eventId}
+            onRemove={item => {
+              if (typeof $?.onSelect !== 'function') return
+              if (item.multiple) $.onSelect(item.type, item.value, true)
+              else $.onSelect(item.type, '')
+            }}
+            onReset={handleResetAll}
+          />
         )}
 
         {items.map(item => (

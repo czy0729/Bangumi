@@ -9,19 +9,20 @@
 import { ScrollView } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Iconfont, Text, Touchable } from '@components'
-import { _, useStore } from '@stores'
+import { _ } from '@stores'
 import { stl } from '@utils'
 import { SCROLL_VIEW_RESET_PROPS } from '@constants'
 import { HIT_SLOP } from '../ds'
 import { memoStyles as memoRowStyles } from '../styles'
-import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { Ctx } from '../types'
 import type { Props } from './types'
 
-function Selected({ items, eventId, onReset }: Props) {
-  const { $ } = useStore<Ctx>(COMPONENT)
+/**
+ * 已选条件行: 与筛选组同构的横向滚动行, 点击标签移除该条件
+ *  - 宿主无关: 移除 / 重置语义由 onRemove / onReset 回调决定
+ */
+function Selected({ items, eventId, onRemove, onReset }: Props) {
   const styles = memoStyles()
   const rowStyles = memoRowStyles()
 
@@ -43,11 +44,7 @@ function Selected({ items, eventId, onReset }: Props) {
                 key={`${item.type}|${item.value}`}
                 style={styles.selectedTag}
                 hitSlop={HIT_SLOP}
-                onPress={() => {
-                  if (typeof $?.onSelect !== 'function') return
-                  if (item.multiple) $.onSelect(item.type, item.value, true)
-                  else $.onSelect(item.type, '')
-                }}
+                onPress={() => onRemove(item)}
               >
                 <Flex align='center'>
                   <Text style={styles.selectedTagText} size={11} bold noWrap>
@@ -55,7 +52,9 @@ function Selected({ items, eventId, onReset }: Props) {
                   </Text>
                   <Iconfont style={_.ml.xs} name='md-close' size={11} color={_.colorMain} />
                 </Flex>
-                <Heatmap right={-1} id={eventId} value={String(item.value)} mini />
+                {eventId && (
+                  <Heatmap right={-1} id={eventId} value={String(item.value)} mini />
+                )}
               </Touchable>
             ))}
           </Flex>

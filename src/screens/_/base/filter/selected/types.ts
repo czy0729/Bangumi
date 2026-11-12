@@ -16,7 +16,7 @@ export type SelectedItem = {
   /** 选中值 */
   value: string | number
 
-  /** 是否数组形态 (移除时走多选切换) */
+  /** 是否数组形态 (宿主侧决定移除语义) */
   multiple: boolean
 }
 
@@ -24,8 +24,11 @@ export type Props = {
   /** 已选条件列表 */
   items: SelectedItem[]
 
-  /** 埋点事件标识 (与候选项的「选择」事件一致) */
-  eventId: EventKeys
+  /** 埋点事件标识 (缺省不渲染埋点) */
+  eventId?: EventKeys
+
+  /** 移除单个条件 */
+  onRemove: (item: SelectedItem) => void
 
   /** 全部重置回调 */
   onReset: () => void
