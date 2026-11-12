@@ -10,6 +10,7 @@ import { groupItems } from '@_'
 import {
   GAME_CATE,
   GAME_COLLECTED,
+  GAME_COUNTS,
   GAME_DEV,
   GAME_JUNK,
   GAME_NSFW,
@@ -48,17 +49,20 @@ export const filterDS = [
     title: '发行　',
     type: 'year',
     data: GAME_YEAR,
+    nums: GAME_COUNTS.year,
     always: true
   },
   {
     title: '平台　',
     type: 'platform',
-    data: GAME_PLATFORM
+    data: GAME_PLATFORM,
+    nums: GAME_COUNTS.platform
   },
   {
     title: '类型　',
     type: 'cate',
     data: GAME_CATE_GROUP,
+    nums: GAME_COUNTS.cate,
     multiple: true,
     always: true
   },
@@ -66,24 +70,28 @@ export const filterDS = [
     title: '标签',
     type: 'tag',
     data: GAME_TAG_GROUP,
+    nums: GAME_COUNTS.tag,
     multiple: true
   },
   {
     title: '开发商',
     type: 'dev',
     data: GAME_DEV_GROUP,
+    nums: GAME_COUNTS.dev,
     multiple: true
   },
   {
     title: '发行商',
     type: 'pub',
     data: GAME_PUB_GROUP,
+    nums: GAME_COUNTS.pub,
     multiple: true
   },
   {
     title: '分级　',
     type: 'x',
-    data: GAME_NSFW
+    data: GAME_NSFW,
+    nums: GAME_COUNTS.x
   },
   {
     title: '排序　',

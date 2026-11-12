@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-10-04 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-04 00:00:00
+ * @Last Modified time: 2026-11-13 02:32:19
  */
 import { decode } from '@utils/thirdParty/protobuf'
 import { ensureRecordLimit } from '../../cache'
@@ -10,6 +10,7 @@ import { getTimestamp } from '../../index'
 import { SEARCH_RESULT_LIMIT, SORT } from '../anime'
 import {
   MANGA_CH,
+  MANGA_CH_RANGE,
   MANGA_COLLECTED,
   MANGA_NSFW,
   MANGA_PUBLISHERS,
@@ -17,12 +18,16 @@ import {
   MANGA_TAG_ALIAS,
   MANGA_TAGS,
   MANGA_VOL,
+  MANGA_VOL_RANGE,
   MANGA_YEAR
 } from './ds'
+import { createFacetCounter } from '../facet'
+import { FACET_DIMS } from './facet'
 
 import type { SubjectId } from '@types'
 import type { Finger, Item, Query, SearchResult } from './types'
 
+export * from './counts'
 export {
   MANGA_CH,
   MANGA_COLLECTED,
@@ -64,22 +69,6 @@ MANGA_PUBLISHERS.forEach((publisher, index) => {
   PUBLISHER_MATCH[publisher] = [index]
 })
 
-/** 卷数 / 话数档位 → [最小值, 最大值] (0 表示无界) */
-const VOL_RANGE: Record<string, [number, number]> = {
-  '1-5卷': [1, 5],
-  '6-10卷': [6, 10],
-  '11-20卷': [11, 20],
-  '21-50卷': [21, 50],
-  '51卷+': [51, 0]
-}
-const CH_RANGE: Record<string, [number, number]> = {
-  '1-20话': [1, 20],
-  '21-50话': [21, 50],
-  '51-100话': [51, 100],
-  '101-300话': [101, 300],
-  '300话+': [301, 0]
-}
-
 /** 年份匹配 (YYYY[-MM[-DD]] 前缀, '2000以前' 含整个 20 世纪) */
 function matchYear(value: string | undefined, year: string | number | undefined) {
   if (!value) return false
@@ -118,7 +107,7 @@ export function findManga(id: SubjectId): Item | undefined {
 }
 
 /** 只返回下标数组对象 */
-export function search(query: Query): SearchResult {
+export function search(query: Query, max: number = SEARCH_RESULT_LIMIT): SearchResult {
   init()
 
   // 查询指纹
@@ -130,8 +119,8 @@ export function search(query: Query): SearchResult {
 
   const tagNums = tag ? TAG_MATCH[tag] : undefined
   const publisherNums = publisher ? PUBLISHER_MATCH[publisher] : undefined
-  const volRange = vol ? VOL_RANGE[vol] : undefined
-  const chRange = ch ? CH_RANGE[ch] : undefined
+  const volRange = vol ? MANGA_VOL_RANGE[vol] : undefined
+  const chRange = ch ? MANGA_CH_RANGE[ch] : undefined
 
   const data = getData()
   data.forEach((item, index) => {
@@ -173,7 +162,7 @@ export function search(query: Query): SearchResult {
       break
   }
 
-  _list = _list.slice(0, SEARCH_RESULT_LIMIT)
+  _list = _list.slice(0, max)
 
   const result: SearchResult = {
     list: _list,
@@ -189,3 +178,6 @@ export function search(query: Query): SearchResult {
 
   return result
 }
+
+/** 条件分面计数 (数据未就绪时返回 null, 展示层回落 counts.ts 静态分布) */
+export const facetCounts = createFacetCounter(() => manga, FACET_DIMS).counts

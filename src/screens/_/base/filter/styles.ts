@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-13 10:02:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2022-09-21 00:48:53
+ * @Last Modified time: 2026-11-13 05:10:19
+ *
+ * 筛选面板样式
  */
 import { _ } from '@stores'
 
@@ -36,6 +38,9 @@ export const memoStyles = _.memoStyles(() => ({
   },
   itemActive: {
     backgroundColor: _.select(_.colorBg, _._colorDarkModeLevel2)
+  },
+  itemDisabled: {
+    opacity: 0.36
   },
   itemMultiSelect: {
     marginRight: _.sm

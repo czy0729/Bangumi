@@ -189,6 +189,9 @@ export const ADV_DEV_ALIAS = [
 
 export const ADV_SORT = ['发行', '排名', '评分人数', '随机'] as const
 
+/** 分级 (「全部」由通用筛选组提供) */
+export const ADV_NSFW = ['限制', '未知'] as const
+
 /** 时长档位 */
 export const ADV_PLAYTIME = ['超长', '长', '中', '短', '超短', '不明'] as const
 

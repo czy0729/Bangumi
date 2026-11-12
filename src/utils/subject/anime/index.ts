@@ -2,12 +2,20 @@
  * @Author: czy0729
  * @Date: 2020-07-15 00:12:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-11-03 16:44:11
+ * @Last Modified time: 2026-11-13 02:31:43
  */
 import { ensureRecordLimit } from '../../cache'
 import { getTimestamp, isArray } from '../../index'
 import { decode, get } from '../../thirdParty/protobuf'
-import { ANIME_META_MAP, ANIME_OFFICIAL_MAP, ANIME_TAGS_MAP, REG_SEASONS, SEARCH_RESULT_LIMIT, SORT } from './ds'
+import {
+  ANIME_META_MAP,
+  ANIME_OFFICIAL_MAP,
+  ANIME_TAGS_MAP,
+  EP_RANGE,
+  REG_SEASONS,
+  SEARCH_RESULT_LIMIT,
+  SORT
+} from './ds'
 
 import type { SubjectId } from '@types'
 import type { CompressedItem, Finger, Item, Query, SearchResult, UnzipItem } from './types'
@@ -32,6 +40,9 @@ export {
   SEARCH_RESULT_LIMIT,
   SORT
 } from './ds'
+import { createFacetCounter } from '../facet'
+import { FACET_DIMS } from './facet'
+export * from './counts'
 
 /** 缓存搜索结果 */
 const memo: Record<Finger, SearchResult> = {}
@@ -67,15 +78,6 @@ export function findAnime(id: SubjectId): Item {
 export function find(id: SubjectId): UnzipItem {
   init()
   return unzip(getData().find(item => item.i == id) as unknown as CompressedItem | undefined)
-}
-
-/** 集数档位 → 话数区间 (0 表示无上限) */
-const EP_RANGE: Record<string, [number, number]> = {
-  '1话': [1, 1],
-  '2-13话': [2, 13],
-  '14-26话': [14, 26],
-  '27-52话': [27, 52],
-  '52话+': [53, 0]
 }
 
 function matchRange(value: number | undefined, range: [number, number] | undefined) {
@@ -299,3 +301,6 @@ export function guess(
   )
   // .sort(() => SORT.random())
 }
+
+/** 条件分面计数 (数据未就绪时返回 null, 展示层回落 counts.ts 静态分布) */
+export const facetCounts = createFacetCounter(() => anime, FACET_DIMS).counts

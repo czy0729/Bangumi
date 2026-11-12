@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-05 03:29:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-17 05:40:10
+ * @Last Modified time: 2026-11-13 02:31:52
  */
 import { ensureRecordLimit } from '../../cache'
 import { getTimestamp } from '../../index'
@@ -26,10 +26,13 @@ import {
   GAME_TAGS,
   GAME_YEAR
 } from './ds'
+import { createFacetCounter } from '../facet'
+import { FACET_DIMS } from './facet'
 
 import type { SubjectId } from '@types'
 import type { CompressedItem, Finger, GameUnzipItem, Item, Query, SearchResult } from './types'
 
+export * from './counts'
 export {
   GAME_CATE,
   GAME_CATE_MAP,
@@ -120,7 +123,7 @@ export function find(id: SubjectId): GameUnzipItem {
 }
 
 /** 只返回下标数组对象 */
-export function search(query: Query): SearchResult {
+export function search(query: Query, max: number = SEARCH_RESULT_LIMIT): SearchResult {
   init()
 
   // 查询指纹
@@ -187,7 +190,7 @@ export function search(query: Query): SearchResult {
       break
   }
 
-  _list = _list.slice(0, SEARCH_RESULT_LIMIT)
+  _list = _list.slice(0, max)
 
   const result: SearchResult = {
     list: _list,
@@ -227,3 +230,6 @@ export function unzip(item: CompressedItem | undefined): GameUnzipItem {
     vgCount: item?.vc || 0
   }
 }
+
+/** 条件分面计数 (数据未就绪时返回 null, 展示层回落 counts.ts 静态分布) */
+export const facetCounts = createFacetCounter(() => game, FACET_DIMS).counts

@@ -421,3 +421,13 @@ export const ANIME_COLLECTED = ['隐藏'] as const
 
 /** 分级筛选 (「全部」由通用筛选组提供, 点击时写入空串) */
 export const ANIME_NSFW = ['限制', '未知'] as const
+
+
+/** 集数档位 → 话数区间 (0 表示无上限) */
+export const EP_RANGE: Record<string, [number, number]> = {
+  '1话': [1, 1],
+  '2-13话': [2, 13],
+  '14-26话': [14, 26],
+  '27-52话': [27, 52],
+  '52话+': [53, 0]
+}

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-10-05 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-14 12:00:00
+ * @Last Modified time: 2026-11-13 02:25:33
  *
  * 页面常量: 筛选维度与分组
  */
@@ -11,6 +11,7 @@ import {
   ALBUM_AUTHORS,
   ALBUM_CATES,
   ALBUM_COLLECTED,
+  ALBUM_COUNTS,
   ALBUM_NSFW,
   ALBUM_PUBLISHERS,
   ALBUM_SORT,
@@ -37,35 +38,41 @@ export const filterDS = [
     title: '年份',
     type: 'year',
     data: ALBUM_YEAR,
+    nums: ALBUM_COUNTS.year,
     always: true
   },
   {
     title: '出版',
     type: 'publisher',
     data: ALBUM_PUBLISHER_GROUP,
+    nums: ALBUM_COUNTS.publisher,
     multiple: true
   },
   {
     title: '文库',
     type: 'cate',
-    data: ALBUM_CATES
+    data: ALBUM_CATES,
+    nums: ALBUM_COUNTS.cate
   },
   {
     title: '标签',
     type: 'tag',
     data: ALBUM_TAG_GROUP,
+    nums: ALBUM_COUNTS.tag,
     multiple: true
   },
   {
     title: '作者',
     type: 'author',
     data: ALBUM_AUTHOR_GROUP,
+    nums: ALBUM_COUNTS.author,
     multiple: true
   },
   {
     title: '分级',
     type: 'x',
-    data: ALBUM_NSFW
+    data: ALBUM_NSFW,
+    nums: ALBUM_COUNTS.x
   },
   {
     title: '排序',

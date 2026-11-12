@@ -7,10 +7,13 @@
  * 找三次元数据请求
  */
 import { createSearch } from '@_'
-import { search } from '@utils/subject/real'
+import { facetCounts, search } from '@utils/subject/real'
 import Computed from './computed'
 
 export default class Fetch extends Computed {
   /** 三次元本地数据查询 */
   search = createSearch(this, search)
+
+  /** 条件分面计数 */
+  counts = facetCounts
 }

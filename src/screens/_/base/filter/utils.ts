@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-11-01 20:41:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-05 00:00:00
+ * @Last Modified time: 2026-11-12 22:21:17
+ *
+ * 筛选面板工具函数
  */
 import type { ScrollViewInstance } from 'react-native'
 

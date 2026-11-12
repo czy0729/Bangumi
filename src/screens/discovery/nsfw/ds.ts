@@ -2,12 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-07-20 09:31:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-14 12:00:00
+ * @Last Modified time: 2026-11-13 02:25:40
  *
  * 页面常量: 筛选维度与分组
  */
 import { groupItems } from '@_'
-import { NSFW_COLLECTED, NSFW_SORT, NSFW_TAGS, NSFW_TYPE, NSFW_YEAR } from '@utils/subject/nsfw'
+import {
+  NSFW_COLLECTED,
+  NSFW_COUNTS,
+  NSFW_SORT,
+  NSFW_TAGS,
+  NSFW_TYPE,
+  NSFW_YEAR
+} from '@utils/subject/nsfw'
 
 export const COMPONENT = 'NSFW'
 
@@ -22,18 +29,21 @@ export const filterDS = [
     title: '年份',
     type: 'year',
     data: NSFW_YEAR,
+    nums: NSFW_COUNTS.year,
     always: true
   },
   {
     title: '类型',
     type: 'type',
     data: NSFW_TYPE,
+    nums: NSFW_COUNTS.type,
     always: true
   },
   {
     title: '标签',
     type: 'tag',
     data: NSFW_TAG_GROUP,
+    nums: NSFW_COUNTS.tag,
     multiple: true
   },
   {
