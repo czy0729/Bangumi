@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2022-09-10 07:56:42
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-29 02:49:46
+ * @Last Modified time: 2026-11-13 13:00:00
  */
 import { useCallback, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { DraggableGrid, Flex, Text } from '@components'
+import { getMenus } from '@_/base/more-menu'
 import { _ } from '@stores'
 import { feedback, stl } from '@utils'
 import { memo } from '@utils/decorators'
 import { FROZEN_FN } from '@constants'
-import { getMenus } from '../../ds'
 import Btn from '../btn'
 import Btns from './btns'
 import { COMPONENT_MAIN, DEFAULT_PROPS } from './ds'
@@ -97,6 +97,7 @@ const SortMenu = memo(
     }
 
     const isScale = discoveryMenuNum <= 4
+    const compactStyle = Math.ceil(data.length / discoveryMenuNum) >= 3 ? styles.compact : undefined
 
     // 小尺寸屏幕自定义时, 不显示图标, 以尽量能显示完整
     let itemHeight = styles.dragItem.height * (isScale ? 0.8 : 1)
@@ -123,14 +124,7 @@ const SortMenu = memo(
           </>
         ) : (
           <Flex wrap='wrap'>
-            {data.map((item, index) =>
-              handleRenderItem(
-                item,
-                index,
-                false,
-                Math.ceil(data.length / discoveryMenuNum) >= 3 && styles.compact
-              )
-            )}
+            {data.map((item, index) => handleRenderItem(item, index, false, compactStyle))}
           </Flex>
         )}
       </View>

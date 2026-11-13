@@ -1,14 +1,10 @@
 /*
  * @Author: czy0729
- * @Date: 2023-04-28 04:08:59
+ * @Date: 2026-11-13 14:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-04 15:06:23
+ * @Last Modified time: 2026-11-13 14:00:00
  */
-import { rc } from '@utils/dev'
 import { HOST } from '@constants'
-import { COMPONENT as PARENT } from '../ds'
-
-export const COMPONENT = rc(PARENT, 'LinkModal')
 
 export const LINKS = [
   {

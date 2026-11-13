@@ -16,4 +16,4 @@ export const EVENT = {
 } as const
 
 /** 不参与跳转的菜单 key */
-export const IGNORE_PATHS: MenuItem['key'][] = ['Open', 'Netabare', 'Link']
+export const IGNORE_PATHS: MenuItem['key'][] = ['Open', 'More', 'Netabare', 'Link']

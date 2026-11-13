@@ -16,7 +16,7 @@ export type MainProps = WithViewStyles<{
   item: MenuItem
 
   /** 用户 Id (跳转用户页) */
-  userId: UserId
+  userId?: UserId
 
   /** 是否显示图标 */
   showIcon?: boolean

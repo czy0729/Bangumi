@@ -77,5 +77,19 @@ export const STATE = {
     topicId: 0 as TopicId | BlogId | SubjectId | 0,
     floorId: 0 as Id | 0,
     key: 0
+  },
+
+  /** 全局「更多」菜单抽屉 */
+  moreMenu: {
+    visible: false,
+
+    /** 是否显示全部功能 (false 只显示隐藏项) */
+    all: false
+  },
+
+  /** 全局剪贴板识别弹窗 */
+  linkModal: {
+    visible: false,
+    link: ''
   }
 }
