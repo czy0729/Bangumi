@@ -2,13 +2,14 @@
  * @Author: czy0729
  * @Date: 2026-10-03 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-14 12:00:00
+ * @Last Modified time: 2026-11-13 02:25:42
  *
  * 页面常量: 筛选维度与分组
  */
 import { groupItems } from '@_'
 import {
   REAL_COLLECTED,
+  REAL_COUNTS,
   REAL_FORM,
   REAL_NSFW,
   REAL_REGION,
@@ -29,29 +30,34 @@ export const filterDS = [
   {
     title: '地区',
     type: 'region',
-    data: REAL_REGION
+    data: REAL_REGION,
+    nums: REAL_COUNTS.region
   },
   {
     title: '年份',
     type: 'year',
     data: REAL_YEAR,
+    nums: REAL_COUNTS.year,
     always: true
   },
   {
     title: '形式',
     type: 'form',
-    data: REAL_FORM
+    data: REAL_FORM,
+    nums: REAL_COUNTS.form
   },
   {
     title: '标签',
     type: 'tag',
     data: REAL_TAG_GROUP,
+    nums: REAL_COUNTS.tag,
     multiple: true
   },
   {
     title: '分级',
     type: 'x',
-    data: REAL_NSFW
+    data: REAL_NSFW,
+    nums: REAL_COUNTS.x
   },
   {
     title: '排序',

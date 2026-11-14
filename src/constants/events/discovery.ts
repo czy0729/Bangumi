@@ -84,6 +84,7 @@ export default {
   '发现.跳转': 'Discovery.to',
   '发现.剪贴板': 'Discovery.linkModal',
   '发现.更新菜单': 'Discovery.saveMenus',
+  '发现.更多': 'Discovery.moreMenu',
   '发现.下拉刷新': 'Discovery.onHeaderRefresh',
   '发现.滑动到边': 'Discovery.onEndReached',
 

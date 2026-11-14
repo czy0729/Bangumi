@@ -24,6 +24,7 @@
     "test:watch": "jest --watch --forceExit",
     "pb:verify": "node scripts/pb-verify.js",
     "tag:verify": "node scripts/tag-verify.js",
+    "counts": "node scripts/generate-filter-counts.js",
     "lint:styles": "npx eslint 'src/**/styles.ts'",
     "lint:imports": "npx eslint 'src/**/*.{ts,tsx}' --quiet --config eslint-rules/.eslintrc.check-imports.js",
     "fixed:chown": "sudo chown -R $(whoami):staff node_modules metro-cache dist android ios"
@@ -87,6 +88,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.29.7",
     "@react-native-community/eslint-config": "^3.0.1",
     "@react-native/jest-preset": "~0.88.1",
     "@testing-library/jest-native": "^5.4.3",

@@ -7,9 +7,12 @@
 import type { IconfontNames, Paths } from '@types'
 
 export type Props = {
-  id: Paths | 'Open' | 'Netabare' | 'Split' | 'Link' | 'Cancel' | 'Save'
+  id: Paths | 'Open' | 'Netabare' | 'Split' | 'Link' | 'Cancel' | 'Save' | 'More'
   icon?: IconfontNames | [IconfontNames, IconfontNames]
   text?: string
   size?: number
   wrap?: boolean
+
+  /** 紧凑尺寸, 用于列表行 */
+  compact?: boolean
 }

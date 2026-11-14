@@ -7,14 +7,14 @@
  * 发现页用户操作: 刷新 / 剪贴板识别 / 菜单编辑拖拽与滚动联动
  */
 import { _, calendarStore, systemStore } from '@stores'
-import { appNavigate, info, matchBgmUrl, updateVisibleBottom } from '@utils'
+import { updateVisibleBottom } from '@utils'
 import { logger } from '@utils/dev'
 import { queue, t, withT } from '@utils/fetch'
 import { SUBJECT_TYPE } from '@constants'
 import Fetch from './fetch'
 
 import type { ScrollToIndex } from '@components'
-import type { Navigation, ScrollEvent, SubjectType } from '@types'
+import type { ScrollEvent, SubjectType } from '@types'
 
 /** 已请求过的频道类型, 避免重复请求 */
 const fetchedChannelTypes = new Set<SubjectType>(['anime'])
@@ -60,57 +60,6 @@ export default class Action extends Fetch {
       screen: 'Discovery'
     }
   )
-
-  /** 切换识别剪贴板的弹窗 */
-  toggleLinkModal = () => {
-    this.setState({
-      visible: !this.state.visible
-    })
-  }
-
-  /** 识别剪贴板的弹窗中的输入框 */
-  onChangeText = (link: string) => {
-    this.setState({
-      link
-    })
-  }
-
-  /** 剪贴板提交 */
-  onLinkSubmit = (navigation: Navigation) => {
-    let { link } = this.state
-    if (!link.length) {
-      info('请输入链接')
-      return
-    }
-
-    if (link.includes('替换')) {
-      info('请把链接中的[替换ID]覆盖为指定的用户ID')
-      return
-    }
-
-    if (!(link.includes('http://') || link.includes('https://'))) {
-      link = `https://${link}`
-    }
-
-    const urls = matchBgmUrl(link, true) || []
-    const url = urls[0]
-    if (!url) {
-      info('链接不符合格式')
-      return
-    }
-
-    this.setState({
-      visible: false,
-      link: ''
-    })
-    setTimeout(() => {
-      appNavigate(url, navigation)
-    }, 800)
-
-    t('发现.剪贴板', {
-      link
-    })
-  }
 
   /** 切换是否拖拽中 */
   toggleDragging = () => {

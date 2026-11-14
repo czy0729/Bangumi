@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-19 21:46:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-30 21:45:14
+ * @Last Modified time: 2026-11-13 02:32:28
  */
 import { decode } from '@utils/thirdParty/protobuf'
 import { MODEL_SUBJECT_TYPE } from '@constants'
@@ -11,10 +11,13 @@ import { logger } from '../../dev'
 import { getTimestamp } from '../../index'
 import { SEARCH_RESULT_LIMIT, SORT } from '../anime'
 import { NSFW_COLLECTED, NSFW_SORT, NSFW_TAGS, NSFW_TYPE, NSFW_YEAR } from './ds'
+import { createFacetCounter } from '../facet'
+import { FACET_DIMS } from './facet'
 
 import type { SubjectId } from '@types'
 import type { Finger, Item, Query, SearchResult } from './types'
 
+export * from './counts'
 export { NSFW_COLLECTED, NSFW_SORT, NSFW_TAGS, NSFW_YEAR, NSFW_TYPE }
 
 /**
@@ -58,7 +61,7 @@ export function findNSFW(id: SubjectId): Item {
 }
 
 /** 只返回下标数组对象 */
-export function search(query: Query): SearchResult {
+export function search(query: Query, max: number = SEARCH_RESULT_LIMIT): SearchResult {
   init()
 
   // 查询指纹
@@ -105,7 +108,7 @@ export function search(query: Query): SearchResult {
       break
   }
 
-  _list = _list.slice(0, SEARCH_RESULT_LIMIT)
+  _list = _list.slice(0, max)
 
   const result: SearchResult = {
     list: _list,
@@ -121,3 +124,6 @@ export function search(query: Query): SearchResult {
 
   return result
 }
+
+/** 条件分面计数 (数据未就绪时返回 null, 展示层回落 counts.ts 静态分布) */
+export const facetCounts = createFacetCounter(() => nsfw, FACET_DIMS).counts

@@ -7,10 +7,13 @@
  * 找 Hentai 数据查询
  */
 import { createSearch } from '@_'
-import { search } from '@utils/subject/hentai'
+import { facetCounts, search } from '@utils/subject/hentai'
 import Computed from './computed'
 
 export default class Fetch extends Computed {
   /** Hentai 本地数据查询 */
   search = createSearch(this, search)
+
+  /** 条件分面计数 */
+  counts = facetCounts
 }

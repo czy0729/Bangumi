@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-09-22 03:34:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-04 05:10:39
+ * @Last Modified time: 2026-11-13 02:27:58
  */
 import { ensureRecordLimit } from '../../cache'
 import { getTimestamp } from '../../index'
@@ -13,6 +13,7 @@ import {
   ADV_DEV,
   ADV_DEV_ALIAS,
   ADV_DEV_MAP,
+  ADV_NSFW,
   ADV_PLATFORM,
   ADV_PLATFORM_MAP,
   ADV_PLAYTIME_MAP,
@@ -20,19 +21,14 @@ import {
   ADV_TAGS,
   ADV_YEAR
 } from './ds'
+import { createFacetCounter } from '../facet'
+import { FACET_DIMS } from './facet'
 
 import type { SubjectId } from '@types'
 import type { CompressedItem, Finger, Item, Query, SearchResult, UnzipItem } from './types'
 
-export {
-  ADV_COLLECTED,
-  ADV_DEV,
-  ADV_DEV_MAP,
-  ADV_PLATFORM,
-  ADV_SORT,
-  ADV_TAGS,
-  ADV_YEAR
-}
+export * from './counts'
+export { ADV_COLLECTED, ADV_DEV, ADV_DEV_MAP, ADV_NSFW, ADV_PLATFORM, ADV_SORT, ADV_TAGS, ADV_YEAR }
 
 /** 开发商筛选: 名 → 可命中的 d 集合 (d 为 ADV_DEV 的 1-based 下标), 别名同组共享 */
 const DEV_MATCH: Record<string, number[]> = {}
@@ -91,7 +87,7 @@ export function find(id: SubjectId): UnzipItem {
 }
 
 /** 只返回下标数组对象 */
-export function search(query: Query): SearchResult {
+export function search(query: Query, max: number = SEARCH_RESULT_LIMIT): SearchResult {
   init()
 
   // 查询指纹
@@ -156,7 +152,7 @@ export function search(query: Query): SearchResult {
       break
   }
 
-  _list = _list.slice(0, SEARCH_RESULT_LIMIT)
+  _list = _list.slice(0, max)
 
   const result: SearchResult = {
     list: _list,
@@ -187,3 +183,6 @@ export function unzip(item: CompressedItem | undefined): UnzipItem {
     total: item?.o || 0
   }
 }
+
+/** 条件分面计数 (数据未就绪时返回 null, 展示层回落 counts.ts 静态分布) */
+export const facetCounts = createFacetCounter(() => adv, FACET_DIMS).counts

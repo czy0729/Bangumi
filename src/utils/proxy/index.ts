@@ -19,5 +19,6 @@ export {
 } from './redirect'
 export { normalizeSetCookie, parseSetCookieHeader, parseSetCookieItems } from './set-cookie'
 export { getProxyStrategy } from './strategy'
+export { addWorkerLog } from './worker-log'
 
 export type { ProxyType, ProxyRequestConfig, ProxyAxiosResponse, ProxyAxiosFn } from './types'

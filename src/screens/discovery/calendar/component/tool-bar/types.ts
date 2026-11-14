@@ -8,7 +8,4 @@ import type { Ctx } from '../../types'
 
 type $ = Ctx['$']
 
-export type Props = Pick<$['state'], 'adapt' | 'tag' | 'origin'> & {
-  /** 每日放送列表 */
-  list: $['calendar']['list']
-}
+export type Props = Pick<$['state'], 'adapt' | 'tag' | 'origin'>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-09-15 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-30 05:48:29
+ * @Last Modified time: 2026-11-13 07:18:26
  */
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { findNodeHandle, UIManager } from 'react-native'
@@ -70,6 +70,7 @@ export function usePopoverItems<Data extends PopoverData>({
             ? rawText === valueText
             : entry.checked ?? rawText === valueText,
         type: typeof entry === 'string' ? mappedType : entry.type ?? mappedType,
+        color: typeof entry === 'string' ? undefined : entry.color,
         onPress: (evt?: PopoverEvent) => {
           // 等菜单收起动画结束再触发动作, 避免跳转/弹窗与关闭动画重叠
           setTimeout(() => {

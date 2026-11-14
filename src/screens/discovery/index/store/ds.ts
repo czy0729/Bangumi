@@ -34,12 +34,6 @@ export const EXCLUDE_STATE = {
     _loaded: getTimestamp()
   },
 
-  /** 是否显示剪贴板 Modal */
-  visible: false,
-
-  /** 剪贴板 Modal Input */
-  link: '',
-
   /** 菜单编辑中 */
   dragging: false,
 

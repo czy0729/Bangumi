@@ -8,6 +8,7 @@ import { _ } from '@stores'
 
 export const memoStyles = _.memoStyles(() => {
   const size = _.r(50)
+  const compactSize = _.r(36)
 
   return {
     wrap: {
@@ -32,6 +33,16 @@ export const memoStyles = _.memoStyles(() => {
       zIndex: 1,
       top: size / 2 - 6,
       right: size / 2 - 10
+    },
+    iconCompact: {
+      width: compactSize,
+      height: compactSize
+    },
+    innerCompact: {
+      position: 'absolute',
+      zIndex: 1,
+      top: compactSize / 2 - 6,
+      right: compactSize / 2 - 10
     }
   }
 })

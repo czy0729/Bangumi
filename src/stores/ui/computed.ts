@@ -34,4 +34,12 @@ export default class Computed extends State implements StoreConstructor<typeof S
   @computed get flip() {
     return this.state.flip
   }
+
+  @computed get moreMenu() {
+    return this.state.moreMenu
+  }
+
+  @computed get linkModal() {
+    return this.state.linkModal
+  }
 }

@@ -7,10 +7,13 @@
  * 找 Gal 数据查询
  */
 import { createSearch } from '@_'
-import { search } from '@utils/subject/adv'
+import { facetCounts, search } from '@utils/subject/adv'
 import Computed from './computed'
 
 export default class Fetch extends Computed {
   /** ADV 本地数据查询 */
   search = createSearch(this, search)
+
+  /** 条件分面计数 */
+  counts = facetCounts
 }

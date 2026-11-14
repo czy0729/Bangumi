@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-10-04 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-14 12:00:00
+ * @Last Modified time: 2026-11-13 02:25:38
  *
  * 页面常量: 筛选维度与分组
  */
@@ -10,6 +10,7 @@ import { groupItems } from '@_'
 import {
   MANGA_CH,
   MANGA_COLLECTED,
+  MANGA_COUNTS,
   MANGA_NSFW,
   MANGA_PUBLISHERS,
   MANGA_SORT,
@@ -34,44 +35,52 @@ export const filterDS = [
     title: '开始',
     type: 'start',
     data: MANGA_YEAR,
+    nums: MANGA_COUNTS.start,
     always: true
   },
   {
     title: '更新',
     type: 'update',
-    data: MANGA_YEAR
+    data: MANGA_YEAR,
+    nums: MANGA_COUNTS.update
   },
   {
     title: '结束',
     type: 'end',
-    data: MANGA_YEAR
+    data: MANGA_YEAR,
+    nums: MANGA_COUNTS.end
   },
   {
     title: '出版',
     type: 'publisher',
     data: MANGA_PUBLISHER_GROUP,
+    nums: MANGA_COUNTS.publisher,
     multiple: true
   },
   {
     title: '标签',
     type: 'tag',
     data: MANGA_TAG_GROUP,
+    nums: MANGA_COUNTS.tag,
     multiple: true
   },
   {
     title: '卷数',
     type: 'vol',
-    data: MANGA_VOL
+    data: MANGA_VOL,
+    nums: MANGA_COUNTS.vol
   },
   {
     title: '话数',
     type: 'ch',
-    data: MANGA_CH
+    data: MANGA_CH,
+    nums: MANGA_COUNTS.ch
   },
   {
     title: '分级',
     type: 'x',
-    data: MANGA_NSFW
+    data: MANGA_NSFW,
+    nums: MANGA_COUNTS.x
   },
   {
     title: '排序',

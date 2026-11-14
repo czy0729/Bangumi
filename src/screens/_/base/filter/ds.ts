@@ -2,7 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-13 10:11:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-01-14 03:09:42
+ * @Last Modified time: 2026-11-12 22:21:17
+ *
+ * 筛选面板常量
  */
 import { _ } from '@stores'
 import { rc } from '@utils/dev'

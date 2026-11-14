@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-17 19:45:05
  */
-import { getTimestamp } from '@utils'
+import { appNavigate, getTimestamp, info, matchBgmUrl, navigationReference } from '@utils'
 import { t } from '@utils/fetch'
 import { webhookCollection } from '@utils/webhooks'
 import { LIKE_TYPE_RAKUEN, MODEL_COLLECTION_STATUS } from '@constants'
@@ -370,6 +370,94 @@ export default class Action extends Computed {
         topicId: 0,
         floorId: 0
       }
+    })
+  }
+
+  /** ==================== moreMenu ==================== */
+  /** 显示「更多」菜单抽屉 */
+  showMoreMenu = (all: boolean = false) => {
+    this.setState({
+      moreMenu: {
+        visible: true,
+        all
+      }
+    })
+  }
+
+  /** 隐藏「更多」菜单抽屉 */
+  closeMoreMenu = () => {
+    this.setState({
+      moreMenu: {
+        visible: false
+      }
+    })
+  }
+
+  /** ==================== linkModal ==================== */
+  /** 显示剪贴板识别弹窗 */
+  showLinkModal = (link: string = '') => {
+    this.setState({
+      linkModal: {
+        visible: true,
+        link
+      }
+    })
+  }
+
+  /** 隐藏剪贴板识别弹窗 */
+  closeLinkModal = () => {
+    this.setState({
+      linkModal: {
+        visible: false
+      }
+    })
+  }
+
+  /** 更新剪贴板识别弹窗输入 */
+  setLinkModalText = (link: string) => {
+    this.setState({
+      linkModal: {
+        link
+      }
+    })
+  }
+
+  /** 提交剪贴板识别弹窗 */
+  submitLinkModal = () => {
+    let { link } = this.linkModal
+    if (!link.length) {
+      info('请输入链接')
+      return
+    }
+
+    if (link.includes('替换')) {
+      info('请把链接中的[替换ID]覆盖为指定的用户ID')
+      return
+    }
+
+    if (!(link.includes('http://') || link.includes('https://'))) {
+      link = `https://${link}`
+    }
+
+    const urls = matchBgmUrl(link, true) || []
+    const url = urls[0]
+    if (!url) {
+      info('链接不符合格式')
+      return
+    }
+
+    this.setState({
+      linkModal: {
+        visible: false,
+        link: ''
+      }
+    })
+    setTimeout(() => {
+      appNavigate(url, navigationReference())
+    }, 800)
+
+    t('发现.剪贴板', {
+      link
     })
   }
 

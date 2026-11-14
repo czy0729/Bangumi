@@ -20,7 +20,7 @@ function ToolBar() {
 
   return (
     <ToolBarComp style={styles.toolBar}>
-      <OnAir list={$.calendar.list} adapt={adapt} tag={tag} origin={origin} />
+      <OnAir adapt={adapt} tag={tag} origin={origin} />
     </ToolBarComp>
   )
 }

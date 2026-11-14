@@ -263,7 +263,7 @@ export type WithViewStyles<T = unknown> = Override<
 /** 发现页菜单项 */
 export type MenuItem = {
   /** 目前允许设置的按钮 ID */
-  key: Paths | 'Open' | 'Netabare' | 'Split' | 'Link' | 'Cancel' | 'Save'
+  key: Paths | 'Open' | 'Netabare' | 'Split' | 'Link' | 'Cancel' | 'Save' | 'More'
 
   /** 按钮名称 */
   name: string

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-10-04 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-04 00:00:00
+ * @Last Modified time: 2026-11-13 02:32:36
  */
 import { decode } from '@utils/thirdParty/protobuf'
 import { ensureRecordLimit } from '../../cache'
@@ -19,12 +19,16 @@ import {
   WENKU_SORT,
   WENKU_TAGS,
   WENKU_VOL,
+  WENKU_VOL_RANGE,
   WENKU_YEAR
 } from './ds'
+import { createFacetCounter } from '../facet'
+import { FACET_DIMS } from './facet'
 
 import type { SubjectId } from '@types'
 import type { Finger, Item, Query, SearchResult } from './types'
 
+export * from './counts'
 export {
   WENKU_ANIME,
   WENKU_AUTHORS,
@@ -67,15 +71,6 @@ WENKU_AUTHORS.forEach((author, index) => {
   AUTHOR_MATCH[author] = [index]
 })
 
-/** 卷数档位 → [最小值, 最大值] (0 表示无界) */
-const VOL_RANGE: Record<string, [number, number]> = {
-  '1-5卷': [1, 5],
-  '6-10卷': [6, 10],
-  '11-20卷': [11, 20],
-  '21-50卷': [21, 50],
-  '51卷+': [51, 0]
-}
-
 /** 年份匹配 (YYYY[-MM[-DD]] 前缀, '2000以前' 含整个 20 世纪) */
 function matchYear(value: string | undefined, year: string | number | undefined) {
   if (!value) return false
@@ -117,7 +112,7 @@ export function findWenku(id: SubjectId): Item | undefined {
 }
 
 /** 只返回下标数组对象 */
-export function search(query: Query): SearchResult {
+export function search(query: Query, max: number = SEARCH_RESULT_LIMIT): SearchResult {
   init()
 
   // 查询指纹
@@ -131,7 +126,7 @@ export function search(query: Query): SearchResult {
   const publisherNums = publisher ? PUBLISHER_MATCH[publisher] : undefined
   const authorNums = author ? AUTHOR_MATCH[author] : undefined
   const cateIndex = cate ? WENKU_CATES.indexOf(cate as (typeof WENKU_CATES)[number]) : undefined
-  const volRange = vol ? VOL_RANGE[vol] : undefined
+  const volRange = vol ? WENKU_VOL_RANGE[vol] : undefined
 
   const data = getData()
   data.forEach((item, index) => {
@@ -140,7 +135,8 @@ export function search(query: Query): SearchResult {
     if (match && tag) match = !!tagNums?.some(num => item.t?.includes(num))
     if (match && publisher) match = !!publisherNums?.some(num => item.p?.includes(num))
     if (match && author) match = !!authorNums?.some(num => item.a?.includes(num))
-    if (match && cate) match = typeof cateIndex === 'number' && cateIndex >= 0 && item.c === cateIndex + 1
+    if (match && cate)
+      match = typeof cateIndex === 'number' && cateIndex >= 0 && item.c === cateIndex + 1
     if (match && volRange) match = matchRange(item.v, volRange)
     if (match && start) match = matchYear(item.st || item.d, start)
     if (match && update) match = matchYear(item.ud || item.d, update)
@@ -175,7 +171,7 @@ export function search(query: Query): SearchResult {
       break
   }
 
-  _list = _list.slice(0, SEARCH_RESULT_LIMIT)
+  _list = _list.slice(0, max)
 
   const result: SearchResult = {
     list: _list,
@@ -191,3 +187,6 @@ export function search(query: Query): SearchResult {
 
   return result
 }
+
+/** 条件分面计数 (数据未就绪时返回 null, 展示层回落 counts.ts 静态分布) */
+export const facetCounts = createFacetCounter(() => wenku, FACET_DIMS).counts

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-09 07:19:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-15 06:34:36
+ * @Last Modified time: 2026-11-13 07:18:28
  */
 import { memo } from 'react'
 import { View } from 'react-native'
@@ -40,9 +40,11 @@ function MenuItemComponent({ item, index, isLast, actionParams }: Props) {
   /** 选中项固定渲染勾图标, 否则渲染调用方传入的图标 */
   const iconName = item.isTitle ? '' : item.checked ? 'md-check' : item.icon
 
-  /** 文字与右侧图标共用色: 显式 type 优先, 其次破坏性红, 默认菜单文本色 (标题项固定灰色) */
+  /** 文字与右侧图标共用色: 显式颜色 / type 优先, 其次破坏性红, 默认菜单文本色 (标题项固定灰色) */
   const colorStyle = item.isTitle
     ? styles.title
+    : item.color
+    ? { color: item.color }
     : item.type
     ? { color: getTypeColor(item.type) }
     : item.isDestructive

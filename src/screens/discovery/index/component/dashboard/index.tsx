@@ -23,6 +23,7 @@ function Dashboard() {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const styles = memoStyles()
+
   const { dragging } = $.state
 
   return (
@@ -34,9 +35,7 @@ function Dashboard() {
           <Heatmap id='发现.跳转' to='Award' />
         </View>
       )}
-
       <SortMenu />
-
       {!dragging && (
         <>
           <Flex style={styles.wrap}>
@@ -48,7 +47,6 @@ function Dashboard() {
             </Flex.Item>
             <Live2DMenu />
           </Flex>
-
           <Today />
         </>
       )}

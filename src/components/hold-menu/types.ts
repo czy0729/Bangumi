@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-09 07:27:47
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-10 11:00:00
+ * @Last Modified time: 2026-11-13 07:18:29
  */
 import type { PropsWithChildren } from 'react'
 import type { IconfontNames, ViewStyle } from '@types'
@@ -30,6 +30,9 @@ export type MenuItemProps = {
 
   /** 文字颜色类型 (全局 Text 语义色, 显式指定时优先于 isDestructive; 标题项忽略) */
   type?: TextType
+
+  /** 显式文字颜色 (优先于 type; 用于语义色覆盖不到的场景; 标题项忽略) */
+  color?: string
 
   /** 是否为标题 (标题项不显示点击反馈, 参与布局但不参与选中) */
   isTitle?: boolean

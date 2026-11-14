@@ -173,7 +173,7 @@ export default class Action extends Fetch {
     const { subjectId, status, tags, comment, rating, privacy, noConsole = false } = args || {}
 
     return new Promise(async resolve => {
-      const data = await fetch({
+      const data = (await fetch({
         url: API_COLLECTION_ACTION(subjectId),
         method: 'POST',
         data: {
@@ -184,14 +184,14 @@ export default class Action extends Fetch {
           privacy
         },
         noConsole
-      })
+      })) as { code?: number } | undefined
 
       // @todo 20220216 以下旧 API 不再响应敏感条目, 暂时使用请求网页代替
       if (data?.code === 404) {
         const interest = MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>(status)
         const failCallback = () => {
           confirm(
-            `此次提交可能未成功，原因可能为：授权信息过期，可尝试重新登录；管理的是 NSFW 条目，需要注册两三个月后才能操作。\n若还没能解决，可尝试联系作者。`,
+            `此次提交可能未成功，原因可能为：授权信息过期，可尝试重新登录；管理 NSFW 条目需账号注册满三个月，且已在网页端设置页面勾选「显示受限条目内容」。\n若还没能解决，可尝试联系作者。`,
             () => {
               this.showFailNotice = false
             },
@@ -259,7 +259,7 @@ export default class Action extends Fetch {
       watchedVols?: string | number
       noConsole?: boolean
     },
-    success?: () => any
+    success?: () => void
   ) => {
     const { subjectId, watchedEps, watchedVols, noConsole = false } = args || {}
     const query: Record<string, string | number | boolean> = {

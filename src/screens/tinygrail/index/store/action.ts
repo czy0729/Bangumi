@@ -19,7 +19,13 @@ import {
 } from '@utils'
 import { t } from '@utils/fetch'
 import { collect, update } from '@utils/kv'
-import { axiosWithProxy, axiosWithProxyRedirect, parseSetCookieItems } from '@utils/proxy'
+import {
+  addWorkerLog,
+  axiosWithProxy,
+  axiosWithProxyRedirect,
+  parseSetCookieItems,
+  type ProxyAxiosResponse
+} from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
 import {
   API_TINYGRAIL_LOGOUT,
@@ -42,6 +48,9 @@ export default class Action extends Fetch {
   /** 小圣杯授权失败次数 */
   private _doAuthFailCount = 0
 
+  /** 本次授权是否已记录会话 cookie 缺失 */
+  private _callbackCookieLogged = false
+
   /** 刷新资产数据 */
   refresh = async () => {
     const results = await Promise.all([tinygrailStore.fetchAssets(), this.fetchCharaAssets()])
@@ -57,6 +66,10 @@ export default class Action extends Fetch {
   /** 小圣杯授权 */
   doAuth = async () => {
     let res: any
+    if (!this._doAuthFailCount) {
+      this._errorCount = 0
+      this._callbackCookieLogged = false
+    }
     this.setState({
       loading: true
     })
@@ -73,7 +86,6 @@ export default class Action extends Fetch {
 
       this._doAuthFailCount = 0
 
-      feedback()
       info('已更新授权')
       this.setState({
         loading: false,
@@ -347,7 +359,7 @@ export default class Action extends Fetch {
   authorize = async () => {
     const { cookie, userAgent } = this.userCookie
 
-    const { response: data, redirectUrl } = await axiosWithProxyRedirect(
+    const { redirectUrl } = await axiosWithProxyRedirect(
       axios,
       {
         method: 'post',
@@ -379,17 +391,34 @@ export default class Action extends Fetch {
       return false
     }
 
-    feedback()
+    // 节点把 302 拦成 200, 需主动访问 callback 才能换取小圣杯会话 cookie
+    const callbackResponse = await axiosWithProxy<ProxyAxiosResponse>(axios, {
+      method: 'get',
+      url: redirectUrl,
+      validateStatus: () => true,
+      headers: {
+        'User-Agent': userAgent
+      }
+    })
 
-    // 从响应头提取 Set-Cookie (反代/节点可能返回多条, 统一取全部)
-    const setCookieItems = parseSetCookieItems(data?.headers)
-    if (setCookieItems.length) {
-      tinygrailStore.updateCookie(
-        setCookieItems.map(({ key, value }) => `${key}=${value}`).join('; ')
-      )
+    const setCookieItems = parseSetCookieItems(callbackResponse.headers)
+    if (!setCookieItems.length) {
+      if (!this._callbackCookieLogged) {
+        this._callbackCookieLogged = true
+        addWorkerLog(
+          'warn',
+          `callback 未下发会话 cookie (status=${callbackResponse.status}, headers=${Object.keys(callbackResponse.headers || {}).join(',')})`,
+          'host'
+        )
+      }
+      return false
     }
 
-    return data
+    tinygrailStore.updateCookie(
+      setCookieItems.map(({ key, value }) => `${key}=${value}`).join('; ')
+    )
+    feedback()
+    return true
   }
 
   /** 资产金额 UI 变动 */

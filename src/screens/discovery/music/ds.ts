@@ -2,12 +2,19 @@
  * @Author: czy0729
  * @Date: 2026-10-03 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-14 12:00:00
+ * @Last Modified time: 2026-11-13 02:25:40
  *
  * 页面常量: 筛选维度与分组
  */
 import { groupItems } from '@_'
-import { MUSIC_COLLECTED, MUSIC_NSFW, MUSIC_SORT, MUSIC_TAGS, MUSIC_YEAR } from '@utils/subject/music'
+import {
+  MUSIC_COLLECTED,
+  MUSIC_COUNTS,
+  MUSIC_NSFW,
+  MUSIC_SORT,
+  MUSIC_TAGS,
+  MUSIC_YEAR
+} from '@utils/subject/music'
 
 export const COMPONENT = 'Music'
 
@@ -22,18 +29,21 @@ export const filterDS = [
     title: '年份',
     type: 'year',
     data: MUSIC_YEAR,
+    nums: MUSIC_COUNTS.year,
     always: true
   },
   {
     title: '标签',
     type: 'tag',
     data: MUSIC_TAG_GROUP,
+    nums: MUSIC_COUNTS.tag,
     multiple: true
   },
   {
     title: '分级',
     type: 'x',
-    data: MUSIC_NSFW
+    data: MUSIC_NSFW,
+    nums: MUSIC_COUNTS.x
   },
   {
     title: '排序',

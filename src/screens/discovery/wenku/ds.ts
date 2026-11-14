@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-10-04 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-14 12:00:00
+ * @Last Modified time: 2026-11-13 02:25:42
  *
  * 页面常量: 筛选维度与分组
  */
@@ -12,6 +12,7 @@ import {
   WENKU_AUTHORS,
   WENKU_CATES,
   WENKU_COLLECTED,
+  WENKU_COUNTS,
   WENKU_NSFW,
   WENKU_PUBLISHERS,
   WENKU_SORT,
@@ -42,56 +43,66 @@ export const filterDS = [
     title: '开始',
     type: 'start',
     data: WENKU_YEAR,
+    nums: WENKU_COUNTS.start,
     always: true
   },
   {
     title: '更新',
     type: 'update',
-    data: WENKU_YEAR
+    data: WENKU_YEAR,
+    nums: WENKU_COUNTS.update
   },
   {
     title: '结束',
     type: 'end',
-    data: WENKU_YEAR
+    data: WENKU_YEAR,
+    nums: WENKU_COUNTS.end
   },
   {
     title: '出版',
     type: 'publisher',
     data: WENKU_PUBLISHER_GROUP,
+    nums: WENKU_COUNTS.publisher,
     multiple: true
   },
   {
     title: '文库',
     type: 'cate',
     data: WENKU_CATE_GROUP,
+    nums: WENKU_COUNTS.cate,
     multiple: true
   },
   {
     title: '标签',
     type: 'tag',
     data: WENKU_TAG_GROUP,
+    nums: WENKU_COUNTS.tag,
     multiple: true
   },
   {
     title: '卷数',
     type: 'vol',
-    data: WENKU_VOL
+    data: WENKU_VOL,
+    nums: WENKU_COUNTS.vol
   },
   {
     title: '作者',
     type: 'author',
     data: WENKU_AUTHOR_GROUP,
+    nums: WENKU_COUNTS.author,
     multiple: true
   },
   {
     title: '动画',
     type: 'anime',
-    data: WENKU_ANIME
+    data: WENKU_ANIME,
+    nums: WENKU_COUNTS.anime
   },
   {
     title: '分级',
     type: 'x',
-    data: WENKU_NSFW
+    data: WENKU_NSFW,
+    nums: WENKU_COUNTS.x
   },
   {
     title: '排序',

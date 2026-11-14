@@ -14,8 +14,10 @@ import { ANDROID, WEB } from '@constants'
 import { ANDROID_DEV_MENU } from '@src/config'
 import { LikesGrid } from '../likes-grid'
 import { LikesUsers } from '../likes-users'
+import LinkModal from '../link-modal'
 import { ListenClipboard } from '../listen-clipboard'
 import { ManageModal } from '../manage-modal'
+import MoreMenu from '../more-menu'
 import { Popable } from '../popable'
 import { COMPONENT } from './ds'
 
@@ -39,6 +41,8 @@ export const AppCommon = observer(() => {
           onSubmit={uiStore.submitManageModal}
           onClose={uiStore.closeManageModal}
         />
+        <MoreMenu />
+        <LinkModal />
         <Heatmap.Control />
         {!WEB && <ListenClipboard />}
         {ANDROID && <BackAndroid />}

@@ -441,3 +441,13 @@ export const WENKU_COLLECTED = ANIME_COLLECTED
 
 /** 排序, 顺序即筛选组展示顺序 */
 export const WENKU_SORT = ['排名', '评分人数', '发售时间', '更新时间', '随机'] as const
+
+
+/** 卷数档位 → [最小值, 最大值] (0 表示无界) */
+export const WENKU_VOL_RANGE: Record<string, [number, number]> = {
+  '1-5卷': [1, 5],
+  '6-10卷': [6, 10],
+  '11-20卷': [11, 20],
+  '21-50卷': [21, 50],
+  '51卷+': [51, 0]
+}

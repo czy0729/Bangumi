@@ -11,8 +11,8 @@ import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Heatmap, Touchable } from '@components'
 import { IconMenu, IconNotify, LogoHeader } from '@_'
-import { _, systemStore, useStore } from '@stores'
-import { stl } from '@utils'
+import { _, systemStore, uiStore, useStore } from '@stores'
+import { feedback, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { MENU_MAP } from '@constants'
 import { COMPONENT, EVENT, IGNORE_PATHS } from './ds'
@@ -31,6 +31,15 @@ function Header() {
 
   const handleItemPress = useCallback(
     (item: MenuItem) => {
+      if (item.key === 'More') {
+        uiStore.showMoreMenu(true)
+        feedback(true)
+        t('首页.跳转', {
+          to: item.key
+        })
+        return
+      }
+
       if (!IGNORE_PATHS.includes(item.key)) {
         if (item.key === 'Search') {
           navigation.push('Search', {

@@ -2,17 +2,27 @@
  * @Author: czy0729
  * @Date: 2026-10-03 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-03 23:19:20
+ * @Last Modified time: 2026-11-13 02:32:23
  */
 import { decode } from '@utils/thirdParty/protobuf'
 import { ensureRecordLimit } from '../../cache'
 import { logger } from '../../dev'
 import { getTimestamp } from '../../index'
 import { SEARCH_RESULT_LIMIT, SORT } from '../anime'
-import { MUSIC_COLLECTED, MUSIC_NSFW, MUSIC_SORT, MUSIC_TAG_ALIAS, MUSIC_TAGS, MUSIC_YEAR } from './ds'
+import {
+  MUSIC_COLLECTED,
+  MUSIC_NSFW,
+  MUSIC_SORT,
+  MUSIC_TAG_ALIAS,
+  MUSIC_TAGS,
+  MUSIC_YEAR
+} from './ds'
+import { createFacetCounter } from '../facet'
+import { FACET_DIMS } from './facet'
 
 import type { Finger, Item, Query, SearchResult } from './types'
 
+export * from './counts'
 export { MUSIC_COLLECTED, MUSIC_NSFW, MUSIC_SORT, MUSIC_TAG_ALIAS, MUSIC_TAGS, MUSIC_YEAR }
 
 /** 缓存搜索结果 */
@@ -58,7 +68,7 @@ export function pick(index: number): Item {
 }
 
 /** 只返回下标数组对象 */
-export function search(query: Query): SearchResult {
+export function search(query: Query, max: number = SEARCH_RESULT_LIMIT): SearchResult {
   init()
 
   // 查询指纹
@@ -107,7 +117,7 @@ export function search(query: Query): SearchResult {
       break
   }
 
-  _list = _list.slice(0, SEARCH_RESULT_LIMIT)
+  _list = _list.slice(0, max)
 
   const result: SearchResult = {
     list: _list,
@@ -123,3 +133,6 @@ export function search(query: Query): SearchResult {
 
   return result
 }
+
+/** 条件分面计数 (数据未就绪时返回 null, 展示层回落 counts.ts 静态分布) */
+export const facetCounts = createFacetCounter(() => music, FACET_DIMS).counts

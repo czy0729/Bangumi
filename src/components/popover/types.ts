@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-28 07:39:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-30 05:13:35
+ * @Last Modified time: 2026-11-13 07:18:25
  */
 import type { ReactElement, ReactNode, RefObject } from 'react'
 import type { Insets, TouchableWithoutFeedbackProps, ViewInstance } from 'react-native'
@@ -24,6 +24,9 @@ export type PopoverItem = {
 
   /** 文字颜色类型 (全局 Text 语义色, 显式指定时优先于 isDestructive) */
   type?: TextType
+
+  /** 显式文字颜色 (优先于 type; 用于语义色覆盖不到的场景, 如置灰零结果选项) */
+  color?: string
 }
 
 /** 菜单项数据 */
@@ -112,6 +115,7 @@ export type PopoverIOSItems = {
   icon?: IconfontNames
   checked?: boolean
   type?: TextType
+  color?: string
 }[]
 
 /**

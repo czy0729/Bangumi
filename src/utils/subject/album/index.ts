@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-10-05 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-05 00:00:00
+ * @Last Modified time: 2026-11-13 02:31:29
  */
 import { decode } from '@utils/thirdParty/protobuf'
 import { ensureRecordLimit } from '../../cache'
@@ -19,9 +19,12 @@ import {
   ALBUM_TAGS,
   ALBUM_YEAR
 } from './ds'
+import { createFacetCounter } from '../facet'
+import { FACET_DIMS } from './facet'
 
 import type { Finger, Item, Query, SearchResult } from './types'
 
+export * from './counts'
 export {
   ALBUM_AUTHORS,
   ALBUM_CATES,
@@ -91,7 +94,7 @@ export function pick(index: number): Item {
 }
 
 /** 只返回下标数组对象 */
-export function search(query: Query): SearchResult {
+export function search(query: Query, max: number = SEARCH_RESULT_LIMIT): SearchResult {
   init()
 
   // 查询指纹
@@ -113,7 +116,8 @@ export function search(query: Query): SearchResult {
     if (match && tag) match = !!tagNums?.some(num => item.t?.includes(num))
     if (match && publisher) match = !!publisherNums?.some(num => item.p?.includes(num))
     if (match && author) match = !!authorNums?.some(num => item.a?.includes(num))
-    if (match && cate) match = typeof cateIndex === 'number' && cateIndex >= 0 && item.c === cateIndex + 1
+    if (match && cate)
+      match = typeof cateIndex === 'number' && cateIndex >= 0 && item.c === cateIndex + 1
     if (match && year) match = matchYear(item.d, year)
     if (match && x) match = x === '限制' ? item.x === 1 : x === '未知' ? !item.x : true
     if (match) _list.push(index)
@@ -140,7 +144,7 @@ export function search(query: Query): SearchResult {
       break
   }
 
-  _list = _list.slice(0, SEARCH_RESULT_LIMIT)
+  _list = _list.slice(0, max)
 
   const result: SearchResult = {
     list: _list,
@@ -156,3 +160,6 @@ export function search(query: Query): SearchResult {
 
   return result
 }
+
+/** 条件分面计数 (数据未就绪时返回 null, 展示层回落 counts.ts 静态分布) */
+export const facetCounts = createFacetCounter(() => album, FACET_DIMS).counts

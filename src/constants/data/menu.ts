@@ -63,6 +63,12 @@ export const MENU_MAP: MenuMap = {
     icon: 'md-edit',
     size: 21
   },
+  More: {
+    key: 'More',
+    name: '更多',
+    icon: 'md-grid-view',
+    size: 22
+  },
   Open: {
     key: 'Open',
     name: '自定义',

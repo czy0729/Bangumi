@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-11-08 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-08 10:00:00
+ * @Last Modified time: 2026-11-13 07:36:49
  *
  * 同步类页面通用空态: 标题 + 步骤 / 说明 + 主按钮
  */
@@ -14,7 +14,14 @@ import { memoStyles } from './styles'
 
 import type { Props } from './types'
 
-export function EmptyGuide({ title, description, steps, buttonText, onPress }: Props) {
+export function EmptyGuide({
+  title,
+  icon = 'md-person-outline',
+  description,
+  steps,
+  buttonText,
+  onPress
+}: Props) {
   const { headerHeight } = useInsets()
 
   const styles = memoStyles()
@@ -28,7 +35,7 @@ export function EmptyGuide({ title, description, steps, buttonText, onPress }: P
       direction='column'
       justify='center'
     >
-      <Iconfont name='md-person-outline' size={56} color={_.colorSub} />
+      <Iconfont name={icon} size={56} color={_.colorSub} />
       <Text style={_.mt.md} size={16} type='title' bold align='center'>
         {title}
       </Text>
