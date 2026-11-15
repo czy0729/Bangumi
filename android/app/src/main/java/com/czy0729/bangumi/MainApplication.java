@@ -28,6 +28,7 @@ import com.czy0729.bangumi.doh.EchProxyPackage;
 import com.czy0729.bangumi.doh.BangumiOkHttpClientFactory;
 import com.czy0729.bangumi.squircle.SquirclePackage;
 import com.czy0729.bangumi.passkey.BangumiPasskeyPackage;
+import com.czy0729.bangumi.popmenu.PopMenuPackage;
 import com.facebook.react.modules.network.OkHttpClientProvider;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -50,6 +51,7 @@ public class MainApplication extends Application implements ReactApplication {
         packages.add(new DevMenuPackage());
         packages.add(new SquirclePackage());
         packages.add(new BangumiPasskeyPackage());
+        packages.add(new PopMenuPackage());
         return packages;
       }
 

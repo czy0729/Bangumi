@@ -8,16 +8,18 @@ import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
 import { Touchable } from '../touchable'
-import { usePopoverPress } from './hooks'
+import { usePopoverPress } from './android'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
 import type { PopoverComponent, PopoverData, Props as PopoverProps } from './types'
 export type { PopoverProps, PopoverData }
 
-/** 点击位置弹出层 (Android: 系统原生弹窗菜单) */
+/** 点击位置弹出层 (Android: 系统 PopupMenu 增强, 支持文字颜色与原生勾选样式) */
 function Popover<Data extends PopoverData>({
   data,
+  value,
+  title,
   style,
   hitSlop,
   activateOn = 'tap',
@@ -35,6 +37,8 @@ function Popover<Data extends PopoverData>({
     onLongPress: handleLongPress
   } = usePopoverPress({
     data,
+    value,
+    title,
     onSelect,
     onPress,
     onLongPress,

@@ -11,18 +11,21 @@ import type { TouchableHandlePress } from '../touchable'
 
 import type { TextType } from '@components/text/types'
 
-/** 菜单项 (iOS hold-menu 渲染最右侧图标与文字颜色, Android / Web 降级为纯文本) */
+/**
+ * 菜单项 (iOS hold-menu 渲染 icon 与文字颜色; Android PopMenuModule 渲染文字颜色与
+ * 选中勾, icon 字段不生效; Web 降级为纯文本)
+ */
 export type PopoverItem = {
   /** 文本 */
   text: string
 
-  /** 最右侧图标 */
+  /** 最右侧图标 (仅 iOS 渲染, Android 原生菜单暂不支持) */
   icon?: IconfontNames
 
-  /** 是否为选中项 (最右侧渲染勾图标) */
+  /** 是否为选中项 (iOS 右侧勾图标; Android 行末素色勾) */
   checked?: boolean
 
-  /** 文字颜色类型 (全局 Text 语义色, 显式指定时优先于 isDestructive) */
+  /** 文字颜色类型 (全局 Text 语义色) */
   type?: TextType
 
   /** 显式文字颜色 (优先于 type; 用于语义色覆盖不到的场景, 如置灰零结果选项) */
@@ -31,6 +34,37 @@ export type PopoverItem = {
 
 /** 菜单项数据 */
 export type PopoverData = readonly (string | PopoverItem)[]
+
+/**
+ * 三端共用的菜单条目 (派生层输出)
+ *  - iOS 转成 hold-menu 的 MenuItem, Android 转成原生菜单的结构化数据, Web 取 text
+ *  - index 固定为原始 data 下标, 标题项不占下标, 避免三端选中回调索引错位
+ */
+export type PopoverMenuEntry = {
+  /** 展示文案 (已按设置做简繁转换) */
+  text: string
+
+  /** 原始数据 (选中回调原样回传) */
+  raw: PopoverData[number]
+
+  /** 原始数据下标 (标题项为 -1) */
+  index: number
+
+  /** 是否为选中项 (最右侧渲染勾图标) */
+  checked: boolean
+
+  /** 最右侧图标 (非选中项时渲染) */
+  icon?: IconfontNames
+
+  /** 文字颜色类型 */
+  type?: TextType
+
+  /** 显式文字颜色 */
+  color?: string
+
+  /** 标题项 (置顶、置灰、不可点) */
+  isTitle?: boolean
+}
 
 /** 激活方式 (tap-hold 为点击与长按共存, 长按优先) */
 export type PopoverActivateOn = 'tap' | 'hold' | 'tap-hold'
@@ -72,7 +106,7 @@ export type PopoverImplProps<Data extends PopoverData = PopoverData> = {
    */
   value?: PopoverData[number]
 
-  /** 菜单标题 (web 生效) */
+  /** 菜单标题 (iOS / Android 置顶为不可选标题项; Web 作为下拉标题) */
   title?: string
 
   /** 菜单描述 (web 生效) */
@@ -161,10 +195,71 @@ export type UsePopoverItemsResult = {
   activateOn: PopoverActivateOn
 }
 
+/** Android 系统菜单项 (color 为 parseArgb 后的带符号 32 位 ARGB 整数, 缺省跟随主题) */
+export type PopMenuNativeItem = {
+  /** 展示文案 (已简繁转换) */
+  text: string
+
+  /** 文字颜色 (带符号 32 位 ARGB 整数; 缺省跟随系统菜单主题色) */
+  color?: number
+
+  /** 选中项 (行末渲染素色勾, 与文字有固定间距) */
+  checked: boolean
+
+  /** 标题项 (原生 disabled 置灰、不可点) */
+  isTitle: boolean
+
+  /** 原始数据下标 (标题项为 -1) */
+  index: number
+}
+
+/** Android 原生模块接口 (NativeModules.PopMenuModule) */
+export type PopMenuModuleType = {
+  /**
+   * 弹出系统 PopupMenu (增强版)
+   *  - anchorTag 为锚点 reactTag, 定位 / 动画由系统完成
+   *  - dark 按框架 Material 主题切换深浅, 与 App 内主题设置一致
+   *  - 取消时不回调, 选中时回传原始数据下标
+   */
+  show: (
+    anchorTag: number,
+    dark: boolean,
+    items: PopMenuNativeItem[],
+    onSelect: (index: number) => void
+  ) => void
+}
+
+/** Android 命令式弹菜单参数 */
+export type ShowAndroidPopMenuOptions<Data extends PopoverData = PopoverData> = {
+  /** 锚点视图 (空 View, 由调用方挂载) */
+  anchor?: ViewInstance | null
+
+  /** 菜单项 */
+  data?: Data
+
+  /** 当前选中项 (选择型菜单) */
+  value?: PopoverData[number]
+
+  /** 菜单标题 (置顶为不可选标题项) */
+  title?: string
+
+  /** 菜单选择 */
+  onSelect?: PopoverOnSelect<Data>
+
+  /** 触发事件 (原样透传给 onSelect) */
+  evt?: PopoverEvent
+}
+
 /** Android 按压激活参数 */
 export type UsePopoverPressOptions<Data extends PopoverData = PopoverData> = {
   /** 菜单项 */
   data?: Data
+
+  /** 当前选中项 (选择型菜单, 命中项渲染勾) */
+  value?: PopoverData[number]
+
+  /** 菜单标题 (置顶为不可选标题项) */
+  title?: string
 
   /** 菜单选择 */
   onSelect?: PopoverOnSelect<Data>

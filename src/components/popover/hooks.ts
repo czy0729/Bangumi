@@ -4,16 +4,12 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-11-13 07:18:26
  */
-import { useCallback, useMemo, useRef, useState } from 'react'
-import { findNodeHandle, UIManager } from 'react-native'
-import { globalWarn } from '@utils/dev'
-import { FROZEN_FN, MENU_ICONS, MENU_ICONS_ENABLED, MENU_TYPES } from '@constants'
-import { toMenuLabel, toMenuLabels, usePopoverList } from './utils'
-import { ANDROID_DELAY_PRESS_IN, MENU_CLOSE_DELAY, WEB_SELECT_DELAY } from './ds'
+import { useCallback, useMemo, useState } from 'react'
+import { FROZEN_FN } from '@constants'
+import { systemStore } from '@stores'
+import { toMenuEntries, usePopoverList } from './utils'
+import { MENU_CLOSE_DELAY, WEB_SELECT_DELAY } from './ds'
 
-import type { GestureResponderEvent, ViewInstance } from 'react-native'
-import type { UIManagerWithPopupMenu } from '@types'
-import type { TouchablePressEvent } from '../touchable'
 import type {
   PopoverData,
   PopoverEvent,
@@ -21,13 +17,8 @@ import type {
   UsePopoverDropdownOptions,
   UsePopoverDropdownResult,
   UsePopoverItemsOptions,
-  UsePopoverItemsResult,
-  UsePopoverPressOptions,
-  UsePopoverPressResult
+  UsePopoverItemsResult
 } from './types'
-
-/** 能力缺失只告警一次, 避免每次点击都写日志 */
-let warnedMissingPopupMenu = false
 
 /** iOS: 把菜单数据派生为 hold-menu 菜单项 */
 export function usePopoverItems<Data extends PopoverData>({
@@ -40,113 +31,37 @@ export function usePopoverItems<Data extends PopoverData>({
 }: UsePopoverItemsOptions<Data>): UsePopoverItemsResult {
   const list = usePopoverList(data)
 
+  // 简繁开关显式传给 toMenuEntries, memo 依赖不再隐式
+  const s2t = systemStore.setting.s2t
+
   // 外部传了 onLongPress 说明长按语义归调用方, 菜单自动降级为纯点击激活, 不抢占长按
   const hasExternalLongPress = typeof onLongPress === 'function'
 
-  const items = useMemo<PopoverIOSItems>(() => {
-    // 显式引用开关: 简繁设置变化时 memo 需重算 (toMenuLabels / toMenuLabel 读取的是同一个开关)
-    const labels = toMenuLabels(list)
-    const valueText = typeof value === 'string' ? value : value?.text
-
-    const itemsValue: PopoverIOSItems = labels.map((text, index) => {
-      const entry = list[index]
-      const rawText = typeof entry === 'string' ? entry : entry.text
-
-      /**
-       * 操作型菜单 (未传 value) 按原始文案查通用图标映射, 显式 icon 优先;
-       * 选择型菜单 (传 value) 只派生勾, 不查表, 两类菜单互不干扰;
-       * 查表受 MENU_ICONS_ENABLED 总开关控制
-       */
-      const mappedIcon = value === undefined && MENU_ICONS_ENABLED ? MENU_ICONS[rawText] : undefined
-
-      /** 危险动作按文案查表标红 (danger), 显式 type 优先; 选择型菜单不查表 */
-      const mappedType = value === undefined ? MENU_TYPES[rawText] : undefined
-
-      return {
-        text,
-        icon: typeof entry === 'string' ? mappedIcon : entry.icon ?? mappedIcon,
-        checked:
-          typeof entry === 'string'
-            ? rawText === valueText
-            : entry.checked ?? rawText === valueText,
-        type: typeof entry === 'string' ? mappedType : entry.type ?? mappedType,
-        color: typeof entry === 'string' ? undefined : entry.color,
-        onPress: (evt?: PopoverEvent) => {
-          // 等菜单收起动画结束再触发动作, 避免跳转/弹窗与关闭动画重叠
-          setTimeout(() => {
-            onSelect(entry, index, evt)
-          }, MENU_CLOSE_DELAY)
-        }
-      }
-    })
-
-    if (title) {
-      itemsValue.unshift({
-        text: toMenuLabel(title),
-        isTitle: true
-      })
-    }
-
-    return itemsValue
-  }, [value, title, list, onSelect])
+  const items = useMemo<PopoverIOSItems>(
+    () =>
+      // 派生规则统一放在 toMenuEntries, 三端共用; 这里只补 hold-menu 的点击回调
+      toMenuEntries(list, value, title, s2t).map(entry => ({
+        text: entry.text,
+        icon: entry.icon,
+        checked: entry.checked,
+        type: entry.type,
+        color: entry.color,
+        isTitle: entry.isTitle,
+        onPress: entry.isTitle
+          ? undefined
+          : (evt?: PopoverEvent) => {
+              // 等菜单收起动画结束再触发动作, 避免跳转/弹窗与关闭动画重叠
+              setTimeout(() => {
+                onSelect(entry.raw as Data[number], entry.index, evt)
+              }, MENU_CLOSE_DELAY)
+            }
+      })),
+    [value, title, list, onSelect, s2t]
+  )
 
   return {
     items,
     activateOn: activateOn || (hasExternalLongPress ? 'tap' : 'tap-hold')
-  }
-}
-
-/** Android: 锚点与按压属性, 点击/长按打开系统原生弹窗菜单 */
-export function usePopoverPress<Data extends PopoverData>({
-  data,
-  onSelect = FROZEN_FN,
-  onPress,
-  onLongPress = FROZEN_FN,
-  activateOn = 'tap'
-}: UsePopoverPressOptions<Data>): UsePopoverPressResult {
-  const anchorRef = useRef<ViewInstance>(null)
-  const list = usePopoverList(data)
-
-  const handlePopover = useCallback(
-    (evt: GestureResponderEvent | TouchablePressEvent) => {
-      const node = findNodeHandle(anchorRef.current)
-      if (!node) return
-
-      /** RN 0.88 的 UIManager 类型未包含原生菜单 API, 交叉断言补齐 */
-      const manager = UIManager as typeof UIManager & UIManagerWithPopupMenu
-
-      /** 部分安卓环境(新架构 / 定制 ROM)缺少此 API, 缺失时告警一次并静默降级 */
-      if (typeof manager.showPopupMenu !== 'function') {
-        if (!warnedMissingPopupMenu) {
-          warnedMissingPopupMenu = true
-          globalWarn('Popover', '当前环境不支持 UIManager.showPopupMenu, 菜单无法弹出')
-        }
-
-        return
-      }
-
-      // 展示文案按设置转简繁, 回调仍回传原始数据
-      manager.showPopupMenu(node, toMenuLabels(list), FROZEN_FN, (_, index) => {
-        const i = Number(index)
-        if (!Number.isNaN(i)) onSelect(list[i], i, evt as PopoverEvent)
-      })
-    },
-    [list, onSelect]
-  )
-
-  if (activateOn === 'hold') {
-    return {
-      anchorRef,
-      onPress,
-      onLongPress: handlePopover
-    }
-  }
-
-  return {
-    anchorRef,
-    delayPressIn: ANDROID_DELAY_PRESS_IN,
-    onPress: handlePopover,
-    onLongPress
   }
 }
 

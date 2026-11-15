@@ -1,6 +1,7 @@
 # 可复用组件（components/）规范
 
 > 页面内私有组件规范见 [screen.md](./screen.md)
+> Popover 三端实现与 Android 原生菜单契约见 [popover.md](./popover.md)
 
 ## 目录结构
 

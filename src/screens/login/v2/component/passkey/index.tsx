@@ -19,19 +19,19 @@ import type { Props } from './types'
 
 function Passkey({ passkey, blocked }: Props) {
   r(COMPONENT)
+
   if (!passkey.visible) return null
 
   return (
     <View style={_.mt.md}>
       <View style={styles.row}>
         <Button
-          style={styles.button}
           type={blocked ? 'disabled' : 'main'}
           shadow
           loading={passkey.loading}
           onPress={blocked ? undefined : () => void passkey.onLogin()}
         >
-          Passkey登录
+          Passkey 登录
         </Button>
         <Guide disabled={blocked || passkey.loading} />
       </View>

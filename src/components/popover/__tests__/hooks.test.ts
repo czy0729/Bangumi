@@ -5,10 +5,11 @@
  * @Last Modified time: 2026-09-15 07:27:19
  */
 import React from 'react'
-import { UIManager } from 'react-native'
+import { NativeModules, UIManager } from 'react-native'
 import { globalWarn } from '@utils/dev'
 import { ANDROID_DELAY_PRESS_IN, MENU_CLOSE_DELAY } from '../ds'
-import { usePopoverDropdown, usePopoverItems, usePopoverPress } from '../hooks'
+import { usePopoverDropdown, usePopoverItems } from '../hooks'
+import { usePopoverPress } from '../android'
 
 import type { GestureResponderEvent } from 'react-native'
 import type { TouchablePressEvent } from '../../touchable'
@@ -16,6 +17,13 @@ import type { TouchablePressEvent } from '../../touchable'
 // 该子路径不被全局 @utils mock 覆盖, 局部 mock 保证转换结果可断言
 jest.mock('@utils/thirdParty/open-cc', () => ({
   s2t: (text: string) => `T:${text}`
+}))
+
+// 只用到语义色反查, 与真实实现同规则 (返回样式数组, 倒序取 color)
+jest.mock('@components/text', () => ({
+  getTextStyle: ({ type }: { type: string }) => [
+    { color: type === 'danger' ? 'rgb(255, 59, 48)' : 'rgb(0, 0, 0)' }
+  ]
 }))
 
 // RNTL 的 renderHook 因 ensure-peer-deps 严格校验 react-test-renderer 版本不可用, 手写最小 harness
@@ -148,26 +156,37 @@ describe('usePopoverItems', () => {
 })
 
 describe('usePopoverPress', () => {
-  let showPopupMenu: jest.Mock
+  let showMenu: jest.Mock
 
-  /**
-   * Touchable 传给 onPress 的事件已被归一化为坐标对象
-   *  - 用同一引用可以在断言选中透传时直接比对身份
-   * */
+  /** Touchable 传给 onPress 的事件已被归一化为坐标对象, 用同一引用可比对身份 */
   const pressEvent: TouchablePressEvent = { pageX: 1, pageY: 2 }
+
+  /** 假锚点: findNodeHandle 在测试 mock 中固定返回 1, 无需真实视图 */
+  const anchor = {}
+
+  /** 把 hook 返回的 ref 指向假锚点, 让命令式入口能走到原生模块 */
+  function mountAnchor(result: { current: any }) {
+    ;(result.current.anchorRef as any).current = anchor
+  }
+
+  const itemsOf = (): any[] => showMenu.mock.calls[0][2]
 
   beforeEach(() => {
     state().s2t = false
-    showPopupMenu = jest.fn()
-    ;(UIManager as any).showPopupMenu = showPopupMenu
+    showMenu = jest.fn()
+    ;(NativeModules as any).PopMenuModule = { show: showMenu }
+    ;(UIManager as any).showPopupMenu = jest.fn()
+    ;(globalWarn as jest.Mock).mockClear()
   })
 
   afterEach(() => {
+    delete (NativeModules as any).PopMenuModule
     delete (UIManager as any).showPopupMenu
   })
 
-  it('tap 模式: 点击打开菜单并带按压延迟', () => {
+  it('tap 模式: 点击打开自定义菜单并带按压延迟', () => {
     const { result } = renderHook(() => usePopoverPress({ data: ['买入'] }))
+    mountAnchor(result)
 
     expect(result.current.delayPressIn).toBe(ANDROID_DELAY_PRESS_IN)
     expect(result.current.onLongPress).toEqual(expect.any(Function))
@@ -175,12 +194,15 @@ describe('usePopoverPress', () => {
     act(() => {
       result.current.onPress(pressEvent)
     })
-    expect(showPopupMenu).toHaveBeenCalledTimes(1)
-    expect(showPopupMenu.mock.calls[0][1]).toEqual(['买入'])
+    expect(showMenu).toHaveBeenCalledTimes(1)
+    // 锚点由 findNodeHandle 的测试 mock 固定返回 1; dark 跟随 _ mock 默认浅色
+    expect(showMenu.mock.calls[0].slice(0, 2)).toEqual([1, false])
+    expect(itemsOf().map(item => item.text)).toEqual(['买入'])
   })
 
   it('hold 模式: 长按打开菜单, 无点击回调与按压延迟', () => {
     const { result } = renderHook(() => usePopoverPress({ data: ['买入'], activateOn: 'hold' }))
+    mountAnchor(result)
 
     expect(result.current.delayPressIn).toBeUndefined()
     expect(result.current.onPress).toBeUndefined()
@@ -190,7 +212,7 @@ describe('usePopoverPress', () => {
         nativeEvent: { pageX: 1, pageY: 2 }
       } as GestureResponderEvent)
     })
-    expect(showPopupMenu).toHaveBeenCalledTimes(1)
+    expect(showMenu).toHaveBeenCalledTimes(1)
   })
 
   it('tap 模式下长按透传外部回调', () => {
@@ -200,38 +222,108 @@ describe('usePopoverPress', () => {
     expect(result.current.onLongPress).toBe(onLongPress)
   })
 
-  it('选中菜单项后回传原始数据与索引', () => {
+  it('选中菜单项后回传原始数据、索引与触发事件', () => {
     const onSelect = jest.fn()
     const { result } = renderHook(() => usePopoverPress({ data: ['买入', '卖出'], onSelect }))
+    mountAnchor(result)
 
     act(() => {
       result.current.onPress(pressEvent)
     })
 
-    // 系统弹窗回调的 index 为字符串, 需要归一成数字索引
-    const success = showPopupMenu.mock.calls[0][3]
+    const success = showMenu.mock.calls[0][3]
     act(() => {
-      success('卖出', '1')
+      success(1)
     })
-    // 触发点击的事件对象应原样透传给选中回调
     expect(onSelect).toHaveBeenCalledWith('卖出', 1, pressEvent)
   })
 
-  it('开启简繁转换后传给系统的文案被转换', () => {
-    state().s2t = true
-    const { result } = renderHook(() => usePopoverPress({ data: ['买入'] }))
+  it('越界索引不触发回调', () => {
+    const onSelect = jest.fn()
+    const { result } = renderHook(() => usePopoverPress({ data: ['买入'], onSelect }))
+    mountAnchor(result)
 
     act(() => {
       result.current.onPress(pressEvent)
     })
-    expect(showPopupMenu.mock.calls[0][1]).toEqual(['T:买入'])
+
+    act(() => {
+      showMenu.mock.calls[0][3](9)
+    })
+    expect(onSelect).not.toHaveBeenCalled()
   })
 
-  it('环境缺失弹窗能力时告警一次且不抛错', () => {
-    delete (UIManager as any).showPopupMenu
-    ;(globalWarn as jest.Mock).mockClear()
-
+  it('开启简繁转换后菜单文案被转换', () => {
+    state().s2t = true
     const { result } = renderHook(() => usePopoverPress({ data: ['买入'] }))
+    mountAnchor(result)
+
+    act(() => {
+      result.current.onPress(pressEvent)
+    })
+    expect(itemsOf()[0].text).toBe('T:买入')
+  })
+
+  it('传 value 时命中项渲染勾, 标题项置灰且不占索引', () => {
+    const { result } = renderHook(() =>
+      usePopoverPress({ data: ['买入', '卖出'], value: '卖出', title: '排序' })
+    )
+    mountAnchor(result)
+
+    act(() => {
+      result.current.onPress(pressEvent)
+    })
+
+    const items = itemsOf()
+    expect(items[0]).toMatchObject({ text: '排序', isTitle: true, checked: false, index: -1 })
+    expect(items[1]).toMatchObject({ text: '买入', checked: false, index: 0 })
+    expect(items[2]).toMatchObject({ text: '卖出', checked: true, index: 1 })
+    expect(items[0].color).toBeUndefined()
+  })
+
+  it('文字色: 语义色与显式颜色为 ARGB 整数, 默认跟随主题 (缺省)', () => {
+    const { result } = renderHook(() =>
+      usePopoverPress({
+        data: ['买入', { text: '删除', type: 'danger' }, { text: '置灰', color: 'rgb(1, 2, 3)' }]
+      })
+    )
+    mountAnchor(result)
+
+    act(() => {
+      result.current.onPress(pressEvent)
+    })
+
+    const items = itemsOf()
+    expect(items[0].color).toBeUndefined()
+    expect(items[1].color).toBe(0xffff3b30 | 0)
+    expect(items[2].color).toBe(0xff010203 | 0)
+  })
+
+  it('原生模块缺失时降级到系统菜单 (纯文本)', () => {
+    delete (NativeModules as any).PopMenuModule
+    const showPopupMenu = (UIManager as any).showPopupMenu
+    const onSelect = jest.fn()
+    const { result } = renderHook(() => usePopoverPress({ data: ['买入'], onSelect }))
+    mountAnchor(result)
+
+    act(() => {
+      result.current.onPress(pressEvent)
+    })
+    expect(showPopupMenu).toHaveBeenCalledTimes(1)
+    expect(showPopupMenu.mock.calls[0][1]).toEqual(['买入'])
+
+    // 系统弹窗回调的 index 为字符串, 需要归一成数字索引
+    act(() => {
+      showPopupMenu.mock.calls[0][3]('买入', '0')
+    })
+    expect(onSelect).toHaveBeenCalledWith('买入', 0, pressEvent)
+  })
+
+  it('两种菜单能力都缺失时告警一次且不抛错', () => {
+    delete (NativeModules as any).PopMenuModule
+    delete (UIManager as any).showPopupMenu
+    const { result } = renderHook(() => usePopoverPress({ data: ['买入'] }))
+    mountAnchor(result)
 
     expect(() => {
       act(() => {

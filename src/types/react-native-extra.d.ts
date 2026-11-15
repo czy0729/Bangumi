@@ -8,11 +8,12 @@
  */
 
 /**
- * Android: 弹出系统原生菜单
+ * Android: 弹出系统原生菜单 (仅作为 PopMenuModule 缺失时的降级路径)
  * https://github.com/facebook/react-native/blob/main/Libraries/ReactNative/UIManager.js
  *  - RN 0.88 起 UIManager 的类型是内部 UIManagerJSInterface 且未从模块导出,
  *    无法再用 `declare module 'react-native'` 合并, 改为调用处交叉断言
  *  - 部分环境 (新架构 / 定制 ROM) 不提供此 API, 调用前需判空
+ *  - 该 API 只接受 string[], 无文字颜色 / 图标 / 勾选能力
  *  - index 由原生侧回传, 可能是字符串
  */
 export type ShowPopupMenu = (

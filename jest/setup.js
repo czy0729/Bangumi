@@ -271,6 +271,8 @@ jest.mock(
         device: (mobileValue, padValue) => mobileValue,
         // 与 src/stores/theme/computed.ts 一致: create 即 StyleSheet.create
         create: styles => styles,
+        // 测试环境默认浅色; popover 的安卓系统菜单用它决定原生深浅主题
+        isDark: false,
         absoluteFill: {
           position: 'absolute',
           left: 0,

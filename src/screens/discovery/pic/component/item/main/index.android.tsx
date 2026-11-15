@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-10-15 12:00:00
  */
 import { useCallback, useRef } from 'react'
-import { findNodeHandle, Image as RNImage, UIManager, View } from 'react-native'
+import { Image as RNImage, View } from 'react-native'
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -14,14 +14,12 @@ import Animated, {
 } from 'react-native-reanimated'
 import { observer } from 'mobx-react'
 import { Touchable } from '@components'
+import { showAndroidPopMenu } from '@components/popover/android'
 import { systemStore } from '@stores'
-import { s2t } from '@utils/thirdParty/open-cc'
-import { FROZEN_FN } from '@constants'
 import { getURI } from '../../../utils'
 import { FADE_DURATION, styles } from './styles'
 
 import type { ViewInstance } from 'react-native'
-import type { UIManagerWithPopupMenu } from '@types'
 import type { Props } from './types'
 
 function Main({ width, height, data, image, onPress, onSelect, onError }: Props) {
@@ -34,25 +32,14 @@ function Main({ width, height, data, image, onPress, onSelect, onError }: Props)
   }))
 
   const handleLongPress = useCallback(() => {
-    if (!viewRef.current) return
-
-    /** RN 0.88 的 UIManager 类型未包含原生菜单 API, 交叉断言补齐 */
-    const manager = UIManager as typeof UIManager & UIManagerWithPopupMenu
-
-    // 部分安卓环境(新架构 / 定制 ROM)没有此 API, 缺失时静默降级, 避免抛 undefined is not a function
-    if (typeof manager.showPopupMenu !== 'function') return
-
-    manager.showPopupMenu(
-      findNodeHandle(viewRef.current),
-      systemStore.setting.s2t
-        ? data.map((item: string) => (typeof item === 'string' ? s2t(item) : item))
-        : data,
-      FROZEN_FN,
-      (_event, index) => {
-        const i = Number(index)
-        if (!Number.isNaN(i)) onSelect(data[i])
+    // 与 Popover 共用自定义原生菜单入口, 简繁转换 / 降级 / 选中回传由入口统一处理
+    showAndroidPopMenu({
+      anchor: viewRef.current,
+      data,
+      onSelect: (_item, index) => {
+        if (typeof index === 'number') onSelect(data[index])
       }
-    )
+    })
   }, [data, onSelect])
 
   /** 图片加载完成后才出现 */
