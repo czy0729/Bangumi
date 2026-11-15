@@ -62,7 +62,22 @@ export const EXCLUDE_STATE = {
   flip: 0 as SubjectId,
 
   /** 是否加载已 bangumi-data */
-  loadedBangumiData: false
+  loadedBangumiData: false,
+
+  /**
+   * 上次全量刷新收视进度的时间戳
+   *
+   * 仅运行态, 不持久化: 每次冷启动重置为 0, 保证启动时同步一次全量进度;
+   * 会话内由 fetchUserProgressAll 以 1 小时节流
+   */
+  lastFetchedUserProgress: 0,
+
+  /**
+   * 上次全量收视进度请求失败的时间戳
+   *
+   * 仅运行态: 失败后 5 分钟抑制窗口内不再重发全量请求, 由单条目请求兜底
+   */
+  lastFailedUserProgress: 0
 }
 
 /** state */

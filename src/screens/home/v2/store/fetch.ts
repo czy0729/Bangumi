@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:20:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-28 10:00:00
+ * @Last Modified time: 2026-11-15 21:08:36
  *
  * 首页数据请求: 条目信息队列请求 / 收藏时间线 / 在玩游戏与初始化请求编排
  */
@@ -15,9 +15,11 @@ import {
   D,
   H1,
   H6,
+  M5,
   MODEL_COLLECTION_STATUS,
   MODEL_COLLECTIONS_ORDERBY,
-  MODEL_SUBJECT_TYPE
+  MODEL_SUBJECT_TYPE,
+  WEB
 } from '@constants'
 import Computed from './computed'
 import { EXCLUDE_STATE, NAMESPACE } from './ds'
@@ -28,13 +30,44 @@ import type { CollectionsOrder, CollectionStatus, SubjectId, SubjectType } from 
 /** 是否重新授权中 */
 let reOauthing: boolean
 
+/** 首屏队列等待全量收视进度的上限 (毫秒), 超时按未刷新处理由单条目请求兜底 */
+const USER_PROGRESS_ALL_TIMEOUT = 3000
+
+/** 等待 Promise, 超时返回 fallback; Promise 先完成时清除计时器 */
+function withTimeout(promise: Promise<boolean>, ms: number, fallback: boolean) {
+  let timer: ReturnType<typeof setTimeout>
+  const timeout = new Promise<boolean>(resolve => {
+    timer = setTimeout(() => resolve(fallback), ms)
+  })
+  return Promise.race([
+    promise.then(
+      value => {
+        clearTimeout(timer)
+        return value
+      },
+      () => {
+        clearTimeout(timer)
+        return fallback
+      }
+    ),
+    timeout
+  ])
+}
+
 export default class Fetch extends Computed {
+  /** 进行中的全量收视进度请求, 供并发调用复用 (in-flight 去重) */
+  userProgressAllTask: Promise<boolean> | null = null
+
   /** 初始化请求 */
   initFetch = async (refresh: boolean = false) => {
     if (this.state.progress.fetching) {
       info('正在刷新条目信息')
       return
     }
+
+    // 收视进度与条目信息解耦: 手动刷新强制拉, 自动路径走 1 小时节流
+    // 与收藏拉取并发, 结果在 initQueue 内等待, 全量成功时队列内的单条目进度刷新可跳过
+    const userProgressAllTask = this.fetchUserProgressAll(refresh)
 
     let { _loaded } = this.collection
     if (typeof _loaded !== 'number') _loaded = 0
@@ -46,7 +79,7 @@ export default class Fetch extends Computed {
     if (!needFullFetch) {
       // 不需要全刷新也至少刷新首屏
       const result = await this.fetchCollectionTimelines()
-      this.initQueue(6).catch(error => {
+      this.initQueue(6, userProgressAllTask).catch(error => {
         logger.error(NAMESPACE, 'initQueue', error)
       })
       return result
@@ -54,7 +87,7 @@ export default class Fetch extends Computed {
 
     let queued: boolean
     try {
-      queued = await this.initQueue()
+      queued = await this.initQueue(undefined, userProgressAllTask)
     } catch (error) {
       logger.error(NAMESPACE, 'initQueue', error)
       return true
@@ -73,14 +106,15 @@ export default class Fetch extends Computed {
     reOauthing = false
     if (!authorized) return true
 
-    // oauth 成功后重新刷新数据
+    // oauth 成功后重新刷新数据, 全量进度同样需要重新拉取
+    // (不传任务时队列会对每条收藏各发一次进度请求, 收藏多时请求量大且易触发限流)
     feedback()
     info('重新授权成功')
     t('其他.重新授权')
 
     let result: boolean
     try {
-      result = await this.initQueue()
+      result = await this.initQueue(undefined, this.fetchUserProgressAll(true))
     } catch (error) {
       logger.error(NAMESPACE, 'initQueue', error)
       result = true
@@ -90,16 +124,21 @@ export default class Fetch extends Computed {
   }
 
   /** 初始化进度和条目等数据 */
-  initQueue = async (count?: number) => {
-    const data = await Promise.all([userStore.fetchCollection()])
-    const collection = data?.[0]
+  initQueue = async (count?: number, userProgressAllTask?: Promise<boolean>) => {
+    const [collection, skipUserProgress] = await Promise.all([
+      userStore.fetchCollection(),
+      // 弱网下全量进度响应可能达数秒, 超时按未刷新处理继续进队列, 由单条目请求兜底
+      userProgressAllTask
+        ? withTimeout(userProgressAllTask, USER_PROGRESS_ALL_TIMEOUT, false)
+        : Promise.resolve(false)
+    ])
 
     // 本次请求确实成功 (拿到过有效响应), 只是在看收藏为空: 用户是真的 0 在看, 授权正常, 不能当成过期
     // (_ok 缺失表示旧缓存或请求失败, 落回原有分支)
     if (collection?._ok && !collection.list.length) return true
 
     if (collection?.list?.length) {
-      return this.fetchSubjectsQueue(collection.list, count)
+      return this.fetchSubjectsQueue(collection.list, count, skipUserProgress)
     }
 
     return false
@@ -142,6 +181,7 @@ export default class Fetch extends Computed {
         }
       })
 
+      // 全量收视进度刚刷新成功时跳过单条目进度请求, 数据已被全量覆盖
       if (refreshUserProgress) await this.fetchUserProgress(subjectId)
       await subjectStore.fetchSubject(subjectId)
 
@@ -157,7 +197,11 @@ export default class Fetch extends Computed {
   }
 
   /** 队列请求条目信息 */
-  fetchSubjectsQueue = async (list: UserCollectionItem[] = [], count?: number) => {
+  fetchSubjectsQueue = async (
+    list: UserCollectionItem[] = [],
+    count?: number,
+    skipUserProgress: boolean = false
+  ) => {
     if (this.state.progress.fetching) return false
 
     const sortedList = this.sortList(list)
@@ -173,7 +217,8 @@ export default class Fetch extends Computed {
     let done = 0
     const fetchs = limitedList.map(({ subject_id }, index) => async () => {
       try {
-        return await this.fetchSubject(subject_id, index, true)
+        // 全量收视进度已刷新成功时跳过单条目进度请求, 数据已被全量覆盖
+        return await this.fetchSubject(subject_id, index, !skipUserProgress)
       } finally {
         // 每个条目结束都累加, 最终 current 等于本次入队条目数
         done += 1
@@ -210,6 +255,70 @@ export default class Fetch extends Computed {
   /** 请求条目收视进度 */
   fetchUserProgress = (subjectId?: SubjectId) => {
     return userStore.fetchUserProgress(subjectId)
+  }
+
+  /**
+   * 全量刷新收视进度
+   *
+   * 不带 subject_id 请求 /user/{userId}/progress, 一次返回所有收藏条目的每章状态,
+   * 用于上游进度 (网页端 / 其他设备) 变化后的及时同步, 避免逐条目受 6 小时节流闸门约束
+   *
+   * 并发调用直接复用进行中的请求 (in-flight 去重)
+   *
+   * @return 请求成功 (含节流命中) 返回 true, 未登录 / 不支持 / 请求失败返回 false
+   */
+  fetchUserProgressAll = (refresh: boolean = false) => {
+    // refresh=true 强制发起新请求, 不复用进行中的旧任务
+    // (典型场景: reOauth 后旧 token 的请求可能还卡在重试中, 必须用新 token 重拉)
+    if (!refresh && this.userProgressAllTask) return this.userProgressAllTask
+
+    const task = this.fetchUserProgressAllTask(refresh).finally(() => {
+      if (this.userProgressAllTask === task) this.userProgressAllTask = null
+    })
+    this.userProgressAllTask = task
+    return task
+  }
+
+  /** 全量刷新收视进度实现, 由 fetchUserProgressAll 包装以做 in-flight 去重 */
+  fetchUserProgressAllTask = async (refresh: boolean = false) => {
+    try {
+      if (!this.isLogin) return false
+
+      // WEB 构建走 fetchUserProgressV0, 仅支持单条目, 全量模式不可用
+      if (WEB) return false
+
+      if (!refresh) {
+        // 上次成功: 1 小时节流
+        if (getTimestamp() - Number(this.state.lastFetchedUserProgress) < H1) return true
+
+        // 上次失败: 5 分钟抑制窗口, 避免离线 / 弱网下反复切 Tab 持续发全量请求
+        if (getTimestamp() - Number(this.state.lastFailedUserProgress) < M5) return false
+      }
+
+      const data = await this.fetchUserProgress()
+
+      // 成功响应是无参接口返回的数组; undefined 表示请求失败,
+      // { code, error } 表示 API 错误体 (如 invalid_token), fetchAPI 不抛错而是原样返回。
+      // 成功写节流时间戳; 失败写抑制窗口, 窗口内不再重发, 由单条目请求兜底
+      if (!Array.isArray(data)) {
+        logger.error(NAMESPACE, 'fetchUserProgressAll', '全量收视进度请求失败')
+        this.setState({
+          lastFailedUserProgress: getTimestamp()
+        })
+        return false
+      }
+
+      this.setState({
+        lastFetchedUserProgress: getTimestamp()
+      })
+      return true
+    } catch (error) {
+      logger.error(NAMESPACE, 'fetchUserProgressAll', error)
+      this.setState({
+        lastFailedUserProgress: getTimestamp()
+      })
+      return false
+    }
   }
 
   /** 请求在玩的游戏 */

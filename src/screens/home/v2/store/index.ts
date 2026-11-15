@@ -28,7 +28,11 @@ let inited: boolean
 export default class ScreenHomeV2 extends Action {
   /** 初始化 */
   init = async () => {
-    if (inited) return
+    if (inited) {
+      // 回 Tab 时静默全量刷新收视进度, 应对上游进度已变化的情况 (内部 1 小时节流, 失败已记录日志)
+      this.fetchUserProgressAll()
+      return
+    }
 
     if (this.isLogin) {
       this.initUser()
