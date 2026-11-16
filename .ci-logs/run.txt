@@ -1,0 +1,6 @@
+run_id=43896232150
+run_url=https://github.com/czy0729/Bangumi/actions/runs/43896232150
+branch=ci/altstore-ipa
+sha=7e418561634cd2bf040f615342c12913dfddbf6f
+version=8.42.0
+collected_at=2026-11-16T15:50:43Z

@@ -1,0 +1,430 @@
+Using Expo modules
+[Expo] Enabling modular headers for pod ExpoModulesCore
+[Expo] Enabling modular headers for pod React-Core
+[Expo] Enabling modular headers for pod ExpoModulesJSI
+[Expo] Enabling modular headers for pod React-RCTAppDelegate
+[Expo] Enabling modular headers for pod React-RCTFabric
+[Expo] Enabling modular headers for pod ReactAppDependencyProvider
+[Expo] Enabling modular headers for pod ReactCodegen
+[Expo] Enabling modular headers for pod RCTRequired
+[Expo] Enabling modular headers for pod RCTTypeSafety
+[Expo] Enabling modular headers for pod React-bridging
+[Expo] Enabling modular headers for pod ReactCommon
+[Expo] Enabling modular headers for pod React-NativeModulesApple
+[Expo] Enabling modular headers for pod Yoga
+[Expo] Enabling modular headers for pod React-Fabric
+[Expo] Enabling modular headers for pod React-graphics
+[Expo] Enabling modular headers for pod React-utils
+[Expo] Enabling modular headers for pod React-featureflags
+[Expo] Enabling modular headers for pod React-debug
+[Expo] Enabling modular headers for pod React-ImageManager
+[Expo] Enabling modular headers for pod React-rendererdebug
+[Expo] Enabling modular headers for pod React-jsi
+[Expo] Enabling modular headers for pod React-renderercss
+[Expo] Enabling modular headers for pod React-cxxstableapi
+[Expo] Enabling modular headers for pod hermes-engine
+[Expo] Enabling modular headers for pod glog
+[Expo] Enabling modular headers for pod boost
+[Expo] Enabling modular headers for pod DoubleConversion
+[Expo] Enabling modular headers for pod fast_float
+[Expo] Enabling modular headers for pod fmt
+[Expo] Enabling modular headers for pod RCT-Folly
+[Expo] Enabling modular headers for pod SocketRocket
+[Expo] Enabling modular headers for pod SDWebImage
+[Expo] Enabling modular headers for pod SDWebImageAVIFCoder
+[Expo] Enabling modular headers for pod SDWebImageSVGCoder
+[Expo] Enabling modular headers for pod SDWebImageWebPCoder
+[Expo] Enabling modular headers for pod libavif
+[Expo] Enabling modular headers for pod React-jsinspector
+[Expo] Enabling modular headers for pod EXStructuredHeaders
+[Expo] Enabling modular headers for pod EXUpdatesInterface
+[Expo] Enabling modular headers for pod EXManifests
+[Expo] Enabling modular headers for pod EASClient
+[Expo] Enabling modular headers for pod ReachabilitySwift
+[Expo-precompiled] RNReanimated: building from source (prebuilt tarball not found)
+[Expo-precompiled]   Expected tarball: /Users/runner/work/Bangumi/Bangumi/packages/precompile/.build/react-native-reanimated/output/4.7.1/0.88.1/260318099.0.5/debug/xcframeworks/RNReanimated.tar.gz
+[Expo-precompiled] react-native-safe-area-context: building from source (prebuilt tarball not found)
+[Expo-precompiled]   Expected tarball: /Users/runner/work/Bangumi/Bangumi/packages/precompile/.build/react-native-safe-area-context/output/5.11.1/0.88.1/260318099.0.5/debug/xcframeworks/RNCSafeAreaContext.tar.gz
+[Expo-precompiled] RNScreens: building from source (prebuilt tarball not found)
+[Expo-precompiled]   Expected tarball: /Users/runner/work/Bangumi/Bangumi/packages/precompile/.build/react-native-screens/output/4.30.1/0.88.1/260318099.0.5/debug/xcframeworks/RNScreens.tar.gz
+[Expo-precompiled] RNSVG: building from source (prebuilt tarball not found)
+[Expo-precompiled]   Expected tarball: /Users/runner/work/Bangumi/Bangumi/packages/precompile/.build/react-native-svg/output/15.16.0/0.88.1/260318099.0.5/debug/xcframeworks/RNSVG.tar.gz
+[Expo-precompiled] RNWorklets: building from source (prebuilt tarball not found)
+[Expo-precompiled]   Expected tarball: /Users/runner/work/Bangumi/Bangumi/packages/precompile/.build/react-native-worklets/output/0.13.0/0.88.1/260318099.0.5/debug/xcframeworks/RNWorklets.tar.gz
+[Expo-precompiled] RNCAsyncStorage: building from source (prebuilt tarball not found)
+[Expo-precompiled]   Expected tarball: /Users/runner/work/Bangumi/Bangumi/packages/precompile/.build/@react-native-async-storage/async-storage/output/2.2.0/0.88.1/260318099.0.5/debug/xcframeworks/RNCAsyncStorage.tar.gz
+Found 19 modules for target `Bangumi`
+link_native_modules! {ios_packages: [{configurations: [], name: "@react-native-async-storage/async-storage", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/@react-native-async-storage/async-storage", path: "../node_modules/@react-native-async-storage/async-storage", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/@react-native-async-storage/async-storage/RNCAsyncStorage.podspec", script_phases: []}, {configurations: [], name: "@react-native-community/blur", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/@react-native-community/blur", path: "../node_modules/@react-native-community/blur", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/@react-native-community/blur/react-native-blur.podspec", script_phases: []}, {configurations: [], name: "@react-native-community/cameraroll", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/@react-native-community/cameraroll", path: "../node_modules/@react-native-community/cameraroll", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/@react-native-community/cameraroll/react-native-cameraroll.podspec", script_phases: []}, {configurations: [], name: "@react-native-community/slider", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/@react-native-community/slider", path: "../node_modules/@react-native-community/slider", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/@react-native-community/slider/react-native-slider.podspec", script_phases: []}, {configurations: [], name: "@react-native-masked-view/masked-view", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/@react-native-masked-view/masked-view", path: "../node_modules/@react-native-masked-view/masked-view", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/@react-native-masked-view/masked-view/RNCMaskedView.podspec", script_phases: []}, {configurations: [], name: "expo", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/expo", path: "../node_modules/expo", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/expo/Expo.podspec", script_phases: []}, {configurations: [], name: "react-native-exception-handler", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-exception-handler", path: "../node_modules/react-native-exception-handler", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-exception-handler/ReactNativeExceptionHandler.podspec", script_phases: []}, {configurations: [], name: "react-native-fast-image", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-fast-image", path: "../node_modules/react-native-fast-image", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-fast-image/RNFastImage.podspec", script_phases: []}, {configurations: [], name: "react-native-fs", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-fs", path: "../node_modules/react-native-fs", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-fs/RNFS.podspec", script_phases: []}, {configurations: [], name: "react-native-gesture-handler", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-gesture-handler", path: "../node_modules/react-native-gesture-handler", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-gesture-handler/RNGestureHandler.podspec", script_phases: []}, {configurations: [], name: "react-native-pager-view", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-pager-view", path: "../node_modules/react-native-pager-view", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-pager-view/react-native-pager-view.podspec", script_phases: []}, {configurations: [], name: "react-native-reanimated", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-reanimated", path: "../node_modules/react-native-reanimated", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-reanimated/RNReanimated.podspec", script_phases: []}, {configurations: [], name: "react-native-restart", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-restart", path: "../node_modules/react-native-restart", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-restart/RCTRestart.podspec", script_phases: []}, {configurations: [], name: "react-native-safe-area-context", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-safe-area-context", path: "../node_modules/react-native-safe-area-context", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-safe-area-context/react-native-safe-area-context.podspec", script_phases: []}, {configurations: [], name: "react-native-screens", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-screens", path: "../node_modules/react-native-screens", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-screens/RNScreens.podspec", script_phases: []}, {configurations: [], name: "react-native-svg", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-svg", path: "../node_modules/react-native-svg", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-svg/RNSVG.podspec", script_phases: []}, {configurations: [], name: "react-native-webview", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-webview", path: "../node_modules/react-native-webview", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-webview/react-native-webview.podspec", script_phases: []}, {configurations: [], name: "react-native-worklets", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-worklets", path: "../node_modules/react-native-worklets", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/react-native-worklets/RNWorklets.podspec", script_phases: []}, {configurations: [], name: "rn-fetch-blob", root: "/Users/runner/work/Bangumi/Bangumi/node_modules/rn-fetch-blob", path: "../node_modules/rn-fetch-blob", podspec_path: "/Users/runner/work/Bangumi/Bangumi/node_modules/rn-fetch-blob/rn-fetch-blob.podspec", script_phases: []}], ios_project_root_path: "/Users/runner/work/Bangumi/Bangumi/ios", react_native_path: "../node_modules/react-native"}
+Auto-linking React Native modules for target `Bangumi`: RCTRestart, RNCAsyncStorage, RNCMaskedView, RNFS, RNFastImage, RNGestureHandler, RNReanimated, RNSVG, RNScreens, RNWorklets, ReactNativeExceptionHandler, react-native-blur, react-native-cameraroll, react-native-pager-view, react-native-safe-area-context, react-native-slider, react-native-webview, and rn-fetch-blob
+Framework build type is static library
+[ReactNativeDependencies] Setting up ReactNativeDependencies...
+[ReactNativeDependencies] Building from source: false
+[ReactNativeDependencies] Using tarball from URL: https://repo.reactnative.dev/maven2/com/facebook/react/react-native-artifacts/0.88.1/react-native-artifacts-0.88.1-reactnative-dependencies-debug.tar.gz
+[ReactNativeDependencies] Cache miss: downloading reactnative-dependencies-0.88.1-debug.tar.gz from https://repo.reactnative.dev/maven2/com/facebook/react/react-native-artifacts/0.88.1/react-native-artifacts-0.88.1-reactnative-dependencies-debug.tar.gz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 37.6M    0  228k    0     0   411k      0  0:01:33 --:--:--  0:01:33  411k 68 37.6M   68 25.8M    0     0  16.5M      0  0:00:02  0:00:01  0:00:01 16.5M100 37.6M  100 37.6M    0     0  20.2M      0  0:00:01  0:00:01 --:--:-- 20.2M
+[ReactNativeDependencies] Verifying checksum for downloaded reactnative-dependencies-0.88.1-debug.tar.gz...
+[Cache] SHA1 verified for reactnative-dependencies-0.88.1-debug.tar.gz
+[ReactNativeDependencies] Saved reactnative-dependencies-0.88.1-debug.tar.gz to shared cache (/Users/runner/Library/Caches/ReactNative)
+[ReactNativeDependencies] Cache miss: downloading reactnative-dependencies-0.88.1-release.tar.gz from https://repo.reactnative.dev/maven2/com/facebook/react/react-native-artifacts/0.88.1/react-native-artifacts-0.88.1-reactnative-dependencies-release.tar.gz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 30.5M    0  200k    0     0   334k      0  0:01:33 --:--:--  0:01:33  334k 70 30.5M   70 21.5M    0     0  13.4M      0  0:00:02  0:00:01  0:00:01 13.4M100 30.5M  100 30.5M    0     0  16.3M      0  0:00:01  0:00:01 --:--:-- 16.3M
+[ReactNativeDependencies] Verifying checksum for downloaded reactnative-dependencies-0.88.1-release.tar.gz...
+[Cache] SHA1 verified for reactnative-dependencies-0.88.1-release.tar.gz
+[ReactNativeDependencies] Saved reactnative-dependencies-0.88.1-release.tar.gz to shared cache (/Users/runner/Library/Caches/ReactNative)
+[ReactNativeDependencies] Source: {http: "https://repo.reactnative.dev/maven2/com/facebook/react/react-native-artifacts/0.88.1/react-native-artifacts-0.88.1-reactnative-dependencies-debug.tar.gz"}
+[ReactNativeCore] Setting up ReactNativeCore...
+[ReactNativeCore] Building from source: false
+Configuring the target with the New Architecture
+[ReactNativeCore] Using React Native Core and React Native Dependencies prebuilt versions.
+[36m[1m[Codegen][0m Analyzing /Users/runner/work/Bangumi/Bangumi/package.json[0m
+[36m[1m[Codegen][0m [33mSearching for codegen-enabled libraries in the app.[0m
+[36m[1m[Codegen][0m [33mThe "codegenConfig" field is not defined in package.json. Assuming there is nothing to generate at the app level.[0m
+[36m[1m[Codegen][0m [33mSearching for codegen-enabled libraries in react-native.config.js[0m
+[36m[1m[Codegen][0m Found @react-native-async-storage/async-storage[0m
+[36m[1m[Codegen][0m Found @react-native-community/blur[0m
+[36m[1m[Codegen][0m Found @react-native-community/slider[0m
+[36m[1m[Codegen][0m Found react-native-gesture-handler[0m
+[36m[1m[Codegen][0m Found react-native-pager-view[0m
+[36m[1m[Codegen][0m Found react-native-reanimated[0m
+[36m[1m[Codegen][0m Found react-native-safe-area-context[0m
+[36m[1m[Codegen][0m Found react-native-screens[0m
+[36m[1m[Codegen][0m Found react-native-svg[0m
+[36m[1m[Codegen][0m Found react-native-webview[0m
+[36m[1m[Codegen][0m Found react-native-worklets[0m
+[36m[1m[Codegen][0m Processing rnasyncstorage[0m
+[36m[1m[Codegen][0m [33mSearching for podspec in the project dependencies.[0m
+[36m[1m[Codegen][0m Supported Apple platforms: ios, macos, tvos, visionos for rnasyncstorage[0m
+[36m[1m[Codegen][0m Processing rnblurview[0m
+[36m[1m[Codegen][0m [33mSearching for podspec in the project dependencies.[0m
+[36m[1m[Codegen][0m Supported Apple platforms: ios, tvos, visionos for rnblurview[0m
+[36m[1m[Codegen][0m Processing RNCSlider[0m
+[36m[1m[Codegen][0m [33mSearching for podspec in the project dependencies.[0m
+[36m[1m[Codegen][0m Supported Apple platforms: ios, visionos for RNCSlider[0m
+[36m[1m[Codegen][0m Processing rngesturehandler_codegen[0m
+[36m[1m[Codegen][0m [33mSearching for podspec in the project dependencies.[0m
+[36m[1m[Codegen][0m Supported Apple platforms: ios, macos, tvos, visionos for rngesturehandler_codegen[0m
+[36m[1m[Codegen][0m Processing pagerview[0m
+[36m[1m[Codegen][0m [33mSearching for podspec in the project dependencies.[0m
+[36m[1m[Codegen][0m Supported Apple platforms: ios, visionos for pagerview[0m
+[36m[1m[Codegen][0m Processing rnreanimated[0m
+[36m[1m[Codegen][0m [33mSearching for podspec in the project dependencies.[0m
+[36m[1m[Codegen][0m Supported Apple platforms: ios, macos, tvos, visionos for rnreanimated[0m
+[36m[1m[Codegen][0m Processing safeareacontext[0m
+[36m[1m[Codegen][0m [33mSearching for podspec in the project dependencies.[0m
+[36m[1m[Codegen][0m Supported Apple platforms: ios, macos, tvos, visionos for safeareacontext[0m
+[36m[1m[Codegen][0m Processing rnscreens[0m
+[36m[1m[Codegen][0m [33mSearching for podspec in the project dependencies.[0m
+[36m[1m[Codegen][0m Supported Apple platforms: ios, tvos, visionos for rnscreens[0m
+[36m[1m[Codegen][0m Processing rnsvg[0m
+[36m[1m[Codegen][0m [33mSearching for podspec in the project dependencies.[0m
+[36m[1m[Codegen][0m Supported Apple platforms: ios, macos, tvos, visionos for rnsvg[0m
+[36m[1m[Codegen][0m Processing RNCWebViewSpec[0m
+[36m[1m[Codegen][0m [33mSearching for podspec in the project dependencies.[0m
+[36m[1m[Codegen][0m Supported Apple platforms: ios, macos, visionos for RNCWebViewSpec[0m
+[36m[1m[Codegen][0m Processing rnworklets[0m
+[36m[1m[Codegen][0m [33mSearching for podspec in the project dependencies.[0m
+[36m[1m[Codegen][0m Supported Apple platforms: ios, macos, tvos, visionos for rnworklets[0m
+[36m[1m[Codegen][0m Generating Native Code for rnasyncstorage - ios[0m
+[36m[1m[Codegen][0m Generated artifacts: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactCodegen[0m
+[36m[1m[Codegen][0m Generating Native Code for rnblurview - ios[0m
+[36m[1m[Codegen][0m Generated artifacts: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactCodegen[0m
+[36m[1m[Codegen][0m Generating Native Code for RNCSlider - ios[0m
+[36m[1m[Codegen][0m Generated artifacts: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactCodegen[0m
+[36m[1m[Codegen][0m Generating Native Code for rngesturehandler_codegen - ios[0m
+[36m[1m[Codegen][0m Generated artifacts: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactCodegen[0m
+[36m[1m[Codegen][0m Generating Native Code for pagerview - ios[0m
+[36m[1m[Codegen][0m Generated artifacts: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactCodegen[0m
+[36m[1m[Codegen][0m Generating Native Code for rnreanimated - ios[0m
+[36m[1m[Codegen][0m Generated artifacts: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactCodegen[0m
+[36m[1m[Codegen][0m Generating Native Code for safeareacontext - ios[0m
+[36m[1m[Codegen][0m Generated artifacts: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactCodegen[0m
+[36m[1m[Codegen][0m Generating Native Code for rnscreens - ios[0m
+[36m[1m[Codegen][0m Generated artifacts: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactCodegen[0m
+[36m[1m[Codegen][0m Generating Native Code for rnsvg - ios[0m
+[36m[1m[Codegen][0m Generated artifacts: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactCodegen[0m
+[36m[1m[Codegen][0m Generating Native Code for RNCWebViewSpec - ios[0m
+[36m[1m[Codegen][0m Generated artifacts: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactCodegen[0m
+[36m[1m[Codegen][0m Generating Native Code for rnworklets - ios[0m
+[36m[1m[Codegen][0m Generated artifacts: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactCodegen[0m
+[36m[1m[Codegen][0m Generating RCTThirdPartyComponentsProvider.h[0m
+[36m[1m[Codegen][0m Generated artifact: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactCodegen/RCTThirdPartyComponentsProvider.h[0m
+[36m[1m[Codegen][0m Generating RCTThirdPartyComponentsProvider.mm[0m
+[36m[1m[Codegen][0m Crawling @react-native-community/blur library for components[0m
+[36m[1m[Codegen][0m Match found BlurView -> BlurView[0m
+[36m[1m[Codegen][0m Match found VibrancyView -> VibrancyView[0m
+[36m[1m[Codegen][0m [33m[DEPRECATED] @react-native-community/blur should add the 'ios.componentProvider' property in their codegenConfig[0m
+[36m[1m[Codegen][0m Generated artifact: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactCodegen/RCTThirdPartyComponentsProvider.mm[0m
+[36m[1m[Codegen][0m Generating RCTModulesProvider.h[0m
+[36m[1m[Codegen][0m Generated artifact: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactCodegen/RCTModuleProviders.h[0m
+[36m[1m[Codegen][0m Generating RCTModuleProviders.mm[0m
+[36m[1m[Codegen][0m Generated artifact: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactCodegen/RCTModuleProviders.mm[0m
+[36m[1m[Codegen][0m Generating RCTAppDependencyProvider[0m
+[36m[1m[Codegen][0m Generated artifact: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactAppDependencyProvider/RCTAppDependencyProvider.h[0m
+[36m[1m[Codegen][0m Generated artifact: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactAppDependencyProvider/RCTAppDependencyProvider.mm[0m
+[36m[1m[Codegen][0m Generated podspec: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactAppDependencyProvider/ReactAppDependencyProvider.podspec[0m
+[36m[1m[Codegen][0m Generated podspec: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/ReactCodegen/ReactCodegen.podspec[0m
+[36m[1m[Codegen][0m Generating Package.swift[0m
+[36m[1m[Codegen][0m Generated artifact: /Users/runner/work/Bangumi/Bangumi/ios/build/generated/ios/Package.swift[0m
+[36m[1m[Codegen][0m [33mDone.[0m
+Analyzing dependencies
+[Expo-precompiled] Bundled SPM frameworks: SDWebImage, SDWebImageAVIFCoder, SDWebImageSVGCoder, SDWebImageWebPCoder, libavif
+Fetching podspec for `ExpoFileSystem` from `../node_modules/expo-file-system/ios/ExpoFileSystem.podspec`
+Fetching podspec for `ExpoFont` from `../node_modules/expo-font/ios/ExpoFont.podspec`
+Fetching podspec for `ExpoImage` from `../node_modules/expo-image/ios/ExpoImage.podspec`
+[Expo-precompiled] Stripping bundled dependency 'SDWebImage' from ExpoImage
+[Expo-precompiled] Stripping bundled dependency 'SDWebImageAVIFCoder' from ExpoImage
+[Expo-precompiled] Stripping bundled dependency 'SDWebImageSVGCoder' from ExpoImage
+[Expo-precompiled] Stripping bundled dependency 'SDWebImageWebPCoder' from ExpoImage
+[Expo-precompiled] Stripping bundled dependency 'libavif/libdav1d' from ExpoImage
+Fetching podspec for `ExpoModulesCore` from `../node_modules/expo-modules-core/ExpoModulesCore.podspec`
+Fetching podspec for `ExpoModulesWorklets` from `../node_modules/expo-modules-core/ExpoModulesWorklets.podspec`
+Fetching podspec for `React-Core-prebuilt` from `../node_modules/react-native/React-Core-prebuilt.podspec`
+[ReactNativeCore] Cache miss: downloading reactnative-core-0.88.1-debug.tar.gz from https://repo.reactnative.dev/maven2/com/facebook/react/react-native-artifacts/0.88.1/react-native-artifacts-0.88.1-reactnative-core-debug.tar.gz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  1 96.2M    1 1054k    0     0  1598k      0  0:01:01 --:--:--  0:01:01 1597k 45 96.2M   45 44.1M    0     0  26.5M      0  0:00:03  0:00:01  0:00:02 26.5M 96 96.2M   96 93.0M    0     0  34.9M      0  0:00:02  0:00:02 --:--:-- 34.9M100 96.2M  100 96.2M    0     0  35.3M      0  0:00:02  0:00:02 --:--:-- 35.3M
+[ReactNativeCore] Verifying checksum for downloaded reactnative-core-0.88.1-debug.tar.gz...
+[Cache] SHA1 verified for reactnative-core-0.88.1-debug.tar.gz
+[ReactNativeCore] Saved reactnative-core-0.88.1-debug.tar.gz to shared cache (/Users/runner/Library/Caches/ReactNative)
+[ReactNativeCore] Cache miss: downloading reactnative-core-0.88.1-release.tar.gz from https://repo.reactnative.dev/maven2/com/facebook/react/react-native-artifacts/0.88.1/react-native-artifacts-0.88.1-reactnative-core-release.tar.gz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 48 30.5M   48 14.8M    0     0  15.4M      0  0:00:01 --:--:--  0:00:01 15.4M100 30.5M  100 30.5M    0     0  24.1M      0  0:00:01  0:00:01 --:--:-- 24.1M
+[ReactNativeCore] Verifying checksum for downloaded reactnative-core-0.88.1-release.tar.gz...
+[Cache] SHA1 verified for reactnative-core-0.88.1-release.tar.gz
+[ReactNativeCore] Saved reactnative-core-0.88.1-release.tar.gz to shared cache (/Users/runner/Library/Caches/ReactNative)
+[ReactNativeCore] Resolved stable ReactNativeCore-prebuilt version:
+[ReactNativeCore]   ../../ios/Pods/ReactNativeCore-artifacts/reactnative-core-0.88.1-debug.tar.gz
+[ReactNativeCore]   ../../ios/Pods/ReactNativeCore-artifacts/reactnative-core-0.88.1-release.tar.gz
+Fetching podspec for `ReactNativeDependencies` from `../node_modules/react-native/third-party-podspecs/ReactNativeDependencies.podspec`
+[ReactNativeDependencies] Using tarball from URL: https://repo.reactnative.dev/maven2/com/facebook/react/react-native-artifacts/0.88.1/react-native-artifacts-0.88.1-reactnative-dependencies-debug.tar.gz
+[ReactNativeDependencies] Tarball reactnative-dependencies-0.88.1-debug.tar.gz already exists in Pods. Skipping download.
+[ReactNativeDependencies] Tarball reactnative-dependencies-0.88.1-release.tar.gz already exists in Pods. Skipping download.
+Fetching podspec for `hermes-engine` from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`
+[Hermes] Using release tarball from URL: https://repo.reactnative.dev/maven2/com/facebook/hermes/hermes-ios/260318099.0.5/hermes-ios-260318099.0.5-hermes-ios-debug.tar.gz
+[Hermes] Cache miss: downloading hermes-ios-260318099.0.5-debug.tar.gz from https://repo.reactnative.dev/maven2/com/facebook/hermes/hermes-ios/260318099.0.5/hermes-ios-260318099.0.5-hermes-ios-debug.tar.gz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 43 30.3M   43 13.2M    0     0  10.1M      0  0:00:03  0:00:01  0:00:02 10.1M100 30.3M  100 30.3M    0     0  16.8M      0  0:00:01  0:00:01 --:--:-- 16.8M
+[Hermes] Verifying checksum for downloaded hermes-ios-260318099.0.5-debug.tar.gz...
+[Hermes] SHA1 verified for hermes-ios-260318099.0.5-debug.tar.gz
+[Hermes] Saved hermes-ios-260318099.0.5-debug.tar.gz to shared cache (/Users/runner/Library/Caches/ReactNative)
+[Hermes] Cache miss: downloading hermes-ios-260318099.0.5-release.tar.gz from https://repo.reactnative.dev/maven2/com/facebook/hermes/hermes-ios/260318099.0.5/hermes-ios-260318099.0.5-hermes-ios-release.tar.gz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  3 24.2M    3  927k    0     0  1720k      0  0:00:14 --:--:--  0:00:14 1718k100 24.2M  100 24.2M    0     0  22.5M      0  0:00:01  0:00:01 --:--:-- 22.6M
+[Hermes] Verifying checksum for downloaded hermes-ios-260318099.0.5-release.tar.gz...
+[Hermes] SHA1 verified for hermes-ios-260318099.0.5-release.tar.gz
+[Hermes] Saved hermes-ios-260318099.0.5-release.tar.gz to shared cache (/Users/runner/Library/Caches/ReactNative)
+Adding spec repo `trunk` with CDN `https://cdn.cocoapods.org/`
+Downloading dependencies
+Installing DoubleConversion (1.1.6)
+Installing EASClient (58.0.2)
+Installing EXConstants (58.0.16)
+Installing EXJSONUtils (58.0.1)
+Installing EXManifests (58.0.1)
+Installing EXStructuredHeaders (58.0.1)
+Installing EXUpdates (58.0.22)
+Installing EXUpdatesInterface (58.0.1)
+Installing Expo (58.0.25)
+Installing ExpoAsset (58.0.21)
+Installing ExpoBlur (58.0.6)
+Installing ExpoCalendar (58.0.7)
+Installing ExpoDevice (58.0.5)
+Installing ExpoDomWebView (58.0.2)
+Installing ExpoFileSystem (58.0.13)
+Installing ExpoFont (58.0.12)
+Installing ExpoHaptics (58.0.8)
+Installing ExpoImage (58.0.18)
+Installing ExpoKeepAwake (58.0.4)
+Installing ExpoLinearGradient (58.0.4)
+Installing ExpoLogBox (58.0.15)
+Installing ExpoModulesCore (58.1.0)
+Installing ExpoModulesJSI (58.0.23)
+Installing ExpoModulesWorklets (58.1.0)
+Installing ExpoModulesWorkletsAdapter (58.1.0)
+Installing ExpoScreenOrientation (58.0.4)
+Installing ExpoSpeech (58.0.4)
+Installing ExpoSplashScreen (58.0.14)
+Installing ExpoWebBrowser (58.0.8)
+Installing FBLazyVector (0.88.1)
+Installing RCT-Folly (2024.11.18.00)
+Installing RCTDeprecation (0.88.1)
+Installing RCTRequired (0.88.1)
+Installing RCTRestart (0.0.14)
+Installing RCTSwiftUI (0.88.1)
+Installing RCTSwiftUIWrapper (0.88.1)
+Installing RCTTypeSafety (0.88.1)
+Installing RNCAsyncStorage (2.2.0)
+Installing RNCMaskedView (0.3.2)
+Installing RNFS (2.18.0)
+Installing RNFastImage (8.5.11)
+Installing RNGestureHandler (3.3.0)
+Installing RNReanimated (4.7.1)
+Installing RNSVG (15.16.0)
+Installing RNScreens (4.30.1)
+Installing RNWorklets (0.13.0)
+Installing ReachabilitySwift (5.2.4)
+Installing React (0.88.1)
+Installing React-Core (0.88.1)
+Installing React-Core-prebuilt (0.88.1)
+Installing React-CoreModules (0.88.1)
+Installing React-Fabric (0.88.1)
+Installing React-FabricComponents (0.88.1)
+Installing React-FabricImage (0.88.1)
+Installing React-ImageManager (0.88.1)
+Installing React-Mapbuffer (0.88.1)
+Installing React-NativeModulesApple (0.88.1)
+Installing React-RCTActionSheet (0.88.1)
+Installing React-RCTAnimatedModuleProvider (0.88.1)
+Installing React-RCTAnimation (0.88.1)
+Installing React-RCTAppDelegate (0.88.1)
+Installing React-RCTBlob (0.88.1)
+Installing React-RCTFBReactNativeSpec (0.88.1)
+Installing React-RCTFabric (0.88.1)
+Installing React-RCTImage (0.88.1)
+Installing React-RCTLinking (0.88.1)
+Installing React-RCTNetwork (0.88.1)
+Installing React-RCTRuntime (0.88.1)
+Installing React-RCTSettings (0.88.1)
+Installing React-RCTText (0.88.1)
+Installing React-RCTVibration (0.88.1)
+Installing React-RuntimeApple (0.88.1)
+Installing React-RuntimeCore (0.88.1)
+Installing React-RuntimeHermes (0.88.1)
+Installing React-bridging (0.88.1)
+Installing React-callinvoker (0.88.1)
+Installing React-cxxreact (0.88.1)
+Installing React-cxxstableapi (0.88.1)
+Installing React-debug (0.88.1)
+Installing React-defaultsnativemodule (0.88.1)
+Installing React-domnativemodule (0.88.1)
+Installing React-featureflags (0.88.1)
+Installing React-featureflagsnativemodule (0.88.1)
+Installing React-graphics (0.88.1)
+Installing React-hermes (0.88.1)
+Installing React-idlecallbacksnativemodule (0.88.1)
+Installing React-intersectionobservernativemodule (0.88.1)
+Installing React-jserrorhandler (0.88.1)
+Installing React-jsi (0.88.1)
+Installing React-jsiexecutor (0.88.1)
+Installing React-jsinspector (0.88.1)
+Installing React-jsinspectorcdp (0.88.1)
+Installing React-jsinspectornetwork (0.88.1)
+Installing React-jsinspectortracing (0.88.1)
+Installing React-jsitooling (0.88.1)
+Installing React-jsitracing (0.88.1)
+Installing React-logger (0.88.1)
+Installing React-microtasksnativemodule (0.88.1)
+Installing React-mutationobservernativemodule (0.88.1)
+Installing React-networking (0.88.1)
+Installing React-oscompat (0.88.1)
+Installing React-perflogger (0.88.1)
+Installing React-performancecdpmetrics (0.88.1)
+Installing React-performancetimeline (0.88.1)
+Installing React-rendererconsistency (0.88.1)
+Installing React-renderercss (0.88.1)
+Installing React-rendererdebug (0.88.1)
+Installing React-resizeobservernativemodule (0.88.1)
+Installing React-runtimeexecutor (0.88.1)
+Installing React-runtimescheduler (0.88.1)
+Installing React-timing (0.88.1)
+Installing React-utils (0.88.1)
+Installing React-viewtransitionnativemodule (0.88.1)
+Installing React-webperformancenativemodule (0.88.1)
+Installing ReactAppDependencyProvider (0.88.1)
+Installing ReactCodegen (0.88.1)
+Installing ReactCommon (0.88.1)
+Installing ReactNativeDependencies (0.88.1)
+Installing ReactNativeExceptionHandler (2.10.10)
+Installing SDWebImage (5.11.1)
+Installing SDWebImageWebPCoder (0.8.5)
+Installing SocketRocket (0.7.1)
+Installing SwiftUIIntrospect (1.3.0)
+Installing Yoga (0.0.0)
+Installing boost (1.84.0)
+Installing fast_float (8.0.0)
+Installing fmt (12.1.0)
+Installing glog (0.3.5)
+Installing hermes-engine (260318099.0.5)
+Installing libwebp (1.5.0)
+Installing react-native-blur (4.4.1)
+Installing react-native-cameraroll (4.0.4)
+Installing react-native-pager-view (9.0.7)
+Installing react-native-safe-area-context (5.11.1)
+Installing react-native-slider (5.2.1)
+Installing react-native-webview (14.0.1)
+Installing rn-fetch-blob (0.12.0)
+[Expo] Ensuring required slices in ExpoModulesJSI.xcframework
+[Expo] Staged 5/5 shared SPM xcframework(s) (debug)
+Generating Pods project
+Setting USE_HERMES build settings
+Setting REACT_NATIVE_PATH build settings
+Setting SWIFT_ACTIVE_COMPILATION_CONDITIONS build settings
+[Ccache]: Removing Ccache from CC, LD, CXX & LDPLUSPLUS build settings
+Setting GCC_OPTIMIZATION_LEVEL to 2 for React Native pods in Release, and for Yoga, glog in all configurations
+[ReactNativeCore] Configuring xcconfig for prebuilt React Native Core...
+[ReactNativeCore] Prebuilt xcconfig configuration complete
+[ReactNativeDependencies] Configuring xcconfig for prebuilt React Native Dependencies...
+[ReactNativeDependencies] Prebuilt deps xcconfig configuration complete
+[SPM] Cleaning old SPM dependencies from Pods project
+[SPM] Adding SPM dependencies to Pods project
+[Privacy Manifest Aggregation] Appending aggregated reasons to existing PrivacyInfo.xcprivacy file.
+[Privacy Manifest Aggregation] Reading .xcprivacy files to aggregate all used Required Reason APIs.
+Setting CLANG_CXX_LANGUAGE_STANDARD to c++20 on /Users/runner/work/Bangumi/Bangumi/ios/Bangumi.xcodeproj
+
+==================== DEPRECATION NOTICE =====================
+Calling `pod install` directly is deprecated in React Native
+because we are moving away from Cocoapods toward alternative
+solutions to build the project.
+* If you are using Expo, please run:
+`npx expo run:ios`
+* If you are using the Community CLI, please run:
+`yarn ios`
+=============================================================
+
+Pod install took 160 [s] to run
+Integrating client project
+warning: The @ExpoModule class 'CoreModule' (/Users/runner/work/Bangumi/Bangumi/node_modules/expo-modules-core/ios/Core/Modules/CoreModule.swift) is internal, so the generated modules provider cannot reference it. Declare it public to link it automatically, or use a lower access level such as private to opt it out of linking.
+Pod installation complete! There are 133 dependencies from the Podfile and 137 total pods installed.
+[Expo-precompiled] Precompiled modules:
+[Expo-precompiled]   📦 ExpoFileSystem (58.0.13)
+[Expo-precompiled]   📦 ExpoFont (58.0.12)
+[Expo-precompiled]   📦 ExpoImage (58.0.18)
+[Expo-precompiled]       ∟ SDWebImage.xcframework (5.21.6)
+[Expo-precompiled]       ∟ SDWebImageAVIFCoder.xcframework (0.12.0)
+[Expo-precompiled]       ∟ SDWebImageSVGCoder.xcframework (1.8.0)
+[Expo-precompiled]       ∟ SDWebImageWebPCoder.xcframework (0.15.0)
+[Expo-precompiled]       ∟ libavif.xcframework (1.0.0)
+[Expo-precompiled]   📦 ExpoModulesCore (58.1.0)
+[Expo-precompiled]   📦 ExpoModulesWorklets (58.1.0)
+[Expo] Disabling SWIFT_EMIT_MODULE_INTERFACE for pod targets (prebuilt React compatibility)
+[Expo] Ensured modular React header flags on 0 xcconfig(s)
+[Expo-precompiled] Looking for ExpoModulesCore.xcframework at: /Users/runner/work/Bangumi/Bangumi/ios/Pods/ExpoModulesCore/ExpoModulesCore.xcframework
+[Expo-precompiled] Adding ExpoModulesJSI header search paths to all targets
+[Expo-precompiled] Adding ExpoModulesWorklets header search paths to ExpoModulesWorkletsAdapter
+[Expo] Adding '[Expo] Remove duplicate codegen output' build phase to ReactCodegen
+[Expo-precompiled] Stubbed 'SDWebImage': removed 70 source files from compile phase
+[Expo-precompiled] Stubbed 'SDWebImageWebPCoder': removed 4 source files from compile phase
+[Expo-precompiled] Cleaned linker flags from Pods-Bangumi/Pods-Bangumi.debug.xcconfig
+[Expo-precompiled] Cleaned linker flags from Pods-Bangumi/Pods-Bangumi.release.xcconfig
+[Expo] Raised resource bundle deployment targets to match their pods: RNCAsyncStorage-RNCAsyncStorage_resources, ReachabilitySwift-ReachabilitySwift
+
+[!] ExpoFileSystem has added 2 script phases. Please inspect before executing a build. See `https://guides.cocoapods.org/syntax/podspec.html#script_phases` for more information.
+
+[!] ExpoFont has added 2 script phases. Please inspect before executing a build. See `https://guides.cocoapods.org/syntax/podspec.html#script_phases` for more information.
+
+[!] ExpoImage has added 2 script phases. Please inspect before executing a build. See `https://guides.cocoapods.org/syntax/podspec.html#script_phases` for more information.
+
+[!] ExpoModulesCore has added 2 script phases. Please inspect before executing a build. See `https://guides.cocoapods.org/syntax/podspec.html#script_phases` for more information.
+
+[!] ExpoModulesWorklets has added 2 script phases. Please inspect before executing a build. See `https://guides.cocoapods.org/syntax/podspec.html#script_phases` for more information.
+
+[!] React-Core-prebuilt has added 1 script phase. Please inspect before executing a build. See `https://guides.cocoapods.org/syntax/podspec.html#script_phases` for more information.
+
+[!] ReactNativeDependencies has added 1 script phase. Please inspect before executing a build. See `https://guides.cocoapods.org/syntax/podspec.html#script_phases` for more information.
+
+[!] hermes-engine has added 1 script phase. Please inspect before executing a build. See `https://guides.cocoapods.org/syntax/podspec.html#script_phases` for more information.
