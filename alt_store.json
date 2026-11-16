@@ -14,10 +14,10 @@
           "version": "8.42.0",
           "buildVersion": "1",
           "date": "2026-11-16T15:50:27Z",
-          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.42.0/bangumi_v8.42.0.ipa",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/upstream-8.42.0/bangumi_v8.42.0.ipa",
           "size": 32031310,
           "sha256": "156f747a2c00f0d93e42ecdf72f9634f6c8fcb83f237faac23eafce1f0760924",
-          "localizedDescription": "Automated unsigned IPA build for Bangumi tag `8.42.0`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.42.0\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.42.0.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/43896232150"
+          "localizedDescription": "Automated unsigned IPA build for Bangumi tag `8.42.0`.\r\n\r\nSource: https://github.com/czy0729/Bangumi/tree/8.42.0\r\n\r\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.42.0.zip\r\n\r\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\r\n\r\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/43896232150"
         },
         {
           "version": "8.41.1",
