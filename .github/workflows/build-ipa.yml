@@ -2,13 +2,13 @@ name: Build unsigned IPA
 
 # 未签名 IPA 流水线 (移植自 ci-ipa 分支的 build-ipa.yml, 面向当前 master 代码)
 #
-# 已停用: 推送不再自动打包, 需要打包时按下面两步手动开启
-#   1) 删掉 jobs.build 里的 `if: false`
-#   2) 需要随推送自动触发时, 再补回 push 触发器 (branches: [ci-ipa-57])
+# 只在手动触发时打包, 不跟推送走
 #
-# 与 ci-ipa 版的刻意差异:
-#   1) 产物改为 actions/upload-artifact 上传, 不创建 GitHub Release, 也不回写 master 的 alt_store.json
-#   2) 失败时把 pod-install / xcodebuild 日志回写到独立的 ci-logs 分支, 便于本地 git fetch 取完整日志排错
+# 打包成功后:
+#   1) 在 Release `<version>` 上传 bangumi_v<version>.ipa 与 .sha256
+#   2) 重新生成 alt_store.json 并推回 master, AltStore 源随之更新 (issue #405)
+#
+# 失败时把 pod-install / xcodebuild 日志回写到独立的 ci-logs 分支, 便于本地 git fetch 取完整日志排错
 #
 # 产物下载: 运行页底部 Artifacts 区 (GitHub 要求登录后下载)
 # 未签名 IPA 需自行使用 AltStore / Sideloadly / TrollStore 侧载
@@ -19,6 +19,11 @@ on:
         description: 'App version to build (defaults to expo.version in app.json), for example 8.40.2'
         required: false
         type: string
+      force:
+        description: 'Rebuild and replace existing release assets.'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -33,8 +38,6 @@ concurrency:
 jobs:
   build:
     name: Build unsigned IPA
-    # 已停用: 需要打包时删掉这一行 (并补回 push 触发器)
-    if: true
     runs-on: macos-26
     timeout-minutes: 180
 
@@ -45,7 +48,11 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          # 与 package.json 的 engines 保持一致
+          node-version: '22'
+          # 仓库不提交 yarn.lock (见 .gitignore), 缓存键改用 package.json
+          cache: 'yarn'
+          cache-dependency-path: package.json
 
       - name: Resolve version
         run: |
@@ -57,7 +64,6 @@ jobs:
           fi
 
           echo "VERSION=$version" >> "$GITHUB_ENV"
-          echo "TAG=v$version" >> "$GITHUB_ENV"
           echo "App version: $version (app.json: $app_version)"
 
       - name: Install JavaScript dependencies
@@ -234,6 +240,45 @@ jobs:
             echo "::error::codesign did not report the expected unsigned-app message."
             exit 1
           fi
+
+      - name: Upload release assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FORCE_REBUILD: ${{ github.event.inputs.force == 'true' }}
+        run: |
+          node .github/scripts/upstream-ipa.mjs upload \
+            --tag "$VERSION" \
+            --release-tag "$VERSION" \
+            --asset-name "$ASSET_NAME" \
+            --ipa "$IPA_PATH" \
+            --sha "$SHA_PATH"
+
+      - name: Update AltStore source
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          # 用本次运行所用分支的脚本, 以 master 的 alt_store.json 为基线提交
+          script="$RUNNER_TEMP/generate-altstore.py"
+          cp .github/scripts/generate-altstore.py "$script"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git fetch --depth=1 origin master
+          git reset --hard FETCH_HEAD
+
+          python3 "$script" --version "$VERSION" --output alt_store.json
+
+          if git diff --quiet -- alt_store.json; then
+            echo "alt_store.json already up to date."
+            exit 0
+          fi
+
+          git add alt_store.json
+          git commit -m "chore: update AltStore source"
+          git push origin HEAD:master
 
       - name: Upload IPA artifact
         uses: actions/upload-artifact@v4

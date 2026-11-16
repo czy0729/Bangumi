@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
 
+"""根据已发布的 Release 生成 AltStore 源文件 alt_store.json。"""
+
 import argparse
+import hashlib
+import http.client
 import json
 import os
+import re
+import time
+import urllib.error
 import urllib.request
 
 OWNER = "czy0729"
@@ -23,26 +30,101 @@ APP = {
     "localizedDescription": "Bangumi for iOS",
 }
 
+# 同时识别 upstream-x.y.z / vx.y.z / x.y.z 三种 Release 标签
+VERSION_TAG = re.compile(r"^(?:upstream-|v)?(\d+\.\d+\.\d+)$")
+
+# 缺少 .sha256 资产时改为下载 IPA 自行计算, 超过该大小的跳过
+HASH_DOWNLOAD_LIMIT = 300 * 1024 * 1024
+
+USER_AGENT = "altstore-generator"
+
+
+def headers(auth=False):
+    result = {"User-Agent": USER_AGENT}
+
+    if auth:
+        result["Accept"] = "application/vnd.github+json"
+        token = os.getenv("GITHUB_TOKEN")
+        if token:
+            result["Authorization"] = f"Bearer {token}"
+
+    return result
+
+
+def open_url(url, method="GET", auth=False, timeout=60):
+    req = urllib.request.Request(url, headers=headers(auth), method=method)
+
+    return urllib.request.urlopen(req, timeout=timeout)
+
+
+def read_bytes(url, auth=False, timeout=60, attempts=3):
+    for attempt in range(1, attempts + 1):
+        try:
+            with open_url(url, auth=auth, timeout=timeout) as r:
+                return r.read()
+        except urllib.error.HTTPError as e:
+            if e.code not in (408, 429, 500, 502, 503, 504) or attempt == attempts:
+                raise
+            print(f"Retrying {url}: HTTP {e.code}")
+        except (urllib.error.URLError, OSError, http.client.HTTPException) as e:
+            if attempt == attempts:
+                raise
+            print(f"Retrying {url}: {e}")
+
+        time.sleep(3 * attempt)
+
 
 def github_json(url):
-    headers = {
-        "Accept": "application/vnd.github+json",
-        "User-Agent": "altstore-generator",
-    }
-
-    token = os.getenv("GITHUB_TOKEN")
-    if token:
-        headers["Authorization"] = f"Bearer {token}"
-
-    req = urllib.request.Request(url, headers=headers)
-
-    with urllib.request.urlopen(req) as r:
-        return json.load(r)
+    return json.loads(read_bytes(url, auth=True))
 
 
 def download_text(url):
-    with urllib.request.urlopen(url) as r:
-        return r.read().decode("utf-8")
+    return read_bytes(url).decode("utf-8")
+
+
+def asset_available(url):
+    try:
+        with open_url(url, method="HEAD") as r:
+            return 200 <= r.status < 300
+    except urllib.error.HTTPError as e:
+        print(f"Unreachable asset {url}: HTTP {e.code}")
+    except Exception as e:  # noqa: BLE001 - 网络异常一律视为不可用
+        print(f"Unreachable asset {url}: {e}")
+
+    return False
+
+
+def download_sha256(url, size):
+    if size > HASH_DOWNLOAD_LIMIT:
+        print(f"IPA too large to hash locally, skipping: {url} ({size} bytes)")
+
+        return None
+
+    for attempt in range(1, 4):
+        digest = hashlib.sha256()
+        total = 0
+
+        try:
+            with open_url(url, timeout=300) as r:
+                while True:
+                    chunk = r.read(1024 * 1024)
+                    if not chunk:
+                        break
+
+                    digest.update(chunk)
+                    total += len(chunk)
+        except (urllib.error.URLError, OSError, http.client.HTTPException) as e:
+            print(f"Retrying hash download for {url}: {e}")
+            time.sleep(3 * attempt)
+            continue
+
+        if total == size:
+            return digest.hexdigest()
+
+        print(f"Incomplete download for {url}: {total} of {size} bytes")
+        time.sleep(3 * attempt)
+
+    return None
 
 
 def version_key(version):
@@ -57,88 +139,129 @@ def version_key(version):
     return parts
 
 
-def find_assets(assets):
-    ipa = None
-    sha = None
+def find_ipa(assets):
+    candidates = [
+        asset
+        for asset in assets
+        if asset["name"].endswith(".ipa") and not asset["name"].endswith(".ipa.sha256")
+    ]
+
+    if not candidates:
+        return None
+
+    candidates.sort(key=lambda asset: asset["size"], reverse=True)
+
+    return candidates[0]
+
+
+def find_sha(assets, ipa_name):
+    expected = {f"{ipa_name}.sha256", "SHA256SUMS"}
 
     for asset in assets:
-        name = asset["name"]
+        if asset["name"] in expected:
+            return asset
 
-        if name.endswith(".ipa"):
-            ipa = asset
-
-        elif name.endswith(".ipa.sha256"):
-            sha = asset
-
-    return ipa, sha
+    return None
 
 
-def collect_versions(current_version):
-    versions = []
+def collect_versions():
+    versions = {}
     page = 1
 
-    while page <= 10:
+    while page <= 40:
         releases = github_json(
             f"https://api.github.com/repos/{OWNER}/{REPO}/releases"
-            f"?per_page=100&page={page}"
+            f"?per_page=50&page={page}"
         )
+
+        if not isinstance(releases, list):
+            raise RuntimeError("Unexpected GitHub releases response")
 
         for release in releases:
             tag = release.get("tag_name", "")
 
-            if not tag.startswith("upstream-") or release.get("draft"):
+            if release.get("draft") or release.get("prerelease"):
                 continue
 
-            version = tag[len("upstream-"):]
-
-            ipa, sha = find_assets(release.get("assets", []))
-
-            if ipa is None or sha is None:
-                print(f"Skipping {tag}: missing IPA or SHA256 asset")
+            match = VERSION_TAG.match(tag)
+            if not match:
                 continue
 
-            sha256 = download_text(sha["browser_download_url"]).split()[0]
+            version = match.group(1)
+            published_at = release.get("published_at") or ""
 
-            body = release.get("body")
+            known = versions.get(version)
+            if known and known[0] >= published_at:
+                continue
 
-            versions.append(
+            ipa = find_ipa(release.get("assets") or [])
+
+            if ipa is None:
+                print(f"Skipping {tag}: no IPA asset")
+                continue
+
+            if not asset_available(ipa["browser_download_url"]):
+                print(f"Skipping {tag}: IPA asset is not downloadable")
+                continue
+
+            sha_asset = find_sha(release.get("assets") or [], ipa["name"])
+
+            if sha_asset is not None:
+                sha256 = download_text(sha_asset["browser_download_url"]).split()[0]
+            else:
+                sha256 = download_sha256(ipa["browser_download_url"], ipa["size"])
+
+            if not sha256:
+                print(f"Skipping {tag}: cannot resolve sha256")
+                continue
+
+            versions[version] = (
+                published_at,
                 {
                     "version": version,
                     "buildVersion": "1",
-                    "date": release["published_at"],
+                    "date": published_at,
                     "downloadURL": ipa["browser_download_url"],
                     "size": ipa["size"],
                     "sha256": sha256,
-                    "localizedDescription": (
-                        body if body else f"Upstream {version}"
-                    ),
-                }
+                    "localizedDescription": release.get("body") or f"Upstream {version}",
+                },
             )
 
-        if len(releases) < 100:
+        if len(releases) < 50:
             break
 
         page += 1
 
-    if not any(v["version"] == current_version for v in versions):
-        raise RuntimeError(
-            f"Release with IPA and SHA256 assets not found for upstream-{current_version}"
-        )
+    result = [entry for _, entry in versions.values()]
+    result.sort(key=lambda v: version_key(v["version"]), reverse=True)
 
-    versions.sort(key=lambda v: version_key(v["version"]), reverse=True)
-
-    return versions
+    return result
 
 
 def main():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--version", required=True)
+    parser.add_argument(
+        "--version",
+        help="Assert this version is present in the generated source (x.y.z)",
+    )
     parser.add_argument("--output", required=True)
 
     args = parser.parse_args()
 
-    versions = collect_versions(args.version)
+    versions = collect_versions()
+
+    if not versions:
+        raise RuntimeError("No downloadable IPA release found")
+
+    if args.version:
+        expected = args.version.strip()
+        if expected.startswith("upstream-") or expected.startswith("v"):
+            expected = VERSION_TAG.match(expected).group(1)
+
+        if not any(v["version"] == expected for v in versions):
+            raise RuntimeError(f"Release with a downloadable IPA not found: {expected}")
 
     source = {
         "name": "Bangumi",
@@ -147,10 +270,12 @@ def main():
         "apps": [{**APP, "versions": versions}],
     }
 
-    with open(args.output, "w") as f:
+    with open(args.output, "w", encoding="utf-8") as f:
         json.dump(source, f, indent=2, ensure_ascii=False)
+        f.write("\n")
 
     print(f"Generated {args.output} with {len(versions)} versions")
+    print("Newest versions: " + ", ".join(v["version"] for v in versions[:5]))
 
 
 if __name__ == "__main__":

@@ -19,7 +19,9 @@ async function main() {
     return
   }
 
-  throw new Error('Usage: upstream-ipa.mjs <resolve|upload> [--tag <x.y.z>] [--ipa <path>] [--sha <path>]')
+  throw new Error(
+    'Usage: upstream-ipa.mjs <resolve|upload> [--tag <x.y.z>] [--ipa <path>] [--sha <path>] [--release-tag <tag>] [--asset-name <name>]',
+  )
 }
 
 async function resolveCommand(options) {
@@ -75,8 +77,8 @@ async function uploadCommand(options) {
   ensureFile(shaPath)
 
   const repo = targetRepo()
-  const releaseTag = releaseTagFor(tag)
-  const assetName = ipaAssetName(tag)
+  const releaseTag = (options['release-tag'] || '').trim() || releaseTagFor(tag)
+  const assetName = (options['asset-name'] || '').trim() || ipaAssetName(tag)
   const shaName = `${assetName}.sha256`
   const release = await ensureRelease(repo, tag, releaseTag)
   const assets = await listReleaseAssets(repo, release.id)
@@ -279,7 +281,7 @@ function releaseBody(tag) {
     : null
 
   return [
-    `Automated unsigned IPA build for upstream Bangumi tag \`${tag}\`.`,
+    `Automated unsigned IPA build for Bangumi tag \`${tag}\`.`,
     `Source: https://github.com/${upstreamRepo}/tree/${tag}`,
     `Source archive: https://github.com/${upstreamRepo}/archive/refs/tags/${tag}.zip`,
     'The IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.',

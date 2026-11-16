@@ -1,0 +1,69 @@
+name: Update AltStore source
+
+# alt_store.json 完全由已发布 Release 生成, 这里做定期同步与手动修复:
+# 打包任务停摆或 Release 被删除时, 源文件仍会被自动纠正 (见 issue #405)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'
+  release:
+    types: [published, edited, deleted]
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: update-altstore
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: Regenerate alt_store.json
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Regenerate alt_store.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          # 用触发本次运行的分支上的脚本, 以 master 的 alt_store.json 为基线提交
+          script="$RUNNER_TEMP/generate-altstore.py"
+          cp .github/scripts/generate-altstore.py "$script"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git fetch --depth=1 origin master
+          git reset --hard FETCH_HEAD
+
+          python3 "$script" --output alt_store.json
+
+          if git diff --quiet -- alt_store.json; then
+            echo "alt_store.json is up to date."
+            exit 0
+          fi
+
+          git add alt_store.json
+          git commit -m "chore: update AltStore source"
+
+          for attempt in 1 2 3; do
+            if git push origin HEAD:master; then
+              echo "alt_store.json pushed to master."
+              exit 0
+            fi
+
+            echo "::warning::Push attempt $attempt failed, retrying after rebase."
+            git pull --rebase origin master
+          done
+
+          echo "::error::Failed to push alt_store.json after 3 attempts."
+          exit 1
