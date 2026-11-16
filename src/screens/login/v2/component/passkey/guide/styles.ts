@@ -12,7 +12,7 @@ export const styles = _.create({
   icon: {
     position: 'absolute',
     top: 0,
-    right: 0,
+    right: -38,
     bottom: 0,
     paddingHorizontal: _.sm,
     justifyContent: 'center',

@@ -41,7 +41,7 @@ function Guide({ disabled }: GuideProps) {
       disabled={disabled}
       onPress={disabled ? undefined : onPress}
     >
-      <Iconfont name='md-info-outline' size={14} />
+      <Iconfont name='md-info-outline' size={18} />
     </Touchable>
   )
 }
