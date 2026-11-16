@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-25 14:48:38
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-17 19:45:05
+ * @Last Modified time: 2026-11-16 06:38:58
  */
 import { appNavigate, getTimestamp, info, matchBgmUrl, navigationReference } from '@utils'
 import { t } from '@utils/fetch'
@@ -309,8 +309,11 @@ export default class Action extends Computed {
     })
 
     this.disabledManageModal()
-    await collectionStore.doUpdateCollection(values)
+    const result = await collectionStore.doUpdateCollection(values)
     this.enabledManageModal()
+
+    // 失败: 弹窗层统一提示, 不关弹窗可直接重试
+    if (!result) return false
 
     await this.callManageModalCallback(values)
     this.closeManageModal()

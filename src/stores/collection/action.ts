@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-04-24 03:04:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-04 06:14:02
+ * @Last Modified time: 2026-11-16 07:11:22
  */
 import { toJS } from 'mobx'
 import { confirm } from '@utils'
+import { logger } from '@utils/dev'
 import fetch, { xhr } from '@utils/fetch'
 import { fetchCollectionSingleV0 } from '@utils/fetch.v0'
 import { SORT } from '@utils/subject/anime'
@@ -173,34 +174,47 @@ export default class Action extends Fetch {
     const { subjectId, status, tags, comment, rating, privacy, noConsole = false } = args || {}
 
     return new Promise(async resolve => {
-      const data = (await fetch({
-        url: API_COLLECTION_ACTION(subjectId),
-        method: 'POST',
-        data: {
-          status,
-          tags,
-          comment,
-          rating,
-          privacy
-        },
-        noConsole
-      })) as { code?: number } | undefined
+      let data: { code?: number; error?: string } | undefined
+      try {
+        data = (await fetch({
+          url: API_COLLECTION_ACTION(subjectId),
+          method: 'POST',
+          data: {
+            status,
+            tags,
+            comment,
+            rating,
+            privacy
+          },
+          noConsole
+        })) as { code?: number; error?: string } | undefined
+      } catch (error) {
+        // 网络失败不能当成功, 交由调用方提示失败
+        logger.error('Collection', 'doUpdateCollection', error)
+        return resolve(false)
+      }
 
       // @todo 20220216 以下旧 API 不再响应敏感条目, 暂时使用请求网页代替
       if (data?.code === 404) {
         const interest = MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>(status)
         const failCallback = () => {
+          // 「暂不再提示」仅抑制该解释性 confirm, 失败判定与弹窗层轻提示不受影响
+          if (!this.showFailNotice) return
+
           confirm(
             `此次提交可能未成功，原因可能为：授权信息过期，可尝试重新登录；管理 NSFW 条目需账号注册满三个月，且已在网页端设置页面勾选「显示受限条目内容」。\n若还没能解决，可尝试联系作者。`,
+            FROZEN_FN,
+            '提示',
             () => {
               this.showFailNotice = false
             },
-            '提示',
-            FROZEN_FN,
-            '暂不再提示',
-            '知道了'
+            '知道了',
+            '暂不再提示'
           )
         }
+
+        // 网页兜底依赖 xhr readyState 收尾且无超时, 连接停滞时兜底 resolve, 避免提交永久挂起
+        const fallbackTimeout = setTimeout(() => resolve(false), 15000)
 
         xhr(
           {
@@ -216,25 +230,35 @@ export default class Action extends Fetch {
             }
           },
           async () => {
-            if (this.showFailNotice) {
-              const collection = await fetchCollectionSingleV0(userStore.myId, subjectId)
+            clearTimeout(fallbackTimeout)
 
-              // 更新后状态与提交的不一致
-              if (collection?.type && Number(collection.type) !== Number(interest)) {
-                failCallback()
-              }
+            const collection = await fetchCollectionSingleV0(userStore.myId, subjectId)
+
+            // 更新后状态与提交的不一致: 按失败收尾 (confirm 解释原因, 弹窗层保持打开并轻提示)
+            if (collection?.type && Number(collection.type) !== Number(interest)) {
+              failCallback()
+              return resolve(false)
             }
 
             return resolve(true)
           },
           () => {
+            clearTimeout(fallbackTimeout)
             failCallback()
-            return resolve(true)
+            // 网页兜底提交失败: 按失败收尾, 弹窗层保持打开并提示重试
+            return resolve(false)
           }
         )
-      } else {
-        return resolve(true)
+        // 网页兜底完成前不 resolve (15s 超时兜底), 失败按失败收尾, 不再当成功
+        return
       }
+
+      // 接口明确返回错误 (如授权失效), 不再当成功
+      if (data?.error) {
+        return resolve(false)
+      }
+
+      return resolve(true)
     })
   }
 

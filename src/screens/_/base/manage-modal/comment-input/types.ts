@@ -2,16 +2,16 @@
  * @Author: czy0729
  * @Date: 2025-10-21 13:38:56
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-10-21 13:41:16
+ * @Last Modified time: 2026-11-16 06:37:47
  */
 import type { InputInstance, InputProps } from '@components'
 
 export type Props = {
-  forwardRef: (ref: InputInstance) => any
+  forwardRef: (ref: InputInstance) => void
   comment: string
   commentHistory: string[]
-  onFocus: () => any
-  onBlur: () => any
+  onFocus: () => void
+  onBlur: () => void
   onChangeText: InputProps['onChangeText']
-  onShowHistory: () => any
+  onShowHistory: () => Promise<void> | void
 }

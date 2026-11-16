@@ -22,7 +22,8 @@ export default class Ui extends Base {
     this.setState({
       visible: true,
       subjectId,
-      modal: modal || EXCLUDE_STATE.modal // 游戏没有主动请求条目数据, 需要手动传递标题
+      // 显式带上 action 键: 未传时置空, 由弹窗按条目类型推导, 避免合并时残留上一次的值
+      modal: modal ? { ...EXCLUDE_STATE.modal, ...modal } : EXCLUDE_STATE.modal
     })
 
     t('首页.显示收藏管理', {

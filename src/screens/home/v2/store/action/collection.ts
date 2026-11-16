@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-27 02:45:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-28 10:00:00
+ * @Last Modified time: 2026-11-16 06:38:53
  *
  * 首页收藏操作: 条目收藏状态修改
  */
@@ -18,15 +18,20 @@ import type { EpStatus, RatingStatus, SubjectId } from '@types'
 export default class Collection extends Ui {
   /** 管理收藏 */
   doUpdateCollection = async (values: Parameters<typeof collectionStore.doUpdateCollection>[0]) => {
-    await collectionStore.doUpdateCollection(values)
-    feedback()
+    // noConsole: 关闭 fetch 层的全局 loading, 提交进度由弹窗提交按钮自身的转圈承担
+    const result = await collectionStore.doUpdateCollection({
+      ...values,
+      noConsole: true
+    })
+
+    // 失败: 弹窗层统一提示, 不关弹窗可直接重试
+    if (!result) return false
 
     // 不是在看的话要删掉对应条目信息
     if (values.status !== MODEL_COLLECTION_STATUS.getValue<RatingStatus>('在看')) {
       userStore.removeCollection(values.subjectId)
     }
 
-    this.closeManageModal()
     webhookCollection(values, this.subject(values.subjectId), userStore.userInfo)
 
     t('首页.管理收藏', {

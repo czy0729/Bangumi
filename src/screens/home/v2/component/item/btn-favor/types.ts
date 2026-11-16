@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-10-09 05:17:59
  */
-import type { SubjectId } from '@types'
+import type { SubjectId, SubjectTypeCn } from '@types'
 
 export type Props = {
   /** 条目 Id */
@@ -15,6 +15,9 @@ export type Props = {
 
   /** 中文名 */
   name_cn: string
+
+  /** 条目类型中文 (用于收藏弹窗状态文案) */
+  typeCn: SubjectTypeCn
 
   /** 是否列表第一项 */
   isFirst: boolean

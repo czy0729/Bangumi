@@ -8,7 +8,7 @@ import { useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Touchable } from '@components'
 import { _, useStore } from '@stores'
-import { cnjp } from '@utils'
+import { cnjp, getAction } from '@utils'
 import { MODEL_SUBJECT_TYPE } from '@constants'
 import BtnOrigin from '../../../item/btn-origin'
 import BtnNextEp from '../btn-next-ep'
@@ -30,9 +30,11 @@ function ToolBar({ subjectId, subject = {} }: Props) {
   const handlePress = useCallback(() => {
     $.showManageModal(subjectId, {
       title: cn,
-      desc: jp
+      desc: jp,
+      // 列表项已知的条目类型: 收藏弹窗状态文案按类型显示 (想读 / 在听…)
+      action: getAction(label)
     })
-  }, [$, cn, jp, subjectId])
+  }, [$, cn, jp, label, subjectId])
 
   return (
     <Flex style={_.mt.xs}>

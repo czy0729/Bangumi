@@ -2,538 +2,150 @@
  * @Author: czy0729
  * @Date: 2019-03-18 05:01:50
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-31 05:15:23
+ * @Last Modified time: 2026-11-16 12:00:00
  */
-import React from 'react'
-import { BackHandler } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActivityIndicator, Component, Flex, Modal, Text } from '@components'
-import { _, collectionStore, subjectStore, systemStore, userStore } from '@stores'
-import {
-  alert,
-  confirm,
-  feedback,
-  getStorage,
-  getTimestamp,
-  HTMLDecode,
-  info,
-  navigationReference,
-  setStorage,
-  sleep
-} from '@utils'
-import { getBucketId } from '@utils/bucket'
-import { logger, r } from '@utils/dev'
-import { FROZEN_FN, H, IOS, MODEL_PRIVATE, MODEL_SUBJECT_TYPE } from '@constants'
-import i18n from '@constants/i18n'
+import { _ } from '@stores'
+import { HTMLDecode } from '@utils'
+import { r } from '@utils/dev'
 import { StarGroup } from '../star-group'
 import CommentInput from './comment-input'
+import { useManageModal } from './hooks'
 import Status from './status'
 import Submit from './submit'
 import Tags from './tags'
 import TagsInput from './tags-input'
-import { COMPONENT, MAX_HISTORY_COUNT, NAMESPACE_COMMENT, NAMESPACE_PRIVACY } from './ds'
+import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { InputInstance } from '@components'
-import type {
-  CollectionStatus,
-  Private,
-  PrivateCn,
-  RatingStatus,
-  SubjectId,
-  SubjectType
-} from '@types'
-import type { Props as ManageModalProps, State } from './types'
+import type { Props as ManageModalProps } from './types'
 export type { ManageModalProps }
 
 /** 条目收藏管理弹窗 */
 export const ManageModal = observer(
-  class ManageModalComponent extends React.Component<ManageModalProps, State> {
-    static defaultProps: ManageModalProps = {
-      visible: false,
-      disabled: false,
-      subjectId: 0,
-      title: '',
-      desc: '',
-      status: '',
-      action: '看',
-      onSubmit: FROZEN_FN,
-      onClose: FROZEN_FN,
-      onAutoCompleteEps: undefined
-    }
+  ({
+    visible = false,
+    disabled = false,
+    subjectId = 0,
+    title = '',
+    desc = '',
+    status = '',
+    action = '看',
+    onSubmit = () => undefined,
+    onClose = () => undefined,
+    onAutoCompleteEps,
+    flipOnSubmit = false
+  }: ManageModalProps) => {
+    r(COMPONENT)
 
-    state: State = {
-      focus: false,
-      loading: true,
-      fetching: false,
-      rating: 0,
-      tags: '',
-      showTags: true,
-      showUserTags: false,
-      comment: '',
-      commentHistory: [],
-      commentChanged: false,
-      status: '',
-      privacy: MODEL_PRIVATE.getValue<Private>('公开')
-    }
+    const styles = memoStyles()
+    const {
+      loading,
+      focus,
+      commentChanged,
+      rating,
+      tags,
+      fetching,
+      showTags,
+      showUserTags,
+      comment,
+      commentHistory,
+      status: stateStatus,
+      privacy,
+      submitting,
+      flipLabel,
+      flipKey,
+      type,
+      handleClose,
+      handleChangeRating,
+      handleChangeTags,
+      handleChangeStatus,
+      handleToggleTag,
+      handleTogglePrivacy,
+      handleFetchTags,
+      handleToggleTagsRecent,
+      handleToggleTagsUser,
+      handleFocus,
+      handleBlur,
+      handleSubmit,
+      handleSubmitEditing,
+      handleForwardRef,
+      handleCommentChange,
+      handleShowHistory
+    } = useManageModal({
+      visible,
+      subjectId,
+      status,
+      action,
+      onSubmit,
+      onClose,
+      onAutoCompleteEps,
+      flipOnSubmit
+    })
 
-    private _backHandlerSubscription: { remove: () => void } | null = null
-
-    /** 用于判断收藏请求是否已经发出并返回数据 */
-    private _fetched = false
-
-    /** 输入框引用 */
-    private _commentRef: InputInstance = null
-
-    async componentDidMount() {
-      try {
-        this.setState({
-          showTags: systemStore.setting.showTags === true,
-          commentHistory: (await getStorage(NAMESPACE_COMMENT)) || [],
-          privacy: (await getStorage(NAMESPACE_PRIVACY)) || MODEL_PRIVATE.getValue<Private>('公开')
-        })
-
-        if (this.state.status === '') {
-          const data = collectionStore.collection(this.props.subjectId)
-          if (data?._loaded && data?.status?.type) {
-            this.setState({
-              status: data.status.type
-            })
-          }
-        }
-      } catch (error) {
-        logger.error(COMPONENT, 'componentDidMount', error)
-      }
-
-      if (!IOS) {
-        this._backHandlerSubscription = BackHandler.addEventListener(
-          'hardwareBackPress',
-          this.handleBackAndroid
-        )
-      }
-    }
-
-    componentWillUnmount() {
-      if (!IOS && this._backHandlerSubscription) {
-        this._backHandlerSubscription.remove()
-        this._backHandlerSubscription = null
-      }
-    }
-
-    async UNSAFE_componentWillReceiveProps(nextProps: ManageModalProps) {
-      if (nextProps.visible) {
-        if (!this.props.visible) {
-          this.setState({
-            loading: false,
-            focus: false,
-            status: nextProps.status
-          })
-
-          const result = await collectionStore.fetchCollection(nextProps.subjectId)
-          this._fetched = true
-          logger.log(COMPONENT, 'componentWillReceiveProps', JSON.stringify(result))
-
-          // 弱网/异常路径可能返回空, 直接结束, 避免下方解构报错
-          if (!result) return
-
-          if (result?.error && result?.error?.includes?.('token')) {
-            // 提前告知授权信息失效
-            const navigation = navigationReference()
-            const content = `获取收藏信息失败：${result.error}，授权信息可能过期了`
-            if (navigation) {
-              confirm(
-                content,
-                () => {
-                  this.handleClose()
-
-                  setTimeout(() => {
-                    navigation.push('LoginV2')
-                  }, 400)
-                },
-                '警告',
-                undefined,
-                `去${i18n.login()}`
-              )
-            } else {
-              alert(content)
-            }
-          } else if (result?.code === 400 && result?.error?.includes?.('Nothing found')) {
-            // 通常在客户端里面收藏过的条目，在网页端删除收藏了，没被追踪到需要主动清理本地缓存
-            collectionStore.removeCollection(nextProps.subjectId)
-            collectionStore.removeStatus(nextProps.subjectId)
-            userStore.removeCollection(nextProps.subjectId)
-          }
-
-          const {
-            rating,
-            tag = [],
-            comment,
-            private: privacy,
-            status: newStatus = { type: undefined }
-          } = result
-
-          // 若传递有收藏状态, 而请求后实际又没有, 主动清理全局缓存收藏状态
-          if (!Object.keys(newStatus).length && nextProps.status) {
-            collectionStore.removeStatus(nextProps.subjectId)
-          }
-
-          const state: State = {
-            rating,
-            tags: tag.join(' '),
-            comment
-          }
-          if (this.state.status === '') state.status = newStatus.type as State['status']
-          if (privacy !== undefined) state.privacy = privacy
-
-          // 如果用户输入过评论，无论如何先保存草稿
-          const { commentChanged, comment: lastComment } = this.state
-          if (commentChanged && lastComment) this.setCommentHistory(lastComment)
-
-          this.setState(state)
-
-          this.fetchUserTags()
-        }
-      }
-    }
-
-    handleBackAndroid = () => {
-      if (this.props.visible) {
-        this.handleClose()
-        return true
-      }
-
-      return false
-    }
-
-    handleChangeRating = (value: number) => {
-      this.setState({
-        rating: value
-      })
-      feedback(true)
-    }
-
-    handleChangeTags = (text: string) => {
-      this.setState({
-        tags: text
-      })
-    }
-
-    handleChangeStatus = (status: RatingStatus | CollectionStatus) => {
-      this.setState({
-        status
-      })
-    }
-
-    handleToggleTag = (name: string) => {
-      const { tags } = this.state
-      const selected = tags.split(' ')
-      const index = selected.indexOf(name)
-      if (index === -1) {
-        selected.push(name)
-      } else {
-        selected.splice(index, 1)
-      }
-
-      this.setState({
-        tags: selected.join(' ')
-      })
-      feedback(true)
-    }
-
-    handleTogglePrivacy = () => {
-      const { privacy } = this.state
-      const label = MODEL_PRIVATE.getLabel<PrivateCn>(privacy)
-      const value = MODEL_PRIVATE.getValue<Private>(label === '公开' ? '私密' : '公开')
-      this.setState({
-        privacy: value
-      })
-      feedback(true)
-      setStorage(NAMESPACE_PRIVACY, value)
-    }
-
-    handleFetchTags = async () => {
-      this.setState({
-        fetching: true,
-        showTags: true
-      })
-
-      await subjectStore.fetchSubjectFromHTML(this.props.subjectId)
-      this.setState({
-        fetching: false
-      })
-    }
-
-    fetchUserTags = async () => {
-      // 每种类型一小时最多刷新一次
-      const { _loaded } = userStore.tags(this.type)
-      if (getTimestamp() - Number(_loaded || 0) <= H) return
-
-      return userStore.fetchTags(this.props.subjectId, this.type)
-    }
-
-    handleFocus = () => {
-      this.setState({
-        focus: true
-      })
-    }
-
-    handleBlur = () => {
-      this.setState({
-        focus: false
-      })
-
-      // 安卓中收起键盘并不会把聚焦取消, 主动取消以使跨端表现一致
-      try {
-        if (typeof this._commentRef?.inputRef?.blur === 'function') {
-          this._commentRef.inputRef.blur()
-        }
-      } catch {}
-    }
-
-    handleSubmit = async () => {
-      const { rating, tags, comment, status, privacy } = this.state
-      if (!this._fetched && !status) {
-        info('收藏数据仍在获取中，请稍等')
-        return
-      }
-
-      const { subjectId, onSubmit } = this.props
-      this.setCommentHistory(comment)
-
-      await onSubmit({
-        subjectId,
-        rating,
-        tags,
-        status,
-        privacy,
-        comment: HTMLDecode(comment || '')
-      })
-
-      if (
-        (systemStore.setting.autoCompleteEps && (this.type === 'anime' || this.type === 'real')) ||
-        (systemStore.setting.autoCompleteBooks && this.type === 'book')
-      ) {
-        setTimeout(() => {
-          this.doAutoCompleteEps(subjectId, this.props.onAutoCompleteEps)
-        }, 320)
-      }
-    }
-
-    /** 看、读过时自动完成所有进度、话数、卷数 */
-    doAutoCompleteEps = async (subjectId: SubjectId, onAutoCompleteEps: () => void) => {
-      const result = await collectionStore.fetchCollection(subjectId)
-      if (result?.status?.type !== 'collect') return
-
-      // 通常在条目页中
-      if (onAutoCompleteEps && typeof onAutoCompleteEps === 'function') {
-        onAutoCompleteEps()
-        return
-      }
-
-      // 通常在列表项中
-      const last = getBucketId(subjectId)
-      const STATE_KEY = `subjectFormHTML${last}` as const
-      await subjectStore.init(STATE_KEY)
-
-      const updateEps = (data: {
-        subjectId: SubjectId
-        watchedEps?: number
-        watchedVols?: number
-      }) => {
-        if (data.watchedEps || data.watchedVols) {
-          logger.log(COMPONENT, 'doAutoCompleteEps', data)
-          collectionStore.doUpdateSubjectEp({ ...data, noConsole: true })
-        }
-      }
-
-      if (this.type === 'anime' || this.type === 'real') {
-        const totalEps =
-          Number(subjectStore.subjectFormHTML(subjectId)?.totalEps) ||
-          Number((await subjectStore.fetchSubjectFromHTML(subjectId))?.totalEps)
-        updateEps({ subjectId, watchedEps: totalEps || undefined })
-      } else if (this.type === 'book') {
-        const book = (await subjectStore.fetchSubjectFromHTML(subjectId))?.book
-        updateEps({
-          subjectId,
-          watchedEps: Number(book?.totalChap) || undefined,
-          watchedVols: Number(book?.totalVol) || undefined
-        })
-      }
-    }
-
-    setCommentHistory = (value: string) => {
-      if (!value) return
-
-      let commentHistory = [...this.state.commentHistory]
-      if (commentHistory.includes(value)) {
-        commentHistory = commentHistory.filter(item => item !== value)
-        commentHistory.unshift(value)
-      } else {
-        commentHistory.unshift(value)
-      }
-
-      if (commentHistory.length > MAX_HISTORY_COUNT) {
-        commentHistory = commentHistory.filter((_item, index) => index < MAX_HISTORY_COUNT)
-      }
-
-      this.setState({
-        commentHistory
-      })
-      setStorage(NAMESPACE_COMMENT, commentHistory)
-    }
-
-    handleSubmitEditing = () => {
-      try {
-        if (typeof this._commentRef?.inputRef?.focus === 'function') {
-          this._commentRef.inputRef.focus()
-        }
-      } catch {}
-    }
-
-    handleForwardRef = (ref: InputInstance) => {
-      this._commentRef = ref
-    }
-
-    handleCommentChange = (text: string) => {
-      this.setState({
-        comment: HTMLDecode(text),
-        commentChanged: true
-      })
-    }
-
-    handleShowHistory = () => {
-      try {
-        this.handleBlur()
-        if (typeof this._commentRef?.inputRef?.blur === 'function') {
-          this._commentRef.inputRef.blur()
-        }
-      } catch {}
-
-      return sleep(240)
-    }
-
-    handleToggleTagsRecent = () => {
-      this.setState({
-        showUserTags: false
-      })
-    }
-
-    handleToggleTagsUser = () => {
-      this.setState({
-        showUserTags: true
-      })
-    }
-
-    handleClose = () => {
-      // 如果用户输入过评论，无论如何先保存草稿
-      const { commentChanged, comment: lastComment } = this.state
-      if (commentChanged && lastComment) this.setCommentHistory(lastComment)
-
-      this.setState({
-        commentChanged: false
-      })
-      this.props?.onClose?.()
-    }
-
-    get type() {
-      const { action } = this.props
-      let type: SubjectType
-      if (action === '听') {
-        type = 'music'
-      } else if (action === '玩') {
-        type = 'game'
-      } else if (action === '读') {
-        type = 'book'
-      } else {
-        type = MODEL_SUBJECT_TYPE.getLabel<SubjectType>(subjectStore.type(this.props.subjectId))
-      }
-      return type
-    }
-
-    render() {
-      r(COMPONENT)
-
-      const { action, desc, disabled, subjectId, title, visible } = this.props
-      const {
-        comment,
-        commentHistory,
-        commentChanged,
-        fetching,
-        focus,
-        loading,
-        privacy,
-        rating,
-        showTags,
-        showUserTags,
-        status,
-        tags
-      } = this.state
-
-      return (
-        <Component id='base-manage-modal'>
-          <Modal
-            style={this.styles.modal}
-            visible={visible}
-            title={title}
-            focus={focus}
-            maskClosable={!commentChanged}
-            onClose={this.handleClose}
-          >
-            <Text style={_.mt.sm} type='sub' size={13} numberOfLines={1} align='center'>
-              {desc}
-            </Text>
-            <Flex style={this.styles.container} justify='center'>
-              {loading ? (
-                <ActivityIndicator size='small' />
-              ) : (
-                <Flex style={this.styles.content} direction='column'>
-                  <StarGroup value={rating} onChange={this.handleChangeRating} />
-                  <TagsInput
+    return (
+      <Component id='base-manage-modal'>
+        <Modal
+          style={styles.modal}
+          visible={visible}
+          title={title}
+          focus={focus}
+          maskClosable={!commentChanged}
+          onClose={handleClose}
+        >
+          <Text style={_.mt.sm} type='sub' size={13} numberOfLines={1} align='center'>
+            {desc}
+          </Text>
+          <Flex style={styles.container} justify='center'>
+            {loading ? (
+              <ActivityIndicator size='small' />
+            ) : (
+              <Flex style={styles.content} direction='column'>
+                <StarGroup value={rating} onChange={handleChangeRating} />
+                <TagsInput
+                  tags={tags}
+                  onChangeText={handleChangeTags}
+                  onSubmitEditing={handleSubmitEditing}
+                />
+                <Flex style={styles.tags}>
+                  <Tags
+                    subjectId={subjectId}
                     tags={tags}
-                    onChangeText={this.handleChangeTags}
-                    onSubmitEditing={this.handleSubmitEditing}
-                  />
-                  <Flex style={this.styles.tags}>
-                    <Tags
-                      subjectId={subjectId}
-                      tags={tags}
-                      type={this.type}
-                      fetching={fetching}
-                      showTags={showTags}
-                      showUserTags={showUserTags}
-                      onFetchTags={this.handleFetchTags}
-                      onToggleTag={this.handleToggleTag}
-                      onToggleTagsRecent={this.handleToggleTagsRecent}
-                      onToggleTagsUser={this.handleToggleTagsUser}
-                    />
-                  </Flex>
-                  <CommentInput
-                    forwardRef={this.handleForwardRef}
-                    comment={HTMLDecode(comment || '')}
-                    commentHistory={commentHistory}
-                    onFocus={this.handleFocus}
-                    onBlur={this.handleBlur}
-                    onChangeText={this.handleCommentChange}
-                    onShowHistory={this.handleShowHistory}
-                  />
-                  <Status status={status} action={action} onSelect={this.handleChangeStatus} />
-                  <Submit
-                    disabled={disabled}
-                    privacy={privacy}
-                    onSubmit={this.handleSubmit}
-                    onTogglePrivacy={this.handleTogglePrivacy}
+                    type={type}
+                    fetching={fetching}
+                    showTags={showTags}
+                    showUserTags={showUserTags}
+                    onFetchTags={handleFetchTags}
+                    onToggleTag={handleToggleTag}
+                    onToggleTagsRecent={handleToggleTagsRecent}
+                    onToggleTagsUser={handleToggleTagsUser}
                   />
                 </Flex>
-              )}
-            </Flex>
-          </Modal>
-        </Component>
-      )
-    }
-
-    get styles() {
-      return memoStyles()
-    }
+                <CommentInput
+                  forwardRef={handleForwardRef}
+                  comment={HTMLDecode(comment || '')}
+                  commentHistory={commentHistory}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
+                  onChangeText={handleCommentChange}
+                  onShowHistory={handleShowHistory}
+                />
+                <Status status={stateStatus} action={action} onSelect={handleChangeStatus} />
+                <Submit
+                  disabled={disabled || submitting}
+                  flipLabel={flipLabel}
+                  flipKey={flipKey}
+                  privacy={privacy}
+                  onSubmit={handleSubmit}
+                  onTogglePrivacy={handleTogglePrivacy}
+                />
+              </Flex>
+            )}
+          </Flex>
+        </Modal>
+      </Component>
+    )
   }
 )
 

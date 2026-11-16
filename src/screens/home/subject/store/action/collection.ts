@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-26 09:02:03
+ * @Last Modified time: 2026-11-16 06:38:46
  */
 import { collectionStore, userStore } from '@stores'
 import { confirm, feedback, info } from '@utils'
@@ -25,10 +25,14 @@ export default class Collection extends Social {
         disabled: true
       })
 
-      await collectionStore.doUpdateCollection({
+      const result = await collectionStore.doUpdateCollection({
         ...values,
         noConsole: true
       })
+
+      // 失败: 弹窗层统一提示, 不关弹窗可直接重试
+      if (!result) return false
+
       collectionStore.fetchCollection(this.subjectId)
       collectionStore.fetchCollectionStatusQueue([this.subjectId])
 
@@ -40,7 +44,6 @@ export default class Collection extends Social {
         userStore.addCollection(values.subjectId)
       }
 
-      this.closeManageModal()
       this.fetchSubjectFromHTML(true)
       webhookCollection(values, this.subject, userStore.userInfo)
 
@@ -49,11 +52,12 @@ export default class Collection extends Social {
       })
     } catch (error) {
       logger.error(COMPONENT, 'doUpdateCollection', error)
+      return false
+    } finally {
+      this.setState({
+        disabled: false
+      })
     }
-
-    this.setState({
-      disabled: false
-    })
   }
 
   /** 本集讨论 */

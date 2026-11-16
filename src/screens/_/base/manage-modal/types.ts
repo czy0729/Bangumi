@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-14 15:39:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-20 21:43:09
+ * @Last Modified time: 2026-11-16 06:37:39
  */
-import type { CollectionStatus, RatingStatus, SubjectActions, SubjectId } from '@types'
+import type { CollectionStatus, Private, RatingStatus, SubjectActions, SubjectId } from '@types'
 
 export type Props = {
   visible?: boolean
@@ -13,18 +13,35 @@ export type Props = {
   title?: string
   desc?: string
   action?: SubjectActions
-  status: RatingStatus | CollectionStatus | ''
+
+  /** 收藏状态 (不传时以打开后服务器返回为准) */
+  status?: RatingStatus | CollectionStatus | ''
   onSubmit?: (item: {
     subjectId: SubjectId
     rating: number
     tags: string
     status: RatingStatus | CollectionStatus | ''
-    privacy: 0 | 1 | '0' | '1'
+    privacy: Private
     comment: string
-  }) => any
-  onClose?: () => any
-  onAutoCompleteEps?: () => any
+  }) => boolean | void | Promise<boolean | void>
+  onClose?: () => void
+  onAutoCompleteEps?: () => void
+
+  /** 提交成功后提交按钮是否做翻面反馈 (更新 → 最新真实收藏状态 + 震动), 仅进度页入口传入 */
+  flipOnSubmit?: boolean
 }
+
+export type UseManageModalArgs = Pick<
+  Props,
+  | 'visible'
+  | 'subjectId'
+  | 'status'
+  | 'action'
+  | 'onSubmit'
+  | 'onClose'
+  | 'onAutoCompleteEps'
+  | 'flipOnSubmit'
+>
 
 export type State = Partial<{
   focus: boolean
@@ -40,5 +57,14 @@ export type State = Partial<{
   /** 输入框是否主动变动过 */
   commentChanged: boolean
   status: '' | RatingStatus | CollectionStatus
-  privacy: any
+  privacy: Private
+
+  /** 是否提交请求中 (提交按钮转圈变灰) */
+  submitting: boolean
+
+  /** 提交成功后提交按钮翻面到的文案 (空为不翻面) */
+  flipLabel: string
+
+  /** 弹窗再次打开时递增, 重挂载提交按钮以复位翻面动画 */
+  flipKey: number
 }>

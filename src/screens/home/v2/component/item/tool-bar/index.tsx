@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-01-21 15:47:13
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-20 07:38:55
+ * @Last Modified time: 2026-11-16 07:10:25
  */
 import { observer } from 'mobx-react'
 import { Flex } from '@components'
@@ -30,7 +30,13 @@ function ToolBar({ subjectId, typeCn, epStatus, name, name_cn, isFirst }: Props)
     >
       <BtnOrigin subjectId={subjectId} />
       <BtnEpNext subjectId={subjectId} epStatus={epStatus} isFirst={isFirst} />
-      <BtnFavor subjectId={subjectId} name={name} name_cn={name_cn} isFirst={isFirst} />
+      <BtnFavor
+        subjectId={subjectId}
+        name={name}
+        name_cn={name_cn}
+        typeCn={typeCn}
+        isFirst={isFirst}
+      />
     </Flex>
   )
 }

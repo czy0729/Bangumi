@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2023-02-27 20:13:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-22 12:00:00
+ * @Last Modified time: 2026-11-16 07:11:18
  *
  * 首页状态声明
  */
 import { _ } from '@stores'
 
-import type { Loaded, Override, Subject, SubjectId } from '@types'
+import type { Loaded, Override, Subject, SubjectActions, SubjectId } from '@types'
 
 /** 唯一命名空间 */
 export const NAMESPACE = 'ScreenHomeV2'
@@ -34,7 +34,8 @@ export const EXCLUDE_STATE = {
   /** 收藏模态框 */
   modal: {
     title: '',
-    desc: ''
+    desc: '',
+    action: undefined as SubjectActions | undefined
   },
 
   /** 用于列队刷新收藏状态 */
