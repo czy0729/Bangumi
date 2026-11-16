@@ -11,13 +11,31 @@
       "localizedDescription": "Bangumi for iOS",
       "versions": [
         {
-          "version": "8.39.3",
+          "version": "8.42.0",
           "buildVersion": "1",
-          "date": "2026-09-06T12:30:49Z",
-          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/upstream-8.39.3/Bangumi-8.39.3-unsigned.ipa",
-          "size": 22656345,
-          "sha256": "36981de3854437c937b441e92cdeb3afdfa6212d8324bd19eaf2eda03aff2288",
-          "localizedDescription": "Automated unsigned IPA build for upstream Bangumi tag `8.39.3`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.39.3\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.39.3.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/34032611288"
+          "date": "2026-11-16T15:50:27Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.42.0/bangumi_v8.42.0.ipa",
+          "size": 32031310,
+          "sha256": "156f747a2c00f0d93e42ecdf72f9634f6c8fcb83f237faac23eafce1f0760924",
+          "localizedDescription": "Automated unsigned IPA build for Bangumi tag `8.42.0`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.42.0\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.42.0.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/43896232150"
+        },
+        {
+          "version": "8.41.1",
+          "buildVersion": "1",
+          "date": "2026-10-01T16:00:42Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.41.1/bangumi_v8.41.1.ipa",
+          "size": 28323372,
+          "sha256": "88b42aa2763bdc5abf7f7669b12cb9b8af5f3df0736b8aa2d9fa46c9e017a2ae",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/osqdpz?singleDoc)\r\n\r\n[蓝奏云 v8a APK](https://czy0729.lanzoub.com/i9zUd4alwcni) (只能电脑UA访问) |  [123pan v8a APK](https://1819463884.share.123pan.cn/123pan/K0fQjv-M84A3) (需登录, zip请自行解压) \r\n\r\n[v8a APK 或者 IPA] 手动点击下方 Assets\r\n\r\n## 8.41.1 - 2026/10/01\r\n\r\n### 优化\r\n- [x] [每日放送] 新增 2026S4 元数据\r\n- [x] [组件] Tab 页面改为按距当前页的距离保活（默认 2 页，可在设置里调整为 1 页或无限制），超出距离的失焦页面会停止常驻副作用并卸载内容，改善长时间使用的内存占用\r\n- [x] [游戏、ADV] 静态数据重建更新\r\n- [x] [设置] 底栏分组改名为「页面导航」，并调整了部分设置的分组位置\r\n- [x] [更多角色] 新增角色定位筛选工具条\r\n- [x] [组件] 隐藏右上角菜单的「网页版查看」项\r\n- [x] 大量内部重构、类型收敛与补充单测，不详细说明\r\n\r\n### 修复\r\n- [x] [iOS] 修复输入框长按菜单显示英文的问题\r\n- [x] [iOS] 修复用户页有概率视差背景图不显示的问题，并统一双端背景图的加载与失败回退表现\r\n- [x] [人物] 修复人物作品路由参数过窄的问题\r\n- [x] [好友] 修复代理模式下 p1 接口 /p1 前缀丢失的问题"
+        },
+        {
+          "version": "8.40.2",
+          "buildVersion": "1",
+          "date": "2026-09-17T15:33:02Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.40.2/bangumi_v8.40.2_build_20260919.ipa",
+          "size": 28173699,
+          "sha256": "956870e186c68f9b6b4aa70f2e4e93035a8100e7b3d5f7b1717f22d03673a8de",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/osqdpz?singleDoc)\r\n\r\n[蓝奏云 v8a APK](https://czy0729.lanzoub.com/iWOGc48vb3eh) (只能电脑UA访问) |  [123pan v8a APK](https://1819463884.share.123pan.cn/123pan/K0fQjv-J4iH3) (需登录, zip请自行解压)  | [v8a APK] 手动点击下方 Assets\r\n\r\n[蓝奏云 IPA](https://czy0729.lanzoub.com/ikUOE49083vg) (最新 Expo 版本下的公测版，目前可能会有很多小问题，遇到问题请反馈，持续优化发包后会一直替换这个下载地址)  | [github IPA] 手动点击下方 Assets\r\n\r\n## 8.40.2 - 2026/09/17\r\n\r\n### 优化\r\n- [x] [组件] 修复图片不能根据大小自动加载的问题，现在图片支持显示下载进度，加载失败后自动重试有次数上限；封面圆角与安卓卡片遮罩等视觉细节统一优化\r\n- [x] [条目] 优化续集条目的剧照匹配，并支持手动刷新\r\n- [x] [条目] 优化非动画类型条目的相关预览，视频点击优先唤起客户端\r\n- [x] [发现] 封面卡底部改为图片本色模糊的氛围色，按压反馈改为缩放\r\n\r\n### 修复\r\n- [x] [进度] 修复了收藏为空的用户被误判为授权过期、每次冷启动都重复要求重新授权的问题\r\n- [x] [条目] 修复取景地标截图因接口图片地址错误而全部加载失败的问题\r\n- [x] 修复开启过反代镜像，反代镜像失效后切换到新代理后，部分图片仍在使用过期缓存数据导致不能加载的问题\r\n- [x] 修复部分页面首屏渲染报错导致无法显示的问题"
         },
         {
           "version": "8.39.0",
@@ -153,6 +171,330 @@
           "size": 34199282,
           "sha256": "ef6fc3986ae6036c68b74854e13cea041b769adcc1b8d77efee50da96b0955f2",
           "localizedDescription": "Automated unsigned IPA build for upstream Bangumi tag `8.32.3`.\n\nSource: https://github.com/czy0729/Bangumi/tree/8.32.3\n\nSource archive: https://github.com/czy0729/Bangumi/archive/refs/tags/8.32.3.zip\n\nThe IPA is intentionally unsigned and should be signed by your sideloading tool or a later signing workflow.\n\nBuild run: https://github.com/czy0729/Bangumi/actions/runs/25047910651"
+        },
+        {
+          "version": "8.32.1",
+          "buildVersion": "1",
+          "date": "2026-04-14T14:43:26Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.32.1/bangumi_v8.32.1_archive.ipa",
+          "size": 34174703,
+          "sha256": "930254b84ef442d6873b32dac70c149f6855a16f94abba02f67cc35d2773f1cf",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/uchnd5v0cmxamohl?singleDoc)\r\n\r\n[蓝奏云 v8a APK](https://czy0729.lanzoub.com/irz3P3ngmcda) | [123pan v8a APK](https://www.123865.com/s/K0fQjv-PEoVd) | [v8a APK] 手动点击下方 Assets\r\n\r\n[IPA](手动点击下方 Assets，其他用户打包的能用，有点小问题问题不大。国内网盘看语雀。)\r\n\r\n## 8.32.1 - 2026/04/17\r\n\r\n### 修复\r\n- [x] 修复部分用户不能发布评论的问题\r\n- [x] 修复部分体验问题\r\n\r\n## 8.32.0 - 2026/04/14\r\n\r\n### 优化\r\n- [x] [标签条目、标签分类排行] 功能迭代，更新数据\r\n- [x] [搜索] 支持使用关键字搜索本地的整合目录\r\n- [x] [目录] 更新整合的静态数据，支持关键字搜索\r\n- [x] [目录详情] 支持显示小组、章节、日志\r\n- [x] [找番剧] 更新静态数据\r\n- [x] [条目]「猜你喜欢」数据更新\r\n\r\n### 修复\r\n- [x] 优化条目评论框某些情况下的表现 (fixed #321)\r\n- [x] [图集] 修复功能"
+        },
+        {
+          "version": "8.30.1",
+          "buildVersion": "1",
+          "date": "2026-02-14T11:22:54Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.30.1/bangumi_v8.30.1_archive.ipa",
+          "size": 31577465,
+          "sha256": "112f601409f2a16030ef0961be4830dbb6afa51d9314e0063ba051b46352ad0d",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/zincwt4r8ffmrfgn?singleDoc)\r\n\r\n[蓝奏云 v8a APK](https://czy0729.lanzoub.com/i2lIW3ihja6j) | [123pan v8a APK](https://www.123865.com/s/K0fQjv-gckVd) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.30.1/bangumi_v8.30.1_arm64-v8a.apk)\r\n\r\n[IPA 蓝奏云](https://czy0729.lanzoub.com/inifj3ihjakd) | [IPA 123pan](https://www.123865.com/s/K0fQjv-wckVd) （IPA 作者没测试过，有问题私信）\r\n\r\n## 8.30.1 - 2026/02/14\r\n- [x] [发现] 实装 2025 年鉴\r\n- [x] 若干修复不详\r\n"
+        },
+        {
+          "version": "8.29.0",
+          "buildVersion": "1",
+          "date": "2026-01-01T08:37:36Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.29.0/bangumi_v8.29.0_archive.ipa",
+          "size": 31533509,
+          "sha256": "29671ca6e75ebdee0d8da7ba5d790376afb6ab9385f31ba6e675e65b56bb0e36",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/oimmqimp0g0m7t3k?singleDoc)\r\n\r\n[蓝奏云 v8a APK](https://czy0729.lanzoub.com/iLRaD3f66lkh) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.29.0/bangumi_v8.29.0_arm64-v8a.apk)\r\n\r\n[蓝奏云 v8a APK](https://czy0729.lanzoub.com/izgiM3f66mng) | [123pan](https://www.123865.com/s/K0fQjv-jGkVd) | [IPA](https://github.com/czy0729/Bangumi/releases/download/8.29.0/bangumi_v8.29.0_archive.ipa)\r\n\r\n## 8.29.0 - 2026/01/01\r\n\r\n### 优化\r\n- [x] [每日放送] 更新 2026S1 元数据\r\n- [x] [搜索] 优化了本地预搜索的结果，并且支持热门条目的别名\r\n- [x] [时间胶囊] 兼容收藏的回复吐槽\r\n- [x] [关系图] 离开页面需要取消余下的批量请求\r\n- [x] [发现] 合并一些低频菜单\r\n\r\n### 修复\r\n- [x] [IPA] 修复 iOS 26 后头部距离计算错误的问题（待验证）"
+        },
+        {
+          "version": "8.27.0",
+          "buildVersion": "1",
+          "date": "2025-11-30T14:21:30Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.27.0/bangumi_v8.27.0_archive.ipa",
+          "size": 31193509,
+          "sha256": "8097dde69624207681974ea0f614e706fdce4c7d3f03cc38131a7e4c52b24cda",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/vov7l444tgdybv1b?singleDoc)\r\n\r\n[123pan v8a APK (推荐)](https://www.123865.com/s/K0fQjv-mBkVd) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.27.0/bangumi_v8.27.0_arm64-v8a.apk)\r\n\r\n[123pan IPA](https://www.123865.com/s/K0fQjv-NEkVd) | [IPA](https://github.com/czy0729/Bangumi/releases/download/8.27.0/bangumi_v8.27.0_archive.ipa)\r\n\r\n## 8.27.0 - 2025/11/30\r\n\r\n### 优化\r\n- [x] [目录] 整合内容更新, 并且新增支持角色、人物、章节类型的数据展示\r\n- [x] [人物] 名字支持日语发音（目前仅 iOS 支持，因为安卓基本没默认安装 tts 语音包，觉得有更好的这个方向的需求再说）\r\n\r\n### 修复\r\n- [x] [时光机] 删除废弃逻辑，修复自动定期排队请求导致跳页的问题\r\n- [x] [帖子] 修复部分官方表情不显示的问题\r\n- [x] 若干修复不详"
+        },
+        {
+          "version": "8.25.4",
+          "buildVersion": "1",
+          "date": "2025-10-12T14:10:33Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.25.4/bangumi_v8.25.4_archive.ipa",
+          "size": 31101258,
+          "sha256": "8d7c485607cc596c69f721ac9921cd5d230c92463170030becf2235fdb401123",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/reiyz4q2uk7kity7?singleDoc)\r\n\r\n[123pan v8a APK (推荐)](https://www.123865.com/s/K0fQjv-ArEVd) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.25.4/bangumi_v8.25.4_arm64-v8a.apk)\r\n\r\n[123pan IPA](https://www.123865.com/s/K0fQjv-8DEVd) | [IPA](https://github.com/czy0729/Bangumi/releases/download/8.25.4/bangumi_v8.25.4_archive.ipa)（IPA 没测试过能不能用，不能用请留言）\r\n\r\n## 8.25.4 - 2025/10/12\r\n\r\n### 修复\r\n- [x] [进度] 修复 NSFW 条目消失的问题\r\n- [x] [日志] 修复没有记忆查看过某个日志项的问题"
+        },
+        {
+          "version": "8.24.6",
+          "buildVersion": "1",
+          "date": "2025-09-14T14:36:34Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.24.6/bangumi_v8.24.6_archive.ipa",
+          "size": 31240741,
+          "sha256": "69cf2527873720657319f850f6397138a7448303800f3f997a2569a68eeaa776",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/pmh03apn3eoukxxo?singleDoc)\r\n\r\n[123pan v8a APK (推荐)](https://www.123865.com/s/K0fQjv-SBEVd) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.24.6/bangumi_v8.24.6_arm64-v8a.apk)\r\n\r\n[123pan IPA](https://www.123865.com/s/K0fQjv-6BEVd?notoken=1) | [IPA](https://github.com/czy0729/Bangumi/releases/download/8.24.6/bangumi_v8.24.6_archive.ipa)\r\n\r\n作者尽量抽空多修复，近半个月只在修复，已经吐了。\r\n最近这段时间，会几天就发一个版本，你们按需更新，又不是不能用.jpg。\r\n\r\n至于 iOS，Expo 遇到了断崖式更新，很多通用组件（图片、菜单）彻底废了，需要完全重写才能修好，估计短期内没可能发布推送，甚至作者开发环境都用不了 Expo，可以尝试侧载或者直接用网页吧。\r\n\r\nIPA 打包试错了 4 个小时，后面试着重建 ios 目录居然又可以了，代码也没什么变化莫名其妙的？\r\nIPA 本人真机 altStore 能侧载，但是非最新系统，可能不行也是这个原因。\r\n\r\n## 8.24.6 - 2025/09/14\r\n\r\n### 修复\r\n- [x] 主要修复了人物相关页面、条目日志帖子、百度翻译、词云、同步、帖子聚合等问题"
+        },
+        {
+          "version": "8.24.2",
+          "buildVersion": "1",
+          "date": "2025-08-21T22:31:54Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.24.2/bangumi_v8.24.2_archive.ipa",
+          "size": 31426680,
+          "sha256": "6c852b067bca9aaa8e02ec506b1e83ba53da52c01100e9e3ab2856cc4e002a96",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/pmh03apn3eoukxxo?singleDoc)\r\n\r\n[123pan v8a APK (推荐)](https://www.123865.com/s/K0fQjv-QHEVd) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.24.2/bangumi_v8.24.2_arm64-v8a.apk)\r\n\r\n[123pan IPA](https://www.123865.com/s/K0fQjv-OHEVd) | [IPA](https://github.com/czy0729/Bangumi/releases/download/8.24.2/bangumi_v8.24.2_archive.ipa)（IPA 没有安装测试过，不能用记得留言）\r\n\r\nPS：官网最近更新的很多功能，比如新表情，同步到客户端里面有技术问题，人物相册之类的，等官方稳定后再开发实装，请继续关注！\r\n目前 DNS 干扰严重，客户端内有很多功能已失效，过一段时间可能才会能用。\r\n\r\n## 8.24.2 - 2025/08/22\r\n\r\n### 优化\r\n- [x] [条目] 章节菜单显示上次操作的时间（后续还会优化）\r\n- [x] [更多角色] 优化 UI\r\n- [x] [更多职员] 优化 UI，职位支持显示二级描述\r\n- [x] [空间] 调整了 UI，收起过多按钮，优化了复杂富文本的显示（部分按钮移到标签里，正文至少不会字看不全）\r\n- [x] [短信] 若与同一个用户多个私信来往过，右上角会显示不同信件列表的菜单\r\n- [x] [帖子] 楼层正文链接不在默认显示成信息块\r\n- [x] [搜索] 优化了操作类型菜单时，键盘弹出与收起的交互表现\r\n- [x] [设置] 定制中新增设置「自动文字排版」，开启后可以自动为客户端内的中文和半形的英文、数字、符号之间插入空白\r\n- [x] [进度] 条目项若置顶亦可点击右上方角标取消置顶\r\n- [x] [日志] 增大正文段落间距\r\n- [x] [Dollars] 自动匹配内容中的链接（应该不会再对此功能做进一步开发）\r\n- [x] [小圣杯] 若干优化\r\n  - [x] 刮刮乐日榜\r\n  - [x] 「每周萌王」改成网格布局\r\n  - [x] 「每周萌王」支持显示往届信息\r\n\r\n### 修复\r\n- [x] [条目] 修复了书籍系列「单行本」数据失效的问题\r\n- [x] [条目] 修复了更新章节后，若状态数据没任何变化，会一直冻结按钮的问题（这是由于官方接口有变化，所以也删除了看过章节菜单中的「看到」项）\r\n- [x] [条目] 修复了部分条目「源头数据」没有正确加载对应类型数据的问题\r\n- [x] [条目] 修复了书籍类「详情」渲染有可能出错的问题\r\n- [x] [进度] 修复了网格模式下「置顶」操作后表现不符合预期的问题\r\n- [x] [空间] 修复了「历史编辑」功能失效的问题\r\n- [x] [本地管理] 修复了「新增服务」闪退的问题 (fixed #268)\r\n- [x] [内置浏览器] 修复了 iOS viewport 问题；修复键盘弹出后遮盖问题；避免发帖意外手势退出页面"
+        },
+        {
+          "version": "8.23.0",
+          "buildVersion": "1",
+          "date": "2025-07-14T13:02:51Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.23.0/bangumi_v8.23.0_archive.ipa",
+          "size": 31350663,
+          "sha256": "bac170efc315f7d283bd7580a9d101d71f10e995bec22f3d7b89e35afe61c5b8",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/rbb260qod7oistw3?singleDoc)\r\n\r\n[123pan v8a APK (推荐)](https://www.123865.com/s/K0fQjv-OuQVd) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.23.0/bangumi_v8.23.0_arm64-v8a.apk)\r\n\r\n[123pan IPA](https://www.123865.com/s/K0fQjv-HuQVd) | [IPA](https://github.com/czy0729/Bangumi/releases/download/8.23.0/bangumi_v8.23.0_archive.ipa)\r\n\r\n## 8.23.0 - 2025/07/14\r\n\r\n### 优化\r\n- [x] [吐槽] 支持编辑时敏感词提示\r\n- [x] [时光机] 设置「隐藏评分」生效时，也不应该隐藏自己的评分\r\n\r\n### 修复\r\n- [x] 修复 250713 晚间开始不能登录的问题 (必须更新)\r\n- [x] [iOS] 修复了「发现」菜单自定义后不显示保存按钮的问题\r\n- [x] [iOS] 「时光机」减少菜单重渲染后闪烁\r\n- [x] [iOS] 修复了底部输入框聚焦可能会导致弹起两次键盘的问题"
+        },
+        {
+          "version": "8.22.0",
+          "buildVersion": "1",
+          "date": "2025-06-27T17:57:47Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.22.0/bangumi_v8.22.1_archive.ipa",
+          "size": 31336609,
+          "sha256": "6e4c9935587f5833721619317909623998ff0b80c55c1c517eb74286db3d5722",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/rwza9yn5fgncaok5?singleDoc)\r\n\r\n[123pan v8a APK (推荐)](https://www.123865.com/s/K0fQjv-jnQVd) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.22.0/bangumi_v8.22.0_arm64-v8a.apk)\r\n\r\n[123pan IPA](https://www.123865.com/s/K0fQjv-FOQVd) | [IPA](https://github.com/czy0729/Bangumi/releases/download/8.22.1/bangumi_v8.22.1_archive.ipa)\r\n\r\n## 8.22.1 - 2025/07/07\r\n\r\n### 修复\r\n- [x] [iOS] 修复了「发现」菜单自定义后不显示保存按钮的问题\r\n\r\n## 8.22.0 - 2025/06/28\r\n\r\n### 新增\r\n- [x] [每日放送] 更新 2025S3 元数据\r\n- [x] [安卓] 客户端外纯文本分享到应用自动跳转到搜索页面\r\n- [x] [图集] 热门条目、角色新增搜索相关图片（实验性）\r\n\r\n### 优化\r\n- [x] [小圣杯] 若干优化\r\n  - [x] 修复「我的资产」固定资产显示错误的问题\r\n  - [x] 「竞拍记录」页面数据优化；「资产重组」页面布局优化\r\n  - [x] 「资产重组」显示角色升级进度数据；「番市首富」高亮自己\r\n  - [x] 「ICO 交易」显示角色所属条目\r\n  - [x] 新增「角色塔图」页面\r\n  - [x] 支持「小圣杯」选塔图\r\n  - [x] 「我的持仓」支持显示角色当前的是否有买入、卖出、竞拍的状态标记\r\n  - [x] 「番市首富」显示税后\r\n\r\n### 修复\r\n- [x] [条目] 修复了章节 SP0 按钮不显示文字的问题\r\n\r\nhttps://github.com/czy0729/Bangumi/compare/8.21.2...8.22.0"
+        },
+        {
+          "version": "8.20.2",
+          "buildVersion": "1",
+          "date": "2025-04-13T14:08:55Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.20.2/bangumi_v8.20.3_archive.ipa",
+          "size": 31289396,
+          "sha256": "292ba2fee30563c3e722805a622d1d7c98ac58d921d8ad53a960b2ab19c2d28a",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/csic9v?singleDoc)\r\n\r\n[123pan v8a APK (推荐)](https://www.123865.com/s/K0fQjv-FC9Vd) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.20.2/bangumi_v8.20.2_arm64-v8a.apk)\r\n\r\n[123pan IPA](https://www.123865.com/s/K0fQjv-0O9Vd) | [IPA](https://github.com/czy0729/Bangumi/releases/download/8.20.3/bangumi_v8.20.3_archive.ipa)\r\n\r\n## 8.20.2 - 2025/04/13\r\n\r\n### 优化\r\n- [x] [条目] 版块间支持设置分割线以增加区分度\r\n- [x] [小圣杯] 若干开发\r\n  - [x] 现在能在相关地方显示用户对角色转化过的具体星之力\r\n  - [x] 我的圣殿支持同时显示持股数\r\n  - [x] 我的持仓页面排序优化\r\n  - [x] 优化圣殿图布局，以对官方人设图尽量能显示上半身\r\n  - [x] 我的持仓受损圣殿支持使用「星光碎片」\r\n\r\n### 修复\r\n- [x] [条目] 修复了上个版本更新后，角色没有显示 CV 的问题\r\n- [x] 修复若干问题\r\n  - [x] 修复冷启动 Linking 失效问题\r\n  - [x] 简体转繁体函数若文本不含中文直接返回\r\n  - [x] 本地备份的导入按钮不显示"
+        },
+        {
+          "version": "8.20.0",
+          "buildVersion": "1",
+          "date": "2025-04-02T16:50:13Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.20.0/bangumi_v8.20.0_archive.ipa",
+          "size": 31218436,
+          "sha256": "a93f72355dd8b8a0a36a2b370adcc337a85550ab859ebdcf68e34aac6fc6d8d7",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/csic9v?singleDoc)\r\n\r\n[123pan v8a APK (推荐)](https://www.123865.com/s/K0fQjv-Mg9Vd) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.20.0/bangumi_v8.20.0_arm64-v8a.apk)\r\n\r\n[123pan IPA](https://www.123865.com/s/K0fQjv-Ig9Vd) | [IPA](https://github.com/czy0729/Bangumi/releases/download/8.20.0/bangumi_v8.20.0_archive.ipa)\r\n\r\n## 8.20.0 - 2025/04/03\r\n\r\n### 优化\r\n- [x] [条目] 目录管理增加了排序\r\n- [x] [条目] 版本显示微调\r\n- [x] [超展开] 站龄少于 1 年支持用月份显示\r\n- [x] 更新 2025S2 番剧元数据、其他一批本地静态数据\r\n- [x] [登录] 细节优化、登录成功后自动同步黑名单、可选同步云端设置\r\n- [x] [进度] 启动后若不需要全量刷新，现在也会至少刷新首屏几个项数据\r\n\r\n### 修复\r\n- [x] [帖子] 修复楼层中部分链接无法点击跳转问题\r\n- [x] 恢复了分屏与小窗（如果窗口大小改变后崩溃那作者也没什么办法，凑合用吧）\r\n- [x] [条目] 修复 NSFW 角色优先度排序问题、修复职员重复问题\r\n- [x] [用户空间] 修复了自己查看自己的时间线, 只能显示第一页的问题\r\n- [x] 稍微修复了部分平板设备样式\r\n- [x] [iOS] IPA 修复不能正常加载头像问题"
+        },
+        {
+          "version": "8.19.0",
+          "buildVersion": "1",
+          "date": "2025-03-08T14:48:05Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.19.0/bangumi_v8.19.0_archive.ipa",
+          "size": 31160202,
+          "sha256": "29d3d1f151d62aeb46cd1c9729cfbbea438f55333016493f6d34714b610006ac",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/eo79o18253lecthq?singleDoc)\r\n\r\n[123pan v8a APK (推荐)](https://www.123865.com/s/K0fQjv-wT9Vd) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.19.0/bangumi_v8.19.0_arm64-v8a.apk)\r\n\r\n[123pan IPA](https://www.123865.com/s/K0fQjv-gv9Vd) | [IPA](https://github.com/czy0729/Bangumi/releases/download/8.19.0/bangumi_v8.19.0_archive.ipa)\r\n\r\n## 8.19.0 - 2025/03/08\r\n\r\n### 修复\r\n- [x] [安卓] 修复部分机型启动上方有不明空白的问题\r\n- [x] [电波提醒] 修复了进入详细页用户最新头像不一致的问题\r\n- [x] 修复条目缩略框弹出坐标问题\r\n- [x] [小圣杯] 修复大量问题\r\n- [x] 修复大量细节问题，不详细说明，[代码对比](https://github.com/czy0729/Bangumi/compare/8.18.1...8.19.0)"
+        },
+        {
+          "version": "8.16.1",
+          "buildVersion": "1",
+          "date": "2024-11-04T13:14:30Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.16.1/bangumi_v8.16.1_archive.ipa",
+          "size": 23223964,
+          "sha256": "01efe3b2790dde931bb5c2643dd06fec15116841f4c5ef2c84239a6d5d3e828e",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/fkl5elv7kxbnzri1?singleDoc)\r\n\r\n[123pan v8a APK (推荐)](https://www.123865.com/s/K0fQjv-1uHVd) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.16.1/bangumi_v8.16.1_arm64-v8a.apk)\r\n\r\nIPA 的白天模式菜单颜色可能有问题，还在想办法解决，凑合先用着吧。\r\n[123pan IPA](https://www.123865.com/s/K0fQjv-kKHVd) | [IPA](https://github.com/czy0729/Bangumi/releases/download/8.16.1/bangumi_v8.16.1_archive.ipa)\r\n\r\n## 8.16.1 - 2024/11/05\r\n\r\n### 修复\r\n- [x] [搜索] 修复部分极端情况导致的报错\r\n- [x] [词云] 修复本地读取数据过大锁死的问题\r\n\r\n## 8.16.0 - 2024/11/04\r\n\r\n### 优化\r\n- [x] [搜索] 搜索人物增加预数据\r\n- [x] [超展开设置] 可以选择几种帖子新楼层的样式\r\n- [x] [帖子聚合] 增加热门收藏 Tab\r\n- [x] [词云] 新增用户类型（入口都在合理的地方，不详细说明，也能查看其他人的）\r\n- [x] [照片墙] 支持筛选标签\r\n\r\n### 修复\r\n- [x] [日志] 修复日志回复楼层不能展开的问题"
+        },
+        {
+          "version": "8.14.2",
+          "buildVersion": "1",
+          "date": "2024-10-04T14:23:32Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.14.2/bangumi_v8.14.2_archive.ipa",
+          "size": 37088321,
+          "sha256": "e4bdf1fc4c6b8bb7f746f9fffd5c0fec3532daccab220a11c9526e0747cf08e0",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/ox1ifg0xlx8mf1pq?singleDoc)\r\n\r\n[123pan v8a APK (推荐)](https://www.123865.com/s/K0fQjv-daHVd) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.14.2/bangumi_v8.14.2_arm64-v8a.apk)\r\n\r\n[123pan IPA](https://www.123865.com/s/K0fQjv-UaHVd) | [IPA](https://github.com/czy0729/Bangumi/releases/download/8.14.2/bangumi_v8.14.2_archive.ipa)\r\n\r\n## 8.14.2 - 2024/10/04\r\n\r\n### 优化\r\n- [x] 更新了 2024S4 番剧元数据\r\n- [x] [条目] 公共标签样式（白线为维基管理员编辑过的公共标签，为官网最近在优化的功能，有兴趣请查看[官方文章](https://bgm.tv/group/topic/406595)）\r\n- [x] [条目] 人物缺失头像使用了官方的默认图片\r\n- [x] [制作人员] 新增类型筛选\r\n- [x] [人物] 支持了词云\r\n- [x] [帖子] 支持特别关注用户回复"
+        },
+        {
+          "version": "8.12.1",
+          "buildVersion": "1",
+          "date": "2024-07-20T13:30:08Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.12.1/bangumi_v8.12.1_archive.ipa",
+          "size": 36781394,
+          "sha256": "e55ef66badcf642ddf481556db4f28e7258c4bd643d1df848130619788a45ce8",
+          "localizedDescription": "最近国内不少地区主站连接缓慢，导致客户端经常不响应，是正常现象，可能过段时间就好了。\r\n建议有类似问题反馈请注明是获取数据慢的卡，还是客户端卡顿的卡。\r\n\r\n[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/fci9cnfxybstmgpi?singleDoc)\r\n\r\n[123pan v8a APK (推荐)](https://www.123pan.cn/s/K0fQjv-U03Vd.html) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.12.1/bangumi_v8.12.1_arm64-v8a.apk)\r\n\r\n[123pan IPA](https://www.123pan.cn/s/K0fQjv-Bl3Vd.html) | [IPA](https://github.com/czy0729/Bangumi/releases/download/8.12.1/bangumi_v8.12.1_archive.ipa)\r\n\r\n---\r\n\r\n## 8.12.1 - 2024/07/22\r\n\r\n### 修复\r\n- [x] [安卓] 防御式处理了一批不明原因导致的崩溃\r\n\r\n## 8.12.0 - 2024/07/20\r\n\r\n### 优化\r\n- [x] [进度] 在设置里，选项卡允许自定义条目范围（若设置成只有一项，会只显示列表）\r\n- [x] [每日放送] 更新 2024S3 番剧放送时间\r\n- [x] [日志] 支持收藏\r\n- [x] [条目] 标题旁的发布日期，支持显示到月份，需在设置中打开\r\n- [x] [条目] 游戏条目有其他版本时，吐槽区支持只看当前版本\r\n- [x] [电波提醒] 优化了好友申请的按钮显示时机\r\n- [x] [UI] 缩小了 loading 提示，在超时后会显示关闭按钮\r\n- [x] [找条目] 更新部分类型数据\r\n\r\n### 修复\r\n- [x] [帖子] 修复了编辑子楼层文本后，没有重新刷新显示的问题\r\n- [x] [日志] 修复了编辑楼层回复闪退的问题\r\n- [x] [安卓] 修复了不明原因导致整个客户端不响应点击冻结的问题（待验证） \r\n- [x] [安卓] 点击行为改善（待验证）\r\n- [x] 减少了图片相册大图不显示的频率（有部分依然不显示的无解，因为反盗链）\r\n- [x] 修复了若干问题不详（#177，#178，#180，#181，#182）"
+        },
+        {
+          "version": "8.11.1",
+          "buildVersion": "1",
+          "date": "2024-06-23T15:48:16Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.11.1/bangumi_v8.11.1_archive.ipa",
+          "size": 36672229,
+          "sha256": "6b2db7e496c9533e7255160f9e8f7a40cd71f2b2f9fd00f06d6ef61cbdc969ed",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/vdqgmi1er76pcgf3?singleDoc)\r\n\r\n[123pan v8a APK (推荐)](https://www.123pan.com/s/K0fQjv-AM3Vd.html) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.11.1/bangumi_v8.11.1_arm64-v8a.apk)\r\n\r\n[123pan IPA](https://www.123pan.com/s/K0fQjv-9w3Vd.html) | [IPA](https://github.com/czy0729/Bangumi/releases/download/8.11.1/bangumi_v8.11.1_archive.ipa)\r\n\r\n---\r\n\r\n## 8.11.1 - 2024/06/24\r\n\r\n### 修复\r\n- [x] 修复了打开未收藏条目收藏框闪退的问题\r\n- [x] [安卓] 回退了文字换行效果的修改\r\n\r\n## 8.11.0 - 2024/06/23\r\n\r\n### 新增\r\n- [x] [超展开] 帖子收藏页面迭代，现为帖子聚合。支持了我的回复的所有分页，并整合了一览最近回复、贴贴、是否好友、好友备注等基本功能。\r\n\r\n### 优化\r\n- [x] [贴贴] 用户列表项目也支持显示好友信息和备注\r\n- [x] [每日放送] 更新 2024S3 番剧数据\r\n- [x] [条目、条目日志、条目帖子] 补全了用户绝交名单的过滤，也会显示对应好友标识和已设置的备注\r\n- [x] [条目帖子] 补全了下拉加载更多的功能\r\n- [x] 条目管理窗口吐槽输入框显示剩余字数\r\n\r\n### 修复\r\n- [x] [猜你喜欢] 修复了部分用户获取数据失败的问题\r\n- [x] [时间胶囊] 修复了用户评分消失的问题\r\n- [x] [安卓] 优化了部分特殊文字看不全的问题，对于部分不能处理的情况直接过滤掉\r\n- [x] [进度] 修复了游戏条目在「全部」栏下 UI 错误的问题\r\n- [x] [日志] 修复了相关样式"
+        },
+        {
+          "version": "8.9.0",
+          "buildVersion": "1",
+          "date": "2024-05-01T09:46:42Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.9.0/bangumi_v8.9.0_archive.ipa",
+          "size": 36521795,
+          "sha256": "1a87b8db00f6d2f4c2be7123073ff872b6a4cf33a6c6aa924deef218a71b8b99",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/nmmg5vgl531da3lv?singleDoc)\r\n\r\n[123pan v8a APK (推荐)](https://www.123pan.com/s/K0fQjv-dodVd.html) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.9.0/bangumi_v8.9.0_arm64-v8a.apk)\r\n\r\n[123pan IPA](https://www.123pan.com/s/K0fQjv-ModVd.html)  | [IPA](https://github.com/czy0729/Bangumi/releases/download/8.9.0/bangumi_v8.9.0_archive.ipa)\r\n\r\n## v8.9.0 - 2024/05/01\r\n\r\n### 新增\r\n- [x] [条目] 实装了网页端游戏条目「不同版本」关系的改变\r\n- [x] [条目] 实装了网页端吐槽筛选观看状态\r\n\r\n### 优化\r\n- [x] [空间] 时间线支持了选择类型\r\n- [x] [空间] 现在会把「关于」、「番剧」的最后访问时机作为进入页面的默认位置\r\n- [x] [空间] 「番剧」展开折叠现在可配置\r\n- [x] [条目] 不再筛掉过多的标签，改成折叠\r\n- [x] [条目] 吐槽中特别关注的用户的昵称、头像，现在会在进入该用户空间后更新\r\n- [x] [设置] 优化了代码，减少了在设置的一瞬间卡住整个客户端\r\n\r\n### 修复\r\n- [x] [帖子] 修复了非「小组」类型的帖子均不能编辑自己回复的问题\r\n- [x] [帖子] 修复了「章节」类型帖子翻译失败的问题\r\n- [x] [空间] 修复了部分背景不显示的问题\r\n- [x] [设置] 修复了在设置页面查看屏蔽用户时，没有及时同步网页端数据的问题\r\n- [x] [条目] 修复了 NSFW 可能出现「看到」失效的问题（fixed #152）"
+        },
+        {
+          "version": "8.7.0",
+          "buildVersion": "1",
+          "date": "2024-03-30T04:18:15Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.7.0/bangumi_v8.7.0_archive.ipa",
+          "size": 35988746,
+          "sha256": "dd5578afe86f9edf3aba0e3d82507fcb52077046b1ff5459d216ff858521dfa7",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/iv2262dy8nv9lqxa?singleDoc)\r\n\r\n[123pan v8a APK (推荐)](https://www.123pan.com/s/K0fQjv-AlvVd.html) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.7.0/bangumi_v8.7.0_arm64-v8a.apk)\r\n\r\n[123pan IPA](https://www.123pan.com/s/K0fQjv-HlvVd.html) | [IPA](https://github.com/czy0729/Bangumi/releases/download/8.7.0/bangumi_v8.7.0_archive.ipa)\r\n\r\n## v8.7.0 - 2024/03/30\r\n\r\n### 新增\r\n\r\n- [x] [时光机] 条目吐槽能联动到最近的贴贴数据（当然进入别人的时光机也是可以找到的，会员能关联到更早的贴贴内容）\r\n- [x] [每日放送] 更新 2024S2 番剧基本数据，功能强化增加了筛选（截止发布为止，暂无 4 月新番具体放送时间，需要在下个版本才能补上）\r\n\r\n### 优化\r\n\r\n- [x] [条目] 如果你吐槽过，现在会在收藏下方显示该内容，若有贴贴数据会一并显示。\r\n- [x] [条目] 优化了大部分地方进入条目页，会使用前一个页面的封面图做占位，减少加载动画\r\n- [x] [人物] 优化了大图的加载\r\n\r\n### 修复\r\n\r\n- [x] [搜索] 修复了在精确条件下，查找失败的问题\r\n- [x] [目录详情] 修复并优化功能\r\n- [x] [猜你喜欢] 修复并优化功能\r\n- [x] [条目] 修复查找第三方信息等功能\r\n- [x] [空间] 修复了安卓环境下，关于 TA 不能继续往下滑动的问题\r\n- [x] [时光机] 修复了安卓非全面屏下，开启分页器情况下，下方分页器看不全的问题"
+        },
+        {
+          "version": "8.6.0",
+          "buildVersion": "1",
+          "date": "2024-02-26T09:15:33Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.6.0/bangumi_v8.5.1_archive.ipa",
+          "size": 35964622,
+          "sha256": "f3eba7cf1072f8440950d96f3862934b81bf75bb257d137b79596321af4581ca",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/rxxbx8530fxq0e04?singleDoc)\r\n\r\n[123pan v8a APK (推荐)](https://www.123pan.com/s/K0fQjv-ywvVd.html) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.6.0/bangumi_v8.6.0_arm64-v8a.apk)\r\n\r\n[IPA (非最新, v8.5.1)](https://github.com/czy0729/Bangumi/releases/download/8.6.0/bangumi_v8.5.1_archive.ipa)\r\n\r\n## v8.6.0 - 2024/03/13\r\n\r\n### 新增\r\n- [x] [条目] 会自动搜索 VIB、MAL、AniDB 评分，并在评分栏中显示（非动画只会搜索 VIB）\r\n\r\n### 优化\r\n- [x] [搜索] 重写分析逻辑，修复经常出现的搜索结果不全的问题\r\n- [x] 部分长列表加载中文案显示分页信息\r\n- [x] [帖子] 处理了剧透楼层需要折叠的问题\r\n- [x] [进度] 大章节点格子的「看到」按钮增加二次确认\r\n- [x] [电波提醒] 优化了好友按钮的显示时机\r\n\r\n### 修复\r\n- [x] [进度] 修复了标记“看到”状态时不会标记当前集\r\n- [x] [搜索] 前往搜索用户会先判断用户 ID 是否存在\r\n\r\n### 小圣杯\r\n- [x] [小圣杯] 允许模块设置为首页常驻项\r\n- [x] [小圣杯] 资产重组页面逻辑更新, 并新增精炼功能\r\n- [x] 若干更新，不详\r\n\r\n"
+        },
+        {
+          "version": "8.3.1",
+          "buildVersion": "1",
+          "date": "2023-11-04T20:38:04Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.3.1/bangumi_v8.3.1_archive.ipa",
+          "size": 35416077,
+          "sha256": "7a681cd5ad9fce02f595b70830143fbbf7c98892fb8e2b621d00ab76dd1758ac",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/lfqgis2fat1tyrnp?singleDoc)\r\n\r\n[123pan v8a APK (推荐)](https://www.123pan.com/s/K0fQjv-E8jyd.html) | [v8a APK](https://github.com/czy0729/Bangumi/releases/download/8.3.1/bangumi_v8.3.1_arm64-v8a.apk)\r\n\r\n[x86 WIN11、WSA APK](https://github.com/czy0729/Bangumi/releases/download/8.3.1/bangumi_v8.3.1_x86_64.apk)\r\n\r\n[123pan IPA](https://www.123pan.com/s/K0fQjv-V8jyd.html) | [IPA](https://github.com/czy0729/Bangumi/releases/download/8.3.1/bangumi_v8.3.1_archive.ipa) (花了钱才解决了打包问题，不求赚钱至少能不能不要让我亏本)\r\n\r\n## v8.3.1 - 2023/11/05\r\n\r\n### 修复\r\n\r\n- [x] [安卓] 修复了双击问题\r\n\r\n\r\n## v8.3.0 - 2023/11/04\r\n\r\n### 新增\r\n\r\n- [x] [条目] 标签块右上方新增筛选项 (实验性)\r\n- [x] [时间胶囊] 因官网时间胶囊迭代，几乎重写了所有网页分析代码，并支持短评「贴贴」(同样「条目吐槽」和「用户空间的时间胶囊」也支持)\r\n\r\n### 优化\r\n\r\n- [x] [发现标签] 追加按分类排名选项\r\n- [x] [条目] 书籍类系列条目中, 若已完结年份显示为 (开始 - 结束)\r\n- [x] [条目] 单行本的文本改为中间省略, 以突出最后的数字号 (安卓以前这里过长文本是看不见最后的)\r\n- [x] [翻译] 现在会检测文字段落是否外语后, 再显示翻译按钮\r\n- [x] [找条目] 动画更新了番剧数据\r\n\r\n### 修复\r\n\r\n- [x] [搜索] 修复了快速搜索下有些新番无法索引到的问题 (比如下面)\r\n- [x] 修复了若干 issue (#110, #120, #121, #123)"
+        },
+        {
+          "version": "7.16.2",
+          "buildVersion": "1",
+          "date": "2023-07-14T12:28:13Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/7.16.2/bangumi_v7.16.3_archive.ipa",
+          "size": 34904138,
+          "sha256": "bd1ca6d790b90d61798cdffdcdfe1c6f42a1f31c898df5e0149033cc76a44aea",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/ric9srgg6sx9wakm?singleDoc)\r\n\r\n[蓝奏云 64位包 v8a APK (推荐)](https://czy0729.lanzouj.com/i2qjE12hykza) \r\n\r\n[64位包 v8a APK](https://github.com/czy0729/Bangumi/releases/download/7.16.2/bangumi_v7.16.2_arm64-v8a.apk) | [32位包 v7a APK](https://github.com/czy0729/Bangumi/releases/download/7.16.2/bangumi_v7.16.2_armeabi-v7a.apk) | [WIN11 子系统 APK](https://github.com/czy0729/Bangumi/releases/download/7.16.2/bangumi_v7.16.2_x86_64.apk)\r\n\r\n[IPA](https://github.com/czy0729/Bangumi/releases/download/7.16.3/bangumi_v7.16.3_archive.ipa)\r\n\r\n正在把安卓端的整个库环境升级，使用最新的架构重构，这次会把性能放得比较重要。目前过程很艰难，可以打点小米让作者坚持下去。\r\n\r\n## v7.16.2 - 2023/07/14\r\n\r\n### 优化\r\n\r\n- [x] 因最近连接明显变慢，为了流畅性，减少了不必要的官方站点、API 请求\r\n- [x] [帖子] 优化了媒体块获取数据和渲染\r\n- [x] [设置] 重新实现图片渐变动画 (默认开启)\r\n- [x] [条目] 优化了剧照匹配逻辑\r\n- [x] 更新 2023S3 数据\r\n\r\n### 修复\r\n\r\n- [x] [条目] 修复相册不能加载图片的问题\r\n- [x] 修复了若干问题"
+        },
+        {
+          "version": "7.15.2",
+          "buildVersion": "1",
+          "date": "2023-06-23T23:10:35Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/7.15.2/bangumi_v7.15.2_archive.ipa",
+          "size": 34903834,
+          "sha256": "8dba97d05bfed4f0d1727b01bfb350e0696b1131028ed2b2e2c16b7063245dfd",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/gaqpf9ugnl17gt38?singleDoc)\r\n\r\n[蓝奏云 64位包 v8a APK (推荐)](https://czy0729.lanzouj.com/i8KGF0zxvxkd) \r\n\r\n[64位包 v8a APK](https://github.com/czy0729/Bangumi/releases/download/7.15.2/bangumi_v7.15.2_arm64-v8a.apk) | [32位包 v7a APK](https://github.com/czy0729/Bangumi/releases/download/7.15.2/bangumi_v7.15.2_armeabi-v7a.apk) | [WIN11 子系统 APK](https://github.com/czy0729/Bangumi/releases/download/7.15.2/bangumi_v7.15.2_x86_64.apk)\r\n\r\n[IPA](https://github.com/czy0729/Bangumi/releases/download/7.15.2/bangumi_v7.15.2_archive.ipa)\r\n\r\n## v7.15.2 - 2023/06/24\r\n\r\n### 优化\r\n\r\n- [x] [吐槽] 吐槽页面改成了分页，避免多楼层同时加载过多头像卡死的问题\r\n- [x] [条目] 对未收藏的条目，页面内的输入框和提交按钮不允许交互\r\n- [x] 现在所有图片会根据渲染的容器，去选择合适大小的目标地址加载，以保证最快速度渲染\r\n\r\n### 修复\r\n\r\n- [x] [人物] 修复了页面功能失效相关问题\r\n- [x] [评分] 修复了类型为好友时, 不能加载更多的问题\r\n- [x] 修复了网页版增加的高清头像后，有些头像加载过大的问题"
+        },
+        {
+          "version": "7.15.0",
+          "buildVersion": "1",
+          "date": "2023-06-08T22:45:34Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/7.15.0/bangumi_v7.15.0_archive.ipa",
+          "size": 34893438,
+          "sha256": "fba1da990f143e53f7955673f2d97608f9f3e40082ecc5cd4dcceac996eeee22",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/gaqpf9ugnl17gt38?singleDoc)\r\n\r\n[蓝奏云 64位包 v8a APK (推荐)](https://czy0729.lanzouj.com/iump30ynrmpc) \r\n\r\n[64位包 v8a APK](https://github.com/czy0729/Bangumi/releases/download/7.15.0/bangumi_v7.15.0_arm64-v8a.apk) | [32位包 v7a APK](https://github.com/czy0729/Bangumi/releases/download/7.15.0/bangumi_v7.15.0_armeabi-v7a.apk) | [WIN11 子系统 APK](https://github.com/czy0729/Bangumi/releases/download/7.15.0/bangumi_v7.15.0_x86_64.apk)\r\n\r\n## v7.15.0 - 2023/06/09\r\n\r\n### 新增\r\n\r\n- [x] [发现] 新增番剧推荐页面 (Beta，@ klove 提供基于AI学习的推荐接口)\r\n- [x] [条目] 右上角分享菜单，新增了 APP 网页页面分享 (可以使用网页版预览条目页面)\r\n\r\n### 优化\r\n\r\n- [x] 优化条目收藏状态变化后，各个页面的数据更新问题 (现在在其他页面里面管理条目后，会自动联动到首页管理而无需再次刷新)\r\n- [x] [空间] 对近期没使用过 APP 的用户不再显示该用户的自定义头像和背景\r\n- [x] [收藏] 增加了对 NSFW 条目更新收藏状态后是否成功的检查, 若状态不一致会进行提示\r\n- [x] [帖子] 更新了贴贴按钮的数据\r\n\r\n### 修复\r\n\r\n- [x] 修复了没有定期检查更新授权信息的问题 (这个应该就是最近很多人反馈不能更改收藏状态的BUG，有待测试反馈验证)\r\n- [x] [条目] 修复了条目吐槽少于十页时，只返回了一页数据的问题\r\n\r\n## Next\r\n\r\n最近在研究安卓端的桌面组件，在思考了几天后，有以下总结：\r\n1. 要在有限的空间里面，尽量输出有效的功能\r\n2. 尽量使用小的，比如2格宽，而不是占满全宽的\r\n3. 因个别系统有明确的规范，所以是不能使用滚动交互的，当然可以用按钮分页\r\n4. 数据刷新是不及时的\r\n5. 组件里面应该很难输出跟用户登录状态相关的东西，当然也不是不可能\r\n\r\n有想法或者建议的，或者可以直接照着抄的，可以在这里反馈 [链接](https://bgm.tv/user/sukaretto/timeline/status/34836087)"
+        },
+        {
+          "version": "7.13.0",
+          "buildVersion": "1",
+          "date": "2023-04-29T14:17:27Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/7.13.0/bangumi_v7.13.0_archive.ipa",
+          "size": 34860119,
+          "sha256": "d002e7c92a70c9dabde73d89c009bd64fce9b7545e1d5a5eb19712e2b529e8e0",
+          "localizedDescription": "劳动节快乐！\r\n\r\n[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/nt61pb04opftxany?singleDoc)\r\n\r\n[蓝奏云 64位包 v8a APK (推荐)](https://czy0729.lanzouf.com/izvk00u98syf) \r\n\r\n[64位包 v8a APK](https://github.com/czy0729/Bangumi/releases/download/7.13.0/bangumi_v7.13.0_arm64-v8a.apk) | [32位包 v7a APK](https://github.com/czy0729/Bangumi/releases/download/7.13.0/bangumi_v7.13.0_armeabi-v7a.apk) | [WIN11 子系统 APK](https://github.com/czy0729/Bangumi/releases/download/7.13.0/bangumi_v7.13.0_x86_64.apk)\r\n\r\n[IPA](https://github.com/czy0729/Bangumi/releases/download/7.13.0/bangumi_v7.13.0_archive.ipa)\r\n\r\n## v7.13.0 - 2023/04/29\r\n\r\n### 新增\r\n\r\n- [x] [发现] 实装了网页版的 Dollars\r\n\r\n### 优化\r\n\r\n- [x] [人物] 合作块\r\n- [x] [条目] 优化了预览图匹配的逻辑\r\n- [x] [设置] CDN 模块改名为图片，并删除失效功能相关代码\r\n\r\n### 修复\r\n\r\n- [x] [条目] 修复了书籍更新章节后无任何反馈的问题"
+        },
+        {
+          "version": "7.11.2",
+          "buildVersion": "1",
+          "date": "2023-04-05T23:07:56Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/7.11.2/bangumi_v7.11.2_archive.ipa",
+          "size": 34810687,
+          "sha256": "61f305441aeb0541526d0d440027acfe9470e4ea528cb7444a5cc20a60c744f0",
+          "localizedDescription": "看见的请马上更新使用，因网页端发生变化，之前的版本已出现大量不可预料的 bugs。\r\n\r\n[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/rgqtvd27o1o7x8lz?singleDoc)\r\n\r\n[蓝奏云 64位包 v8a APK (推荐)](https://czy0729.lanzouf.com/iknj80s7livg) \r\n\r\n[64位包 v8a APK](https://github.com/czy0729/Bangumi/releases/download/7.11.2/bangumi_v7.11.2_arm64-v8a.apk) | [32位包 v7a APK](https://github.com/czy0729/Bangumi/releases/download/7.11.2/bangumi_v7.11.2_armeabi-v7a.apk)\r\n\r\n[WIN11 子系统 APK](https://github.com/czy0729/Bangumi/releases/download/7.11.2/bangumi_v7.11.2_x86_64.apk)\r\n\r\n[IPA](https://github.com/czy0729/Bangumi/releases/download/7.11.2/bangumi_v7.11.2_archive.ipa) （打包后没安装测试过，若不行请反馈）\r\n\r\n## v7.11.2 - 2023/04/06\r\n\r\n### 优化\r\n- [x] [帖子] 贴贴跟进了 2 个网页端新的表情\r\n- [x] [每日放送] 暂时手动录入 2023S2 季度新番放送数据\r\n- [x] 优化了捕获错误的逻辑，减少闪退频率\r\n\r\n### 修复\r\n- [x] [条目] 修复了因网页结构改到导致的不能获取到吐槽的问题\r\n- [x] [条目] 追踪某用户评论后，该用户信息因其他原因丢失，现在会自动更新"
+        },
+        {
+          "version": "7.9.0",
+          "buildVersion": "1",
+          "date": "2023-03-02T18:06:58Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/7.9.0/bangumi_v7.9.0_archive.ipa",
+          "size": 34775181,
+          "sha256": "338db588ca09379cade75213b2f55cda005966349739ce0974bea1edd7167283",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/ia218hdgptzlfnrt?singleDoc)\r\n\r\n[蓝奏云 64位包 v8a APK (推荐)](https://czy0729.lanzouf.com/iRim90p31e1a) \r\n\r\n[64位包 v8a APK](https://github.com/czy0729/Bangumi/releases/download/7.9.0/bangumi_v7.9.0_arm64-v8a.apk) | [32位包 v7a APK](https://github.com/czy0729/Bangumi/releases/download/7.9.0/bangumi_v7.9.0_armeabi-v7a.apk)\r\n\r\n[WIN11 子系统 APK](https://github.com/czy0729/Bangumi/releases/download/7.9.0/bangumi_v7.9.0_x86_64.apk)\r\n\r\n[最新 IPA](https://github.com/czy0729/Bangumi/releases/download/7.9.0/bangumi_v7.9.0_archive.ipa)\r\n\r\nv7.9.0 - 2023/03/03\r\n\r\n由于严重缺乏开发创意，后续版本的功能可能都会基于用户的建议反馈。\r\n\r\n用户提及的建议会努力落实，需要时间，往往会先把感兴趣的做完，并不是不做。\r\n\r\n—— 优化 ——\r\n- [x] [系统] 点击跳转相关交互，都追加了触摸后反馈动画（由于安卓原生涟漪效果不好统一UI和优化，暂时也许不会再开放）\r\n- [x] [进度、条目] 收藏状态和章节按钮状态转变后，增加了小动画 （后续版本应该会把动画是否开启作为一个配置项）\r\n- [x] [帖子] 回复楼层时, 会把楼层的部分正文在输入框 placeholder 里显示\r\n- [x] [帖子] 回复框中常用 bgm 表情选择后不会改变常用的排序\r\n- [x] [进度] 收藏管理框，吐槽输入框增加恢复历史的按钮\r\n- [x] [SMB] 功能迭代（改善了一点用法，更方便）\r\n- [x] [电波提醒] 优化了切换时头像闪一下的问题\r\n\r\n—— 修复 ——\r\n- [x] [进度] 修复了在刷新条目信息时, 有概率卡死程序的问题"
+        },
+        {
+          "version": "7.7.0",
+          "buildVersion": "1",
+          "date": "2023-02-06T15:29:38Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/7.7.0/bangumi_v7.7.0_archive.ipa",
+          "size": 34761555,
+          "sha256": "fdab02633bc974197c6ae417f45a8673b14ff870e7f309e6ab207209b57b708e",
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/uymn10kytroups5m?singleDoc)\r\n\r\n[蓝奏云 64位包 v8a APK (推荐)](https://czy0729.lanzouf.com/iyyUz0mshy5c) | [64位包 v8a APK](https://github.com/czy0729/Bangumi/releases/download/7.7.0/bangumi_v7.7.0_arm64-v8a.apk) | [32位包 v7a APK](https://github.com/czy0729/Bangumi/releases/download/7.7.0/bangumi_v7.7.0_armeabi-v7a.apk)\r\n\r\n[WIN11 子系统 APK](https://github.com/czy0729/Bangumi/releases/download/7.7.0/bangumi_v7.7.0_x86_64.apk)\r\n\r\n[最新 IPA](https://github.com/czy0729/Bangumi/releases/download/7.7.0/bangumi_v7.7.0_archive.ipa)\r\n\r\n[最新 F-Droid] 2023/02/08 前发\r\n\r\nv7.7.0 - 2023/02/06\r\n\r\n由于严重缺乏开发创意，后续版本的功能可能都会基于用户的建议反馈\r\n\r\n—— 新增 ——\r\n- [x] [条目] 新增特别关注某用户点评（各个类型是分开计算的）\r\n- [x] [首页进度] 批量添加放送提醒允许导出为 ics 文件\r\n\r\n—— 优化 ——\r\n- [x] [时光机] 修复并优化了按（网站评分）排序的表现\r\n- [x] [内置浏览器] 统一在右上角增加跳转到外部浏览器的按钮\r\n- [x] [关联系列] 小幅度逻辑和样式优化\r\n- [x] [系统] 部分功能说明使用了独立页面显示说明内容\r\n- [x] [条目] 条目拼图分享新增黑暗风格\r\n- [x] 文本输入框优化（如图标代替文字按钮、字数统计、历史锁定）\r\n- [x] 优化了条目收藏弹出框的样式\r\n- [x] 部分页面列表项标题会随着文字长度缩小字号而显示更多内容，并优化了部分列表的样式\r\n- [x] 目前百度翻译使用双账号负载，能有效减少月底由于超额而导致翻译失败的问题\r\n\r\n—— 修复 ——\r\n- [x] 修复了条目删除收藏后，相关列表项中没有更新收藏状态的问题\r\n- [x] [iOS] 修复了文本输入框，因 iOS 切换输入法键盘高度不一致后遮住最底部工具栏的表现"
+        },
+        {
+          "version": "7.6.0",
+          "buildVersion": "1",
+          "date": "2023-01-14T13:22:33Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/7.6.0/bangumi_v7.6.0_archive.ipa",
+          "size": 34741893,
+          "sha256": "cbc9f01eef23299fd2a28a20ba74297936232d30489583a9c89d02a79ca3fef9",
+          "localizedDescription": "[图文更新说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/csleloiptpy496h8?singleDoc) \r\n\r\n[蓝奏云 64位包 v8a APK (推荐)](https://czy0729.lanzouf.com/i4sk80l0blcb) | [64位包 v8a APK](https://github.com/czy0729/Bangumi/releases/download/7.6.0/bangumi_v7.6.0_arm64-v8a.apk) | [32位包 v7a APK](https://github.com/czy0729/Bangumi/releases/download/7.6.0/bangumi_v7.6.0_armeabi-v7a.apk)\r\n\r\n[最新 IPA ](https://github.com/czy0729/Bangumi/releases/download/7.6.0/bangumi_v7.6.0_archive.ipa) (没验证过，可以帮忙反馈)\r\n\r\n[WIN11 子系统 APK](https://github.com/czy0729/Bangumi/releases/download/7.6.0/bangumi_v7.6.0_x86_64.apk)\r\n\r\nv7.6.0 -2023/01/14\r\n\r\n—— 新增 ——\r\n- [x] [条目] 加入了 卜卜口 (itorr) 提供的动画巡礼地图信息块\r\n- [x] [条目] 评分块右上方新增网页新功能 (透视) 的入口\r\n\r\n—— 优化 ——\r\n- [x] [人物] 新增 (谁收藏了) 块\r\n- [x] [pm] 加入了滚动到顶和到底的按钮\r\n- [x] [首页进度] 增加设置: 长篇动画从最后看过开始显示（貌似安卓失效，待下一版本修复）\r\n- [x] [空间] 现在能显示封禁用户的封禁信息了\r\n\r\n—— 修复 ——\r\n- [x] [首页收藏] 修复了获取章节时长失效的问题\r\n- [x] [帖子] 修复了特定情况楼层解析错误的问题"
+        },
+        {
+          "version": "7.5.3",
+          "buildVersion": "1",
+          "date": "2023-01-07T16:01:34Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/7.5.3/bangumi_v7.5.3_archive.ipa",
+          "size": 38991462,
+          "sha256": "61e1a1bdc4680ece811f7a9792b698dc218d3515c1ef411401568f03337d23e7",
+          "localizedDescription": "[🌟图文更新说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/gldi9rhwbnn163pk) \r\n\r\n[📥蓝奏云 64位包 v8a APK (推荐)](https://czy0729.lanzouf.com/i5Zdo0k4oaji) | [📥64位包 v8a APK](https://github.com/czy0729/Bangumi/releases/download/7.5.3/bangumi_v7.5.3_arm64-v8a.apk) | [📥32位包 v7a APK](https://github.com/czy0729/Bangumi/releases/download/7.5.3/bangumi_v7.5.3_armeabi-v7a.apk)\r\n\r\n[📥最新 IPA ](https://github.com/czy0729/Bangumi/releases/download/7.5.3/bangumi_v7.5.3_archive.ipa) (没验证过，可以帮忙反馈)\r\n\r\n[📥WIN11 子系统 APK](https://github.com/czy0729/Bangumi/releases/download/7.5.3/bangumi_v7.5.3_x86_64.apk)\r\n\r\nv7.5.3 -2023/01/07\r\n\r\n—— 优化 ——\r\n- [x] 更新了部分静态数据 (如 1 月新番的数据)\r\n- [x] 部分年份选项增加 2023"
+        },
+        {
+          "version": "7.5.2",
+          "buildVersion": "1",
+          "date": "2023-01-02T15:28:04Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/7.5.2/bangumi_v7.5.2_archive.ipa",
+          "size": 38991462,
+          "sha256": "9c2d5596eb5eb950ffebc549f05c2342f56de5de68e9dc7d4e56b06d18b38221",
+          "localizedDescription": "首先祝福大家新年快乐！\r\n\r\n[🌟图文更新说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/gldi9rhwbnn163pk) \r\n\r\n[📥蓝奏云 64位包 v8a APK (推荐)](https://czy0729.lanzouf.com/i0R610jy089g) | [📥64位包 v8a APK](https://github.com/czy0729/Bangumi/releases/download/7.5.2/bangumi_v7.5.2_arm64-v8a.apk) | [📥32位包 v7a APK](https://github.com/czy0729/Bangumi/releases/download/7.5.2/bangumi_v7.5.2_armeabi-v7a.apk)\r\n\r\n[📥最新 IPA ](https://github.com/czy0729/Bangumi/releases/download/7.5.2/bangumi_v7.5.2_archive.ipa)\r\n\r\n[📥WIN11 子系统 APK](https://github.com/czy0729/Bangumi/releases/download/7.5.2/bangumi_v7.5.2_x86_64.apk)\r\n\r\n****\r\n\r\n- 因为源网站的封面图地址规则修改了，不更新会有大量图片加载不能，建议更新（比如发现页面的图片加载失败，可能要冷启动几次才能正常显示）。\r\n- 已经囤积了过多的意见、需求和修复项，会在近期统一处理。\r\n- 最新的 iOS IPA 已经花了很多时间在研究怎么导出中，但至今仍未能顺利走到最后一步。（update 23/01/04 花了几十个小时已经成功导出了!）\r\n- 若进入其他用户空间出现致命错误，请尝试清除缓存，不行的话可以反馈\r\n\r\n****\r\n\r\nv7.5.2 -2023/01/02\r\n\r\n感谢这几天给我打米的小伙伴(￣ω￣(￣ω￣〃 (￣ω￣〃)ゝ\r\n\r\n—— 修复 ——\r\n- [x] [空间] 修复部分机型进入页面报错闪退问题\r\n- [x] [SMB] 不再验证链接是否正确 (假如不正确可能会直接闪退, 最新验证了安卓支持 VLC 播放器直接播放 smb 视频, 协议是 vlc://smb://...)\r\n\r\n****\r\n\r\nv7.5.1 -2022/12/31\r\n\r\n—— 修复 ——\r\n- [x] [人物] 修复了封面无法加载的问题\r\n- [x] [空间] 修复了有概率致命错误问题\r\n\r\n****\r\n\r\nv7.5.0 -2022/12/31\r\n\r\n—— 新增 ——\r\n- [x] [本地备份] 实现导出、导入 CSV 功能（发现页面进入，导入 CSV 功能很多功能可能尚未验证，会在未来几个版本内完善）\r\n\r\n—— 优化 ——\r\n- [x] [首页进度] 优化了多季度番剧放送信息数字的显示\r\n- [x] [空间] 追加网页新增的评分统计块\r\n- [x] 条目管理框中标签改为多行展示\r\n- [x] [帖子] 首次进入帖子会主动获取收藏数\r\n- [x] [标签] 列表加入了按标注数排序\r\n- [x] [资讯] 文章现在可以选择使用内置浏览器打开\r\n\r\n—— 修复 ——\r\n- [x] 修复了条目封面加载失败的问题（使用源站点图片会比以前更加清晰，但是可能要等大多数人用上了加载速度才会变快）\r\n- [x] [每日放送] 修复了数据没更新的问题\r\n- [x] [索引] 修复年月份选择有时会计算错误的问题"
+        },
+        {
+          "version": "7.1.0",
+          "buildVersion": "1",
+          "date": "2022-09-24T23:58:19Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/7.1.0/bangumi_v7.1.0_archive.ipa",
+          "size": 120740913,
+          "sha256": "bef47b264a199ff126994d06302606b64baf6a4f4c97370985d8f13116983ac1",
+          "localizedDescription": "[🌟带图片的详细更新说明](https://www.yuque.com/docs/share/dd735b99-c539-41e5-9cb9-760f9de0e9aa)\r\n\r\n[📥64位包 v8a APK](https://github.com/czy0729/Bangumi/releases/download/7.1.0/bangumi_v7.1.0_arm64-v8a.apk) | [📥老旧设备尝试使用 v7a APK](https://github.com/czy0729/Bangumi/releases/download/7.1.0/bangumi_v7.1.0_armeabi-v7a.apk) | [📥蓝奏云](https://czy0729.lanzouv.com/iX3NP0cb144d)\r\n\r\n[🍏AltStore 侧载说明](https://www.yuque.com/docs/share/bee48c76-1c1e-4e77-a295-692cdc758610)  | [📥侧载 IPA 下载](https://github.com/czy0729/Bangumi/releases/download/7.1.0/bangumi_v7.1.0_archive.ipa) | [📥AWS 2022/10/28 过期](https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/ios/%40bgm-ios-test/bangumi-pro-15477313-bfcf-4147-98e8-51d174b495e5-archive.ipa)\r\n\r\n最新说明：使用 IPA 的用户，若出现图片加载不出来的情况，请到设置 → 缓存 → 打开 [iOS使用系统默认图片缓存策略]\r\n\r\n[📥WIN11 WSA 子系统 APK](https://github.com/czy0729/Bangumi/releases/download/7.1.0/bangumi_v7.1.0_x86_64.apk)\r\n\r\n[📝开发计划](https://adaptable-playroom-795.notion.site/2f26b642dc714c4ca4d3e8701072c591?v=fe42d34dbb354e28b5221078780f93bd)\r\n\r\nv7.1.0 - 2022/09/25\r\n\r\n—— 新增 ——\r\n\r\n- [x] [发现] 找条目功能重构 (更新了更多的数据、更合理的分类等，具体细节请进入页面使用查看)\r\n- [x] 条目未放送的章节按钮，支持添加放送提醒到手机日历 (暂安卓 only)\r\n\r\n—— 优化 ——\r\n\r\n- [x] [人物] 以京都动画人物页面卡顿为基准，单独优化\r\n- [x] [条目] 标签增加了可以直接跳转到〔找条目〕对应筛选条件的逻辑\r\n- [x] 大量减少了打包到 APP 里面的静态数据，减少安卓内存溢出闪退\r\n\r\n—— 修复 ——\r\n\r\n- [x] 修复了默认头像用户自定义 APP 头像后，所有默认头像都为自己的问题\r\n- [x] 修复了若干已知问题"
+        },
+        {
+          "version": "7.0.0",
+          "buildVersion": "1",
+          "date": "2022-09-08T14:38:42Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/7.0.0/bangumi_v7.0.0_archive.ipa",
+          "size": 120577584,
+          "sha256": "0d2bf3a85e0043689600fa5d519dfe189bb665c1908a4c6e942dde077e208424",
+          "localizedDescription": "见 7.0.1"
+        },
+        {
+          "version": "6.9.0",
+          "buildVersion": "1",
+          "date": "2022-08-28T13:27:00Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/6.9.0/bangumi_v6.9.1_archive.ipa",
+          "size": 120578957,
+          "sha256": "9cef220ddefcf6e4024e8317154d7a7953d5fc685a1828c781e4b31229355f5d",
+          "localizedDescription": "本次更新都是一些不痛不痒的优化，并没有什么新功能。\r\n安装更新后若出现首页进度没有章节数据的情况，可以尝试重新冷启动。\r\n计划在 7.0 前尝试把底层框架升级了，目前安卓版本还在用 2 年前的版本，也许到时性能有质的上升。\r\n\r\n[🌟带图片的详细更新说明](https://www.yuque.com/docs/share/dcd8c5cd-c37d-439c-bc75-aa134a91f4f9)\r\n\r\n[📥64位包 v8a APK](https://github.com/czy0729/Bangumi/releases/download/6.9.0/bangumi_v6.9.0_arm64-v8a-release.apk) | [📥老旧设备尝试使用全平台兼容 universal APK](https://github.com/czy0729/Bangumi/releases/download/6.9.0/bangumi_v6.9.0_universal-release.apk) | [📥蓝奏云](https://czy0729.lanzouv.com/iYT450aguqkd)\r\n\r\n[🍏AltStore 侧载说明](https://www.yuque.com/docs/share/bee48c76-1c1e-4e77-a295-692cdc758610)  | [📥侧载 IPA 下载](https://github.com/czy0729/Bangumi/releases/download/6.9.1/bangumi_v6.9.1_archive.ipa) | [📥AWS 2022/10/05 过期](https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/ios/%40bgm-ios-test/bangumi-pro-f549773a-2b98-4210-a3e1-4227ec0cbec6-archive.ipa)\r\n\r\n[📝开发计划](https://adaptable-playroom-795.notion.site/2f26b642dc714c4ca4d3e8701072c591?v=fe42d34dbb354e28b5221078780f93bd)\r\n\r\nv6.9.0 - 2022/08/28\r\n\r\n—— 新增 ——\r\n\r\n- [x] [目录详情] 优化 UI，修复过往没有预期的功能，支持在列表里面管理条目\r\n\r\n—— 优化 ——\r\n\r\n- [x] [电波提醒] 优化了列表样式\r\n- [x] [进度] 修复了游戏置顶无效的问题\r\n- [x] [进度] 设置支持条目项一直显示放送时间\r\n- [x] [搜索] 现在预搜索还支持条目别名\r\n- [x] [设置] 部分设置补充图片说明\r\n- [x] [设置] 付费CDN高清封面功能支持试用\r\n- [x] [设置] 现在清除数据缓存不会清除用户主动自定义的数据\r\n- [x] [设置] 同步设置目前还会同步用户自定义放送数据到云端\r\n- [x] [超展开设置] 新增楼层内容加宽展示 (默认不开启)\r\n- [x] [索引] 默认以日期排序\r\n- [x] [网络探针] 会同时 ping 自定义的源头\r\n\r\n—— 修复 ——\r\n\r\n- [x] [搜索] 修复了三次元搜索结果不符合预期的问题\r\n- [x] [人物] 修复了人物评论没有获取最新的问题\r\n- [x] [条目] 修复了部分条目只能获取第一页吐槽的问题（例如：阿基拉）\r\n- [x] [iOS] 重写了图片缓存逻辑，针对部分使用 ipa 加载不了图片的用户\r\n- [x] [iOS] 优化了 iOS 5 6 7 8 的顶部和底栏高度\r\n- [x] [iOS] 优化了授权过期的提示, 修复了 iOS 提示位置错误导致看不见的问题"
+        },
+        {
+          "version": "6.8.0",
+          "buildVersion": "1",
+          "date": "2022-08-16T14:17:46Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/6.8.0/bangumi_v6.8.0_archive.ipa",
+          "size": 120583721,
+          "sha256": "8edd85ff79722289273a44d2bda668f01ab135fb0f47cc9e554264089c32b92e",
+          "localizedDescription": "因引入了字体，所以打包后体积有变大，问题不大，请放心食用。\r\n\r\n[🌟带图片的详细更新说明](https://www.yuque.com/docs/share/6fb91732-87ec-4f5d-911b-c0de21fc6e47)\r\n\r\n[📥64位包 v8a APK](https://github.com/czy0729/Bangumi/releases/download/6.8.0/bangumi_v6.8.0_arm64-v8a-release.apk) | [📥老旧设备尝试使用全平台兼容 universal APK](https://github.com/czy0729/Bangumi/releases/download/6.8.0/bangumi_v6.8.0_universal-release.apk) | [📥蓝奏云](https://czy0729.lanzouv.com/igAJq09nv0gf)\r\n\r\n[🍏AltStore 侧载说明](https://www.yuque.com/docs/share/bee48c76-1c1e-4e77-a295-692cdc758610)  | [📥侧载 IPA 下载](https://github.com/czy0729/Bangumi/releases/download/6.8.0/bangumi_v6.8.0_archive.ipa) (已实机测试图片可加载) | [📥AWS 2022/09/18 过期](https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/ios/%40bgm-ios-test/bangumi-pro-dce7478e-83bf-4d51-bfbb-4b8575080851-archive.ipa)\r\n\r\n[📝开发计划](https://adaptable-playroom-795.notion.site/2f26b642dc714c4ca4d3e8701072c591?v=fe42d34dbb354e28b5221078780f93bd)\r\n\r\nv6.8.0 - 2022/08/16\r\n\r\n—— 新增 ——\r\n\r\n- [x] [系统] 为了有统一观感，尝试使用字体（可在设置关闭以不使用默认字体）\r\n- [x] [帖子] 楼层内容猜测条目功能迭代，为了减少跳转动作影响看帖，现点击会先跳出缩略信息框（可在超展开设置里关闭）\r\n- [x] [时间胶囊] 现点击条目文字会先跳出缩略信息框（可在设置里关闭）\r\n\r\n—— 优化 ——\r\n\r\n- [x] [条目] 音乐类现在会尝试寻找相关 MV 视频预览\r\n- [x] [底栏] 重新实现点击滚动回顶并刷新\r\n- [x] [个人设置] 功能迭代，优化了自定义头像和背景的逻辑\r\n- [x] [帖子] 修复了楼层中部分第三方图片地址不能正常加载的问题\r\n- [x] [帖子] 优化了大楼层的帖子的渲染\r\n- [x] [设置] 优化了片假名终结者的样式\r\n- [x] [设置] 新增了部分源头数据\r\n- [x] [bilibili同步] 修复了不能同步的问题\r\n- [x] [iOS] 优化了展开菜单可能会看不全的问题\r\n\r\n—— 修复 ——\r\n\r\n- [x] [人物] 修复了首页进入页面人物大图不加载的问题\r\n- [x] 修复了大部分头像加载失败的问题"
+        },
+        {
+          "version": "6.6.0",
+          "buildVersion": "1",
+          "date": "2022-07-18T14:17:28Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/6.6.0/bangumi_v6.6.0_archive.ipa",
+          "size": 105588383,
+          "sha256": "13028c97f66f14c9f12410b1cad8725f726b608c9cc3d11b4f103568ac930ada",
+          "localizedDescription": "64位包 [v8a APK](https://github.com/czy0729/Bangumi/releases/download/6.6.0/bangumi_v6.6.0_arm64-v8a-release.apk)\r\n\r\n老旧设备尝试使用全平台兼容 [universal APK](https://github.com/czy0729/Bangumi/releases/download/6.6.0/bangumi_v6.6.0_universal-release.apk)\r\n\r\n其他渠道 [蓝奏云](https://czy0729.lanzouq.com/iWpDW080txkb)\r\n\r\n[AltStore 侧载](https://www.yuque.com/docs/share/bee48c76-1c1e-4e77-a295-692cdc758610) | [侧载 IPA 下载](https://github.com/czy0729/Bangumi/releases/download/6.6.0/bangumi_v6.6.0_archive.ipa) | [iOS 上当前能使用的方法](https://www.yuque.com/docs/share/833b5391-4887-485d-97f3-c0416f7b46e3)\r\n\r\n[语雀文档](https://www.yuque.com/books/share/f1de00d5-cda4-410e-a600-5b953b447ff2) | [开发中](https://adaptable-playroom-795.notion.site/2f26b642dc714c4ca4d3e8701072c591?v=fe42d34dbb354e28b5221078780f93bd) | [功能投票2] 编辑中\r\n\r\nv6.6.0 - 2022/07/18\r\n\r\n本次更新大幅度重构了首页收藏页面，碰到怀疑 bug 请反馈，若有问题请先重新登录看看。\r\n\r\n—— 新增 ——\r\n\r\n- [x] [首页收藏] 重构整个功能页面, 单个类型 Tab 会员支持最大 100 个条目 (高级用户 300 个), 改用分页加速渲染\r\n\r\n—— 优化 ——\r\n\r\n- [x] 条目和帖子页面初次进入会使用私有服务器缓存数据 (原理是一用户本地算完的页面脱敏数据上传到云以供下一未到访过的用户秒读取数据渲染页面)\r\n- [x] [设置] 网格布局支持封面设置为长方形\r\n- [x] [设置] 支持页内文本搜索\r\n- [x] [系统] 因观察到 access_token 有可能比 web cookie 更早过期，目前会自动刷新 access_token\r\n\r\n—— 修复 ——\r\n\r\n- [x] 修复了上个版本的内容 (登录状态过期后的表现, 使用底部提示框代替强制退出) 没有正确生效的问题"
+        },
+        {
+          "version": "6.4.2",
+          "buildVersion": "1",
+          "date": "2022-06-07T09:42:52Z",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/6.4.2/bangumi-v6.4.2-archive.ipa",
+          "size": 105551964,
+          "sha256": "e7d7b570f42077b7f6e12bf4b3d0ae0ae5f3c88383e2d8061825266c5f4ccacc",
+          "localizedDescription": "定期维护\r\n\r\n64位包 [v8a APK](https://github.com/czy0729/Bangumi/releases/download/6.4.2/bangumi_v6.4.2_arm64-v8a-release.apk)\r\n\r\n老旧设备尝试使用全平台兼容 [universal APK](https://github.com/czy0729/Bangumi/releases/download/6.4.2/bangumi_v6.4.2_universal-release.apk)\r\n\r\n其他渠道 [蓝奏云](https://czy0729.lanzouq.com/iT2VC061e6sb)\r\n\r\n[AltStore 侧载](https://www.yuque.com/chenzhenyu-k0epm/znygb4/qw4xr3) | [iOS 上当前能使用的方法](https://github.com/czy0729/Bangumi/blob/master/web/IOS-TEST.MD) | [语雀文档](https://www.yuque.com/chenzhenyu-k0epm/znygb4/csic9v) | [开发中](https://adaptable-playroom-795.notion.site/2f26b642dc714c4ca4d3e8701072c591?v=fe42d34dbb354e28b5221078780f93bd) | [功能投票](https://wj.qq.com/s2/9645600/92c2)\r\n\r\nv6.4.2 - 2022/06/07\r\n\r\n—— 修复 ——\r\n- [x] 修复了若干已知问题"
         }
       ]
     }
