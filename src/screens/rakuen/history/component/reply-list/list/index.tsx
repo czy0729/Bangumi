@@ -6,12 +6,10 @@
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { observer } from 'mobx-react'
-import { Flex, Mesume, Text } from '@components'
-import { PaginationList } from '@_'
+import { EmptyCompact, PaginationList } from '@_'
 import { _, useStore } from '@stores'
 import { keyExtractor, renderItem } from './utils'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
 
 import type { ListViewScrollMethods } from '@components'
 import type { GroupItem } from '@stores/rakuen/types'
@@ -66,16 +64,7 @@ function List() {
     if (isEmpty) listRef.current = null
   }, [isEmpty])
 
-  if (isEmpty) {
-    return (
-      <Flex style={styles.empty} direction='column' justify='center'>
-        <Mesume />
-        <Text style={_.mt.sm} type='sub'>
-          好像什么都没有
-        </Text>
-      </Flex>
-    )
-  }
+  if (isEmpty) return <EmptyCompact />
 
   return (
     <PaginationList

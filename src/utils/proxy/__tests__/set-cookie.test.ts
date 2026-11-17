@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-09-14 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-14 12:00:00
+ * @Last Modified time: 2026-11-17 06:34:57
  */
-import { parseSetCookieHeader, parseSetCookieItems } from '../set-cookie'
+import { parseSetCookieHeader, parseSetCookieItems, pickSetCookie } from '../set-cookie'
 
 describe('parseSetCookieHeader', () => {
   it('优先读节点输出的合并头 x-set-cookie', () => {
@@ -75,5 +75,38 @@ describe('parseSetCookieItems', () => {
   it('空片段与无 = 的片段被忽略', () => {
     expect(parseSetCookieItems({ 'set-cookie': ['', 'garbage'] })).toEqual([])
     expect(parseSetCookieItems()).toEqual([])
+  })
+})
+
+describe('pickSetCookie', () => {
+  const KEYS = ['__cfduid', 'chii_sid', 'chii_sec_id', 'chii_cookietime', 'chii_auth']
+
+  it('按精确键名取白名单, 属性丢弃, 值保持原样', () => {
+    expect(
+      pickSetCookie(
+        {
+          'set-cookie': [
+            '__cfduid=xyz; path=/; expires=Sun, 20-Sep-2026 23:33:56 GMT',
+            'chii_sid=aaa; path=/',
+            'chii_auth=Prd%2Fbbb; path=/; secure',
+            '__utmz=tracking; path=/'
+          ]
+        },
+        KEYS
+      )
+    ).toBe('__cfduid=xyz; chii_sid=aaa; chii_auth=Prd%2Fbbb')
+  })
+
+  it('白名单无命中时返回空串', () => {
+    expect(pickSetCookie({ 'set-cookie': ['other=1'] }, KEYS)).toBe('')
+  })
+
+  it('keys 为空时直接返回空串', () => {
+    expect(pickSetCookie({ 'set-cookie': ['chii_sid=aaa'] }, [])).toBe('')
+  })
+
+  it('无 headers 时返回空串', () => {
+    expect(pickSetCookie(undefined, KEYS)).toBe('')
+    expect(pickSetCookie({}, KEYS)).toBe('')
   })
 })

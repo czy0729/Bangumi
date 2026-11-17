@@ -2,14 +2,14 @@
  * @Author: czy0729
  * @Date: 2025-02-14 04:45:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:13:30
+ * @Last Modified time: 2026-11-17 06:10:51
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { ActionSheet, Flex, Text } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { desc, stl } from '@utils'
+import { clamp, desc, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { useBoolean } from '@utils/hooks'
 import typeScore from '@assets/json/type_score_distribution.json'
@@ -42,8 +42,6 @@ function VibTrend() {
 
   const vibValue = Number(vib.avg)
   const vibLabel = Number.isFinite(vibValue) ? vibValue.toFixed(1) : 'N/A'
-
-  const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
 
   const renderBar = ([score, count]: [string, number]) => {
     const height = clamp(Math.floor((count / max) * 100), 2, 100)

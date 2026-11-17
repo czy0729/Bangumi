@@ -1,12 +1,10 @@
 /*
  * @Author: czy0729
  * @Date: 2026-09-04 19:22:04
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-09-04 19:22:04
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-11-17 05:38:10
  */
-function pad(n: number): string {
-  return n < 10 ? `0${n}` : `${n}`
-}
+import { pad } from '../../utils/base'
 
 /** ISO-8601 周序号 (周一为一周起点, 含首个周四的年份为归属年) */
 function getISOWeek(y: number, m: number, d: number): number {

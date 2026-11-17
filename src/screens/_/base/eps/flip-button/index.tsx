@@ -2,29 +2,20 @@
  * @Author: czy0729
  * @Date: 2023-03-02 20:50:58
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-25 20:21:06
+ * @Last Modified time: 2026-11-17 07:00:05
  */
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { View } from 'react-native'
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming
-} from 'react-native-reanimated'
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { observer } from 'mobx-react'
 import { Button } from '@components'
+import { CONFIG, PERSPECTIVE } from '@components/flip/ds'
 import { _ } from '@stores'
 import { feedback, urlStringify } from '@utils'
 import { IOS } from '@constants'
 
 import type { Props } from './types'
 
-const perspective = 2400
-const config = {
-  duration: 480,
-  easing: Easing.inOut(Easing.ease)
-}
 let feedbacked = false
 
 function FlipBtn({ style, styleText, type, text, onAnimated }: Props) {
@@ -68,14 +59,14 @@ function FlipBtn({ style, styleText, type, text, onAnimated }: Props) {
           feedbacked = true
           setTimeout(() => {
             feedbacked = false
-          }, config.duration)
+          }, CONFIG.duration)
         }
 
         activeRef.value = 1
 
         setTimeout(() => {
           onAnimated()
-        }, config.duration)
+        }, CONFIG.duration)
       }, 240)
     }
   }, [animate, beforeProps, defaultProps, activeRef, onAnimated])
@@ -93,11 +84,11 @@ function FlipBtn({ style, styleText, type, text, onAnimated }: Props) {
         : '90deg'
 
       return {
-        opacity: withTiming(isBefore ? 1 - activeRef.value : activeRef.value, config),
+        opacity: withTiming(isBefore ? 1 - activeRef.value : activeRef.value, CONFIG),
         transform: [
-          { perspective },
-          { rotateX: withTiming(rotate, config) },
-          { translateY: withTiming(-activeRef.value * height, config) }
+          { perspective: PERSPECTIVE },
+          { rotateX: withTiming(rotate, CONFIG) },
+          { translateY: withTiming(-activeRef.value * height, CONFIG) }
         ]
       } as const
     })

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-11-16 10:20:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-16 10:20:00
+ * @Last Modified time: 2026-11-17 06:59:54
  *
  * 提交按钮翻面: 提交成功后文案变为最新真实收藏状态, 翻面 + 震动
  * 动画模式与 eps/flip-button 一致 (240ms 延迟 → feedback → 480ms rotateX)
@@ -10,25 +10,15 @@
  */
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { View } from 'react-native'
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming
-} from 'react-native-reanimated'
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { observer } from 'mobx-react'
 import { Button } from '@components'
+import { CONFIG, PERSPECTIVE } from '@components/flip/ds'
 import { _ } from '@stores'
 import { feedback, getType, urlStringify } from '@utils'
 import { IOS } from '@constants'
 
 import type { FlipBtnProps } from './types'
-
-const perspective = 2400
-const config = {
-  duration: 480,
-  easing: Easing.inOut(Easing.ease)
-}
 
 /** 控制 feedback 只触发一次 */
 let feedbacked = false
@@ -66,7 +56,7 @@ function FlipBtn({ style, disabled, flipLabel, onSubmit }: FlipBtnProps) {
           feedbacked = true
           setTimeout(() => {
             feedbacked = false
-          }, config.duration)
+          }, CONFIG.duration)
         }
 
         activeRef.value = 1
@@ -78,11 +68,11 @@ function FlipBtn({ style, disabled, flipLabel, onSubmit }: FlipBtnProps) {
     const rotate = IOS ? '0deg' : activeRef.value ? '90deg' : '0deg'
 
     return {
-      opacity: withTiming(1 - activeRef.value, config),
+      opacity: withTiming(1 - activeRef.value, CONFIG),
       transform: [
-        { perspective },
-        { rotateX: withTiming(rotate, config) },
-        { translateY: withTiming(-activeRef.value * height, config) }
+        { perspective: PERSPECTIVE },
+        { rotateX: withTiming(rotate, CONFIG) },
+        { translateY: withTiming(-activeRef.value * height, CONFIG) }
       ]
     } as const
   })
@@ -91,11 +81,11 @@ function FlipBtn({ style, disabled, flipLabel, onSubmit }: FlipBtnProps) {
     const rotate = IOS ? '0deg' : activeRef.value ? '0deg' : '90deg'
 
     return {
-      opacity: withTiming(activeRef.value, config),
+      opacity: withTiming(activeRef.value, CONFIG),
       transform: [
-        { perspective },
-        { rotateX: withTiming(rotate, config) },
-        { translateY: withTiming(-activeRef.value * height, config) }
+        { perspective: PERSPECTIVE },
+        { rotateX: withTiming(rotate, CONFIG) },
+        { translateY: withTiming(-activeRef.value * height, CONFIG) }
       ]
     } as const
   })

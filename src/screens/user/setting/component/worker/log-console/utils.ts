@@ -4,12 +4,9 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-06-20 22:46:46
  */
+import { date } from '@utils'
 
-/** 格式化时间 */
+/** 格式化时间 (HH:mm:ss, ts 为毫秒时间戳) */
 export function formatTime(ts: number): string {
-  const d = new Date(ts)
-  const h = String(d.getHours()).padStart(2, '0')
-  const m = String(d.getMinutes()).padStart(2, '0')
-  const s = String(d.getSeconds()).padStart(2, '0')
-  return `${h}:${m}:${s}`
+  return date('H:i:s', Math.floor(ts / 1000))
 }

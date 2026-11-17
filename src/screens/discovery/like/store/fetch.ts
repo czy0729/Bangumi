@@ -16,7 +16,7 @@ import { CDN_REC, MODEL_SUBJECT_TYPE } from '@constants'
 import { MAX_COLLECT_PAGE, TIME_PATTERN } from '../ds'
 import { calc, dayDiff, getTyperankRelates, matchYear, mergeArrays } from '../utils'
 import Computed from './computed'
-import { COLLECTION_STATUS, EXCLUDE_STATE } from './ds'
+import { COLLECTION_STATUS_PAGES, EXCLUDE_STATE } from './ds'
 
 import type { ResponseV0UserCollections, SubjectId } from '@types'
 import type { CollectionsItem, LikeItem, ListItem, Relates, SubjectSnapshot } from '../types'
@@ -101,7 +101,7 @@ export default class Fetch extends Computed {
     const subjectTypeValue = MODEL_SUBJECT_TYPE.getValue(this.state.type)
     const list: ResponseV0UserCollections['data'][] = []
     try {
-      for (const item of COLLECTION_STATUS) {
+      for (const item of COLLECTION_STATUS_PAGES) {
         for (let i = 1; i <= item.page; i += 1) {
           const response = await request<ResponseV0UserCollections>(
             API_COLLECTIONS(this.userId, subjectTypeValue, i, 100, item.value),

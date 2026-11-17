@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-18 16:30:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-18 16:30:00
+ * @Last Modified time: 2026-11-17 06:08:00
  */
 
 // 可变的 theme / setting 状态, 便于用例切换
@@ -70,9 +70,16 @@ jest.mock('@constants', () => ({
   WEB: false
 }))
 
+const mockMapStringLeaves = (children, transform) => {
+  if (typeof children === 'string') return transform(children)
+  if (Array.isArray(children)) return children.map(item => mockMapStringLeaves(item, transform))
+  return children
+}
+
 jest.mock('@utils', () => ({
   setDefaultProps: jest.fn(),
-  titleCase: str => (str ? str[0].toUpperCase() + str.slice(1) : str)
+  titleCase: str => (str ? str[0].toUpperCase() + str.slice(1) : str),
+  mapStringLeaves: mockMapStringLeaves
 }))
 
 jest.mock('@utils/thirdParty/open-cc', () => ({

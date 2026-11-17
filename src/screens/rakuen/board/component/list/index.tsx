@@ -8,12 +8,12 @@
  */
 import { useCallback, useEffect, useState } from 'react'
 import { observer } from 'mobx-react'
-import { Flex, ListView, Mesume, Text } from '@components'
+import { ListView } from '@components'
+import { EmptyCompact } from '@_'
 import { _, useStore } from '@stores'
 import { LIST_EMPTY } from '@constants'
 import Item from '../item'
 import { COMPONENT, ENTERING_ANIMATIONS_NUM } from './ds'
-import { styles } from './styles'
 
 import type { Board, BoardItem } from '@stores/rakuen/types'
 import type { RenderItem } from '@types'
@@ -32,16 +32,7 @@ function List() {
   const handleKeyExtractor = useCallback((item: BoardItem) => item.href, [])
 
   const { list, _loaded } = $.board
-  if (ready && _loaded && !list.length) {
-    return (
-      <Flex style={styles.empty} direction='column' justify='center'>
-        <Mesume />
-        <Text style={_.mt.sm} type='sub'>
-          好像什么都没有
-        </Text>
-      </Flex>
-    )
-  }
+  if (ready && _loaded && !list.length) return <EmptyCompact />
 
   return (
     <ListView

@@ -4,14 +4,14 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-16 22:31:19
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex } from '@components/flex'
 import { SafeAreaBottom } from '@components/safe-area-bottom'
 import { BlurView } from '@_/base/blur-view'
 import { _ } from '@stores'
+import { stl } from '@utils'
 import { IOS } from '@constants'
-import { routesConfig } from './config'
+import { TAB_CONFIG_BY_NAME } from './config'
 import TabBarItem, { EVENT_APP_TAB_PRESS } from './item'
 import { styles } from './styles'
 
@@ -24,7 +24,7 @@ function TabBar({ state, descriptors, navigation }: Props) {
   if (focusedOptions.tabBarVisible === false) return null
 
   return (
-    <SafeAreaBottom style={_.ios(styles.tabBar, undefined)} type={_.ios('height', 'bottom')}>
+    <SafeAreaBottom style={stl(IOS && styles.tabBar)} type={_.ios('height', 'bottom')}>
       <Flex style={styles.tabBar} align={_.ios('start', 'center')}>
         {IOS && <BlurView style={_.absoluteFill} />}
         {state.routes.map((route, index: number) => (
@@ -33,7 +33,7 @@ function TabBar({ state, descriptors, navigation }: Props) {
             navigation={navigation}
             route={route}
             length={state.routes.length}
-            config={routesConfig[route.name]}
+            config={TAB_CONFIG_BY_NAME[route.name]}
             isFocused={state.index === index}
           />
         ))}

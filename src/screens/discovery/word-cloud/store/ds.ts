@@ -77,8 +77,8 @@ export const STATE = {
   _loaded: false as Loaded
 }
 
-/** 获取用户收藏配置 */
-export const COLLECTION_STATUS = [
+/** 各收藏状态最多抓取的页数 (词云抽样预算, 每页 100 条; 与 like 的预算是各自的调参, 并非同一张表) */
+export const COLLECTION_STATUS_PAGES = [
   {
     value: MODEL_COLLECTION_STATUS.getTitle<CollectionStatusValue>('想看'),
     page: 2

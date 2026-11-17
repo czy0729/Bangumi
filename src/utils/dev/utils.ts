@@ -2,8 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-09-29 20:22:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-31 00:57:41
+ * @Last Modified time: 2026-11-17 05:38:12
  */
+import { pad } from '../utils/base'
 
 /* ------------------------------------
  * 循环引用
@@ -29,11 +30,6 @@ export function handleCircular(): (key: string, value: unknown) => unknown {
 /* ------------------------------------
  * 时间
  * ------------------------------------ */
-
-/** 补零 */
-function pad(n: string | number): string {
-  return +n < 10 ? `0${n}` : `${n}`
-}
 
 /** 当前时间戳字符串 (HH:mm:ss) */
 export function now() {

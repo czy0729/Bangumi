@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-10-07 06:37:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-17 07:33:35
+ * @Last Modified time: 2026-11-17 06:10:48
  */
 import { Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
@@ -18,11 +18,11 @@ import { asc } from './sort'
 import { log } from './utils'
 
 export { asc, compare, desc } from './sort'
-export { getSubjectId, pad, safeObject, shortTime, titleCase, trim } from './base'
+export { clamp, getSubjectId, pad, safeObject, shortTime, titleCase, trim } from './base'
 export * from '../thirdParty/date'
 export * from './relative-time'
 
-import type { ComponentType } from 'react'
+import type { ComponentType, ReactNode } from 'react'
 import type { TimerRef } from '@types'
 
 /**
@@ -55,6 +55,20 @@ export function setDefaultProps<T extends ComponentType<Record<string, unknown>>
   }
 
   return Component
+}
+
+/** 递归映射 React 子节点中的字符串叶子 (数组逐层下钻, 其余类型原样返回) */
+export function mapStringLeaves(
+  children: ReactNode,
+  transform: (text: string) => string
+): ReactNode {
+  if (typeof children === 'string') return transform(children)
+
+  if (Array.isArray(children)) {
+    return (children as ReactNode[]).map(item => mapStringLeaves(item, transform))
+  }
+
+  return children
 }
 
 /** 深拷贝 */

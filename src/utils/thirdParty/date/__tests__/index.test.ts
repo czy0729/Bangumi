@@ -1,8 +1,8 @@
 /*
  * @Author: czy0729
  * @Date: 2026-05-10 17:24:06
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-05-10 17:24:06
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-11-17 06:55:38
  */
 import { date, getTimestamp, toCN, toJP } from '../index'
 
@@ -53,9 +53,26 @@ describe('date', () => {
   })
 
   it('单参数模式: 第一个参数作为 timestamp', () => {
-    const timestamp = Math.floor(Date.now() / 1000)
-    const result = date('Y-m-d H:i:s', timestamp)
-    expect(result).toMatch(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/)
+    const timestamp = Math.floor(new Date('2024-06-01T00:00:00Z').getTime() / 1000)
+    expect(date(timestamp)).toBe(date('Y-m-d H:i:s', timestamp))
+  })
+
+  it('timestamp 为 0 不触发参数交换, 按 epoch 格式化', () => {
+    const d = new Date(0)
+    const ymd = [
+      d.getFullYear(),
+      String(d.getMonth() + 1).padStart(2, '0'),
+      String(d.getDate()).padStart(2, '0')
+    ].join('-')
+    expect(date('Y-m-d', 0)).toBe(ymd)
+  })
+
+  it('无参调用使用当前时间 (默认格式)', () => {
+    expect(date()).toMatch(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/)
+  })
+
+  it('timestamp 为 NaN 输出 NaN 串 (非法输入不静默)', () => {
+    expect(date('Y-m-d', NaN)).toMatch(/^NaN/)
   })
 })
 

@@ -28,8 +28,8 @@ export function useCloudText() {
         if (!id) return
 
         const data = await get<ResultData>(`origin_${id}`)
-        if (data) {
-          setText(date('y-m-d H:i', data?.ts))
+        if (data?.ts) {
+          setText(date('y-m-d H:i', data.ts))
         }
       } catch {}
     }, 2400)

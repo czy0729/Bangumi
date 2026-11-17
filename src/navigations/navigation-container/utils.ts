@@ -7,7 +7,7 @@
 import { useEffect, useRef } from 'react'
 import { _ } from '@stores'
 import { IOS } from '@constants'
-import { DEV } from '@src/config'
+import { DEV, ROUTE_HOME_TAB } from '@src/config'
 
 import type { Theme } from '@react-navigation/native'
 import type { Navigation } from '@types'
@@ -65,7 +65,7 @@ export function useNavigationRef() {
 }
 
 function convertToPath(path: string): string {
-  if (path === 'HomeTab') return 'home/v2'
+  if (path === ROUTE_HOME_TAB) return 'home/v2'
   if (path === 'Subject') return 'home/subject'
 
   const convertedStr = path.replace(/([A-Z])/g, '/$1').toLowerCase()

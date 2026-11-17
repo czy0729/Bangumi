@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-30 06:28:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-14 23:16:34
+ * @Last Modified time: 2026-11-17 06:34:48
  */
 export { applyProxy } from './apply'
 export { applyProxyToAxiosConfig, axiosWithProxy, axiosWithProxyRedirect } from './axios'
@@ -17,7 +17,12 @@ export {
   getRedirectFromXhr,
   parseOAuthCode
 } from './redirect'
-export { normalizeSetCookie, parseSetCookieHeader, parseSetCookieItems } from './set-cookie'
+export {
+  normalizeSetCookie,
+  parseSetCookieHeader,
+  parseSetCookieItems,
+  pickSetCookie
+} from './set-cookie'
 export { getProxyStrategy } from './strategy'
 export { addWorkerLog } from './worker-log'
 

@@ -23,8 +23,8 @@ export function useCloud() {
         if (!id) return
 
         const data = await get<ResultData>(`setting_${id}`)
-        if (data) {
-          setText(date('y/m/d H:i', data?.ts))
+        if (data?.ts) {
+          setText(date('y/m/d H:i', data.ts))
         }
       } catch {}
     }, 2400)

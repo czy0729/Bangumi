@@ -43,7 +43,8 @@ export const RELATIONS = [
   // '三次元'
 ] as const
 
-export const SUBJECT_TYPE = 2
+/** 衍生作品页固定抓取动漫条目 (类型值 2) */
+export const SUBJECT_TYPE_ANIME = 2
 
 /** 条目信息占位 */
 export const SUBJECT_ITEM: SubjectItem = {

@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-08-29 21:20:17
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Text, Touchable } from '@components'
 import { Popover } from '@_'
@@ -13,14 +13,18 @@ import { alert, feedback, info, open } from '@utils'
 import { t } from '@utils/fetch'
 import { useNavigation } from '@utils/hooks'
 import { APP_ID_SAY_TINYGRAIL, WEB } from '@constants'
+import { ROUTE_HOME_TAB } from '@src/config'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+
+import type { Paths } from '@types'
 
 function Footer() {
   const navigation = useNavigation(COMPONENT)
 
   const memoMenu = useMemo(() => {
-    const jump = (to: any, params: any = {}, title: string) => {
+    const jump = (to: Paths, params: Record<string, unknown> = {}, title: string) => {
+      // @ts-ignore
       navigation.push(to, params)
       t('小圣杯.跳转', { to, title })
     }
@@ -85,7 +89,7 @@ function Footer() {
               if (!routes?.length) return
 
               // 若在首屏操作, 则先推进 Tinygrail 页面再更新设置
-              const isFromHomeTab = !routes[0].key.startsWith('HomeTab')
+              const isFromHomeTab = !routes[0].key.startsWith(ROUTE_HOME_TAB)
               if (isFromHomeTab) navigation.push('Tinygrail')
 
               setTimeout(() => {

@@ -12,7 +12,7 @@ import { get, update } from '@utils/kv'
 import dayjs from '@utils/thirdParty/dayjs'
 import { D, DEV, MODEL_SUBJECT_TYPE } from '@constants'
 import Computed from './computed'
-import { COLLECTION_STATUS } from './ds'
+import { COLLECTION_STATUS_PAGES } from './ds'
 
 import type { Loaded } from '@types'
 import type { Collection } from '@utils/fetch.v0/types'
@@ -152,7 +152,7 @@ export default class Fetch extends Computed {
       // 阶段一: 并发拉取每个状态的第一页, 确认各状态 total
       const firstPages =
         (await queue(
-          COLLECTION_STATUS.map(item => async () => {
+          COLLECTION_STATUS_PAGES.map(item => async () => {
             const response = await request<Collection>(
               API_COLLECTIONS(this.userId, subjectTypeValue, 1, 100, item.value),
               undefined,

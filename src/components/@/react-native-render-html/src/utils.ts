@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-09-01 03:00:01
  */
+import { mapStringLeaves } from '@utils/utils'
 import { syncSpacing } from '@utils/async'
 
 import type { ReactElement } from 'react'
@@ -24,9 +25,5 @@ export function optimizeComputeTextStyles(styles: TextStyle) {
 export function formatSpacing(
   children: SpacingChild | SpacingChild[]
 ): SpacingChild | SpacingChild[] {
-  if (typeof children === 'string') return syncSpacing(children)
-
-  if (Array.isArray(children)) return children.map(formatSpacing)
-
-  return children
+  return mapStringLeaves(children, syncSpacing) as SpacingChild | SpacingChild[]
 }

@@ -1,13 +1,18 @@
 /*
  * @Author: czy0729
  * @Date: 2026-08-31 20:16:48
- * @Last Modified by:   czy0729
- * @Last Modified time: 2026-08-31 20:16:48
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-11-17 06:10:50
  */
 
 /** 补零 */
 export function pad(n: string | number): string {
   return +n < 10 ? `0${n}` : `${n}`
+}
+
+/** 数值钳制 */
+export function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max)
 }
 
 /** 安全对象 (用于把请求中的 null 换成 undefined, 减少 ?. 语法出错) */

@@ -2,29 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-08-19 02:49:05
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-02 05:52:07
+ * @Last Modified time: 2026-11-17 06:34:28
  *
  * 游客账号登录流程
  */
 import { getFormhash, getTimestamp, urlStringify } from '@utils'
-import {
-  axiosWithProxy,
-  axiosWithProxyRedirect,
-  parseOAuthCode,
-  parseSetCookieItems
-} from '@utils/proxy'
+import { axiosWithProxy, axiosWithProxyRedirect, parseOAuthCode, pickSetCookie } from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
 import Base64 from '@utils/thirdParty/base64'
 import { APP_ID, APP_SECRET, HOST, URL_OAUTH_REDIRECT } from '@constants'
 
-/** 解析出白名单 cookie (反代/节点可能返回多条 Set-Cookie, 统一取全部) */
-function getCookie(headers: Record<string, unknown> = {}) {
-  const setCookieKeys = ['__cfduid', 'chii_sid', 'chii_sec_id', 'chii_cookietime', 'chii_auth']
-  return parseSetCookieItems(headers)
-    .filter(item => setCookieKeys.includes(item.key))
-    .map(item => `${item.key}=${item.value}`)
-    .join('; ')
-}
+/** 游客登录流程要保留的 cookie 键 (含 Cloudflare 的 __cfduid) */
+const SET_COOKIE_KEYS = ['__cfduid', 'chii_sid', 'chii_sec_id', 'chii_cookietime', 'chii_auth']
 
 export async function getConfig() {
   const ua =
@@ -42,7 +31,7 @@ export async function getConfig() {
     },
     true
   )
-  const cookie = getCookie(headers)
+  const cookie = pickSetCookie(headers, SET_COOKIE_KEYS)
 
   // get captcha
   const { request } = await axiosWithProxy<any>(
@@ -96,7 +85,7 @@ export async function doLogin(
   )
 
   // oauth
-  const loginCookie = getCookie(headers)
+  const loginCookie = pickSetCookie(headers, SET_COOKIE_KEYS)
   const { data } = await axiosWithProxy<any>(
     axios,
     {

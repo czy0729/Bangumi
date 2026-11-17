@@ -12,7 +12,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { urlStringify } from '@utils'
 import { DEV } from '@constants'
 import * as Screens from '@screens'
-import navigationsParams from '@src/config'
+import navigationsParams, { ROUTE_HOME_TAB } from '@src/config'
 import BottomTabNavigator from '../bottom-tab-navigator'
 import NavigationContainer from '../navigation-container'
 import { getOptions, getScreenOptions, Placeholder, useAutoHideSplashScreen } from './utils'
@@ -30,7 +30,7 @@ function NativeStacks({ isLoadingComplete }: { isLoadingComplete: boolean }) {
   const isReady = isLoadingComplete && hideSplashScreen
 
   /** 开发环境且初始路由不是首页 */
-  const isDevNonHomeStart = DEV && initialRouteName !== 'HomeTab'
+  const isDevNonHomeStart = DEV && initialRouteName !== ROUTE_HOME_TAB
 
   /** 开发时跳过首页注册 (此时不能 navigate 到 HomeTab) */
   const skipHomeTab = isDevNonHomeStart && !!initialRouteName
@@ -69,7 +69,7 @@ function NativeStacks({ isLoadingComplete }: { isLoadingComplete: boolean }) {
         screenOptions={getScreenOptions(isFullScreen)}
         initialRouteName={initialRouteName}
       >
-        {!skipHomeTab && <Stack.Screen name='HomeTab' getComponent={handleGetComponent} />}
+        {!skipHomeTab && <Stack.Screen name={ROUTE_HOME_TAB} getComponent={handleGetComponent} />}
         {elScreens}
       </Stack.Navigator>
     </NavigationContainer>

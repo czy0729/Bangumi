@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-10-29 00:00:00
  */
 import { runInAction } from 'mobx'
-import { getTimestamp, removeHTMLTag } from '@utils'
+import { date, getTimestamp, removeHTMLTag } from '@utils'
 import { ensureRecordLimit } from '@utils/cache'
 import { fetchHTML } from '@utils/fetch'
 import { searchEncoreGroupTopics } from '@utils/kv'
@@ -32,11 +32,7 @@ function stripHighlight(text: string) {
 /** 时间戳 (秒, 兼容毫秒) 转 YYYY-MM-DD */
 function formatDate(ts: number) {
   if (!ts) return ''
-
-  const date = new Date(ts > 1e11 ? ts : ts * 1000)
-  return [date.getFullYear(), date.getMonth() + 1, date.getDate()]
-    .map(n => String(n).padStart(2, '0'))
-    .join('-')
+  return date('Y-m-d', ts > 1e11 ? Math.floor(ts / 1000) : ts)
 }
 
 export default class Fetch extends Computed {

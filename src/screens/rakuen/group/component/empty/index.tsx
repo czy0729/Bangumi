@@ -7,10 +7,9 @@
  * 空状态
  */
 import { observer } from 'mobx-react'
-import { Flex, Mesume, Text } from '@components'
-import { _, useStore } from '@stores'
+import { EmptyCompact } from '@_'
+import { useStore } from '@stores'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
@@ -20,14 +19,7 @@ function Empty() {
   const { list, _loaded } = $.group
   if (!_loaded || list.length) return null
 
-  return (
-    <Flex style={styles.empty} direction='column' justify='center'>
-      <Mesume />
-      <Text style={_.mt.sm} type='sub'>
-        好像什么都没有
-      </Text>
-    </Flex>
-  )
+  return <EmptyCompact />
 }
 
 export default observer(Empty)

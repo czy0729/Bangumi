@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-09-14 12:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-14 12:00:00
+ * @Last Modified time: 2026-11-17 06:34:53
  *
  * 响应头 Set-Cookie 解析
  * - 反代/节点可能把多条 Set-Cookie 拆成多值(数组), 也可能折叠成一条合并串
@@ -65,6 +65,21 @@ export function parseSetCookieItems(headers?: Record<string, unknown>): SetCooki
   })
 
   return items
+}
+
+/**
+ * 从响应头取白名单键的 cookie 串 (可直接拼进请求 Cookie 头)
+ * - 与 normalizeSetCookie 的前缀过滤不同, 这里按精确键名过滤 (如需保留 __cfduid 等非 chii_ 键)
+ * - 白名单外的键值对与属性 (Path / Domain / Expires 等) 丢弃
+ * - 无命中时返回空字符串
+ */
+export function pickSetCookie(headers?: Record<string, unknown>, keys: string[] = []): string {
+  if (!keys.length) return ''
+
+  return parseSetCookieItems(headers)
+    .filter(item => keys.includes(item.key))
+    .map(item => `${item.key}=${item.value}`)
+    .join('; ')
 }
 
 /**

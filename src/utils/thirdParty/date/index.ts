@@ -2,10 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-03-12 16:48:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-04 19:20:08
+ * @Last Modified time: 2026-11-17 05:38:07
  */
-import dayjs from '../dayjs'
 import { TIMEZONE_IS_GMT8 } from '@constants/data'
+import { pad } from '../../utils/base'
+import dayjs from '../dayjs'
 
 /**
  * 返回 timestamp
@@ -29,20 +30,17 @@ const DATE_FNS = {
   j: (d: Date) => d.getDate()
 } as const
 
-/** 补零 */
-function pad(n: string | number): string {
-  return +n < 10 ? `0${n}` : `${n}`
-}
-
-/** 简易时间戳格式化函数 */
-export function date(format?: string, timestamp?: any): string {
-  // 假如第二个参数不存在, 第一个参数作为 timestamp
-  if (!timestamp) {
+/** 简易时间戳格式化函数 (秒; 第二参未传时第一参作为 timestamp) */
+export function date(timestamp: number): string
+export function date(format?: string, timestamp?: any): string
+export function date(format?: any, timestamp?: any): string {
+  // 假如第二个参数未传, 第一个参数作为 timestamp (0 是合法时间戳, 不参与交换)
+  if (timestamp === undefined) {
     timestamp = format
     format = 'Y-m-d H:i:s'
   }
 
-  const now = timestamp ? new Date(timestamp * 1000) : new Date()
+  const now = timestamp === undefined ? new Date() : new Date(timestamp * 1000)
   return format.replace(/[\\]?([a-zA-Z])/g, (t, s) =>
     t != s ? s : DATE_FNS[s] ? DATE_FNS[s](now) : s
   )

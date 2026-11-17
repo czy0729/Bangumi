@@ -8,11 +8,11 @@
  */
 import type { Configs } from '@types'
 
-import { DEV } from './dev'
+import { ROUTE_HOME_TAB } from './app'
 
 /** 路由覆盖配置 */
 const CONFIGS: Configs = {
-  initialRouteName: DEV ? 'HomeTab' : 'HomeTab',
+  initialRouteName: ROUTE_HOME_TAB,
   initialRouteParams: {
     // subjectId: 552533
     // topicId: 'group/438017'

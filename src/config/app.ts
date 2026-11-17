@@ -18,6 +18,9 @@ export const INIT_DEV_DARK = ''
 /** BottomTabNavigator 初始路由 */
 export const INIT_ROUTE = 'Home'
 
+/** 根 Stack 首屏名 (包裹 BottomTabNavigator, 由 native-stacks 注册) */
+export const ROUTE_HOME_TAB = 'HomeTab'
+
 /** 是否带字体打包 */
 export const FONT_FAMILY = true
 

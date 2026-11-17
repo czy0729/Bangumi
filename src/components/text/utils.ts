@@ -6,7 +6,7 @@
  */
 import { Text, TextInput } from 'react-native'
 import { _ } from '@stores'
-import { setDefaultProps, titleCase } from '@utils'
+import { mapStringLeaves, setDefaultProps, titleCase } from '@utils'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { spacing } from '@utils/thirdParty/pangu-lite'
 import { IOS, WEB } from '@constants'
@@ -43,20 +43,12 @@ export function computedLineHeight(
 
 /** 文字递归简转繁 */
 export function formatS2T(children: TextProps['children']): ReactNode {
-  if (typeof children === 'string') return s2t(children)
-
-  if (Array.isArray(children)) return (children as ReactNode[]).map(item => formatS2T(item))
-
-  return children
+  return mapStringLeaves(children, s2t)
 }
 
 /** 文字递归文案排版 */
 export function formatSpacing(children: TextProps['children']): ReactNode {
-  if (typeof children === 'string') return spacing(children)
-
-  if (Array.isArray(children)) return (children as ReactNode[]).map(item => formatSpacing(item))
-
-  return children
+  return mapStringLeaves(children, spacing)
 }
 
 /**

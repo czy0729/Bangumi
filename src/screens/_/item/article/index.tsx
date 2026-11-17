@@ -37,7 +37,7 @@ export const ItemArticle = observer(
 
     const styles = memoStyles()
 
-    let time = date('y-m-d', timestamp)
+    let time = timestamp ? date('y-m-d', timestamp) : ''
     if (time.indexOf(`${Y}-`) !== -1) time = time.replace(`${Y}-`, '')
 
     return (

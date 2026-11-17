@@ -4,10 +4,10 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2025-11-13 12:20:46
  */
-import type { IconfontNames, Navigation, Paths } from '@types'
-import type { routesConfig } from './config'
+import type { Navigation, Paths } from '@types'
+import type { BOTTOM_TABS } from './config'
 
-export type RouteNames = keyof typeof routesConfig[]
+export type RouteNames = (typeof BOTTOM_TABS)[number]['name']
 
 export type State = {
   stale: boolean
@@ -37,14 +37,6 @@ export type Descriptors = {
 export type Route = {
   name: Paths
   key: string
-}
-
-export type RoutesConfig = {
-  [key: string]: {
-    icon: IconfontNames
-    size?: number
-    label: string
-  }
 }
 
 export type Props = {

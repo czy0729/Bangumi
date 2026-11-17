@@ -17,6 +17,15 @@ jest.mock('expo-constants', () => ({
   getWebViewUserAgentAsync: jest.fn()
 }))
 jest.mock('expo-haptics', () => ({}))
+// 覆盖真实 expo-device: 其副作用加载 expo/build/Expo.fx 需要 RN 的 ErrorUtils 全局, node 环境没有;
+// 字段覆盖 src/constants/env.ts 与 home/v2 store 的全部读取
+jest.mock('expo-device', () => ({
+  brand: 'test',
+  deviceYearClass: 2026,
+  modelId: 'test',
+  modelName: 'test',
+  osVersion: '1.0'
+}))
 jest.mock('mobx', () => ({
   isObservableArray: () => false
 }))

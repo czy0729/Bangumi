@@ -13,7 +13,7 @@ import { queue } from '@utils/fetch'
 import { request } from '@utils/fetch.v0'
 import { API_V0 } from '@constants'
 import i18n from '@constants/i18n'
-import { DISTANCE, LIMIT, RELATIONS, SOME_SUBJECTS_LIMIT, SUBJECT_TYPE } from '../ds'
+import { DISTANCE, LIMIT, RELATIONS, SOME_SUBJECTS_LIMIT, SUBJECT_TYPE_ANIME } from '../ds'
 import Computed from './computed'
 import {
   CLEAR_STATE_DELAY,
@@ -110,7 +110,7 @@ export default class Fetch extends Computed {
       data?: CollectionRaw[]
       total?: number
     }>(
-      `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=2&limit=${LIMIT}`
+      `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE_ANIME}&type=2&limit=${LIMIT}`
     )
     if (Array.isArray(data?.data)) {
       _data.push(...data.data)
@@ -123,7 +123,7 @@ export default class Fetch extends Computed {
             const _res = await request<{ data?: CollectionRaw[] }>(
               `${API_V0}/users/${
                 this.userId
-              }/collections?subject_type=${SUBJECT_TYPE}&type=2&offset=${
+              }/collections?subject_type=${SUBJECT_TYPE_ANIME}&type=2&offset=${
                 (i - 1) * LIMIT
               }&limit=${LIMIT}`
             )
@@ -141,7 +141,7 @@ export default class Fetch extends Computed {
     data = await request<{
       data?: CollectionRaw[]
     }>(
-      `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=3&limit=${LIMIT}`
+      `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE_ANIME}&type=3&limit=${LIMIT}`
     )
     if (Array.isArray(data?.data)) _data.push(...data.data)
 
@@ -172,7 +172,7 @@ export default class Fetch extends Computed {
     let data = await request<{
       data?: CollectionRaw[]
     }>(
-      `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=1&limit=${LIMIT}`
+      `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE_ANIME}&type=1&limit=${LIMIT}`
     )
     if (Array.isArray(data?.data)) _data.push(...data.data)
 
@@ -180,7 +180,7 @@ export default class Fetch extends Computed {
     data = await request<{
       data?: CollectionRaw[]
     }>(
-      `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=4&limit=${LIMIT}`
+      `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE_ANIME}&type=4&limit=${LIMIT}`
     )
     if (Array.isArray(data?.data)) _data.push(...data.data)
 
@@ -188,7 +188,7 @@ export default class Fetch extends Computed {
     data = await request<{
       data?: CollectionRaw[]
     }>(
-      `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE}&type=5&limit=${LIMIT}`
+      `${API_V0}/users/${this.userId}/collections?subject_type=${SUBJECT_TYPE_ANIME}&type=5&limit=${LIMIT}`
     )
     if (Array.isArray(data?.data)) _data.push(...data.data)
 
@@ -224,7 +224,7 @@ export default class Fetch extends Computed {
         }
 
         relations[subjectId] = data
-          .filter(item => SUBJECT_TYPE === item.type && RELATIONS.includes(item.relation))
+          .filter(item => SUBJECT_TYPE_ANIME === item.type && RELATIONS.includes(item.relation))
           .sort((a, b) => asc(a.id, b.id))
           .map(item => item.id)
         return true
@@ -270,7 +270,7 @@ export default class Fetch extends Computed {
           }
 
           relations[sub] = data
-            .filter(item => SUBJECT_TYPE === item.type && RELATIONS.includes(item.relation))
+            .filter(item => SUBJECT_TYPE_ANIME === item.type && RELATIONS.includes(item.relation))
             .sort((a, b) => asc(a.id, b.id))
             .map(item => item.id)
 
