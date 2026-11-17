@@ -110,7 +110,7 @@ final class PasskeyProtocol {
     }
 
     /** Does not verify the signature: that must be verified by bgm.tv, which owns the public key. */
-    static String validateResponse(String json, Request request) throws Exception {
+    static String validateResponse(String json, Request request, String packageName) throws Exception {
         JSONObject credential = object(json);
         require("public-key".equals(string(credential, "type")));
         String id = canonical(string(credential, "id"));
@@ -156,13 +156,19 @@ final class PasskeyProtocol {
         require(ORIGIN.equals(string(clientData, "origin")));
         if (clientData.has("crossOrigin")) require(Boolean.FALSE.equals(clientData.get("crossOrigin")));
         require(!clientData.has("topOrigin"));
+
+        // Keyguard includes the calling package even when signing our supplied clientDataHash.
+        // Check the runtime package name, including any build variant suffix.
+        if (clientData.has("androidPackageName")) {
+            require(string(clientData, "androidPackageName").equals(packageName));
+        }
+
         if (!MessageDigest.isEqual(sha256(clientDataBytes), request.clientDataHash)) {
-            // Provider may sign the caller-supplied hash while returning its own serialization.
-            // Only the exact bytes handed to the provider keep that signature valid, so restore
-            // them, and only when the returned document has no field we did not generate.
+            // Providers may sign our supplied hash while returning a different serialization.
+            // Restore the exact bytes after checking all fields, including the optional package.
             Iterator<String> clientDataKeys = clientData.keys();
             while (clientDataKeys.hasNext()) {
-                require(Arrays.asList("type", "challenge", "origin", "crossOrigin")
+                require(Arrays.asList("type", "challenge", "origin", "crossOrigin", "androidPackageName")
                         .contains(clientDataKeys.next()));
             }
             response.put("clientDataJSON", encode(request.clientDataJson.getBytes(StandardCharsets.UTF_8)));

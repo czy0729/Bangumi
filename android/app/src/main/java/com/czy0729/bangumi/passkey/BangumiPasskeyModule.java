@@ -115,7 +115,8 @@ public final class BangumiPasskeyModule extends ReactContextBaseJavaModule
                             return;
                         }
                         try {
-                            String verified = PasskeyProtocol.validateResponse(json, operation.request);
+                            String verified = PasskeyProtocol.validateResponse(
+                                    json, operation.request, getReactApplicationContext().getPackageName());
                             finish(operation, verified, null);
                         } catch (Exception ignored) {
                             finish(operation, null, "E_PASSKEY_INVALID_RESPONSE");

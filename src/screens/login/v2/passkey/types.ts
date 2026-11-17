@@ -94,6 +94,9 @@ export type PasskeyRunParams = {
   /** 延迟读取导航和同步选项，避免异步闭包过期 */
   getContext: () => Pick<PasskeyLoginParams, 'navigation' | 'isSyncSetting'>
 
+  /** 临时直连窗口内登录: 绕过直连门禁, 结束后自动恢复原代理模式 */
+  tempDirect?: boolean
+
   /** 更新不包含敏感数据的流程提示 */
   onProgress: (message: string) => void
 

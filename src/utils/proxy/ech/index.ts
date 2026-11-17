@@ -24,6 +24,9 @@ let _running = false
 /** 生命周期监听是否已注册 */
 let _lifecycleSetup = false
 
+/** 是否暂停后台回前台时的自动重建 (临时直连窗口期间使用) */
+let _autoRestorePaused = false
+
 /**
  * 启动 ECH 代理
  * - 在 Android 上启动本地 HTTP 代理进程 (ECH + DoH)
@@ -120,6 +123,14 @@ export async function getEchProxyLogs(): Promise<EchProxyLog[]> {
 }
 
 /**
+ * 暂停 / 恢复后台回前台时的代理自动重建
+ * - 临时直连窗口 (如 Passkey 登录) 期间暂停, 防止切后台选凭据回来时代理被中途拉起
+ */
+export function setEchAutoRestorePaused(paused: boolean): void {
+  _autoRestorePaused = paused
+}
+
+/**
  * 注册 AppState 生命周期监听
  * - 后台→前台时自动检查 ECH 代理状态，已死则重建
  * - 确保 OkHttp 连接池在重建时被清理（Java 端自动处理）
@@ -131,6 +142,7 @@ export function setupEchLifecycle(): void {
 
   AppState.addEventListener('change', (state: string) => {
     if (state !== 'active') return
+    if (_autoRestorePaused) return
 
     const setting = syncSystemStore()?.setting
     if (!setting?.echProxyEnabled) return
