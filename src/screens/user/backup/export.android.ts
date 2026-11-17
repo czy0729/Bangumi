@@ -2,54 +2,15 @@
  * @Author: czy0729
  * @Date: 2026-07-02 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-01 04:03:41
+ * @Last Modified time: 2026-11-18 04:32:23
  *
  * 本地保存文件实现 (Android)
  */
-import { Alert, Linking, PermissionsAndroid, Platform } from 'react-native'
-import RNFS from 'react-native-fs'
+import { Alert, Linking } from 'react-native'
 import { info } from '@utils'
-
-/**
- * 检查并请求 Android 存储权限
- *
- * - Android 13 (API 33) 及以上: 分区存储已生效，应用可直接在 Download 目录
- *   创建新文件，无需任何存储权限，直接放行
- * - Android 12 及以下: 保留传统权限检查和请求逻辑
- * - 用户拒绝后引导去设置页开启
- */
-async function hasAndroidPermission() {
-  // Android 13+ 分区存储，无需申请旧的 WRITE_EXTERNAL_STORAGE
-  if (Platform.OS === 'android' && Platform.Version >= 33) {
-    return true
-  }
-
-  const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-  const hasPermission = await PermissionsAndroid.check(permission)
-  if (hasPermission) return true
-
-  const status = await PermissionsAndroid.request(permission)
-  if (status === 'granted') return true
-
-  // 用户拒绝，引导去设置页开启
-  return new Promise<boolean>(resolve => {
-    Alert.alert(
-      '需要存储权限',
-      '请在设置中开启存储权限，否则无法保存文件',
-      [
-        { text: '取消', onPress: () => resolve(false) },
-        {
-          text: '去设置',
-          onPress: () => {
-            Linking.openSettings()
-            resolve(false)
-          }
-        }
-      ],
-      { cancelable: false }
-    )
-  })
-}
+import { globalWarn } from '@utils/dev'
+import { hasAndroidStoragePermission } from '@utils/permission'
+import { saveDownload } from '@utils/thirdParty/storage'
 
 /**
  * 打开系统 Download 目录
@@ -70,29 +31,27 @@ export async function openDownloadDir() {
 
 /**
  * 保存文件到本地 (Android)
- * - 请求存储权限
- * - 写入 Download 目录
- * - 通知 MediaScanner 扫描新文件
+ * - 请求存储权限 (Android 9 及以下, 拒绝后引导去设置页开启)
+ * - 经自研 StorageModule 写入 Download 目录并收录 (MediaStore / MediaScanner)
  * - 弹出合理引导，尝试直接拉起系统下载目录或提示手动查找
  */
 export async function exportLocal(fileName: string, content: string) {
   try {
-    if (!(await hasAndroidPermission())) {
-      info('需要存储权限才能保存文件')
+    // guided 模式下被拒时已弹「去设置」引导, 不再叠加 toast
+    if (!(await hasAndroidStoragePermission(true))) {
       return
     }
 
-    const downloadDir = RNFS.DownloadDirectoryPath
-    const filePath = `${downloadDir}/${fileName}`
-    await RNFS.writeFile(filePath, content, 'utf8')
+    const savedName = await saveDownload(fileName, content)
 
-    // 通知 MediaScanner 扫描文件，使其能立刻在文件管理器中被搜到
-    await RNFS.scanFile(filePath)
-
-    // 弹出引导提示
+    // 弹出引导提示 (系统自动改名时才附注重名说明)
+    const nameTip =
+      savedName === fileName
+        ? `文件名：${savedName}`
+        : `文件名：${savedName}（请求文件名重名，已由系统自动改名）`
     Alert.alert(
       '文件保存成功',
-      `文件已保存至「内部存储 / Download」目录\n文件名：${fileName}`,
+      `文件已保存至「内部存储 / Download」目录\n${nameTip}`,
       [
         {
           text: '知道了',
@@ -105,7 +64,8 @@ export async function exportLocal(fileName: string, content: string) {
       ],
       { cancelable: true }
     )
-  } catch {
+  } catch (e) {
+    globalWarn('[storage] exportLocal', e)
     info('保存失败，请重试')
   }
 }

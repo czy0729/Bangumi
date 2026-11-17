@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-10 17:23:15
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-15 05:56:00
+ * @Last Modified time: 2026-11-18 04:32:17
  */
 
 // 与 RN StyleSheet.flatten 语义一致: falsy 返回 undefined, 对象原样返回, 数组递归展开后后者覆盖前者
@@ -38,7 +38,18 @@ module.exports = {
   },
   Linking: {
     openURL: jest.fn(),
-    canOpenURL: jest.fn(() => Promise.resolve(true))
+    canOpenURL: jest.fn(() => Promise.resolve(true)),
+    openSettings: jest.fn()
+  },
+  PermissionsAndroid: {
+    // 用 Proxy 对齐真实 RN: 任意权限名都映射为 android.permission.<NAME> 真值,
+    // 未列出的权限不再拿到 undefined
+    PERMISSIONS: new Proxy(
+      {},
+      { get: (_, key) => `android.permission.${String(key)}` }
+    ),
+    check: jest.fn(() => Promise.resolve(false)),
+    request: jest.fn(() => Promise.resolve('granted'))
   },
   Alert: {
     alert: jest.fn()

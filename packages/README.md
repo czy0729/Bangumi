@@ -29,7 +29,7 @@ packages/
 | 目录                        | 补丁子集                                                    |
 | --------------------------- | ----------------------------------------------------------- |
 | 根 `patches/`               | 当前环境的补丁集合                                          |
-| `packages/android/patches/` | 共享 3 + `pager-view`/`smb`/`cameraroll`/`android-widget`   |
+| `packages/android/patches/` | 共享 3 + `pager-view`/`smb`/`android-widget`                |
 | `packages/ios/patches/`     | 共享 3（`realtimeblurview`/`render-html`/`tab-view`）       |
 | `packages/web/patches/`     | `realtimeblurview`/`render-html` + `@storybook/preview-web` |
 
