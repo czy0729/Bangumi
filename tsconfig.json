@@ -42,7 +42,8 @@
       "@src": ["./src"],
       "@src/*": ["./src/*"],
       "@": ["./"],
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "mobx-react": ["./src/utils/thirdParty/observer"]
     }
   },
   "include": ["src", "types"],

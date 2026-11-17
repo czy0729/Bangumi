@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-10 17:22:21
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-05-10 17:22:21
+ * @Last Modified time: 2026-11-17 22:39:41
  */
 const path = require('path')
 
@@ -24,9 +24,7 @@ module.exports = {
   transform: {
     '^.+\\.[jt]sx?$': path.resolve(__dirname, 'jest/transformer.js')
   },
-  transformIgnorePatterns: [
-    '/node_modules/(?!expo-*)'
-  ],
+  transformIgnorePatterns: ['/node_modules/(?!expo-*)'],
   moduleNameMapper: {
     '^.+\\.(png|jpg|jpeg|gif|webp)$': '<rootDir>/jest/mocks/fileMock.js',
     '^@_$': '<rootDir>',
@@ -41,6 +39,7 @@ module.exports = {
     '^@tinygrail/(.*)$': '<rootDir>/src/screens/tinygrail/$1',
     '^@types/(.*)$': '<rootDir>/src/types/$1',
     '^@utils/(.*)$': '<rootDir>/src/utils/$1',
+    '^mobx-react$': '<rootDir>/src/utils/thirdParty/observer',
     '^@src/(.*)$': '<rootDir>/src/$1',
     '^react-native$': '<rootDir>/jest/mocks/react-native.js',
     '^expo-web-browser$': '<rootDir>/jest/mocks/expo-web-browser.js',
