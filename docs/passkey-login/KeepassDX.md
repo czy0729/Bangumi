@@ -1,4 +1,4 @@
-# KeepassDX食用方式
+# KeePassDX食用方式
 ## 安装
 [官网](https://www.keepassdx.com/)提供了三种方式：
 
