@@ -45,7 +45,7 @@
 ## 使用Passkey
 1. 进入app登录界面，点击passkey登录
 ![app-1](images/app-1.png)
-2. 系统弹出窗口，点击继续
+2. 系统弹出窗口，完成用户验证
 ![app-2bw](images/app-2bw.png)
 3. 首次使用需要授权特权应用，点击`信任`
 ![app-3bw](images/app-3bw.png)
