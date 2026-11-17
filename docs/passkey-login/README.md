@@ -3,7 +3,8 @@
 
 本系列文档面向第一次使用密码管理器或第一次通过密码管理器使用Passkey编写。
 
-> [!ATTENTION]
+> [!IMPORTANT]
+>
 > 此项目需要支持自定义特权应用的密码管理器：
 > - Bitwarden
 > - KeePassDX
