@@ -40,7 +40,7 @@ function Btns() {
         title: '每周分红',
         action: () => {
           if (tinygrailStore.checkAuth())
-            confirm('确定领取每周分红? (每周日0点刷新)', $.doGetBonusWeek)
+            confirm('确定领取每周分红？ (每周日0点刷新)', $.doGetBonusWeek)
         }
       },
       { title: '每日签到', action: () => $.doGetBonusDaily() },

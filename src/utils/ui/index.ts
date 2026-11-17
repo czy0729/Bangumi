@@ -11,7 +11,7 @@ import { FROZEN_FN } from '@constants/init'
 import { syncS2T, syncSystemStore } from '../async'
 import { log } from './utils'
 
-import type { ViewInstance } from 'react-native'
+import type { AlertButton, ViewInstance } from 'react-native'
 import type { ActionSheetConfig, ActionSheetConfigOptions } from '@components/action-sheet'
 import type { TimerRef } from '@types'
 
@@ -85,20 +85,23 @@ export function confirm(
   title: string = '警告',
   onCancelPress: () => void = FROZEN_FN,
   confirmText: string = '确定',
-  cancelText: string = '取消'
+  cancelText: string = '取消',
+  dangerous: boolean = false
 ) {
   const alertTitle = syncS2T(title)
   const alertContent = syncS2T(content)
-  const alertParams = [
+  const confirmButton: AlertButton = {
+    text: syncS2T(confirmText),
+    onPress
+  }
+  if (dangerous) confirmButton.style = 'destructive'
+  const alertParams: AlertButton[] = [
     {
       text: syncS2T(cancelText),
-      style: 'cancel' as const,
+      style: 'cancel',
       onPress: onCancelPress
     },
-    {
-      text: syncS2T(confirmText),
-      onPress
-    }
+    confirmButton
   ]
 
   if (WEB) {
@@ -121,6 +124,18 @@ export function confirm(
   }
 
   Alert.alert(alertTitle, alertContent, alertParams)
+}
+
+/** 危险确定框 */
+export function confirmDanger(
+  content: string,
+  onPress: () => void = FROZEN_FN,
+  title: string = '警告',
+  onCancelPress: () => void = FROZEN_FN,
+  confirmText: string = '确定',
+  cancelText: string = '取消'
+) {
+  confirm(content, onPress, title, onCancelPress, confirmText, cancelText, true)
 }
 
 /** 提示 */
@@ -234,7 +249,7 @@ export function copy(val: string | number, message: boolean | string = true, ms?
   Clipboard.setString(string)
 
   if (message === true) {
-    info(`已复制 ${string}`, ms)
+    info('已复制', ms)
   } else if (typeof message === 'string') {
     info(message, ms)
   }
@@ -317,7 +332,7 @@ export async function speak(text: string) {
           voice: voice.name
         })
       } else {
-        info('未检测到日语系统语音, 请安装文字转语音引擎 (如 Google 文字转语音) 并下载日语语音包')
+        info('未检测到日语系统语音，请安装文字转语音引擎 (如 Google 文字转语音) 并下载日语语音包')
         log('speak', 'no ja voice', voices.length)
         return
       }

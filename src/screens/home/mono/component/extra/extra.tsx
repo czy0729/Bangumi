@@ -24,7 +24,7 @@ const Extra = memo(
         <Touchable
           style={_.container.touch}
           onPress={() => {
-            confirm('花费 10000cc 启动 ICO?', () => {
+            confirm('花费 10000cc 启动 ICO？', () => {
               doICO(navigation)
             })
           }}

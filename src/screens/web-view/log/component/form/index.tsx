@@ -92,7 +92,7 @@ function Form() {
             <Touchable
               style={stl(styles.touch, _.ml.sm)}
               onPress={() => {
-                confirm('应用?', $.onPaste)
+                confirm('应用？', $.onPaste)
               }}
             >
               <Text type='sub' size={12} bold>

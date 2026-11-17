@@ -15,7 +15,7 @@ export const TEXTS = {
     information: '欢迎提BUG提需求'
   },
   qiafan: {
-    search: '关于, 投食'
+    search: '关于，投食'
   },
   advance: {
     hd: '支持者'

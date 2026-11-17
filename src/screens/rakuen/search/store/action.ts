@@ -124,12 +124,12 @@ export default class Action extends Computed {
     try {
       const data = await searchStore.fetchRakuenSearch(keyword, 1, sort)
       if (data === null) {
-        info('搜索失败, 请稍候再试')
+        info('搜索失败，请稍候再试')
         return
       }
 
       feedback(true)
-      if (!data.length) info('没有查询到结果, 也有可能是搜索服务失效了')
+      if (!data.length) info('没有查询到结果，也有可能是搜索服务失效了')
     } catch (ex) {
       info('请稍候再查询')
     } finally {

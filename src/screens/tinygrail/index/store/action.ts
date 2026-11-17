@@ -102,7 +102,7 @@ export default class Action extends Fetch {
       }
 
       this._doAuthFailCount = 0
-      info(`授权失败请重试, 或检查${i18n.login()}状态`)
+      info(`授权失败请重试，或检查${i18n.login()}状态`)
       this.setState({
         loading: false
       })
@@ -407,7 +407,9 @@ export default class Action extends Fetch {
         this._callbackCookieLogged = true
         addWorkerLog(
           'warn',
-          `callback 未下发会话 cookie (status=${callbackResponse.status}, headers=${Object.keys(callbackResponse.headers || {}).join(',')})`,
+          `callback 未下发会话 cookie (status=${callbackResponse.status}, headers=${Object.keys(
+            callbackResponse.headers || {}
+          ).join(',')})`,
           'host'
         )
       }

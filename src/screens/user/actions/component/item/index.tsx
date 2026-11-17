@@ -11,7 +11,7 @@ import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover, Tag } from '@_'
 import { _, useStore } from '@stores'
-import { confirm, stl } from '@utils'
+import { confirmDanger, stl } from '@utils'
 import Form from '../form'
 import { COMPONENT, MENU_ACTIVE, MENU_INACTIVE } from './ds'
 import { styles } from './styles'
@@ -58,7 +58,7 @@ function Item({ uuid, active, name, url, sort }: Props) {
                 break
 
               case '删除':
-                confirm(`确定删除 [${name}] ?`, () => {
+                confirmDanger(`确定删除「${name}」？`, () => {
                   $.deleteItem({
                     uuid
                   })

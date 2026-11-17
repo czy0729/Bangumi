@@ -130,7 +130,7 @@ export default class Fetch extends Computed {
     const task = this.runFetchUserCollectionsByScore(token, finger, refresh)
       .catch(error => {
         logger.error(NAMESPACE, 'fetchUserCollectionsByScore', error)
-        info('获取网站评分失败, 请稍后重试')
+        info('获取网站评分失败，请稍后重试')
         return false
       })
       .finally(() => {

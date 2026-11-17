@@ -45,7 +45,7 @@ function TinygrailAdvanceState(props: NavigationProps) {
               onPress={() => {
                 t('低价股.提示')
 
-                alert('在英灵殿里面查找当前价 <= 16 的角色, 获取卖一价', '当前计算方式')
+                alert('在英灵殿里面查找当前价 <= 16 的角色，获取卖一价', '当前计算方式')
               }}
             />
           )}

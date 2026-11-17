@@ -5,7 +5,7 @@
  * @Last Modified time: 2025-11-30 05:34:04
  */
 import { rakuenStore } from '@stores'
-import { confirm, copy, feedback, HTMLDecode, info, open } from '@utils'
+import { confirm, confirmDanger, copy, feedback, HTMLDecode, info, open } from '@utils'
 import { t } from '@utils/fetch'
 import {
   HOST,
@@ -18,10 +18,10 @@ import {
   TEXT_MENU_DEV,
   TEXT_MENU_DISCONNECT,
   TEXT_MENU_FRIEND,
-  TEXT_MENU_REV_FRIEND,
   TEXT_MENU_IGNORE,
   TEXT_MENU_PM,
   TEXT_MENU_REPORT,
+  TEXT_MENU_REV_FRIEND,
   WEB
 } from '@constants'
 
@@ -91,29 +91,32 @@ export const MENU_ACTIONS = {
   },
   [TEXT_MENU_DISCONNECT](context: Ctx) {
     const { $ } = context
-    confirm('确定解除好友?', () => $.doDisconnect())
+    confirm('确定解除好友？', () => $.doDisconnect())
   },
   [TEXT_MENU_IGNORE](context: Ctx) {
     const { userId, userName } = getData(context)
-    confirm(`与 ${userName} 绝交（不再看到用户的所有话题、评论、日志、私信、提醒）?`, async () => {
-      if (!rakuenStore.formhash) await rakuenStore.fetchPrivacy()
+    confirmDanger(
+      `与 ${userName} 绝交（不再看到用户的所有话题、评论、日志、私信、提醒）？`,
+      async () => {
+        if (!rakuenStore.formhash) await rakuenStore.fetchPrivacy()
 
-      rakuenStore.doBlockUser(
-        {
-          keyword: String(userId)
-        },
-        async () => {
-          t('空间.绝交')
+        rakuenStore.doBlockUser(
+          {
+            keyword: String(userId)
+          },
+          async () => {
+            t('空间.绝交')
 
-          info('已添加绝交')
-          feedback()
-          rakuenStore.fetchPrivacy()
-        },
-        () => {
-          info('添加失败, 可能授权信息过期')
-        }
-      )
-    })
+            info('已添加绝交')
+            feedback()
+            rakuenStore.fetchPrivacy()
+          },
+          () => {
+            info('添加失败，可能授权信息过期')
+          }
+        )
+      }
+    )
   },
   [TEXT_MENU_REPORT](context: Ctx) {
     const { id } = getData(context)

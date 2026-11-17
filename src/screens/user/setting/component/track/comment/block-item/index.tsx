@@ -106,7 +106,7 @@ function BlockItem({ item, setFalse }: Props) {
                   <Touchable
                     style={stl(flexStyle({ justify: 'center' }), _.ml.md, styles.icon)}
                     onPress={() => {
-                      confirm('确定取消?', () =>
+                      confirm('确定取消？', () =>
                         systemStore.cancelTrackUsersCollection(userId, item.label)
                       )
                     }}

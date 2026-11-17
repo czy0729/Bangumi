@@ -94,7 +94,7 @@ function BlockItem({ setFalse }: Props) {
                   <Touchable
                     style={stl(flexStyle({ justify: 'center' }), _.ml.md, styles.icon)}
                     onPress={() => {
-                      confirm('确定取消?', () => rakuenStore.cancelTrackUsersComment(userId))
+                      confirm('确定取消？', () => rakuenStore.cancelTrackUsersComment(userId))
                     }}
                   >
                     <Iconfont name='md-close' size={20} />

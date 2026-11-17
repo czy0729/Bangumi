@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-11-16 06:38:46
  */
 import { collectionStore, userStore } from '@stores'
-import { confirm, feedback, info } from '@utils'
+import { confirmDanger, feedback, info } from '@utils'
 import { logger } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { webhookCollection, webhookEp } from '@utils/webhooks'
@@ -105,7 +105,7 @@ export default class Collection extends Social {
     }
 
     if (Number(eps) === 0 && (this.type === '动画' || this.type === '三次元')) {
-      confirm('进度更新为 0 的同时会清空所有章节状态，确定？', submit)
+      confirmDanger('进度更新为 0 的同时会清空所有章节状态，确定？', submit)
       return
     }
 
@@ -176,7 +176,7 @@ export default class Collection extends Social {
           formhash
         },
         callback,
-        () => info('删除失败, 请重试')
+        () => info('删除失败，请重试')
       )
     } catch (error) {
       logger.error(COMPONENT, 'doEraseCollection', error)

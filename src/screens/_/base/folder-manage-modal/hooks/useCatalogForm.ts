@@ -59,7 +59,7 @@ export function useCatalogForm({
     (isNew: boolean) => {
       if (isNew) {
         if (!getUsableFormhash()) {
-          info(`授权信息有误, 无法操作, 请尝试重新${i18n.login()}`)
+          info(`授权信息有误，无法操作，请尝试重新${i18n.login()}`)
           return
         }
 
@@ -90,7 +90,7 @@ export function useCatalogForm({
   /** 提交创建 / 修改目录 */
   const onSubmitCatalog = useCallback(() => {
     if (!getUsableFormhash()) {
-      info(`授权信息有误, 无法操作, 请尝试重新${i18n.login()}`)
+      info(`授权信息有误，无法操作，请尝试重新${i18n.login()}`)
       return
     }
 
@@ -105,16 +105,13 @@ export function useCatalogForm({
     }
 
     if (create === true) {
-      requestCreateCatalog(
-        { formhash: getUsableFormhash(), title, desc, privacy },
-        () => {
-          info('已创建目录')
-          fetchCatalogs().catch(() => {})
-          onCreate(false)
-          feedback()
-          track('onSubmitCatalog:create')
-        }
-      )
+      requestCreateCatalog({ formhash: getUsableFormhash(), title, desc, privacy }, () => {
+        info('已创建目录')
+        fetchCatalogs().catch(() => {})
+        onCreate(false)
+        feedback()
+        track('onSubmitCatalog:create')
+      })
       return
     }
 

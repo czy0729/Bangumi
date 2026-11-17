@@ -25,7 +25,7 @@ function Check() {
             if ($.state.loading) return
 
             confirm(
-              `当前角色测试献祭效率至少需要先献祭 (${$.testAmount}) 股, 确定?`,
+              `当前角色测试献祭效率至少需要先献祭 (${$.testAmount}) 股，确定？`,
               () => $.doTestSacrifice(),
               '小圣杯助手'
             )

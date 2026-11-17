@@ -37,7 +37,7 @@ function Balance() {
         <Touchable
           style={styles.touch}
           onPress={() => {
-            confirm('刷新?', $.fetchAllRichAssets, '小圣杯助手')
+            confirm('刷新？', $.fetchAllRichAssets, '小圣杯助手')
           }}
         >
           <Flex>

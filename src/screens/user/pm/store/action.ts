@@ -190,7 +190,7 @@ export default class Action extends Fetch {
     }
 
     if (!this.pmDetail?.form?.formhash) {
-      info('获取表单授权码失败, 需要别人回复过才能继续发送')
+      info('获取表单授权码失败，需要别人回复过才能继续发送')
       return
     }
 

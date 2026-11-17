@@ -8,7 +8,7 @@
  */
 import { systemStore } from '@stores'
 import { info, loading, removeHTMLTag } from '@utils'
-import { baiduTranslate, t } from '@utils/fetch'
+import { baiduTranslate, getTranslateErrorInfo, t } from '@utils/fetch'
 import { lx, lxCache } from '@utils/kv'
 import { getTopicMainFloorRawText } from '../utils'
 import Reply from './reply'
@@ -25,7 +25,7 @@ export default class Translate extends Reply {
     })
 
     const isGemini = systemStore.translateEngine === 'gemini'
-    const errorInfo = `翻译${isGemini ? '超时' : '失败'}, 请重试`
+    const errorInfo = getTranslateErrorInfo(isGemini)
     let hide: () => void
     try {
       hide = loading()
@@ -87,7 +87,7 @@ export default class Translate extends Reply {
     })
 
     const isGemini = systemStore.translateEngine === 'gemini'
-    const errorInfo = `翻译${isGemini ? '超时' : '失败'}, 请重试`
+    const errorInfo = getTranslateErrorInfo(isGemini)
     let hide: () => void
     try {
       hide = loading()

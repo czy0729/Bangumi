@@ -31,7 +31,7 @@ export default class Progress extends Collection {
         status
       })
     } catch (error) {
-      info('更新失败, 请重试')
+      info('更新失败，请重试')
       return
     }
 
@@ -119,7 +119,7 @@ export default class Progress extends Collection {
         sort: value
       })
     } catch (error) {
-      info('更新失败, 请重试')
+      info('更新失败，请重试')
       return
     }
     this.refreshProgress()
@@ -165,7 +165,7 @@ export default class Progress extends Collection {
 
         if (value === '看到') {
           if (item?.sort > 24) {
-            confirm(`确认看到${item.sort}集?`, () => {
+            confirm(`确认看到第 ${item.sort} 话？`, () => {
               this.doUpdateSubjectWatched(item)
             })
             return

@@ -28,7 +28,7 @@ function Btn() {
         type='bid'
         onPress={() => {
           confirm(
-            `对列表中 ${ids.length} 个ICO角色进行注资各5000, 确定?`,
+            `对列表中 ${ids.length} 个ICO角色进行注资各5000，确定？`,
             () => $.batchICO(ids),
             '小圣杯助手'
           )

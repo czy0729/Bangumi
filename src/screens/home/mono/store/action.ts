@@ -9,7 +9,7 @@
 import { getHeaderFixed } from '@components/header-v2/utils'
 import { systemStore, tinygrailStore, userStore } from '@stores'
 import { feedback, info, loading, open, removeHTMLTag, updateVisibleBottom } from '@utils'
-import { baiduTranslate, fetchHTML, t } from '@utils/fetch'
+import { baiduTranslate, fetchHTML, getTranslateErrorInfo, t } from '@utils/fetch'
 import { lx, lxCache } from '@utils/kv'
 import { webhookMono } from '@utils/webhooks'
 import { HOST } from '@constants'
@@ -136,7 +136,7 @@ export default class Action extends Fetch {
     })
 
     const isGemini = systemStore.translateEngine === 'gemini'
-    const errorInfo = `翻译${isGemini ? '超时' : '失败'}, 请重试`
+    const errorInfo = getTranslateErrorInfo(isGemini)
     let hide: () => void
     try {
       hide = loading()
@@ -200,7 +200,7 @@ export default class Action extends Fetch {
     })
 
     const isGemini = systemStore.translateEngine === 'gemini'
-    const errorInfo = `翻译${isGemini ? '超时' : '失败'}, 请重试`
+    const errorInfo = getTranslateErrorInfo(isGemini)
     let hide: () => void
     try {
       hide = loading()

@@ -54,7 +54,7 @@ function Amount() {
               if (loading) return
 
               confirm(
-                `消耗固定资产 ${formatNumber(starForcesValue, 0)} 灌注星之力, 确定?`,
+                `消耗固定资产 ${formatNumber(starForcesValue, 0)} 灌注星之力，确定？`,
                 () => $.doStarForces(),
                 '小圣杯助手'
               )

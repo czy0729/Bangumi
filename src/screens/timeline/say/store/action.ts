@@ -91,7 +91,7 @@ export default class Action extends Fetch {
   /** 提交 */
   doSubmit = (content: string, navigation: Navigation) => {
     if (!this.formhash) {
-      info(`获取表单授权码失败, 请检查${i18n.login()}状态`)
+      info(`获取表单授权码失败，请检查${i18n.login()}状态`)
       return
     }
 

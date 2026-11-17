@@ -64,7 +64,7 @@ function ItemList({ index, pickIndex }: Props) {
           collectionStore.collect(anime.id)
         )
       },
-      '找番剧'
+      '找条目'
     )
   }, [anime])
 

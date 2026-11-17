@@ -194,7 +194,7 @@ export default class Action extends Fetch {
 
     const action = isSale ? '出售' : '献祭'
     confirm(
-      `批量 (${action}) (${ids.length}) 个角色的所有流动股份, 该操作不能撤回, 确定? (若角色当前有挂单, 可用数与显示数对不上时, 操作会失败)`,
+      `批量 (${action}) (${ids.length}) 个角色的所有流动股份，该操作不能撤回，确定？ (若角色当前有挂单，可用数与显示数对不上时，操作会失败)`,
       async () => {
         t('我的持仓.批量献祭', {
           length: ids.length,
@@ -264,7 +264,7 @@ export default class Action extends Fetch {
     }
 
     confirm(
-      `批量对 (${ids.length}) 个角色以${actionText} (挂卖单, 且出价不会低于等级预设价格) 确定? (若角色当前有挂单, 可用会失败)`,
+      `批量对 (${ids.length}) 个角色以${actionText} (挂卖单，且出价不会低于等级预设价格) 确定？ (若角色当前有挂单，可用会失败)`,
       async () => {
         t('我的持仓.批量挂单', {
           length: ids.length

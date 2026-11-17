@@ -191,7 +191,7 @@ export default class Ui extends Fetch {
   open = (url: string) => {
     if (url) {
       const { openInfo } = systemStore.setting
-      if (openInfo) copy(url, '已复制地址，即将跳转')
+      if (openInfo) copy(url, '已复制链接，即将跳转')
       postTask(
         () => {
           open(url)
@@ -329,39 +329,43 @@ export default class Ui extends Fetch {
   /** 正版播放 */
   toPlay = (item: EpsItem) => {
     postTask(() => {
-      showActionSheet(this.onlinePlayActionSheetData, index => {
-        const isSp = item.type === 1
-        let url: string
+      showActionSheet(
+        this.onlinePlayActionSheetData,
+        index => {
+          const isSp = item.type === 1
+          let url: string
 
-        // @todo 逻辑比较复杂, 暂时不处理 Ep 偏移
-        const { epsData } = this.state
-        const { eps = [] } = this.subject
-        const siteName = this.onlinePlayActionSheetData[index] as (typeof SITES)[number]
-        let epIndex: number
-        if (SITES.includes(siteName)) {
-          if (isSp) {
-            url = getBangumiUrl({
-              id: item.id,
-              site: siteName
-            })
-          } else {
-            epIndex = eps.filter(item => item.type === 0).findIndex(i => i.id === item.id)
-            url =
-              epsData[siteName][epIndex] ||
-              getBangumiUrl({
+          // @todo 逻辑比较复杂, 暂时不处理 Ep 偏移
+          const { epsData } = this.state
+          const { eps = [] } = this.subject
+          const siteName = this.onlinePlayActionSheetData[index] as (typeof SITES)[number]
+          let epIndex: number
+          if (SITES.includes(siteName)) {
+            if (isSp) {
+              url = getBangumiUrl({
                 id: item.id,
                 site: siteName
               })
+            } else {
+              epIndex = eps.filter(item => item.type === 0).findIndex(i => i.id === item.id)
+              url =
+                epsData[siteName][epIndex] ||
+                getBangumiUrl({
+                  id: item.id,
+                  site: siteName
+                })
+            }
           }
-        }
 
-        if (url) open(url)
+          if (url) open(url)
 
-        t('条目.章节菜单操作', {
-          title: this.onlinePlayActionSheetData[index],
-          subjectId: this.subjectId
-        })
-      })
+          t('条目.章节菜单操作', {
+            title: this.onlinePlayActionSheetData[index],
+            subjectId: this.subjectId
+          })
+        },
+        { cancelButtonIndex: this.onlinePlayActionSheetData.length - 1 }
+      )
     }, 320)
   }
 }

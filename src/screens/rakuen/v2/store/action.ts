@@ -7,7 +7,7 @@
  * 超展开页业务逻辑
  */
 import { rakuenStore, userStore } from '@stores'
-import { confirm, feedback, info, updateVisibleBottom } from '@utils'
+import { confirm, confirmDanger, feedback, info, updateVisibleBottom } from '@utils'
 import { getBucketId } from '@utils/bucket'
 import { logger } from '@utils/dev'
 import { t } from '@utils/fetch'
@@ -214,7 +214,7 @@ export default class Action extends Fetch {
       case `${TEXT_PREFIX_BLOCK}小组`:
       case `${TEXT_PREFIX_BLOCK}条目`:
       case `${TEXT_PREFIX_BLOCK}人物`:
-        confirm(`确定${title}?`, () => {
+        confirmDanger(`确定${title}？`, () => {
           t(eventId, {
             title,
             groupCn: values.groupCn
@@ -226,8 +226,8 @@ export default class Action extends Fetch {
         break
 
       case TEXT_MENU_BLOCK:
-        confirm(
-          `屏蔽来自 ${values?.userName}@${values?.userId} 的包括条目评论、时间胶囊、超展开相关信息，确定?`,
+        confirmDanger(
+          `屏蔽来自 ${values?.userName}@${values?.userId} 的包括条目评论、时间胶囊、超展开相关信息，确定？`,
           () => {
             t(eventId, {
               title,
@@ -241,8 +241,8 @@ export default class Action extends Fetch {
         break
 
       case TEXT_MENU_IGNORE:
-        confirm(
-          `与 ${values.userName} 绝交（不再看到用户的所有话题、评论、日志、私信、提醒）?`,
+        confirmDanger(
+          `与 ${values.userName} 绝交（不再看到用户的所有话题、评论、日志、私信、提醒）？`,
           async () => {
             if (!rakuenStore.formhash) await rakuenStore.fetchPrivacy()
 
@@ -258,7 +258,7 @@ export default class Action extends Fetch {
                 rakuenStore.fetchPrivacy()
               },
               () => {
-                info('添加失败, 可能授权信息过期')
+                info('添加失败，可能授权信息过期')
               }
             )
           }
@@ -306,9 +306,9 @@ export default class Action extends Fetch {
     }
 
     confirm(
-      `当前 ${ids.length} 个未读帖子, 1次操作最多预读前 ${PREFETCH_COUNT} 个, 建议在WIFI下进行, 确定?`,
+      `当前 ${ids.length} 个未读帖子，1次操作最多缓存前 ${PREFETCH_COUNT} 个，建议在WIFI下进行，确定？`,
       () => this.prefetch(ids),
-      '预读取未读帖子'
+      '缓存未读帖子'
     )
   }
 
@@ -333,7 +333,7 @@ export default class Action extends Fetch {
 
       // 这里需要能中断, 所以就不用queue了
       if (prefetching) {
-        info(`预读中... ${prefetchCurrent}`)
+        info(`缓存中... ${prefetchCurrent}`)
 
         await rakuenStore.fetchTopic({
           topicId
@@ -349,7 +349,7 @@ export default class Action extends Fetch {
     this.setState({
       ...INIT_PREFETCH_STATE
     })
-    info('预读取完毕')
+    info('缓存完毕')
   }
 
   /** 取消预读取 */

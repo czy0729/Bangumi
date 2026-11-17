@@ -81,7 +81,7 @@ export default class Action extends Fetch {
     }
 
     confirm(
-      '复制当前目录成为自己的目录, 此操作会大量消耗服务器资源, 请勿滥用, 确定?',
+      '复制当前目录成为自己的目录，此操作会大量消耗服务器资源，请勿滥用，确定？',
       () => this.doCopy(navigation),
       '复制目录'
     )
@@ -205,7 +205,7 @@ export default class Action extends Fetch {
         if (request && request.responseURL) {
           const match = request.responseURL.match(/\d+/g)
           if (match && match[0]) {
-            info('创建成功, 开始复制数据...')
+            info('创建成功，开始复制数据...')
 
             setTimeout(async () => {
               const catalogId = match[0]
@@ -243,7 +243,7 @@ export default class Action extends Fetch {
               })
             }, 400)
           } else {
-            info(`目录创建失败, 请检查${i18n.login()}状态`)
+            info(`目录创建失败，请检查${i18n.login()}状态`)
           }
         }
       }

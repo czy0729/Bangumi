@@ -17,7 +17,7 @@ export const SORT = [
   {
     key: 'top',
     title: '最受好评',
-    desc: '分数超过 8分, 看过人数超过 10000 的作品'
+    desc: '分数超过 8分，看过人数超过 10000 的作品'
   },
   {
     key: 'pop',

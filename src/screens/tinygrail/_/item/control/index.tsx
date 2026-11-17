@@ -55,7 +55,7 @@ function Control(props: Props) {
           size={18}
           withoutFeedback={withoutFeedback}
           onPress={() => {
-            confirm('周六取消需要收取手续费, 确定取消?', () => onAuctionCancel(id))
+            confirm('周六取消需要收取手续费，确定取消？', () => onAuctionCancel(id))
           }}
         />
       )}

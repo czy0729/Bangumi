@@ -54,8 +54,8 @@ export const MENU_ICONS: Record<string, IconfontNames> = {
   [TEXT_MENU_IGNORE]: 'md-visibility-off',
 
   // 收藏与书签
-  [TEXT_MENU_FAVOR]: 'md-favorite',
-  收藏: 'md-favorite',
+  [TEXT_MENU_FAVOR]: 'md-star',
+  收藏: 'md-star',
   加入书签: 'md-bookmark-outline',
   移出书签: 'md-bookmark-outline',
 

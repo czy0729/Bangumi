@@ -47,7 +47,7 @@ function Item({ title, href, replies, time, userId, userName }: BoardItem) {
             url
           })
 
-          info('该帖评论多, 自动使用浏览器打开')
+          info('该帖评论多，自动使用浏览器打开')
           setTimeout(() => {
             open(url)
           }, 1600)

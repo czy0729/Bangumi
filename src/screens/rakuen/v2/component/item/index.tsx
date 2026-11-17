@@ -68,7 +68,7 @@ function ItemWrap({
   const handlePress = useCallback(() => {
     if (replyCount > LIMIT_TOPIC_PUSH) {
       confirm(
-        '帖子内容基于网页分析, 帖子回复数过大可能会导致闪退, 仍使用客户端打开?',
+        '帖子内容基于网页分析，帖子回复数过大可能会导致闪退，仍使用客户端打开？',
         () => handleCallback(),
         undefined,
         () => {

@@ -108,7 +108,7 @@ function Timezone({ filter }: WithFilterProps) {
                   if (isActive) return
 
                   confirm(
-                    `提交时区设置 ${item.label} 到服务器, 会影响到所有设备的显示, 确定?`,
+                    `提交时区设置 ${item.label} 到服务器，会影响到所有设备的显示，确定？`,
                     () => {
                       updateTimezone(item.value)
 

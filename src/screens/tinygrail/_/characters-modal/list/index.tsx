@@ -24,7 +24,7 @@ function List({ data, renderItem }: Props) {
       data={list}
       limit={12}
       showMesume={false}
-      footerEmptyDataText={!!_loaded && !list.length ? '没有符合的结果' : '加载中'}
+      footerEmptyDataText={!!_loaded && !list.length ? '没有符合的结果' : '加载中...'}
       renderItem={renderItem}
     />
   )

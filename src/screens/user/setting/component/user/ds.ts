@@ -27,12 +27,12 @@ export const TEXTS = {
       '默认关闭，查看别人的时光机条目收藏右方显示管理按钮；开启后在自己的时光机也显示管理按钮'
   },
   userCommentsFull: {
-    hd: '评论占满布局',
+    hd: '吐槽占满布局',
     information: '关闭就是旧客户端布局'
   },
   userCommentsLines: {
-    hd: '评论默认展示行数',
-    information: '8 行大概是显示最大字数评论的一半'
+    hd: '吐槽默认展示行数',
+    information: '8 行大概是显示最大字数吐槽的一半'
   },
   userAge: {
     title: '用户站龄',

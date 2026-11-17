@@ -63,7 +63,7 @@ export const ListenClipboard = class ListenClipboardComponent extends React.Comp
       // 排除多个角色 小圣杯粘贴板逻辑
       const { length } = urls.filter(item => item.includes('/character/'))
       if (!(length > 1)) {
-        confirm(`检测到链接 ${url}, 前往页面?`, () => {
+        confirm(`检测到链接 ${url}，前往页面？`, () => {
           appNavigate(content, navigationReference())
         })
         Clipboard.setString('')

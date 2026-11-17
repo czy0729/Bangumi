@@ -21,7 +21,7 @@ function IsTop({ style, subjectId }: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
 
   const handlePress = useCallback(() => {
-    confirm(`${TEXT_UNPIN}?`, () => {
+    confirm(`${TEXT_UNPIN}？`, () => {
       $.itemToggleTop(subjectId, false)
     })
   }, [$, subjectId])

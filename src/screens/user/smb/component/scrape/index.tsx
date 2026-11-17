@@ -36,7 +36,7 @@ function Scrape() {
           style={styles.input}
           inputStyle={styles.multilineInputStyle}
           defaultValue={$.state.extendsJA.value}
-          placeholder={'关键字, 条目数字id'}
+          placeholder={'关键字，条目数字id'}
           multiline
           numberOfLines={10}
           textAlignVertical='top'

@@ -115,7 +115,7 @@ function LoginV2({ navigation }: NavigationProps) {
             onTour={() => {
               if (loginLock.current) return
               confirm(
-                `将使用开发者的测试账号, 提供大部分功能预览, 确定${i18n.login()}? (可以在设置里面退出${i18n.login()})`,
+                `将使用开发者的测试账号，提供大部分功能预览，确定${i18n.login()}？ (可以在设置里面退出${i18n.login()})`,
                 () => runOtherLogin(onTour),
                 '提示'
               )

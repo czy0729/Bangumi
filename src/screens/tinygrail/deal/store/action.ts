@@ -159,7 +159,7 @@ export default class Action extends Computed {
 
     if (this.isBid && Number(value) * amount > 20000) {
       confirm(
-        `金额较大, 当前买入 ${amount}股 * ${value}, 确定?`,
+        `金额较大，当前买入 ${amount}股 * ${value}，确定？`,
         this.doSubmitConfirm,
         '小圣杯助手'
       )

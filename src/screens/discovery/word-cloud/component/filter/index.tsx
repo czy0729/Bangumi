@@ -99,7 +99,7 @@ function Filter() {
           size={16}
           color='rgba(255, 255, 255, 0.64)'
           onPress={() => {
-            confirm('确定重新获取收藏?', () => {
+            confirm('确定重新获取收藏？', () => {
               $.batchUserSubjectThenCut(true)
             })
           }}

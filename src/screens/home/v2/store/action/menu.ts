@@ -131,7 +131,7 @@ export default class Menu extends Calendar {
 
     if (value === '看到') {
       if (item?.sort > 24) {
-        confirm(`确认看到${item.sort}集?`, () => {
+        confirm(`确认看到第 ${item.sort} 话？`, () => {
           this.doUpdateSubjectWatched(item, subjectId)
         })
         return

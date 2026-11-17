@@ -27,7 +27,7 @@ function Header() {
         size={21}
         color={_.colorDesc}
         onPress={() => {
-          info('进度瓷砖会有延迟, 若无数据可过段时间再来')
+          info('进度瓷砖会有延迟，若无数据可过段时间再来')
         }}
       />
     ),

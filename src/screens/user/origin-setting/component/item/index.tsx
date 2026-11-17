@@ -12,7 +12,7 @@ import { observer } from 'mobx-react'
 import { Flex, Image, Text } from '@components'
 import { Popover } from '@_'
 import { _, useStore } from '@stores'
-import { confirm, stl } from '@utils'
+import { confirmDanger, stl } from '@utils'
 import { getItemKey } from '../../utils'
 import Form from '../form'
 import { COMPONENT, MENUS } from './ds'
@@ -58,7 +58,7 @@ function Item({
           break
 
         case '删除':
-          confirm(`确定删除 [${name}] ?`, () => {
+          confirmDanger(`确定删除「${name}」？`, () => {
             $.deleteItem({
               uuid,
               type

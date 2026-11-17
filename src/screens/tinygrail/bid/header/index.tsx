@@ -28,7 +28,7 @@ function Header() {
           color={_.colorTinygrailPlain}
           onPress={() => {
             confirm(
-              `确定取消 (${$.canCancelCount}) 个 (${$.currentTitle})?`,
+              `确定取消 (${$.canCancelCount}) 个 (${$.currentTitle})？`,
               () => $.onBatchCancel(),
               '小圣杯助手'
             )

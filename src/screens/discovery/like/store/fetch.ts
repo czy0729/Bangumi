@@ -120,7 +120,7 @@ export default class Fetch extends Computed {
         }
       }
     } catch (error) {
-      info('部分请求发生错误, 请重试')
+      info('部分请求发生错误，请重试')
     }
 
     this.setState({

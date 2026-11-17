@@ -8,7 +8,7 @@
  */
 import { systemStore } from '@stores'
 import { info, loading } from '@utils'
-import { baiduTranslate } from '@utils/fetch'
+import { baiduTranslate, getTranslateErrorInfo } from '@utils/fetch'
 import { lx, lxCache } from '@utils/kv'
 import Computed from './computed'
 
@@ -20,7 +20,7 @@ export default class Action extends Computed {
     if (this.state.translateResult.length) return
 
     const isGemini = systemStore.translateEngine === 'gemini'
-    const errorInfo = `翻译${isGemini ? '超时' : '失败'}, 请重试`
+    const errorInfo = getTranslateErrorInfo(isGemini)
     let hide: () => void
     try {
       hide = loading()

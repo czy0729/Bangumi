@@ -41,7 +41,7 @@ function IconThumbsRefresh() {
           info('截图已更新')
         } else if (result === 'timeout') {
           /** 已放弃等待, 后台仍在跑, 拿到数据会自行更新 */
-          info('抓取超时, 稍后可能自动更新')
+          info('抓取超时，稍后可能自动更新')
         } else {
           info('暂无新的截图')
         }

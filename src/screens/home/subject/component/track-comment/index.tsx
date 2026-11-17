@@ -95,7 +95,7 @@ function TrackComment() {
 
                   // 取消追踪TA的动画观看进度
                   if (title === TEXT_MENU_CANCEL_TRACK_COLLECTIONS_TIMELINE) {
-                    confirm('确定取消?', () => {
+                    confirm('确定取消？', () => {
                       systemStore.cancelTrackCollectionTimelines(userId)
                     })
                     return
@@ -110,7 +110,7 @@ function TrackComment() {
                   }
 
                   // 取消追踪特定用户条目类型吐槽
-                  confirm('确定取消?', () => {
+                  confirm('确定取消？', () => {
                     $.onCancelTrackUsersCollection(userData)
                   })
                 }}

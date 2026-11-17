@@ -26,7 +26,7 @@ function Header() {
         <Touchable
           style={_.mr.md}
           onPress={() => {
-            confirm('是否切换你的刮刮乐用户公开状态?', $.updateUserStatus, '小圣杯助手')
+            confirm('是否切换你的刮刮乐用户公开状态？', $.updateUserStatus, '小圣杯助手')
           }}
         >
           <Text type='tinygrailText' size={13} bold>

@@ -8,7 +8,7 @@
  */
 import { useCallback, useRef, useState } from 'react'
 import { discoveryStore } from '@stores'
-import { confirm, feedback, info } from '@utils'
+import { confirmDanger, feedback, info } from '@utils'
 import {
   decodeContent,
   fixedOrder,
@@ -105,11 +105,11 @@ export function useSubjectEditor({
 
       const find = detail.list.find(i => i.id == id)
       if (!find || !find.erase) {
-        info('目录信息有误, 暂不能把该条目移出目录, 请重新进入页面')
+        info('目录信息有误，暂不能把该条目移出目录，请重新进入页面')
         return
       }
 
-      confirm('移出会同时删除目录评价, 确定?', () => {
+      confirmDanger('移出会同时删除目录评价，确定？', () => {
         discoveryStore.doCatalogDeleteRelate(
           {
             erase: find.erase
@@ -146,7 +146,7 @@ export function useSubjectEditor({
     (item, nextOrder, pItem) => {
       const formhash = getFormhash(item.erase)
       if (!formhash) {
-        info('目录信息有误, 暂不能修改条目, 请重新进入页面')
+        info('目录信息有误，暂不能修改条目，请重新进入页面')
         return
       }
 
@@ -171,7 +171,7 @@ export function useSubjectEditor({
     (item, pItem) => {
       const formhash = getFormhash(item.erase)
       if (!formhash) {
-        info('目录信息有误, 暂不能修改条目, 请重新进入页面')
+        info('目录信息有误，暂不能修改条目，请重新进入页面')
         return
       }
 
@@ -227,7 +227,7 @@ export function useSubjectEditor({
           break
 
         case '移出':
-          confirm('确定移出目录?', () => {
+          confirmDanger('确定移出目录？', () => {
             discoveryStore.doCatalogDeleteRelate(
               {
                 erase: item.erase

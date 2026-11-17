@@ -125,7 +125,7 @@ export function useLoginV2Page({ navigation }: NavigationProps) {
   /** 登录成功后入库 */
   const inStore = useCallback(() => {
     patch({
-      info: `${i18n.login()}成功, 正在请求个人信息...(5/5)`
+      info: `${i18n.login()}成功，正在请求个人信息...(5/5)`
     })
 
     saveLoginResult({
@@ -199,7 +199,7 @@ export function useLoginV2Page({ navigation }: NavigationProps) {
       }
 
       patch({
-        info: '授权成功, 获取token中...(4/5)'
+        info: '授权成功，获取token中...(4/5)'
       })
       await service.fetchAccessToken()
       saveLoginSetting('password', password)
@@ -231,7 +231,7 @@ export function useLoginV2Page({ navigation }: NavigationProps) {
 
       await fetchTouristUser()
 
-      info(`${i18n.login()}成功, 正在请求个人信息...`, 6)
+      info(`${i18n.login()}成功，正在请求个人信息...`, 6)
       feedback()
       userStore.fetchUserInfo()
       userStore.fetchUsersInfo()
@@ -239,7 +239,7 @@ export function useLoginV2Page({ navigation }: NavigationProps) {
       navigation.popToTop()
     } catch (error) {
       logger.error(NAMESPACE, 'onTour', error)
-      info(`${i18n.login()}状态过期, 请稍后再试`)
+      info(`${i18n.login()}状态过期，请稍后再试`)
     }
   }, [navigation])
 

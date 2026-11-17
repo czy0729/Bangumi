@@ -150,10 +150,9 @@ export const AndroidActionSheet = observer(function AndroidActionSheet({
         <Text
           style={[
             !IOS && androidTextFixedStyle,
-            destructiveButtonIndex === index ? styles.destructiveBtn : styles.btnText,
-            {
-              color: _.colorDesc
-            }
+            destructiveButtonIndex === index
+              ? styles.destructiveBtn
+              : [styles.btnText, { color: _.colorDesc }]
           ]}
           textBreakStrategy='simple'
           numberOfLines={0}

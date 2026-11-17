@@ -9,7 +9,7 @@ import { View } from 'react-native'
 import { Cover, Flex, flexStyle, Iconfont, Text, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
 import { _, uiStore, userStore } from '@stores'
-import { appNavigate, confirm, lastDate, stl, x18 } from '@utils'
+import { appNavigate, confirmDanger, lastDate, stl, x18 } from '@utils'
 import { memo } from '@utils/decorators'
 import { EVENT, FROZEN_ARRAY, FROZEN_FN, IMG_HEIGHT_SM, IMG_WIDTH_SM, SHARE_MODE } from '@constants'
 import { InView, Likes, Popover, Stars } from '../../base'
@@ -99,7 +99,7 @@ const Item = memo(
       [onHidden, userId]
     )
     const handleClear = useCallback(() => {
-      confirm('确定删除?', () => {
+      confirmDanger('确定删除？', () => {
         onDelete(clearHref)
       })
     }, [clearHref, onDelete])

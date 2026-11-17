@@ -8,7 +8,7 @@ import { observer } from 'mobx-react'
 import { Heatmap } from '@components'
 import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
-import { confirm, info } from '@utils'
+import { confirmDanger, info } from '@utils'
 import { SHARE_MODE } from '@constants'
 import i18n from '@constants/i18n'
 import { COMPONENT_CLOSE } from './ds'
@@ -42,11 +42,11 @@ function IconClose() {
         }
 
         if (!$.subjectFormHTML.formhash) {
-          info(`无法操作, 请检查${i18n.login()}状态`)
+          info(`无法操作，请检查${i18n.login()}状态`)
           return
         }
 
-        confirm('确定删除收藏?', () => $.doEraseCollection())
+        confirmDanger('确定删除收藏？', () => $.doEraseCollection())
       }}
     >
       <Heatmap id='条目.删除收藏' />

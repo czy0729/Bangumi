@@ -47,7 +47,7 @@ export default class Fetch extends Computed {
 
     const list = this.list
     confirm(
-      `更新 ${list.length} 个条目的评分?`,
+      `更新 ${list.length} 个条目的评分？`,
       async () => {
         this.setState({
           progress: {

@@ -125,7 +125,7 @@ export default class Action extends Fetch {
     this.save()
 
     confirm(
-      `当前大部分新番没有放送时间数据, 可能因刚换季, 线上与内置数据尚未同步\n是否显示${TEXT_UNKNOWN_ONAIR}?`,
+      `当前大部分新番没有放送时间数据，可能因刚换季，线上与内置数据尚未同步\n是否显示${TEXT_UNKNOWN_ONAIR}？`,
       this.onToggleExpand,
       '提示'
     )

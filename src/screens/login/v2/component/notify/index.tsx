@@ -20,7 +20,7 @@ function Notify() {
   return (
     <View style={styles.notify}>
       <Text size={12} lineHeight={14} type='sub'>
-        隐私策略: 我们十分尊重您的隐私, 我们不会收集上述信息. (多次
+        隐私策略: 我们十分尊重您的隐私，我们不会收集上述信息. (多次
         {i18n.login()}失败后可能一段时间内不能再次{i18n.login()})
       </Text>
     </View>

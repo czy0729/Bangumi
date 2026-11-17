@@ -8,7 +8,7 @@
  */
 import { useCallback, useEffect, useRef } from 'react'
 import { collectionStore, discoveryStore, usersStore } from '@stores'
-import { confirm, feedback, info } from '@utils'
+import { confirmDanger, feedback, info } from '@utils'
 import { queue, t } from '@utils/fetch'
 import { FROZEN_FN } from '@constants'
 import {
@@ -175,8 +175,8 @@ export function useFolderManageModal({
           break
 
         case '删除':
-          confirm(
-            `删除目录[${item.title}], 操作将抹掉所有关联数据以及用户留言, 是否要继续?`,
+          confirmDanger(
+            `删除目录「${item.title}」，操作将抹掉所有关联数据以及用户留言，是否要继续？`,
             () => {
               requestDeleteCatalog({ catalogId: item.id, formhash: getUsableFormhash() }, () => {
                 info('已删除此目录')

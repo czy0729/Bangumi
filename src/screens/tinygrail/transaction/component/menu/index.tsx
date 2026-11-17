@@ -9,7 +9,7 @@ import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text } from '@components'
 import { Popover } from '@_'
 import { _, userStore, useStore } from '@stores'
-import { confirm, lastDate } from '@utils'
+import { confirmDanger, lastDate } from '@utils'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 
@@ -50,15 +50,15 @@ function Menu({ id }) {
           break
 
         case '清空点赞':
-          confirm('确定清空点赞？', $.onResetLikes, '小圣杯助手')
+          confirmDanger('确定清空点赞？', $.onResetLikes, '小圣杯助手')
           break
 
         case '删除':
-          confirm('确定删除？', $.onDelete, '小圣杯助手')
+          confirmDanger('确定删除？', $.onDelete, '小圣杯助手')
           break
 
         case '发红包':
-          confirm('确定给TA发送10000cc？', () => $.onSend(detail?.userId), '小圣杯助手')
+          confirmDanger('确定给 TA 发送 10000cc？', () => $.onSend(detail?.userId), '小圣杯助手')
           break
 
         default:

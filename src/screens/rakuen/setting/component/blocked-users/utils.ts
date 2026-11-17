@@ -30,14 +30,14 @@ export function handleBlockUser(keyword: string, success: () => void) {
       success()
     },
     () => {
-      info('添加失败, 可能不存在此用户或者授权信息过期')
+      info('添加失败，可能不存在此用户或者授权信息过期')
     }
   )
 }
 
 /** 取消绝交用户 */
 export function handleDeleteBlockUser(item: BlockedUsersItem) {
-  confirm(`取消绝交 ${item.userName}, 确定?`, () => {
+  confirm(`取消绝交 ${item.userName}，确定？`, () => {
     rakuenStore.doCancelBlockUser(
       {
         url: `${HOST}${item.href}`
@@ -49,7 +49,7 @@ export function handleDeleteBlockUser(item: BlockedUsersItem) {
         feedback()
       },
       () => {
-        info('取消失败, 可能授权信息过期')
+        info('取消失败，可能授权信息过期')
       }
     )
   })

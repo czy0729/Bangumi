@@ -139,7 +139,7 @@ export default class ScreenTinygrailTree extends store<typeof STATE> {
         total
       })
     } catch (error) {
-      info('渲染失败, 请刷新')
+      info('渲染失败，请刷新')
     }
   }
 

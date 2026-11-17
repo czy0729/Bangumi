@@ -44,7 +44,7 @@ function Say(props: NavigationProps) {
             )}
             {userStore.isWebLogin && (
               <FixedTextarea
-                placeholder={$.isNew ? '新吐槽' : '回复吐槽, 长按头像@某人'}
+                placeholder={$.isNew ? '新吐槽' : '回复吐槽，长按头像@某人'}
                 simple
                 value={$.state.value}
                 cursorEnd={$.state.cursorEnd}

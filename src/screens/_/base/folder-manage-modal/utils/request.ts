@@ -114,6 +114,6 @@ export function deleteCatalog(params: { catalogId: Id; formhash?: string }, succ
 function checkFormhash(formhash: string) {
   if (formhash) return true
 
-  info(`授权信息有误, 无法操作, 请尝试重新${i18n.login()}`)
+  info(`授权信息有误，无法操作，请尝试重新${i18n.login()}`)
   return false
 }

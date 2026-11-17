@@ -91,7 +91,7 @@ export default class Action extends Fetch {
     } catch {}
 
     if (!userStore.formhash) {
-      info('获取表单授权码失败, 请检查登录状态')
+      info('获取表单授权码失败，请检查登录状态')
       return false
     }
 

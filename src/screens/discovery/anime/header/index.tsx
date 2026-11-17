@@ -16,7 +16,7 @@ import { COMPONENT, HM } from './ds'
 import type { Props } from './types'
 
 /** 头部 (多个频道共用) */
-function Header({ title = '找番剧', alias = 'Anime', hm }: Props) {
+function Header({ title = '找条目', alias = 'Anime', hm }: Props) {
   r(COMPONENT)
 
   const handleHeaderRight = useCallback(() => <Extra title={alias} />, [alias])

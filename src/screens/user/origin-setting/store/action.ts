@@ -221,13 +221,13 @@ export default class Action extends Computed {
     const _url = replaceOriginUrl(url, found.test)
     if (_url) {
       const { openInfo } = systemStore.setting
-      if (openInfo) copy(_url, '已复制地址')
+      if (openInfo) copy(_url, '已复制链接')
       setTimeout(
         () => {
           try {
             open(_url)
           } catch (error) {
-            info('网址解析出错, 请检查')
+            info('网址解析出错，请检查')
           }
         },
         openInfo ? 1600 : 0

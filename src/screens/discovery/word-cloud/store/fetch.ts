@@ -193,7 +193,7 @@ export default class Fetch extends Computed {
       await queue(restTasks, 3)
     } catch (error) {
       this.error('fetchCollectionV0', error)
-      info('部分请求发生错误, 请重试')
+      info('部分请求发生错误，请重试')
     }
 
     const data = list

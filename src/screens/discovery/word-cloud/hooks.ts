@@ -43,7 +43,7 @@ export function useWordCloudPage(props: NavigationProps) {
         info('由于此服务需要消耗大量服务器资源\n暂不对非付费用户提供主动刷新功能', 5)
       }
     } catch {
-      info('刷新失败, 请稍后重试')
+      info('刷新失败，请稍后重试')
     } finally {
       setRefreshing(false)
     }

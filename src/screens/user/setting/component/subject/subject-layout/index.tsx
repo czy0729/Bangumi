@@ -49,7 +49,7 @@ function SubjectLayout({ filter }: WithFilterProps) {
           style={styles.touch}
           onPress={() => {
             confirm(
-              '确定重置所有条目的布局?\n将清除每个条目单独调整的展开/收起/隐藏, 全部恢复为上面的默认值',
+              '确定重置所有条目的布局？\n将清除每个条目单独调整的展开/收起/隐藏，全部恢复为上面的默认值',
               () => {
                 systemStore.resetSubjectLayout()
                 subjectStore.resetLayout()

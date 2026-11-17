@@ -17,7 +17,7 @@ export const TEXTS = {
   },
   tinygrailMode: {
     hd: '涨跌色',
-    search: '绿涨红跌, 红涨绿跌'
+    search: '绿涨红跌，红涨绿跌'
   },
   homeCustom: {
     hd: '进度页右上角入口',

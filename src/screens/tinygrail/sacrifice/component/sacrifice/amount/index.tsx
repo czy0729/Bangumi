@@ -54,7 +54,7 @@ function Amount() {
             if (tinygrailStore.checkAuth()) {
               if (loading) return
 
-              confirm(`确定献祭 ${amount}股?`, () => $.doSacrifice(), '小圣杯助手')
+              confirm(`确定献祭 ${amount}股？`, () => $.doSacrifice(), '小圣杯助手')
             }
           }}
         >

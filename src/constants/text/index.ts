@@ -250,8 +250,8 @@ export const TEXT_MENU_TIME_FORMAT_LASTDATE = '最近'
 /** 菜单: 时间格式 (日期) */
 export const TEXT_MENU_TIME_FORMAT_REGULAR = '日期'
 
-/** 菜单: 本集讨论 */
-export const TEXT_MENU_TOPIC = '本集讨论'
+/** 菜单: 章节讨论 */
+export const TEXT_MENU_TOPIC = '章节讨论'
 
 /** 菜单: 追踪TA的动画观看进度 */
 export const TEXT_MENU_TRACK_COLLECTIONS_TIMELINE = '追踪TA的动画观看进度'

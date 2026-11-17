@@ -77,7 +77,7 @@ export function useProxyHelpPage() {
         }
       }
     } catch {
-      info('请求失败请重试')
+      info('请求失败，请重试')
     } finally {
       setLoading(false)
     }

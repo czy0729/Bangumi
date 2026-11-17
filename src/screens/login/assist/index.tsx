@@ -129,7 +129,7 @@ class LoginAssist extends React.Component<NavigationProps> {
     } catch (error) {
       this.setState({
         loading: false,
-        info: '结果格式有误, 请重新输入'
+        info: '结果格式有误，请重新输入'
       })
     }
   }
@@ -150,7 +150,7 @@ class LoginAssist extends React.Component<NavigationProps> {
     } catch (ex) {
       this.setState({
         loading: false,
-        info: `${i18n.login()}失败, 请重试或跟我反馈吧bgm38`
+        info: `${i18n.login()}失败，请重试或跟我反馈吧bgm38`
       })
     }
   }
@@ -178,7 +178,7 @@ class LoginAssist extends React.Component<NavigationProps> {
     } catch (error) {
       this.setState({
         loading: false,
-        info: `${i18n.login()}失败, 请重试或跟我反馈吧bgm38`
+        info: `${i18n.login()}失败，请重试或跟我反馈吧bgm38`
       })
       return false
     }
@@ -217,7 +217,7 @@ class LoginAssist extends React.Component<NavigationProps> {
     } catch (error) {
       this.setState({
         loading: false,
-        info: `${i18n.login()}失败, 请重试或跟我反馈吧bgm38`
+        info: `${i18n.login()}失败，请重试或跟我反馈吧bgm38`
       })
       return false
     }
@@ -228,7 +228,7 @@ class LoginAssist extends React.Component<NavigationProps> {
    */
   getAccessToken = () => {
     this.setState({
-      info: '授权成功, 获取token中...(3/4)'
+      info: '授权成功，获取token中...(3/4)'
     })
 
     try {
@@ -252,7 +252,7 @@ class LoginAssist extends React.Component<NavigationProps> {
     } catch (error) {
       this.setState({
         loading: false,
-        info: `${i18n.login()}失败, 请重试或跟我反馈吧bgm38`
+        info: `${i18n.login()}失败，请重试或跟我反馈吧bgm38`
       })
       return false
     }
@@ -263,7 +263,7 @@ class LoginAssist extends React.Component<NavigationProps> {
    */
   inStore = async () => {
     this.setState({
-      info: `${i18n.login()}成功, 正在请求个人信息...(4/4)`
+      info: `${i18n.login()}成功，正在请求个人信息...(4/4)`
     })
 
     const { navigation } = this.props
@@ -292,18 +292,18 @@ class LoginAssist extends React.Component<NavigationProps> {
         <Page>
           <ScrollView contentContainerStyle={this.styles.container} scrollToTop>
             <Text type='danger' size={12}>
-              此为{i18n.login()}最后的手段，流程相对较多 (其实不复杂， 熟悉的话比正常
+              此为{i18n.login()}最后的手段，流程相对较多 (其实不复杂，熟悉的话比正常
               {i18n.login()}还要快和稳)，请先尝试新版和旧版{i18n.login()}
               ，不行再试这个。
             </Text>
             <Text style={_.mt.sm} type='sub' size={12}>
               第三方{i18n.login()}
-              失败受很多因素影响，如网络不佳、运营商劫持、手机系统特异， 又或者碰上bgm速度不佳
-              (当然还有代码有bug)。
+              失败受很多因素影响，如网络不佳、运营商劫持、手机系统特异，又或者碰上bgm速度不佳
+              （当然还有代码有bug）。
             </Text>
             <Text style={_.mt.sm} type='sub' size={12}>
               本人能力有限，部分设备无论如何都不能走通新版和旧版的{i18n.login()}流程，
-              若您实在很喜欢本应用，可以尝试下面的方法 (假如还走不通，请多尝试， 又或者过来干我)。
+              若您实在很喜欢本应用，可以尝试下面的方法（假如还走不通，请多尝试，又或者过来干我）。
             </Text>
             <Text style={_.mt.lg}>1. 复制框里的代码。</Text>
             <View style={_.mt.sm}>

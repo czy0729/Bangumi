@@ -143,7 +143,7 @@ export default class Action extends Fetch {
           })
         },
         () => {
-          info('发送失败, 可能需要重新登录')
+          info('发送失败，可能需要重新登录')
           this.setState({
             fetching: false,
             show: true

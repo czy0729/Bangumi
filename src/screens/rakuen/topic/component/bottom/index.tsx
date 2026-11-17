@@ -27,7 +27,7 @@ function Bottom({ fixedTextareaRef, onDirect }: Props) {
     return (
       <SafeAreaBottom style={styles.fixedBottom} type={_.ios('height', 'bottom')}>
         <Flex>
-          <Text>半公开小组只有成员才能发言, </Text>
+          <Text>半公开小组只有成员才能发言，</Text>
           <Text type='main' onPress={() => appNavigate($.groupHref, navigation)}>
             点击加入
           </Text>

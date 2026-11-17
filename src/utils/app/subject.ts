@@ -351,7 +351,7 @@ export function matchBgmLink(url: string = ''):
     }
 
     /**
-     * 条目本集讨论 (结构与超展开内容类似, 跳转到超展开内容)
+     * 条目章节讨论 (结构与超展开内容类似, 跳转到超展开内容)
      *  - [/ep/{id}]
      *  - https://bgm.tv/ep/1440332
      *  - https://bgm.tv/rakuen/topic/ep/1440332

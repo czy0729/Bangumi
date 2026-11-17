@@ -14,7 +14,7 @@ import {
   usersStore,
   userStore
 } from '@stores'
-import { confirm, copy, feedback, getTimestamp, info } from '@utils'
+import { confirm, confirmDanger, copy, feedback, getTimestamp, info } from '@utils'
 import { ensureArrayLimit } from '@utils/cache'
 import { t } from '@utils/fetch'
 import { generate, get, update } from '@utils/kv'
@@ -39,8 +39,8 @@ const CHAT_VALUES_MAX = 10
 /** 社交互动 (屏蔽 / 追踪 / 吐槽 / 锐评) */
 export default class Social extends Actions {
   addBlockUser = (values: { avatar: string; userId: UserId; userName: string }) => {
-    confirm(
-      `屏蔽来自 ${values?.userName}@${values?.userId} 的包括条目评论、时间胶囊、超展开相关信息，确定?`,
+    confirmDanger(
+      `屏蔽来自 ${values?.userName}@${values?.userId} 的包括条目评论、时间胶囊、超展开相关信息，确定？`,
       () => {
         rakuenStore.addBlockUser(`${values.userName}@${values.userId}`)
         info(`已屏蔽 ${values.userName}`)
@@ -54,8 +54,8 @@ export default class Social extends Actions {
 
   /** 绝交用户 */
   doBlockUser = (values: { avatar: string; userId: UserId; userName: string }) => {
-    confirm(
-      `与 ${values.userName} 绝交（不再看到用户的所有话题、评论、日志、私信、提醒）?`,
+    confirmDanger(
+      `与 ${values.userName} 绝交（不再看到用户的所有话题、评论、日志、私信、提醒）？`,
       async () => {
         if (!rakuenStore.formhash) await rakuenStore.fetchPrivacy()
 
@@ -71,7 +71,7 @@ export default class Social extends Actions {
             t('条目.绝交')
           },
           () => {
-            info('添加失败, 可能授权信息过期')
+            info('添加失败，可能授权信息过期')
           }
         )
       }
@@ -135,7 +135,7 @@ export default class Social extends Actions {
 
     // 取消追踪TA的动画观看进度
     if (title === TEXT_MENU_CANCEL_TRACK_COLLECTIONS_TIMELINE) {
-      confirm('确定取消?', () => {
+      confirm('确定取消？', () => {
         systemStore.cancelTrackCollectionTimelines(userData.userId)
       })
       return

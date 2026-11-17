@@ -6,7 +6,7 @@
  * @Last Modified time: 2026-03-19 14:46:25
  */
 import { err, hm, t, ua, withT } from '../track'
-import { baiduTranslate } from './baidu'
+import { baiduTranslate, getTranslateErrorInfo } from './baidu'
 import { fetchAPI, fetchHTML } from './fetch'
 import { queue, safe } from './utils'
 import { ping, xhr, xhrCustom, xhrTimeout } from './xhr'
@@ -14,6 +14,7 @@ import { ping, xhr, xhrCustom, xhrTimeout } from './xhr'
 export {
   baiduTranslate,
   err,
+  getTranslateErrorInfo,
   fetchAPI,
   fetchHTML,
   hm,

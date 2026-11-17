@@ -129,7 +129,7 @@ class Login extends React.Component<NavigationProps> {
     const { navigation } = this.props
     const code = href.replace(`${URL_OAUTH_REDIRECT}?code=`, '')
     try {
-      info('获取token中, 请稍等...', 6)
+      info('获取token中，请稍等...', 6)
       await userStore.fetchAccessToken(code)
     } catch (ex) {
       this.setState({
@@ -160,8 +160,8 @@ class Login extends React.Component<NavigationProps> {
             返回
           </Button>
           <Text style={_.mt.lg} size={12} lineHeight={14} type='sub'>
-            PS: 若{i18n.login()}出现问题, 请先在授权网页里面登出, 不然会出现成功后
-            {i18n.login()}过期的情况.
+            PS：若{i18n.login()}出现问题，请先在授权网页里面登出，不然会出现成功后
+            {i18n.login()}过期的情况。
           </Text>
         </View>
       </View>
@@ -176,7 +176,7 @@ class Login extends React.Component<NavigationProps> {
           <Flex style={styles.loading} direction='column' justify='center'>
             <Loading.Raw color={_.colorMain} />
             <Text style={_.mt.md} size={12} type='main'>
-              网页加载中, 请稍等
+              网页加载中，请稍等
             </Text>
           </Flex>
         </View>

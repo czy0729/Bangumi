@@ -21,7 +21,7 @@ function Loading({ onOpen }: Props) {
   return (
     <LoadingComp style={styles.loading} color={_.__colorPlain__}>
       <Text style={_.mt.md} type='__plain__' size={13}>
-        网页加载中, 请稍等
+        网页加载中，请稍等
       </Text>
       <Text style={styles.extra} type='__plain__' size={10} onPress={onOpen}>
         或点这里使用浏览器打开

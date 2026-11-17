@@ -44,7 +44,7 @@ export function useCloudSync({ isLogin, onDownloaded }: Pick<Props, 'isLogin' | 
     if (!isLogin) return info(`下载需先${i18n.login()}`)
 
     setTimeout(() => {
-      confirm('确定恢复到云端的设置?', async () => {
+      confirm('确定恢复到云端的设置？', async () => {
         const hide = loading('下载中...')
         const flag = await subjectStore.downloadOrigin()
         hide()
@@ -62,7 +62,7 @@ export function useCloudSync({ isLogin, onDownloaded }: Pick<Props, 'isLogin' | 
     if (!isLogin) return info(`上传需先${i18n.login()}`)
 
     setTimeout(() => {
-      confirm('确定上传当前设置到云端?', async () => {
+      confirm('确定上传当前设置到云端？', async () => {
         const hide = loading('上传中...')
         const flag = await subjectStore.uploadOrigin()
         hide()

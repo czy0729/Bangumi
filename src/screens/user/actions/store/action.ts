@@ -176,7 +176,7 @@ export default class Action extends Computed {
       try {
         open(url, true)
       } catch (error) {
-        info('跳转协议解析出错, 请检查')
+        info('跳转协议解析出错，请检查')
       }
     }, DELAY_OPEN)
   }

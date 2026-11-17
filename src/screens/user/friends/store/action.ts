@@ -5,7 +5,15 @@
  * @Last Modified time: 2026-05-21 01:52:29
  */
 import { usersStore, userStore } from '@stores'
-import { confirm, debounce, feedback, HTMLDecode, info, updateVisibleBottom } from '@utils'
+import {
+  confirm,
+  confirmDanger,
+  debounce,
+  feedback,
+  HTMLDecode,
+  info,
+  updateVisibleBottom
+} from '@utils'
 import { t, xhr } from '@utils/fetch'
 import {
   HTML_ACTION_DISCONNECT,
@@ -54,11 +62,11 @@ export default class Action extends Fetch {
         break
 
       case TEXT_MENU_DISCONNECT:
-        confirm(`确认从朋友列表中去掉 ${userName}?`, () => this.doDisconnectFriend(item))
+        confirmDanger(`确认从朋友列表中去掉 ${userName}？`, () => this.doDisconnectFriend(item))
         break
 
       case TEXT_MENU_DISCONNECT_REV:
-        confirm(`确认移除 ${userName} 对你的关注?`, () => this.doDisconnectRevFriend(item))
+        confirmDanger(`确认移除 ${userName} 对你的关注？`, () => this.doDisconnectRevFriend(item))
         break
 
       default:

@@ -68,7 +68,7 @@ export default class ScreenTinygrailClipboard extends store<typeof EXCLUDE_STATE
   // -------------------- page --------------------
   onShare = () => {
     if (this.list.list.length === 0) {
-      info('当前没有角色数据')
+      info('暂无角色数据')
       return
     }
 
@@ -91,6 +91,6 @@ export default class ScreenTinygrailClipboard extends store<typeof EXCLUDE_STATE
       })
     }
     feedback()
-    info('已完成注资')
+    info('注资成功')
   }
 }

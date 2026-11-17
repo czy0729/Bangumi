@@ -17,7 +17,7 @@ export function handleDownload() {
   }
 
   setTimeout(() => {
-    confirm('确定恢复到云端的设置?', confirmDownloadSetting)
+    confirm('确定恢复到云端的设置？', confirmDownloadSetting)
   }, 160)
 }
 
@@ -55,7 +55,7 @@ export function handleUpload() {
   }
 
   setTimeout(() => {
-    confirm('确定上传当前设置到云端?', async () => {
+    confirm('确定上传当前设置到云端？', async () => {
       t('设置.恢复默认设置', {
         label: '上传'
       })
@@ -86,7 +86,7 @@ export function handleUpload() {
 export function handleRestore() {
   setTimeout(() => {
     confirm(
-      `仅会恢复${i18n.initial()}设置，不包含超展开设置、自定义放送数据和条目布局设置，确定?`,
+      `仅会恢复${i18n.initial()}设置，不包含超展开设置、自定义放送数据和条目布局设置，确定？`,
       () => {
         t('设置.恢复默认设置', {
           label: '恢复默认'

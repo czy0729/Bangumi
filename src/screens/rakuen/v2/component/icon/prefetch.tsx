@@ -22,7 +22,7 @@ function IconPrefetch() {
     return (
       <Touchable
         onPress={() => {
-          confirm('确定取消预读取?', $.cancelPrefetch)
+          confirm('确定取消缓存？', $.cancelPrefetch)
         }}
       >
         <Flex>

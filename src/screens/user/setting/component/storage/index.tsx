@@ -10,15 +10,15 @@ import { ActionSheet, Heatmap, Text } from '@components'
 import { clearCache } from '@components/image/image'
 import { ItemSetting } from '@_'
 import Stores from '@stores'
-import { confirm, info, toFixed } from '@utils'
+import { confirmDanger, info, toFixed } from '@utils'
 import { logger, r } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { useBoolean, useMount } from '@utils/hooks'
 import { getAllKeys, multiGet } from '@utils/storage/utils'
 import { WEB } from '@constants'
 import i18n from '@constants/i18n'
-import { IconAlertTriangle, IconDatabase, IconImageOff, IconTrash } from '../icons'
 import { getShows } from '../../utils'
+import { IconAlertTriangle, IconDatabase, IconImageOff, IconTrash } from '../icons'
 import { COMPONENT, TEXTS } from './ds'
 
 import type { WithFilterProps } from '../../types'
@@ -48,7 +48,7 @@ function Storage({ filter }: WithFilterProps) {
   }, [])
 
   const clearStorage = useCallback(() => {
-    confirm(`清除所有数据${i18n.cache()}，确定?`, async () => {
+    confirmDanger(`清除所有数据${i18n.cache()}，确定？`, async () => {
       t('设置.清除缓存', {
         type: 'storage'
       })
@@ -63,7 +63,7 @@ function Storage({ filter }: WithFilterProps) {
   }, [calculateStorageSize])
 
   const clearImages = useCallback(() => {
-    confirm('清除所有图片缓存，确定?', () => {
+    confirmDanger('清除所有图片缓存，确定？', () => {
       t('设置.清除缓存', {
         type: 'images'
       })
@@ -76,8 +76,8 @@ function Storage({ filter }: WithFilterProps) {
   }, [])
 
   const clearAll = useCallback(() => {
-    confirm(
-      `清除所有包括页面接口的数据${i18n.cache()} (若需清除图片${i18n.cache()}，请到系统里面清除应用数据)，确定?`,
+    confirmDanger(
+      `清除所有包括页面接口的数据${i18n.cache()} (若需清除图片${i18n.cache()}，请到系统里面清除应用数据)，确定？`,
       async () => {
         t('设置.清除缓存', {
           type: 'all'

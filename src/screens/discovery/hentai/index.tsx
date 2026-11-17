@@ -36,7 +36,7 @@ function Hentai(props: NavigationProps) {
             <List />
           )}
         </Page>
-        <Header title='找番剧' alias='Hentai' hm={HM} />
+        <Header title='找条目' alias='Hentai' hm={HM} />
       </StoreContext.Provider>
     </Component>
   )

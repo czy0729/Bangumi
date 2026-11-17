@@ -112,7 +112,7 @@ export default class ScreenTinygrailSearch extends store<typeof STATE> {
     })
 
     if (data.State !== 0) {
-      info('查询失败, 请重试')
+      info('查询失败，请重试')
       return false
     }
 

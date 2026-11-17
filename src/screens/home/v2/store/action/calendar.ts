@@ -62,7 +62,7 @@ export default class Calendar extends Progress {
 
     const title = cnjp(subject.name_cn, subject.name)
     confirm(
-      `「${title}」\n是否一键添加 ${naEps.length} 个章节的提醒?`,
+      `「${title}」\n是否一键添加 ${naEps.length} 个章节的提醒？`,
       async () => {
         const onAir = this.onAirCustom(subjectId)
         const hide = loading()
@@ -100,7 +100,7 @@ export default class Calendar extends Progress {
     const icsEps =
       subject.eps.length >= 100 ? subject.eps.filter(item => item.status === 'NA') : subject.eps
     if (!icsEps.length) {
-      info('没有数据')
+      info('暂无数据')
       return
     }
 

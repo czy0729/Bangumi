@@ -60,7 +60,7 @@ function Extra({ userId, connectUserId, repeat }: Props) {
               size='sm'
               onPress={() => {
                 confirm(
-                  '添加好友?',
+                  '添加好友？',
                   async () => {
                     await timelineStore.doConnect(connectUserId)
                     feedback()
@@ -80,7 +80,7 @@ function Extra({ userId, connectUserId, repeat }: Props) {
               type='ghostPlain'
               size='sm'
               onPress={() => {
-                confirm('确定忽略?', () => {
+                confirm('确定忽略？', () => {
                   setConnect('已忽略')
                   setStorage(`${COMPONENT}|${connectUserId}`, '已忽略')
 

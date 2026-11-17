@@ -6,7 +6,7 @@
  */
 import { toJS } from 'mobx'
 import { discoveryStore, smbStore, userStore } from '@stores'
-import { alert, confirm, getTimestamp, info } from '@utils'
+import { alert, confirm, confirmDanger, getTimestamp, info } from '@utils'
 import Crypto from '@utils/thirdParty/crypto'
 import { queue, t } from '@utils/fetch'
 import { get, update } from '@utils/kv'
@@ -369,14 +369,17 @@ export default class Action extends Fetch {
     }
 
     if (title === ACTION_COPY_AND_CREATE_FOLDER) {
-      confirm(`以 ${this.current?.smb?.name} 为名字, 用当前筛选的条目来创建用户目录, 确定?`, () => {
-        this.doCreateCatalog(navigation)
-      })
+      confirm(
+        `以 ${this.current?.smb?.name} 为名字，用当前筛选的条目来创建用户目录，确定？`,
+        () => {
+          this.doCreateCatalog(navigation)
+        }
+      )
       return
     }
 
     if (title === ACTION_DELETE) {
-      confirm('删除后无法恢复，确定？', this.onDelete)
+      confirmDanger('删除后无法恢复，确定？', this.onDelete)
       return
     }
 
@@ -726,13 +729,13 @@ export default class Action extends Fetch {
   doCreateCatalog = async (navigation: Navigation) => {
     const { formhash } = userStore
     if (!formhash) {
-      info(`文件夹创建失败, 请检查${i18n.login()}状态`)
+      info(`文件夹创建失败，请检查${i18n.login()}状态`)
       return
     }
 
     const { loading } = this.state
     if (loading) {
-      info('正在获取数据中, 请待完成后再试')
+      info('正在获取数据中，请待完成后再试')
       return
     }
 
@@ -747,7 +750,7 @@ export default class Action extends Fetch {
         if (request && request.responseURL) {
           const match = request.responseURL.match(/\d+/g)
           if (match && match[0]) {
-            info('创建成功, 开始导入条目数据...')
+            info('创建成功，开始导入条目数据...')
 
             setTimeout(async () => {
               const list = this.memoList
@@ -788,7 +791,7 @@ export default class Action extends Fetch {
               info('已完成')
             }, 400)
           } else {
-            info(`文件夹创建失败, 请检查${i18n.login()}状态`)
+            info(`文件夹创建失败，请检查${i18n.login()}状态`)
           }
         }
       }

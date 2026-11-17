@@ -35,6 +35,11 @@ export const APP_BAIDU_KEY = Crypto.get(
 
 const CACHE_CHECK_LENGTH = 12
 
+/** 翻译失败提示 (Gemini 多为超时, 其他引擎为失败) */
+export function getTranslateErrorInfo(isGemini: boolean) {
+  return `翻译${isGemini ? '超时' : '失败'}，请重试`
+}
+
 type BaiduItem = {
   src: string
   dst: string

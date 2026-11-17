@@ -10,6 +10,6 @@ export const LABEL_CANCEL_ASK = '取消卖单'
 
 export const LABEL_CANCEL_AUCTION = '取消竞拍'
 
-export const MSG_CONFIRM_FEE = '周六取消需要收取手续费, 确定取消?'
+export const MSG_CONFIRM_FEE = '周六取消需要收取手续费，确定取消？'
 
 export const MSG_FAIL = '操作失败，请重试'

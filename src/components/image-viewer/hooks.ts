@@ -37,15 +37,23 @@ export function useImageMenus(proxyImageUrls: ImageUrl[], index: number, onCance
 
     if (IOS) {
       // 不想涉及到权限问题, 暂时用浏览器打开图片来处理
-      showActionSheet(ACTION_SHEET_DS, i => {
-        if (i === 0) open(url)
-      })
+      showActionSheet(
+        ACTION_SHEET_DS,
+        i => {
+          if (i === 0) open(url)
+        },
+        { cancelButtonIndex: ACTION_SHEET_DS.length - 1 }
+      )
     } else {
       // @issue 安卓的 ActionSheet 在这个 Viewer 的下面
       cancel?.()
-      showActionSheet(ACTION_SHEET_DS, i => {
-        if (i === 0) open(url)
-      })
+      showActionSheet(
+        ACTION_SHEET_DS,
+        i => {
+          if (i === 0) open(url)
+        },
+        { cancelButtonIndex: ACTION_SHEET_DS.length - 1 }
+      )
     }
     return null
   }, [])

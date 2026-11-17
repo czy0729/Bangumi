@@ -165,7 +165,7 @@ export async function submitCollection({
     // 失败: 统一在此提示, 不关弹窗, 可直接重试; 提交中已被用户主动放弃的只记日志 (弹窗已关, 无处重试)
     if (result === false) {
       submittedRef.current = false
-      if (!closedRef.current) info('更新失败, 请重试')
+      if (!closedRef.current) info('更新失败，请重试')
       return
     }
 
@@ -192,7 +192,7 @@ export async function submitCollection({
     // 入口实现异常的兜底: 复位标记避免残留导致关闭弹窗时误触发章节自动完成
     submittedRef.current = false
     logger.error(COMPONENT, 'handleSubmit', error)
-    if (!closedRef.current) info('更新失败, 请重试')
+    if (!closedRef.current) info('更新失败，请重试')
   } finally {
     updateState({
       submitting: false

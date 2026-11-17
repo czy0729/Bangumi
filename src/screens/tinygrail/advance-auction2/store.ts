@@ -49,7 +49,7 @@ export default class ScreenTinygrailAdvanceAuction2 extends store<typeof EXCLUDE
 
     if (!DEV && this.advance && getTimestamp() - Number(_loaded) < 60 * 1) {
       if (showInfo) {
-        info('为避免服务器压力, 1分钟后再刷新吧')
+        info('为避免服务器压力，1分钟后再刷新吧')
       }
       return true
     }

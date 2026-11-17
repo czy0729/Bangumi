@@ -37,7 +37,7 @@ function List({ onOpen }: Props) {
               }
 
               confirm(
-                '确定消耗10点固定资产使用混沌魔方?',
+                '确定消耗10点固定资产使用混沌魔方？',
                 () => {
                   $.doUse({
                     title: '混沌魔方'

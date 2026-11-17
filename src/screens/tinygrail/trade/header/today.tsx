@@ -22,7 +22,7 @@ function Today() {
   // 筛选出今天的交易数据, 并计算高, 低, 量
   const d = date('Y-m-d', getTimestamp())
   $.kline.data
-    .filter((item, index) => index !== 0 && item.time.includes(d)) // 要排除第一个数据, 因为有ico的量
+    .filter((item, index) => index !== 0 && item.time.includes(d)) // 要排除第一个数据，因为有ico的量
     .forEach(item => {
       if (high === '-' || item.high > high) high = toFixed(item.high, 2)
       if (low === '-' || item.low < low) low = toFixed(item.low, 2)

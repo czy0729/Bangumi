@@ -33,7 +33,7 @@ function Action() {
               if ($.state.loadingRefine) return
 
               if ($.state.confirmRefine) {
-                confirm('确定精炼?', () => $.doRefine(), '小圣杯助手')
+                confirm('确定精炼？', () => $.doRefine(), '小圣杯助手')
                 return
               }
 

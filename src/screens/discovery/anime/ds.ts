@@ -79,7 +79,7 @@ export const FILTER_DS = [
     multiSelect: true
   },
   {
-    title: '集数',
+    title: '话数',
     type: 'ep',
     data: ANIME_EP,
     nums: ANIME_COUNTS.ep

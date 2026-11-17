@@ -22,7 +22,7 @@ import {
   showActionSheet
 } from '@utils'
 import { calendarEventsSaveGameReleaseDate } from '@utils/calendar'
-import { baiduTranslate, t } from '@utils/fetch'
+import { baiduTranslate, getTranslateErrorInfo, t } from '@utils/fetch'
 import { resolveImageUri } from '@utils/image'
 import { download, lx, lxCache, temp } from '@utils/kv'
 import { applyProxy, restoreNativeUrl } from '@utils/proxy'
@@ -55,7 +55,7 @@ export default class Share extends Menus {
       cover = `data:image/jpg;base64,${request._response}`
     } catch (error) {
       hide()
-      info('封面下载失败, 请重试')
+      info('封面下载失败，请重试')
       return
     }
     hide()
@@ -84,7 +84,7 @@ export default class Share extends Menus {
     const url = `${URL_SPA}/${getSPAParams('Subject', {
       subjectId: this.subjectId
     })}`
-    copy(`【链接】${cnjp(this.cn, this.jp)} | Bangumi番组计划\n${url}`, '已复制 APP 网页版地址')
+    copy(`【链接】${cnjp(this.cn, this.jp)} | Bangumi番组计划\n${url}`, '已复制 APP 网页版链接')
     postTask(() => {
       open(url)
     }, 1600)
@@ -110,7 +110,7 @@ export default class Share extends Menus {
   doExportCalenderEventICS = async () => {
     const eps = (this.subject.eps || []).filter(item => item.type === 0)
     if (!eps.length) {
-      info('没有数据')
+      info('暂无数据')
       return
     }
 
@@ -118,7 +118,7 @@ export default class Share extends Menus {
     const targetEps =
       this.subject.eps.length >= 100 ? eps.filter(item => item.status === 'NA') : eps
     if (!targetEps.length) {
-      info('没有数据')
+      info('暂无数据')
       return
     }
 
@@ -180,36 +180,40 @@ export default class Share extends Menus {
     }
 
     const sheetData = [...dates.map(item => item.fullText), '取消'] as const
-    showActionSheet(sheetData, index => {
-      if (index < dates.length) {
-        const item = dates[index]
-        setTimeout(async () => {
-          try {
-            const title = cnjp(this.cn, this.jp)
-            const url = restoreNativeUrl(applyProxy(`${HOST}/subject/${this.subjectId}`).url)
+    showActionSheet(
+      sheetData,
+      index => {
+        if (index < dates.length) {
+          const item = dates[index]
+          setTimeout(async () => {
+            try {
+              const title = cnjp(this.cn, this.jp)
+              const url = restoreNativeUrl(applyProxy(`${HOST}/subject/${this.subjectId}`).url)
 
-            const cb = async () => {
-              const calendarId = await calendarEventsSaveGameReleaseDate(
-                title,
-                item.date,
-                item.region,
-                url
-              )
-              if (!calendarId) {
-                info('添加可能失败了，请检查')
-              } else {
-                feedback()
-                info('添加成功')
+              const cb = async () => {
+                const calendarId = await calendarEventsSaveGameReleaseDate(
+                  title,
+                  item.date,
+                  item.region,
+                  url
+                )
+                if (!calendarId) {
+                  info('添加可能失败了，请检查')
+                } else {
+                  feedback()
+                  info('添加成功')
+                }
               }
-            }
 
-            confirm(`${title}\n${item.fullText}\n确定添加到日历中吗？`, cb, '发售提醒')
-          } catch (error) {
-            info('功能出错，请联系开发者')
-          }
-        }, 80)
-      }
-    })
+              confirm(`${title}\n${item.fullText}\n确定添加到日历中吗？`, cb, '发售提醒')
+            } catch (error) {
+              info('功能出错，请联系开发者')
+            }
+          }, 80)
+        }
+      },
+      { cancelButtonIndex: dates.length }
+    )
   }
 
   /** 百度翻译兜底: loading 包裹 → 翻译 → 解析 trans_result 写入指定状态 */
@@ -255,7 +259,7 @@ export default class Share extends Menus {
     })
 
     const isGemini = systemStore.translateEngine === 'gemini'
-    const errorInfo = `翻译${isGemini ? '超时' : '失败'}, 请重试`
+    const errorInfo = getTranslateErrorInfo(isGemini)
     let hide: () => void
     try {
       hide = loading()
@@ -321,6 +325,6 @@ export default class Share extends Menus {
     })
 
     // 曲目翻译使用 DeepLX 效果不好, 暂不进行接入
-    await this.runBaiduTranslate(discTitle.join('\n'), 'discTranslateResult', '翻译失败, 请重试')
+    await this.runBaiduTranslate(discTitle.join('\n'), 'discTranslateResult', '翻译失败，请重试')
   }
 }

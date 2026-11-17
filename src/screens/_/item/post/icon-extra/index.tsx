@@ -11,6 +11,7 @@ import { Flex, Iconfont } from '@components'
 import { _, rakuenStore, uiStore, usersStore, userStore, useStore } from '@stores'
 import {
   confirm,
+  confirmDanger,
   copy,
   feedback,
   getCommentPlainText,
@@ -166,7 +167,7 @@ function IconExtra({
 
         case ACTION_IGNORE:
           confirm(
-            `与 ${userName} 绝交（不再看到用户的所有话题、评论、日志、私信、提醒）?`,
+            `与 ${userName} 绝交（不再看到用户的所有话题、评论、日志、私信、提醒）？`,
             async () => {
               if (!rakuenStore.formhash) await rakuenStore.fetchPrivacy()
 
@@ -182,7 +183,7 @@ function IconExtra({
                   t('帖子.绝交')
                 },
                 () => {
-                  info('添加失败, 可能授权信息过期')
+                  info('添加失败，可能授权信息过期')
                 }
               )
             }
@@ -191,7 +192,7 @@ function IconExtra({
 
         case ACTION_DELETE:
           if (typeof $?.doDeleteReply === 'function') {
-            confirm('确定删除回复?', () => $.doDeleteReply(erase))
+            confirmDanger('确定删除回复？', () => $.doDeleteReply(erase))
           }
           break
 
