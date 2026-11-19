@@ -20,7 +20,6 @@ import type { Props } from './types'
 function Subjects({
   forwardRef,
   id,
-  create,
   edit,
   content,
   order,
@@ -41,7 +40,6 @@ function Subjects({
       renderItem({
         forwardRef,
         id,
-        create,
         edit,
         content,
         order,
@@ -57,7 +55,6 @@ function Subjects({
       }),
     [
       content,
-      create,
       edit,
       forwardRef,
       id,

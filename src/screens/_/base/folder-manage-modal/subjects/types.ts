@@ -20,7 +20,6 @@ import type {
 export type Props = {
   forwardRef: HandleForwardRef
   id: ComponentProps['id']
-  create: ComponentState['create']
   edit: ComponentState['edit']
   content: ComponentState['content']
   order: ComponentState['order']

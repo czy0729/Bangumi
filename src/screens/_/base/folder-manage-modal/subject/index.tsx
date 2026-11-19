@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-03-19 22:20:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-02 04:00:00
+ * @Last Modified time: 2026-11-19 20:26:12
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
@@ -11,7 +11,6 @@ import { _, collectionStore, uiStore } from '@stores'
 import { getAction, HTMLDecode } from '@utils'
 import { MODEL_COLLECTION_STATUS } from '@constants'
 import { CONTROL_DS, HEIGHT, WIDTH } from '../ds'
-import { IconTouchable } from '../../../icon'
 import { Manage } from '../../manage'
 import { Popover } from '../../popover'
 import EditForm from './edit-form'
@@ -23,7 +22,6 @@ import type { Props } from './types'
 function Subject({
   forwardRef,
   id,
-  create,
   edit,
   content,
   order,
@@ -105,16 +103,7 @@ function Subject({
           )}
         </Flex.Item>
         <View>
-          {isEditing && (
-            <IconTouchable
-              style={styles.close}
-              name='md-close'
-              size={18}
-              color={_.colorSub}
-              onPress={onSubjectEdit}
-            />
-          )}
-          {!edit && !create && (
+          {!edit && (
             <Popover
               style={styles.popover}
               data={data}
@@ -137,6 +126,7 @@ function Subject({
           onChange={onChange}
           onOrder={onOrder}
           onSubmit={onSubmit}
+          onSubjectEdit={onSubjectEdit}
         />
       )}
     </View>

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2021-05-27 14:20:46
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-02 14:00:00
+ * @Last Modified time: 2026-11-19 20:25:03
  *
  * 目录管理弹窗
  */
@@ -49,9 +49,10 @@ function FolderManageModalComponent(props: FolderManageModalProps) {
         right={elBtnCreate}
         onClose={onClose}
       >
-        {vm.create === true ? (
+        {vm.create !== false ? (
           <ScrollView style={styles.scrollView} {...SCROLL_VIEW_RESET_PROPS}>
             <Create
+              titleText={vm.create === true ? '新建目录' : '编辑目录'}
               title={vm.title}
               desc={vm.desc}
               privacy={vm.privacy}

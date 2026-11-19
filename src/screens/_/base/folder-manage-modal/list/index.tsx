@@ -31,29 +31,22 @@ function List({ id, vm }: { id: SubjectId; vm: UseFolderManageModalReturn }) {
       >
         {vm.list.map(item => {
           const detail = vm.catalogDetail(item.id)
-          const expanded = vm.expand.includes(item.id) || vm.create == item.id
+          const expanded = vm.expand.includes(item.id)
           return (
             <View key={item.id}>
               <Catalog
                 id={id}
                 expand={vm.expand}
-                create={vm.create}
                 edit={vm.edit}
-                desc={vm.desc}
-                privacy={vm.privacy}
                 item={item}
                 detail={detail}
-                onChange={vm.onChange}
                 onExpand={vm.onExpand}
                 onToggle={vm.onToggle}
                 onControl={vm.onControl}
-                onCreate={vm.onCreate}
-                onSubmitCatalog={vm.onSubmitCatalog}
               />
               <Collapsible collapsed={!expanded}>
                 <Subjects
                   id={id}
-                  create={vm.create}
                   edit={vm.edit}
                   content={vm.content}
                   order={vm.order}
@@ -71,7 +64,7 @@ function List({ id, vm }: { id: SubjectId; vm: UseFolderManageModalReturn }) {
             </View>
           )
         })}
-        {!vm.create && !vm.list.length && <Empty text='还没有创建过目录' />}
+        {!vm.list.length && <Empty text='还没有创建过目录' />}
       </ScrollView>
     </>
   )

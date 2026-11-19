@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2025-03-19 22:51:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-20 16:05:37
+ * @Last Modified time: 2026-11-19 20:26:15
  */
 import { _ } from '@stores'
 
@@ -26,9 +26,6 @@ export const memoStyles = _.memoStyles(() => ({
     borderRadius: _.radiusXs,
     overflow: 'hidden'
   },
-  close: {
-    marginTop: -_.sm
-  },
   popover: {
     marginTop: -6,
     marginRight: -3,
@@ -42,10 +39,6 @@ export const memoStyles = _.memoStyles(() => ({
   control: {
     paddingRight: _.sm,
     marginTop: _.md
-  },
-  check: {
-    marginRight: -6,
-    marginLeft: _.sm
   },
   textarea: {
     padding: _.sm,

@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2023-03-07 16:47:48
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-01 16:30:50
+ * @Last Modified time: 2026-11-19 10:00:00
  *
  * 目录表单
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Input, Text, TextareaItem } from '@components'
+import { Button, Flex, Input, Text, TextareaItem } from '@components'
 import { _ } from '@stores'
-import { IconTouchable } from '../../../icon'
+import { info } from '@utils'
 import PrivacyRow from '../privacy'
 import { memoStyles } from './styles'
 
@@ -28,13 +28,14 @@ function Create({
   onSubmitCatalog
 }: Props) {
   const styles = memoStyles()
+  const canSubmit = !!title && !!desc
 
   return (
     <View style={styles.create}>
       {showTitle && <Text bold>{titleText}</Text>}
       <Input
         style={styles.textarea}
-        defaultValue={title}
+        value={title}
         placeholder='输入标题'
         showClear
         onChangeText={text => onChange(text, 'title')}
@@ -52,19 +53,27 @@ function Create({
       {!!privacy && (
         <PrivacyRow value={privacy} onChange={value => onChange(value, 'privacy')} />
       )}
-      {showCancel && (
-        <View style={styles.cancel}>
-          <IconTouchable
-            name='md-close'
-            size={22}
-            color={_.colorSub}
-            onPress={() => onCreate(false)}
-          />
-        </View>
-      )}
-      <View style={styles.submit}>
-        <IconTouchable name='md-check' size={22} color={_.colorSub} onPress={onSubmitCatalog} />
-      </View>
+      <Flex style={_.mt.md}>
+        {showCancel && (
+          <Flex.Item style={_.mr.sm}>
+            <Button type='ghostPlain' onPress={() => onCreate(false)}>
+              取消
+            </Button>
+          </Flex.Item>
+        )}
+        <Flex.Item>
+          <Button
+            type={canSubmit ? 'main' : 'disabled'}
+            onPress={
+              canSubmit
+                ? onSubmitCatalog
+                : () => info(!title ? '请填写目录标题' : '请填写目录介绍')
+            }
+          >
+            确定
+          </Button>
+        </Flex.Item>
+      </Flex>
     </View>
   )
 }

@@ -2,27 +2,14 @@
  * @Author: czy0729
  * @Date: 2023-03-07 16:11:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-03-20 16:04:35
+ * @Last Modified time: 2026-11-19 20:25:43
  */
 import { _ } from '@stores'
 
-export const memoStyles = _.memoStyles(() => ({
+export const styles = _.create({
   catalog: {
-    padding: _.device(_.sm, _.md),
     paddingRight: 0,
     marginBottom: _.sm
-  },
-  textarea: {
-    padding: _.sm,
-    marginTop: _.md,
-    marginBottom: -4,
-    color: _.colorDesc,
-    ..._.fontSize10,
-    backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),
-    borderWidth: 1,
-    borderColor: _.select(_.colorIcon, _.colorBorder),
-    borderRadius: _.radiusXs,
-    overflow: 'hidden'
   },
   control: {
     minWidth: 48,
@@ -41,17 +28,5 @@ export const memoStyles = _.memoStyles(() => ({
   touch: {
     width: 38,
     height: 38
-  },
-  cancel: {
-    position: 'absolute',
-    zIndex: 1,
-    top: 0,
-    right: -4
-  },
-  submit: {
-    position: 'absolute',
-    zIndex: 1,
-    right: -4,
-    bottom: -4
   }
-}))
+})

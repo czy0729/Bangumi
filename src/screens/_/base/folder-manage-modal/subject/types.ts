@@ -20,7 +20,6 @@ import type {
 export type Props = {
   forwardRef: HandleForwardRef
   id: ComponentProps['id']
-  create: ComponentState['create']
   edit: ComponentState['edit']
   content: ComponentState['content']
   order: ComponentState['order']
@@ -38,5 +37,13 @@ export type Props = {
 /** 条目编辑表单参数 */
 export type EditFormProps = Pick<
   Props,
-  'forwardRef' | 'content' | 'order' | 'item' | 'pItem' | 'onChange' | 'onOrder' | 'onSubmit'
+  | 'forwardRef'
+  | 'content'
+  | 'order'
+  | 'item'
+  | 'pItem'
+  | 'onChange'
+  | 'onOrder'
+  | 'onSubmit'
+  | 'onSubjectEdit'
 >

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-11-11 19:43:12
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-25 13:39:19
+ * @Last Modified time: 2026-11-18 21:30:00
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -10,10 +10,13 @@ import { observer } from 'mobx-react'
 import { Expand, Katakana, RenderHtml } from '@components'
 import { _, systemStore, uiStore } from '@stores'
 import { appNavigate, feedback, findSubjectCn, getCoverMedium } from '@utils'
+import { globalWarn } from '@utils/dev'
 import { t } from '@utils/fetch'
 import { styles } from './styles'
 
 import type { Props } from './types'
+
+const warned = new Set<string>()
 
 function Desc({
   navigation,
@@ -28,9 +31,19 @@ function Desc({
   const { id, data = {} } = event
   const text = String(comment || replyContent || replyCount || '')
 
+  // subject 契约是字符串, 非字符串直接跳过渲染 (对象进 children 会触发 React 红屏)
+  if (subject && typeof subject !== 'string') {
+    const value = String(subject)
+    if (!warned.has(value)) {
+      warned.add(value)
+      globalWarn('[Desc] subject 非字符串', value)
+    }
+  }
+  const subjectName = typeof subject === 'string' ? subject : ''
+
   return (
     <>
-      {!!subject && (
+      {!!subjectName && (
         <View style={_.mt.sm}>
           <Katakana.Provider>
             <Katakana
@@ -54,15 +67,15 @@ function Desc({
 
                 navigation.push('Subject', {
                   subjectId,
-                  _cn: findSubjectCn(subject, subjectId),
-                  _jp: subject,
+                  _cn: findSubjectCn(subjectName, subjectId),
+                  _jp: subjectName,
                   _image: getCoverMedium(!!image.length && image[0])
                 })
 
                 t(id, eventData)
               }}
             >
-              {findSubjectCn(subject, subjectId)}
+              {findSubjectCn(subjectName, subjectId)}
             </Katakana>
           </Katakana.Provider>
         </View>

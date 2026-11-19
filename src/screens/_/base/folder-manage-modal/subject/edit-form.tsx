@@ -2,15 +2,14 @@
  * @Author: czy0729
  * @Date: 2026-11-02 14:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-02 14:00:00
+ * @Last Modified time: 2026-11-19 10:00:00
  *
  * 条目编辑表单 (评价 / 排序)
  */
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex, Input, TextareaItem } from '@components'
+import { Button, Flex, Input, TextareaItem } from '@components'
 import { _ } from '@stores'
-import { IconTouchable } from '../../../icon'
 import { memoStyles } from './styles'
 
 import type { EditFormProps } from './types'
@@ -23,7 +22,8 @@ function EditForm({
   pItem,
   onChange,
   onOrder,
-  onSubmit
+  onSubmit,
+  onSubjectEdit
 }: EditFormProps) {
   const styles = memoStyles()
 
@@ -50,15 +50,18 @@ function EditForm({
             onChangeText={onOrder}
           />
         </Flex.Item>
-        <IconTouchable
-          style={styles.check}
-          name='md-check'
-          size={18}
-          color={_.colorSub}
-          onPress={() => {
-            onSubmit(item, pItem)
-          }}
-        />
+      </Flex>
+      <Flex style={_.mt.sm}>
+        <Flex.Item style={_.mr.sm}>
+          <Button type='ghostPlain' onPress={() => onSubjectEdit()}>
+            取消
+          </Button>
+        </Flex.Item>
+        <Flex.Item>
+          <Button type='main' onPress={() => onSubmit(item, pItem)}>
+            确定
+          </Button>
+        </Flex.Item>
       </Flex>
     </View>
   )
