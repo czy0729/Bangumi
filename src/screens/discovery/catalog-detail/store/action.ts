@@ -11,7 +11,7 @@ import { discoveryStore, userStore } from '@stores'
 import { confirm, feedback, info, removeHTMLTag, updateVisibleBottom } from '@utils'
 import { fetchHTML, queue, t } from '@utils/fetch'
 import { webhookCatalog } from '@utils/webhooks'
-import { HOST } from '@constants'
+import { HOST, TEXT_MENU_LAYOUT_SHORT, TEXT_MENU_ORDER } from '@constants'
 import i18n from '@constants/i18n'
 import { COLLECT_DS, DEFAULT_TYPE, LAYOUT_DS, SORT_DS } from '../ds'
 import Fetch from './fetch'
@@ -124,6 +124,18 @@ export default class Action extends Fetch {
     t('目录详情.收藏范围', {
       collect
     })
+  }
+
+  /** 工具栏设置菜单 */
+  onToolBar = (title: string) => {
+    if (title.startsWith(TEXT_MENU_LAYOUT_SHORT)) {
+      const index = LAYOUT_DS.findIndex(item => item.key === this.state.layout)
+      const next = LAYOUT_DS[(index + 1) % LAYOUT_DS.length]
+      this.onSwitchLayout(next.title)
+      return
+    }
+
+    if (title.startsWith(TEXT_MENU_ORDER)) this.onReverse()
   }
 
   /** 倒序 */

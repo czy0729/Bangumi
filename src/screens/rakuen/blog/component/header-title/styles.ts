@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-09-29 17:05:23
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-06 21:44:01
+ * @Last Modified time: 2026-11-20 12:00:00
  */
 import { _ } from '@stores'
 
 export const styles = _.create({
   container: {
-    marginTop: _.platforms(4, -8, 3, -14),
     marginLeft: -_.sm,
     marginRight: 62
   }

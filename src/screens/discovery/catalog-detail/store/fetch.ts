@@ -7,7 +7,7 @@
  * 目录详情获取与评分补全
  */
 import { collectionStore, discoveryStore, subjectStore, userStore } from '@stores'
-import { confirm, info, optimize, sleep } from '@utils'
+import { confirm, feedback, info, optimize, sleep } from '@utils'
 import { queue } from '@utils/fetch'
 import { gets } from '@utils/kv'
 import { D1, M2 } from '@constants'
@@ -52,8 +52,7 @@ export default class Fetch extends Computed {
         this.setState({
           progress: {
             fetching: true,
-            message: '更新条目信息',
-            current: 1,
+            current: 0,
             total: list.length
           }
         })
@@ -130,6 +129,7 @@ export default class Fetch extends Computed {
         this.setState({
           progress: EXCLUDE_STATE.progress
         })
+        feedback()
       },
       '提示'
     )

@@ -11,7 +11,6 @@ import { _ } from '@stores'
 export const styles = _.create({
   container: {
     marginRight: _.lg,
-    marginLeft: -_.xs,
-    marginTop: _.ios(_.device(6, 8), 12)
+    marginLeft: -_.xs
   }
 })

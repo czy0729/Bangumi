@@ -2,19 +2,18 @@
  * @Author: czy0729
  * @Date: 2024-03-20 00:13:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-11 12:00:00
+ * @Last Modified time: 2026-11-20 01:48:11
  *
  * 工具栏
  */
 import { observer } from 'mobx-react'
-import { Button, ToolBar as ToolBarComp } from '@components'
-import { _, useStore } from '@stores'
+import { ToolBar as ToolBarComp } from '@components'
+import { useStore } from '@stores'
 import Collect from './collect'
-import Layout from './layout'
-import Reverse from './reverse'
+import More from './more'
 import Sort from './sort'
+import Update from './update'
 import { COMPONENT } from './ds'
-import { styles } from './styles'
 
 import type { Ctx } from '../../types'
 
@@ -24,22 +23,13 @@ function ToolBar() {
   return (
     <ToolBarComp>
       <Sort />
-      <Layout />
       {!!$.catalogDetail.list.length && (
         <>
           <Collect />
-          <Button
-            style={styles.btn}
-            styleText={_.fontSize12}
-            type='plain'
-            bold
-            onPress={$.fetchSubjectsQueue}
-          >
-            更新评分
-          </Button>
+          <Update />
         </>
       )}
-      <Reverse />
+      <More />
     </ToolBarComp>
   )
 }

@@ -11,7 +11,6 @@ import { Component, Page } from '@components'
 import { StoreContext } from '@stores'
 import List from './component/list'
 import Modal from './component/modal'
-import Tips from './component/tips'
 import Header from './header'
 import { useCatalogDetailPage } from './hooks'
 
@@ -26,7 +25,6 @@ function CatalogDetail(props: NavigationProps) {
       <StoreContext.Provider value={id}>
         <Page statusBarEvent={false}>
           <List />
-          <Tips />
         </Page>
         <Header />
         <Modal />

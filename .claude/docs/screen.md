@@ -227,6 +227,35 @@ return <Header title='标题' hm={HM} headerRight={handleHeaderRight} />
 
 - 埋点 `t()` 置后：先执行核心业务逻辑（如 alert、导航），后执行 `t()` 埋点调用
 
+## 工具栏设置菜单（三点）
+
+工具条上的次要开关（布局 / 顺序 / 过滤等）合并成末尾一个三点按钮，不要每个开关各占一个按钮：
+
+```tsx
+// component/tool-bar/more.tsx
+function More() {
+  const { $ } = useStore<Ctx>(COMPONENT_MORE)
+  return (
+    <ToolBar.Popover
+      data={$.toolBar}
+      icon='md-more-vert'
+      iconColor={_.colorDesc}
+      iconSize={16}
+      type='desc'
+      transparent
+      onSelect={$.onToolBar}
+    />
+  )
+}
+```
+
+- 三点按钮传 `transparent`，不带背景
+- 菜单数据放 `store/computed.ts` 的 `@computed get toolBar()`，文案拼成 `标签〔当前状态〕`：`` `${TEXT_MENU_LAYOUT_SHORT}${withSplit(isList ? TEXT_MENU_LIST : TEXT_MENU_GRID)}` ``
+- 状态写进文案，不用 `icon` / `checked` 表达：Android 原生菜单不渲染 `icon`，且勾选只适合同类互斥项，混放开关时无法表示「正序/倒序」这类二值状态
+- 分派放 `store/action.ts` 的 `onToolBar(title)`，按 `title.startsWith(TEXT_MENU_xxx)` 分支，不用下标（菜单增删项不影响逻辑）
+- 标签用 `@constants` 的 `TEXT_MENU_*`；其中 `布　局` 的全角空格是给「三字项 + 两字项」混排对齐用的，菜单内各项等长时改用页面 `ds.ts` 中不带空格的自定义文案
+- 参考实现：`screens/user/v2/component/tool-bar/more.tsx`、`screens/home/tag/component/tool-bar/more.tsx`、`screens/discovery/catalog-detail/component/tool-bar/more.tsx`
+
 ## 页面区块（component/xxx/）双组件模式
 
 滚动密集页面（如条目页）的区块采用 Wrap + 内容组件两层结构，配合 React.lazy 分包，是 `observer` 通则的**合法例外**：

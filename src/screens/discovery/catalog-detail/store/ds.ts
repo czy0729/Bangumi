@@ -31,10 +31,9 @@ export const EXCLUDE_STATE = {
   /** 正在编辑的目录项 */
   defaultEditItem: null,
 
-  /** 进度条 */
+  /** 更新评分进度 */
   progress: {
     fetching: false,
-    message: '',
     current: 0,
     total: 0
   },

@@ -10,6 +10,15 @@ import { computed } from 'mobx'
 import { _, discoveryStore, systemStore, userStore } from '@stores'
 import { cacheManager } from '@utils/cache'
 import {
+  TEXT_MENU_GRID,
+  TEXT_MENU_LAYOUT_SHORT,
+  TEXT_MENU_LIST,
+  TEXT_MENU_ORDER,
+  TEXT_MENU_ORDER_ASC,
+  TEXT_MENU_ORDER_DESC,
+  withSplit
+} from '@constants'
+import {
   DEFAULT_TYPE,
   TEXT_TYPE_ANIME,
   TEXT_TYPE_BLOG,
@@ -164,13 +173,30 @@ export default class Computed extends State {
   /** 是否自己创建的目录 */
   @computed get isSelf() {
     if (!this.catalogDetail._loaded) return false
+    if (!userStore.isLogin) return false
 
-    return userStore.isLogin && !this.catalogDetail.joinUrl && !this.catalogDetail.byeUrl
+    // 创建者 userId 有数字和改名后两种形态, 任一匹配即视为自己的目录
+    // 解析不到时不作推断, 宁可自己的目录暂时没有编辑按钮, 也不让别人的目录误显示
+    const { userId } = this.catalogDetail
+    if (!userId) return false
+
+    return userId === userStore.myId || String(userId) === String(userStore.myUserId)
   }
 
   /** 是否列表布局 */
   @computed get isList() {
     return this.state.layout === 'list'
+  }
+
+  /** 工具栏设置菜单 */
+  @computed get toolBar() {
+    const { reverse } = this.state
+    return [
+      `${TEXT_MENU_LAYOUT_SHORT}${withSplit(this.isList ? TEXT_MENU_LIST : TEXT_MENU_GRID)}`,
+      `${TEXT_MENU_ORDER}${withSplit(
+        reverse ? TEXT_MENU_ORDER_DESC : TEXT_MENU_ORDER_ASC
+      )}`
+    ]
   }
 
   /** 网格布局个数 */

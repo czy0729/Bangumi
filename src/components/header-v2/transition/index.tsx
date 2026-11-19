@@ -2,13 +2,12 @@
  * @Author: czy0729
  * @Date: 2022-03-12 20:43:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-09 00:00:00
+ * @Last Modified time: 2026-11-20 02:52:17
  */
 import Animated from 'react-native-reanimated'
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
 import { r } from '@utils/dev'
-import { useInsets } from '@utils/hooks'
 import { s2t } from '@utils/thirdParty/open-cc'
 import { ScrollView } from '../../scroll-view'
 import { Text } from '../../text'
@@ -21,7 +20,6 @@ import type { Props } from './types'
 function Transition({ fixed, title, headerTitle }: Props) {
   r(COMPONENT)
 
-  const { statusBarHeight } = useInsets()
   const { wrapStyles, bodyStyles } = useTransitionProgress(fixed)
 
   const titleText = systemStore.setting.s2t && title ? s2t(title) : title
@@ -30,16 +28,7 @@ function Transition({ fixed, title, headerTitle }: Props) {
 
   return (
     <Animated.View style={[styles.view, wrapStyles]} pointerEvents={fixed ? 'auto' : 'none'}>
-      <Animated.View
-        style={[
-          styles.body,
-          title && styles.bodyTitle,
-          bodyStyles,
-          {
-            top: statusBarHeight + 2
-          }
-        ]}
-      >
+      <Animated.View style={[styles.body, styles.bodyNav, bodyStyles]}>
         {headerTitle || (
           <ScrollView style={styles.scrollView} contentContainerStyle={styles.container} horizontal>
             <Text style={styles.text} size={15} numberOfLines={1}>

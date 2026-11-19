@@ -175,14 +175,26 @@ export const TEXT_MENU_LIST_PAGINATION = '分页加载'
 /** 菜单: 到底加载 */
 export const TEXT_MENU_LIST_FOOTER_REFRESH = '到底加载'
 
-/** 菜单: 布局 */
+/** 菜单: 布局 (补全角空格, 与三字项对齐) */
 export const TEXT_MENU_LAYOUT = '布　局'
+
+/** 菜单: 布局 (不补空格, 用于菜单内各项等长的场景) */
+export const TEXT_MENU_LAYOUT_SHORT = '布局'
 
 /** 菜单: 布局列表 */
 export const TEXT_MENU_LIST = '列表'
 
 /** 菜单: 布局网格 */
 export const TEXT_MENU_GRID = '网格'
+
+/** 菜单: 顺序 */
+export const TEXT_MENU_ORDER = '顺序'
+
+/** 菜单: 顺序正序 */
+export const TEXT_MENU_ORDER_ASC = '正序'
+
+/** 菜单: 顺序倒序 */
+export const TEXT_MENU_ORDER_DESC = '倒序'
 
 /** 菜单: 收藏 */
 export const TEXT_MENU_FAVOR = '收　藏'

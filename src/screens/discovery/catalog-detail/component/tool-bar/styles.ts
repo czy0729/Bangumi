@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-08-26 15:36:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-11 12:00:00
+ * @Last Modified time: 2026-11-20 01:48:19
  *
  * 工具栏布局
  */
@@ -15,18 +15,15 @@ export const styles = _.create({
     marginHorizontal: 4,
     borderRadius: 30
   },
-  forward: {
+  loading: {
     transform: [
       {
-        rotate: '90deg'
+        scale: 0.7
       }
     ]
   },
-  reverse: {
-    transform: [
-      {
-        rotate: '-90deg'
-      }
-    ]
+  percent: {
+    width: 34,
+    marginLeft: 2
   }
 })
