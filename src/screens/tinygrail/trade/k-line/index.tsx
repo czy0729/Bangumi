@@ -32,7 +32,7 @@ class KLine extends React.Component<Props> {
   onError = () => {
     const { navigation } = this.props
     navigation.goBack()
-    info('网络似乎出了点问题')
+    info('加载失败，请稍后重试')
   }
 
   onLoad = () => {

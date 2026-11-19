@@ -85,7 +85,7 @@ function Subjects({
       renderItem={handleRenderItem}
       footerNoMoreDataComponent={
         <Text style={_.mt.md} type={_.select('sub', 'icon')} size={12} align='center'>
-          - 到底了 -
+          - 到底啦 -
         </Text>
       }
     />

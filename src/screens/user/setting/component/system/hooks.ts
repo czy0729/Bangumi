@@ -24,7 +24,7 @@ export function useCloud() {
 
         const data = await get<ResultData>(`setting_${id}`)
         if (data?.ts) {
-          setText(date('y/m/d H:i', data.ts))
+          setText(`上次上传于 ${date('y/m/d H:i', data.ts)}`)
         }
       } catch {}
     }, 2400)

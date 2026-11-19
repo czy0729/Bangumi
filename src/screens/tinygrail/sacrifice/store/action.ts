@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-05-19 08:33:10
  * @Last Modified by: czy0729
- * @Last Modified time: 2025-04-28 22:40:50
+ * @Last Modified time: 2026-11-19 22:25:59
  */
 import { tinygrailStore } from '@stores'
 import {
@@ -283,7 +283,7 @@ export default class Action extends Fetch {
       info(Message)
       return false
     } catch (error) {
-      info('操作失败，可能授权过期了')
+      info('操作失败，或授权状态已过期')
       return false
     }
   }

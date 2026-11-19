@@ -398,7 +398,7 @@ export default class Action extends Fetch {
       info(Message)
       return false
     } catch (error) {
-      info('操作失败，可能授权过期了')
+      info('操作失败，或授权状态已过期')
       return false
     }
   }

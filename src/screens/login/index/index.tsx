@@ -88,7 +88,7 @@ class Login extends React.Component<NavigationProps> {
   onError = () => {
     t('授权登陆.错误')
 
-    info('网络似乎出了点问题')
+    info('加载失败，请重试')
     this.setState({
       clicked: false
     })

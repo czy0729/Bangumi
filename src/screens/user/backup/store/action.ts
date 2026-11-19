@@ -44,7 +44,7 @@ export default class Action extends Fetch {
       `\uFEFF${this.csv}`
     )
     if (!data?.downloadKey) {
-      info('未知错误，下载失败，重试或联系作者')
+      info('下载失败，请重试')
       return false
     }
 

@@ -140,7 +140,7 @@ export function saveCalenderEvent(
           if (showConfirm) {
             setTimeout(() => {
               if (!calendarId) {
-                info('添加可能失败了，请检查')
+                info('添加失败，请重试')
               } else {
                 feedback()
                 info('添加成功')
@@ -164,7 +164,7 @@ export function saveCalenderEvent(
           cb()
         }
       } catch (error) {
-        info('功能出错，请联系开发者')
+        info('操作失败，请重试')
       }
     }
   }, 80)

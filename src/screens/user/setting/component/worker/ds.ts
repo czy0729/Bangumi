@@ -67,7 +67,7 @@ export const TEXTS = {
   workerLainSecret: {
     title: '图片密钥',
     information:
-      '通常不填，若有值会在图片地址后携带参数\nv={hmacSHA256(图片去参数地址,密钥).slice(0,4)}\n可用于图片鉴权，防止盗用'
+      '通常不填，若有值会为图片地址生成一个校验标识，用于防止图片被盗用。'
   },
   workerProxyDirect: {
     hd: '使用了自建 Worker？',

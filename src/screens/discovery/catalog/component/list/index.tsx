@@ -39,7 +39,7 @@ function List() {
         <View style={styles.container}>
           {show &&
             (!!isLoaded && !list.length ? (
-              <Empty text='到底了' />
+              <Empty text='到底啦' />
             ) : (
               list
                 .filter(item => {

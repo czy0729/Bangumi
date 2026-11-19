@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-23 09:16:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-01-18 17:11:56
+ * @Last Modified time: 2026-11-19 22:00:37
  */
 import { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -99,7 +99,7 @@ const Box = memo(
           {outdate && (
             <Link style={styles.outdate} path='LoginV2'>
               <Text type={_.select('sub', 'icon')} size={11} bold>
-                检测到授权信息过期，点击重新登录，或返回首页下拉刷新授权
+                登录状态已过期，点击重新登录
               </Text>
             </Link>
           )}

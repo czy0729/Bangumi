@@ -84,7 +84,7 @@ function Bgs({ avatar, more, onViewOrigin, onMore }: Props) {
 
       <Touchable style={stl(_.mt.md, _.mb.md)} onPress={onMore}>
         <Text align='center' size={13} bold>
-          {more ? '没有更多了' : '点击加载更多'}
+          {more ? '到底啦' : '点击加载更多'}
         </Text>
       </Touchable>
 

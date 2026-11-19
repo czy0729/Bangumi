@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-27 02:45:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-29 00:44:00
+ * @Last Modified time: 2026-11-19 22:01:17
  *
  * 首页章节日历: 单集 / 批量添加提醒与放送日程 ICS 导出
  */
@@ -136,7 +136,7 @@ export default class Calendar extends Progress {
 
     const { data } = await temp(`${this.userId}_${subjectId}.ics`, ics.join('\n'), -1)
     if (!data?.downloadKey) {
-      info('未知错误，生成ics失败，重试或联系作者')
+      info('生成日历 ICS 失败，请重试')
       return false
     }
 

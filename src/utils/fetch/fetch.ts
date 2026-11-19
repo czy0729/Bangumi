@@ -164,7 +164,7 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
   requestConfig.headers = proxyResult.headers
   logProxy('fetchHTML', proxyResult.proxyType, url, requestUrl)
 
-  const hideCb = !isGet ? loading('Loading...', 8) : undefined
+  const hideCb = !isGet ? loading('加载中...', 8) : undefined
 
   try {
     const response = await fetch(requestUrl, requestConfig)

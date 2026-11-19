@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-05-11 19:38:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-21 06:08:05
+ * @Last Modified time: 2026-11-19 22:00:52
  */
 import { systemStore } from '@stores'
 import {
@@ -155,7 +155,7 @@ export default class Share extends Menus {
 
       const { data } = await temp(`${this.userId}_${this.subjectId}.ics`, ics.join('\n'), -1)
       if (!data?.downloadKey) {
-        info('未知错误，生成ics失败，重试或联系作者')
+        info('生成日历 ICS 失败，请重试')
         return false
       }
 
@@ -198,7 +198,7 @@ export default class Share extends Menus {
                   url
                 )
                 if (!calendarId) {
-                  info('添加可能失败了，请检查')
+                  info('添加失败，请重试')
                 } else {
                   feedback()
                   info('添加成功')
@@ -207,7 +207,7 @@ export default class Share extends Menus {
 
               confirm(`${title}\n${item.fullText}\n确定添加到日历中吗？`, cb, '发售提醒')
             } catch (error) {
-              info('功能出错，请联系开发者')
+              info('操作失败，请重试')
             }
           }, 80)
         }

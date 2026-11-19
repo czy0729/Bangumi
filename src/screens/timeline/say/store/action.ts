@@ -74,7 +74,7 @@ export default class Action extends Fetch {
 
   /** 失败后恢复上次的内容 */
   recoveryContent = (content: string) => {
-    info('操作失败，可能是登录授权失效了')
+    info('操作失败，或登录状态已过期')
     this.setState({
       value: ''
     })

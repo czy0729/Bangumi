@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-10-30 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-30 00:00:00
+ * @Last Modified time: 2026-11-19 22:14:06
  *
  * 帖子回复相关动作
  */
@@ -66,7 +66,7 @@ export default class Reply extends Fetch {
     }
 
     if (!value) {
-      info('未能获取到回复内容，可能授权过期了')
+      info('未能获取到回复内容，请重试')
       return
     }
 
@@ -95,7 +95,7 @@ export default class Reply extends Fetch {
       topicId: this.topicId
     })
 
-    info('回复失败，可能是cookie失效了')
+    info('回复失败，或登录状态已过期')
     this.setState({
       value: ''
     })

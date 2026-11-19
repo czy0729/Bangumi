@@ -37,7 +37,7 @@ export const TEXTS = {
     },
     custom: {
       title: '自定义百度翻译账号',
-      information: '允许使用私人账户调用接口，需填写 APP ID 和秘钥，当两项都有值的时候才会使用'
+      information: '允许使用私人账户调用接口，需填写 APP ID 和密钥，当两项都有值的时候才会使用'
     }
   },
   katakana: {

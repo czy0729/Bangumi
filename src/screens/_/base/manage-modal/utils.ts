@@ -52,7 +52,7 @@ export async function openCollection({
     if (result?.error && result?.error?.includes?.('token')) {
       // 提前告知授权信息失效
       const navigation = navigationReference()
-      const content = `获取收藏信息失败：${result.error}，授权信息可能过期了`
+      const content = '登录状态已过期，请重新登录'
       if (navigation) {
         confirm(
           content,

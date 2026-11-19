@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-12-29 11:16:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-05 04:43:08
+ * @Last Modified time: 2026-11-19 22:25:29
  */
 import { systemStore, tinygrailStore } from '@stores'
 import {
@@ -198,7 +198,7 @@ export default class Action extends Fetch {
       this.setState({
         loadingBonus: false
       })
-      info('操作失败，可能授权过期了')
+      info('操作失败，或授权状态已过期')
     }
   }
 
@@ -232,7 +232,7 @@ export default class Action extends Fetch {
       this.setState({
         loadingBonus: false
       })
-      info('操作失败，可能授权过期了')
+      info('操作失败，或授权状态已过期')
     }
   }
 
@@ -266,7 +266,7 @@ export default class Action extends Fetch {
       this.setState({
         loadingBonus: false
       })
-      info('操作失败，可能授权过期了')
+      info('操作失败，或授权状态已过期')
     }
   }
 
@@ -300,7 +300,7 @@ export default class Action extends Fetch {
       this.setState({
         loadingBonus: false
       })
-      info('操作失败，可能授权过期了')
+      info('操作失败，或授权状态已过期')
     }
   }
 

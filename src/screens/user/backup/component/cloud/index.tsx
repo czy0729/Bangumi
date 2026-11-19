@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-12-07 14:31:32
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-01 04:03:41
+ * @Last Modified time: 2026-11-19 22:26:32
  *
  * 导出入口与导出列开关
  */
@@ -41,7 +41,7 @@ function Cloud() {
           title='导入 CSV'
           info='导入后进行同步'
           onPress={() => {
-            confirm('导入收藏同步功能目前已不作维护，仍要尝试使用？', $.onToggleUpload)
+            confirm('导入收藏同步功能已停止维护，仍要尝试使用？', $.onToggleUpload)
           }}
         />
       </Flex>

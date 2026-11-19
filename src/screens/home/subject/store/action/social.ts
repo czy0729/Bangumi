@@ -71,7 +71,7 @@ export default class Social extends Actions {
             t('条目.绝交')
           },
           () => {
-            info('添加失败，可能授权信息过期')
+            info('操作失败，或登录状态已过期')
           }
         )
       }

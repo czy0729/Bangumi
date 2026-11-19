@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-10-23 11:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-23 11:00:00
+ * @Last Modified time: 2026-11-19 22:09:11
  *
  * 页面状态与交互: 本地设置恢复 / 验证码 / 登录重试 / 游客预览
  */
@@ -93,7 +93,7 @@ export function useLoginV2Page({ navigation }: NavigationProps) {
     } catch {
       patch({
         loading: false,
-        info: '连接主站失败，获取验证码失败',
+        info: '连接 Bangumi 失败，获取验证码失败',
         networkFailed: true
       })
     }
@@ -156,7 +156,7 @@ export function useLoginV2Page({ navigation }: NavigationProps) {
   const onLogin = useCallback(async () => {
     const { email, password, captcha } = stateRef.current
     if (!email || !password || !captcha) {
-      info('请填写以上字段')
+      info('请填写邮箱、密码和验证码')
       return
     }
 
@@ -175,7 +175,7 @@ export function useLoginV2Page({ navigation }: NavigationProps) {
         })
         await login(email, password, captcha)
         if (!service.authorized) {
-          loginFail(`验证码或密码错误，稍会再重试或前往授权${i18n.login()} →`)
+          loginFail(`验证码或密码错误，请稍后重试，或改用旧版${i18n.login()} →`)
           return
         }
 
@@ -193,27 +193,25 @@ export function useLoginV2Page({ navigation }: NavigationProps) {
         await service.authorize()
       } else {
         patch({
-          info: '重试 (4/5)'
+          info: '正在重试...(4/5)'
         })
         retryCount.current += 1
       }
 
       patch({
-        info: '授权成功，获取token中...(4/5)'
+        info: '获取 token 中...(5/5)'
       })
       await service.fetchAccessToken()
       saveLoginSetting('password', password)
       inStore()
     } catch (ex) {
       retryCount.current += 1
+      logger.error(NAMESPACE, 'onLogin', ex)
       if (retryCount.current >= AUTH_RETRY_COUNT) {
-        loginFail(
-          `[${String(ex)}] ${i18n.login()}失败，请重试或重启客户端，或前往授权${i18n.login()} →`
-        )
+        loginFail(`${i18n.login()}失败，请重试或重启客户端，或改用旧版${i18n.login()} →`)
         return
       }
 
-      logger.error(NAMESPACE, 'onLogin', ex)
       await onLoginRef.current()
     }
   }, [inStore, login, loginFail, patch, service])
@@ -227,7 +225,7 @@ export function useLoginV2Page({ navigation }: NavigationProps) {
     t('登陆.游客访问')
 
     try {
-      info('正在从 github 获取游客 cookie...')
+      info('正在获取游客登录状态...')
 
       await fetchTouristUser()
 
@@ -239,7 +237,7 @@ export function useLoginV2Page({ navigation }: NavigationProps) {
       navigation.popToTop()
     } catch (error) {
       logger.error(NAMESPACE, 'onTour', error)
-      info(`${i18n.login()}状态过期，请稍后再试`)
+      info('获取游客登录状态失败，请检查网络后重试')
     }
   }, [navigation])
 

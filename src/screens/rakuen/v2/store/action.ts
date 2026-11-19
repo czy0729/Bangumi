@@ -258,7 +258,7 @@ export default class Action extends Fetch {
                 rakuenStore.fetchPrivacy()
               },
               () => {
-                info('添加失败，可能授权信息过期')
+                info('添加失败，或登录状态已过期')
               }
             )
           }

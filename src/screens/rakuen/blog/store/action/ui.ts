@@ -70,7 +70,7 @@ export default class Ui extends Fetch {
       blogId: this.blogId
     })
 
-    info('回复失败，可能是cookie失效了')
+    info('回复失败，请重试')
     this.setState({
       value: ''
     })
@@ -96,7 +96,7 @@ export default class Ui extends Fetch {
     }
 
     if (!value) {
-      info('未能获取到回复内容，可能授权过期了')
+      info('获取编辑内容失败，请重试')
       return
     }
 

@@ -96,7 +96,7 @@ class LoginAssist extends React.Component<NavigationProps> {
       } else {
         this.setState({
           loading: false,
-          info: '结果中没有userAgent, 请重新输入'
+          info: '没有识别到登录信息，请重新复制后重试'
         })
         return
       }

@@ -26,7 +26,7 @@ function Cavans() {
     return (
       <Flex style={styles.empty} justify='center'>
         <Text style={styles.transparent} type='__plain__' bold>
-          没有足够的数据，或者授权过期
+          没有足够的数据，或登录状态已过期
         </Text>
       </Flex>
     )

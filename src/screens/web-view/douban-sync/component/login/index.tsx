@@ -10,7 +10,7 @@ import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Input, Text } from '@components'
 import { IconTouchable } from '@_'
-import { _, useStore } from '@stores'
+import { _, userStore, useStore } from '@stores'
 import { info, open, stl } from '@utils'
 import { t } from '@utils/fetch'
 import { useInsets } from '@utils/hooks'
@@ -99,6 +99,11 @@ function Login() {
               size={13}
               loading={progress.fetching}
               onPress={() => {
+                if (!userStore.isLogin) {
+                  info('此功能需先登录')
+                  return
+                }
+
                 if (progress.fetching) {
                   info('已在获取中...')
                   return

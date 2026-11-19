@@ -78,7 +78,7 @@ export default class Action extends Fetch {
       const data = await this.fetchGroup(page)
       if (page > 1 && !data.list.length) {
         const target = page - 1
-        info('没有更多了')
+        info('到底啦')
         this.setState({
           replyPage: target,
           ipt: String(target)
@@ -87,7 +87,7 @@ export default class Action extends Fetch {
       }
     } catch (error) {
       logger.error(NAMESPACE, 'fetchPage', error)
-      info('加载失败')
+      info('加载失败，请重试')
 
       const { replyPage } = this.state
       if (replyPage === page) {

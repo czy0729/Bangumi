@@ -132,7 +132,7 @@ function Login({ hide, onToggleHide, setData, setReviews, setIsLogin }: Props) {
             内部发起带鉴权的请求，获得数据后通知 APP。
           </Text>
           <Text style={_.mt.sm} size={12} type='sub'>
-            完成同步前需要一直保持 bilibil {i18n.login()}
+            完成同步前需要一直保持 bilibili {i18n.login()}
             状态，完成后你可以手动登出账号。
           </Text>
           <Flex style={_.mt.md} justify='center'>

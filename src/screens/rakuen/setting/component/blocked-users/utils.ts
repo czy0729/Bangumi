@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-02-01 16:45:24
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-02-03 22:07:41
+ * @Last Modified time: 2026-11-19 22:13:10
  */
 import { rakuenStore } from '@stores'
 import { confirm, feedback, info } from '@utils'
@@ -30,7 +30,7 @@ export function handleBlockUser(keyword: string, success: () => void) {
       success()
     },
     () => {
-      info('添加失败，可能不存在此用户或者授权信息过期')
+      info('添加绝交失败，可能不存在此用户，或登录状态已过期')
     }
   )
 }
@@ -49,7 +49,7 @@ export function handleDeleteBlockUser(item: BlockedUsersItem) {
         feedback()
       },
       () => {
-        info('取消失败，可能授权信息过期')
+        info('取消绝交失败，或登录状态已过期')
       }
     )
   })

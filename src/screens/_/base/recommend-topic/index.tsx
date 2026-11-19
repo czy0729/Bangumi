@@ -27,7 +27,7 @@ export const RecommendTopic = observer(
     loading,
     data,
     iconSize = 11,
-    footerNoMoreText = '- 到底了 -',
+    footerNoMoreText = '- 到底啦 -',
     openWebBrowser = false,
     onShow,
     onHide,

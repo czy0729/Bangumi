@@ -54,7 +54,7 @@ export const LoginNotice = observer(() => {
           <Flex.Item>
             <Link style={styles.touch} path='LoginV2'>
               <Text type='sub' size={12} bold>
-                检测到授权信息过期，点击{i18n.login()}，或者下拉刷新试试
+                登录状态已过期，点击{i18n.login()}
               </Text>
             </Link>
           </Flex.Item>

@@ -446,7 +446,7 @@ export const INIT_SETTING = {
   /** 自定义百度翻译 APP ID */
   baiduAppId: '',
 
-  /** 自定义百度翻译秘钥 */
+  /** 自定义百度翻译密钥 */
   baiduKey: '',
 
   /** 翻译引擎 */

@@ -60,7 +60,7 @@ export default class Action extends Fetch {
     } catch (error) {
       failed = true
       logger.error('group', 'fetchPage', error)
-      info('加载失败')
+      info('加载失败，请重试')
 
       if (this.state.page === page) {
         rollback = true

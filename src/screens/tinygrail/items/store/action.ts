@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-12-26 01:08:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-02-07 11:08:57
+ * @Last Modified time: 2026-11-19 22:25:52
  */
 import { tinygrailStore } from '@stores'
 import { alert, feedback, info, toFixed } from '@utils'
@@ -123,7 +123,7 @@ export default class Action extends Fetch {
       info(Message)
       return false
     } catch (error) {
-      info('操作失败，可能授权过期了')
+      info('操作失败，或授权状态已过期')
       return false
     }
   }

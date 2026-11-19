@@ -29,7 +29,7 @@ function Empty({ title, length }: Props) {
         {length
           ? systemStore.setting.speech
             ? randomSpeech()
-            : '- 到底了 -'
+            : '- 到底啦 -'
           : FOOTER_EMPTY_TEXT[title]}
       </Text>
       {!!filter && length <= 3 && (

@@ -39,7 +39,7 @@ function syncSpeech(): typeof import('expo-speech') {
  * @param delay 延迟多少毫秒后显示, 默认 1000ms
  * @returns fn 取消函数
  */
-export function loading(text: string = 'Loading...', time: number = 0, delay: number = 1000) {
+export function loading(text: string = '加载中...', time: number = 0, delay: number = 1000) {
   let toastId: number
   let timerId: TimerRef = setTimeout(() => {
     timerId = null

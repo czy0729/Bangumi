@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-11-11 10:06:26
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-15 12:00:00
+ * @Last Modified time: 2026-11-19 23:01:57
  *
  * 猜你喜欢数据请求
  */
@@ -31,16 +31,13 @@ export default class Fetch extends Computed {
     const data = await this.fetchCollectionsQueue()
     if (!data.length) {
       setTimeout(() => {
-        confirm(
-          '没有获取到任何该类型的收藏数据，可能是您的授权信息过期了，也有可能是服务崩了，尝试重新自动授权后再次获取？',
-          async () => {
-            await userStore.reOauth()
+        confirm('没有获取到收藏数据，可能登录状态已过期，是否重新登录后再试？', async () => {
+          await userStore.reOauth()
 
-            setTimeout(() => {
-              this.getList(true)
-            }, 0)
-          }
-        )
+          setTimeout(() => {
+            this.getList(true)
+          }, 0)
+        })
       }, 0)
       return false
     }

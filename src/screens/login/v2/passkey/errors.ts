@@ -1,8 +1,8 @@
 /*
  * @Author: Q16KBreak
  * @Date: 2026-11-01
- * @Last Modified by: Q16KBreak
- * @Last Modified time: 2026-11-11 23:40:00
+ * @Last Modified by: czy0729
+ * @Last Modified time: 2026-11-19 22:10:47
  *
  * Passkey 错误码、固定文案与错误类型
  */
@@ -55,18 +55,18 @@ const MESSAGES: Record<PasskeyErrorCode, string> = {
     '凭据管理器不可用或尚未信任本应用。请在所选提供方的特权应用设置中授权后重试。',
   E_PASSKEY_BUSY: '已有凭据请求正在进行，请先完成或取消。',
   E_PASSKEY_ACTIVITY: '登录页面已失效，请返回后重新打开。',
-  E_PASSKEY_OPTIONS: '获取主站登录请求失败，请检查网络后重试。',
-  E_PASSKEY_VERIFY: '主站未接受本次 Passkey 验证，请重新发起登录。',
-  E_PASSKEY_VERIFY_HTTP: '主站验证接口返回异常状态，请检查网络后重试。',
-  E_PASSKEY_VERIFY_REJECTED: '主站拒绝了本次 Passkey 签名验证，请重新发起登录。',
-  E_PASSKEY_SESSION: '主站已确认身份，但客户端未取得登录 Cookie，请重新发起登录。',
-  E_PASSKEY_REDIRECT: '主站请求被重定向到未知地址，已停止本次登录。',
-  E_PASSKEY_FINAL_URL: '无法确认主站响应地址，已停止本次登录。',
-  E_PASSKEY_INVALID_REQUEST: '主站返回的凭据请求不受支持，已停止本次登录。',
-  E_PASSKEY_INVALID_RESPONSE: '凭据响应与主站请求不匹配，已停止本次登录。',
+  E_PASSKEY_OPTIONS: '获取 Bangumi 登录请求失败，请检查网络后重试。',
+  E_PASSKEY_VERIFY: 'Bangumi 未接受本次 Passkey 验证，请重新发起登录。',
+  E_PASSKEY_VERIFY_HTTP: 'Bangumi 验证接口返回异常状态，请检查网络后重试。',
+  E_PASSKEY_VERIFY_REJECTED: 'Bangumi 拒绝了本次 Passkey 签名验证，请重新发起登录。',
+  E_PASSKEY_SESSION: 'Bangumi 已确认身份，但客户端未取得登录 Cookie，请重新发起登录。',
+  E_PASSKEY_REDIRECT: 'Bangumi 请求被重定向到未知地址，已停止本次登录。',
+  E_PASSKEY_FINAL_URL: '无法确认 Bangumi 响应地址，已停止本次登录。',
+  E_PASSKEY_INVALID_REQUEST: 'Bangumi 返回的凭据请求不受支持，已停止本次登录。',
+  E_PASSKEY_INVALID_RESPONSE: '凭据响应与 Bangumi 请求不匹配，已停止本次登录。',
   E_PASSKEY_OAUTH: 'Passkey 验证后的客户端授权未完成，请重新发起登录。',
   E_PASSKEY_PROXY: 'Passkey 登录需要在「设置 → 代理」中切换为直连模式后重试。',
-  E_PASSKEY_NETWORK: '连接主站失败，请检查网络或手机代理的配置后重试。',
+  E_PASSKEY_NETWORK: '连接 Bangumi 失败，请检查网络或手机代理的配置后重试。',
   E_PASSKEY_FAILED: 'Passkey 登录未完成，请重试。'
 }
 

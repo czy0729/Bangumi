@@ -2,7 +2,7 @@
  * @Author: Q16KBreak
  * @Date: 2026-11-01
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-17 00:00:00
+ * @Last Modified time: 2026-11-19 22:11:04
  *
  * 单次 Passkey 登录管线：可独立测试，完成全部授权后才提交用户状态
  */
@@ -52,7 +52,7 @@ export async function runPasskeyLogin({
       onNativeRequest(false)
     }
     assertActive()
-    onProgress('正在向主站验证 Passkey...')
+    onProgress('正在向 Bangumi 验证 Passkey...')
     await service.verify(assertion)
     assertActive()
     onProgress('正在完成客户端授权...')
