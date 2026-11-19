@@ -2,8 +2,11 @@
  * @Author: czy0729
  * @Date: 2023-08-01 19:19:14
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-10 00:33:48
+ * @Last Modified time: 2026-11-20 00:00:00
+ *
+ * iOS 面板底色由自身提供, 毛玻璃只负责模糊, 不依赖背后画面的明暗
  */
+import { StyleSheet, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { BlurView } from 'expo-blur'
 import { _ } from '@stores'
@@ -19,13 +22,15 @@ function Container({ children }: Props) {
 
   if (IOS || WEB) {
     return (
-      <BlurView
-        style={styles.container}
-        tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK)}
-        intensity={100}
-      >
+      <View style={[styles.container, styles.base]}>
+        <BlurView
+          style={StyleSheet.absoluteFill}
+          tint={_.select(BLURVIEW_TINT_LIGHT, BLURVIEW_TINT_DARK)}
+          intensity={100}
+          pointerEvents='none'
+        />
         {children}
-      </BlurView>
+      </View>
     )
   }
 

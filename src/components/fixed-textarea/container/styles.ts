@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-01 19:19:30
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-30 01:26:42
+ * @Last Modified time: 2026-11-20 05:33:08
  */
 import { _ } from '@stores'
 
@@ -20,6 +20,9 @@ export const memoStyles = _.memoStyles(() => ({
     backgroundColor: 'transparent',
     border: 0,
     borderRadius: 0
+  },
+  base: {
+    backgroundColor: _.select('rgba(255, 255, 255, 0.64)', 'rgba(255, 255, 255, 0.08)')
   },
   plain: {
     backgroundColor: _.select(_.colorPlain, _._colorDarkModeLevel1),

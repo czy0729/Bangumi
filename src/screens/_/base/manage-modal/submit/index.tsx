@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-07-28 05:05:11
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-16 10:20:00
+ * @Last Modified time: 2026-11-20 05:24:10
  */
 import { observer } from 'mobx-react'
 import { Button, Flex, Iconfont } from '@components'
@@ -38,7 +38,7 @@ function Submit({
 
       <Button
         style={styles.privacy}
-        type={isPrivate ? 'ghostPlain' : 'ghostMain'}
+        type={isPrivate ? 'plain' : 'ghostMain'}
         extra={
           isPrivate && (
             <Iconfont style={_.ml.xs} name='md-visibility-off' color={_.colorSub} size={16} />
