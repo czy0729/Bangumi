@@ -5,9 +5,10 @@
  * @Last Modified time: 2026-08-08 00:00:00
  */
 import { observer } from 'mobx-react'
-import { Flex, Text } from '@components'
 import { r } from '@utils/dev'
 import { DEV } from '@constants'
+import { Flex } from '../../flex'
+import { Text } from '../../text'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
 

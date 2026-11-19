@@ -11,6 +11,7 @@ import { logger } from '@utils/dev'
 import { fixImageProtocol, resolveImageUri } from '@utils/image'
 import { invalidate } from '@utils/thirdParty/disk-image-cache'
 import { IOS, WEB } from '@constants'
+import { useInViewVisible } from '../in-view/context'
 import {
   checkLocalError,
   computeHeaders,
@@ -72,6 +73,9 @@ export function useImageHeaders(
 export function useImageAutoSize(options: UseImageAutoSizeOptions) {
   const { uri, src, autoSize, autoHeight, headers, onSize, onError } = options
 
+  /** InView keepMounted: 不可见时不测量, 避免提前下载 */
+  const inViewVisible = useInViewVisible()
+
   /** 已完成测量的 uri, 同一地址只测一次, 换图自动允许重新测量 */
   const sizedUriRef = useRef<string | null>(null)
   const mountedRef = useRef(true)
@@ -87,6 +91,7 @@ export function useImageAutoSize(options: UseImageAutoSizeOptions) {
     if (!autoSize && !autoHeight) return
     // autoSize 为 boolean true 且 autoHeight 无数值配值时无法计算目标宽度, 跳过
     if (typeof autoSize !== 'number' && !autoHeight) return
+    if (!inViewVisible) return
 
     // 必须与渲染地址走同一解析 (补协议 + 图片代理), 否则代理开启后测量会请求原始地址而失败
     const finalUri = resolveImageUri(uri || src)
@@ -115,7 +120,7 @@ export function useImageAutoSize(options: UseImageAutoSizeOptions) {
     }, 0)
 
     return () => clearTimeout(timerId)
-  }, [uri, src, autoSize, autoHeight, headers, onSize, onError])
+  }, [uri, src, autoSize, autoHeight, headers, onSize, onError, inViewVisible])
 }
 
 /**
@@ -125,8 +130,11 @@ export function useImageAutoSize(options: UseImageAutoSizeOptions) {
 export function useImageLoader(props: ImageProps, headers: Record<string, string>) {
   const { src, priority } = props
 
+  /** InView keepMounted 场景: 不可见时不发起下载, 等 context 翻转 (单向上翻) 后由下方 effect 接管 */
+  const inViewVisible = useInViewVisible()
+
   const [state, setState] = useState<State>(() => ({
-    uri: WEB ? fixImageProtocol(src) : undefined,
+    uri: inViewVisible && WEB ? fixImageProtocol(src) : undefined,
     width: 0,
     height: 0,
     loaded: false,
@@ -463,6 +471,9 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
   useEffect(() => {
     if (props.textOnly) return
 
+    // 不可见: 不读缓存也不加载, 渲染层走 Placeholder, 避免提前渲染图片产生开销
+    if (!inViewVisible) return
+
     // 首次挂载
     if (!initializedRef.current) {
       initializedRef.current = true
@@ -530,6 +541,7 @@ export function useImageLoader(props: ImageProps, headers: Record<string, string
     priority,
     props.cache,
     props.textOnly,
+    inViewVisible,
     pushTimer,
     setUri,
     preGetLocalCache,

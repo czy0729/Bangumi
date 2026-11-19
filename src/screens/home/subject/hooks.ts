@@ -15,8 +15,9 @@ import { t } from '@utils/fetch'
 import { usePageLifecycle } from '@utils/hooks'
 import { IOS, WEB } from '@constants'
 import { HEADER_HEIGHT } from '@styles'
-import store from './store'
+import { BottomEls } from './component/header-component/ds'
 import { TITLE_HEAD } from './ds'
+import store from './store'
 
 import type { RefObject } from 'react'
 import type { View } from 'react-native'
@@ -52,6 +53,8 @@ export function useSubjectPage(props: NavigationProps) {
         $.updateStatusBar()
       },
       async onEnterComplete() {
+        // 转场完成后才开始放行延迟区块, 逐帧递增见 HeaderComponent
+        $.startDefer()
         await $.init()
 
         t('条目.查看', {
@@ -231,11 +234,10 @@ function useSubjectScroll(
           return
         }
 
-        // ref 不存在，可能板块还没渲染（BottomEls 需要 scrolled=true）
-        // 强制渲染后等 ref 注册完成再滚动
+        // ref 不存在, 可能延迟区块还没放行, 直接全部放行后等 ref 注册完成再滚动
         info('加载板块中，马上跳转...')
-        if (!$.state.scrolled) {
-          $.setState({ scrolled: true })
+        if ($.state.deferredCount < BottomEls.length) {
+          $.setState({ deferredCount: BottomEls.length })
         }
 
         let retried = false

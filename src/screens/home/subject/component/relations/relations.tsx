@@ -53,7 +53,7 @@ const Relations = memo(
     )
 
     return (
-      <InView style={stl(styles.container, !showRelations && styles.containerNotShow)}>
+      <InView keepMounted style={stl(styles.container, !showRelations && styles.containerNotShow)}>
         <BlockTitle
           layoutKey='showRelations'
           style={_.container.wind}

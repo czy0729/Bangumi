@@ -74,6 +74,7 @@ const Topic = memo(
 
     return (
       <InView
+        keepMounted
         style={stl(
           styles.container,
           list?.length >= 3 && styles.containerFull,

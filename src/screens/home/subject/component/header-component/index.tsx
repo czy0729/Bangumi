@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2019-04-12 12:15:41
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-25 05:11:24
+ * @Last Modified time: 2026-11-20 00:00:00
  */
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { observer } from 'mobx-react'
 import { Component, ErrorBoundary, Flex } from '@components'
 import { renderWithErrorBoundary } from '@components/error-boundary/utils'
@@ -14,37 +14,37 @@ import Bg from '../bg'
 import Head from '../head'
 import Loading from '../loading'
 import { BottomEls, COMPONENT, TopEls } from './ds'
+import { useDeferredBlocks } from './hooks'
 
 import type { Ctx } from '../../types'
 import type { Props } from './types'
 
 function HeaderComponent(props: Props) {
   const { $ } = useStore<Ctx>(COMPONENT)
-  const [showDeferred, setShowDeferred] = useState(false)
 
-  // 切页动画完成后再渲染延迟组件，避免在动画期间产生卡顿
-  useEffect(() => {
-    const timer = setTimeout(() => setShowDeferred(true), IOS ? 400 : 520)
-    return () => clearTimeout(timer)
-  }, [])
+  // 转场完成后逐帧放行, 已放行数量为 0 表示转场尚未完成
+  const deferredCount = useDeferredBlocks($, BottomEls.length)
+  const started = deferredCount > 0
 
-  // 按原顺序渲染 TopEls，但 defer 区块在动画完成后才渲染
+  // 按原顺序渲染 TopEls, 延迟区块在转场完成后才渲染
   const elTop = useMemo(
     () =>
       TopEls.map(({ el, defer }, index) => {
-        if (defer && !showDeferred) {
+        if (defer && !started) {
           return null
         }
         return renderWithErrorBoundary(el, index, props)
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [showDeferred]
+    [started]
   )
 
+  // 已放行的区块保持实例, 后续只追加新区块
   const elBottom = useMemo(
-    () => BottomEls.map((item, index) => renderWithErrorBoundary(item, index, props)),
+    () =>
+      BottomEls.slice(0, deferredCount).map((item, index) => renderWithErrorBoundary(item, index, props)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [deferredCount]
   )
 
   return (
@@ -57,7 +57,7 @@ function HeaderComponent(props: Props) {
       <Head onBlockRef={props.onBlockRef} />
       <Flex.Item style={IOS && _.container.plain}>
         {elTop}
-        {$.state.scrolled && elBottom}
+        {elBottom}
         <Loading />
       </Flex.Item>
     </Component>

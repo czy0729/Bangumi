@@ -43,7 +43,7 @@ const Staff = memo(
     )
 
     return (
-      <InView style={stl(styles.container, !showStaff && styles.containerNotShow)}>
+      <InView keepMounted style={stl(styles.container, !showStaff && styles.containerNotShow)}>
         <BlockTitle
           layoutKey='showStaff'
           style={_.container.wind}

@@ -331,16 +331,20 @@ export function computeImageStyles(
   const container: ViewStyle[] = []
   const image: ViewStyle[] = []
 
+  // 自动尺寸实测前用已知的一边占位, 减少可见后从兜底尺寸跳变
+  const autoSizeFallback = typeof autoSize === 'number' && autoSize > 0 ? autoSize : 160
+  const autoHeightFallback = typeof autoHeight === 'number' && autoHeight > 0 ? autoHeight : 160
+
   // 以 state 里面的 width 和 height 优先
   if (autoSize) {
     image.push({
-      width: w || (WEB ? 'auto' : 160),
+      width: w || (WEB ? 'auto' : autoSizeFallback),
       height: h || (WEB ? 'auto' : 160)
     })
   } else if (autoHeight) {
     image.push({
       width: w || (WEB ? 'auto' : 160),
-      height: h || (WEB ? 'auto' : 160)
+      height: h || (WEB ? 'auto' : autoHeightFallback)
     })
   } else if (size) {
     image.push({

@@ -88,7 +88,7 @@ const Character = memo(
     )
 
     return (
-      <InView style={stl(styles.container, !showCharacter && styles.containerNotShow)}>
+      <InView keepMounted style={stl(styles.container, !showCharacter && styles.containerNotShow)}>
         <BlockTitle
           layoutKey='showCharacter'
           style={_.container.wind}

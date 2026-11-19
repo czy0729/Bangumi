@@ -19,6 +19,12 @@ export type Props = Override<
     /** 预测的 y 轴坐标, 不传则等待 onLayout 测量自身位置 */
     y?: number
 
+    /**
+     * children 常驻挂载, shown 只写入可见性 context 供图片延迟加载
+     * 用于大 header 区块: 布局骨架与尺寸稳定, 滚动期无节点挂载成本
+     */
+    keepMounted?: boolean
+
     /** 是否显示开发调试信息 */
     log?: boolean
 

@@ -50,7 +50,7 @@ const Comic = memo(
     )
 
     return (
-      <InView style={styles.container}>
+      <InView keepMounted style={styles.container}>
         <SectionTitle style={_.container.wind} right={elRight} splitStyles>
           {TITLE_COMIC}{' '}
           {!!comic?.length && (

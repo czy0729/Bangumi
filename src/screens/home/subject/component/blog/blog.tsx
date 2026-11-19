@@ -64,6 +64,7 @@ const Blog = memo(
 
     return (
       <InView
+        keepMounted
         style={stl(
           styles.container,
           list.length >= 2 && styles.containerFull,

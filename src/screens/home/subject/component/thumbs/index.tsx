@@ -75,6 +75,7 @@ function Thumbs({ onBlockRef }: Props) {
       <BlockAnchor title={TITLE_THUMBS} onBlockRef={onBlockRef} />
 
       <InView
+        keepMounted
         style={stl(
           styles.container,
           showTitle && videos.length && styles.containerFull,

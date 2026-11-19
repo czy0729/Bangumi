@@ -52,7 +52,7 @@ function TrackComment() {
   // --- Render ---
   return (
     <Component id='screen-subject-track-comment' style={_.mt.sm}>
-      <InView y={Math.floor(_.window.height * 1.5)}>
+      <InView keepMounted>
         {items.map(userId => {
           const collection = collectionStore.usersSubjectCollection(userId, $.subjectId)
           const userInfo = usersStore.usersInfo(userId)

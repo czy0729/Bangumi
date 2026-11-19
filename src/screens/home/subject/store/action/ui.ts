@@ -256,6 +256,15 @@ export default class Ui extends Fetch {
     })
   })
 
+  /** 转场完成后开始放行延迟区块: 先放行第一个, 其余由 HeaderComponent 逐帧递增 */
+  startDefer = () => {
+    if (this.state.deferredCount) return
+
+    this.setState({
+      deferredCount: 1
+    })
+  }
+
   /** 更新可视范围底部 y */
   updateVisibleBottom = updateVisibleBottom.bind(this)
 
@@ -285,14 +294,6 @@ export default class Ui extends Fetch {
       fixed
     })
     this.updateStatusBar(fixed)
-
-    if (!this.state.scrolled) {
-      setTimeout(() => {
-        this.setState({
-          scrolled: true
-        })
-      }, 0)
-    }
   }
 
   /** 显示锐评框 */

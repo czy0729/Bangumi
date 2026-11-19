@@ -82,7 +82,7 @@ const Anitabi = memo(
     )
 
     return (
-      <InView style={stl(styles.container, !showAnitabi && styles.containerNotShow)}>
+      <InView keepMounted style={stl(styles.container, !showAnitabi && styles.containerNotShow)}>
         <BlockTitle
           layoutKey='showAnitabi'
           style={_.container.wind}

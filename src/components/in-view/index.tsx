@@ -7,27 +7,33 @@
 import React, { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Flex } from '@components'
 import { useStore } from '@stores'
 import { WEB } from '@constants'
 import { INVIEW_SHOW } from '@src/config'
+import { Flex } from '../flex'
+import { InViewContext } from './context'
+import { COMPONENT, preDistance } from './ds'
 import { useInView } from './hooks'
 import Log from './log'
 import { computeInViewY } from './utils'
-import { COMPONENT, preDistance } from './ds'
 
 export { computeInViewY }
+export { InViewContext, useInViewVisible } from './context'
 
 import type { Ctx, InViewComponentType, Props as InViewProps } from './types'
 export type { InViewProps }
 
 /** 由于 react-native 没有原生的懒渲染, 根据滚动 y 轴控制懒渲染 */
 const InView = observer(
-  ({ index, y, log = INVIEW_SHOW, flex, onLayout, children, ...other }: InViewProps) => {
+  ({ index, y, keepMounted, log = INVIEW_SHOW, flex, onLayout, children, ...other }: InViewProps) => {
     const { $ } = useStore<Ctx>(COMPONENT)
 
+    // keepMounted 时不能走 fast path: 跳过 Provider 会让 context 恒为可见, 常驻挂载失去意义
     const isFastPath =
-      WEB || (typeof index === 'number' && index < 8) || !$?.state || !('visibleBottom' in $.state)
+      WEB ||
+      !$?.state ||
+      !('visibleBottom' in $.state) ||
+      (!keepMounted && typeof index === 'number' && index < 8)
     const hasY = typeof y === 'number'
     const targetY = y === 0 ? 1 : y
 
@@ -57,7 +63,11 @@ const InView = observer(
 
     return (
       <Component {...other} collapsable={false} onLayout={hasY ? undefined : handleLayout}>
-        {shown ? children : null}
+        {keepMounted ? (
+          <InViewContext.Provider value={shown}>{children}</InViewContext.Provider>
+        ) : (
+          shown ? children : null
+        )}
         {log && <Log hasY={hasY} y={targetY} currentY={currentY} index={index} />}
       </Component>
     )

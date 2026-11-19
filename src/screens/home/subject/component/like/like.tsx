@@ -47,7 +47,7 @@ const Like = memo(
     )
 
     return (
-      <InView style={stl(styles.container, !showLike && styles.containerNotShow)}>
+      <InView keepMounted style={stl(styles.container, !showLike && styles.containerNotShow)}>
         <BlockTitle
           layoutKey='showLike'
           style={_.container.wind}

@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import { _, systemStore } from '@stores'
 import { ensureCacheLimit } from '@utils/cache'
 import { WEB } from '@constants'
+import { useInViewVisible } from '../../in-view/context'
 import { Skeleton as SkeletonComp } from '../../skeleton'
 
 import type { Props } from './types'
@@ -24,6 +25,9 @@ const loadedUriCache = new Map<string, boolean>()
 function Skeleton({ style, uri, type, textOnly, placeholder, loaded }: Props) {
   const [showSkeleton, setShowSkeleton] = useState(true)
 
+  /** InView keepMounted: 不可见时不显示骨架动画 */
+  const inViewVisible = useInViewVisible()
+
   const layout = useMemo(() => {
     const flattened = _.flatten(style)
     const w = flattened?.width
@@ -36,6 +40,7 @@ function Skeleton({ style, uri, type, textOnly, placeholder, loaded }: Props) {
 
   // 判断是否应该跳过骨架屏
   const shouldSkipSkeleton =
+    !inViewVisible ||
     !layout ||
     loaded ||
     !showSkeleton ||

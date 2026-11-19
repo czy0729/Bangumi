@@ -29,14 +29,11 @@ export const RESET_STATE = {
   /** 头部是否固定 */
   fixed: false,
 
-  /** 可视范围底部 y */
-  visibleBottom: Math.floor(_.window.height * 3),
+  /** 可视范围底部 y, 初值为首屏底部, 图片放行范围由滚动推进 */
+  visibleBottom: Math.floor(_.window.height),
 
   /** 当前页面实例是否在路由栈中 (用于退出页面后马上拦截剩余的请求) */
   focused: false,
-
-  /** 当前页面实例是否操作过 (用于进入页面时不显示过多看不见的模块) */
-  scrolled: false,
 
   /** 预览截图是否正在手动刷新 (仅手动刷新期间为 true, 不落本地缓存) */
   thumbsRefreshing: false
@@ -93,6 +90,9 @@ export const EXCLUDE_STATE = {
 /** 页面实例状态 */
 export const STATE = {
   ...EXCLUDE_STATE,
+
+  /** 已放行的延迟区块数量 (0 表示转场未完成; 不随 init 重置, 退出页面时还原) */
+  deferredCount: 0,
 
   /** 章节是否倒序 */
   epsReverse: false,

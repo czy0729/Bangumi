@@ -24,7 +24,7 @@ const Catalog = memo(
     const elRight = useMemo(() => (showCatalog ? <IconCatalog /> : null), [showCatalog])
 
     return (
-      <InView style={stl(styles.container, !showCatalog && _.short)}>
+      <InView keepMounted style={stl(styles.container, !showCatalog && _.short)}>
         <BlockTitle
           layoutKey='showCatalog'
           style={_.container.wind}

@@ -168,7 +168,11 @@ export default class ScreenSubject extends Action {
 
   /** 销毁页面 */
   unmount = () => {
-    this.setState(RESET_STATE)
+    // deferredCount 不在 RESET_STATE 内, 以免 init 的 EXCLUDE_STATE 把它冲回 0
+    this.setState({
+      ...RESET_STATE,
+      deferredCount: 0
+    })
   }
 
   /** 每个请求都判断 this.state.focused 判断用户在未请求完就退出页面需要尽快终止余下请求 */

@@ -53,7 +53,7 @@ function Item({
     return null
   }
 
-  if (!$.state.scrolled) return <View style={styles.item} />
+  if (!$.state.deferredCount) return <View style={styles.item} />
 
   return (
     <InView key={id} y={InView.y(index, ITEM_COMMENT_HEIGHT, _.window.height)}>

@@ -43,7 +43,7 @@ const Recent = memo(
     )
 
     return (
-      <InView style={stl(styles.container, !showRecent && styles.containerNotShow)}>
+      <InView keepMounted style={stl(styles.container, !showRecent && styles.containerNotShow)}>
         <BlockTitle
           layoutKey='showRecent'
           style={_.container.wind}

@@ -455,9 +455,14 @@ describe('computeImageStyles', () => {
     expect(res.image).toMatchObject({ width: 40, height: 40 })
   })
 
-  it('autoSize 分支无实测尺寸时使用兜底值', () => {
+  it('autoSize 分支无实测尺寸时以目标宽度占位', () => {
     const res = computeImageStyles(mkProps({ autoSize: 80 }), mkState(), mkOptions())
-    expect(res.image).toMatchObject({ width: 160, height: 160 })
+    expect(res.image).toMatchObject({ width: 80, height: 160 })
+  })
+
+  it('autoHeight 分支无实测尺寸时以目标高度占位', () => {
+    const res = computeImageStyles(mkProps({ autoHeight: 120 }), mkState(), mkOptions())
+    expect(res.image).toMatchObject({ width: 160, height: 120 })
   })
 
   it('autoSize 分支以 state 尺寸优先', () => {

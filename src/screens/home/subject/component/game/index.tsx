@@ -73,7 +73,7 @@ function Game({ onBlockRef }: Props) {
     <Component id='screen-subject-game'>
       <BlockAnchor title={TITLE_GAME} onBlockRef={onBlockRef} />
 
-      <InView style={stl(_.mt.lg, !showGameInfo && _.short)}>
+      <InView keepMounted style={stl(_.mt.lg, !showGameInfo && _.short)}>
         {shouldWrapExpand ? <Expand ratio={1.6}>{elContent}</Expand> : elContent}
 
         <Flex style={stl(_.container.wind, _.mt.sm)}>
