@@ -2,13 +2,11 @@
  * @Author: czy0729
  * @Date: 2026-11-17 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-18 01:10:00
+ * @Last Modified time: 2026-11-19 15:20:00
  *
- * class 组件的 observer 支持
- * - class 不能像函数组件那样包一层组件: 包了之后 render 跑在 React 自己的渲染流程里,
- *   不在 reaction.track 内, 组件读到的 observable 不建立依赖, 结果是永不重渲染
- * - 因此直接 patch 原型, 返回原类: 实例 ref / 生命周期 / static defaultProps 全部保留,
- *   PureComponent 的 shouldComponentUpdate 也照常生效 (forceUpdate 会跳过它, 与 mobx-react 一致)
+ * class 组件的 observer 支持: 直接 patch 原型并返回原类
+ *  - 包一层组件会让 render 跑在 reaction.track 之外, 读到的 observable 不建立依赖
+ *  - patch 后实例 ref / 生命周期 / static 属性保留, PureComponent 的 sCU 照常生效
  */
 import { Reaction } from 'mobx'
 

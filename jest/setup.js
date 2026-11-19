@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-05-17 04:42:03
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-26 23:21:26
+ * @Last Modified time: 2026-11-18 05:26:13
  */
 const path = require('path')
 
@@ -26,9 +26,8 @@ jest.mock('expo-device', () => ({
   modelName: 'test',
   osVersion: '1.0'
 }))
-jest.mock('mobx', () => ({
-  isObservableArray: () => false
-}))
+// 'mobx' 不再全局 mock: 它经 moduleNameMapper 指向自研 facade (真值 re-export),
+// mock 会拦截 facade 本体, 测试拿到的将是空壳而不是自研实现
 jest.mock('@constants/device', () => ({
   WEB: false
 }))

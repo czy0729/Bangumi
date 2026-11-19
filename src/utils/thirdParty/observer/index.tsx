@@ -2,14 +2,12 @@
  * @Author: czy0729
  * @Date: 2026-11-17 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-18 01:10:00
+ * @Last Modified time: 2026-11-19 15:20:00
  *
- * 自研 observer, 替代 mobx-react / mobx-react-lite 的 observer
- * - 函数组件: render 包进 Reaction.track (./hooks), 订阅用 useSyncExternalStore (React 18 / 19 一致)
- * - class 组件: patch 原型并返回原类 (./class)
- * - 实例状态与订阅见 ./adm, 类型约定见 ./types
- * - 源码侧保持 `import { observer } from 'mobx-react'` 不变, 由 tsconfig paths 别名
- *   (metro.config.js 读取后生成 Metro alias, jest.config.js 的 moduleNameMapper 另配) 指向此处
+ * observer: 替代 mobx-react 的 observer
+ *  - 函数组件: render 包进 Reaction.track (./hooks), 以 useSyncExternalStore 订阅
+ *  - class 组件: patch 原型并返回原类 (./class)
+ *  - 源码侧 'mobx-react' 由 metro / jest 的别名指向此处
  */
 import { forwardRef, memo } from 'react'
 import { observeClassComponent } from './class'

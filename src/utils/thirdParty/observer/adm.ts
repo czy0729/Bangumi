@@ -2,11 +2,11 @@
  * @Author: czy0729
  * @Date: 2026-11-17 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-18 01:10:00
+ * @Last Modified time: 2026-11-19 15:20:00
  *
  * adm (实例状态) 的创建与 reaction 管理
- * - 一个组件实例只建一次, 之后的渲染复用同一个对象
- * - 订阅函数与 track 闭包都在这里确定, 保证渲染热路径零分配
+ *  - 一个组件实例只建一次, 之后的渲染复用同一个对象
+ *  - 订阅函数与 track 闭包创建时确定, 渲染热路径零分配
  */
 import { Reaction } from 'mobx'
 
@@ -33,8 +33,6 @@ export function createAdm(name: string, render: RenderFn): IAdm {
     reaction: null,
     listener: null,
     version: 0,
-    props: null,
-    ref: null,
     result: null,
     error: null
   } as unknown as IAdm
@@ -43,9 +41,9 @@ export function createAdm(name: string, render: RenderFn): IAdm {
 
   // Suspense 靠抛 Promise 挂起渲染, 异常必须带出 track 之后再抛:
   // track 中途被异常打断时, 依赖只收集了一半, 组件之后的更新会静默丢失
-  adm.track = () => {
+  adm.track = (props: any, ref: any) => {
     try {
-      adm.result = adm.render(adm.props, adm.ref)
+      adm.result = adm.render(props, ref)
     } catch (error) {
       adm.error = error
     }

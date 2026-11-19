@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-23 13:40:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-02 02:42:11
+ * @Last Modified time: 2026-11-18 05:58:19
  *
  * Store Legacy / 主实现 差分等价测试
  * 同一输入序列分别驱动两版实现, 断言状态内容、返回值、副作用序列一致
@@ -649,6 +649,7 @@ describe('Store 实例差分', () => {
     const before2 = c2
     mockFetch.mockResolvedValueOnce([{ id: 8 }])
     await v2.fetch('https://api', ['brand', 8], { list: true })
+    await Promise.resolve()
 
     // 回归断言: 主实现第二次 fetch 必须再次触发订阅(修复前静默失效)
     expect(c2).toBeGreaterThan(before2)

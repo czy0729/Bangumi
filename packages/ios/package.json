@@ -60,7 +60,7 @@
     "expo-updates": "~58.0.21",
     "expo-web-browser": "~58.0.7",
     "htmlparser2": "^3.9.0",
-    "mobx": "6.12.3",
+
     "patch-package": "6.4.7",
     "postinstall-postinstall": "2.1.0",
     "react": "19.3.0",
@@ -107,6 +107,7 @@
     "eslint-plugin-react-native": "^4.0.0",
     "jest": "~30.5.2",
     "jest-expo": "~58.0.14",
+    "mobx": "6.12.3",
     "mobx-react": "9.1.1",
     "prettier": "^2.6.2",
     "protobufjs": "^8.8.0",

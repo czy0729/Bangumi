@@ -2,11 +2,9 @@
  * @Author: czy0729
  * @Date: 2026-11-17 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-18 01:10:00
+ * @Last Modified time: 2026-11-19 15:20:00
  *
- * observer 的类型约定
- * - 这里只依赖 Reaction 的两个能力 (track / dispose) 与 observable 的「读即订阅」语义,
- *   将来换掉 mobx 时, 需要对齐的接口边界就是这两条
+ * observer 的类型约定: 只依赖 Reaction 的 track / dispose 与 observable 的「读即订阅」
  */
 import type { ComponentType, ForwardRefExoticComponent, ReactNode, RefAttributes } from 'react'
 import type { Reaction } from 'mobx'
@@ -30,11 +28,10 @@ export interface IAdm {
   listener: (() => void) | null
   /** 每次 reaction 触发自增, 作为 getSnapshot 的返回值 */
   version: number
-  props: any
-  ref: any
   result: ReactNode
   error: unknown
   subscribe: (listener: () => void) => () => void
   getSnapshot: () => number
-  track: () => void
+  /** 本次渲染的 props / ref 由调用方传入, 不经实例字段中转 */
+  track: (props: any, ref: any) => void
 }

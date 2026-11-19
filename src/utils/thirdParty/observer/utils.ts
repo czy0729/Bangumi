@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-11-17 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-18 01:10:00
+ * @Last Modified time: 2026-11-19 15:20:00
  *
  * 组件形态判定, 只在 observer() 调用时执行一次, 不在渲染热路径上
  */
