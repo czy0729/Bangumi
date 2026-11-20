@@ -4,29 +4,24 @@
  * @Author: czy0729
  * @Date: 2024-01-16 18:26:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-23 08:00:00
+ * @Last Modified time: 2026-11-21 02:44:41
  */
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
-import Pager from 'react-native-tab-view/src/Pager'
-import TabBar from 'react-native-tab-view/src/TabBar'
 import { uiStore } from '@stores'
 import { stl } from '@utils/utils'
 import { IOS } from '@constants/env'
+import Pager from '../pager'
 import SceneView from '../scene-view'
+import TabBar from '../tab-bar'
 
 import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native'
 import type { PanGestureHandler } from 'react-native-gesture-handler'
-import type { Props as ChildProps } from 'react-native-tab-view/src/Pager'
-import type { Props as TabBarProps } from 'react-native-tab-view/src/TabBar'
-import type {
-  Layout,
-  PagerCommonProps,
-  Route,
-  SceneRendererProps
-} from 'react-native-tab-view/src/types'
+import type { Props as ChildProps } from '../pager'
+import type { Props as TabBarProps } from '../tab-bar'
+import type { Layout, PagerCommonProps, Route, SceneRendererProps } from '../types'
 
 type NavigationState<T extends Route> = {
   index: number

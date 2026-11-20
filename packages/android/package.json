@@ -69,7 +69,6 @@
     "react-native-screens": "3.22.1",
     "react-native-smb": "0.2.4",
     "react-native-svg": "13.9.0",
-    "react-native-tab-view": "3.5.2",
     "react-native-webview": "13.2.2"
   },
   "devDependencies": {

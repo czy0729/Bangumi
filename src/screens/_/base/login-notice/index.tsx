@@ -2,9 +2,9 @@
  * @Author: czy0729
  * @Date: 2022-06-25 02:49:17
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-19 17:09:07
+ * @Last Modified time: 2026-11-21 02:44:51
  */
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { observer } from 'mobx-react'
@@ -54,11 +54,10 @@ export const LoginNotice = observer(() => {
           <Flex.Item>
             <Link style={styles.touch} path='LoginV2'>
               <Text type='sub' size={12} bold>
-                登录状态已过期，点击{i18n.login()}
+                登录状态已过期，点击{i18n.login()}，或尝试下拉刷新授权
               </Text>
             </Link>
           </Flex.Item>
-
           <IconTouchable style={_.ml.sm} name='md-close' size={18} onPress={() => setShow(false)} />
         </Flex>
       </Component>

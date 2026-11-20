@@ -2,16 +2,11 @@
  * @Author: czy0729
  * @Date: 2026-09-03 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 02:50:42
+ * @Last Modified time: 2026-11-21 02:44:27
  */
 import type { ReactNode } from 'react'
 import type { StyleProp, ViewStyle } from 'react-native'
-import type {
-  EventEmitterProps,
-  NavigationState,
-  Route,
-  SceneRendererProps
-} from 'react-native-tab-view/src/types'
+import type { EventEmitterProps, NavigationState, Route, SceneRendererProps } from '../types'
 
 /** 场景容器 Props */
 export type Props<T extends Route> = SceneRendererProps &

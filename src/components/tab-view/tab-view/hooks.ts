@@ -2,15 +2,15 @@
  * @Author: czy0729
  * @Date: 2026-08-17 21:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-23 08:00:00
+ * @Last Modified time: 2026-11-21 02:44:30
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { uiStore } from '@stores'
 import { JUMP_SETTLE_DURATION } from './ds'
 
 import type { LayoutChangeEvent } from 'react-native'
-import type { Layout } from 'react-native-tab-view/src/types'
 import type { TimerRef } from '@types'
+import type { Layout } from '../types'
 import type { UseTabViewKeepOptions, UseTabViewSwipeOptions } from './types'
 
 /** 页面布局测量 */

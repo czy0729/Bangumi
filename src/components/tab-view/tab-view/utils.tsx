@@ -2,13 +2,13 @@
  * @Author: czy0729
  * @Date: 2026-08-17 22:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-17 22:00:00
+ * @Last Modified time: 2026-11-21 02:44:48
  */
 import { memo } from 'react'
-import { Pager } from 'react-native-tab-view/src/Pager'
-import { TabBar } from 'react-native-tab-view/src/TabBar'
+import Pager from '../pager'
+import TabBar from '../tab-bar'
 
-import type { Route, SceneRendererProps } from 'react-native-tab-view/src/types'
+import type { Route, SceneRendererProps } from '../types'
 import type { OverrideNavigationState } from './types'
 
 /** 稳定的懒加载占位默认值，避免每次渲染生成新的函数引用 */

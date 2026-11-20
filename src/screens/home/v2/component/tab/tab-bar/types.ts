@@ -4,9 +4,9 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2026-08-19 05:28:04
  */
-import type { Route, TabBarProps } from 'react-native-tab-view'
+import type { Route, TabBarProps } from '@components/tab-view'
 
-/** Tab 栏属性（Pick 自 react-native-tab-view 的 TabBar） */
+/** Tab 栏属性（Pick 自 TabBar） */
 export type Props = TabBarProps<Route>
 
 /** Tab 标签渲染属性 */

@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-08-19 05:30:39
  */
 import type { ReactNode } from 'react'
-import type { Route, SceneRendererProps } from 'react-native-tab-view'
+import type { Route, SceneRendererProps } from '@components/tab-view'
 import type { OverrideNavigationState } from '@components/tab-view'
 import type { TabsKeys } from '../../types'
 

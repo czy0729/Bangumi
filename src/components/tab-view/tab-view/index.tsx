@@ -2,19 +2,19 @@
  * @Author: czy0729
  * @Date: 2024-11-15 14:30:08
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-23 08:00:00
+ * @Last Modified time: 2026-11-21 02:44:36
  */
 import { useCallback, useContext } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { SceneView } from 'react-native-tab-view/src/SceneView'
 import { SceneActiveContext } from '@utils/context'
 import { stl } from '@utils/utils'
 import { IOS } from '@constants/env'
+import SceneView from '../scene-view'
 import { useTabViewIndexChange, useTabViewKeep, useTabViewLayout, useTabViewSwipe } from './hooks'
 import { defaultRenderLazyPlaceholder, defaultRenderTabBar, MemoPager } from './utils'
 import { styles } from './styles'
 
-import type { Route } from 'react-native-tab-view/src/types'
+import type { Route } from '../types'
 import type { PagerChildrenProps, Props } from './types'
 export type { Props }
 
@@ -83,6 +83,7 @@ export default function TabView<T extends Route>({
                 index={i}
                 lazy={typeof lazy === 'function' ? lazy({ route }) : lazy}
                 lazyPreloadDistance={lazyPreloadDistance}
+                // 只读 routes 与 NavigationState 的可变数组不兼容
                 // @ts-expect-error
                 navigationState={navigationState}
                 addEnterListener={addEnterListener}
@@ -138,6 +139,7 @@ export default function TabView<T extends Route>({
       <MemoPager
         style={pagerStyle}
         layout={layout}
+        // 只读 routes 与 NavigationState 的可变数组不兼容
         // @ts-expect-error
         navigationState={navigationState}
         keyboardDismissMode={keyboardDismissMode}

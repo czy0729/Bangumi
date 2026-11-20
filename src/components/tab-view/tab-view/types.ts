@@ -2,17 +2,11 @@
  * @Author: czy0729
  * @Date: 2026-08-17 21:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-23 07:08:25
+ * @Last Modified time: 2026-11-21 02:44:44
  */
 import type { ReactNode } from 'react'
 import type { Animated, StyleProp, ViewStyle } from 'react-native'
-import type {
-  EventEmitterProps,
-  Layout,
-  PagerProps,
-  Route,
-  SceneRendererProps
-} from 'react-native-tab-view/src/types'
+import type { EventEmitterProps, Layout, PagerProps, Route, SceneRendererProps } from '../types'
 
 /** Pager children 渲染参数 */
 export type PagerChildrenProps = EventEmitterProps & {

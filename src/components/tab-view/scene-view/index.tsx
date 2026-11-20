@@ -1,73 +1,86 @@
 /*
  * @Author: czy0729
- * @Date: 2026-01-16 16:04:38
+ * @Date: 2026-11-21 03:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-23 08:00:00
+ * @Last Modified time: 2026-11-21 03:00:00
  */
-import { useCallback, useContext, useEffect, useState } from 'react'
+import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { SceneActiveContext } from '@utils/context'
-import { stl } from '@utils/utils'
+import { styles } from './styles'
 
-import type { Route } from 'react-native-tab-view/src/types'
+import type { Route } from '../types'
 import type { Props } from './types'
 
 export default function SceneView<T extends Route>({
-  addEnterListener,
+  children,
   navigationState,
   lazy,
-  lazyPreloadDistance,
-  index,
   layout,
-  style,
-  children
+  index,
+  lazyPreloadDistance,
+  addEnterListener,
+  style
 }: Props<T>) {
-  const [loading, setLoading] = useState(
+  const [isLoading, setIsLoading] = React.useState(
     Math.abs(navigationState.index - index) > lazyPreloadDistance
   )
 
-  const handleEnter = useCallback(
-    (value: number) => {
-      // 翻页进入当前场景时解除懒加载占位
-      if (value === index && loading) setLoading(false)
-    },
-    [index, loading]
-  )
+  if (isLoading && Math.abs(navigationState.index - index) <= lazyPreloadDistance) {
+    // Always render the route when it becomes focused
+    setIsLoading(false)
+  }
 
-  useEffect(() => {
-    if (loading && Math.abs(navigationState.index - index) <= lazyPreloadDistance) {
-      setLoading(false)
-    }
-  }, [loading, navigationState.index, index, lazyPreloadDistance])
-
-  useEffect(() => {
-    if (lazy && loading) {
-      // 懒加载模式下订阅翻页进入事件, 预加载距离内的场景可提前加载
-      return addEnterListener(handleEnter)
+  React.useEffect(() => {
+    const handleEnter = (value: number) => {
+      // If we're entering the current route, we need to load it
+      if (value === index) {
+        setIsLoading(prevState => {
+          if (prevState) {
+            return false
+          }
+          return prevState
+        })
+      }
     }
 
-    if (loading) {
-      // 非懒加载模式延后一帧渲染场景, 避免阻塞首帧
-      const timer = setTimeout(() => setLoading(false), 0)
-      return () => clearTimeout(timer)
+    let unsubscribe: (() => void) | undefined
+    let timer: ReturnType<typeof setTimeout>
+
+    if (lazy && isLoading) {
+      // If lazy mode is enabled, listen to when we enter screens
+      unsubscribe = addEnterListener(handleEnter)
+    } else if (isLoading) {
+      // If lazy mode is not enabled, render the scene with a delay if not loaded already
+      // This improves the initial startup time as the scene is no longer blocking
+      timer = setTimeout(() => setIsLoading(false), 0)
     }
-  }, [addEnterListener, lazy, loading, handleEnter])
+
+    return () => {
+      unsubscribe?.()
+      clearTimeout(timer)
+    }
+  }, [addEnterListener, index, isLoading, lazy])
 
   const focused = navigationState.index === index
-  const parentSceneActive = useContext(SceneActiveContext)
 
   return (
     <View
       accessibilityElementsHidden={!focused}
       importantForAccessibility={focused ? 'auto' : 'no-hide-descendants'}
-      style={stl(
+      style={[
+        styles.route,
+        // If we don't have the layout yet, make the focused screen fill the container
+        // This avoids delay before we are able to render pages side by side
         layout.width ? { width: layout.width } : focused ? StyleSheet.absoluteFill : null,
         style
-      )}
+      ]}
     >
-      <SceneActiveContext.Provider value={parentSceneActive && focused}>
-        {focused || layout.width ? children({ loading }) : null}
-      </SceneActiveContext.Provider>
+      {
+        // Only render the route only if it's either focused or layout is available
+        // When layout is not available, we must not render unfocused routes
+        // so that the focused route can fill the screen
+        focused || layout.width ? children({ loading: isLoading }) : null
+      }
     </View>
   )
 }
