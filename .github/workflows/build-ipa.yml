@@ -5,8 +5,9 @@ name: Build unsigned IPA
 # 只在手动触发时打包, 不跟推送走
 #
 # 打包成功后:
-#   1) 在 Release `<version>` 上传 bangumi_v<version>.ipa 与 .sha256
-#   2) 重新生成 alt_store.json 并推回 master, AltStore 源随之更新 (issue #405)
+#   1) 在运行页 Artifacts 产出测试 IPA (默认, 不影响线上用户, 需登录 GitHub 下载)
+#   2) 若勾选 upload_release, 再把 bangumi_v<version>.ipa 与 .sha256 传到 Release `<version>`,
+#      并重新生成 alt_store.json 推回 master, AltStore 源随之更新 (issue #405) —— 正式发版才勾选
 #
 # 失败时把 pod-install / xcodebuild 日志回写到独立的 ci-logs 分支, 便于本地 git fetch 取完整日志排错
 #
@@ -21,6 +22,11 @@ on:
         type: string
       force:
         description: 'Rebuild and replace existing release assets.'
+        required: false
+        default: false
+        type: boolean
+      upload_release:
+        description: '正式发版: 上传到 Release 并更新 AltStore 源 (测试打包请保持关闭)'
         required: false
         default: false
         type: boolean
@@ -242,6 +248,7 @@ jobs:
           fi
 
       - name: Upload release assets
+        if: ${{ github.event.inputs.upload_release == 'true' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FORCE_REBUILD: ${{ github.event.inputs.force == 'true' }}
@@ -254,6 +261,7 @@ jobs:
             --sha "$SHA_PATH"
 
       - name: Update AltStore source
+        if: ${{ github.event.inputs.upload_release == 'true' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
