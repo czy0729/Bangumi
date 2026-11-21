@@ -2,15 +2,18 @@
  * @Author: czy0729
  * @Date: 2022-08-08 16:32:20
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-16 08:07:36
+ * @Last Modified time: 2026-11-22 00:36:54
+ *
+ * 标题: 原名/中文名并排, 支持拼音高亮与片假名罗马音
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex, Highlight, Katakana } from '@components'
 import { _ } from '@stores'
 import { cnjp, getPinYinFilterValue, HTMLDecode } from '@utils'
 
-function Title({ name, nameCn, filter, numberOfLines }) {
+import type { Props } from './types'
+
+function Title({ name, nameCn, filter, numberOfLines }: Props) {
   const hasName = !!name
   const left = HTMLDecode(cnjp(nameCn, name))
   const right = HTMLDecode(cnjp(name, nameCn))
@@ -53,7 +56,15 @@ function Title({ name, nameCn, filter, numberOfLines }) {
         </Katakana>
       </Katakana.Provider>
       {hasName && right !== left && (
-        <Katakana.Provider type='sub' size={sizeBottom} lineHeight={13} bold numberOfLines={1}>
+        // 罗马音悬在首行之上; 换行到第二行时行盒只有小字高度, 需预留顶部空间, 否则会压到上方标题
+        <Katakana.Provider
+          firstLineStyle={_.mt.sm}
+          type='sub'
+          size={sizeBottom}
+          lineHeight={13}
+          bold
+          numberOfLines={1}
+        >
           <Katakana type='sub' size={sizeBottom} lineHeight={13} bold>
             {right}
           </Katakana>

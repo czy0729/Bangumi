@@ -3,8 +3,10 @@
  * @Date: 2022-06-17 12:19:32
  * @Last Modified by: imagebuilder1837
  * @Last Modified time: 2026-05-22 11:18:48
+ *
+ * 条目列表项主体: 封面 + 标题/原名 + 底部信息 + 评论/贴贴
  */
-import React, { useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
 import { Component, Flex, Touchable } from '@components'
 import { getCoverSrc } from '@components/cover/utils'
@@ -24,6 +26,9 @@ import Manage from './manage'
 import Tip from './tip'
 import Title from './title'
 import { COMPONENT_MAIN, DEFAULT_PROPS, ITEM_COLLECTIONS_HEIGHT } from './ds'
+
+import type { ViewStyle } from '@types'
+import type { ItemProps } from './types'
 
 const Item = memo(
   ({
@@ -60,7 +65,7 @@ const Item = memo(
     commentsLines,
     active = false,
     onEdit = FROZEN_FN
-  }) => {
+  }: ItemProps) => {
     const {
       subjectId,
       hasComment
@@ -96,7 +101,7 @@ const Item = memo(
       [name, nameCn, comments]
     )
 
-    const renderCommentsAndLikes = (customStyle = null) => (
+    const renderCommentsAndLikes = (customStyle?: ViewStyle) => (
       <>
         {hasComment && (
           <Comments

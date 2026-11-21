@@ -3,6 +3,8 @@
  * @Date: 2023-04-05 01:43:31
  * @Last Modified by: czy0729
  * @Last Modified time: 2023-04-05 01:49:07
+ *
+ * Storybook 用列表项模拟数据
  */
 export const list = [
   {

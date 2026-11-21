@@ -3,13 +3,16 @@
  * @Date: 2025-01-24 06:12:04
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 05:19:30
+ *
+ * 内容容器: 目录条目在无评论且不可编辑时撑满剩余高度
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { Flex } from '@components'
 import { styles } from './styles'
 
-function Content({ comments, isCatalog, isEditable, children }) {
+import type { Props } from './types'
+
+function Content({ comments, isCatalog, isEditable, children }: Props) {
   let justify: 'between'
   if (!isCatalog || (!comments && !isEditable)) justify = 'between'
 

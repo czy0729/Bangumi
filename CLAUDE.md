@@ -24,6 +24,7 @@ bgm.tv (Bangumi) 第三方客户端，React Native (Expo SDK 54) 项目。作者
 - 优先选择编辑而非重写整个文件
 - 除非文件被编辑过，否则不要重复阅读已读过的文件
 - 输出追求简洁，但推理过程必须详尽
+- **类型不要重复定义**：子组件 / hook 参数优先 `Pick` 上层 `Props`（必选性不同用 `Required`，字段不同用 `Override`，样式用 `WithViewStyles`），语义或必选性不同才本地定义，细则见 `.claude/docs/component.md`「类型定义规范」
 
 
 ## 详细规范（按需读取）
@@ -36,6 +37,7 @@ bgm.tv (Bangumi) 第三方客户端，React Native (Expo SDK 54) 项目。作者
 | 新建/修改页面（Screen）                    | [.claude/docs/screen.md](.claude/docs/screen.md)             |
 | 查找/定位某个页面                          | [.claude/docs/screens.md](.claude/docs/screens.md)           |
 | 新建/修改可复用组件（components/）         | [.claude/docs/component.md](.claude/docs/component.md)       |
+| 定义类型 / Props（含子组件、hook 参数）    | [.claude/docs/component.md](.claude/docs/component.md)       |
 | 新建/修改 MobX Store                       | [.claude/docs/store.md](.claude/docs/store.md)               |
 | API 请求相关                               | [.claude/docs/api.md](.claude/docs/api.md)                   |
 | 测试规范                                   | [.claude/docs/testing.md](.claude/docs/testing.md)           |

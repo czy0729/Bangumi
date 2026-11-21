@@ -3,8 +3,9 @@
  * @Date: 2025-01-24 05:51:19
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-20 05:20:14
+ *
+ * 收藏管理按钮: 点击打开收藏管理弹窗
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { uiStore } from '@stores'
 import { getAction } from '@utils'
@@ -12,8 +13,9 @@ import { MODEL_COLLECTION_STATUS } from '@constants'
 import { Manage as ManageComp } from '../../../base'
 
 import type { CollectionStatus } from '@types'
+import type { Props } from './types'
 
-function Manage({ subjectId, name, nameCn, collection, typeCn }) {
+function Manage({ subjectId, name, nameCn, collection, typeCn }: Props) {
   return (
     <ManageComp
       subjectId={subjectId}

@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2022-08-08 17:35:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-06 05:49:28
+ * @Last Modified time: 2026-11-22 00:43:48
+ *
+ * 底部信息条: 评分/排名/收藏时间 + 可见性/NSFW + 标签
  */
-import React from 'react'
 import { View } from 'react-native'
 import { observer } from 'mobx-react'
 import { Flex, Iconfont, Text } from '@components'
@@ -13,7 +14,9 @@ import { shortTime } from '@utils'
 import { Rank, Stars, Tag, Tags } from '../../../base'
 import { memoStyles } from './styles'
 
-function Bottom({ id, score, rank, total, simpleStars, time, tags, hideScore, hasComment }) {
+import type { Props } from './types'
+
+function Bottom({ id, score, rank, total, simpleStars, time, tags, hideScore, hasComment }: Props) {
   const styles = memoStyles()
 
   const info = shortTime(String(time || ''))

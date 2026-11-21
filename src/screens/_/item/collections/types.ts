@@ -3,8 +3,11 @@
  * @Date: 2022-06-17 12:22:12
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-04-24 12:10:23
+ *
+ * 条目列表项的 props 定义
  */
 import type { EventType, Id, SubjectId, SubjectTypeCn, WithNavigation } from '@types'
+import type { memoStyles } from './styles'
 
 export type Props = WithNavigation<{
   index?: number
@@ -47,5 +50,10 @@ export type Props = WithNavigation<{
   commentsLines?: number
 
   active?: boolean
-  onEdit?: (modify?: string) => any
+  onEdit?: (modify?: string) => void
 }>
+
+/** 列表项主体: 父级额外注入预生成的样式 */
+export type ItemProps = Props & {
+  styles: ReturnType<typeof memoStyles>
+}

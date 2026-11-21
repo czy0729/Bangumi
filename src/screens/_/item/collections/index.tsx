@@ -2,9 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-05-25 23:00:45
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-04-23 22:17:50
+ * @Last Modified time: 2026-11-22 00:29:44
+ *
+ * 条目列表项: 转发 props 并注入样式
  */
-import React from 'react'
 import { observer } from 'mobx-react'
 import { r } from '@utils/dev'
 import Item from './item'

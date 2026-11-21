@@ -3,8 +3,9 @@
  * @Date: 2023-04-05 01:44:52
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-12 06:15:43
+ *
+ * Storybook: 条目列表项的单条与列表示例
  */
-import React from 'react'
 import { Flex, StorybookList, StorybookPage } from '@components'
 import { ItemCollections as Component } from './index'
 import { list } from './index.mock'

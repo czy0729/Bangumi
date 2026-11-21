@@ -38,6 +38,7 @@
 
 - **不允许使用 `interface`**，统一使用 `type` 定义类型
 - 优先查找并复用项目中已有的类型定义，避免重复定义
+- **子组件 / hook 参数优先 `Pick` 上层类型**：能从上层的 `Props` Pick 就不重复定义（`Pick<Props, 'a' | 'b'>`），必选性不同用 `Required<Pick<...>>`，字段不同用 `Override`，样式用 `WithViewStyles`；只有语义或必选性不同才本地定义。详见 [component.md](./component.md)「类型定义规范」
 - 类型定义应放在文件顶部导入语句之后
 - 内联类型仅用于简单、一次性使用的场景
 - **必须使用 `import type`**：TS 类型直接用 `import type` 引入
