@@ -8,6 +8,7 @@ import { observer } from 'mobx-react'
 import { Flex, Text } from '@components'
 import { Avatar } from '@_'
 import { _, useStore } from '@stores'
+import { getVisualLength } from '@utils'
 import { COMPONENT, IMG_WIDTH } from './ds'
 import { styles } from './styles'
 
@@ -15,6 +16,9 @@ import type { Ctx } from '../../types'
 
 function HeaderTitle() {
   const { $, navigation } = useStore<Ctx>(COMPONENT)
+
+  const visualLength = getVisualLength($.title)
+  const size = visualLength >= 16 ? 11 : visualLength >= 12 ? 12 : 13
 
   return (
     <Flex style={styles.container}>
@@ -29,7 +33,7 @@ function HeaderTitle() {
         />
       )}
       <Flex.Item style={_.ml.sm}>
-        <Text size={13} numberOfLines={1}>
+        <Text size={size} numberOfLines={1}>
           {$.title}
         </Text>
         {!!$.userName && (

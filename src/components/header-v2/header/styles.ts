@@ -15,9 +15,11 @@ export const styles = _.create({
     left: 0,
     paddingHorizontal: 6
   },
+  /** 铺满头部, 由 paddingTop 让出状态栏, 内容在剩余区域居中 */
   title: {
     position: 'absolute',
     zIndex: 2,
+    top: 0,
     right: 48,
     bottom: 0,
     left: 48,

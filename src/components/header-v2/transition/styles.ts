@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-09-09 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-20 01:59:07
+ * @Last Modified time: 2026-11-21 03:45:24
  */
 import { _ } from '@stores'
 import { WEB } from '@constants'
@@ -29,10 +29,6 @@ export const memoStyles = _.memoStyles(() => ({
   bodyTitle: {
     bottom: _.device(6, 10)
   },
-  bodyNav: {
-    bottom: 0,
-    height: _.platforms(_.device(44, 50), 44, 56, 56, 48)
-  },
   scrollView: {
     maxWidth: WEB ? '100%' : '80%'
   },
@@ -42,7 +38,7 @@ export const memoStyles = _.memoStyles(() => ({
     paddingLeft: _.sm
   },
   text: {
-    marginBottom: _.ios(0, 10),
+    marginBottom: WEB ? 10 : 0,
     marginLeft: -8
   }
 }))

@@ -129,7 +129,9 @@ export async function fetchHTML(args: FetchHTMLArgs): Promise<any> {
     if (lastFetchHtml[cacheKey]) {
       const distance = ts - lastFetchHtml[cacheKey]
       if (distance <= 4000 && autoPrevent) {
-        throw new Error(`prevent, ${url}, ${distance}ms`)
+        // 展示 proxy 替换后的实际地址, 避免日志中的原始地址被误判为绕过 proxy 的直连
+        const { url: proxiedUrl } = applyProxy(url.replace('!', ''), undefined, true)
+        throw new Error(`prevent, ${proxiedUrl}, ${distance}ms`)
       }
     }
     lastFetchHtml[cacheKey] = ts

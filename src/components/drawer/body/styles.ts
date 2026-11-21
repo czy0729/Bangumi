@@ -16,7 +16,9 @@ export const memoStyles = _.memoStyles(() => {
     body: {
       zIndex: 4,
       width: DRAWER_WITDH,
-      height: _.window.height,
+      // 安卓运行时根视图高度与初始化的 _.window.height 有出入 (系统栏 inset 计算时机不同),
+      // 固定高度会让抽屉在垂直居中下上下露空, 改为撑满容器实际高度
+      alignSelf: 'stretch',
       backgroundColor: _.colorPlain
     },
     swipe: {

@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2022-03-23 00:51:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-19 17:24:33
+ * @Last Modified time: 2026-11-21 03:45:03
  */
 import { observer } from 'mobx-react'
 import { systemStore } from '@stores'
@@ -45,7 +45,7 @@ function Header({
       {!transparent && (
         <Flex
           style={stl(styles.title, headerTitleStyle, {
-            top: statusBarHeight
+            paddingTop: statusBarHeight
           })}
           justify={headerTitleAlign === 'left' ? 'start' : 'center'}
         >
