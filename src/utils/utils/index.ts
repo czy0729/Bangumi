@@ -8,7 +8,7 @@ import { Linking } from 'react-native'
 import * as WebBrowser from 'expo-web-browser'
 import pLimit from '@utils/thirdParty/p-limit'
 import { B, M, TIMEZONE_IS_GMT8 } from '@constants/data'
-import { IOS } from '@constants/env'
+import { ANDROID, IOS } from '@constants/env'
 import { applyProxy, restoreNativeUrl } from '../proxy'
 import Base64 from '../thirdParty/base64'
 import { date, getTimestamp } from '../thirdParty/date'
@@ -37,6 +37,8 @@ export function setDefaultProps<T extends ComponentType<Record<string, unknown>>
 ) {
   // 注入内部 render 方法, 类型上不属于公共 API
   const internal = Component as ComponentType<Record<string, unknown>> & {
+    // React 19 的 FunctionComponent 不再声明 defaultProps
+    defaultProps?: unknown
     render?: (props: Record<string, unknown>, ref: unknown) => unknown
   }
   const componentRender = internal.render
@@ -215,6 +217,62 @@ export function toFixed(value: number | string, num: number = 2) {
   return Number(value || 0).toFixed(num)
 }
 
+/** AndroidManifest 里注册过 intent-filter 的站点域名, Android 下 openURL 会被客户端自身捕获 (filter 未限定端口, 带端口和 userinfo 写法一并算入) */
+const SELF_HOST_REG =
+  /^https?:\/\/(?:[^/?#]*@)?(bgm\.tv|bangumi\.tv|chii\.in)(?::\d*)?(?:[/\?#]|$)/i
+
+/** 浏览器候选包名缓存 */
+let cachedBrowserPackages: string[] | undefined
+
+/** 可用浏览器候选, 用户设置的默认浏览器优先 */
+async function getBrowserPackages(): Promise<string[]> {
+  const { preferredBrowserPackage, defaultBrowserPackage, browserPackages, servicePackages } =
+    await WebBrowser.getCustomTabsSupportingBrowsersAsync()
+
+  // servicePackages 是注册了 CustomTabsService 的真实浏览器, 用于过滤 browserPackages 里声明了通用 https filter 的应用
+  const browsers = new Set(servicePackages)
+  const candidates: string[] = []
+
+  // 用户设置的默认浏览器排第一, 不支持 Custom Tabs 时 setPackage 的 ACTION_VIEW 仍可正常打开, 启动失败会换下一个候选
+  if (defaultBrowserPackage) candidates.push(defaultBrowserPackage)
+
+  // 1.2.0 的 getPackageName 会逐个用 resolveService 校验, preferred 非空时必然是 Custom Tabs 浏览器
+  if (preferredBrowserPackage && !candidates.includes(preferredBrowserPackage)) {
+    candidates.push(preferredBrowserPackage)
+  }
+
+  browserPackages.forEach(pkg => {
+    if (browsers.has(pkg) && !candidates.includes(pkg)) candidates.push(pkg)
+  })
+
+  // 只装了不支持 Custom Tabs 的浏览器且未设默认浏览器时, 交集为空, setPackage 后按普通 ACTION_VIEW 仍可打开
+  if (!candidates.length) candidates.push(...browserPackages)
+
+  return candidates
+}
+
+/** 逐个候选尝试, 全部失败直接放弃, 不能回退 openURL 否则重新触发被自身捕获的循环 */
+async function openSelfHostPage(url: string) {
+  try {
+    if (!cachedBrowserPackages) cachedBrowserPackages = await getBrowserPackages()
+
+    for (const browserPackage of cachedBrowserPackages) {
+      try {
+        await WebBrowser.openBrowserAsync(url, { browserPackage })
+        return
+      } catch (error) {
+        // 包名失效 (被卸载 / 不兼容), 换下一个候选
+        log('openSelfHost', 'browser fail:', browserPackage, error)
+      }
+    }
+  } catch (error) {
+    log('openSelfHost', 'no browser:', url, error)
+  }
+
+  cachedBrowserPackages = undefined
+  log('openSelfHost', 'give up:', url)
+}
+
 /** 浏览器打开网页 */
 export function open(url: string, encode: boolean = false): boolean {
   if (!url || typeof url !== 'string') {
@@ -234,6 +292,9 @@ export function open(url: string, encode: boolean = false): boolean {
       enableBarCollapsing: true,
       showInRecents: true
     })
+  } else if (ANDROID && SELF_HOST_REG.test(url)) {
+    // 本站域名已被客户端自身的 intent-filter 注册, 不能走 openURL
+    openSelfHostPage(url)
   } else {
     Linking.openURL(url)
   }
