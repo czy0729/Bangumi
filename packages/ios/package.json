@@ -60,7 +60,6 @@
     "expo-updates": "~58.0.21",
     "expo-web-browser": "~58.0.7",
     "htmlparser2": "^3.9.0",
-
     "patch-package": "6.4.7",
     "postinstall-postinstall": "2.1.0",
     "react": "19.3.0",

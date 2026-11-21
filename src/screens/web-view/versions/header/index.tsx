@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2024-02-07 15:06:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-09 18:00:00
+ * @Last Modified time: 2026-11-22 00:26:57
  *
  * 头部: 菜单切换版本 + 浏览器打开
  */
@@ -13,14 +13,16 @@ import { IconTouchable } from '@_'
 import { _, useStore } from '@stores'
 import { open } from '@utils'
 import { HTML_SINGLE_DOC } from '@constants'
-import { COMPONENT, HM, MENUS } from './ds'
+import { COMPONENT, getMenuTitle, HM, MENUS } from './ds'
 
 import type { Ctx } from '../types'
 
 /** 头部 */
 function Header() {
   const { $ } = useStore<Ctx>(COMPONENT)
+
   const { uri } = $.state
+  const menuTitle = getMenuTitle(uri)
 
   const handleOpen = useCallback(() => {
     open(HTML_SINGLE_DOC(uri))
@@ -29,7 +31,13 @@ function Header() {
   const handleHeaderRight = useCallback(
     () => (
       <>
-        <HeaderV2Popover name='md-menu' data={MENUS} onSelect={$.onSelect} />
+        {/* 文档索引是本页核心操作, 用列表图标与全站头部的通用三横菜单区分 */}
+        <HeaderV2Popover
+          name='md-filter-list'
+          data={MENUS}
+          value={menuTitle}
+          onSelect={$.onSelect}
+        />
         <IconTouchable
           style={_.ml.xs}
           name='md-open-in-new'
@@ -39,7 +47,7 @@ function Header() {
         />
       </>
     ),
-    [$, handleOpen]
+    [$, handleOpen, menuTitle]
   )
 
   return <HeaderV2 title='更新内容' hm={HM} headerRight={handleHeaderRight} />

@@ -18,7 +18,8 @@ export type { ComponentProps }
  *  - Web 环境会渲染成自定义 html 标签
  * */
 export function Component({ id, parseParams = false, children, ...props }: ComponentProps) {
-  const { style, 'data-title': dataTitle, ...otherProps } = props
+  // pointerEvents 仅 App 端有意义, Web 端渲染自定义标签不透传 (React DOM 会告警未知属性)
+  const { style, 'data-title': dataTitle, pointerEvents, ...otherProps } = props
   const styles = transformStyles(
     style,
     React.isValidElement(children) && typeof children.type === 'function'

@@ -15,3 +15,8 @@ export const HM = ['tips', 'Tips'] as const
 
 /** 菜单标题 */
 export const MENUS = TABS.map(item => item.title)
+
+/** 当前展示文档对应的菜单标题 (用于菜单勾选) */
+export function getMenuTitle(uri: string) {
+  return TABS.find(item => item.key === uri)?.title
+}

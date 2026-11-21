@@ -55,6 +55,7 @@ export const ActionSheet = observer(
       contentStyle,
       maskStyle,
       disabled,
+      closing,
       staticContentStyle,
       staticMaskStyle
     } = useActionSheet(
@@ -109,7 +110,12 @@ export const ActionSheet = observer(
     const styles = memoStyles()
 
     const elBody = (
-      <Component id='component-action-sheet' style={styles.actionSheet}>
+      <Component
+        id='component-action-sheet'
+        style={styles.actionSheet}
+        /* 收起中整层放行触摸: 卸载若被页面 freeze 推迟, 透明遮罩不会残留拦截 */
+        pointerEvents={closing ? 'none' : 'auto'}
+      >
         {/* 不传 show: 遮罩 opacity 由 useActionSheet 的 progress 驱动, 与面板动画同步; 传 show 会叠加 Mask 内置淡入淡出 */}
         {/* 系统关闭动画时改传静态终值样式, 面板与遮罩不依赖 progress */}
         <Mask style={disabled ? staticMaskStyle : maskStyle} onPress={handleClose} />

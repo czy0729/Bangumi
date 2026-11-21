@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-06-23 14:19:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-09 12:00:00
+ * @Last Modified time: 2026-11-21 23:55:27
  *
  * 页面标识 + 功能页配置 (key 对应云文档)
  */
@@ -12,16 +12,20 @@ export const COMPONENT = 'Tips'
 
 export const TABS = [
   {
+    title: 'Passkey 食用教程',
+    key: 'ugq45g'
+  },
+  {
+    title: '源头和跳转',
+    key: 'qcgrso5g70d6gusf'
+  },
+  {
     title: '图片无法加载',
     key: 'wya8znvzb65pl3k4'
   },
   {
     title: '封面加速',
     key: 'mhhaa6ufuev051vu'
-  },
-  {
-    title: '源头和跳转',
-    key: 'qcgrso5g70d6gusf'
   },
   {
     title: '番剧推荐',

@@ -23,6 +23,9 @@ export type Props<Data extends PopoverData> = PropsWithChildren<
         /** Popover data */
         data?: Data
 
+        /** Popover 当前选中项 (选择型菜单渲染勾) */
+        value?: Data[number]
+
         /** Popover onSelect */
         onSelect?: (title?: Data[number], index?: number) => void
       }

@@ -4,6 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-02-10 07:11:38
  */
+import type { ViewProps } from 'react-native'
 import type { WithViewStyles } from '@types'
 import type { PropsWithChildren } from 'react'
 
@@ -20,6 +21,9 @@ export type Props = PropsWithChildren<
 
     /** 是否解析参数 */
     parseParams?: boolean
+
+    /** 触摸放行策略, App 端透传给 View, Web 端忽略 */
+    pointerEvents?: ViewProps['pointerEvents']
   }>
 >
 

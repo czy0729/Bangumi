@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-08-12 06:40:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-10-08 22:47:21
+ * @Last Modified time: 2026-11-22 00:14:19
  */
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { interpolate, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
@@ -27,6 +27,9 @@ export const useActionSheet = (
 ) => {
   const progress = useSharedValue(show ? 1 : 0)
   const [showValue, setShow] = useState(show)
+
+  /** 收起中 (关闭起点即为 true, 不等动画结束); 与 closingRef 双轨: state 驱动渲染, ref 做同步互斥 */
+  const [closing, setClosing] = useState(false)
   const closingRef = useRef(false)
 
   const navigation = useContext(NavigationContext)
@@ -54,6 +57,7 @@ export const useActionSheet = (
     // (withTiming 被打断后 finished 为 false, 收起完成回调不会执行, 因此不会误调 onClose 也不会闪一下再展开)
     if (closingRef.current) {
       closingRef.current = false
+      setClosing(false)
       animateTo(1)
       return
     }
@@ -72,11 +76,16 @@ export const useActionSheet = (
     if (!showValue || closingRef.current) return
 
     closingRef.current = true
+    // 关闭起点同步提交触摸禁用: 若关闭动画途中发生 push, freezeOnBlur 会冻结本页 React 树,
+    // 动画结束后的 setShow(false) (卸载) 会被推迟到解冻, 全屏遮罩以透明态残留并吃掉整个页面的触摸;
+    // pointerEvents 在关闭起点 (尚未冻结时) 已落为 none, 残留遮罩不再拦截触摸 (仅 App 端生效)
+    setClosing(true)
     animateTo(0, () => {
       // 收起途中被重新展开 (handleShow 已清掉标志) 时不再执行收起收尾, 避免刚展开又被卸载并误调 onClose
       if (!closingRef.current) return
 
       closingRef.current = false
+      setClosing(false)
       setShow(false)
       onClose?.()
     })
@@ -84,6 +93,8 @@ export const useActionSheet = (
 
   useEffect(() => {
     if (show) {
+      // 兜底: 收起回调未执行时 closing 可能残留, 重新展开前复位, 否则面板会整层不可触摸
+      setClosing(false)
       handleShow()
       return
     }
@@ -139,6 +150,9 @@ export const useActionSheet = (
 
     /** 关闭并处理收起动画 */
     handleClose,
+
+    /** 是否处于收起中 (关闭起点即为 true, 卸载前恒为 true) */
+    closing,
 
     /** 计算内容高度（用于进出场位移） */
     calcHeight,
