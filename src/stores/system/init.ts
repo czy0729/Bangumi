@@ -160,6 +160,9 @@ export const INIT_SETTING = {
   /** 打开外部浏览器前复制网址 */
   openInfo: true,
 
+  /** 接管系统长按文字菜单 (Android) */
+  processText: true,
+
   /** 显示用户站龄 */
   userAge: false,
 

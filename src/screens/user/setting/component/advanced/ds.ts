@@ -30,5 +30,9 @@ export const TEXTS = {
   openInfo: {
     hd: '打开外部浏览器前复制网址',
     information: '开启会先停顿 300ms 再进行跳转'
+  },
+  processText: {
+    hd: '接管系统长按文字菜单',
+    information: '关闭后其他应用长按文字的菜单不再显示 Bangumi 入口'
   }
 } as const

@@ -11,7 +11,10 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 
 public class TextShareModule extends ReactContextBaseJavaModule {
   private static ReactApplicationContext reactContext;
@@ -58,6 +61,33 @@ public class TextShareModule extends ReactContextBaseJavaModule {
       promise.resolve(null);
     } catch (Exception e) {
       promise.reject("ERROR_GETTING_TEXT", e);
+    }
+  }
+
+  /** 按设置开关系统长按文字菜单入口 (ProcessTextActivity), 状态由系统持久化, 升级重装会重置为默认开启 */
+  @ReactMethod
+  public void setProcessTextEnabled(boolean enabled, Promise promise) {
+    try {
+      Context context = getReactApplicationContext();
+      ComponentName component = new ComponentName(context, ProcessTextActivity.class);
+      PackageManager packageManager = context.getPackageManager();
+
+      // DEFAULT 是 manifest 声明的默认状态, 等效于开启; 状态一致时跳过写入避免每次都操作 PackageManager
+      boolean currentEnabled =
+        packageManager.getComponentEnabledSetting(component)
+          != PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+      if (currentEnabled != enabled) {
+        packageManager.setComponentEnabledSetting(
+          component,
+          enabled
+            ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+            : PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+          PackageManager.DONT_KILL_APP);
+      }
+
+      promise.resolve(true);
+    } catch (Exception e) {
+      promise.reject("ERROR_SET_PROCESS_TEXT", e);
     }
   }
 

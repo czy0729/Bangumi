@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-03-19 17:07:59
  */
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DeviceEventEmitter, NativeModules } from 'react-native'
 
 import type { Props as ListenSharedTextProps } from './types'

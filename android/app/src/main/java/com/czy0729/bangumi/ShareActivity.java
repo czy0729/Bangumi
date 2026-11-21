@@ -15,7 +15,7 @@ public class ShareActivity extends Activity {
     String type = receivedIntent.getType();
     String sharedText = null;
 
-    // 兼容 ACTION_PROCESS_TEXT (长按菜单) 和 ACTION_SEND (分享菜单)
+    // 兼容 ACTION_PROCESS_TEXT (长按菜单, 由子类 ProcessTextActivity 承接) 和 ACTION_SEND (分享菜单)
     if (Intent.ACTION_PROCESS_TEXT.equals(action) && "text/plain".equals(type)) {
       sharedText = receivedIntent.getStringExtra(Intent.EXTRA_PROCESS_TEXT);
     } else if (Intent.ACTION_SEND.equals(action) && "text/plain".equals(type)) {

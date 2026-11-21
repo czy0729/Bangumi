@@ -13,6 +13,7 @@ import Stores, { systemStore } from '@stores'
 import { logger } from '@utils/dev'
 import { restoreEchProxy, setupEchLifecycle } from '@utils/proxy/ech'
 import { postTask } from '@utils/scheduler'
+import { syncProcessTextEnabled } from '@utils/text-share'
 import { bootApp } from '../app'
 import useMount from './useMount'
 
@@ -106,6 +107,9 @@ export default function useCachedResources(): LoadingResult {
         restoreEchProxy(systemStore.setting.echProxyEnabled).catch(e => {
           logger.warn('useCachedResources', 'restoreEchProxy failed:', e)
         })
+
+        // 按设置开关系统长按文字菜单入口 (应用升级会重置 PackageManager 的组件状态)
+        syncProcessTextEnabled()
 
         // 注册生命周期监听: 后台→前台时自动检查 / 重建代理
         setupEchLifecycle()

@@ -9,10 +9,12 @@ import { ActionSheet } from '@components'
 import { ItemSetting } from '@_'
 import { r } from '@utils/dev'
 import { useBoolean } from '@utils/hooks'
+import { ANDROID } from '@constants/env'
 import { IconWrench } from '../icons'
 import Timezone from '../timezone'
 import { getShows } from '../../utils'
 import OpenInfo from './open-info'
+import ProcessText from './process-text'
 import Webhook from './webhook'
 import { COMPONENT, TEXTS } from './ds'
 
@@ -45,6 +47,7 @@ function Advanced({ filter }: WithFilterProps) {
       >
         {shows.webhook && <Webhook filter={filter} setFalse={setFalse} />}
         {shows.openInfo && <OpenInfo filter={filter} />}
+        {ANDROID && shows.processText && <ProcessText filter={filter} />}
 
         {/* 时区内容较长 (说明 + 时区列表), 固定放面板最下方; 组件自行按 filter 判断是否渲染 */}
         <Timezone filter={filter} />

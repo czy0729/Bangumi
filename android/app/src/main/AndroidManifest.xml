@@ -76,14 +76,22 @@
       android:excludeFromRecents="true"
       android:exported="true">
       <intent-filter>
-        <action android:name="android.intent.action.PROCESS_TEXT" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <data android:mimeType="text/plain" />
-      </intent-filter>
-      <intent-filter>
         <action android:name="android.intent.action.SEND"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <data android:mimeType="text/plain"/>
+      </intent-filter>
+    </activity>
+
+    <!-- 系统长按文字菜单入口, 可经设置开关 (PackageManager.setComponentEnabledSetting) -->
+    <activity
+      android:name=".ProcessTextActivity"
+      android:theme="@android:style/Theme.Translucent.NoTitleBar"
+      android:excludeFromRecents="true"
+      android:exported="true">
+      <intent-filter>
+        <action android:name="android.intent.action.PROCESS_TEXT" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <data android:mimeType="text/plain" />
       </intent-filter>
     </activity>
 
