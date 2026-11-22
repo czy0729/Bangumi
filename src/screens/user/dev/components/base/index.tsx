@@ -6,14 +6,19 @@
  *
  * 开发模式开关与调试入口
  */
+import { NativeModules } from 'react-native'
 import { observer } from 'mobx-react'
 import { Switch, Text, Touchable } from '@components'
 import { IconTouchable, ItemSetting } from '@_'
 import { _, systemStore, userStore } from '@stores'
 import { r } from '@utils/dev'
 import { useNavigation } from '@utils/hooks'
+import { errorHandler } from '@utils/hooks/useErrorHandlerAndroid.android'
 import { COMPONENT } from './ds'
 import { styles } from './styles'
+
+/** 原生重启模块 (仅 Android 有) */
+const Restart = NativeModules.RestartModule as { testNativeCrash?: () => void } | undefined
 
 function Base() {
   r(COMPONENT)
@@ -79,7 +84,7 @@ function Base() {
         ft={
           <Touchable
             onPress={() => {
-              throw new Error('JS Exception Test')
+              errorHandler(new Error('JS Exception Test'), true)
             }}
           >
             <Text>一键猫叫</Text>
@@ -87,6 +92,22 @@ function Base() {
         }
         withoutFeedback
       />
+      {!!Restart?.testNativeCrash && (
+        <ItemSetting
+          style={_.mt._sm}
+          hd='Native Crash Test'
+          ft={
+            <Touchable
+              onPress={() => {
+                Restart.testNativeCrash?.()
+              }}
+            >
+              <Text>一键猫叫（原生）</Text>
+            </Touchable>
+          }
+          withoutFeedback
+        />
+      )}
     </>
   )
 }

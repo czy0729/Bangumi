@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-03-13 05:15:36
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-08-08 10:17:54
+ * @Last Modified time: 2026-11-22 05:22:06
  */
 module.exports = {
   root: true,
@@ -32,6 +32,8 @@ module.exports = {
     clearInterval: true,
     clearTimeout: true,
     console: true,
+    // check-imports 配置启用了 no-undef, RN 全局 ErrorUtils 需在此登记 (tsc 由 @types/react-native 声明)
+    ErrorUtils: true,
     fetch: true,
     global: true,
     globalThis: true,
