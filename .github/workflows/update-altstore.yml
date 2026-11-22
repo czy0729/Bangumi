@@ -6,8 +6,9 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 3 * * *'
+  # 只响应发布与删除; 编辑 Release 不再触发, 避免改一次描述就多一个提交
   release:
-    types: [published, edited, deleted]
+    types: [published, deleted]
 
 permissions:
   contents: write
