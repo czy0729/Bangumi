@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-02-21 21:30:44
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-03 23:05:46
+ * @Last Modified time: 2026-11-23 01:04:40
  *
  * 接口定义
  *  - https://github.com/bangumi/api
@@ -22,11 +22,12 @@ export * from './tinygrail'
 /* 基础域名                                                                    */
 /* -------------------------------------------------------------------------- */
 
-/** bangumi 官方 API 域名 */
-export const API_HOST = 'https://api.bgmapi.com' as const
-
 /** bangumi 备用 API 域名 */
 export const API_HOST_BACKUP = 'https://api.bgm.tv' as const
+
+/** bangumi 官方 API 域名 */
+export const API_HOST = API_HOST_BACKUP
+// export const API_HOST = 'https://api.bgmapi.com' as const
 
 /** bangumi v0 API */
 export const API_V0 = `${API_HOST}/v0` as const

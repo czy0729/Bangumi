@@ -156,7 +156,7 @@ export function useRelationGraph(props: RelationGraphProps) {
 
   const [focusId, setFocusId] = useState(initialFocusId)
   const [activeRelation, setActiveRelation] = useState<RelationEdge | null>(null)
-  const [, forceUpdate] = useState(0)
+  const [layoutVersion, forceUpdate] = useState(0)
   const [focusLayoutReady, setFocusLayoutReady] = useState(false)
 
   const [renderWindow, setRenderWindow] = useState<RelationWindow | null>(null)
@@ -272,6 +272,7 @@ export function useRelationGraph(props: RelationGraphProps) {
     setActiveRelation,
     setLayout,
     layoutsRef,
+    layoutVersion,
     scrollViewRef,
     focusRelations,
     headNodes,

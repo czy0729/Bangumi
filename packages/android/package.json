@@ -50,7 +50,6 @@
     "expo-splash-screen": "0.20.4",
     "expo-status-bar": "1.6.0",
     "expo-web-browser": "12.3.2",
-
     "patch-package": "7.0.2",
     "postinstall-postinstall": "2.1.0",
     "react": "18.2.0",

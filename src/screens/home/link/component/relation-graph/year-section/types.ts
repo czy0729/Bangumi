@@ -20,4 +20,7 @@ export type Props = {
 
   /** 节点布局缓存 (按节点 ID 索引) */
   layoutsRef: React.RefObject<Map<number, NodeLayout>>
+
+  /** 布局版本, 节点测量后递增 */
+  layoutVersion: number
 }

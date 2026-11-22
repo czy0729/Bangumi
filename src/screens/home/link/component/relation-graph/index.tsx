@@ -31,6 +31,7 @@ function RelationGraph(props: RelationGraphProps) {
     setActiveRelation,
     setLayout,
     layoutsRef,
+    layoutVersion,
     scrollViewRef,
     focusRelations,
     headNodes,
@@ -78,6 +79,7 @@ function RelationGraph(props: RelationGraphProps) {
             index={index}
             nodes={nodesByYear[year]}
             layoutsRef={layoutsRef}
+            layoutVersion={layoutVersion}
           />
         ))}
 

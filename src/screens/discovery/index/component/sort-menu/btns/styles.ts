@@ -15,7 +15,8 @@ export const memoStyles = _.memoStyles(() => ({
     position: _.web('fixed' as RNViewStyle['position'], 'absolute'),
     zIndex: 1,
     right: _.web(_.wind, 0),
-    bottom: _.web(92, _.ios(_.tabBarHeight + _.sm, _.md)),
+    // 安卓的 bottom 由组件测量后写入 (相对容器不是屏幕), 这里只给 web / ios 兜底值
+    bottom: _.web(92, _.ios(_.tabBarHeight + _.sm, 0)),
     left: _.device(0, _._wind)
   },
   btns: {
