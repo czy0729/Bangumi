@@ -2,18 +2,96 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:28:40
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-03-29 00:40:33
+ * @Last Modified time: 2026-11-23 05:36:06
+ *
+ * vendor 自 react-native-render-html@4.1.1/src 的 HTMLRenderers (上游已停更)
+ * 已深度本地化: WebView 链接渲染 / stl / IOS / androidTextFixedStyle
  */
-import React from 'react'
 import { Platform, Text, TouchableOpacity, View } from 'react-native'
-import HTMLImage from 'react-native-render-html/src/HTMLImage'
-import { _constructStyles, _getElementClassStyles } from 'react-native-render-html/src/HTMLStyles'
 import { WebView } from 'react-native-webview'
 import { stl } from '@utils/utils'
 import { IOS } from '@constants/env'
 import { androidTextFixedStyle } from '@styles'
+import HTMLImage from './html-image'
+import { _constructStyles, _getElementClassStyles } from './html-styles'
 
-export function a(htmlAttribs, children, _convertedCSSStyles, passProps) {
+import type { GestureResponderEvent } from 'react-native'
+import type { ReactNode } from '@types'
+import type { HTMLAttribs } from './html-utils'
+import type { PassProps, RNStyle } from './html-styles'
+
+/** 列表前缀渲染器参数 (与 vendored 渲染器签名同形) */
+type ListPrefixRenderer = (
+  htmlAttribs: HTMLAttribs,
+  children: ReactNode[] | undefined,
+  convertedCSSStyles: RNStyle[] | undefined,
+  passProps: RenderersPassProps
+) => ReactNode
+
+/** 渲染器透传参数 (html.jsx 构造, 在 html-styles 的 PassProps 基础上扩展渲染器所需字段) */
+interface RenderersPassProps extends PassProps {
+  /** React key */
+  key?: string
+
+  /** Text 是否随系统字体缩放 */
+  allowFontScaling?: boolean
+
+  /** 链接文本 (a 无子节点时的兜底内容) */
+  data?: string
+
+  /** 列表项序号 (ul/ol 渲染子项时回填) */
+  index?: number
+
+  /** 列表前缀渲染器 */
+  listsPrefixesRenderers?: {
+    ol?: ListPrefixRenderer
+    ul?: ListPrefixRenderer
+  }
+
+  /** 列表索引 (生成列表 key 用) */
+  nodeIndex?: number
+
+  /** 链接点击回调 */
+  onLinkPress?: (
+    evt: GestureResponderEvent,
+    href?: string,
+    htmlAttribs?: HTMLAttribs
+  ) => boolean | void
+
+  /** 当前容器类型 (决定 a 的渲染分支) */
+  parentWrapper?: 'Text' | 'View'
+
+  /** 原始列表子节点 */
+  rawChildren?: Array<{
+    /** 子节点文本 */
+    data?: string
+
+    /** 父标签 */
+    parentTag?: string
+
+    /** 标签名 */
+    tagName?: string
+  }>
+
+  /** Text 是否可长按选中 */
+  selectable?: boolean
+
+  /** iframe 等静态内容的最大宽度 */
+  staticContentMaxWidth?: number
+
+  /** 图片最大宽度 */
+  imagesMaxWidth?: number
+
+  /** 图片初始尺寸 */
+  imagesInitialDimensions?: { width: number; height: number }
+}
+
+export function a(
+  htmlAttribs: HTMLAttribs,
+  children: ReactNode,
+  _convertedCSSStyles: RNStyle[] | undefined,
+  passProps: RenderersPassProps
+) {
   const style = _constructStyles({
     tagName: 'a',
     htmlAttribs,
@@ -24,7 +102,7 @@ export function a(htmlAttribs, children, _convertedCSSStyles, passProps) {
   // !! This deconstruction needs to happen after the styles construction since
   // the passed props might be altered by it !!
   const { parentWrapper, onLinkPress, key, data } = passProps
-  const handlePress = evt =>
+  const handlePress = (evt: GestureResponderEvent) =>
     onLinkPress && htmlAttribs && htmlAttribs.href
       ? onLinkPress(evt, htmlAttribs.href, htmlAttribs)
       : undefined
@@ -58,7 +136,12 @@ export function a(htmlAttribs, children, _convertedCSSStyles, passProps) {
   )
 }
 
-export function img(htmlAttribs, _children, _convertedCSSStyles, passProps = {}) {
+export function img(
+  htmlAttribs: HTMLAttribs,
+  _children: ReactNode,
+  _convertedCSSStyles: RNStyle[] | undefined,
+  passProps: RenderersPassProps = {}
+) {
   if (!htmlAttribs.src) {
     return false
   }
@@ -70,6 +153,7 @@ export function img(htmlAttribs, _children, _convertedCSSStyles, passProps = {})
     styleSet: 'IMAGE'
   })
   const { src, alt, width, height } = htmlAttribs
+  const { imagesMaxWidth, imagesInitialDimensions } = passProps
   return (
     <HTMLImage
       source={{ uri: src }}
@@ -77,12 +161,18 @@ export function img(htmlAttribs, _children, _convertedCSSStyles, passProps = {})
       width={width}
       height={height}
       style={style}
-      {...passProps}
+      imagesMaxWidth={imagesMaxWidth}
+      imagesInitialDimensions={imagesInitialDimensions}
     />
   )
 }
 
-export function ul(htmlAttribs, children, convertedCSSStyles, passProps: any = {}) {
+export function ul(
+  htmlAttribs: HTMLAttribs,
+  children: ReactNode[] | undefined,
+  convertedCSSStyles: RNStyle[] | undefined,
+  passProps: RenderersPassProps = {}
+) {
   const style = _constructStyles({
     tagName: 'ul',
     htmlAttribs,
@@ -91,14 +181,14 @@ export function ul(htmlAttribs, children, convertedCSSStyles, passProps: any = {
   })
   const { allowFontScaling, rawChildren, nodeIndex, key, baseFontStyle, listsPrefixesRenderers } =
     passProps
-  const baseFontSize = baseFontStyle.fontSize || 14
+  const baseFontSize = baseFontStyle?.fontSize || 14
 
   children =
     children &&
     children.map((child, index) => {
       const rawChild = rawChildren[index]
-      let prefix = false
-      const rendererArgs = [
+      let prefix: ReactNode = false
+      const rendererArgs: Parameters<ListPrefixRenderer> = [
         htmlAttribs,
         children,
         convertedCSSStyles,
@@ -162,7 +252,12 @@ export function ul(htmlAttribs, children, convertedCSSStyles, passProps: any = {
 }
 export const ol = ul
 
-export function iframe(htmlAttribs, _children, _convertedCSSStyles, passProps) {
+export function iframe(
+  htmlAttribs: HTMLAttribs,
+  _children: ReactNode,
+  _convertedCSSStyles: RNStyle[] | undefined,
+  passProps: RenderersPassProps
+) {
   const { staticContentMaxWidth, tagsStyles, classesStyles } = passProps
 
   const tagStyleHeight = tagsStyles.iframe && tagsStyles.iframe.height
@@ -191,7 +286,12 @@ export function iframe(htmlAttribs, _children, _convertedCSSStyles, passProps) {
   return <WebView key={passProps.key} source={source} style={style} />
 }
 
-export function pre(_htlmAttribs, children, _convertedCSSStyles, passProps) {
+export function pre(
+  _htlmAttribs: HTMLAttribs,
+  children: ReactNode,
+  _convertedCSSStyles: RNStyle[] | undefined,
+  passProps: RenderersPassProps
+) {
   return (
     <Text
       key={passProps.key}
@@ -206,7 +306,12 @@ export function pre(_htlmAttribs, children, _convertedCSSStyles, passProps) {
   )
 }
 
-export function br(_htlmAttribs, _children, _convertedCSSStyles, passProps) {
+export function br(
+  _htlmAttribs: HTMLAttribs,
+  _children: ReactNode,
+  _convertedCSSStyles: RNStyle[] | undefined,
+  passProps: RenderersPassProps
+) {
   return (
     <Text
       key={passProps.key}
@@ -224,10 +329,10 @@ export function br(_htlmAttribs, _children, _convertedCSSStyles, passProps) {
 }
 
 export function textwrapper(
-  _htmlAttribs,
-  children,
-  convertedCSSStyles,
-  { allowFontScaling, key, selectable }
+  _htmlAttribs: HTMLAttribs,
+  children: ReactNode,
+  convertedCSSStyles: RNStyle[] | undefined,
+  { allowFontScaling, key, selectable }: RenderersPassProps
 ) {
   return (
     <Text

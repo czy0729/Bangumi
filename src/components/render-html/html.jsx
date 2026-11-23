@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2019-08-14 16:25:55
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-04 00:49:57
+ * @Last Modified time: 2026-11-23 05:32:43
  *
  * https://github.com/archriss/react-native-render-html/pull/268/commits/8a61abcd0d900bbc58141f5cf7491fb0f09fbfe4
  */
@@ -14,7 +14,7 @@ import {
   cssStringToObject,
   cssObjectToString,
   computeTextStyles
-} from 'react-native-render-html/src/HTMLStyles'
+} from './html-styles'
 import {
   BLOCK_TAGS,
   TEXT_TAGS,
@@ -24,22 +24,16 @@ import {
   STYLESETS,
   TextOnlyPropTypes,
   PREFORMATTED_TAGS
-} from 'react-native-render-html/src/HTMLUtils'
-import {
-  generateDefaultBlockStyles,
-  generateDefaultTextStyles
-} from 'react-native-render-html/src/HTMLDefaultStyles'
-import htmlparser2 from 'htmlparser2'
+} from './html-utils'
+import { generateDefaultBlockStyles, generateDefaultTextStyles } from './html-default-styles'
+// 实现由 thirdParty/switch.js 的 RENDER_HTML_SELF 决定: 自研 (默认) 或 htmlparser2 (对照)
+import { DomHandler, Parser } from '@render-html-parser'
 import { stl } from '@utils/utils'
 import { IOS } from '@constants/env'
 import { _ } from '@stores'
 import { androidTextFixedStyle } from '@styles'
-import * as HTMLRenderers from './HTMLRenderers'
-import { optimizeComputeTextStyles, formatSpacing } from './utils'
-
-const flexStyle = { flex: 1, alignItems: 'center' }
-
-const k = 0
+import * as HTMLRenderers from './html-renderers'
+import { optimizeComputeTextStyles, formatSpacing } from './utils/text'
 
 export default class HTML extends PureComponent {
   // static propTypes = {
@@ -170,9 +164,9 @@ export default class HTML extends PureComponent {
   }
 
   parseDOM(dom, props = this.props) {
-    const { decodeEntities, debug, onParsed } = this.props
-    const parser = new htmlparser2.Parser(
-      new htmlparser2.DomHandler((_err, dom) => {
+    const { decodeEntities, debug, onParsed } = props
+    const parser = new Parser(
+      new DomHandler((_err, dom) => {
         let RNElements = this.mapDOMNodesTORNElements(dom, false, props)
         if (onParsed) {
           const alteredRNElements = onParsed(dom, RNElements)

@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2023-04-20 11:12:28
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-01 03:00:01
+ * @Last Modified time: 2026-11-23 22:10:13
  */
-import { mapStringLeaves } from '@utils/utils'
 import { syncSpacing } from '@utils/async'
+import { mapStringLeaves } from '@utils/utils'
 
 import type { ReactElement } from 'react'
 import type { TextStyle } from 'react-native'
@@ -16,7 +16,7 @@ type SpacingChild = ReactElement | string | number | boolean | null | undefined 
 /** 避免字号和行号一样导致显示挤压 */
 export function optimizeComputeTextStyles(styles: TextStyle) {
   if (styles?.fontSize && styles?.lineHeight && styles.fontSize >= styles.lineHeight) {
-    styles.lineHeight = Math.floor(styles.fontSize * 1.5)
+    return { ...styles, lineHeight: Math.floor(styles.fontSize * 1.5) }
   }
   return styles
 }

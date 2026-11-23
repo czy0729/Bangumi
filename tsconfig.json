@@ -17,6 +17,8 @@
     // "strictNullChecks": true,
     "verbatimModuleSyntax": true,
     "paths": {
+      "@": ["./"],
+      "@/*": ["./*"],
       "@_": ["./src/screens/_"],
       "@_/*": ["./src/screens/_/*"],
       "@assets": ["./src/assets"],
@@ -27,8 +29,12 @@
       "@components/*": ["./src/components/*"],
       "@constants": ["./src/constants"],
       "@constants/*": ["./src/constants/*"],
+      // 开关只影响构建期映射, 类型与 IDE 以自研实现为准
+      "@render-html-parser": ["./src/components/render-html/html-parser/self"],
       "@screens": ["./src/screens"],
       "@screens/*": ["./src/screens/*"],
+      "@src": ["./src"],
+      "@src/*": ["./src/*"],
       "@stores": ["./src/stores"],
       "@stores/*": ["./src/stores/*"],
       "@styles": ["./src/styles"],
@@ -39,10 +45,6 @@
       "@types/*": ["./src/types/*"],
       "@utils": ["./src/utils"],
       "@utils/*": ["./src/utils/*"],
-      "@src": ["./src"],
-      "@src/*": ["./src/*"],
-      "@": ["./"],
-      "@/*": ["./*"],
       "mobx-react": ["./src/utils/thirdParty/observer"]
     }
   },

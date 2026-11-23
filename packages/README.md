@@ -26,12 +26,12 @@ packages/
 
 所有补丁的**实体文件**统一存放在 `packages/patches/`，各环境目录与根目录 `patches/` 里只有指向它的符号链接，按各环境需要的补丁子集决定包含哪些符号链接：
 
-| 目录                        | 补丁子集                                                    |
-| --------------------------- | ----------------------------------------------------------- |
-| 根 `patches/`               | 当前环境的补丁集合                                          |
-| `packages/android/patches/` | 共享 3 + `pager-view`/`smb`/`android-widget`                |
-| `packages/ios/patches/`     | 共享 3（`realtimeblurview`/`render-html`/`tab-view`）       |
-| `packages/web/patches/`     | `realtimeblurview`/`render-html` + `@storybook/preview-web` |
+| 目录                        | 补丁子集                                                |
+| --------------------------- | ------------------------------------------------------- |
+| 根 `patches/`               | 当前环境的补丁集合                                      |
+| `packages/android/patches/` | `realtimeblurview` + `pager-view`/`smb`/`android-widget` |
+| `packages/ios/patches/`     | `realtimeblurview`                                      |
+| `packages/web/patches/`     | `realtimeblurview` + `@storybook/preview-web`           |
 
 > 补丁只维护一份，修改 `packages/patches/` 下文件即对所有环境生效，无需逐份复制。
 

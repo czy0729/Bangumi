@@ -10,8 +10,8 @@ const path = require('path')
 const { getDefaultConfig } = require('expo/metro-config')
 const { FileStore } = require('metro-cache')
 
-// 自研 mobx DEV 开关, 与 jest.config.js 共用同一份
-const { MOBX_SELF } = require('./src/utils/thirdParty/mobx/switch')
+// 自研第三方替换开关, 与 jest.config.js / .storybook/main.js 共用同一份; 切换后需重启 dev server 并加 --reset-cache
+const { MOBX_SELF, RENDER_HTML_SELF } = require('./src/utils/thirdParty/switch')
 
 /** @type {import('expo/metro-config').MetroConfig} */
 const config = getDefaultConfig(__dirname)
@@ -59,6 +59,11 @@ const mobxFacadePath = path.resolve(__dirname, 'src/utils/thirdParty/mobx')
 // DEV 开关关闭时交回默认解析 (官方包), 生产构建恒用自研
 const useSelfMobx = MOBX_SELF || process.env.NODE_ENV === 'production' || !!process.env.EAS_BUILD
 
+// @render-html-parser: 自研解析器 / htmlparser2 (DEV 开关), 生产构建恒用自研
+const renderHtmlParserDir = path.resolve(__dirname, 'src/components/render-html/html-parser')
+const useSelfRenderHtmlParser =
+  RENDER_HTML_SELF || process.env.NODE_ENV === 'production' || !!process.env.EAS_BUILD
+
 // ---------- tsconfig paths ----------
 // Metro 0.76 不支持 tsconfig paths, 从 tsconfig.json 动态读取别名映射
 const { compilerOptions } = JSON.parse(
@@ -81,6 +86,11 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
 
   // mobx: 自研 facade / 官方实现 (DEV 开关)
   if (moduleName === 'mobx') return resolve(useSelfMobx ? mobxFacadePath : 'mobx')
+
+  // @render-html-parser: 自研 / htmlparser2 (DEV 开关), 需先于 tsconfig paths 命中
+  if (moduleName === '@render-html-parser') {
+    return resolve(path.join(renderHtmlParserDir, useSelfRenderHtmlParser ? 'self' : 'legacy'))
+  }
 
   // cheerio/slim: exports 子路径, 无物理文件
   if (moduleName === 'cheerio/slim') return resolve(cheerioSlimPath)

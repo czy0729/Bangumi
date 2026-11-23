@@ -2,11 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-04-29 19:54:57
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-26 17:34:06
+ * @Last Modified time: 2026-11-23 23:45:19
  */
 import React from 'react'
 import { observer } from 'mobx-react'
-import { rendererA, RNRenderHTML } from '@components/@'
 import { _, rakuenStore, systemStore } from '@stores'
 import { open } from '@utils'
 import { logger, r } from '@utils/dev'
@@ -15,6 +14,8 @@ import { Component } from '../component'
 import { ErrorBoundary } from '../error-boundary'
 import { translateAll } from '../katakana/utils'
 import Error from './error'
+import RNRenderHTML from './html'
+import { a as rendererA } from './html-renderers'
 import { a, blockquote, div, img, li, q, span, ul } from './renderer'
 import { fixedBaseFontStyle, formatHtml, splitHtmlByEmoji } from './utils'
 import { COMPONENT, PAD_FONT_ZISE_INCREASE, REGS } from './ds'
@@ -94,12 +95,10 @@ export const RenderHtml = observer(
       }
     }
 
-    /** 生成 render-html 配置 */
-    generateConfig = (formatHtml: string) => {
+    /** 生成 render-html 配置, 只区分是否命中大表情 */
+    generateConfig = (isHasBigEmoji: boolean) => {
       const { imagesMaxWidth, baseFontStyle, linkStyle, matchLink } = this.props
 
-      // 命中表情片段
-      const isHasBigEmoji = REGS.emoji.test(formatHtml)
       const bigEmojiStyle = isHasBigEmoji
         ? { lineHeight: _[`fontSize${rakuenStore.setting.bigEmojiSize}`].lineHeight }
         : {}
@@ -226,6 +225,8 @@ export const RenderHtml = observer(
       const s2t = systemStore.setting.s2t
       const flattenedBaseStyle = _.flatten([this.defaultBaseFontStyle, baseFontStyle])
 
+      // renderer 闭包读 prop 的三类: autoShowImage 参与 renderers, 变化需重建配置刷新已渲染图片;
+      // onImageFallback 只在点击时读 this.props, onLinkPress 是实例上的稳定箭头函数, 均不进 deps
       const deps: unknown[] = [
         html,
         matchLink,
@@ -233,11 +234,12 @@ export const RenderHtml = observer(
         bigEmojiSize,
         s2t,
         JSON.stringify(flattenedBaseStyle),
-        linkStyle,
+        JSON.stringify(linkStyle),
         _.colorMain,
+        // classesStyles.sub 的颜色
+        _.colorSub,
         _.window.width,
         autoShowImage,
-        onImageFallback,
         imagesMaxWidth,
         katakanaResult
       ]
@@ -249,7 +251,18 @@ export const RenderHtml = observer(
         memo.deps = deps
         memo.htmlValue = formatHtml(html, flattenedBaseStyle, matchLink, katakanaResult) || ''
         memo.fragments = memo.htmlValue ? splitHtmlByEmoji(memo.htmlValue, splitLength) : []
-        memo.configs = memo.fragments.map(item => this.generateConfig(item))
+        // 配置只随「是否命中大表情」变化: 同组片段共享同一份, 未命中时的分配从 N 份降到 ≤2 份
+        const configsByEmoji = new Map<boolean, ReturnType<RenderHtmlComponent['generateConfig']>>()
+        memo.configs = memo.fragments.map(item => {
+          const isHasBigEmoji = REGS.emoji.test(item)
+          let config = configsByEmoji.get(isHasBigEmoji)
+          if (!config) {
+            config = this.generateConfig(isHasBigEmoji)
+            configsByEmoji.set(isHasBigEmoji, config)
+          }
+
+          return config
+        })
       }
 
       const { htmlValue, fragments, configs } = memo

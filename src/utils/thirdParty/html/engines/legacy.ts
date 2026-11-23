@@ -13,7 +13,7 @@ import type { CheerioDoc } from '../types'
  * - 只被测试文件 (engine-battery) 直接 import 并经 __setEngineForTest 注入,
  *   生产代码无任何引用, 不会进入 bundle
  * - 体积较大 (436KB), 双引擎基线稳定后连同依赖一起删除
- * - 依赖链需要 htmlparser2 3.x: 根 package.json dependencies 里的 htmlparser2@^3.9.0
+ * - 依赖链需要 htmlparser2 3.x: 根 package.json devDependencies 里的 htmlparser2@^3.9.0
  *   就是给它占提升位的 (cheerio 1.x 的 htmlparser2 v9 嵌套安装, 互不干扰), 勿清理
  * - 0.20 的 module.exports 本身即函数 (可调用 + .load), 结构上与 CheerioAPI 兼容
  */

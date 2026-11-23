@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-04-10 16:27:31
  * @Last Modified by: czy0729
- * @Last Modified time: 2024-11-14 22:45:17
+ * @Last Modified time: 2026-11-23 21:23:51
  */
 const path = require('path')
 const sass = require('node-sass')
@@ -10,6 +10,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { GenerateSW } = require('workbox-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+// 自研第三方替换开关, 与 metro.config.js / jest.config.js 共用同一份; 切换后需重启 storybook
+const { RENDER_HTML_SELF } = require('../src/utils/thirdParty/switch')
 
 const serviceWorker = true
 const analyzer = false
@@ -76,9 +78,17 @@ module.exports = {
       ]
     })
 
+    // 生产构建恒用自研
+    const useSelfRenderHtmlParser = RENDER_HTML_SELF || configType === 'PRODUCTION'
+
     config.resolve.alias = {
       ...config.resolve.alias,
-      stream: require.resolve('stream-browserify')
+      stream: require.resolve('stream-browserify'),
+      // @render-html-parser: 自研 / htmlparser2 (DEV 开关)
+      '@render-html-parser': path.resolve(
+        __dirname,
+        `../src/components/render-html/html-parser/${useSelfRenderHtmlParser ? 'self' : 'legacy'}`
+      )
     }
 
     /** ========== Public Assets ========== */
