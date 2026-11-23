@@ -51,6 +51,12 @@ describe('getIsBlockedUser', () => {
     expect(getIsBlockedUser(['baduser@123'], 'gooduser', '123')).toBe(true)
   })
 
+  it('userId 为 number 时与字符串形式的记录匹配', () => {
+    expect(getIsBlockedUser(['someuser@42'], 'someuser', 42)).toBe(true)
+    expect(getIsBlockedUser(['someuser@42'], 'someuser', '42')).toBe(true)
+    expect(getIsBlockedUser(['someuser@42'], 'someuser', 43)).toBe(false)
+  })
+
   // 发现隐藏问题：'undefined' 字符串被当作特殊值
   it('[隐藏问题] userId 为 "undefined" 字符串时回退到 userName 匹配', () => {
     expect(getIsBlockedUser(['user@undefined'], 'user', '123')).toBe(true)

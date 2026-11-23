@@ -6,7 +6,7 @@
  *
  * 超展开页 Store 入口: 初始化
  */
-import { userStore } from '@stores'
+import { rakuenStore, userStore } from '@stores'
 import { TABS } from '../ds'
 import Action from './action'
 import { DELAY_MOUNTED, EXCLUDE_STATE, INIT_PREFETCH_STATE, NAMESPACE } from './ds'
@@ -33,6 +33,7 @@ export default class ScreenRakuen extends Action {
       _loaded: true
     })
     this.fetchRakuen()
+    if (userStore.isWebLogin) rakuenStore.fetchBlockedUsersIfEmpty()
 
     // 延迟加载标记
     setTimeout(() => {

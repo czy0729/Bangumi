@@ -34,6 +34,28 @@ export type BlockedUsersItem = {
   href: string
 }
 
+/** 隐私设置开关 */
+export type PrivacySetting = {
+  /** 接收短信 */
+  'privacy_set[1]': PrivacyValue
+
+  /** 时间线回复 */
+  'privacy_set[30]': PrivacyValue
+
+  /** @ 提醒 */
+  'privacy_set[20]': PrivacyValue
+
+  /** 评论提醒 */
+  'privacy_set[21]': PrivacyValue
+}
+
+/** 个人设置隐私解析结果 */
+export type PrivacyData = {
+  privacy: PrivacySetting
+  blockedUsers: BlockedUsersItem[]
+  formhash: string
+}
+
 /** 超展开项 */
 export type RakuenItem = {
   /** 小组名 */

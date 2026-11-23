@@ -31,7 +31,6 @@ import { getBlogItemTime, getBlogTime } from './utils'
 
 import type { CheerioNode } from '@utils/thirdParty/html/types'
 import type { CoverGroup } from '@types'
-import type { STATE } from './init'
 import type {
   BlockedUsersItem,
   BoardItem,
@@ -39,6 +38,8 @@ import type {
   CommentsItemWithSub,
   Likes,
   NotifyItem,
+  PrivacyData,
+  PrivacySetting,
   PrivacyValue,
   RakuenItem,
   ReviewsItem,
@@ -527,7 +528,7 @@ export function cheerioTopicEdit(html: string): string | boolean {
 }
 
 /** 个人设置隐私 */
-export function cheerioPrivacy(html: string) {
+export function cheerioPrivacy(html: string): PrivacyData {
   const privacyHTML = htmlMatch(html, '<div id="columnSearchB', '<div id="footer')
   const $ = cheerio(privacyHTML)
 
@@ -545,7 +546,7 @@ export function cheerioPrivacy(html: string) {
     }
   })
 
-  const privacy: typeof STATE.privacy = {
+  const privacy: PrivacySetting = {
     'privacy_set[1]': ($('select[name="privacy_set[1]"]').val() || '0') as PrivacyValue,
     'privacy_set[30]': ($('select[name="privacy_set[30]"]').val() || '0') as PrivacyValue,
     'privacy_set[20]': ($('select[name="privacy_set[20]"]').val() || '0') as PrivacyValue,

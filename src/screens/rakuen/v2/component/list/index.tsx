@@ -58,19 +58,20 @@ function List({ index }: Props) {
   const wataameError = isWataame && $.state.wataame._error
   const wataameMoreError = isWataame && $.state.wataame._moreError
   const wataameEmpty = !$.state.wataame.list.length
-  const elWataameFooter = wataameError || wataameMoreError ? (
-    <Text
-      style={_.mt.lg}
-      type='icon'
-      size={11}
-      align='center'
-      onPress={wataameMoreError && !wataameEmpty ? $.onFooterRefresh : $.onHeaderRefresh}
-    >
-      加载失败，点击重试
-    </Text>
-  ) : (
-    elPoweredBy
-  )
+  const elWataameFooter =
+    wataameError || wataameMoreError ? (
+      <Text
+        style={_.mt.lg}
+        type='icon'
+        size={11}
+        align='center'
+        onPress={wataameMoreError && !wataameEmpty ? $.onFooterRefresh : $.onHeaderRefresh}
+      >
+        加载失败，点击重试
+      </Text>
+    ) : (
+      elPoweredBy
+    )
 
   const page = $.state.page
   const myId = userStore.myId

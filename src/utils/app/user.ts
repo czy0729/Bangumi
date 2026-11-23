@@ -36,7 +36,7 @@ export function getIsBlockedUser(
     blockUserIds.findIndex(item => {
       const [itemUserName, itemUserId] = item.split('@')
       if (!itemUserId || itemUserId === 'undefined') return itemUserName === userName
-      return itemUserId === userId
+      return String(itemUserId) === String(userId)
     }) !== -1
 
   if (isBlock && trackUUID) {

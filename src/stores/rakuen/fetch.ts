@@ -57,7 +57,10 @@ import type {
   TopicType,
   UserId
 } from '@types'
-import type { Comments, NotifyItem, NotifyMeta, Topic } from './types'
+import type { Comments, NotifyItem, NotifyMeta, PrivacyData, Topic } from './types'
+
+/** 黑名单拉取中的请求 */
+let blockedUsersRequest: Promise<void> | null = null
 
 export default class Fetch extends Computed {
   /** 获取超展开聚合列表 */
@@ -566,24 +569,48 @@ export default class Fetch extends Computed {
   }
 
   /** 个人设置隐私 */
-  fetchPrivacy = async () => {
+  fetchPrivacy = async (): Promise<PrivacyData> => {
     const html = await fetchHTML({
       url: HTML_PRIVACY()
     })
-    const data = cheerioPrivacy(html)
+    const { blockedUsers, privacy, formhash } = cheerioPrivacy(html)
 
     this.setState({
-      privacy: data.privacy,
+      privacy,
       blockedUsers: {
-        list: data.blockedUsers || [],
+        list: blockedUsers || [],
         _loaded: getTimestamp()
       },
-      formhash: data.formhash
+      formhash
     })
     this.save('privacy')
     this.save('blockedUsers')
     this.save('formhash')
 
-    return data
+    return {
+      privacy: this.state.privacy,
+      blockedUsers: this.state.blockedUsers.list,
+      formhash: this.state.formhash
+    }
+  }
+
+  /** 黑名单无缓存时拉取 */
+  fetchBlockedUsersIfEmpty = () => {
+    if (blockedUsersRequest) return blockedUsersRequest
+
+    blockedUsersRequest = (async () => {
+      await this.init('blockedUsers')
+      if (this.state.blockedUsers._loaded) return
+
+      try {
+        await this.fetchPrivacy()
+      } catch (error) {
+        this.error('fetchBlockedUsersIfEmpty', error)
+      }
+    })().finally(() => {
+      blockedUsersRequest = null
+    })
+
+    return blockedUsersRequest
   }
 }
