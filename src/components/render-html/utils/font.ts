@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-09-07 03:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-09-07 03:00:00
+ * @Last Modified time: 2026-11-24 05:26:57
  *
  * 字体样式: 基础样式修正、字符串样式转 RN 样式、平板字号行高补偿
  */
@@ -10,6 +10,15 @@ import { _ } from '@stores'
 import { PAD_FONT_ZISE_INCREASE, PAD_LINE_HEIGHT_INCREASE } from '../ds'
 
 import type { TextStyle } from '@types'
+
+/** 富文本默认基础字体样式 */
+export function getDefaultBaseFontStyle() {
+  return {
+    fontFamily: _.fontFamily,
+    fontSize: 15 + _.fontSizeAdjust + (_.isPad ? PAD_FONT_ZISE_INCREASE : 0),
+    color: _.colorTitle
+  }
+}
 
 /** 获取最后字体渲染基本样式 */
 export function fixedBaseFontStyle(baseFontStyle: TextStyle = {}) {

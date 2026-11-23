@@ -17,3 +17,15 @@ export type Props = WithViewStyles<{
   /** 键盘状态变化回调 */
   onToggle?: (toggle?: boolean, keyboardSpace?: number) => void
 }>
+
+/** useKeyboardSpace 参数 */
+export type UseKeyboardSpaceOptions = {
+  /** 顶部间距 */
+  topSpacing: number
+
+  /** 是否启用动画 */
+  animate: boolean
+
+  /** 键盘状态变化回调 */
+  onToggle?: (toggle?: boolean, keyboardSpace?: number) => void
+}

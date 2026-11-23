@@ -2,122 +2,51 @@
  * @Author: czy0729
  * @Date: 2019-06-13 00:04:53
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-28 11:05:20
+ * @Last Modified time: 2026-11-24 10:20:00
  */
-import React, { Component } from 'react'
-import { Dimensions, Keyboard, LayoutAnimation, UIManager, View } from 'react-native'
+import { View } from 'react-native'
 import { stl } from '@utils'
 import { r } from '@utils/dev'
 import { IOS } from '@constants'
-import { COMPONENT, DEFAULT_ANIMATION } from './ds'
+import { COMPONENT } from './ds'
+import { useKeyboardSpace } from './hooks'
 import { styles } from './styles'
 
-import type { EmitterSubscription, KeyboardEvent, LayoutAnimationConfig } from 'react-native'
 import type { Props as KeyboardSpacerProps } from './types'
 export type { KeyboardSpacerProps }
-
-// 注意如果要在 Android 上使用此动画，则需要在代码中启用
-if (UIManager.setLayoutAnimationEnabledExperimental) {
-  UIManager.setLayoutAnimationEnabledExperimental(true)
-}
 
 /**
  * 弹出的键盘占位
  * @doc https://github.com/Andr3wHur5t/react-native-keyboard-spacer/blob/master/KeyboardSpacer.js
  */
-export const KeyboardSpacer = class KeyboardSpacerComponent extends Component<KeyboardSpacerProps> {
-  static defaultProps = {
-    topSpacing: 0,
-    animate: true,
-    onToggle: () => null
-  }
+export const KeyboardSpacer = ({
+  style,
+  topSpacing = 0,
+  animate = true,
+  onToggle
+}: KeyboardSpacerProps) => {
+  r(COMPONENT)
 
-  private _listeners: EmitterSubscription[] | null = null
+  const keyboardSpace = useKeyboardSpace({
+    topSpacing,
+    animate,
+    onToggle
+  })
 
-  state = {
-    keyboardSpace: 0
-  }
+  if (IOS) return null
 
-  componentDidMount() {
-    const updateListener = IOS ? 'keyboardWillShow' : 'keyboardDidShow'
-    const resetListener = IOS ? 'keyboardWillHide' : 'keyboardDidHide'
-    this._listeners = [
-      Keyboard.addListener(updateListener, this.updateKeyboardSpace),
-      Keyboard.addListener(resetListener, this.resetKeyboardSpace)
-    ]
-  }
-
-  componentWillUnmount() {
-    try {
-      this._listeners.forEach(listener => listener.remove())
-    } catch {}
-  }
-
-  updateKeyboardSpace = (event: KeyboardEvent) => {
-    if (!event.endCoordinates) return
-
-    const { animate } = this.props
-    if (animate) {
-      const animationConfig: LayoutAnimationConfig = IOS
-        ? LayoutAnimation.create(
-            event.duration!,
-            LayoutAnimation.Types[event.easing],
-            LayoutAnimation.Properties.opacity
-          )
-        : DEFAULT_ANIMATION
-      LayoutAnimation.configureNext(animationConfig)
-    }
-
-    const screenHeight = Dimensions.get('window').height
-    const value = screenHeight - event.endCoordinates.screenY + this.props.topSpacing
-    this.setState(
-      {
-        keyboardSpace: value
-      },
-      () => this.props.onToggle(true, value)
-    )
-  }
-
-  resetKeyboardSpace = (event: KeyboardEvent) => {
-    this.props.onToggle(false, 0)
-
-    const { animate } = this.props
-    if (animate) {
-      const animationConfig: LayoutAnimationConfig = IOS
-        ? LayoutAnimation.create(
-            event.duration!,
-            LayoutAnimation.Types[event.easing],
-            LayoutAnimation.Properties.opacity
-          )
-        : DEFAULT_ANIMATION
-      LayoutAnimation.configureNext(animationConfig)
-    }
-
-    this.setState({
-      keyboardSpace: 0
-    })
-  }
-
-  render() {
-    r(COMPONENT)
-
-    if (IOS) return null
-
-    const { style } = this.props
-    const { keyboardSpace } = this.state
-    return (
-      <View
-        style={stl(
-          styles.container,
-          {
-            height: keyboardSpace
-          },
-          style
-        )}
-        pointerEvents='none'
-      />
-    )
-  }
+  return (
+    <View
+      style={stl(
+        styles.container,
+        {
+          height: keyboardSpace
+        },
+        style
+      )}
+      pointerEvents='none'
+    />
+  )
 }
 
 export default KeyboardSpacer
