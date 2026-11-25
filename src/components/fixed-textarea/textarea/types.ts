@@ -4,7 +4,7 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-07-27 08:24:07
  */
-import type { TextInputInstance, TextInputSelectionChangeEvent } from 'react-native'
+import type { TextInputInstance, TextInputSelectionChangeEvent } from '@types'
 import type { Props as FixedTextareaProps, State as FixedTextareaState } from '../types'
 
 export type Props = Pick<

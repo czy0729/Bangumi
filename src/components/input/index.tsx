@@ -2,10 +2,10 @@
  * @Author: czy0729
  * @Date: 2019-03-19 01:43:43
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-07-28 10:28:06
+ * @Last Modified time: 2026-11-24 14:30:00
  */
-import React from 'react'
-import { Keyboard, TouchableWithoutFeedback, View } from 'react-native'
+import React, { useImperativeHandle } from 'react'
+import { TouchableWithoutFeedback, View } from 'react-native'
 import { observer } from 'mobx-react'
 import { _ } from '@stores'
 import { stl } from '@utils'
@@ -13,263 +13,178 @@ import { r } from '@utils/dev'
 import { FROZEN_FN, IOS } from '@constants'
 import { Component } from '../component'
 import Clear from './clear'
+import { useInputRef, useInputValue } from './hooks'
 import TextInput from './text-input'
-import { COMPONENT, INPUT_LINE_HEIGHT } from './ds'
+import { CLEAR_PADDING_RIGHT, COMPONENT, INPUT_LINE_HEIGHT } from './ds'
 import { memoStyles } from './styles'
 
-import type {
-  EmitterSubscription,
-  TextInputInstance,
-  FocusEvent,
-  TextInputProps,
-  TextInputSubmitEditingEvent
-} from 'react-native'
-import type { Override, TextInputChangeEvent } from '@types'
-import type { Props as InputProps, State } from './types'
+import type { TextInputProps } from 'react-native'
+import type { Override, TextInputInstance, TextInputSubmitEditingEvent } from '@types'
+import type { Props as InputProps } from './types'
 export type { InputProps }
+
+/** 输入框对外实例 */
+export type InputInstance = {
+  inputRef: TextInputInstance | null
+}
 
 /**
  * 通用输入框
  * @doc https://www.react-native.cn/docs/textinput
  * @tutorial https://lefkowitz.me/visual-guide-to-react-native-textinput-keyboardtype-options
  */
-export const Input = observer(
-  class InputComponent extends React.Component<InputProps, State> {
-    static defaultProps = {
-      style: undefined,
-      inputStyle: undefined,
-      multiline: false,
-      numberOfLines: 1,
-      showClear: false,
-      colorClear: undefined,
-      autoFocus: false,
-      placeholderTextColor: undefined,
-      onChange: FROZEN_FN,
-      onChangeText: FROZEN_FN,
-      onScrollIntoViewIfNeeded: undefined
-    }
+const InputComponent = React.forwardRef<InputInstance, InputProps>(
+  (
+    {
+      style,
+      inputStyle,
+      multiline = false,
+      numberOfLines = 1,
+      showClear = false,
+      colorClear,
+      autoFocus = false,
+      placeholderTextColor,
+      onChange = FROZEN_FN,
+      onChangeText = FROZEN_FN,
+      onScrollIntoViewIfNeeded,
+      value,
+      defaultValue,
+      editable,
+      onFocus,
+      onBlur,
+      onSubmitEditing,
+      ...other
+    }: InputProps,
+    ref
+  ) => {
+    r(COMPONENT)
 
-    state = {
-      value: this.props.value
-    }
+    const styles = memoStyles()
+    const { text, handleChange, handleClear } = useInputValue({
+      value,
+      defaultValue,
+      onChange,
+      onChangeText
+    })
 
-    inputRef: TextInputInstance | null = null
+    /** 受控时才下发 value; 非受控保持 undefined, 文本由原生维护 (下发 value 会干扰安卓中文组合输入) */
+    const isControlled = value !== undefined
+    const textValue = isControlled ? value : undefined
 
-    forwardRef = (ref: TextInputInstance | null) => (this.inputRef = ref)
+    /** 判断清空图标用的文本: 受控取 props, 非受控取内部镜像 */
+    const textForClear = isControlled ? value : text
+    const { inputRef, focused, handleRef, onTouch, blur, handleFocus, handleBlur } = useInputRef({
+      autoFocus,
+      onFocus,
+      onBlur,
+      onScrollIntoViewIfNeeded
+    })
 
-    keyboardHeight: number = 0
-
-    keyboardDidShowListener: EmitterSubscription | null = null
-
-    keyboardDidHideListener: EmitterSubscription | null = null
-
-    componentDidMount() {
-      const { autoFocus, onScrollIntoViewIfNeeded } = this.props
-      if (autoFocus) {
-        setTimeout(() => {
-          this.onTouch()
-        }, 120)
-      }
-
-      if (typeof onScrollIntoViewIfNeeded === 'function') {
-        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', evt => {
-          this.keyboardHeight = evt.endCoordinates.height || 0
-        })
-
-        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-          this.keyboardHeight = 0
-        })
-      }
-    }
-
-    componentWillUnmount() {
-      try {
-        if (this.keyboardDidShowListener) this.keyboardDidShowListener.remove()
-        if (this.keyboardDidHideListener) this.keyboardDidHideListener.remove()
-      } catch {}
-    }
-
-    UNSAFE_componentWillReceiveProps({ value }: InputProps) {
-      this.setState({
-        value
-      })
-    }
-
-    onTouch = () => {
-      try {
-        if (typeof this?.inputRef?.focus === 'function') {
-          this.inputRef.focus()
+    /** 对外实例, inputRef 取读取时的最新值 */
+    useImperativeHandle(
+      ref,
+      (): InputInstance => ({
+        get inputRef(): TextInputInstance | null {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
+          return inputRef.current
         }
+      }),
+      [inputRef]
+    )
 
-        setTimeout(() => {
-          if (typeof this?.inputRef?.focus === 'function') {
-            this.inputRef.focus()
-          }
-        }, 0)
-      } catch {}
+    // 安卓使用了模拟按钮代替原生按钮
+    const clearButtonMode = !IOS ? 'never' : showClear ? 'while-editing' : 'never'
+    const overrideProps: Override<
+      Partial<TextInputProps>,
+      {
+        forwardRef: (ref: TextInputInstance | null) => void
+      }
+    > = {
+      forwardRef: handleRef,
+      numberOfLines,
+      allowFontScaling: false,
+      autoCapitalize: 'none',
+      autoCorrect: false,
+      underlineColorAndroid: 'transparent',
+      clearButtonMode,
+      placeholderTextColor: placeholderTextColor || _.colorDisabled,
+      selectionColor: _.colorMain,
+      cursorColor: _.colorMain,
+      onChange: handleChange,
+      onFocus: handleFocus,
+      onBlur: handleBlur
     }
 
-    onBlur = () => {
-      try {
-        if (typeof this?.inputRef?.blur === 'function') {
-          this.inputRef.blur()
-        }
+    /** 有内容且聚焦时显示, 与 iOS 原生按钮的 while-editing 一致 */
+    const showClearIcon = showClear && !!textForClear && focused
 
-        setTimeout(() => {
-          if (typeof this?.inputRef?.blur === 'function') {
-            this.inputRef.blur()
-          }
-        }, 0)
-      } catch {}
-    }
+    /** 非 iOS 预留图标位置, 避免文字被遮挡 */
+    const clearPadding = !IOS && showClear ? { paddingRight: CLEAR_PADDING_RIGHT } : undefined
 
-    onFocus = (evt: FocusEvent) => {
-      const { onFocus, onScrollIntoViewIfNeeded } = this.props
-      if (typeof onFocus === 'function') onFocus(evt)
-
-      /** 事件里的 target 在 RN 0.88 是 node handle, 改用自身 ref 测量 */
-      const node = this.inputRef
-      setTimeout(() => {
-        try {
-          node?.measureInWindow((_x: number, y: number, _width: number, height: number) => {
-            const inputBottomPosition = y + height
-            const scrollViewHeight = _.window.height
-            if (inputBottomPosition > scrollViewHeight - this.keyboardHeight) {
-              onScrollIntoViewIfNeeded(
-                inputBottomPosition - scrollViewHeight + this.keyboardHeight + _.md
-              )
-            }
-          })
-        } catch {}
-      }, 640)
-    }
-
-    onChange = (evt: TextInputChangeEvent) => {
-      this.setState({
-        value: evt.nativeEvent.text
-      })
-      this.props.onChange(evt)
-    }
-
-    onSubmitEditing = (evt: TextInputSubmitEditingEvent) => {
-      const { onSubmitEditing } = this.props
+    const handleSubmitEditing = (evt: TextInputSubmitEditingEvent) => {
       if (typeof onSubmitEditing === 'function') {
         onSubmitEditing(evt)
-        this.onBlur()
+        blur()
       }
     }
 
-    onClear = () => {
-      const { onChange, onChangeText } = this.props
-      // 清空是内部行为, 只构造 text 字段
-      onChange({
-        nativeEvent: {
-          text: '',
-          eventCount: 0,
-          target: 0
-        }
-      } as TextInputChangeEvent)
-      onChangeText('')
+    const handleClearPress = () => {
+      // 非受控时文本在原生侧, 需要显式清空
+      if (!isControlled) inputRef.current?.clear?.()
+      handleClear()
     }
 
-    get clearButtonMode() {
-      // 安卓使用了模拟按钮代替原生按钮
-      if (!IOS) return 'never'
-
-      const { showClear } = this.props
-      return showClear ? 'while-editing' : 'never'
-    }
-
-    get passProps() {
-      const {
-        style,
-        multiline,
-        numberOfLines,
-        showClear,
-        colorClear,
-        autoFocus,
-        placeholderTextColor,
-        ...other
-      } = this.props
-      return other
-    }
-
-    get overrideProps() {
-      const { inputStyle, numberOfLines, placeholderTextColor, onFocus, onScrollIntoViewIfNeeded } =
-        this.props
-      const props: Override<
-        Partial<TextInputProps>,
-        {
-          forwardRef: (ref: TextInputInstance) => TextInputInstance
-        }
-      > = {
-        forwardRef: this.forwardRef,
-        numberOfLines,
-        allowFontScaling: false,
-        autoCapitalize: 'none',
-        autoCorrect: false,
-        underlineColorAndroid: 'transparent',
-        clearButtonMode: this.clearButtonMode,
-        placeholderTextColor: placeholderTextColor || _.colorDisabled,
-        selectionColor: _.colorMain,
-        cursorColor: _.colorMain,
-        onChange: this.onChange,
-        onFocus: typeof onScrollIntoViewIfNeeded === 'function' ? this.onFocus : onFocus
-      }
-      return inputStyle ? { ...props, style: inputStyle } : props
-    }
-
-    render() {
-      r(COMPONENT)
-
-      const { style, multiline, numberOfLines, showClear, colorClear, editable } = this.props
-      if (multiline) {
-        const containerHeight = INPUT_LINE_HEIGHT * numberOfLines + 18
-        return (
-          <Component id='component-input' data-editable={editable} style={_.container.block}>
-            <TouchableWithoutFeedback onPress={this.onTouch}>
-              <View
-                style={stl(
-                  this.styles.multiline,
-                  {
-                    height: containerHeight,
-                    borderRadius: _.radiusXs
-                  },
-                  style
-                )}
-              >
-                <TextInput multiline {...this.passProps} {...this.overrideProps} />
-              </View>
-            </TouchableWithoutFeedback>
-            {showClear && !!this.state.value && (
-              <Clear colorClear={colorClear} onPress={this.onClear} />
-            )}
-          </Component>
-        )
-      }
-
+    if (multiline) {
+      const containerHeight = INPUT_LINE_HEIGHT * numberOfLines + 18
       return (
         <Component id='component-input' data-editable={editable} style={_.container.block}>
-          <TextInput
-            style={stl(this.styles.input, style)}
-            {...this.passProps}
-            {...this.overrideProps}
-            onSubmitEditing={this.onSubmitEditing}
-          />
-          {showClear && !!this.state.value && (
-            <Clear colorClear={colorClear} onPress={this.onClear} />
-          )}
+          <TouchableWithoutFeedback onPress={onTouch}>
+            <View
+              style={stl(
+                styles.multiline,
+                {
+                  height: containerHeight,
+                  borderRadius: _.radiusXs
+                },
+                style
+              )}
+            >
+              <TextInput
+                editable={editable}
+                multiline
+                value={textValue}
+                defaultValue={defaultValue}
+                onChangeText={onChangeText}
+                onSubmitEditing={onSubmitEditing}
+                {...other}
+                {...overrideProps}
+                style={stl(inputStyle, clearPadding)}
+              />
+            </View>
+          </TouchableWithoutFeedback>
+          {showClearIcon && <Clear multiline colorClear={colorClear} onPress={handleClearPress} />}
         </Component>
       )
     }
 
-    get styles() {
-      return memoStyles()
-    }
+    return (
+      <Component id='component-input' data-editable={editable} style={_.container.block}>
+        <TextInput
+          editable={editable}
+          value={textValue}
+          defaultValue={defaultValue}
+          onChangeText={onChangeText}
+          {...other}
+          {...overrideProps}
+          style={stl(styles.input, style, inputStyle, clearPadding)}
+          onSubmitEditing={handleSubmitEditing}
+        />
+        {showClearIcon && <Clear colorClear={colorClear} onPress={handleClearPress} />}
+      </Component>
+    )
   }
 )
 
-export default Input
+export const Input = observer(InputComponent)
 
-/** 提取出类的实例类型 */
-export type InputInstance = InstanceType<typeof Input>
+export default Input

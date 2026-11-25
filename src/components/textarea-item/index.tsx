@@ -16,7 +16,7 @@ import { fixControlledValue, getHeightByRows } from './utils'
 import { COMPONENT } from './ds'
 import { memoStyles } from './styles'
 
-import type { TextInputInstance } from 'react-native'
+import type { TextInputInstance } from '@types'
 import type { Props as TextareaItemProps } from './types'
 export type { TextareaItemProps }
 

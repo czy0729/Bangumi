@@ -2,10 +2,38 @@
  * @Author: czy0729
  * @Date: 2026-09-15 00:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-06 12:00:00
+ * @Last Modified time: 2026-11-25 12:00:00
  *
  * react-native 类型补充 (RN 自身类型未覆盖的原生 API, 以导出类型提供给调用处断言)
  */
+import type { ComponentProps, ComponentRef } from 'react'
+
+type RNTextInput = typeof import('react-native').TextInput
+type RNTextInputProps = ComponentProps<RNTextInput>
+
+/**
+ * TextInput 实例
+ *  - RN 0.72 的 TextInput 声明为 class, RN 0.88 为函数组件, 截取实例类型的方式不同
+ *  - 两套依赖下都可用, 调用处不需要版本判断
+ */
+export type TextInputInstance = RNTextInput extends new (...args: never[]) => infer T
+  ? T
+  : ComponentRef<RNTextInput>
+
+/**
+ * TextInput 事件
+ *  - 事件类型名各版本不一致: 0.72 是 XxxEventData, 0.88 是 XxxEvent, 且未全部从模块导出
+ *  - 统一从 props 回调的形参推导
+ */
+export type FocusEvent = Parameters<NonNullable<RNTextInputProps['onFocus']>>[0]
+export type BlurEvent = Parameters<NonNullable<RNTextInputProps['onBlur']>>[0]
+export type TextInputSubmitEditingEvent = Parameters<
+  NonNullable<RNTextInputProps['onSubmitEditing']>
+>[0]
+export type TextInputChangeEvent = Parameters<NonNullable<RNTextInputProps['onChange']>>[0]
+export type TextInputSelectionChangeEvent = Parameters<
+  NonNullable<RNTextInputProps['onSelectionChange']>
+>[0]
 
 /**
  * Android: 弹出系统原生菜单 (仅作为 PopMenuModule 缺失时的降级路径)

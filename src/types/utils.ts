@@ -13,10 +13,10 @@ import type {
   NativeScrollEvent,
   NativeSyntheticEvent,
   StyleProp,
-  TextInputChangeEvent as RNTextInputChangeEvent,
   TextStyle as RNTextStyle,
   ViewStyle as RNViewStyle
 } from 'react-native'
+import type { TextInputChangeEvent as RNTextInputChangeEvent } from './react-native-extra'
 
 /** RNView StyleProp */
 export type ViewStyle = StyleProp<RNViewStyle>

@@ -18,8 +18,8 @@ export default class Action extends Fetch {
   scrollToOffset: ScrollToOffset = null
 
   /** 连接页面列表 */
-  forwardRef = (ref: { scrollToOffset: ScrollToOffset }) => {
-    if (ref?.scrollToOffset) this.scrollToOffset = ref.scrollToOffset
+  forwardRef = (ref: { scrollToOffset: ScrollToOffset } | null) => {
+    this.scrollToOffset = ref?.scrollToOffset ?? null
   }
 
   /**

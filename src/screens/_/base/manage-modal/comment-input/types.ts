@@ -7,7 +7,7 @@
 import type { InputInstance, InputProps } from '@components'
 
 export type Props = {
-  forwardRef: (ref: InputInstance) => void
+  forwardRef: (ref: InputInstance | null) => void
   comment: string
   commentHistory: string[]
   onFocus: () => void

@@ -31,11 +31,9 @@ function CommentInput({
   const [selection, setSelection] = useState({ start: 0, end: 0 })
 
   const handleRef = useCallback(
-    (ref: InputInstance) => {
-      if (ref?.inputRef) {
-        textInputRef.current = ref.inputRef
-        forwardRef(ref)
-      }
+    (ref: InputInstance | null) => {
+      textInputRef.current = ref?.inputRef ?? null
+      forwardRef(ref)
     },
     [forwardRef]
   )

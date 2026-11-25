@@ -129,7 +129,7 @@ export function createManageModalHandlers({ subjectId, stateRef, commentRef, upd
     } catch {}
   }
 
-  const handleForwardRef = (ref: InputInstance) => {
+  const handleForwardRef = (ref: InputInstance | null) => {
     commentRef.current = ref
   }
 

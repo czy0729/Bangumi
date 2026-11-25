@@ -1,12 +1,10 @@
-// @ts-nocheck
-/* eslint-disable */
 /*
  * @Author: czy0729
  * @Date: 2024-01-16 18:26:04
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-21 02:44:41
+ * @Last Modified time: 2026-11-24 14:00:00
  */
-import * as React from 'react'
+import { Fragment, useCallback, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
@@ -15,21 +13,47 @@ import { stl } from '@utils/utils'
 import { IOS } from '@constants/env'
 import Pager from '../pager'
 import SceneView from '../scene-view'
-import TabBar from '../tab-bar'
+import { defaultRenderLazyPlaceholder, defaultRenderTabBar } from './utils'
 
-import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native'
+import type { Animated as RNAnimated, LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native'
 import type { PanGestureHandler } from 'react-native-gesture-handler'
 import type { Props as ChildProps } from '../pager'
-import type { Props as TabBarProps } from '../tab-bar'
-import type { Layout, PagerCommonProps, Route, SceneRendererProps } from '../types'
+import type {
+  Layout,
+  NavigationState as PagerNavigationState,
+  Route,
+  SceneRendererProps
+} from '../types'
 
 type NavigationState<T extends Route> = {
   index: number
   routes: T[] | readonly T[]
 }
 
+/** 透传给 renderPager 的通用配置 */
+type PagerCommonProps = {
+  keyboardDismissMode?: 'none' | 'on-drag' | 'auto'
+  swipeEnabled?: boolean
+  swipeVelocityImpact?: number
+  timingConfig?: Record<string, unknown>
+  springConfig?: Record<string, unknown>
+  springVelocityScale?: number
+  gestureHandlerProps?: React.ComponentProps<typeof PanGestureHandler>
+  onSwipeStart?: () => void
+  onSwipeEnd?: () => void
+}
+
+/** Web 端额外透传给 Pager 的配置 */
+type PagerRenderProps<T extends Route> = ChildProps<T> & {
+  swipeVelocityImpact?: number
+  timingConfig?: Record<string, unknown>
+  springConfig?: Record<string, unknown>
+  springVelocityScale?: number
+  gestureHandlerProps?: React.ComponentProps<typeof PanGestureHandler>
+}
+
 export type Props<T extends Route> = PagerCommonProps & {
-  position?: Animated.Value<number>
+  position?: RNAnimated.Value
   onIndexChange: (index: number) => void
   navigationState: NavigationState<T>
   renderScene: (
@@ -51,7 +75,7 @@ export type Props<T extends Route> = PagerCommonProps & {
   sceneContainerStyle?: StyleProp<ViewStyle>
   style?: StyleProp<ViewStyle>
   gestureHandlerProps: React.ComponentProps<typeof PanGestureHandler>
-  renderPager: (props: ChildProps<T>) => React.ReactNode
+  renderPager: (props: PagerRenderProps<T>) => React.ReactNode
 
   /** @add */
   renderContentHeaderComponent?: React.ReactNode
@@ -61,183 +85,158 @@ export type Props<T extends Route> = PagerCommonProps & {
   keepDistance?: number
 }
 
-type State = {
-  layout: Layout
-}
-
 const GestureHandlerWrapper = GestureHandlerRootView ?? View
 
-class TabView<T extends Route> extends React.Component<Props<T>, State> {
-  static defaultProps = {
-    tabBarPosition: 'top',
-    renderTabBar: <P extends Route>(props: TabBarProps<P>) => <TabBar {...props} />,
-    renderLazyPlaceholder: () => null,
-    keyboardDismissMode: 'auto',
-    swipeEnabled: true,
-    lazy: false,
-    lazyPreloadDistance: 0,
-    removeClippedSubviews: !IOS,
-    springConfig: {},
-    timingConfig: {},
-    gestureHandlerProps: {},
-    renderPager: (props: ChildProps<any>) => <Pager {...props} />,
-
-    /** @add */
-    renderBackground: null,
-    keepDistance: Infinity
-  }
-
-  state = {
-    layout: { width: 0, height: 0, ...this.props.initialLayout }
-  }
-
-  private jumpToIndex = (index: number) => {
-    if (index !== this.props.navigationState.index) {
-      this.props.onIndexChange(index)
-    }
-  }
-
-  private handleSwipeStart = () => {
-    uiStore.setScrolling(true)
-    this.props.onSwipeStart?.()
-  }
-
-  private handleSwipeEnd = () => {
-    setTimeout(() => {
-      uiStore.setScrolling(false)
-      this.props.onSwipeEnd?.()
-    }, 300)
-  }
-
-  private handleLayout = (e: LayoutChangeEvent) => {
-    const { height, width } = e.nativeEvent.layout
-
-    if (this.state.layout.width === width && this.state.layout.height === height) {
-      return
-    }
-
-    this.setState({
-      layout: {
-        height,
-        width
-      }
-    })
-  }
-
-  render() {
-    const {
-      position: positionListener,
-      // onSwipeStart,
-      // onSwipeEnd,
-      navigationState,
-      lazy,
-      lazyPreloadDistance,
-      removeClippedSubviews,
-      keyboardDismissMode,
-      swipeEnabled,
-      swipeVelocityImpact,
-      timingConfig,
-      springConfig,
-      tabBarPosition,
-      renderTabBar,
-      renderScene,
-      renderLazyPlaceholder,
-      sceneContainerStyle,
-      style,
-      gestureHandlerProps,
-      springVelocityScale,
-      renderPager,
-
-      /** @add */
-      renderContentHeaderComponent,
-      renderBackground,
-      keepDistance
-    } = this.props
-    const { layout } = this.state
-
-    return (
-      <GestureHandlerWrapper style={stl(styles.pager, style)} onLayout={this.handleLayout}>
-        {renderPager({
-          // @ts-expect-error
-          navigationState,
-          layout,
-          keyboardDismissMode,
-          swipeEnabled,
-          swipeVelocityImpact,
-          timingConfig,
-          springConfig,
-          onSwipeStart: this.handleSwipeStart,
-          onSwipeEnd: this.handleSwipeEnd,
-          onIndexChange: this.jumpToIndex,
-          springVelocityScale,
-          removeClippedSubviews,
-          gestureHandlerProps,
-          children: ({ position, render, addEnterListener, jumpTo }) => {
-            // All of the props here must not change between re-renders
-            // This is crucial to optimizing the routes with PureComponent
-            const sceneRendererProps = {
-              position,
-              layout,
-              jumpTo
-            }
-
-            const { routes } = navigationState
-            return (
-              <React.Fragment>
-                {positionListener ? (
-                  <Animated.Code exec={Animated.set(positionListener, position)} />
-                ) : null}
-                {tabBarPosition === 'top' &&
-                  renderTabBar({
-                    ...sceneRendererProps,
-                    navigationState
-                  })}
-                {renderContentHeaderComponent}
-                {!IOS && renderBackground}
-                {render(
-                  routes.map((route, i) => (
-                    <SceneView
-                      {...sceneRendererProps}
-                      addEnterListener={addEnterListener}
-                      key={route.key}
-                      index={i}
-                      lazy={lazy}
-                      lazyPreloadDistance={lazyPreloadDistance}
-                      // @ts-expect-error
-                      navigationState={navigationState}
-                      style={sceneContainerStyle}
-                    >
-                      {({ loading }) => (
-                        <>
-                          {Math.abs(i - navigationState.index) > keepDistance
-                            ? null
-                            : loading
-                            ? renderLazyPlaceholder({ route })
-                            : renderScene({
-                                ...sceneRendererProps,
-                                route
-                              })}
-                        </>
-                      )}
-                    </SceneView>
-                  ))
-                )}
-                {IOS && renderBackground}
-                {tabBarPosition === 'bottom' &&
-                  renderTabBar({
-                    ...sceneRendererProps,
-                    navigationState
-                  })}
-              </React.Fragment>
-            )
-          }
-        })}
-      </GestureHandlerWrapper>
-    )
-  }
+/** reanimated 3 已移除 Code / set, 旧版本才可用 */
+const LegacyAnimated = Animated as unknown as {
+  Code?: React.ComponentType<{ exec: unknown }>
+  set?: (value: unknown, to: unknown) => unknown
 }
 
-export default TabView
+function defaultRenderPager(props: PagerRenderProps<Route>) {
+  return <Pager {...props} />
+}
+
+export default function TabView<T extends Route>({
+  style,
+  position: positionListener,
+  navigationState,
+  initialLayout,
+  lazy = false,
+  lazyPreloadDistance = 0,
+  removeClippedSubviews = !IOS,
+  keyboardDismissMode = 'auto',
+  swipeEnabled = true,
+  swipeVelocityImpact,
+  timingConfig = {},
+  springConfig = {},
+  tabBarPosition = 'top',
+  renderTabBar = defaultRenderTabBar,
+  renderScene,
+  renderLazyPlaceholder = defaultRenderLazyPlaceholder,
+  sceneContainerStyle,
+  gestureHandlerProps = {},
+  springVelocityScale,
+  renderPager = defaultRenderPager,
+  onIndexChange,
+  onSwipeStart,
+  onSwipeEnd,
+  renderContentHeaderComponent,
+  renderBackground = null,
+  keepDistance = Infinity
+}: Props<T>) {
+  const [layout, setLayout] = useState<Layout>(() => ({
+    width: 0,
+    height: 0,
+    ...initialLayout
+  }))
+
+  const handleLayout = useCallback((e: LayoutChangeEvent) => {
+    const { height, width } = e.nativeEvent.layout
+    setLayout(prev => (prev.width === width && prev.height === height ? prev : { height, width }))
+  }, [])
+
+  const jumpToIndex = useCallback(
+    (index: number) => {
+      if (index !== navigationState.index) {
+        onIndexChange(index)
+      }
+    },
+    [navigationState.index, onIndexChange]
+  )
+
+  const handleSwipeStart = useCallback(() => {
+    uiStore.setScrolling(true)
+    onSwipeStart?.()
+  }, [onSwipeStart])
+
+  const handleSwipeEnd = useCallback(() => {
+    setTimeout(() => {
+      uiStore.setScrolling(false)
+      onSwipeEnd?.()
+    }, 300)
+  }, [onSwipeEnd])
+
+  return (
+    <GestureHandlerWrapper style={stl(styles.pager, style)} onLayout={handleLayout}>
+      {renderPager({
+        // 只读 routes 与 Pager 期望的可变数组不兼容
+        navigationState: navigationState as PagerNavigationState<T>,
+        layout,
+        keyboardDismissMode,
+        swipeEnabled,
+        swipeVelocityImpact,
+        timingConfig,
+        springConfig,
+        onSwipeStart: handleSwipeStart,
+        onSwipeEnd: handleSwipeEnd,
+        onIndexChange: jumpToIndex,
+        springVelocityScale,
+        removeClippedSubviews,
+        gestureHandlerProps,
+        children: ({ position, render, addEnterListener, jumpTo }) => {
+          // All of the props here must not change between re-renders
+          // This is crucial to optimizing the routes with PureComponent
+          const sceneRendererProps = {
+            position,
+            layout,
+            jumpTo
+          }
+
+          const routes: readonly T[] = navigationState.routes
+          return (
+            <Fragment>
+              {positionListener && LegacyAnimated.Code && LegacyAnimated.set ? (
+                <LegacyAnimated.Code exec={LegacyAnimated.set(positionListener, position)} />
+              ) : null}
+              {tabBarPosition === 'top' &&
+                renderTabBar({
+                  ...sceneRendererProps,
+                  navigationState
+                })}
+              {renderContentHeaderComponent}
+              {!IOS && renderBackground}
+              {render(
+                routes.map((route, i) => (
+                  <SceneView
+                    {...sceneRendererProps}
+                    addEnterListener={addEnterListener}
+                    key={route.key}
+                    index={i}
+                    lazy={lazy}
+                    lazyPreloadDistance={lazyPreloadDistance}
+                    // 只读 routes 与 SceneView 期望的可变数组不兼容
+                    navigationState={navigationState as PagerNavigationState<T>}
+                    style={sceneContainerStyle}
+                  >
+                    {({ loading }) => (
+                      <>
+                        {Math.abs(i - navigationState.index) > keepDistance
+                          ? null
+                          : loading
+                          ? renderLazyPlaceholder({ route })
+                          : renderScene({
+                              ...sceneRendererProps,
+                              route
+                            })}
+                      </>
+                    )}
+                  </SceneView>
+                ))
+              )}
+              {IOS && renderBackground}
+              {tabBarPosition === 'bottom' &&
+                renderTabBar({
+                  ...sceneRendererProps,
+                  navigationState
+                })}
+            </Fragment>
+          )
+        }
+      })}
+    </GestureHandlerWrapper>
+  )
+}
 
 const styles = StyleSheet.create({
   pager: {

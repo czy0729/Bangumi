@@ -26,7 +26,7 @@ import ToolBar from './tool-bar'
 import { getSubmitValue } from './utils'
 import { COMPONENT } from './ds'
 
-import type { TextInputInstance } from 'react-native'
+import type { TextInputInstance } from '@types'
 import type { Props as FixedTextareaProps, FixedTextareaInstance } from './types'
 export type { Props as FixedTextareaProps, FixedTextareaInstance } from './types'
 

@@ -4,7 +4,8 @@
  * @Last Modified by:   czy0729
  * @Last Modified time: 2024-05-31 16:10:55
  */
-import type { TextInputInstance, TextInputProps } from 'react-native'
+import type { TextInputProps } from 'react-native'
+import type { TextInputInstance } from '@types'
 
 export type Props = TextInputProps & {
   forwardRef: (ref: TextInputInstance) => void

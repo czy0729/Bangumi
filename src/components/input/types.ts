@@ -44,7 +44,3 @@ export type Props = Override<
     onScrollIntoViewIfNeeded?: (deltaY: number) => void
   }
 >
-
-export type State = {
-  value: string
-}

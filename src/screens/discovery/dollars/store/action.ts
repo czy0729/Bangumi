@@ -27,10 +27,8 @@ export default class Action extends Fetch {
   }
 
   /** 保存输入框实例 */
-  forwardInputRef = (ref: InputInstance) => {
-    try {
-      this.inputRef = ref.inputRef
-    } catch {}
+  forwardInputRef = (ref: InputInstance | null) => {
+    this.inputRef = ref?.inputRef ?? null
   }
 
   /** 滚动到顶 */
@@ -83,9 +81,7 @@ export default class Action extends Fetch {
       })
 
       setTimeout(() => {
-        try {
-          this.inputRef.focus()
-        } catch {}
+        if (typeof this.inputRef?.focus === 'function') this.inputRef.focus()
       }, 0)
       return
     }

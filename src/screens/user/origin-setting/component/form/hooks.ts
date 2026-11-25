@@ -65,12 +65,16 @@ export function useForm() {
     (key: FormKey) => () => {
       try {
         if (key === 'name') {
-          urlInputRef.current.inputRef.focus()
+          if (typeof urlInputRef.current?.inputRef?.focus === 'function') {
+            urlInputRef.current.inputRef.focus()
+          }
           return
         }
 
         if (key === 'url') {
-          sortInputRef.current.inputRef.focus()
+          if (typeof sortInputRef.current?.inputRef?.focus === 'function') {
+            sortInputRef.current.inputRef.focus()
+          }
           return
         }
 

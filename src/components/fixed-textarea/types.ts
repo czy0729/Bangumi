@@ -5,7 +5,7 @@
  * @Last Modified time: 2026-09-10 00:16:58
  */
 import type { PropsWithChildren, ReactNode, RefObject } from 'react'
-import type { TextInputInstance, TextInputSelectionChangeEvent } from 'react-native'
+import type { TextInputInstance, TextInputSelectionChangeEvent } from '@types'
 
 export type Props = PropsWithChildren<{
   /** 输入框值 */

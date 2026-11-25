@@ -63,8 +63,8 @@ export default class Base extends Store<typeof STATE> {
   }
 
   /** 列表滚动方法 (forwardRef) */
-  forwardRef = (ref: { scrollToOffset: ScrollToOffset }) => {
-    if (ref?.scrollToOffset) this.scrollToOffset = ref.scrollToOffset
+  forwardRef = (ref: { scrollToOffset: ScrollToOffset } | null) => {
+    this.scrollToOffset = ref?.scrollToOffset ?? null
   }
 
   /** 基于当前位置补偿滚动 */

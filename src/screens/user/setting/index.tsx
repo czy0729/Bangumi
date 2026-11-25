@@ -117,7 +117,11 @@ function Setting(props: NavigationProps<Params>) {
       <Page style={_.select(_.container.bg, _.container.plain)}>
         <HeaderPlaceholder />
 
-        <ScrollView forwardRef={forwardRef} contentContainerStyle={commonStyles.container}>
+        <ScrollView
+          forwardRef={forwardRef}
+          contentContainerStyle={commonStyles.container}
+          keyboardShouldPersistTaps='handled'
+        >
           <Block>
             <Input
               style={commonStyles.input}

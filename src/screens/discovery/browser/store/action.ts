@@ -27,8 +27,8 @@ type Direction = -1 | 1
 export default class Action extends Fetch {
   scrollToOffset: ScrollToOffset = null
 
-  forwardRef = (ref: { scrollToOffset: ScrollToOffset }) => {
-    if (ref?.scrollToOffset) this.scrollToOffset = ref.scrollToOffset
+  forwardRef = (ref: { scrollToOffset: ScrollToOffset } | null) => {
+    this.scrollToOffset = ref?.scrollToOffset ?? null
   }
 
   /** 隐藏后延迟显示列表 (用于重置滚动位置) */

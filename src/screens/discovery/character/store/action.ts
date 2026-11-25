@@ -17,8 +17,8 @@ export default class Action extends Fetch {
   scrollToOffset: ScrollToOffset = null
 
   /** 连接页面 ListView */
-  forwardRef = (ref: { scrollToOffset: ScrollToOffset }) => {
-    if (ref?.scrollToOffset) this.scrollToOffset = ref.scrollToOffset
+  forwardRef = (ref: { scrollToOffset: ScrollToOffset } | null) => {
+    this.scrollToOffset = ref?.scrollToOffset ?? null
   }
 
   /** 标签页切换 */

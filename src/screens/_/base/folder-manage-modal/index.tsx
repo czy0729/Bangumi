@@ -50,7 +50,11 @@ function FolderManageModalComponent(props: FolderManageModalProps) {
         onClose={onClose}
       >
         {vm.create !== false ? (
-          <ScrollView style={styles.scrollView} {...SCROLL_VIEW_RESET_PROPS}>
+          <ScrollView
+            style={styles.scrollView}
+            keyboardShouldPersistTaps='handled'
+            {...SCROLL_VIEW_RESET_PROPS}
+          >
             <Create
               titleText={vm.create === true ? '新建目录' : '编辑目录'}
               title={vm.title}

@@ -4,17 +4,16 @@
  * @Last Modified by: czy0729
  * @Last Modified time: 2026-11-01 16:30:50
  */
-import type { TextInputInstance } from 'react-native'
 import type { CatalogDetail, CatalogDetailItem } from '@stores/discovery/types'
 import type { CatalogsItem } from '@stores/users/types'
-import type { Id, SubjectId } from '@types'
+import type { Id, SubjectId, TextInputInstance } from '@types'
 import type { ORDER_DS, SORT_DS } from './ds'
 
 export type { CatalogDetail, CatalogDetailItem, CatalogsItem }
 
-export type SortType = (typeof SORT_DS)[number]['value']
+export type SortType = typeof SORT_DS[number]['value']
 
-export type SortOrder = (typeof ORDER_DS)[number]['value']
+export type SortOrder = typeof ORDER_DS[number]['value']
 
 /** 目录隐私, 与网页表单的 privacy radio 值一致 */
 export type Privacy = '0' | '1'

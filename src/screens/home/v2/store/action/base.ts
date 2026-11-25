@@ -95,8 +95,7 @@ export default class Base extends Fetch {
     title: TabsLabel
   ) => {
     const index = this.tabs.findIndex(item => item.title === title)
-    if (!this.scrollToIndex[index] && ref?.scrollToIndex) {
-      this.scrollToIndex[index] = ref?.scrollToIndex
-    }
+    // 卸载时置空, 否则 store 会一直持有已销毁列表的方法引用
+    this.scrollToIndex[index] = ref?.scrollToIndex ?? null
   }
 }

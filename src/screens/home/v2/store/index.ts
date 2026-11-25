@@ -7,7 +7,7 @@
  * 首页 store 入口: 定义 init() 与初始化编排 (状态恢复 / 请求调度 / 设备上报)
  */
 import * as Device from 'expo-device'
-import { _, systemStore } from '@stores'
+import { _, systemStore, userStore } from '@stores'
 import { date, getTimestamp, pick, postTask, sortObject } from '@utils'
 import { logger } from '@utils/dev'
 import { update } from '@utils/kv'
@@ -82,6 +82,7 @@ export default class ScreenHomeV2 extends Action {
         n: boot,
         t: date('Y-m-d H:i:s', getTimestamp()),
         ipa: IOS_IPA,
+        nsfw: userStore.userSetting.show_nsfw_subject ? 1 : 0,
         p: {
           disabled: setting.workerProxyDisabled,
           proxy: setting.workerProxy.length,

@@ -71,6 +71,7 @@ function Scroll({ forwardRef, onScroll, onScrollIntoViewIfNeeded, onRefresh }: P
         forwardRef={forwardRef}
         contentContainerStyle={styles.contentContainerStyle}
         keyboardDismissMode='on-drag'
+        keyboardShouldPersistTaps='handled'
         onScroll={onScroll}
       >
         {expand && elPreview}

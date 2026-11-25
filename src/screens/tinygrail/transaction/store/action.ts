@@ -22,9 +22,7 @@ export default class Action extends Fetch {
   }
 
   forwardInputRef = (ref: any) => {
-    try {
-      this.inputRef = ref.inputRef
-    } catch {}
+    this.inputRef = ref?.inputRef ?? null
   }
 
   /** 滚动到顶 */
