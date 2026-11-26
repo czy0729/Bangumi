@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-10 03:36:49
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-22 21:36:19
+ * @Last Modified time: 2026-11-27 01:07:27
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -45,6 +45,8 @@ export const BlurViewBottomTab = observer(() => {
           }
         ]}
         containerStyle={styles.container}
+        edgeBottom
+        edgeColor={_.select(_.colorPlain, _.deep(_._colorPlain, _._colorDarkModeLevel1))}
       />
       <View style={styles.placeholder} />
     </View>

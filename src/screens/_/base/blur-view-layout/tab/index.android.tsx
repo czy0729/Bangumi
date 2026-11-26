@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2023-08-10 04:26:25
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-06-22 21:36:49
+ * @Last Modified time: 2026-11-27 01:07:36
  */
 import React from 'react'
 import { View } from 'react-native'
@@ -56,6 +56,8 @@ export const BlurViewTab = observer(({ length = 0 }) => {
           height: headerHeight + _.sm
         }
       )}
+      edgeTop
+      edgeColor={_.select(_.colorPlain, _.deepDark ? _._colorPlain : _._colorDarkModeLevel1)}
     />
   )
 })

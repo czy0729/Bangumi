@@ -23,4 +23,13 @@ export type HardwareTextureBlurViewProps = WithViewStyles<{
 
   /** Android: 关联的 BlurRootView 节点名称 */
   name?: string
+
+  /** 顶部贴着屏幕边缘时, 用背景色渐变收边 */
+  edgeTop?: boolean
+
+  /** 底部贴着屏幕边缘时, 用背景色渐变收边 */
+  edgeBottom?: boolean
+
+  /** 收边用的背景色, 缺省取主题 colorBg (页面底色是 colorPlain 时要显式传) */
+  edgeColor?: string
 }>

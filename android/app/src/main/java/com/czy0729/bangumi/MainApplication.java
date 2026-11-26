@@ -31,6 +31,7 @@ import com.czy0729.bangumi.passkey.BangumiPasskeyPackage;
 import com.czy0729.bangumi.popmenu.PopMenuPackage;
 import com.czy0729.bangumi.restart.RestartPackage;
 import com.czy0729.bangumi.storage.StoragePackage;
+import com.czy0729.bangumi.blur.BangumiBlurPackage;
 import com.facebook.react.modules.network.OkHttpClientProvider;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -56,6 +57,7 @@ public class MainApplication extends Application implements ReactApplication {
         packages.add(new PopMenuPackage());
         packages.add(new RestartPackage());
         packages.add(new StoragePackage());
+        packages.add(new BangumiBlurPackage());
         return packages;
       }
 

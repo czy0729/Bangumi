@@ -29,9 +29,9 @@ packages/
 | 目录                        | 补丁子集                                                |
 | --------------------------- | ------------------------------------------------------- |
 | 根 `patches/`               | 当前环境的补丁集合                                      |
-| `packages/android/patches/` | `realtimeblurview` + `pager-view`/`smb`/`android-widget` |
-| `packages/ios/patches/`     | `realtimeblurview`                                      |
-| `packages/web/patches/`     | `realtimeblurview` + `@storybook/preview-web`           |
+| `packages/android/patches/` | `pager-view` / `smb` / `android-widget`                 |
+| `packages/ios/patches/`     | 空（当前无补丁）                                        |
+| `packages/web/patches/`     | `@storybook/preview-web`                                |
 
 > 补丁只维护一份，修改 `packages/patches/` 下文件即对所有环境生效，无需逐份复制。
 
