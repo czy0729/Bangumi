@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2026-10-23 10:00:00
  * @Last Modified by: czy0729
- * @Last Modified time: 2026-11-11 21:14:06
+ * @Last Modified time: 2026-11-27 05:09:18
  *
  * 登录链路请求: User-Agent / 表单码 / 验证码 / 密码登录 / 授权 code / access_token
  */
@@ -12,12 +12,11 @@ import { getFormhash, getTimestamp, urlStringify } from '@utils'
 import {
   axiosWithProxy,
   axiosWithProxyRedirect,
-  getRedirectFromHeaders,
   parseOAuthCode,
   parseSetCookieHeader
 } from '@utils/proxy'
 import { axios } from '@utils/thirdParty'
-import { APP_ID, APP_SECRET, URL_OAUTH_REDIRECT, WEB } from '@constants'
+import { APP_ID, APP_SECRET, URL_OAUTH_REDIRECT } from '@constants'
 import { sanitizeServiceError, serviceError } from './passkey/errors'
 import {
   accessTokenResponse,
@@ -26,27 +25,15 @@ import {
   isSameOrigin,
   isSameOriginPath
 } from './passkey/protocol'
+import { BROWSER_HEADERS, DIRECT_TIMEOUT_MS } from './shared/constants'
+import { mergeSetCookie, stringifyCookie } from './shared/cookie'
+import { buildHeaders } from './shared/headers'
+import { readRedirectTarget, resolveLogoutUrl } from './shared/redirect'
 import { UA_EKIBUN_BANGUMI_APP } from './ds'
 
 import type { AccessToken } from '@stores/user/types'
 import type { ProxyRequestConfig } from '@utils/proxy/types'
-import type { Cookie, CookieKey, LoginResponse } from './types'
-
-/** 登录链路需要保留的 cookie key */
-const COOKIE_KEYS: CookieKey[] = [
-  'chii_auth',
-  'chii_cookietime',
-  'chii_sec',
-  'chii_sec_id',
-  'chii_sid',
-  'chii_theme'
-]
-
-/** 直连响应可能把多条 Set-Cookie 折叠成一条，按 `, key=` 继续拆分 */
-const DIRECT_COOKIE_SEPARATOR = /,\s*(?=[A-Za-z_][\w-]*=)/
-
-/** 直连请求默认超时，全局 axios 的 8s 对登录链路偏紧 */
-const DIRECT_TIMEOUT_MS = 20000
+import type { Cookie, LoginResponse } from './types'
 
 /** 登录请求的传输模式 */
 type LoginTransport = {
@@ -55,24 +42,6 @@ type LoginTransport = {
 
   /** 每次异步操作后检查本次登录是否仍有效 */
   assertActive?: () => void
-}
-
-/**
- * 解析单条 cookie 的键值
- *
- * @param cookie Set-Cookie 片段
- * @param direct 直连模式下值里可能包含 `=`
- */
-function parseCookiePair(cookie: string, direct: boolean): [string, string] {
-  const [keyValue] = cookie.split(';')
-  if (!direct) {
-    const [key, value] = keyValue.trim().split('=')
-
-    return [key, value]
-  }
-  const index = keyValue.indexOf('=')
-
-  return [keyValue.slice(0, index).trim(), keyValue.slice(index + 1).trim()]
 }
 
 /** 一次登录流程内的请求状态 (cookie / 表单码 / code / token) */
@@ -85,9 +54,9 @@ export class LoginService {
 
   protected _formhash = ''
 
-  private _cookie: Cookie = { chii_theme: 'dark' }
+  protected _cookie: Cookie = { chii_theme: 'dark' }
 
-  private _code = ''
+  protected _code = ''
 
   private _accessToken: AccessToken = INIT_ACCESS_TOKEN
 
@@ -184,18 +153,14 @@ export class LoginService {
   }
 
   get cookieString(): string {
-    return Object.entries(this._cookie)
-      .map(([key, value]) => `${key}=${value}`)
-      .join('; ')
+    return stringifyCookie(this._cookie)
   }
 
-  /** 重建本次登录的 cookie；直连会话同时清空表单码、code 与 token */
+  /** 重建本次登录的 cookie, 同时清空表单码、code 与 token */
   reset() {
     this._cookie = {
       chii_theme: 'dark'
     }
-    if (!this.isDirect) return
-
     this._formhash = ''
     this._code = ''
     this._accessToken = { ...INIT_ACCESS_TOKEN }
@@ -208,126 +173,88 @@ export class LoginService {
    */
   async fetchUserAgent(isCommonUA: boolean) {
     this.assertActive()
-    const userAgent = isCommonUA
-      ? UA_EKIBUN_BANGUMI_APP
-      : await Constants.getWebViewUserAgentAsync()
+    let userAgent = isCommonUA ? UA_EKIBUN_BANGUMI_APP : await Constants.getWebViewUserAgentAsync()
+    // Dalvik/okhttp 这类非浏览器 UA 会被站点当成脚本请求, 拿不到会话 cookie
+    if (!/mozilla\/.*applewebkit/i.test(userAgent)) userAgent = UA_EKIBUN_BANGUMI_APP
+
     this.assertActive()
     this.userAgent = userAgent
   }
 
+  /** 从页面 HTML 里提取登出地址, 统一成绝对地址 */
+  protected logoutUrl(html: string): string {
+    return resolveLogoutUrl(this.host, html)
+  }
+
   /** 获取表单 hash */
   async fetchFormHash() {
+    if (!this._cookie.chii_sid) await this.bootstrapSession()
+
     const { data, headers } = await this.request({
       method: 'get',
-      url: `${this.host}/login`,
-      headers: this.getHeaders(['User-Agent'])
+      // 带随机参数绕过站点访客缓存, 否则响应不带会话 cookie
+      url: `${this.host}/login?${new Date().getTime()}`,
+      headers: { ...this.getHeaders(['User-Agent', 'Cookie']), ...BROWSER_HEADERS }
     })
     this.assertActive()
     this.updateCookie(parseSetCookieHeader(headers))
     if (this.isDirect && typeof data !== 'string') throw serviceError('E_PASSKEY_INVALID_RESPONSE')
 
-    const match = data.match(/<input type="hidden" name="formhash" value="(.+?)">/)
-    if (match) this._formhash = match[1]
-  }
-
-  /** 获取验证码, 返回图片 data URI */
-  async fetchCaptcha(): Promise<string> {
-    const { request, headers } = await axiosWithProxy<LoginResponse>(
-      axios,
-      {
-        method: 'get',
-        url: `${this.host}/signup/captcha?${new Date().getTime()}${String(
-          1 + Math.floor(Math.random() * 6)
-        )}`,
-        headers: this.getHeaders(['User-Agent', 'Cookie']),
-        responseType: 'arraybuffer'
-      },
-      true
-    )
-    this.updateCookie(parseSetCookieHeader(headers))
-
-    const base64: string = WEB
-      ? window.btoa(String.fromCharCode(...new Uint8Array(request?.response as ArrayBuffer)))
-      : (request?._response as string)
-
-    return `data:image/gif;base64,${base64}`
+    this._formhash = getFormhash(typeof data === 'string' ? data : '')
   }
 
   /**
-   * 密码登录, 成功后 cookie 带上 chii_auth
-   *
-   * @param email 邮箱
-   * @param password 密码
-   * @param captcha 验证码
+   * 建立访客 session
+   * - 访问设置页, 顺带吸收会话 cookie (该页不受访客缓存影响)
+   * - 若仍处于登录态, 按页面里的登出链接退出
    */
-  async login(email: string, password: string, captcha: string) {
-    // 注: 当前依赖节点跟随跳转 (实测 bgm 直接返回 200 + Set-Cookie);
-    // 若将来出现 302 上携带 Set-Cookie, 需改为 x-no-redirect 并读取重定向地址
-    const postLogin = async (): Promise<LoginResponse> => {
-      return axiosWithProxy<LoginResponse>(
-        axios,
-        {
-          method: 'post',
-          url: `${this.host}/FollowTheRabbit`,
-          headers: this.getHeaders(['User-Agent', 'Cookie', 'Content-Type']),
-          data: urlStringify({
-            formhash: this._formhash,
-            referer: '',
-            dreferer: '',
-            email,
-            password,
-            captcha_challenge_field: captcha,
-            loginsubmit: '登录'
-          })
-        },
-        true
-      )
-    }
+  protected async bootstrapSession() {
+    const home = await this.request({
+      method: 'get',
+      url: `${this.host}/settings`,
+      headers: { ...this.getHeaders(['User-Agent', 'Cookie']), ...BROWSER_HEADERS }
+    })
+    this.updateCookie(parseSetCookieHeader(home.headers))
 
-    let { data, headers } = await postLogin()
+    if (typeof home.data !== 'string' || !home.data.includes('class="logout"')) return
 
-    // 先吸收本次响应的 cookie: 登录成功的页面同样含登出入口, 不能只看页面判断
-    this.updateCookie(parseSetCookieHeader(headers))
+    const url = this.logoutUrl(home.data)
+    if (!url) return
 
-    // 本机已有有效 session: 服务端直接返回已登录页面, 本次不会下发新的 chii_auth
-    // 需要先主动登出清除 session, 再重新请求登录
-    if (!this._cookie.chii_auth && data.includes('class="logout"')) {
-      const logoutMatch = data.match(/href="([^"]*\/logout\/[^"]*)"/)
-      if (logoutMatch) {
-        await axiosWithProxy<LoginResponse>(
-          axios,
-          {
-            method: 'get',
-            url: logoutMatch[1],
-            headers: this.getHeaders(['User-Agent', 'Cookie'])
-          },
-          true
-        )
-      }
-
-      this._cookie = { chii_theme: 'dark' }
-      await this.fetchFormHash()
-
-      const retry = await postLogin()
-      data = retry.data
-      headers = retry.headers
-
-      // 重试结果同样先吸收
-      this.updateCookie(parseSetCookieHeader(headers))
-    }
-
-    return data
+    const logout = await this.request({
+      method: 'get',
+      url,
+      headers: { ...this.getHeaders(['User-Agent', 'Cookie']), ...BROWSER_HEADERS }
+    })
+    this.updateCookie(parseSetCookieHeader(logout.headers))
   }
 
   /** 获取授权表单码 */
   async fetchAuthorizeFormHash() {
-    const response = await this.request({
-      method: 'get',
-      url: `${this.host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
-      headers: this.getHeaders(['User-Agent', 'Cookie'])
-    }, { allowPathChange: true })
+    const authorizeUrl = `${this.host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`
+    const response = await this.request(
+      {
+        method: 'get',
+        url: authorizeUrl,
+        headers: {
+          ...this.getHeaders(['User-Agent', 'Cookie'])
+        }
+      },
+      { allowPathChange: true }
+    )
     this.assertActive()
     if (this.isDirect && this.resolveDirectCode(response)) return
+
+    // 已授权过时, 节点/原生会把 302 转成 200 + JSON location; HTML 页面里的脚本不算
+    const redirect = readRedirectTarget(response.data, response.headers)
+    if (redirect) {
+      const code = parseOAuthCode(redirect)
+      if (code) {
+        this._code = code
+        return
+      }
+    }
+
     this._formhash = getFormhash(response.data)
     if (this.isDirect && !this._formhash) throw serviceError('E_PASSKEY_OAUTH')
   }
@@ -335,18 +262,22 @@ export class LoginService {
   /** 授权获取 code */
   async authorize() {
     this.assertActive()
+    if (this._code) return
+
     if (this.isDirect) {
-      if (this._code) return
       await this.authorizeDirect()
       return
     }
+
     const config = {
       method: 'post',
       maxRedirects: 0,
       validateStatus: null,
       timeout: 12000,
       url: `${this.host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
-      headers: this.getHeaders(['User-Agent', 'Cookie', 'Content-Type']),
+      headers: {
+        ...this.getHeaders(['User-Agent', 'Cookie', 'Content-Type'])
+      },
       data: urlStringify({
         formhash: this._formhash,
         redirect_uri: '',
@@ -360,7 +291,7 @@ export class LoginService {
     } catch (error) {
       // 密码路径保留原有节点重定向兜底
       this._code = parseOAuthCode(
-        getRedirectFromHeaders((error as { response?: LoginResponse })?.response?.headers)
+        readRedirectTarget(undefined, (error as { response?: LoginResponse })?.response?.headers)
       )
     }
     if (!this._code) throw new Error('授权失败: 无法从重定向 URL 提取 code')
@@ -370,19 +301,22 @@ export class LoginService {
    * 直连提交授权表单；XHR 会自行跟随 302，从最终地址取 code
    */
   private async authorizeDirect() {
-    const response = await this.request({
-      method: 'post',
-      timeout: 12000,
-      url: `${this.host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
-      headers: this.getHeaders(['User-Agent', 'Cookie', 'Content-Type']),
-      data: urlStringify({
-        formhash: this._formhash,
-        redirect_uri: '',
-        client_id: APP_ID,
-        submit: '授权'
-      }),
-      responseType: 'text'
-    }, { allowPathChange: true })
+    const response = await this.request(
+      {
+        method: 'post',
+        timeout: 12000,
+        url: `${this.host}/oauth/authorize?client_id=${APP_ID}&response_type=code&redirect_uri=${URL_OAUTH_REDIRECT}`,
+        headers: this.getHeaders(['User-Agent', 'Cookie', 'Content-Type']),
+        data: urlStringify({
+          formhash: this._formhash,
+          redirect_uri: '',
+          client_id: APP_ID,
+          submit: '授权'
+        }),
+        responseType: 'text'
+      },
+      { allowPathChange: true }
+    )
     this.assertActive()
     const redirect =
       response.headers?.location ||
@@ -449,13 +383,10 @@ export class LoginService {
    * @param keys 需要的头, 缺省则全部不带
    */
   protected getHeaders(keys: string[] = []) {
-    const headers: Record<string, string> = {}
-    if (keys.includes('User-Agent')) headers['User-Agent'] = this.userAgent
-    if (keys.includes('Cookie')) headers['Cookie'] = this.cookieString
-    if (keys.includes('Content-Type')) headers['Content-Type'] = 'application/x-www-form-urlencoded'
-    if (keys.includes('Referer')) headers['Referer'] = `${this.host}/login`
-
-    return headers
+    return buildHeaders(
+      { userAgent: this.userAgent, cookie: this.cookieString, host: this.host },
+      keys
+    )
   }
 
   /**
@@ -464,16 +395,6 @@ export class LoginService {
    * @param setCookie Set-Cookie 原始串
    */
   protected updateCookie(setCookie: string = '') {
-    if (!setCookie) return
-    setCookie.split(this.isDirect ? DIRECT_COOKIE_SEPARATOR : /,\s*/).forEach(cookie => {
-      const [key, value] = parseCookiePair(cookie, this.isDirect)
-      if (!COOKIE_KEYS.includes(key as CookieKey)) return
-
-      if (value === 'delete' || value === 'deleted') {
-        delete this._cookie[key as CookieKey]
-      } else {
-        this._cookie[key as CookieKey] = value
-      }
-    })
+    this._cookie = mergeSetCookie(this._cookie, setCookie, this.isDirect)
   }
 }

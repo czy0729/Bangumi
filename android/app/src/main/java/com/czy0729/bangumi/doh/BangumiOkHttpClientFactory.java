@@ -20,6 +20,7 @@ import java.net.SocketAddress;
 import java.net.URI;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -58,6 +59,12 @@ public class BangumiOkHttpClientFactory implements OkHttpClientFactory {
 
     /** 持久化文件目录 (冷启动不丢失) */
     private final File filesDir;
+
+    /** 不跟随跳转的 client, 供 x-no-redirect 请求使用 */
+    private volatile OkHttpClient noRedirectClient;
+
+    /** 收集本次请求链路上所有 Set-Cookie (含重定向各跳), 供 x-set-cookie 返回给 JS */
+    private static final ThreadLocal<List<String>> COOKIE_CAPTURE = new ThreadLocal<>();
 
     /** Target domains for ECH proxy (must stay in sync with src/config.ts ECH_TARGET_DOMAINS) */
     private static final String[] TARGETS = {
@@ -216,6 +223,68 @@ public class BangumiOkHttpClientFactory implements OkHttpClientFactory {
                         throw e;
                     }
                 })
+                .addNetworkInterceptor(chain -> {
+                    okhttp3.Response response = chain.proceed(chain.request());
+                    List<String> sink = COOKIE_CAPTURE.get();
+                    List<String> cookies = response.headers("Set-Cookie");
+                    if (sink != null && !cookies.isEmpty()) sink.addAll(cookies);
+
+                    return response;
+                })
+                .addInterceptor(chain -> {
+                    okhttp3.Request request = chain.request();
+                    String flag = request.header("x-no-redirect");
+
+                    // 嵌套调用 (native 分支内部再发一次) 复用外层的收集列表
+                    List<String> collected = COOKIE_CAPTURE.get();
+                    boolean owner = collected == null;
+                    if (owner) {
+                        collected = new ArrayList<>();
+                        COOKIE_CAPTURE.set(collected);
+                    }
+
+                    try {
+                        // 只接管 'native'; 'true' 需要原样留给 Worker 节点处理
+                        if (!"native".equalsIgnoreCase(flag)) {
+                            return chain.proceed(request);
+                        }
+
+                        OkHttpClient noRedirectClient = this.noRedirectClient;
+                        okhttp3.Request plain = request.newBuilder().removeHeader("x-no-redirect").build();
+                        if (noRedirectClient == null) {
+                            return chain.proceed(plain);
+                        }
+
+                        okhttp3.Response response = noRedirectClient.newCall(plain).execute();
+                        if (!response.isRedirect()) {
+                            return withSetCookie(response, collected);
+                        }
+
+                        // 与节点 x-no-redirect 一致的返回形态: 200 + Location + Set-Cookie
+                        String location = response.header("Location");
+                        okhttp3.ResponseBody body = okhttp3.ResponseBody.create(
+                                okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                                "{\"location\":\"" + (location == null ? "" : location.replace("\"", "\\\"")) + "\"}"
+                        );
+                        if (response.body() != null) {
+                            response.body().close();
+                        }
+
+                        okhttp3.Response converted = response.newBuilder()
+                                .code(200)
+                                .message("OK")
+                                .removeHeader("Content-Length")
+                                .removeHeader("Content-Encoding")
+                                .removeHeader("Transfer-Encoding")
+                                .header("Content-Type", "application/json; charset=utf-8")
+                                .body(body)
+                                .build();
+
+                        return withSetCookie(converted, collected);
+                    } finally {
+                        if (owner) COOKIE_CAPTURE.remove();
+                    }
+                })
                 .cache(new Cache(httpCacheDir, HTTP_CACHE_SIZE));
 
         // Dynamic SSL: only use permissive when ECH proxy is active and connecting to target domains
@@ -235,7 +304,13 @@ public class BangumiOkHttpClientFactory implements OkHttpClientFactory {
             return hostname.equals(session.getPeerHost());
         });
 
-        return builder.build();
+        OkHttpClient client = builder.build();
+        noRedirectClient = client.newBuilder()
+                .followRedirects(false)
+                .followSslRedirects(false)
+                .cookieJar(okhttp3.CookieJar.NO_COOKIES)
+                .build();
+        return client;
     }
 
     /**
@@ -288,6 +363,27 @@ public class BangumiOkHttpClientFactory implements OkHttpClientFactory {
         public Socket createSocket(InetAddress address, int port, InetAddress localAddress, int localPort) throws IOException {
             return getDelegate().createSocket(address, port, localAddress, localPort);
         }
+    }
+
+    /**
+     * 把多条 Set-Cookie 合并成 x-set-cookie
+     * - RN 部分链路不会把 Set-Cookie 透传给 JS, 节点也是用同样的合并头规避
+     * - 已有 x-set-cookie (Worker 节点返回) 时保持原样
+     */
+    private static okhttp3.Response withSetCookie(okhttp3.Response response, List<String> collected) {
+        if (response.header("x-set-cookie") != null) return response;
+
+        List<String> cookies =
+                collected != null && !collected.isEmpty() ? collected : response.headers("Set-Cookie");
+        if (cookies.isEmpty()) return response;
+
+        StringBuilder merged = new StringBuilder();
+        for (String cookie : cookies) {
+            if (merged.length() > 0) merged.append(", ");
+            merged.append(cookie);
+        }
+
+        return response.newBuilder().header("x-set-cookie", merged.toString()).build();
     }
 
     /** target_ips.txt 的 IP 内存缓存: host -> ip, 避免每个请求都同步读磁盘 */

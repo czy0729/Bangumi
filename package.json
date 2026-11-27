@@ -110,6 +110,7 @@
   },
   "expo": {
     "autolinking": {
+      "nativeModulesDir": "./modules",
       "ios": {
         "exclude": [
           "@sdcx/nested-scroll"

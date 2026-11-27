@@ -73,8 +73,8 @@ export async function doLogin(
       },
       data: urlStringify({
         formhash,
-        referer: '',
-        dreferer: '',
+        referer: `${HOST}/`,
+        dreferer: `${HOST}/`,
         email: Base64.atob('c2F5YWlmb3J1OThAMTYzLmNvbQ=='), // Base64.atob('Mjk2Mzc3NzEwQHFxLmNvbQ==')
         password: Base64.atob('MTIzcXdlYXNkenhj'), // Base64.atob('ODQ3ODMwMTk=')
         captcha_challenge_field: captcha,
