@@ -13,6 +13,9 @@ import type { Loaded, Override, Subject, SubjectActions, SubjectId } from '@type
 /** 唯一命名空间 */
 export const NAMESPACE = 'ScreenHomeV2'
 
+/** 列表快照缓存 key 前缀 */
+export const SNAPSHOT_KEY_PREFIX = `${NAMESPACE}|list|`
+
 /** 每个 Item 的状态 */
 export const INIT_ITEM = {
   expand: false,

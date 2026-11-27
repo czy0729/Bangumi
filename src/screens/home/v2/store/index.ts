@@ -25,20 +25,41 @@ import type { STATE } from './ds'
 /** 是否初始化 */
 let inited: boolean
 
+/** 上次初始化时的登录态 */
+let initedLogin: boolean
+
+/** 是否已注册过设备信息 (每次进程只上报一次) */
+let initedUser: boolean
+
 export default class ScreenHomeV2 extends Action {
   /** 初始化 */
   init = async () => {
-    if (inited) {
+    const loggedIn = this.isLogin
+
+    // 登录态变化 (未登录 -> 登录 / 退出后重新登录) 需要按新账号重建状态与请求
+    if (inited && initedLogin === loggedIn) {
       // 回 Tab 时静默全量刷新收视进度, 应对上游进度已变化的情况 (内部 1 小时节流, 失败已记录日志)
       this.fetchUserProgressAll()
       return
     }
 
-    if (this.isLogin) {
-      this.initUser()
+    // 作废旧队列并丢弃上一批收藏的列表快照, 避免其进度写入与快照清理影响新一轮刷新
+    this.resetQueue()
+    this.clearListSnapshots()
+
+    inited = false
+    initedLogin = loggedIn
+
+    if (loggedIn) {
+      // 设备信息每次进程只上报一次, 重新登录不重复 boot+1
+      if (!initedUser) this.initUser()
       inited = true
 
+      // 4 秒内登录态再次变化时 (resetQueue 已自增代号), 旧回调不再执行
+      const generation = this.queueGeneration
       postTask(() => {
+        if (generation !== this.queueGeneration) return
+
         this.initFetch().catch(error => {
           logger.error(NAMESPACE, 'initFetch', error)
         })
@@ -53,10 +74,18 @@ export default class ScreenHomeV2 extends Action {
   /** 初始化状态 */
   initStore = async () => {
     const storageData = await this.getStorageOnce<typeof STATE, typeof EXCLUDE_STATE>(NAMESPACE)
+
+    // 标签页配置可能在登录后随设置同步变化, 页码收敛到可用范围, 已渲染过的页合并保留
+    const page = Math.min(
+      Math.max(0, Number(storageData?.page ?? this.state.page) || 0),
+      Math.max(0, this.tabs.length - 1)
+    )
+
     this.setState({
       ...storageData,
       ...EXCLUDE_STATE,
-      renderedTabsIndex: [storageData?.page || 0],
+      page,
+      renderedTabsIndex: Array.from(new Set([...this.state.renderedTabsIndex, page])),
       loadedBangumiData: !!get('bangumi-data')?.length,
       _loaded: getTimestamp()
     })
@@ -64,10 +93,12 @@ export default class ScreenHomeV2 extends Action {
 
   /** 注册设备名，构建监测报错信息的环境变量 */
   initUser = () => {
-    if (inited) return
+    if (initedUser) return
 
     setTimeout(() => {
+      // 未就绪时保持未上报状态, 下次登录态变化还能补报
       if (!this.userId || !DEVICE_MODEL_NAME) return false
+      initedUser = true
 
       const boot = this.state.boot + 1
       this.setState({

@@ -67,6 +67,9 @@ function ListWrap({ title = '全部' }: Props) {
       }
       keyboardDismissMode='on-drag'
       ListHeaderComponent={elListHeaderComponent}
+      // 空表时由这里直接给 footer, 不依赖全局列表按秒级 _loaded 判定的空态;
+      // 非空时仍走内部 footer, 两处用的是同一个 Empty 组件 (文案由 length 决定), 不存在两套空态
+      ListFooterComponent={data.list.length ? undefined : elEmpty}
       renderItem={handleRenderItem}
       footerEmptyDataComponent={elEmpty}
       footerNoMoreDataComponent={elEmpty}

@@ -150,6 +150,10 @@ export default class Base extends State {
     if (!IOS || this.tabs.length <= 1) return true
 
     const index = this.tabs.findIndex(item => item.title === title)
+
+    // 当前展示页始终渲染, 避免页码越界或 renderedTabsIndex 未记录时整页空白
+    if (index === this.navigationState.index) return true
+
     return this.state.renderedTabsIndex.includes(index)
   })
 

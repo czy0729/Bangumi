@@ -7,10 +7,9 @@
  * 首页列表派生: 按当前 Tab 与设置筛选排序后的条目列表
  */
 import { calendarStore, systemStore } from '@stores'
-import { cacheManager } from '@utils/cache'
 import { computedFn } from '@utils/computed-fn'
 import { MODEL_SETTING_HOME_SORTING, MODEL_SUBJECT_TYPE, WEB } from '@constants'
-import { NAMESPACE } from '../ds'
+import { SNAPSHOT_KEY_PREFIX } from '../ds'
 import { getSubjectFilterName, matchFilter, sortByIds } from '../utils'
 import Air from './air'
 
@@ -19,15 +18,25 @@ import type { UserCollectionItem } from '@utils/fetch.v0/types'
 import type { SettingHomeSorting, SubjectId, SubjectTypeValue } from '@types'
 import type { TabsLabel } from '../../types'
 
+/** 刷新期间的列表快照 (队列刷新结束时统一清空) */
+const snapshots = new Map<string, UserCollection>()
+
 export default class List extends Air {
+  /** 清空列表快照 */
+  clearListSnapshots = () => {
+    snapshots.clear()
+  }
+
   /** 列表当前数据 */
   currentCollection = computedFn((title: TabsLabel) => {
-    const key = `${NAMESPACE}|${title}`
     const isFetching = this.state.progress.fetching
+
+    // 快照 key 带上用户与收藏批次: 切换账号或收藏整体替换后不会命中上一批的旧快照
+    const key = `${SNAPSHOT_KEY_PREFIX}${this.userId || 0}|${this.collection._loaded || 0}|${title}`
 
     // 列队刷新收藏状态期间优先返回快照, 避免队列中数据逐步变化导致列表闪烁
     if (isFetching) {
-      const cachedData = cacheManager.get<UserCollection>(key)
+      const cachedData = snapshots.get(key)
       if (cachedData) return cachedData
     }
 
@@ -35,8 +44,9 @@ export default class List extends Air {
     const data =
       title === '游戏' ? (this.games as unknown as UserCollection) : this.computeCollection(title)
 
-    // 快照仅在刷新期间写入, 内部是 toJS 深拷贝, 常规路径跳过以省掉整表克隆开销
-    if (isFetching) cacheManager.set(key, data)
+    // 空表不写快照, 避免刷新期间把「暂无数据」钉在列表上;
+    // data 为本次新构造的对象与数组, 队列只更新条目数据与进度, 不会原地改写收藏项, 直接存引用即可
+    if (isFetching && data.list.length) snapshots.set(key, data as UserCollection)
 
     return data
   })

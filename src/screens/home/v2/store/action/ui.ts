@@ -56,25 +56,16 @@ export default class Ui extends Base {
     if (!expand) {
       // 展开是无条件刷新时机: this.fetchSubject 带 6 小时节流闸门, 闸门内新放送的话不会出现,
       // 这里直接请求条目数据保证章节列表与收视进度即时可见
-      const key = this.state.progress.fetchingSubjectId2
-        ? 'fetchingSubjectId1'
-        : 'fetchingSubjectId2'
-      this.setState({
-        progress: {
-          [key]: subjectId
-        }
-      })
+      const generation = this.queueGeneration
+      const key = this.getFetchingSubjectKey()
+      this.setFetchingSubjectId(key, subjectId, generation)
       subjectStore
         .fetchSubject(subjectId)
         .catch(error => {
           logger.error(NAMESPACE, 'itemToggleExpand', error)
         })
         .finally(() => {
-          this.setState({
-            progress: {
-              [key]: 0
-            }
-          })
+          this.setFetchingSubjectId(key, 0, generation)
         })
       this.fetchUserProgress(subjectId)
     }

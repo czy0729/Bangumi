@@ -88,6 +88,7 @@ function createContext(overrides: Record<string, unknown> = {}, keepInitQueue: b
   // 从未成功加载过 (flag 需要全量刷新分支)
   $.collection = { list: [], _loaded: 0 }
   $.fetchCollectionTimelines = jest.fn()
+  $.clearListSnapshots = jest.fn()
   if (!keepInitQueue) $.initQueue = jest.fn(async () => true)
   Object.assign($, overrides)
   return $
@@ -100,6 +101,27 @@ beforeEach(() => {
 })
 
 describe('initQueue', () => {
+  it('网络等待期间登录态切换: 返回 busy 且不驱动队列', async () => {
+    const $ = createContext({}, true)
+    let resolveCollection: (value: unknown) => void = () => {}
+    mockUserStore.fetchCollection.mockImplementation(
+      () =>
+        new Promise(resolve => {
+          resolveCollection = resolve
+        })
+    )
+    $.fetchSubjectsQueue = jest.fn()
+
+    const task = $.initQueue(undefined, undefined, 0)
+
+    // 请求期间登录态切换 (resetQueue 自增代号)
+    $.resetQueue()
+    resolveCollection({ list: [{ subject_id: 1 }], _ok: true, _loaded: 1 })
+
+    await expect(task).resolves.toBe('busy')
+    expect($.fetchSubjectsQueue).not.toHaveBeenCalled()
+  })
+
   it('本次成功但收藏为空 (_ok): 返回 true, 不进入队列', async () => {
     const $ = createContext({}, true)
     $.fetchSubjectsQueue = jest.fn(async () => true)
@@ -149,6 +171,17 @@ describe('initFetch', () => {
     expect($.fetchCollectionTimelines).toHaveBeenCalled()
   })
 
+  it('队列忙碌 (initQueue busy): 不重新授权, 也不拉收藏时间线', async () => {
+    const $ = createContext()
+    $.initQueue = jest.fn(async () => 'busy')
+
+    await $.initFetch()
+
+    expect($.initQueue).toHaveBeenCalledTimes(1)
+    expect(mockUserStore.reOauth).not.toHaveBeenCalled()
+    expect($.fetchCollectionTimelines).not.toHaveBeenCalled()
+  })
+
   it('拿不到收藏数据 (initQueue false): 重新授权, 成功后强制重建全量进度任务并重新拉取数据', async () => {
     const $ = createContext()
     $.initQueue = jest.fn().mockResolvedValueOnce(false).mockResolvedValueOnce(true)
@@ -163,7 +196,7 @@ describe('initFetch', () => {
     expect(fetchUserProgressAllSpy).toHaveBeenNthCalledWith(2, true)
     expect($.initQueue).toHaveBeenCalledTimes(2)
     // reOauth 后的第二次队列传入新建的全量任务, 避免逐条目拉进度
-    expect($.initQueue).toHaveBeenLastCalledWith(undefined, expect.anything())
+    expect($.initQueue).toHaveBeenLastCalledWith(undefined, expect.anything(), expect.any(Number))
     expect($.fetchCollectionTimelines).toHaveBeenCalled()
   })
 
@@ -178,7 +211,7 @@ describe('initFetch', () => {
 
     await $.initFetch()
 
-    expect($.initQueue).toHaveBeenCalledWith(6, expect.anything())
+    expect($.initQueue).toHaveBeenCalledWith(6, expect.anything(), expect.any(Number))
     expect(mockUserStore.reOauth).not.toHaveBeenCalled()
   })
 
@@ -189,7 +222,7 @@ describe('initFetch', () => {
 
     await $.initFetch()
     expect($.fetchUserProgressAll).toHaveBeenCalledWith(false)
-    expect($.initQueue).toHaveBeenLastCalledWith(undefined, task)
+    expect($.initQueue).toHaveBeenLastCalledWith(undefined, task, expect.any(Number))
 
     await $.initFetch(true)
     expect($.fetchUserProgressAll).toHaveBeenLastCalledWith(true)
