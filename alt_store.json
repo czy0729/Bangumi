@@ -11,13 +11,13 @@
       "localizedDescription": "Bangumi for iOS",
       "versions": [
         {
-          "version": "8.42.2",
+          "version": "8.42.3",
           "buildVersion": "1",
           "date": "2026-11-22T17:22:01Z",
-          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.42.2/bangumi_v8.42.2.ipa",
+          "downloadURL": "https://github.com/czy0729/Bangumi/releases/download/8.42.3/bangumi_v8.42.2.ipa",
           "size": 31340480,
           "sha256": "b009fbf81c50f8d7d478875e6616fad256764a8f1cbaecfdd02157d822211b4f",
-          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/osqdpz?singleDoc)\r\n\r\n[蓝奏云 v8a APK](https://czy0729.lanzoub.com/iWJJE4h1ickd)（只能电脑UA访问） |  [123pan v8a APK](https://1819463884.share.123pan.cn/123pan/K0fQjv-13MH3)（需登录，zip 请自行解压） \r\n\r\n[v8a APK、IPA] 手动点击下方 Assets\r\n\r\n## 8.42.2 - 2026/11/23\r\n\r\n### 优化\r\n- [x] [目录详情] 工具栏收纳为设置菜单\r\n- [x] [安卓] 系统长按文字菜单入口，可在设置里关闭\r\n- [x] 统一全客户端文案叫法与标点，破坏性操作补齐危险确认\r\n- [x] 大量内部重构、类型收敛与补充单测，不详细说明\r\n\r\n### 修复\r\n- [x] 因官方备用 api 域名故障，临时换回去原本不能直连的 api 域名\r\n- [x] [组件] 修复浮层面板收起后可能残留透明遮罩、导致整页无法点击的问题\r\n- [x] [安卓] 修复关系图年份不显示的问题\r\n- [x] [安卓] 修复打开主站等网页时链接被客户端自身接管、无法在浏览器中打开的问题\r\n- [x] [安卓] 修复 Passkey 登录部分机型校验失败的问题；ECH 代理下改为弹窗引导切换直连\r\n- [x] [iOS] 修复部分机型顶部标签栏可被上下拖拽的问题\r\n- [x] [iOS] 修复回复面板与收藏弹窗透过毛玻璃显出灰底的问题，统一各处毛玻璃的明暗表现\r\n- [x] [iOS] 修复骨架屏扫光不显示的问题\r\n- [x] [iOS] 下滑后显示的头部标题与左右按钮重新对齐"
+          "localizedDescription": "[图文说明](https://www.yuque.com/chenzhenyu-k0epm/znygb4/osqdpz?singleDoc)\r\n\r\n[蓝奏云 v8a APK](https://czy0729.lanzoub.com/i6PFK4hi8q5e)（只能电脑UA访问） |  [123pan v8a APK](https://1819463884.share.123pan.cn/123pan/K0fQjv-0piH3)（需登录，zip 请自行解压） \r\n\r\n[v8a APK、IPA] 手动点击下方 Assets\r\n\r\n## 8.42.3 - 2026/11/27\r\n\r\n### 修复\r\n- [x] [安卓] 修复 11/26 之后登录无法成功的问题（Passkey 登录在这个版本之后未验证是否还可行，iOS 版仍在想办法修复，所以暂时不要随便登出，进度页下拉刷新通常就能重新授权）\r\n\r\n## 8.42.2 - 2026/11/23\r\n\r\n### 优化\r\n- [x] [目录详情] 工具栏收纳为设置菜单\r\n- [x] [安卓] 系统长按文字菜单入口，可在设置里关闭\r\n- [x] 统一全客户端文案叫法与标点，破坏性操作补齐危险确认\r\n- [x] 大量内部重构、类型收敛与补充单测，不详细说明\r\n\r\n### 修复\r\n- [x] 因官方备用 api 域名故障，临时换回去原本不能直连的 api 域名\r\n- [x] [组件] 修复浮层面板收起后可能残留透明遮罩、导致整页无法点击的问题\r\n- [x] [安卓] 修复关系图年份不显示的问题\r\n- [x] [安卓] 修复打开主站等网页时链接被客户端自身接管、无法在浏览器中打开的问题\r\n- [x] [安卓] 修复 Passkey 登录部分机型校验失败的问题；ECH 代理下改为弹窗引导切换直连\r\n- [x] [iOS] 修复部分机型顶部标签栏可被上下拖拽的问题\r\n- [x] [iOS] 修复回复面板与收藏弹窗透过毛玻璃显出灰底的问题，统一各处毛玻璃的明暗表现\r\n- [x] [iOS] 修复骨架屏扫光不显示的问题\r\n- [x] [iOS] 下滑后显示的头部标题与左右按钮重新对齐"
         },
         {
           "version": "8.42.0",
